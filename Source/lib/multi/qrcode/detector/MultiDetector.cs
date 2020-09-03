@@ -40,11 +40,7 @@ namespace ZXing.Multi.QrCode.Internal
         {
         }
 
-        /// <summary>
-        /// Detects the multi.
-        /// </summary>
-        /// <param name="hints">The hints.</param>
-        /// <returns></returns>
+        /// <summary> Detects multiple possible Locations. </summary>
         public DetectorResult[] detectMulti(IDictionary<DecodeHintType, object> hints)
         {
             var image = Image;

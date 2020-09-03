@@ -88,25 +88,21 @@ namespace ZXing
             return binarizer.getBlackRow(y, row);
         }
 
-        /// <summary>
-        /// Converts a 2D array of luminance data to 1 bit. As above, assume this method is expensive
-        /// and do not call it repeatedly. This method is intended for decoding 2D barcodes and may or
-        /// may not apply sharpening. Therefore, a row from this matrix may not be identical to one
+        /// <summary> Converts an 2D array of luminance data to 1 bit. </summary>
+        /// <remarks>
+        /// As above, assume this method is expensive and do not call it repeatedly.
+        /// This method is intended for decoding 2D barcodes and may or may not apply sharpening.
+        /// Therefore, a row from this matrix may not be identical to one
         /// fetched using getBlackRow(), so don't mix and match between them.
-        /// </summary>
+        /// 
+        /// The matrix is created on demand the first time it is requested, then cached. There are two
+        /// reasons for this:
+        /// 1. This work will never be done if the caller only installs 1D Reader objects, or if a
+        ///    1D Reader finds a barcode before the 2D Readers run.
+        /// 2. This work will only be done once even if the caller installs multiple 2D Readers.
+        /// </remarks>
         /// <returns> The 2D array of bits for the image (true means black).</returns>
-        public BitMatrix BlackMatrix
-        {
-            get
-            {
-                // The matrix is created on demand the first time it is requested, then cached. There are two
-                // reasons for this:
-                // 1. This work will never be done if the caller only installs 1D Reader objects, or if a
-                //    1D Reader finds a barcode before the 2D Readers run.
-                // 2. This work will only be done once even if the caller installs multiple 2D Readers.
-                return matrix ?? (matrix = binarizer.BlackMatrix);
-            }
-        }
+        public BitMatrix BlackMatrix => matrix ?? (matrix = binarizer.BlackMatrix);
 
         /// <returns>
         /// Whether this bitmap can be cropped.

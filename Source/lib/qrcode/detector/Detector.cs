@@ -112,13 +112,15 @@ namespace ZXing.QrCode.Internal
             int dimension;
             if (!computeDimension(topLeft, topRight, bottomLeft, moduleSize, out dimension))
                 return null;
+
+            // QR Code Dimensions determine the Number of Bits saved in them.
             Internal.Version provisionalVersion = Internal.Version.getProvisionalVersionForDimension(dimension);
             if (provisionalVersion == null)
                 return null;
             int modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
 
             AlignmentPattern alignmentPattern = null;
-            // Anything above version 1 has an alignment pattern
+            // Anything above version 1 has another small alignment pattern bottom right
             if (provisionalVersion.AlignmentPatternCenters.Length > 0)
             {
 
@@ -128,11 +130,8 @@ namespace ZXing.QrCode.Internal
 
                 // Estimate that alignment pattern is closer by 3 modules
                 // from "bottom right" to known top left location
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 float correctionToTopLeft = 1.0f - 3.0f / (float)modulesBetweenFPCenters;
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 int estAlignmentX = (int)(topLeft.X + correctionToTopLeft * (bottomRightX - topLeft.X));
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 int estAlignmentY = (int)(topLeft.Y + correctionToTopLeft * (bottomRightY - topLeft.Y));
 
                 // Kind of arbitrary -- expand search radius before giving up
@@ -186,7 +185,7 @@ namespace ZXing.QrCode.Internal
                 sourceBottomRightX = sourceBottomRightY = dimMinusThree;
             }
 
-            return PerspectiveTransform.quadrilateralToQuadrilateral(
+            return XTrafo.quadrilateralToQuadrilateral(
                3.5f,
                3.5f,
                dimMinusThree,

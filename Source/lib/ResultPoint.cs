@@ -68,7 +68,7 @@ namespace ZXing
         /// <summary>
         /// Gets the Y.
         /// </summary>
-        virtual public float Y
+        public virtual float Y
         {
             get
             {

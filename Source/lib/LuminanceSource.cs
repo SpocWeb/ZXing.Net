@@ -19,24 +19,19 @@ using System.Text;
 
 namespace ZXing
 {
-    /// <summary>
-    /// The purpose of this class hierarchy is to abstract different bitmap implementations across
-    /// platforms into a standard interface for requesting greyscale luminance values. The interface
-    /// only provides immutable methods; therefore crop and rotation create copies. This is to ensure
-    /// that one Reader does not modify the original luminance source and leave it in an unknown state
-    /// for other Readers in the chain.
-    /// </summary>
+    /// <summary> Abstracts different bitmap implementations across platforms
+    /// into standard greyscale luminance values. </summary>
+    /// <remarks>
+    /// Provides only immutable methods; crop and rotation create copies.
+    /// This is to ensure that one Reader does not modify the original luminance source
+    /// and leave it in an unknown state for other Readers in the chain.
+    /// </remarks>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public abstract class LuminanceSource
     {
         private int width;
         private int height;
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
         protected LuminanceSource(int width, int height)
         {
             this.width = width;
@@ -51,20 +46,20 @@ namespace ZXing
         /// getMatrix() may never be called.
         /// </summary>
         /// <param name="y">The row to fetch, which must be in [0, bitmap height)</param>
-        /// <param name="row">An optional preallocated array. If null or too small, it will be ignored.
+        /// <param name="row">An optional pre-allocated array. If null or too small, it will be ignored.
         /// Always use the returned object, and ignore the .length of the array.
         /// </param>
         /// <returns> An array containing the luminance data.</returns>
         public abstract byte[] getRow(int y, byte[] row);
 
         /// <summary>
-        /// Fetches luminance data for the underlying bitmap. Values should be fetched using:
-        /// <code>int luminance = array[y * width + x] &amp; 0xff</code>
+        /// Fetches luminance data for the underlying bitmap.
+        /// Values should be fetched using: <code>int luminance = array[y * width + x] &amp; 0xff</code>
         /// </summary>
         /// <returns>
-        /// A row-major 2D array of luminance values. Do not use result.length as it may be
-        /// larger than width * height bytes on some platforms. Do not modify the contents
-        /// of the result.
+        /// A row-major 2D array of luminance values.
+        /// Do not use result.length as it may be larger than width * height.
+        /// Do not modify the contents of the result.
         /// </returns>
         public abstract byte[] Matrix { get; }
 
@@ -148,7 +143,7 @@ namespace ZXing
 
         /// <summary>
         /// </summary>
-        /// <returns>Whether this subclass supports invertion.</returns>
+        /// <returns>Whether this subclass supports inversion.</returns>
         public virtual bool InversionSupported
         {
             get
@@ -170,7 +165,7 @@ namespace ZXing
         /// 
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             var row = new byte[width];
             var result = new StringBuilder(height * (width + 1));

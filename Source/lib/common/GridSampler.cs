@@ -31,16 +31,7 @@ namespace ZXing.Common
     {
         /// <returns> the current implementation of <see cref="GridSampler"/>
         /// </returns>
-        public static GridSampler Instance
-        {
-            get
-            {
-                return gridSampler;
-            }
-
-        }
-
-        private static GridSampler gridSampler = new DefaultGridSampler();
+        public static GridSampler Instance { get; set; } = new DefaultGridSampler();
 
         /// <summary> Sets the implementation of <see cref="GridSampler"/> used by the library. One global
         /// instance is stored, which may sound problematic. But, the implementation provided
@@ -55,33 +46,39 @@ namespace ZXing.Common
             {
                 throw new System.ArgumentException();
             }
-            gridSampler = newGridSampler;
+            Instance = newGridSampler;
         }
 
-        /// <summary>
-        ///   <p>Samples an image for a square matrix of bits of the given dimension. This is used to extract
-        /// the black/white modules of a 2D barcode like a QR Code found in an image. Because this barcode
-        /// may be rotated or perspective-distorted, the caller supplies four points in the source image
-        /// that define known points in the barcode, so that the image may be sampled appropriately.</p>
-        ///   <p>The last eight "from" parameters are four X/Y coordinate pairs of locations of points in
-        /// the image that define some significant points in the image to be sample. For example,
-        /// these may be the location of finder pattern in a QR Code.</p>
-        ///   <p>The first eight "to" parameters are four X/Y coordinate pairs measured in the destination
-        /// <see cref="BitMatrix"/>, from the top left, where the known points in the image given by the "from"
-        /// parameters map to.</p>
-        ///   <p>These 16 parameters define the transformation needed to sample the image.</p>
-        /// </summary>
+        /// <summary> Samples an image for a square matrix of bits of the given dimension. </summary>
+        /// <remarks>
+        /// <p> This is used to extract the black/white modules of a 2D barcode
+        /// like a QR Code found in an image.
+        /// Because this barcode may be rotated or perspective-distorted,
+        /// the caller supplies four points in the source image
+        /// that define known points in the barcode,
+        /// so that the image may be sampled appropriately.</p>
+        /// 
+        /// <p>The last eight "from" parameters are four X/Y coordinate pairs
+        /// of locations of points in the image
+        /// that define some significant points in the image to be sample.
+        /// For example, these may be the locations of the 3 or 4 finder patterns in a QR Code.</p>
+        /// 
+        /// <p>The first eight "to" parameters are four X/Y coordinate pairs
+        /// measured in the destination <see cref="BitMatrix"/>, from the top left,
+        /// where the known points in the image given by the "from" parameters map to.</p>
+        /// <p>These 16 parameters define the transformation needed to sample the image.</p>
+        /// </remarks>
         /// <param name="image">image to sample</param>
         /// <param name="dimensionX">The dimension X.</param>
         /// <param name="dimensionY">The dimension Y.</param>
-        /// <param name="p1ToX">The p1 preimage X.</param>
-        /// <param name="p1ToY">The p1 preimage  Y.</param>
-        /// <param name="p2ToX">The p2 preimage  X.</param>
-        /// <param name="p2ToY">The p2 preimage  Y.</param>
-        /// <param name="p3ToX">The p3 preimage  X.</param>
-        /// <param name="p3ToY">The p3 preimage  Y.</param>
-        /// <param name="p4ToX">The p4 preimage  X.</param>
-        /// <param name="p4ToY">The p4 preimage  Y.</param>
+        /// <param name="p1ToX">The p1 pre-image X.</param>
+        /// <param name="p1ToY">The p1 pre-image  Y.</param>
+        /// <param name="p2ToX">The p2 pre-image  X.</param>
+        /// <param name="p2ToY">The p2 pre-image  Y.</param>
+        /// <param name="p3ToX">The p3 pre-image  X.</param>
+        /// <param name="p3ToY">The p3 pre-image  Y.</param>
+        /// <param name="p4ToX">The p4 pre-image  X.</param>
+        /// <param name="p4ToY">The p4 pre-image  Y.</param>
         /// <param name="p1FromX">The p1 image X.</param>
         /// <param name="p1FromY">The p1 image Y.</param>
         /// <param name="p2FromX">The p2 image X.</param>
@@ -95,21 +92,14 @@ namespace ZXing.Common
         /// defined by the "from" parameters
         /// </returns>
         /// <throws>  ReaderException if image can't be sampled, for example, if the transformation defined </throws>
-        public abstract BitMatrix sampleGrid(BitMatrix image, int dimensionX, int dimensionY, float p1ToX, float p1ToY, float p2ToX, float p2ToY, float p3ToX, float p3ToY, float p4ToX, float p4ToY, float p1FromX, float p1FromY, float p2FromX, float p2FromY, float p3FromX, float p3FromY, float p4FromX, float p4FromY);
+        public abstract BitMatrix sampleGrid(BitMatrix image, int dimensionX, int dimensionY
+            , float p1ToX, float p1ToY, float p2ToX, float p2ToY, float p3ToX, float p3ToY, float p4ToX, float p4ToY
+            , float p1FromX, float p1FromY, float p2FromX, float p2FromY, float p3FromX, float p3FromY, float p4FromX, float p4FromY);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="image"></param>
-        /// <param name="dimensionX"></param>
-        /// <param name="dimensionY"></param>
-        /// <param name="transform"></param>
-        /// <returns></returns>
-        public virtual BitMatrix sampleGrid(BitMatrix image, int dimensionX, int dimensionY, PerspectiveTransform transform)
-        {
-            throw new System.NotSupportedException();
-        }
-
+        public abstract BitMatrix sampleGrid(BitMatrix image, int dimensionX, int dimensionY, PerspectiveTransform transform);
 
         /// <summary> <p>Checks a set of points that have been transformed to sample points on an image against
         /// the image's dimensions to see if the point are even within the image.</p>
