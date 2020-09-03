@@ -38,7 +38,7 @@ namespace ZXing.Common
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
         public override BitMatrix sampleGrid(BitMatrix image
             , int dimensionX, int dimensionY, PerspectiveTransform transform)
-            => sampleGrid(image, dimensionX, dimensionY, transform, 0);
+            => sampleGrid(image, dimensionX, dimensionY, transform, 1);
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
         public BitMatrix sampleGrid(BitMatrix image
