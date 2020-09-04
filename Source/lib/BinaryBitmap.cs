@@ -35,43 +35,17 @@ namespace ZXing
         /// <param name="binarizer"></param>
         public BinaryBitmap(Binarizer binarizer)
         {
-            if (binarizer == null)
-            {
-                throw new ArgumentException("Binarizer must be non-null.");
-            }
-            this.binarizer = binarizer;
+            this.binarizer = binarizer ?? throw new ArgumentException("Binarizer must be non-null.");
         }
 
         internal BinaryBitmap(BitMatrix matrix)
         {
-            if (matrix == null)
-            {
-                throw new ArgumentException("matrix must be non-null.");
-            }
-            this.matrix = matrix;
+            this.matrix = matrix ?? throw new ArgumentException("matrix must be non-null.");
         }
 
-        /// <returns>
-        /// The width of the bitmap.
-        /// </returns>
-        public int Width
-        {
-            get
-            {
-                return binarizer.Width;
-            }
-        }
-        
-        /// <returns>
-        /// The height of the bitmap.
-        /// </returns>
-        public int Height
-        {
-            get
-            {
-                return binarizer.Height;
-            }
-        }
+        public int Width => binarizer.Width;
+
+        public int Height => binarizer.Height;
 
         /// <summary>
         /// Converts one row of luminance data to 1 bit data. May actually do the conversion, or return
@@ -79,14 +53,11 @@ namespace ZXing
         /// This method is intended for decoding 1D barcodes and may choose to apply sharpening.
         /// </summary>
         /// <param name="y">The row to fetch, which must be in [0, bitmap height).</param>
-        /// <param name="row">An optional preallocated array. If null or too small, it will be ignored.
+        /// <param name="row">An optional pre-allocated array. If null or too small, it will be ignored.
         /// If used, the Binarizer will call BitArray.clear(). Always use the returned object.
         /// </param>
         /// <returns> The array of bits for this row (true means black).</returns>
-        public BitArray getBlackRow(int y, BitArray row)
-        {
-            return binarizer.getBlackRow(y, row);
-        }
+        public BitArray getBlackRow(int y, BitArray row) => binarizer.getBlackRow(y, row);
 
         /// <summary> Converts an 2D array of luminance data to 1 bit. </summary>
         /// <remarks>
@@ -107,13 +78,7 @@ namespace ZXing
         /// <returns>
         /// Whether this bitmap can be cropped.
         /// </returns>
-        public bool CropSupported
-        {
-            get
-            {
-                return binarizer.LuminanceSource.CropSupported;
-            }
-        }
+        public bool CropSupported => binarizer.LuminanceSource.CropSupported;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -133,13 +98,7 @@ namespace ZXing
         /// <returns>
         /// Whether this bitmap supports counter-clockwise rotation.
         /// </returns>
-        public bool RotateSupported
-        {
-            get
-            {
-                return binarizer.LuminanceSource.RotateSupported;
-            }
-        }
+        public bool RotateSupported => binarizer.LuminanceSource.RotateSupported;
 
         /// <summary>
         /// Returns a new object with rotated image data by 90 degrees counterclockwise.

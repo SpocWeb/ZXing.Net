@@ -82,6 +82,7 @@ namespace ZXing.QrCode
             }
             else
             {
+                IGridSampler sampler = new DefaultGridSampler(image.BlackMatrix);
                 var detectorResult = new Detector(image.BlackMatrix).detect(hints);
                 if (detectorResult == null)
                     return null;

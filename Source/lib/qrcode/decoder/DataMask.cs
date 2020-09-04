@@ -52,13 +52,13 @@ namespace ZXing.QrCode.Internal
                                                             new Func<int, int, bool>((i, j) => ((i + j + ((i * j) % 3)) & 0x01) == 0),
                                                            };
 
-        /// <summary> <p>Implementations of this method reverse the data masking process applied to a QR Code and
-        /// make its bits ready to read.</p>
+        /// <summary> <p> revert the data masking process applied to a QR Code
+        /// and make its bits ready to read.</p>
         /// </summary>
         /// <param name="reference"></param>
         /// <param name="bits">representation of QR Code bits</param>
         /// <param name="dimension">dimension of QR Code, represented by bits, being unmasked</param>
-        internal static void unmaskBitMatrix(int reference, BitMatrix bits, int dimension)
+        internal static void unmaskBitMatrix(int reference, IBitMatrix bits, int dimension)
         {
             if (reference < 0 || reference > 7)
             {

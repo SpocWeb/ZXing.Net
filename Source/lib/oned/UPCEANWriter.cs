@@ -27,13 +27,9 @@ namespace ZXing.OneD
         /// <summary>
         /// Gets the default margin.
         /// </summary>
-        public override int DefaultMargin
-        {
-            get
-            {
-                // Use a different default more appropriate for UPC/EAN
-                return 9;
-            }
-        }
+        public override int DefaultMargin =>
+            // Use a different default more appropriate for UPC/EAN
+            9;
+
     }
 }

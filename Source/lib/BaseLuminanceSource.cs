@@ -100,10 +100,7 @@ namespace ZXing
         /// <summary>
         /// gets the luminance matrix
         /// </summary>
-        public override byte[] Matrix
-        {
-            get { return luminances; }
-        }
+        public override byte[] Matrix => luminances;
 
         /// <summary>
         /// Returns a new object with rotated image data by 90 degrees counterclockwise.
@@ -145,13 +142,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports counter-clockwise rotation.</returns>
-        public override bool RotateSupported
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool RotateSupported => true;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -188,24 +179,12 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports cropping.</returns>
-        public override bool CropSupported
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool CropSupported => true;
 
         /// <summary>
         /// </summary>
         /// <returns>Whether this subclass supports invertion.</returns>
-        public override bool InversionSupported
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool InversionSupported => true;
 
         /// <summary>
         /// Inverts the luminance values (newValue = 255 - oldValue)

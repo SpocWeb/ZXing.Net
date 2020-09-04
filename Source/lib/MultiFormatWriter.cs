@@ -63,10 +63,7 @@ namespace ZXing
         /// <summary>
         /// Gets the collection of supported writers.
         /// </summary>
-        public static ICollection<BarcodeFormat> SupportedWriters
-        {
-            get { return formatMap.Keys; }
-        }
+        public static ICollection<BarcodeFormat> SupportedWriters => formatMap.Keys;
 
         /// <summary>
         /// encode the given data

@@ -43,8 +43,8 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         internal sbyte this[int x]
         {
-            get { return row[x]; }
-            set { row[x] = value; }
+            get => row[x];
+            set => row[x] = value;
         }
 
         /// <summary>

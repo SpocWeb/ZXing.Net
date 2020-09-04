@@ -47,10 +47,7 @@ namespace ZXing.OneD.RSS.Expanded
             FinderPattern = finderPattern;
         }
 
-        public bool MustBeLast
-        {
-            get { return RightChar == null; }
-        }
+        public bool MustBeLast => RightChar == null;
 
         public override String ToString()
         {

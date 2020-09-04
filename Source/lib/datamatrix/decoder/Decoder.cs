@@ -56,7 +56,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         /// <param name="bits">booleans representing white/black Data Matrix Code modules</param>
         /// <returns>text and bytes encoded within the Data Matrix Code</returns>
-        public DecoderResult decode(BitMatrix bits)
+        public DecoderResult decode(IBitMatrix bits)
         {
             // Construct a parser and read version, error-correction level
             BitMatrixParser parser = new BitMatrixParser(bits);

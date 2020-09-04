@@ -19,29 +19,31 @@ using System;
 namespace ZXing.Common
 {
 
-    /// <author>  Sean Owen
-    /// </author>
+    /// <author> Sean Owen </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    public sealed class DefaultGridSampler : GridSampler
-    {
-        /// <summary>
-        /// </summary>
-        public override BitMatrix sampleGrid(BitMatrix image, int dimensionX, int dimensionY, float p1ToX, float p1ToY, float p2ToX, float p2ToY, float p3ToX, float p3ToY, float p4ToX, float p4ToY, float p1FromX, float p1FromY, float p2FromX, float p2FromY, float p3FromX, float p3FromY, float p4FromX, float p4FromY)
-        {
-            PerspectiveTransform transform = XTrafo.quadrilateralToQuadrilateral(
-               p1ToX, p1ToY, p2ToX, p2ToY, p3ToX, p3ToY, p4ToX, p4ToY,
-               p1FromX, p1FromY, p2FromX, p2FromY, p3FromX, p3FromY, p4FromX, p4FromY);
-            return sampleGrid(image, dimensionX, dimensionY, transform);
+    public sealed class DefaultGridSampler : GridSampler {
+
+        public DefaultGridSampler(BitMatrix image) {
+            _Image = image;
         }
+
+        readonly BitMatrix _Image;
+
+        /// <inheritdoc />
+        public override BitMatrix GetImage() => _Image;
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
         public override BitMatrix sampleGrid(BitMatrix image
             , int dimensionX, int dimensionY, PerspectiveTransform transform)
             => sampleGrid(image, dimensionX, dimensionY, transform, 1);
 
+    }
+
+    public static class XGridSampler {
+
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public BitMatrix sampleGrid(BitMatrix image
+        public static BitMatrix sampleGrid(BitMatrix image
             , int dimensionX, int dimensionY, PerspectiveTransform transform, int range)
         {
             if (dimensionX <= 0 || dimensionY <= 0)
@@ -124,5 +126,96 @@ namespace ZXing.Common
             }
             return bits;
         }
+
+        /// <summary> <p>Checks a set of points that have been transformed to sample points on an image against
+        /// the image's dimensions to see if the point are even within the image.</p>
+        /// 
+        /// <p>This method will actually "nudge" the endpoints back onto the image if they are found to be
+        /// barely (less than 1 pixel) off the image. This accounts for imperfect detection of finder
+        /// patterns in an image where the QR Code runs all the way to the image border.</p>
+        /// 
+        /// <p>For efficiency, the method will check points from either end of the line until one is found
+        /// to be within the image. Because the set of points are assumed to be linear, this is valid.</p>
+        /// 
+        /// </summary>
+        /// <param name="image">image into which the points should map
+        /// </param>
+        /// <param name="points">actual points in x1,y1,...,xn,yn form
+        /// </param>
+        static bool checkAndNudgePoints(BitMatrix image, float[] points)
+        {
+            int width = image.Width;
+            int height = image.Height;
+            // Check and nudge points from start until we see some that are OK:
+            bool nudged = true;
+            int maxOffset = points.Length - 1; // points.length must be even
+            for (int offset = 0; offset < maxOffset && nudged; offset += 2)
+            {
+                int x = (int)points[offset];
+                int y = (int)points[offset + 1];
+                if (x < -1 || x > width || y < -1 || y > height)
+                {
+                    return false;
+                }
+                nudged = false;
+                if (x == -1)
+                {
+                    points[offset] = 0.0f;
+                    nudged = true;
+                }
+                else if (x == width)
+                {
+                    points[offset] = width - 1;
+                    nudged = true;
+                }
+                if (y == -1)
+                {
+                    points[offset + 1] = 0.0f;
+                    nudged = true;
+                }
+                else if (y == height)
+                {
+                    points[offset + 1] = height - 1;
+                    nudged = true;
+                }
+            }
+            // Check and nudge points from end:
+            nudged = true;
+            for (int offset = points.Length - 2; offset >= 0 && nudged; offset -= 2)
+            {
+                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
+                int x = (int)points[offset];
+                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
+                int y = (int)points[offset + 1];
+                if (x < -1 || x > width || y < -1 || y > height)
+                {
+                    return false;
+                }
+                nudged = false;
+                if (x == -1)
+                {
+                    points[offset] = 0.0f;
+                    nudged = true;
+                }
+                else if (x == width)
+                {
+                    points[offset] = width - 1;
+                    nudged = true;
+                }
+                if (y == -1)
+                {
+                    points[offset + 1] = 0.0f;
+                    nudged = true;
+                }
+                else if (y == height)
+                {
+                    points[offset + 1] = height - 1;
+                    nudged = true;
+                }
+            }
+
+            return true;
+        }
+
     }
 }

@@ -47,35 +47,26 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Gets the height.
         /// </summary>
-        public int Height
-        {
-            get { return height; }
-        }
+        public int Height => height;
 
         /// <summary>
         /// Gets the width.
         /// </summary>
-        public int Width
-        {
-            get { return width; }
-        }
+        public int Width => width;
 
         /// <summary>
         /// Gets or sets the <see cref="System.Int32"/> with the specified x.
         /// </summary>
         public int this[int x, int y]
         {
-            get { return bytes[y][x]; }
-            set { bytes[y][x] = (byte)value; }
+            get => bytes[y][x];
+            set => bytes[y][x] = (byte)value;
         }
 
         /// <summary>
         /// an internal representation as bytes, in row-major order. array[y][x] represents point (x,y)
         /// </summary>
-        public byte[][] Array
-        {
-            get { return bytes; }
-        }
+        public byte[][] Array => bytes;
 
         /// <summary>
         /// Sets the specified x.

@@ -42,10 +42,8 @@ namespace ZXing.Aztec.Internal
         /// <summary>
         /// previous token
         /// </summary>
-        public Token Previous
-        {
-            get { return previous; }
-        }
+        public Token Previous => previous;
+
         /// <summary>
         /// adds a new simple token
         /// </summary>

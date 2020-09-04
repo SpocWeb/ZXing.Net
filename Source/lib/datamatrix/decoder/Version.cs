@@ -169,15 +169,10 @@ namespace ZXing.Datamatrix.Internal
                 this._ecBlocksValue = new ECB[] { ecBlocks1, ecBlocks2 };
             }
 
-            internal int ECCodewords
-            {
-                get { return ecCodewords; }
-            }
+            internal int ECCodewords => ecCodewords;
 
-            internal ECB[] ECBlocksValue
-            {
-                get { return _ecBlocksValue; }
-            }
+            internal ECB[] ECBlocksValue => _ecBlocksValue;
+
         }
 
         /// <summary>
@@ -196,15 +191,10 @@ namespace ZXing.Datamatrix.Internal
                 this.dataCodewords = dataCodewords;
             }
 
-            internal int Count
-            {
-                get { return count; }
-            }
+            internal int Count => count;
 
-            internal int DataCodewords
-            {
-                get { return dataCodewords; }
-            }
+            internal int DataCodewords => dataCodewords;
+
         }
 
         /// <summary>

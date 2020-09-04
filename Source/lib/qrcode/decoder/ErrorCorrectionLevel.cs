@@ -48,24 +48,12 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Gets the bits.
         /// </summary>
-        public int Bits
-        {
-            get
-            {
-                return bits;
-            }
-        }
+        public int Bits => bits;
 
         /// <summary>
         /// Gets the name.
         /// </summary>
-        public String Name
-        {
-            get
-            {
-                return name;
-            }
-        }
+        public String Name => name;
 
         private readonly int ordinal_Renamed_Field;
         private readonly String name;

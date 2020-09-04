@@ -172,11 +172,9 @@ namespace ZXing.Common
                     return (bool)Hints[DecodeHintType.USE_CODE_39_EXTENDED_MODE];
                 return false;
             }
-            set
-            {
+            set =>
                 // don't remove the hint. Otherwise it would not be possible to override the default behaviour of the Code39 reader
                 Hints[DecodeHintType.USE_CODE_39_EXTENDED_MODE] = value;
-            }
         }
 
         /// <summary>
@@ -427,10 +425,7 @@ namespace ZXing.Common
                 return values.ContainsKey(key);
             }
 
-            public ICollection<TKey> Keys
-            {
-                get { return values.Keys; }
-            }
+            public ICollection<TKey> Keys => values.Keys;
 
             public bool Remove(TKey key)
             {
@@ -444,17 +439,11 @@ namespace ZXing.Common
                 return values.TryGetValue(key, out value);
             }
 
-            public ICollection<TValue> Values
-            {
-                get { return values.Values; }
-            }
+            public ICollection<TValue> Values => values.Values;
 
             public TValue this[TKey key]
             {
-                get
-                {
-                    return values[key];
-                }
+                get => values[key];
                 set
                 {
                     values[key] = value;
@@ -484,15 +473,9 @@ namespace ZXing.Common
                 values.CopyTo(array, arrayIndex);
             }
 
-            public int Count
-            {
-                get { return values.Count; }
-            }
+            public int Count => values.Count;
 
-            public bool IsReadOnly
-            {
-                get { return values.IsReadOnly; }
-            }
+            public bool IsReadOnly => values.IsReadOnly;
 
             public bool Remove(KeyValuePair<TKey, TValue> item)
             {

@@ -127,20 +127,9 @@ namespace ZXing.QrCode.Internal
             return result;
         }
 
-        internal int NumDataCodewords
-        {
-            get
-            {
-                return numDataCodewords;
-            }
-        }
+        internal int NumDataCodewords => numDataCodewords;
 
-        internal byte[] Codewords
-        {
-            get
-            {
-                return codewords;
-            }
-        }
+        internal byte[] Codewords => codewords;
+
     }
 }

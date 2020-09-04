@@ -59,7 +59,7 @@ namespace BigIntegerLibrary
         /// </summary>
         internal Sign NumberSign
         {
-            set { sign = value; }
+            set => sign = value;
         }
 
 

@@ -44,18 +44,12 @@ namespace ZXing
         /// <summary>
         /// the width
         /// </summary>
-        public int Width
-        {
-            get { return width; }
-        }
+        public int Width => width;
 
         /// <summary>
         /// the height
         /// </summary>
-        public int Height
-        {
-            get { return height; }
-        }
+        public int Height => height;
 
         /// <summary>
         /// 

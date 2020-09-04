@@ -15,7 +15,6 @@
  */
 
 using System;
-
 using ZXing.Common;
 using ZXing.Common.Detector;
 using ZXing.Common.ReedSolomon;
@@ -37,7 +36,7 @@ namespace ZXing.Aztec.Internal
          0x707, // 03407 .XX X.. ... XXX
       };
 
-        private readonly BitMatrix image;
+        private readonly IGridSampler gridSampler;
 
         private bool compact;
         private int nbLayers;
@@ -45,21 +44,16 @@ namespace ZXing.Aztec.Internal
         private int nbCenterLayers;
         private int shift;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Detector"/> class.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        public Detector(BitMatrix image)
+        readonly IRoBitMatrix _Image;
+
+        public Detector(IGridSampler gridSampler)
         {
-            this.image = image;
+            _Image = gridSampler.GetImage();
         }
 
-        /// <summary>
-        /// Detects an Aztec Code in an image.
-        /// </summary>
-        public AztecDetectorResult detect()
+        public Detector(IRoBitMatrix bitMatrix)
         {
-            return detect(false);
+            _Image = bitMatrix;
         }
 
         /// <summary>
@@ -69,7 +63,7 @@ namespace ZXing.Aztec.Internal
         /// <returns>
         /// encapsulating results of detecting an Aztec Code
         /// </returns>
-        public AztecDetectorResult detect(bool isMirror)
+        public AztecDetectorResult detect(bool isMirror = false)
         {
             // 1. Get the center of the aztec matrix
             var pCenter = getMatrixCenter();
@@ -97,8 +91,7 @@ namespace ZXing.Aztec.Internal
             }
 
             // 4. Sample the grid
-            var bits = sampleGrid(image,
-                                  bullsEyeCorners[shift % 4],
+            var bits = sampleGrid(bullsEyeCorners[shift % 4],
                                   bullsEyeCorners[(shift + 1) % 4],
                                   bullsEyeCorners[(shift + 2) % 4],
                                   bullsEyeCorners[(shift + 3) % 4]);
@@ -349,7 +342,7 @@ namespace ZXing.Aztec.Internal
             int cy;
 
             //Get a white rectangle that can be the border of the matrix in center bull's eye or
-            var whiteDetector = WhiteRectangleDetector.Create(image);
+            var whiteDetector = WhiteRectangleDetector.Create(_Image);
             if (whiteDetector == null)
                 return null;
             ResultPoint[] cornerPoints = whiteDetector.detect();
@@ -365,8 +358,8 @@ namespace ZXing.Aztec.Internal
 
                 // This exception can be in case the initial rectangle is white
                 // In that case, surely in the bull's eye, we try to expand the rectangle.
-                cx = image.Width / 2;
-                cy = image.Height / 2;
+                cx = _Image.Width / 2;
+                cy = _Image.Height / 2;
                 pointA = getFirstDifferent(new Point(cx + 7, cy - 7), false, 1, -1).toResultPoint();
                 pointB = getFirstDifferent(new Point(cx + 7, cy + 7), false, 1, 1).toResultPoint();
                 pointC = getFirstDifferent(new Point(cx - 7, cy + 7), false, -1, 1).toResultPoint();
@@ -380,7 +373,7 @@ namespace ZXing.Aztec.Internal
             // Redetermine the white rectangle starting from previously computed center.
             // This will ensure that we end up with a white rectangle in center bull's eye
             // in order to compute a more accurate center.
-            whiteDetector = WhiteRectangleDetector.Create(image, 15, cx, cy);
+            whiteDetector = WhiteRectangleDetector.Create(_Image, 15, cx, cy);
             if (whiteDetector == null)
                 return null;
             cornerPoints = whiteDetector.detect();
@@ -429,19 +422,17 @@ namespace ZXing.Aztec.Internal
         /// <param name="bottomRight">The bottom right.</param>
         /// <param name="topRight">The top right.</param>
         /// <returns></returns>
-        private BitMatrix sampleGrid(BitMatrix image,
-                                     ResultPoint topLeft,
+        private BitMatrix sampleGrid(ResultPoint topLeft,
                                      ResultPoint topRight,
                                      ResultPoint bottomRight,
                                      ResultPoint bottomLeft)
         {
-            GridSampler sampler = GridSampler.Instance;
             int dimension = getDimension();
 
             float low = dimension / 2.0f - nbCenterLayers;
             float high = dimension / 2.0f + nbCenterLayers;
 
-            return sampler.sampleGrid(image,
+            return gridSampler.sampleGrid(
                                       dimension,
                                       dimension,
                                       low, low, // topleft
@@ -473,7 +464,7 @@ namespace ZXing.Aztec.Internal
             float dy = moduleSize * (p2.Y - p1.Y) / d;
             for (int i = 0; i < size; i++)
             {
-                if (image[MathUtils.round(px + i * dx), MathUtils.round(py + i * dy)])
+                if (_Image[MathUtils.round(px + i * dx), MathUtils.round(py + i * dy)])
                 {
                     result |= 1 << (size - i - 1);
                 }
@@ -542,14 +533,14 @@ namespace ZXing.Aztec.Internal
             float px = p1.X;
             float py = p1.Y;
 
-            bool colorModel = image[p1.X, p1.Y];
+            bool colorModel = _Image[p1.X, p1.Y];
 
             int iMax = (int)Math.Ceiling(d);
             for (int i = 0; i < iMax; i++)
             {
                 px += dx;
                 py += dy;
-                if (image[MathUtils.round(px), MathUtils.round(py)] != colorModel)
+                if (_Image[MathUtils.round(px), MathUtils.round(py)] != colorModel)
                 {
                     error++;
                 }
@@ -578,7 +569,7 @@ namespace ZXing.Aztec.Internal
             int x = init.X + dx;
             int y = init.Y + dy;
 
-            while (isValid(x, y) && image[x, y] == color)
+            while (isValid(x, y) && _Image[x, y] == color)
             {
                 x += dx;
                 y += dy;
@@ -587,13 +578,13 @@ namespace ZXing.Aztec.Internal
             x -= dx;
             y -= dy;
 
-            while (isValid(x, y) && image[x, y] == color)
+            while (isValid(x, y) && _Image[x, y] == color)
             {
                 x += dx;
             }
             x -= dx;
 
-            while (isValid(x, y) && image[x, y] == color)
+            while (isValid(x, y) && _Image[x, y] == color)
             {
                 y += dy;
             }
@@ -627,12 +618,12 @@ namespace ZXing.Aztec.Internal
             var result1 = new ResultPoint(centerx + ratio * dx, centery + ratio * dy);
             var result3 = new ResultPoint(centerx - ratio * dx, centery - ratio * dy);
 
-            return new ResultPoint[] { result0, result1, result2, result3 };
+            return new[] { result0, result1, result2, result3 };
         }
 
         private bool isValid(int x, int y)
         {
-            return x >= 0 && x < image.Width && y > 0 && y < image.Height;
+            return x >= 0 && x < _Image.Width && y > 0 && y < _Image.Height;
         }
 
         private bool isValid(ResultPoint point)

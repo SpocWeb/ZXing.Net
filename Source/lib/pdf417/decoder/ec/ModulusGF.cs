@@ -110,12 +110,7 @@ namespace ZXing.PDF417.Internal.EC
             return expTable[(logTable[a] + logTable[b]) % (modulus - 1)];
         }
 
-        internal int Size
-        {
-            get
-            {
-                return modulus;
-            }
-        }
+        internal int Size => modulus;
+
     }
 }

@@ -15,7 +15,6 @@
  */
 
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.PDF417.Internal

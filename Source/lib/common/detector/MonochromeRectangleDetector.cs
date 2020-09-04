@@ -55,8 +55,8 @@ namespace ZXing.Common.Detector
             int width = image.Width;
             int halfHeight = height >> 1;
             int halfWidth = width >> 1;
-            int deltaY = System.Math.Max(1, height / (MAX_MODULES << 3));
-            int deltaX = System.Math.Max(1, width / (MAX_MODULES << 3));
+            int deltaY = Math.Max(1, height / (MAX_MODULES << 3));
+            int deltaX = Math.Max(1, width / (MAX_MODULES << 3));
 
             int top = 0;
             int bottom = height;
@@ -84,7 +84,7 @@ namespace ZXing.Common.Detector
             if (pointA == null)
                 return null;
 
-            return new ResultPoint[] { pointA, pointB, pointC, pointD };
+            return new[] { pointA, pointB, pointC, pointD };
         }
 
         /// <summary> Attempts to locate a corner of the barcode by scanning up, down, left or right from a center
@@ -148,27 +148,18 @@ namespace ZXing.Common.Detector
                             }
                             return new ResultPoint(lastRange[0], lastY);
                         }
-                        else
-                        {
-                            return new ResultPoint(lastRange[1], lastY);
-                        }
+                        return new ResultPoint(lastRange[1], lastY);
                     }
-                    else
+                    int lastX = x - deltaX;
+                    if (lastRange[0] < centerY)
                     {
-                        int lastX = x - deltaX;
-                        if (lastRange[0] < centerY)
+                        if (lastRange[1] > centerY)
                         {
-                            if (lastRange[1] > centerY)
-                            {
-                                return new ResultPoint(lastX, lastRange[deltaX < 0 ? 0 : 1]);
-                            }
-                            return new ResultPoint(lastX, lastRange[0]);
+                            return new ResultPoint(lastX, lastRange[deltaX < 0 ? 0 : 1]);
                         }
-                        else
-                        {
-                            return new ResultPoint(lastX, lastRange[1]);
-                        }
+                        return new ResultPoint(lastX, lastRange[0]);
                     }
+                    return new ResultPoint(lastX, lastRange[1]);
                 }
                 lastRange = range;
             }
@@ -250,7 +241,7 @@ namespace ZXing.Common.Detector
             }
             end--;
 
-            return end > start ? new int[] { start, end } : null;
+            return end > start ? new[] { start, end } : null;
         }
     }
 }

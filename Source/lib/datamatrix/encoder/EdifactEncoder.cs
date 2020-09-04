@@ -21,10 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class EdifactEncoder : Encoder
     {
-        public int EncodingMode
-        {
-            get { return Encodation.EDIFACT; }
-        }
+        public int EncodingMode => Encodation.EDIFACT;
 
         public void encode(EncoderContext context)
         {

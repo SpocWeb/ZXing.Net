@@ -89,15 +89,9 @@ namespace ZXing.Datamatrix.Encoder
             this.skipAtEnd = count;
         }
 
-        public char CurrentChar
-        {
-            get { return msg[pos]; }
-        }
+        public char CurrentChar => msg[pos];
 
-        public char Current
-        {
-            get { return msg[pos]; }
-        }
+        public char Current => msg[pos];
 
         public void writeCodewords(String codewords)
         {
@@ -109,10 +103,7 @@ namespace ZXing.Datamatrix.Encoder
             this.codewords.Append(codeword);
         }
 
-        public int CodewordCount
-        {
-            get { return this.codewords.Length; }
-        }
+        public int CodewordCount => this.codewords.Length;
 
         public void signalEncoderChange(int encoding)
         {
@@ -124,20 +115,11 @@ namespace ZXing.Datamatrix.Encoder
             this.newEncoding = -1;
         }
 
-        public bool HasMoreCharacters
-        {
-            get { return pos < TotalMessageCharCount; }
-        }
+        public bool HasMoreCharacters => pos < TotalMessageCharCount;
 
-        private int TotalMessageCharCount
-        {
-            get { return msg.Length - skipAtEnd; }
-        }
+        private int TotalMessageCharCount => msg.Length - skipAtEnd;
 
-        public int RemainingCharacters
-        {
-            get { return TotalMessageCharCount - pos; }
-        }
+        public int RemainingCharacters => TotalMessageCharCount - pos;
 
         public void updateSymbolInfo()
         {
@@ -159,29 +141,17 @@ namespace ZXing.Datamatrix.Encoder
 
         public int Pos
         {
-            get { return pos; }
-            set { pos = value; }
+            get => pos;
+            set => pos = value;
         }
 
-        public StringBuilder Codewords
-        {
-            get { return codewords; }
-        }
+        public StringBuilder Codewords => codewords;
 
-        public SymbolInfo SymbolInfo
-        {
-            get { return symbolInfo; }
-        }
+        public SymbolInfo SymbolInfo => symbolInfo;
 
-        public int NewEncoding
-        {
-            get { return newEncoding; }
-        }
+        public int NewEncoding => newEncoding;
 
-        public String Message
-        {
-            get { return msg; }
-        }
+        public String Message => msg;
 
         public bool Fnc1CodewordIsWritten { get; set; }
     }

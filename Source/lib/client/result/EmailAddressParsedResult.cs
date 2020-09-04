@@ -28,13 +28,8 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the email address
         /// </summary>
-        public String EmailAddress
-        {
-            get
-            {
-                return Tos == null || Tos.Length == 0 ? null : Tos[0];
-            }
-        }
+        public String EmailAddress => Tos == null || Tos.Length == 0 ? null : Tos[0];
+
         /// <summary>
         /// the TOs
         /// </summary>
@@ -59,7 +54,7 @@ namespace ZXing.Client.Result
         /// the mailto: uri
         /// </summary>
         [Obsolete("deprecated without replacement")]
-        public String MailtoURI { get { return "mailto:"; } }
+        public String MailtoURI => "mailto:";
 
         internal EmailAddressParsedResult(String to)
            : this(new[] { to }, null, null, null, null)

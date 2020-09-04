@@ -16,52 +16,48 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.Common.Detector;
 
 namespace ZXing.QrCode.Internal
 {
-    /// <summary>
-    /// <p>Encapsulates logic that can detect a QR Code in an image, even if the QR Code
-    /// is rotated or skewed, or partially obscured.</p>
-    /// </summary>
+
+    public class LuminanceDetector : ADetector { }
+
+    /// <summary>Detect a QR Code in an image, even if the QR Code is rotated or skewed, or partially obscured. </summary>
     /// <author>Sean Owen</author>
-    public class Detector
+    public class ADetector : IDetector { }
+
+    /// <summary>Detect a QR Code in an image, even if the QR Code is rotated or skewed, or partially obscured. </summary>
+    /// <author>Sean Owen</author>
+    public class Detector : ADetector
     {
-        private readonly BitMatrix image;
+
         private ResultPointCallback resultPointCallback;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Detector"/> class.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        public Detector(BitMatrix image)
-        {
-            this.image = image;
+        public readonly IGridSampler Sampler;
+
+        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
+        public Detector(IGridSampler sampler) {
+            Sampler = sampler;
+            //this.Image = sampler.GetImage();
         }
 
-        /// <summary>
-        /// Gets the image.
-        /// </summary>
-        virtual protected internal BitMatrix Image
-        {
-            get
-            {
-                return image;
-            }
+        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
+        public Detector(BinaryBitmap image) : this(image.BlackMatrix) { }
+
+        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
+        public Detector(BitMatrix image) {
+            Sampler = new DefaultGridSampler(image);
         }
+
+        /// <summary> This is only a candidate Image </summary>
+        virtual protected internal BitMatrix Image => Sampler.GetImage();
 
         /// <summary>
         /// Gets the result point callback.
         /// </summary>
-        virtual protected internal ResultPointCallback ResultPointCallback
-        {
-            get
-            {
-                return resultPointCallback;
-            }
-        }
+        virtual protected internal ResultPointCallback ResultPointCallback => resultPointCallback;
 
         /// <summary>
         ///   <p>Detects a QR Code in an image.</p>
@@ -69,10 +65,7 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         ///   <see cref="DetectorResult"/> encapsulating results of detecting a QR Code
         /// </returns>
-        public virtual DetectorResult detect()
-        {
-            return detect(null);
-        }
+        public virtual DetectorResult detect() => detect(null);
 
         /// <summary>
         ///   <p>Detects a QR Code in an image.</p>
@@ -85,7 +78,7 @@ namespace ZXing.QrCode.Internal
         {
             resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
-            FinderPatternFinder finder = new FinderPatternFinder(image, resultPointCallback);
+            FinderPatternFinder finder = new FinderPatternFinder(Image, resultPointCallback);
             FinderPatternInfo info = finder.find(hints);
             if (info == null)
                 return null;
@@ -114,7 +107,7 @@ namespace ZXing.QrCode.Internal
                 return null;
 
             // QR Code Dimensions determine the Number of Bits saved in them.
-            Internal.Version provisionalVersion = Internal.Version.getProvisionalVersionForDimension(dimension);
+            Version provisionalVersion = Version.getProvisionalVersionForDimension(dimension);
             if (provisionalVersion == null)
                 return null;
             int modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
@@ -130,14 +123,14 @@ namespace ZXing.QrCode.Internal
 
                 // Estimate that alignment pattern is closer by 3 modules
                 // from "bottom right" to known top left location
-                float correctionToTopLeft = 1.0f - 3.0f / (float)modulesBetweenFPCenters;
+                float correctionToTopLeft = 1.0f - 3.0f / modulesBetweenFPCenters;
                 int estAlignmentX = (int)(topLeft.X + correctionToTopLeft * (bottomRightX - topLeft.X));
                 int estAlignmentY = (int)(topLeft.Y + correctionToTopLeft * (bottomRightY - topLeft.Y));
 
                 // Kind of arbitrary -- expand search radius before giving up
                 for (int i = 4; i <= 16; i <<= 1)
                 {
-                    alignmentPattern = findAlignmentInRegion(moduleSize, estAlignmentX, estAlignmentY, (float)i);
+                    alignmentPattern = findAlignmentInRegion(moduleSize, estAlignmentX, estAlignmentY, i);
                     if (alignmentPattern == null)
                         continue;
                     break;
@@ -147,7 +140,8 @@ namespace ZXing.QrCode.Internal
 
             PerspectiveTransform transform = createTransform(topLeft, topRight, bottomLeft, alignmentPattern, dimension);
 
-            BitMatrix bits = sampleGrid(image, transform, dimension);
+            BitMatrix bits = Sampler.sampleGrid(dimension, dimension, transform);
+
             if (bits == null)
                 return null;
 
@@ -166,7 +160,7 @@ namespace ZXing.QrCode.Internal
         private static PerspectiveTransform createTransform(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, ResultPoint alignmentPattern, int dimension)
         {
             //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
-            float dimMinusThree = (float)dimension - 3.5f;
+            float dimMinusThree = dimension - 3.5f;
             float bottomRightX;
             float bottomRightY;
             float sourceBottomRightX;
@@ -202,12 +196,6 @@ namespace ZXing.QrCode.Internal
                bottomRightY,
                bottomLeft.X,
                bottomLeft.Y);
-        }
-
-        private static BitMatrix sampleGrid(BitMatrix image, PerspectiveTransform transform, int dimension)
-        {
-            GridSampler sampler = GridSampler.Instance;
-            return sampler.sampleGrid(image, dimension, dimension, transform);
         }
 
         /// <summary> <p>Computes the dimension (number of modules on a size) of the QR Code based on the position
@@ -286,14 +274,14 @@ namespace ZXing.QrCode.Internal
             if (otherToX < 0)
             {
                 //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
-                scale = (float)fromX / (float)(fromX - otherToX);
+                scale = fromX / (float)(fromX - otherToX);
                 otherToX = 0;
             }
-            else if (otherToX >= image.Width)
+            else if (otherToX >= Image.Width)
             {
                 //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
-                scale = (float)(image.Width - 1 - fromX) / (float)(otherToX - fromX);
-                otherToX = image.Width - 1;
+                scale = (Image.Width - 1 - fromX) / (float)(otherToX - fromX);
+                otherToX = Image.Width - 1;
             }
             //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             int otherToY = (int)(fromY - (toY - fromY) * scale);
@@ -302,14 +290,14 @@ namespace ZXing.QrCode.Internal
             if (otherToY < 0)
             {
                 //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
-                scale = (float)fromY / (float)(fromY - otherToY);
+                scale = fromY / (float)(fromY - otherToY);
                 otherToY = 0;
             }
-            else if (otherToY >= image.Height)
+            else if (otherToY >= Image.Height)
             {
                 //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
-                scale = (float)(image.Height - 1 - fromY) / (float)(otherToY - fromY);
-                otherToY = image.Height - 1;
+                scale = (Image.Height - 1 - fromY) / (float)(otherToY - fromY);
+                otherToY = Image.Height - 1;
             }
             //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             otherToX = (int)(fromX + (otherToX - fromX) * scale);
@@ -358,7 +346,7 @@ namespace ZXing.QrCode.Internal
                 // Does current pixel mean we have moved white to black or vice versa?
                 // Scanning black in state 0,2 and white in state 1, so if we find the wrong
                 // color, advance to next state or end if we are in state 2 already
-                if ((state == 1) == image[realX, realY])
+                if ((state == 1) == Image[realX, realY])
                 {
                     if (state == 2)
                     {
@@ -409,17 +397,17 @@ namespace ZXing.QrCode.Internal
             //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             int allowance = (int)(allowanceFactor * overallEstModuleSize);
             int alignmentAreaLeftX = Math.Max(0, estAlignmentX - allowance);
-            int alignmentAreaRightX = Math.Min(image.Width - 1, estAlignmentX + allowance);
+            int alignmentAreaRightX = Math.Min(Image.Width - 1, estAlignmentX + allowance);
             if (alignmentAreaRightX - alignmentAreaLeftX < overallEstModuleSize * 3)
             {
                 return null;
             }
 
             int alignmentAreaTopY = Math.Max(0, estAlignmentY - allowance);
-            int alignmentAreaBottomY = Math.Min(image.Height - 1, estAlignmentY + allowance);
+            int alignmentAreaBottomY = Math.Min(Image.Height - 1, estAlignmentY + allowance);
 
             var alignmentFinder = new AlignmentPatternFinder(
-               image,
+               Image,
                alignmentAreaLeftX,
                alignmentAreaTopY,
                alignmentAreaRightX - alignmentAreaLeftX,
@@ -430,4 +418,6 @@ namespace ZXing.QrCode.Internal
             return alignmentFinder.find();
         }
     }
+
+    public interface IDetector { }
 }

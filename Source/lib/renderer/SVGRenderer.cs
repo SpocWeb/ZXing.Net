@@ -355,7 +355,7 @@ namespace ZXing.Rendering
             /// </value>
             public String Content
             {
-                get { return content.ToString(); }
+                get => content.ToString();
                 set { content.Length = 0; if (value != null) content.Append(value); }
             }
 

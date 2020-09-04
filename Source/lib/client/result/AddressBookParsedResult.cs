@@ -151,125 +151,77 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the names
         /// </summary>
-        public String[] Names
-        {
-            get { return names; }
-        }
+        public String[] Names => names;
 
         /// <summary>
         /// the nicknames
         /// </summary>
-        public String[] Nicknames
-        {
-            get { return nicknames; }
-        }
+        public String[] Nicknames => nicknames;
 
         /// <summary>
         /// In Japanese, the name is written in kanji, which can have multiple readings. Therefore a hint
         /// is often provided, called furigana, which spells the name phonetically.
         /// </summary>
         /// <return>The pronunciation of the getNames() field, often in hiragana or katakana.</return>
-        public String Pronunciation
-        {
-            get { return pronunciation; }
-        }
+        public String Pronunciation => pronunciation;
 
         /// <summary>
         /// the phone numbers
         /// </summary>
-        public String[] PhoneNumbers
-        {
-            get { return phoneNumbers; }
-        }
+        public String[] PhoneNumbers => phoneNumbers;
 
         /// <return>optional descriptions of the type of each phone number. It could be like "HOME", but,
         /// there is no guaranteed or standard format.</return>
-        public String[] PhoneTypes
-        {
-            get { return phoneTypes; }
-        }
+        public String[] PhoneTypes => phoneTypes;
 
         /// <summary>
         /// the e-mail addresses
         /// </summary>
-        public String[] Emails
-        {
-            get { return emails; }
-        }
+        public String[] Emails => emails;
 
         /// <return>optional descriptions of the type of each e-mail. It could be like "WORK", but,
         /// there is no guaranteed or standard format.</return>
-        public String[] EmailTypes
-        {
-            get { return emailTypes; }
-        }
+        public String[] EmailTypes => emailTypes;
 
         /// <summary>
         /// the instant messenger addresses
         /// </summary>
-        public String InstantMessenger
-        {
-            get { return instantMessenger; }
-        }
+        public String InstantMessenger => instantMessenger;
 
         /// <summary>
         /// the note field
         /// </summary>
-        public String Note
-        {
-            get { return note; }
-        }
+        public String Note => note;
 
         /// <summary>
         /// the addresses
         /// </summary>
-        public String[] Addresses
-        {
-            get { return addresses; }
-        }
+        public String[] Addresses => addresses;
 
         /// <return>optional descriptions of the type of each e-mail. It could be like "WORK", but,
         /// there is no guaranteed or standard format.</return>
-        public String[] AddressTypes
-        {
-            get { return addressTypes; }
-        }
+        public String[] AddressTypes => addressTypes;
 
         /// <summary>
         /// the title
         /// </summary>
-        public String Title
-        {
-            get { return title; }
-        }
+        public String Title => title;
 
         /// <summary>
         /// the organisations
         /// </summary>
-        public String Org
-        {
-            get { return org; }
-        }
+        public String Org => org;
 
         /// <summary>
         /// the urls
         /// </summary>
-        public String[] URLs
-        {
-            get { return urls; }
-        }
+        public String[] URLs => urls;
 
         /// <return>birthday formatted as yyyyMMdd (e.g. 19780917)</return>
-        public String Birthday
-        {
-            get { return birthday; }
-        }
+        public String Birthday => birthday;
 
         /// <return>a location as a latitude/longitude pair</return>
-        public String[] Geo
-        {
-            get { return geo; }
-        }
+        public String[] Geo => geo;
 
         private String getDisplayResult()
         {

@@ -162,10 +162,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports cropping.</returns>
-        override public bool CropSupported
-        {
-            get { return true; }
-        }
+        override public bool CropSupported => true;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -218,24 +215,12 @@ namespace ZXing
         /// <summary>
         /// width of image from {@link #renderThumbnail()}
         /// </summary>
-        public int ThumbnailWidth
-        {
-            get
-            {
-                return Width / THUMBNAIL_SCALE_FACTOR;
-            }
-        }
+        public int ThumbnailWidth => Width / THUMBNAIL_SCALE_FACTOR;
 
         /// <summary>
         /// height of image from {@link #renderThumbnail()}
         /// </summary>
-        public int ThumbnailHeight
-        {
-            get
-            {
-                return Height / THUMBNAIL_SCALE_FACTOR;
-            }
-        }
+        public int ThumbnailHeight => Height / THUMBNAIL_SCALE_FACTOR;
 
         private void reverseHorizontal(int width, int height)
         {

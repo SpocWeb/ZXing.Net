@@ -63,10 +63,8 @@ namespace ZXing.OneD
         /// <summary>
         /// returns supported formats
         /// </summary>
-        protected override IList<BarcodeFormat> SupportedWriteFormats
-        {
-            get { return supportedWriteFormats; }
-        }
+        protected override IList<BarcodeFormat> SupportedWriteFormats => supportedWriteFormats;
+
         /// <summary>
         /// Encode the contents following specified format.
         /// {@code width} and {@code height} are required size. This method may return bigger size

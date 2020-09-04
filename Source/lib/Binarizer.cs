@@ -40,23 +40,13 @@ namespace ZXing
         /// <param name="source">The source.</param>
         protected internal Binarizer(LuminanceSource source)
         {
-            if (source == null)
-            {
-                throw new ArgumentException("Source must be non-null.");
-            }
-            this.source = source;
+            this.source = source ?? throw new ArgumentException("Source must be non-null.");
         }
 
         /// <summary>
         /// Gets the luminance source object.
         /// </summary>
-        virtual public LuminanceSource LuminanceSource
-        {
-            get
-            {
-                return source;
-            }
-        }
+        virtual public LuminanceSource LuminanceSource => source;
 
         /// <summary> Converts one row of luminance data to 1 bit data. May actually do the conversion, or return
         /// cached data. Callers should assume this method is expensive and call it as seldom as possible.
@@ -91,17 +81,12 @@ namespace ZXing
         /// <summary>
         /// Gets the width of the luminance source object.
         /// </summary>
-        public int Width
-        {
-            get { return source.Width; }
-        }
+        public int Width => source.Width;
 
         /// <summary>
         /// Gets the height of the luminance source object.
         /// </summary>
-        public int Height
-        {
-            get { return source.Height; }
-        }
+        public int Height => source.Height;
+
     }
 }

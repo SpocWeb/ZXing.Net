@@ -33,14 +33,7 @@ namespace ZXing.Common
         /// <summary>
         /// encoding name
         /// </summary>
-        public String EncodingName
-        {
-            get
-            {
-                return encodingName;
-            }
-
-        }
+        public String EncodingName => encodingName;
 
         static CharacterSetECI()
         {

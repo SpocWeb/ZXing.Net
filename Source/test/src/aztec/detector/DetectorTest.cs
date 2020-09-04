@@ -116,7 +116,7 @@ namespace ZXing.Aztec.Test
       }
 
       // Zooms a bit matrix so that each bit is factor x factor
-      private static BitMatrix makeLarger(BitMatrix input, int factor)
+      private static BitMatrix makeLarger(IRoBitMatrix input, int factor)
       {
          var width = input.Width;
          var output = new BitMatrix(width*factor);

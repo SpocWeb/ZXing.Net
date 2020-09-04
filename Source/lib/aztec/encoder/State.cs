@@ -55,25 +55,13 @@ namespace ZXing.Aztec.Internal
             //assert this.bitCount == token.getTotalBitCount() + binaryShiftBitCount;
         }
 
-        public int Mode
-        {
-            get { return mode; }
-        }
+        public int Mode => mode;
 
-        public Token Token
-        {
-            get { return token; }
-        }
+        public Token Token => token;
 
-        public int BinaryShiftByteCount
-        {
-            get { return binaryShiftByteCount; }
-        }
+        public int BinaryShiftByteCount => binaryShiftByteCount;
 
-        public int BitCount
-        {
-            get { return bitCount; }
-        }
+        public int BitCount => bitCount;
 
         /// <summary>
         /// Create a new state representing this state with a latch to a (not

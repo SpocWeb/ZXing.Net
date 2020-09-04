@@ -138,10 +138,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        override internal BarcodeFormat BarcodeFormat
-        {
-            get { return BarcodeFormat.EAN_13; }
-        }
+        override internal BarcodeFormat BarcodeFormat => BarcodeFormat.EAN_13;
 
         /// <summary>
         /// Based on pattern of odd-even ('L' and 'G') patterns used to encoded the explicitly-encoded

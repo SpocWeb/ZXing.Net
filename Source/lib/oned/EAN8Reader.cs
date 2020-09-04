@@ -90,9 +90,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        override internal BarcodeFormat BarcodeFormat
-        {
-            get { return BarcodeFormat.EAN_8; }
-        }
+        override internal BarcodeFormat BarcodeFormat => BarcodeFormat.EAN_8;
+
     }
 }

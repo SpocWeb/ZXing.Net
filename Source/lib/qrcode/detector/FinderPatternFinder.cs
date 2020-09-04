@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.QrCode.Internal
@@ -67,26 +66,20 @@ namespace ZXing.QrCode.Internal
         public FinderPatternFinder(BitMatrix image, ResultPointCallback resultPointCallback)
         {
             this.image = image;
-            this.possibleCenters = new List<FinderPattern>();
-            this.crossCheckStateCount = new int[5];
+            possibleCenters = new List<FinderPattern>();
+            crossCheckStateCount = new int[5];
             this.resultPointCallback = resultPointCallback;
         }
 
         /// <summary>
         /// Gets the image.
         /// </summary>
-        protected internal virtual BitMatrix Image
-        {
-            get { return image; }
-        }
+        protected internal virtual BitMatrix Image => image;
 
         /// <summary>
         /// Gets the possible centers.
         /// </summary>
-        protected internal virtual List<FinderPattern> PossibleCenters
-        {
-            get { return possibleCenters; }
-        }
+        protected internal virtual List<FinderPattern> PossibleCenters => possibleCenters;
 
         internal virtual FinderPatternInfo find(IDictionary<DecodeHintType, object> hints)
         {

@@ -18,19 +18,20 @@ using System;
 
 namespace ZXing.Common.Detector
 {
-    /// <summary>
-    /// Detects a candidate barcode-like rectangular region within an image. It
-    /// starts around the center of the image, increases the size of the candidate
-    /// region until it finds a white rectangular region. By keeping track of the
-    /// last black points it encountered, it determines the corners of the barcode.
-    /// </summary>
+    /// <summary> Detects a candidate barcode-like rectangular region within an image. </summary>
+    /// <remarks>
+    /// It starts around the center of the image, increases the size of the candidate
+    /// region until it finds a white rectangular region.
+    /// By keeping track of the last black points it encountered,
+    /// it determines the corners of the barcode.
+    /// </remarks>
     /// <author>David Olivier</author>
     public sealed class WhiteRectangleDetector
     {
         private const int INIT_SIZE = 10;
         private const int CORR = 1;
 
-        private readonly BitMatrix image;
+        private readonly IRoBitMatrix image;
         private readonly int height;
         private readonly int width;
         private readonly int leftInit;
@@ -43,7 +44,7 @@ namespace ZXing.Common.Detector
         /// </summary>
         /// <param name="image">The image.</param>
         /// <returns>null, if image is too small, otherwise a WhiteRectangleDetector instance</returns>
-        public static WhiteRectangleDetector Create(BitMatrix image)
+        public static WhiteRectangleDetector Create(IRoBitMatrix image)
         {
             if (image == null)
                 return null;
@@ -68,7 +69,7 @@ namespace ZXing.Common.Detector
         /// <returns>
         /// null, if image is too small, otherwise a WhiteRectangleDetector instance
         /// </returns>
-        public static WhiteRectangleDetector Create(BitMatrix image, int initSize, int x, int y)
+        public static WhiteRectangleDetector Create(IRoBitMatrix image, int initSize, int x, int y)
         {
             var instance = new WhiteRectangleDetector(image, initSize, x, y);
 
@@ -86,7 +87,7 @@ namespace ZXing.Common.Detector
         /// </summary>
         /// <param name="image">The image.</param>
         /// <exception cref="ArgumentException">if image is too small</exception>
-        internal WhiteRectangleDetector(BitMatrix image)
+        internal WhiteRectangleDetector(IRoBitMatrix image)
            : this(image, INIT_SIZE, image.Width / 2, image.Height / 2)
         {
         }
@@ -98,7 +99,7 @@ namespace ZXing.Common.Detector
         /// <param name="initSize">Size of the init.</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
-        internal WhiteRectangleDetector(BitMatrix image, int initSize, int x, int y)
+        internal WhiteRectangleDetector(IRoBitMatrix image, int initSize, int x, int y)
         {
             this.image = image;
             height = image.Height;
@@ -356,16 +357,13 @@ namespace ZXing.Common.Detector
                          new ResultPoint(yi + CORR, yj - CORR)
                       };
             }
-            else
+            return new[]
             {
-                return new[]
-                          {
-                         new ResultPoint(ti + CORR, tj + CORR),
-                         new ResultPoint(zi + CORR, zj - CORR),
-                         new ResultPoint(xi - CORR, xj + CORR),
-                         new ResultPoint(yi - CORR, yj - CORR)
-                      };
-            }
+                new ResultPoint(ti + CORR, tj + CORR),
+                new ResultPoint(zi + CORR, zj - CORR),
+                new ResultPoint(xi - CORR, xj + CORR),
+                new ResultPoint(yi - CORR, yj - CORR)
+            };
         }
 
         /// <summary>

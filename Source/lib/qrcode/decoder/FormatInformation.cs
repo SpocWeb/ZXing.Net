@@ -163,21 +163,9 @@ namespace ZXing.QrCode.Internal
             return null;
         }
 
-        internal ErrorCorrectionLevel ErrorCorrectionLevel
-        {
-            get
-            {
-                return errorCorrectionLevel;
-            }
-        }
+        internal ErrorCorrectionLevel ErrorCorrectionLevel => errorCorrectionLevel;
 
-        internal byte DataMask
-        {
-            get
-            {
-                return dataMask;
-            }
-        }
+        internal byte DataMask => dataMask;
 
         public override int GetHashCode()
         {

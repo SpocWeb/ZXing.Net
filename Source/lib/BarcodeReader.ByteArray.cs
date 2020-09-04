@@ -79,13 +79,7 @@ namespace ZXing
         /// <value>
         /// The function to create a luminance source object.
         /// </value>
-        protected Func<byte[], LuminanceSource> CreateLuminanceSource
-        {
-            get
-            {
-                return createLuminanceSource;
-            }
-        }
+        protected Func<byte[], LuminanceSource> CreateLuminanceSource => createLuminanceSource;
 
         /// <summary>
         /// Decodes the specified barcode bitmap.

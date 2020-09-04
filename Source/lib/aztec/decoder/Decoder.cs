@@ -332,7 +332,7 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns>the array of bits</returns>
-        private bool[] extractBits(BitMatrix matrix)
+        private bool[] extractBits(IRoBitMatrix matrix)
         {
             bool compact = ddata.Compact;
             int layers = ddata.NbLayers;

@@ -66,37 +66,19 @@ namespace ZXing
         /// <returns> The width of the bitmap.</returns>
         public virtual int Width
         {
-            get
-            {
-                return width;
-            }
-            protected set
-            {
-                width = value;
-            }
+            get => width;
+            protected set => width = value;
         }
 
         /// <returns> The height of the bitmap.</returns>
         public virtual int Height
         {
-            get
-            {
-                return height;
-            }
-            protected set
-            {
-                height = value;
-            }
+            get => height;
+            protected set => height = value;
         }
 
         /// <returns> Whether this subclass supports cropping.</returns>
-        public virtual bool CropSupported
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool CropSupported => false;
 
         /// <summary> 
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -113,13 +95,7 @@ namespace ZXing
         }
 
         /// <returns> Whether this subclass supports counter-clockwise rotation.</returns>
-        public virtual bool RotateSupported
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool RotateSupported => false;
 
         /// <summary>
         /// Returns a new object with rotated image data by 90 degrees counterclockwise.
@@ -144,13 +120,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns>Whether this subclass supports inversion.</returns>
-        public virtual bool InversionSupported
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool InversionSupported => false;
 
         /// <summary>
         /// inverts the luminance values, not supported here. has to implemented in sub classes

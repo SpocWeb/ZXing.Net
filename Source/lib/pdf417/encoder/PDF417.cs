@@ -565,10 +565,7 @@ namespace ZXing.PDF417.Internal
             minRows = 3;
         }
 
-        internal BarcodeMatrix BarcodeMatrix
-        {
-            get { return barcodeMatrix; }
-        }
+        internal BarcodeMatrix BarcodeMatrix => barcodeMatrix;
 
         /// <summary>
         /// Calculates the necessary number of rows as described in annex Q of ISO/IEC 15438:2001(E).

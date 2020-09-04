@@ -169,10 +169,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        override internal BarcodeFormat BarcodeFormat
-        {
-            get { return BarcodeFormat.UPC_E; }
-        }
+        override internal BarcodeFormat BarcodeFormat => BarcodeFormat.UPC_E;
 
         /// <summary>
         /// Expands a UPC-E value back into its full, equivalent UPC-A code value.

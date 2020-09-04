@@ -21,14 +21,14 @@ namespace ZXing.QrCode.Internal
     /// <author>Sean Owen</author>
     sealed class BitMatrixParser
     {
-        private readonly BitMatrix bitMatrix;
+        private readonly IBitMatrix bitMatrix;
         private Version parsedVersion;
         private FormatInformation parsedFormatInfo;
         private bool mirrored;
 
         /// <param name="bitMatrix">{@link BitMatrix} to parse</param>
         /// <throws>ReaderException if dimension is not >= 21 and 1 mod 4</throws>
-        internal static BitMatrixParser createBitMatrixParser(BitMatrix bitMatrix)
+        internal static BitMatrixParser createBitMatrixParser(IBitMatrix bitMatrix)
         {
             int dimension = bitMatrix.Height;
             if (dimension < 21 || (dimension & 0x03) != 1)
@@ -38,7 +38,7 @@ namespace ZXing.QrCode.Internal
             return new BitMatrixParser(bitMatrix);
         }
 
-        private BitMatrixParser(BitMatrix bitMatrix)
+        private BitMatrixParser(IBitMatrix bitMatrix)
         {
             // Should only be called from createBitMatrixParser with the important checks before
             this.bitMatrix = bitMatrix;
@@ -176,8 +176,8 @@ namespace ZXing.QrCode.Internal
             if (version == null)
                 return null;
 
-            // Get the data mask for the format used in this QR Code. This will exclude
-            // some bits from reading as we wind through the bit matrix.
+            // Get the data mask for the format used in this QR Code.
+            // This will exclude some bits from reading as we wind through the bit matrix.
             int dimension = bitMatrix.Height;
             DataMask.unmaskBitMatrix(formatInfo.DataMask, bitMatrix, dimension);
 

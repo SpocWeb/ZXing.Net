@@ -15,29 +15,30 @@
  */
 
 using System;
-
 using ZXing.Common;
 using ZXing.Common.Detector;
 
 namespace ZXing.Datamatrix.Internal
 {
-    /// <summary>
-    /// <p>Encapsulates logic that can detect a Data Matrix Code in an image, even if the Data Matrix Code
-    /// is rotated or skewed, or partially obscured.</p>
-    /// </summary>
+    /// <summary> can detect a Data Matrix Code in an image </summary>
+    /// <remarks>
+    /// Even if the Data Matrix Code is rotated or skewed, or partially obscured.</p>
+    /// </remarks>
     /// <author>Sean Owen</author>
     public sealed class Detector
     {
-        private readonly BitMatrix image;
+        /// <summary> This is only a candidate Image </summary>
+        protected BitMatrix image;
+        protected readonly IGridSampler sampler;
         private readonly WhiteRectangleDetector rectangleDetector;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Detector"/> class.
         /// </summary>
-        /// <param name="image">The image.</param>
-        public Detector(BitMatrix image)
+        public Detector(IGridSampler sampler)
         {
-            this.image = image;
+            this.sampler = sampler;
+            image = sampler.GetImage();
             rectangleDetector = WhiteRectangleDetector.Create(image);
         }
 
@@ -85,7 +86,7 @@ namespace ZXing.Datamatrix.Internal
                 dimensionTop = dimensionRight = Math.Max(dimensionTop, dimensionRight);
             }
 
-            BitMatrix bits = sampleGrid(image,
+            BitMatrix bits = sampleGrid(sampler,
                 topLeft,
                 bottomLeft,
                 bottomRight,
@@ -93,7 +94,7 @@ namespace ZXing.Datamatrix.Internal
                 dimensionTop,
                 dimensionRight);
 
-            return new DetectorResult(bits, new ResultPoint[] { topLeft, bottomLeft, bottomRight, topRight });
+            return new DetectorResult(bits, new[] { topLeft, bottomLeft, bottomRight, topRight });
         }
 
         private static ResultPoint shiftPoint(ResultPoint point, ResultPoint to, int div)
@@ -277,10 +278,7 @@ namespace ZXing.Datamatrix.Internal
             {
                 return candidate1;
             }
-            else
-            {
-                return candidate2;
-            }
+            return candidate2;
         }
 
         /// <summary>
@@ -340,15 +338,14 @@ namespace ZXing.Datamatrix.Internal
             pointDs = shiftPoint(pointD, pointC, dimV * 4);
             pointDs = shiftPoint(pointDs, pointA, dimH * 4);
 
-            return new ResultPoint[] { pointAs, pointBs, pointCs, pointDs };
+            return new[] { pointAs, pointBs, pointCs, pointDs };
         }
 
         private bool isValid(ResultPoint p)
-        {
-            return p.X >= 0 && p.X < image.Width && p.Y > 0 && p.Y < image.Height;
-        }
+            => p.X >= 0 && p.X < image.Width &&
+                p.Y > 0 && p.Y < image.Height;
 
-        private static BitMatrix sampleGrid(BitMatrix image,
+        private static BitMatrix sampleGrid(IGridSampler sampler,
             ResultPoint topLeft,
             ResultPoint bottomLeft,
             ResultPoint bottomRight,
@@ -356,10 +353,7 @@ namespace ZXing.Datamatrix.Internal
             int dimensionX,
             int dimensionY)
         {
-
-            GridSampler sampler = GridSampler.Instance;
-
-            return sampler.sampleGrid(image,
+            return sampler.sampleGrid(
                 dimensionX,
                 dimensionY,
                 0.5f,

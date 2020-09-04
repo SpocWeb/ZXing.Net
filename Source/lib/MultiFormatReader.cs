@@ -26,14 +26,15 @@ using ZXing.QrCode;
 
 namespace ZXing
 {
-    /// <summary>
-    /// MultiFormatReader is a convenience class and the main entry point into the library for most uses.
-    /// By default it attempts to decode all barcode formats that the library supports. Optionally, you
-    /// can provide a hints object to request different behavior, for example only decoding QR codes.
-    /// </summary>
+    /// <summary> Main entry point into the library for most uses. </summary>
     /// <author>Sean Owen</author>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source</author>
+    /// <remarks>
+    /// By default it attempts to decode all barcode formats that the library supports.
+    /// Optionally, you can provide a hints object to request different behavior,
+    /// for example only decoding QR codes.
+    /// </remarks>
     public sealed class MultiFormatReader : Reader
     {
         private IDictionary<DecodeHintType, object> hints;

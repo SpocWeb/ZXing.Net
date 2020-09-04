@@ -40,17 +40,12 @@ namespace ZXing.Multi.QrCode
             return decodeMultiple(image, null);
         }
 
-        /// <summary>
-        /// Decodes the multiple.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <param name="hints">The hints.</param>
-        /// <returns></returns>
+        /// <summary> Decodes multiple QR Codes </summary>
         public Result[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             var results = new List<Result>();
-            var detectorResults = new MultiDetector(image.BlackMatrix).detectMulti(hints);
-            foreach (DetectorResult detectorResult in detectorResults)
+            var detectorResults = new MultiDetector(image).detectMulti(hints);
+            foreach (var detectorResult in detectorResults)
             {
                 var decoderResult = getDecoder().decode(detectorResult.Bits, hints);
                 if (decoderResult == null)

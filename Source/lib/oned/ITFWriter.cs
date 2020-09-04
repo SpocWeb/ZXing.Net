@@ -53,10 +53,7 @@ namespace ZXing.OneD
         /// <summary>
         /// returns supported formats
         /// </summary>
-        protected override IList<BarcodeFormat> SupportedWriteFormats
-        {
-            get { return supportedWriteFormats; }
-        }
+        protected override IList<BarcodeFormat> SupportedWriteFormats => supportedWriteFormats;
 
         /// <summary>
         /// Encode the contents to bool array expression of one-dimensional barcode.

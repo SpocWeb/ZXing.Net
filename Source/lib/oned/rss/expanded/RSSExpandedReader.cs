@@ -107,10 +107,7 @@ namespace ZXing.OneD.RSS.Expanded
         private readonly int[] startEnd = new int[2];
         private bool startFromEven;
 
-        internal List<ExpandedPair> Pairs
-        {
-            get { return pairs; }
-        }
+        internal List<ExpandedPair> Pairs => pairs;
 
         /// <summary>
         ///   <p>Attempts to decode a one-dimensional barcode format given a single row of
@@ -383,10 +380,7 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // Only used for unit testing
-        internal List<ExpandedRow> Rows
-        {
-            get { return this.rows; }
-        }
+        internal List<ExpandedRow> Rows => this.rows;
 
         internal static Result constructResult(List<ExpandedPair> pairs)
         {

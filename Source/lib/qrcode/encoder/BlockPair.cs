@@ -27,14 +27,9 @@ namespace ZXing.QrCode.Internal
             errorCorrectionBytes = errorCorrection;
         }
 
-        public byte[] DataBytes
-        {
-            get { return dataBytes; }
-        }
+        public byte[] DataBytes => dataBytes;
 
-        public byte[] ErrorCorrectionBytes
-        {
-            get { return errorCorrectionBytes; }
-        }
+        public byte[] ErrorCorrectionBytes => errorCorrectionBytes;
+
     }
 }

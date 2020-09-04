@@ -57,24 +57,12 @@ namespace ZXing
         /// <summary>
         /// Gets the X.
         /// </summary>
-        virtual public float X
-        {
-            get
-            {
-                return x;
-            }
-        }
+        virtual public float X => x;
 
         /// <summary>
         /// Gets the Y.
         /// </summary>
-        public virtual float Y
-        {
-            get
-            {
-                return y;
-            }
-        }
+        public virtual float Y => y;
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.

@@ -45,24 +45,18 @@ namespace ZXing.Datamatrix.Encoder
         /// <summary>
         /// num rows
         /// </summary>
-        public int Numrows
-        {
-            get { return numrows; }
-        }
+        public int Numrows => numrows;
+
         /// <summary>
         /// num cols
         /// </summary>
-        public int Numcols
-        {
-            get { return numcols; }
-        }
+        public int Numcols => numcols;
+
         /// <summary>
         /// bits
         /// </summary>
-        public byte[] Bits
-        {
-            get { return bits; }
-        }
+        public byte[] Bits => bits;
+
         /// <summary>
         /// get a specific bit
         /// </summary>

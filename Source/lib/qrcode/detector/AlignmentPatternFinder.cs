@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.QrCode.Internal
@@ -68,13 +67,13 @@ namespace ZXing.QrCode.Internal
         internal AlignmentPatternFinder(BitMatrix image, int startX, int startY, int width, int height, float moduleSize, ResultPointCallback resultPointCallback)
         {
             this.image = image;
-            this.possibleCenters = new List<AlignmentPattern>(5);
+            possibleCenters = new List<AlignmentPattern>(5);
             this.startX = startX;
             this.startY = startY;
             this.width = width;
             this.height = height;
             this.moduleSize = moduleSize;
-            this.crossCheckStateCount = new int[3];
+            crossCheckStateCount = new int[3];
             this.resultPointCallback = resultPointCallback;
         }
 

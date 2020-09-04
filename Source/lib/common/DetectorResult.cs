@@ -27,7 +27,7 @@ namespace ZXing.Common
         /// <summary>
         /// the detected bits
         /// </summary>
-        public BitMatrix Bits { get; private set; }
+        public IBitMatrix Bits { get; private set; }
         /// <summary>
         /// the pixel points where the result is found
         /// </summary>

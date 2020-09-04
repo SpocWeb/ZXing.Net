@@ -31,14 +31,13 @@ namespace ZXing.Multi.QrCode.Internal
     {
         private static readonly DetectorResult[] EMPTY_DETECTOR_RESULTS = new DetectorResult[0];
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MultiDetector"/> class.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        public MultiDetector(BitMatrix image)
-           : base(image)
-        {
-        }
+        public MultiDetector(IGridSampler sampler) : base(sampler) { }
+
+        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
+        public MultiDetector(BitMatrix image) : base(image) { }
+
+        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
+        public MultiDetector(BinaryBitmap image) : base(image) { }
 
         /// <summary> Detects multiple possible Locations. </summary>
         public DetectorResult[] detectMulti(IDictionary<DecodeHintType, object> hints)
@@ -57,9 +56,9 @@ namespace ZXing.Multi.QrCode.Internal
             var result = new List<DetectorResult>();
             foreach (FinderPatternInfo info in infos)
             {
-                var oneResult = processFinderPatternInfo(info);
-                if (oneResult != null)
-                    result.Add(oneResult);
+                var detectorResult = processFinderPatternInfo(info);
+                if (detectorResult != null)
+                    result.Add(detectorResult);
             }
             if (result.Count == 0)
             {

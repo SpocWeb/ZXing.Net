@@ -82,13 +82,7 @@ namespace ZXing
         /// <value>
         /// The reader.
         /// </value>
-        protected Reader Reader
-        {
-            get
-            {
-                return reader ?? (reader = new MultiFormatReader());
-            }
-        }
+        protected Reader Reader => reader ?? (reader = new MultiFormatReader());
 
         /// <summary>
         /// Gets or sets a method which is called if an important point is found
@@ -150,21 +144,12 @@ namespace ZXing
         /// <value>
         /// The function to create a binarizer object.
         /// </value>
-        protected Func<LuminanceSource, Binarizer> CreateBinarizer
-        {
-            get
-            {
-                return createBinarizer ?? defaultCreateBinarizer;
-            }
-        }
+        protected Func<LuminanceSource, Binarizer> CreateBinarizer => createBinarizer ?? defaultCreateBinarizer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReaderGeneric"/> class.
         /// </summary>
-        public BarcodeReaderGeneric()
-           : this(new MultiFormatReader(), defaultCreateBinarizer, null)
-        {
-        }
+        public BarcodeReaderGeneric() : this(null) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReaderGeneric"/> class.
@@ -175,9 +160,9 @@ namespace ZXing
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb array.
         /// If null the RGBLuminanceSource is used. The handler is only called when Decode with a byte[] array is called.</param>
-        public BarcodeReaderGeneric(Reader reader,
-           Func<LuminanceSource, Binarizer> createBinarizer,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
+        public BarcodeReaderGeneric(Reader reader = null,
+           Func<LuminanceSource, Binarizer> createBinarizer = null,
+           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource = null
            )
         {
             this.reader = reader ?? new MultiFormatReader();

@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.PDF417.Internal
@@ -274,16 +273,12 @@ namespace ZXing.PDF417.Internal
                         previousRowLoc = loc;
                         skippedRowCount = 0;
                     }
-                    else
-                    {
+                    else {
                         if (skippedRowCount > SKIPPED_ROW_COUNT_MAX)
                         {
                             break;
                         }
-                        else
-                        {
-                            skippedRowCount++;
-                        }
+                        skippedRowCount++;
                     }
                 }
                 stopRow -= skippedRowCount + 1;
@@ -345,7 +340,7 @@ namespace ZXing.PDF417.Internal
                     {
                         if (patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
                         {
-                            return new int[] { patternStart, x };
+                            return new[] { patternStart, x };
                         }
                         patternStart += counters[0] + counters[1];
                         Array.Copy(counters, 2, counters, 0, counterPosition - 1);
@@ -364,7 +359,7 @@ namespace ZXing.PDF417.Internal
             if (counterPosition == patternLength - 1 &&
                 patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
             {
-                return new int[] { patternStart, x - 1 };
+                return new[] { patternStart, x - 1 };
             }
             return null;
         }

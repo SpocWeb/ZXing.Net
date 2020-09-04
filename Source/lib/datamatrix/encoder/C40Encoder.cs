@@ -21,10 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal class C40Encoder : Encoder
     {
-        public virtual int EncodingMode
-        {
-            get { return Encodation.C40; }
-        }
+        public virtual int EncodingMode => Encodation.C40;
 
         public virtual void encode(EncoderContext context)
         {

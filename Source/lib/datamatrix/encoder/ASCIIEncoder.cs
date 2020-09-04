@@ -20,10 +20,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class ASCIIEncoder : Encoder
     {
-        public int EncodingMode
-        {
-            get { return Encodation.ASCII; }
-        }
+        public int EncodingMode => Encodation.ASCII;
 
         public void encode(EncoderContext context)
         {

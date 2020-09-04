@@ -197,132 +197,82 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the raw text
         /// </summary>
-        public String RawText
-        {
-            get { return rawText; }
-        }
+        public String RawText => rawText;
 
         /// <summary>
         /// the product id
         /// </summary>
-        public String ProductID
-        {
-            get { return productID; }
-        }
+        public String ProductID => productID;
 
         /// <summary>
         /// the sscc
         /// </summary>
-        public String Sscc
-        {
-            get { return sscc; }
-        }
+        public String Sscc => sscc;
 
         /// <summary>
         /// the lot number
         /// </summary>
-        public String LotNumber
-        {
-            get { return lotNumber; }
-        }
+        public String LotNumber => lotNumber;
 
         /// <summary>
         /// the production date
         /// </summary>
-        public String ProductionDate
-        {
-            get { return productionDate; }
-        }
+        public String ProductionDate => productionDate;
 
         /// <summary>
         /// the packaging date
         /// </summary>
-        public String PackagingDate
-        {
-            get { return packagingDate; }
-        }
+        public String PackagingDate => packagingDate;
 
         /// <summary>
         /// the best before date
         /// </summary>
-        public String BestBeforeDate
-        {
-            get { return bestBeforeDate; }
-        }
+        public String BestBeforeDate => bestBeforeDate;
 
         /// <summary>
         /// the expiration date
         /// </summary>
-        public String ExpirationDate
-        {
-            get { return expirationDate; }
-        }
+        public String ExpirationDate => expirationDate;
 
         /// <summary>
         /// the weight
         /// </summary>
-        public String Weight
-        {
-            get { return weight; }
-        }
+        public String Weight => weight;
 
         /// <summary>
         /// the weight type
         /// </summary>
-        public String WeightType
-        {
-            get { return weightType; }
-        }
+        public String WeightType => weightType;
 
         /// <summary>
         /// the weight increment
         /// </summary>
-        public String WeightIncrement
-        {
-            get { return weightIncrement; }
-        }
+        public String WeightIncrement => weightIncrement;
 
         /// <summary>
         /// the price
         /// </summary>
-        public String Price
-        {
-            get { return price; }
-        }
+        public String Price => price;
 
         /// <summary>
         /// the price increment
         /// </summary>
-        public String PriceIncrement
-        {
-            get { return priceIncrement; }
-        }
+        public String PriceIncrement => priceIncrement;
 
         /// <summary>
         /// the price currency
         /// </summary>
-        public String PriceCurrency
-        {
-            get { return priceCurrency; }
-        }
+        public String PriceCurrency => priceCurrency;
 
         /// <summary>
         /// the uncommon AIs
         /// </summary>
-        public IDictionary<String, String> UncommonAIs
-        {
-            get { return uncommonAIs; }
-        }
+        public IDictionary<String, String> UncommonAIs => uncommonAIs;
 
         /// <summary>
         /// the display representation (raw text)
         /// </summary>
-        public override string DisplayResult
-        {
-            get
-            {
-                return rawText;
-            }
-        }
+        public override string DisplayResult => rawText;
+
     }
 }

@@ -16,21 +16,29 @@
 
 namespace ZXing.Common
 {
-    /// <summary> This class implements a local thresholding algorithm, which while slower than the
-    /// GlobalHistogramBinarizer, is fairly efficient for what it does. It is designed for
+    /// <summary> Local threshold-algorithm; slower than <see cref="GlobalHistogramBinarizer"/>,
+    /// is fairly efficient for what it does.
+    /// </summary>
+    /// <remarks>
+    /// It is designed for
     /// high frequency images of barcodes with black data on white backgrounds. For this application,
     /// it does a much better job than a global blackpoint with severe shadows and gradients.
     /// However it tends to produce artifacts on lower frequency images and is therefore not
     /// a good general purpose binarizer for uses outside ZXing.
     /// 
-    /// This class extends GlobalHistogramBinarizer, using the older histogram approach for 1D readers,
-    /// and the newer local approach for 2D readers. 1D decoding using a per-row histogram is already
-    /// inherently local, and only fails for horizontal gradients. We can revisit that problem later,
+    /// This class extends <see cref="GlobalHistogramBinarizer"/>,
+    /// using the older histogram approach for 1D readers,
+    /// and the newer local approach for 2D readers.
+    /// 1D decoding using a per-row histogram is already
+    /// inherently local, and only fails for horizontal gradients.
+    ///
+    /// We can revisit that problem later,
     /// but for now it was not a win to use local blocks for 1D.
     /// 
-    /// This Binarizer is the default for the unit tests and the recommended class for library users.
+    /// This Binarizer is the default for the unit tests
+    /// and the recommended class for library users.
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
-    /// </summary>
+    /// </remarks>
     public sealed class HybridBinarizer : GlobalHistogramBinarizer
     {
         /// <summary>
@@ -40,7 +48,7 @@ namespace ZXing.Common
         {
             get
             {
-                binarizeEntireImage();
+                CalculateEntireImage();
                 return matrix;
             }
         }
@@ -74,43 +82,45 @@ namespace ZXing.Common
             return new HybridBinarizer(source);
         }
 
-        /// <summary>
-        /// Calculates the final BitMatrix once for all requests. This could be called once from the
-        /// constructor instead, but there are some advantages to doing it lazily, such as making
-        /// profiling easier, and not doing heavy lifting when callers don't expect it.
+        /// <summary> Eagerly calculates the final BitMatrix once for all requests.
         /// </summary>
-        private void binarizeEntireImage()
-        {
-            if (matrix == null)
+        /// <remarks>
+        /// This could be called once from the constructor instead,
+        /// but there are some advantages to doing it lazily,
+        /// such as making profiling easier,
+        /// and not doing heavy lifting when callers don't expect it.
+        /// </remarks>
+        private void CalculateEntireImage() {
+            if (matrix != null) {
+                return;
+            }
+            LuminanceSource source = LuminanceSource;
+            int width = source.Width;
+            int height = source.Height;
+            if (width >= MINIMUM_DIMENSION && height >= MINIMUM_DIMENSION)
             {
-                LuminanceSource source = LuminanceSource;
-                int width = source.Width;
-                int height = source.Height;
-                if (width >= MINIMUM_DIMENSION && height >= MINIMUM_DIMENSION)
-                {
-                    byte[] luminances = source.Matrix;
+                byte[] luminances = source.Matrix;
 
-                    int subWidth = width >> BLOCK_SIZE_POWER;
-                    if ((width & BLOCK_SIZE_MASK) != 0)
-                    {
-                        subWidth++;
-                    }
-                    int subHeight = height >> BLOCK_SIZE_POWER;
-                    if ((height & BLOCK_SIZE_MASK) != 0)
-                    {
-                        subHeight++;
-                    }
-                    int[][] blackPoints = calculateBlackPoints(luminances, subWidth, subHeight, width, height);
-
-                    var newMatrix = new BitMatrix(width, height);
-                    calculateThresholdForBlock(luminances, subWidth, subHeight, width, height, blackPoints, newMatrix);
-                    matrix = newMatrix;
-                }
-                else
+                int subWidth = width >> BLOCK_SIZE_POWER;
+                if ((width & BLOCK_SIZE_MASK) != 0)
                 {
-                    // If the image is too small, fall back to the global histogram approach.
-                    matrix = base.BlackMatrix;
+                    subWidth++;
                 }
+                int subHeight = height >> BLOCK_SIZE_POWER;
+                if ((height & BLOCK_SIZE_MASK) != 0)
+                {
+                    subHeight++;
+                }
+                int[][] blackPoints = calculateBlackPoints(luminances, subWidth, subHeight, width, height);
+
+                var newMatrix = new BitMatrix(width, height);
+                calculateThresholdForBlock(luminances, subWidth, subHeight, width, height, blackPoints, newMatrix);
+                matrix = newMatrix;
+            }
+            else
+            {
+                // If the image is too small, fall back to the global histogram approach.
+                matrix = base.BlackMatrix;
             }
         }
 

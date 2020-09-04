@@ -68,31 +68,19 @@ namespace ZXing.PDF417.Internal.EC
         /// Gets the coefficients.
         /// </summary>
         /// <value>The coefficients.</value>
-        internal int[] Coefficients
-        {
-            get { return coefficients; }
-        }
+        internal int[] Coefficients => coefficients;
 
         /// <summary>
         /// degree of this polynomial
         /// </summary>
-        internal int Degree
-        {
-            get
-            {
-                return coefficients.Length - 1;
-            }
-        }
+        internal int Degree => coefficients.Length - 1;
 
         /// <summary>
         /// Gets a value indicating whether this instance is zero.
         /// </summary>
         /// <value>true if this polynomial is the monomial "0"
         /// </value>
-        internal bool isZero
-        {
-            get { return coefficients[0] == 0; }
-        }
+        internal bool isZero => coefficients[0] == 0;
 
         /// <summary>
         /// coefficient of x^degree term in this polynomial

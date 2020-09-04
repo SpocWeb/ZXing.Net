@@ -45,33 +45,22 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// Gets the min cols.
         /// </summary>
-        public int MinCols
-        {
-            get { return minCols; }
-        }
+        public int MinCols => minCols;
 
         /// <summary>
         /// Gets the max cols.
         /// </summary>
-        public int MaxCols
-        {
-            get { return maxCols; }
-        }
+        public int MaxCols => maxCols;
 
         /// <summary>
         /// Gets the min rows.
         /// </summary>
-        public int MinRows
-        {
-            get { return minRows; }
-        }
+        public int MinRows => minRows;
 
         /// <summary>
         /// Gets the max rows.
         /// </summary>
-        public int MaxRows
-        {
-            get { return maxRows; }
-        }
+        public int MaxRows => maxRows;
+
     }
 }

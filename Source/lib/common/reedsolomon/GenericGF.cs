@@ -107,21 +107,9 @@ namespace ZXing.Common.ReedSolomon
             one = new GenericGFPoly(this, new int[] { 1 });
         }
 
-        internal GenericGFPoly Zero
-        {
-            get
-            {
-                return zero;
-            }
-        }
+        internal GenericGFPoly Zero => zero;
 
-        internal GenericGFPoly One
-        {
-            get
-            {
-                return one;
-            }
-        }
+        internal GenericGFPoly One => one;
 
         /// <summary>
         /// Builds the monomial.
@@ -207,18 +195,12 @@ namespace ZXing.Common.ReedSolomon
         /// <summary>
         /// Gets the size.
         /// </summary>
-        public int Size
-        {
-            get { return size; }
-        }
+        public int Size => size;
 
         /// <summary>
         /// Gets the generator base.
         /// </summary>
-        public int GeneratorBase
-        {
-            get { return generatorBase; }
-        }
+        public int GeneratorBase => generatorBase;
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.

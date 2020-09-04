@@ -62,7 +62,8 @@ namespace ZXing.Datamatrix
             }
             else
             {
-                DetectorResult detectorResult = new Detector(image.BlackMatrix).detect();
+                IGridSampler sampler = new DefaultGridSampler(image.BlackMatrix);
+                DetectorResult detectorResult = new Detector(sampler).detect();
                 if (detectorResult == null || detectorResult.Bits == null)
                     return null;
                 decoderResult = decoder.decode(detectorResult.Bits);

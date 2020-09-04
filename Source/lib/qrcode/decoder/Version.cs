@@ -65,50 +65,22 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Gets the version number.
         /// </summary>
-        public int VersionNumber
-        {
-            get
-            {
-                return versionNumber;
-            }
-
-        }
+        public int VersionNumber => versionNumber;
 
         /// <summary>
         /// Gets the alignment pattern centers.
         /// </summary>
-        public int[] AlignmentPatternCenters
-        {
-            get
-            {
-                return alignmentPatternCenters;
-            }
-
-        }
+        public int[] AlignmentPatternCenters => alignmentPatternCenters;
 
         /// <summary>
         /// Gets the total codewords.
         /// </summary>
-        public int TotalCodewords
-        {
-            get
-            {
-                return totalCodewords;
-            }
-
-        }
+        public int TotalCodewords => totalCodewords;
 
         /// <summary>
         /// Gets the dimension for version.
         /// </summary>
-        public int DimensionForVersion
-        {
-            get
-            {
-                return 17 + 4 * versionNumber;
-            }
-
-        }
+        public int DimensionForVersion => 17 + 4 * versionNumber;
 
         /// <summary>
         /// Gets the EC blocks for level.
@@ -250,13 +222,7 @@ namespace ZXing.QrCode.Internal
             /// <summary>
             /// Gets the EC codewords per block.
             /// </summary>
-            public int ECCodewordsPerBlock
-            {
-                get
-                {
-                    return ecCodewordsPerBlock;
-                }
-            }
+            public int ECCodewordsPerBlock => ecCodewordsPerBlock;
 
             /// <summary>
             /// Gets the num blocks.
@@ -277,13 +243,7 @@ namespace ZXing.QrCode.Internal
             /// <summary>
             /// Gets the total EC codewords.
             /// </summary>
-            public int TotalECCodewords
-            {
-                get
-                {
-                    return ecCodewordsPerBlock * NumBlocks;
-                }
-            }
+            public int TotalECCodewords => ecCodewordsPerBlock * NumBlocks;
 
             /// <summary>
             /// Gets the EC blocks.
@@ -313,25 +273,13 @@ namespace ZXing.QrCode.Internal
             /// <summary>
             /// Gets the count.
             /// </summary>
-            public int Count
-            {
-                get
-                {
-                    return count;
-                }
+            public int Count => count;
 
-            }
             /// <summary>
             /// Gets the data codewords.
             /// </summary>
-            public int DataCodewords
-            {
-                get
-                {
-                    return dataCodewords;
-                }
+            public int DataCodewords => dataCodewords;
 
-            }
         }
 
         /// <summary>

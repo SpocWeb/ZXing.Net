@@ -62,7 +62,7 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         /// text and bytes encoded within the QR Code
         /// </returns>
-        public DecoderResult decode(BitMatrix bits, IDictionary<DecodeHintType, object> hints)
+        public DecoderResult decode(IBitMatrix bits, IDictionary<DecodeHintType, object> hints)
         {
             // Construct a parser and read version, error-correction level
             var parser = BitMatrixParser.createBitMatrixParser(bits);

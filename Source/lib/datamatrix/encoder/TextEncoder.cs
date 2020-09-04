@@ -20,10 +20,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class TextEncoder : C40Encoder
     {
-        public override int EncodingMode
-        {
-            get { return Encodation.TEXT; }
-        }
+        public override int EncodingMode => Encodation.TEXT;
 
         protected override int encodeChar(char c, StringBuilder sb)
         {

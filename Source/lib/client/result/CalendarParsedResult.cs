@@ -138,18 +138,12 @@ namespace ZXing.Client.Result
         /// <summary>
         /// summary
         /// </summary>
-        public String Summary
-        {
-            get { return summary; }
-        }
+        public String Summary => summary;
 
         /// <summary>
         /// Gets the start.
         /// </summary>
-        public DateTime Start
-        {
-            get { return start; }
-        }
+        public DateTime Start => start;
 
         /// <summary>
         /// Determines whether [is start all day].
@@ -163,61 +157,43 @@ namespace ZXing.Client.Result
         /// <summary>
         /// event end <see cref="DateTime"/>, or null if event has no duration
         /// </summary>
-        public DateTime? End
-        {
-            get { return end; }
-        }
+        public DateTime? End => end;
 
         /// <summary>
         /// Gets a value indicating whether this instance is end all day.
         /// </summary>
         /// <value>true if end time was specified as a whole day</value>
-        public bool isEndAllDay
-        {
-            get { return endAllDay; }
-        }
+        public bool isEndAllDay => endAllDay;
+
         /// <summary>
         /// location
         /// </summary>
-        public String Location
-        {
-            get { return location; }
-        }
+        public String Location => location;
+
         /// <summary>
         /// organizer
         /// </summary>
-        public String Organizer
-        {
-            get { return organizer; }
-        }
+        public String Organizer => organizer;
+
         /// <summary>
         /// attendees
         /// </summary>
-        public String[] Attendees
-        {
-            get { return attendees; }
-        }
+        public String[] Attendees => attendees;
+
         /// <summary>
         /// description
         /// </summary>
-        public String Description
-        {
-            get { return description; }
-        }
+        public String Description => description;
+
         /// <summary>
         /// latitude
         /// </summary>
-        public double Latitude
-        {
-            get { return latitude; }
-        }
+        public double Latitude => latitude;
+
         /// <summary>
         /// longitude
         /// </summary>
-        public double Longitude
-        {
-            get { return longitude; }
-        }
+        public double Longitude => longitude;
 
         /// <summary>
         /// Parses a string as a date. RFC 2445 allows the start and end fields to be of type DATE (e.g. 20081021)

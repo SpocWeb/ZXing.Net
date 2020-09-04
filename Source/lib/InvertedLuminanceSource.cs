@@ -89,10 +89,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports cropping.</returns>
-        override public bool CropSupported
-        {
-            get { return @delegate.CropSupported; }
-        }
+        override public bool CropSupported => @delegate.CropSupported;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -113,10 +110,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports counter-clockwise rotation.</returns>
-        override public bool RotateSupported
-        {
-            get { return @delegate.RotateSupported; }
-        }
+        override public bool RotateSupported => @delegate.RotateSupported;
 
         /// <summary>
         /// Inverts this instance.

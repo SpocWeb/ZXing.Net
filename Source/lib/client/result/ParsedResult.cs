@@ -41,7 +41,8 @@ namespace ZXing.Client.Result
         /// <summary>
         /// user friendly value
         /// </summary>
-        public virtual String DisplayResult { get { return displayResultValue; } }
+        public virtual String DisplayResult => displayResultValue;
+
         /// <summary>
         /// constructor
         /// </summary>

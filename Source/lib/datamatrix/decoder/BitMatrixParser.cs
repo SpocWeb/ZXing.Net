@@ -33,7 +33,7 @@ namespace ZXing.Datamatrix.Internal
         /// <param name="bitMatrix"><see cref="BitMatrix" />to parse</param>
         /// <exception cref="FormatException">if dimension is &lt; 8 or &gt; 144 or not 0 mod 2</exception>
         /// </summary>
-        internal BitMatrixParser(BitMatrix bitMatrix)
+        internal BitMatrixParser(IRoBitMatrix bitMatrix)
         {
             int dimension = bitMatrix.Height;
             if (dimension < 8 || dimension > 144 || (dimension & 0x01) != 0)
@@ -49,10 +49,7 @@ namespace ZXing.Datamatrix.Internal
             }
         }
 
-        public Version Version
-        {
-            get { return version; }
-        }
+        public Version Version => version;
 
         /// <summary>
         /// <p>Creates the version object based on the dimension of the original bit matrix from 
@@ -65,7 +62,7 @@ namespace ZXing.Datamatrix.Internal
         /// <exception cref="FormatException">if the dimensions of the mapping matrix are not valid</exception>
         /// Data Matrix dimensions.
         /// </summary>
-        internal static Version readVersion(BitMatrix bitMatrix)
+        internal static Version readVersion(IRoBitMatrix bitMatrix)
         {
             int numRows = bitMatrix.Height;
             int numColumns = bitMatrix.Width;
@@ -470,7 +467,7 @@ namespace ZXing.Datamatrix.Internal
         /// <param name="bitMatrix">Original <see cref="BitMatrix" />with alignment patterns</param>
         /// <returns>BitMatrix that has the alignment patterns removed</returns>
         /// </summary>
-        private BitMatrix extractDataRegion(BitMatrix bitMatrix)
+        private BitMatrix extractDataRegion(IRoBitMatrix bitMatrix)
         {
             int symbolSizeRows = version.getSymbolSizeRows();
             int symbolSizeColumns = version.getSymbolSizeColumns();

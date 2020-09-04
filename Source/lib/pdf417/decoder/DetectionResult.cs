@@ -46,17 +46,12 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// row count
         /// </summary>
-        public int RowCount
-        {
-            get { return Metadata.RowCount; }
-        }
+        public int RowCount => Metadata.RowCount;
+
         /// <summary>
         /// error correction level
         /// </summary>
-        public int ErrorCorrectionLevel
-        {
-            get { return Metadata.ErrorCorrectionLevel; }
-        }
+        public int ErrorCorrectionLevel => Metadata.ErrorCorrectionLevel;
 
         /// <summary>
         /// initializing constructor

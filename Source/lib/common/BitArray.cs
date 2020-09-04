@@ -30,24 +30,12 @@ namespace ZXing.Common
         /// <summary>
         /// size of the array, number of elements
         /// </summary>
-        public int Size
-        {
-            get
-            {
-                return size;
-            }
-        }
+        public int Size => size;
 
         /// <summary>
         /// size of the array in bytes
         /// </summary>
-        public int SizeInBytes
-        {
-            get
-            {
-                return (size + 7) >> 3;
-            }
-        }
+        public int SizeInBytes => (size + 7) >> 3;
 
         /// <summary>
         /// index accessor
@@ -56,10 +44,7 @@ namespace ZXing.Common
         /// <returns></returns>
         public bool this[int i]
         {
-            get
-            {
-                return (bits[i >> 5] & (1 << (i & 0x1F))) != 0;
-            }
+            get => (bits[i >> 5] & (1 << (i & 0x1F))) != 0;
             set
             {
                 if (value)
@@ -295,10 +280,7 @@ namespace ZXing.Common
         /// <returns> underlying array of ints. The first element holds the first 32 bits, and the least
         /// significant bit is bit 0.
         /// </returns>
-        public int[] Array
-        {
-            get { return bits; }
-        }
+        public int[] Array => bits;
 
         /// <summary>
         /// Appends the least-significant bits, from value, in order from most-significant to

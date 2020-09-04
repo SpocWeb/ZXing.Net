@@ -21,10 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class Base256Encoder : Encoder
     {
-        public int EncodingMode
-        {
-            get { return Encodation.BASE256; }
-        }
+        public int EncodingMode => Encodation.BASE256;
 
         public void encode(EncoderContext context)
         {

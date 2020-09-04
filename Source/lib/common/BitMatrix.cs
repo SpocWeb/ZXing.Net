@@ -34,7 +34,7 @@ namespace ZXing.Common
     /// </remarks>
     /// <author>Sean Owen</author>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
-    public sealed partial class BitMatrix
+    public sealed partial class BitMatrix : IBitMatrix
     {
         private readonly int width;
         private readonly int height;
@@ -43,17 +43,11 @@ namespace ZXing.Common
 
         /// <returns> The width of the matrix
         /// </returns>
-        public int Width
-        {
-            get { return width; }
-        }
+        public int Width => width;
 
         /// <returns> The height of the matrix
         /// </returns>
-        public int Height
-        {
-            get { return height; }
-        }
+        public int Height => height;
 
         /// <summary> This method is for compatibility with older code. It's only logical to call if the matrix
         /// is square, so I'm throwing if that's not the case.
@@ -77,10 +71,7 @@ namespace ZXing.Common
         /// <returns>
         /// The rowsize of the matrix
         /// </returns>
-        public int RowSize
-        {
-            get { return rowSize; }
-        }
+        public int RowSize => rowSize;
 
         /// <summary>
         /// Creates an empty square <see cref="BitMatrix"/>.
@@ -654,5 +645,22 @@ namespace ZXing.Common
         {
             return new BitMatrix(width, height, rowSize, (int[])bits.Clone());
         }
+    }
+
+    public interface IRoBitMatrix
+    {
+        int Height { get; }
+
+        int Width { get; }
+
+        bool this[int col, int row] { get; }
+
+    }
+
+    public interface IBitMatrix : IRoBitMatrix
+    {
+        void flip(int col, int row);
+
+        void flipWhen(Func<int, int, bool> isMasked);
     }
 }

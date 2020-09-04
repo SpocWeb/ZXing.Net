@@ -33,10 +33,7 @@ namespace ZXing.OneD
         /// <summary>
         /// Returns a string with all possible characters
         /// </summary>
-        public static string Alphabet
-        {
-            get { return ALPHABET_STRING; }
-        }
+        public static string Alphabet => ALPHABET_STRING;
 
         /// <summary>
         /// These represent the encodings of characters, as patterns of wide and narrow bars.

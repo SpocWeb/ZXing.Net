@@ -56,7 +56,8 @@ namespace ZXing.Aztec
             if (blackmatrix == null)
                 return null;
 
-            Detector detector = new Detector(blackmatrix);
+            IGridSampler gridSampler = new DefaultGridSampler(blackmatrix);
+            Detector detector = new Detector(gridSampler);
             ResultPoint[] points = null;
             DecoderResult decoderResult = null;
 

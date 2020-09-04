@@ -36,10 +36,7 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// true if the QR Code was mirrored. 
         /// </summary>
-        public bool IsMirrored
-        {
-            get { return mirrored; }
-        }
+        public bool IsMirrored => mirrored;
 
         /// <summary>
         /// Apply the result points' order correction due to mirroring.

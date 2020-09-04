@@ -55,10 +55,7 @@ namespace ZXing.Common
         /// <summary>
         /// gets a value which describe if structure append data was found
         /// </summary>
-        public bool StructuredAppend
-        {
-            get { return StructuredAppendParity >= 0 && StructuredAppendSequenceNumber >= 0; }
-        }
+        public bool StructuredAppend => StructuredAppendParity >= 0 && StructuredAppendSequenceNumber >= 0;
 
         /// <summary>
         /// number of errors corrected, or null if not applicable

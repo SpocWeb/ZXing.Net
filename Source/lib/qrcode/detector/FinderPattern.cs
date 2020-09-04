@@ -29,15 +29,15 @@ namespace ZXing.QrCode.Internal
         internal FinderPattern(float posX, float posY, float estimatedModuleSize)
            : this(posX, posY, estimatedModuleSize, 1)
         {
-            this.EstimatedModuleSize = estimatedModuleSize;
-            this.Count = 1;
+            EstimatedModuleSize = estimatedModuleSize;
+            Count = 1;
         }
 
         internal FinderPattern(float posX, float posY, float estimatedModuleSize, int count)
            : base(posX, posY)
         {
-            this.EstimatedModuleSize = estimatedModuleSize;
-            this.Count = count;
+            EstimatedModuleSize = estimatedModuleSize;
+            Count = count;
         }
 
         /// <summary>

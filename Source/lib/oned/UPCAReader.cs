@@ -79,10 +79,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        internal override BarcodeFormat BarcodeFormat
-        {
-            get { return BarcodeFormat.UPC_A; }
-        }
+        internal override BarcodeFormat BarcodeFormat => BarcodeFormat.UPC_A;
 
         /// <summary>
         /// Subclasses override this to decode the portion of a barcode between the start

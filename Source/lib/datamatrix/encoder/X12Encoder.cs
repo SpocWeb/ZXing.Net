@@ -20,10 +20,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class X12Encoder : C40Encoder
     {
-        public override int EncodingMode
-        {
-            get { return Encodation.X12; }
-        }
+        public override int EncodingMode => Encodation.X12;
 
         public override void encode(EncoderContext context)
         {

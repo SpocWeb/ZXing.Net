@@ -68,19 +68,13 @@ namespace ZXing.PDF417.Internal
         /// Gets the width.
         /// </summary>
         /// <value>The width.</value>
-        public int Width
-        {
-            get { return EndX - StartX; }
-        }
+        public int Width => EndX - StartX;
 
         /// <summary>
         /// Gets a value indicating whether this instance has valid row number.
         /// </summary>
         /// <value><c>true</c> if this instance has valid row number; otherwise, <c>false</c>.</value>
-        public bool HasValidRowNumber
-        {
-            get { return IsValidRowNumber(RowNumber); }
-        }
+        public bool HasValidRowNumber => IsValidRowNumber(RowNumber);
 
         /// <summary>
         /// Determines whether this instance is valid row number the specified rowNumber.
