@@ -124,7 +124,7 @@ namespace ZXing.Common
                 xyPoints[i] = (a11 * x + a21 * y + a31) / z;
                 xyPoints[i + 1] = (a12 * x + a22 * y + a32) / z;
             } //Division results in Projective Geometry
-    }
+        }
 
         /// <summary> Maps <paramref name="xyPoints"/> in place using this Trafo </summary>
         public void transformPoints(float[] xValues, float[] yValues)

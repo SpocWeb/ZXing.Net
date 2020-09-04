@@ -15,7 +15,9 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
+using ZXing.Common;
 
 namespace ZXing
 {
@@ -38,13 +40,15 @@ namespace ZXing
             this.height = height;
         }
 
-        /// <summary>
-        /// Fetches one row of luminance data from the underlying platform's bitmap. Values range from
-        /// 0 (black) to 255 (white). Because Java does not have an unsigned byte type, callers will have
-        /// to bitwise and with 0xff for each value. It is preferable for implementations of this method
-        /// to only fetch this row rather than the whole image, since no 2D Readers may be installed and
-        /// getMatrix() may never be called.
-        /// </summary>
+        /// <summary> Fetches one row of luminance data from the underlying platform's bitmap. </summary>
+        /// <remarks>
+        /// Values range from 0 (black) to 255 (white).
+        /// Because Java does not have an unsigned byte type,
+        /// callers will have to bitwise AND with 0xff for each value.
+        /// It is preferable for implementations of this method
+        /// to only fetch this row rather than the whole image,
+        /// since no 2D Readers may be installed and <see cref="Matrix"/> may never be called.
+        /// </remarks>
         /// <param name="y">The row to fetch, which must be in [0, bitmap height)</param>
         /// <param name="row">An optional pre-allocated array. If null or too small, it will be ignored.
         /// Always use the returned object, and ignore the .length of the array.
@@ -52,15 +56,15 @@ namespace ZXing
         /// <returns> An array containing the luminance data.</returns>
         public abstract byte[] getRow(int y, byte[] row);
 
-        /// <summary>
-        /// Fetches luminance data for the underlying bitmap.
-        /// Values should be fetched using: <code>int luminance = array[y * width + x] &amp; 0xff</code>
-        /// </summary>
+        /// <summary> Fetches luminance data for the underlying bitmap. </summary>
         /// <returns>
         /// A row-major 2D array of luminance values.
         /// Do not use result.length as it may be larger than width * height.
         /// Do not modify the contents of the result.
         /// </returns>
+        /// <remarks>
+        /// Values should be fetched using: <code>int luminance = array[y * width + x] &amp; 0xff</code>
+        /// </remarks>
         public abstract byte[] Matrix { get; }
 
         /// <returns> The width of the bitmap.</returns>
@@ -131,10 +135,7 @@ namespace ZXing
             throw new NotSupportedException("This luminance source does not support inversion.");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> Readable 2D String Representation with 4 Levels of Brightness </summary>
         public override string ToString()
         {
             var row = new byte[width];
@@ -168,5 +169,43 @@ namespace ZXing
             }
             return result.ToString();
         }
+
+        public bool SampleGridLine(IReadOnlyList<float> xyPairs
+            , BitMatrix bits, int bitsRow
+            , int blackThreshold, int range)
+        {
+            int max = xyPairs.Count;
+            int[] sums = new int[max >> 1];
+            for (int x = 0; x < max; x += 2)
+            {
+                var imageX = (int)xyPairs[x];
+                if (imageX < 0 || imageX >= Width)
+                {
+                    return false;
+                }
+
+                var imageY = (int)xyPairs[x + 1];
+                if (imageY < 0 || imageY >= Height)
+                {
+                    return false;
+                }
+
+                var sum = 0;
+                for (int dy = -range - 1; ++dy <= range;)
+                {
+                    for (int dx = -range - 1; ++dx <= range;)
+                    {
+                        if (image[imageX + dx, imageY + dy])
+                        {
+                            ++sum;
+                        }
+                    }
+                }
+                bits[x >> 1, bitsRow] = sum > blackThreshold;
+            }
+
+            return true;
+        }
+
     }
 }

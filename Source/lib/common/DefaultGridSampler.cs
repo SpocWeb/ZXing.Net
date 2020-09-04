@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace ZXing.Common
 {
@@ -34,23 +35,97 @@ namespace ZXing.Common
         public override BitMatrix GetImage() => _Image;
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public override BitMatrix sampleGrid(BitMatrix image
-            , int dimensionX, int dimensionY, PerspectiveTransform transform)
-            => sampleGrid(image, dimensionX, dimensionY, transform, 1);
+        public override BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
+            => XGridSampler.sampleGrid(_Image, dimensionX, dimensionY, transform, 1);
+
+    }
+
+    public sealed class LuminanceGridSampler : GridSampler {
+
+        public LuminanceGridSampler(LuminanceSource image) {
+            Image = image;
+            Binarizer = new GlobalHistogramBinarizer(image);
+        }
+
+        readonly GlobalHistogramBinarizer Binarizer;
+
+        readonly LuminanceSource Image;
+
+        /// <inheritdoc />
+        public override BitMatrix GetImage() => Binarizer.BlackMatrix;
+
+        /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
+        public override BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
+            => XGridSampler.sampleGrid(Image, dimensionX, dimensionY, transform, Binarizer.BlackPoint, 1);
 
     }
 
     public static class XGridSampler {
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public static BitMatrix sampleGrid(BitMatrix image
-            , int dimensionX, int dimensionY, PerspectiveTransform transform, int range)
+        public static BitMatrix sampleGrid(LuminanceSource image
+            , int dimensionX, int dimensionY, PerspectiveTransform transform
+            , int blackPoint, int range)
         {
             if (dimensionX <= 0 || dimensionY <= 0)
             {
                 return null;
             }
             int half = (((range << 1) + 1)*((range << 1) + 1)) >> 1;
+            BitMatrix bits = new BitMatrix(dimensionX, dimensionY);
+            float[] xyPairs = new float[dimensionX << 1];
+            for (int y = 0; y < dimensionY; y++)
+            {
+                int max = xyPairs.Length;
+                float yValue = y + 0.5f;
+                for (int x = 0; x < max; x += 2)
+                {
+                    xyPairs[x] = (x >> 1) + 0.5f; //x * 0.5f;
+                    xyPairs[x + 1] = yValue;
+                }
+                transform.transformPoints(xyPairs);
+                // Quick check to see if points transformed to something inside the image;
+                // sufficient to check the endpoints
+                if (!checkAndNudgePoints(xyPairs, image.Width, image.Height))
+                {
+                    return null;
+                }
+
+                try
+                {
+                    if (image.SampleGridLine(xyPairs, bits, y, half * blackPoint, range))
+                    {
+                        return null;
+                    }
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    // This feels wrong, but, sometimes if the finder patterns are misidentified,
+                    // the resulting transform gets "twisted"
+                    // such that it maps a straight line of points
+                    // to a set of points whose endpoints are in bounds, but others are not.
+                    //
+                    // There is probably some mathematical way to detect this.
+                    // This results in an ugly runtime exception despite our clever checks above --
+                    // We could check each point's coordinates but that feels duplicate.
+                    // We settle for catching and wrapping ArrayIndexOutOfBoundsException.
+                    return null;
+                }
+            }
+            return bits;
+        }
+
+        /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
+        public static BitMatrix sampleGrid(this BitMatrix image
+            , int dimensionX, int dimensionY, PerspectiveTransform transform
+            , int range)
+        {
+            if (dimensionX <= 0 || dimensionY <= 0)
+            {
+                return null;
+            }
+
+            int half = (((range << 1) + 1) * ((range << 1) + 1)) >> 1;
             BitMatrix bits = new BitMatrix(dimensionX, dimensionY);
             float[] xyPairs = new float[dimensionX << 1];
             for (int y = 0; y < dimensionY; y++)
@@ -65,7 +140,7 @@ namespace ZXing.Common
                 transform.transformPoints(xyPairs);
                 // Quick check to see if points transformed to something inside the image;
                 // sufficient to check the endpoints
-                if (!checkAndNudgePoints(image, xyPairs))
+                if (!checkAndNudgePoints(xyPairs, image.Width, image.Height))
                 {
                     return null;
                 }
@@ -142,10 +217,8 @@ namespace ZXing.Common
         /// </param>
         /// <param name="points">actual points in x1,y1,...,xn,yn form
         /// </param>
-        static bool checkAndNudgePoints(BitMatrix image, float[] points)
+        static bool checkAndNudgePoints(float[] points, int width, int height)
         {
-            int width = image.Width;
-            int height = image.Height;
             // Check and nudge points from start until we see some that are OK:
             bool nudged = true;
             int maxOffset = points.Length - 1; // points.length must be even
@@ -183,9 +256,7 @@ namespace ZXing.Common
             nudged = true;
             for (int offset = points.Length - 2; offset >= 0 && nudged; offset -= 2)
             {
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 int x = (int)points[offset];
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 int y = (int)points[offset + 1];
                 if (x < -1 || x > width || y < -1 || y > height)
                 {

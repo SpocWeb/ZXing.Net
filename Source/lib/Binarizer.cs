@@ -32,6 +32,14 @@ namespace ZXing
     /// </remarks>
     public abstract class Binarizer
     {
+        public const int LUMINANCE_BITS = 5;
+        public const int LUMINANCE_SHIFT = 8 - LUMINANCE_BITS;
+
+        /// <summary> 32 Buckets </summary>
+        public const int LUMINANCE_BUCKETS = 1 << LUMINANCE_BITS;
+
+        public static readonly byte[] EMPTY = new byte[0];
+
         private readonly LuminanceSource source;
 
         /// <summary>
