@@ -34,19 +34,19 @@ namespace ZXing.Common
     /// </remarks>
     public class GlobalHistogramBinarizer : Binarizer {
 
-        private readonly byte[] luminances;
-        private readonly int[] buckets;
+        private readonly byte[] _Luminances;
+        private readonly int[] _Buckets;
 
         private void initArrays() {
             for (int x = 0; x < LUMINANCE_BUCKETS; x++) {
-                buckets[x] = 0;
+                _Buckets[x] = 0;
             }
         }
 
         public GlobalHistogramBinarizer(LuminanceSource source)
             : base(source) {
-            luminances = new byte[source.Width];
-            buckets = new int[LUMINANCE_BUCKETS];
+            _Luminances = new byte[source.Width];
+            _Buckets = new int[LUMINANCE_BUCKETS];
             initArrays();
             BlackPoint = GlobalBlackPoint();
         }
@@ -62,13 +62,13 @@ namespace ZXing.Common
         int GlobalBlackPoint() {
             var source = base.LuminanceSource;
             int width = source.Width;
-            int[] localBuckets = buckets;
+            int[] localBuckets = _Buckets;
             for (int y = 1; y < 5; y++) {
                 int row = source.Height * y / 5;
-                var localLuminances = source.getRow(row, luminances);
+                var localLuminances = source.getRow(row, _Luminances);
                 int right = (width << 2) / 5;
                 for (int x = width / 5; x < right; x++) {
-                    int pixel = localLuminances[x] & 0xff;
+                    int pixel = localLuminances[x];
                     localBuckets[pixel >> LUMINANCE_SHIFT]++;
                 }
             }
@@ -79,7 +79,7 @@ namespace ZXing.Common
             return blackPoint;
         }
 
-        /// <summary> Applies simple sharpening to the row data to improve performance of the 1D Readers. </summary>
+        /// <summary> Applies simple sharpening to the row data to improve performance of 1D Readers. </summary>
         public override BitArray getBlackRow(int y, BitArray row) {
             LuminanceSource source = LuminanceSource;
             int width = source.Width;
@@ -90,10 +90,10 @@ namespace ZXing.Common
             }
 
             initArrays();
-            byte[] localLuminances = source.getRow(y, luminances);
-            int[] localBuckets = buckets;
+            byte[] localLuminances = source.getRow(y, _Luminances);
+            int[] localBuckets = _Buckets;
             for (int x = 0; x < width; x++) {
-                localBuckets[(localLuminances[x] & 0xff) >> LUMINANCE_SHIFT]++;
+                localBuckets[(localLuminances[x]) >> LUMINANCE_SHIFT]++;
             }
             int blackPoint = localBuckets.estimateBlackPoint();
             if (blackPoint < 0)
@@ -102,15 +102,15 @@ namespace ZXing.Common
             if (width < 3) {
                 // Special case for very small images
                 for (int x = 0; x < width; x++) {
-                    if ((localLuminances[x] & 0xff) < blackPoint) {
+                    if ((localLuminances[x]) < blackPoint) {
                         row[x] = true;
                     }
                 }
             } else {
-                int left = localLuminances[0] & 0xff;
-                int center = localLuminances[1] & 0xff;
+                int left = localLuminances[0];
+                int center = localLuminances[1];
                 for (int x = 1; x < width - 1; x++) {
-                    int right = localLuminances[x + 1] & 0xff;
+                    int right = localLuminances[x + 1];
                     // A simple -1 4 -1 box filter with a weight of 2.
                     // ((center << 2) - left - right) >> 1
                     if (((center * 4) - left - right) / 2 < blackPoint) {
@@ -124,32 +124,33 @@ namespace ZXing.Common
             return row;
         }
 
-        /// <summary> Does not sharpen the data, as this call is intended to only be used by 2D Readers. </summary>
-        public override BitMatrix BlackMatrix {
-            get {
-                LuminanceSource source = LuminanceSource;
+        /// <summary> Does NOT sharpen the data, as this call is intended to only be used by 2D Readers. </summary>
+        public override BitMatrix GetBlackMatrix()
+        {
+            LuminanceSource source = LuminanceSource;
 
-                int width = source.Width;
-                int height = source.Height;
-                BitMatrix matrix = new BitMatrix(width, height);
+            int width = source.Width;
+            int height = source.Height;
+            BitMatrix matrix = new BitMatrix(width, height);
+            var blackPoint = GlobalBlackPoint();
+            if (blackPoint < 0)
+                return new BitMatrix(1, 1);
 
-                if (BlackPoint < 0)
-                    return new BitMatrix(1, 1);
-
-                // We delay reading the entire image luminance until the black point estimation succeeds.
-                // Although we end up reading four rows twice, it is consistent with our motto of
-                // "fail quickly" which is necessary for continuous scanning.
-                var localLuminances = source.Matrix;
-                for (int y = 0; y < height; y++) {
-                    int offset = y * width;
-                    for (int x = 0; x < width; x++) {
-                        int pixel = localLuminances[offset + x] & 0xff;
-                        matrix[x, y] = (pixel < BlackPoint);
-                    }
+            // We delay reading the entire image luminance until the black point estimation succeeds.
+            // Although we end up reading four rows twice, it is consistent with our motto of
+            // "fail quickly" which is necessary for continuous scanning.
+            var localLuminances = source.Matrix;
+            for (int y = 0; y < height; y++)
+            {
+                int offset = y * width;
+                for (int x = 0; x < width; x++)
+                {
+                    int pixel = localLuminances[offset + x];
+                    matrix[x, y] = (pixel < blackPoint);
                 }
-
-                return matrix;
             }
+
+            return matrix;
         }
 
         /// <summary> Creates a new, clean Binarizer initialized with <paramref name="source"/>. </summary>

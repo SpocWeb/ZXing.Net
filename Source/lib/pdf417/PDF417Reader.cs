@@ -23,13 +23,13 @@ using ZXing.PDF417.Internal;
 
 namespace ZXing.PDF417
 {
-    /// <summary>
-    /// This implementation can detect and decode PDF417 codes in an image.
-    ///
+    /// <summary> Can detect and decode PDF417 codes in an image. </summary>
+    /// <remarks>
+    /// PDF417 is a stacked linear barcode format. 
     /// <author>SITA Lab (kevin.osullivan@sita.aero)</author>
     /// <author>Guenther Grau</author>
-    /// </summary>
-    public sealed class PDF417Reader : Reader, MultipleBarcodeReader
+    /// </remarks>
+    public sealed class PDF417Reader : Reader, IMultipleBarcodeReader
     {
         /// <summary>
         /// Locates and decodes a PDF417 code in an image.
@@ -197,6 +197,11 @@ namespace ZXing.PDF417
         public void reset()
         {
             // do nothing
+        }
+
+        public Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        {
+            throw new NotImplementedException();
         }
     }
 }

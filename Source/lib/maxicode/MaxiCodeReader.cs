@@ -59,7 +59,7 @@ namespace ZXing.Maxicode
         {
             // Note that MaxiCode reader effectively always assumes PURE_BARCODE mode
             // and can't detect it in an image
-            var bits = extractPureBits(image.BlackMatrix);
+            var bits = extractPureBits(image.GetBlackMatrix());
             if (bits == null)
                 return null;
             var decoderResult = decoder.decode(bits, hints);

@@ -52,7 +52,7 @@ namespace ZXing.Aztec
         /// </returns>
         public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            var blackmatrix = image.BlackMatrix;
+            var blackmatrix = image.GetBlackMatrix();
             if (blackmatrix == null)
                 return null;
 

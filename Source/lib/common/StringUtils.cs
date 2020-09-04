@@ -94,7 +94,7 @@ namespace ZXing.Common
                  i++)
             {
 
-                int value = bytes[i] & 0xFF;
+                int value = bytes[i];
 
                 // UTF-8 stuff
                 if (canBeUTF8)

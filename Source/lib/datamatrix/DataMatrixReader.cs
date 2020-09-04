@@ -54,7 +54,7 @@ namespace ZXing.Datamatrix
             ResultPoint[] points;
             if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
             {
-                BitMatrix bits = extractPureBits(image.BlackMatrix);
+                BitMatrix bits = extractPureBits(image.GetBlackMatrix());
                 if (bits == null)
                     return null;
                 decoderResult = decoder.decode(bits);
@@ -62,7 +62,7 @@ namespace ZXing.Datamatrix
             }
             else
             {
-                IGridSampler sampler = new DefaultGridSampler(image.BlackMatrix);
+                IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
                 DetectorResult detectorResult = new Detector(sampler).detect();
                 if (detectorResult == null || detectorResult.Bits == null)
                     return null;

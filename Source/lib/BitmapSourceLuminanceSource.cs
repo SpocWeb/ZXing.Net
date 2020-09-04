@@ -176,7 +176,7 @@ namespace ZXing
                     // cheap, not fully accurate conversion
                     //var pixel = (byte2 << 8) | byte1;
                     //b8 = (((pixel) & 0x001F) << 3);
-                    //g8 = (((pixel) & 0x07E0) >> 2) & 0xFF;
+                    //g8 = (((pixel) & 0x07E0) >> 2)
                     //r8 = (((pixel) & 0xF800) >> 8);
 
                     luminances[luminanceIndex] = (byte)((RChannelWeight * r8 + GChannelWeight * g8 + BChannelWeight * b8) >> ChannelWeight);

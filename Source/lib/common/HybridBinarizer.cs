@@ -41,16 +41,11 @@ namespace ZXing.Common
     /// </remarks>
     public sealed class HybridBinarizer : GlobalHistogramBinarizer
     {
-        /// <summary>
-        /// gives the black matrix
-        /// </summary>
-        public override BitMatrix BlackMatrix
+        /// <summary> Calculates the complete black matrix </summary>
+        public override BitMatrix GetBlackMatrix()
         {
-            get
-            {
-                CalculateEntireImage();
-                return matrix;
-            }
+            CalculateEntireImage();
+            return matrix;
         }
 
         // This class uses 5x5 blocks to compute local luminance, where each block is 8x8 pixels.
@@ -82,8 +77,7 @@ namespace ZXing.Common
             return new HybridBinarizer(source);
         }
 
-        /// <summary> Eagerly calculates the final BitMatrix once for all requests.
-        /// </summary>
+        /// <summary> Eagerly calculates the final BitMatrix once for all requests. </summary>
         /// <remarks>
         /// This could be called once from the constructor instead,
         /// but there are some advantages to doing it lazily,
@@ -97,7 +91,12 @@ namespace ZXing.Common
             LuminanceSource source = LuminanceSource;
             int width = source.Width;
             int height = source.Height;
-            if (width >= MINIMUM_DIMENSION && height >= MINIMUM_DIMENSION)
+            if (width < MINIMUM_DIMENSION || height < MINIMUM_DIMENSION)
+            {
+                // If the image is too small, fall back to the global histogram approach.
+                matrix = base.GetBlackMatrix();
+            }
+            else
             {
                 byte[] luminances = source.Matrix;
 
@@ -116,11 +115,6 @@ namespace ZXing.Common
                 var newMatrix = new BitMatrix(width, height);
                 calculateThresholdForBlock(luminances, subWidth, subHeight, width, height, blackPoints, newMatrix);
                 matrix = newMatrix;
-            }
-            else
-            {
-                // If the image is too small, fall back to the global histogram approach.
-                matrix = base.BlackMatrix;
             }
         }
 
@@ -194,7 +188,7 @@ namespace ZXing.Common
             {
                 for (int x = 0; x < BLOCK_SIZE; x++)
                 {
-                    int pixel = luminances[offset + x] & 0xff;
+                    int pixel = luminances[offset + x];
                     // Comparison needs to be <= so that black == 0 pixels are black even if the threshold is 0.
                     matrix[xoffset + x, yoffset + y] = (pixel <= threshold);
                 }
@@ -245,7 +239,7 @@ namespace ZXing.Common
                     {
                         for (int xx = 0; xx < BLOCK_SIZE; xx++)
                         {
-                            int pixel = luminances[offset + xx] & 0xFF;
+                            int pixel = luminances[offset + xx];
                             // still looking for good contrast
                             sum += pixel;
                             if (pixel < min)
@@ -265,7 +259,7 @@ namespace ZXing.Common
                             {
                                 for (int xx = 0; xx < BLOCK_SIZE; xx++)
                                 {
-                                    sum += luminances[offset + xx] & 0xFF;
+                                    sum += luminances[offset + xx];
                                 }
                             }
                         }

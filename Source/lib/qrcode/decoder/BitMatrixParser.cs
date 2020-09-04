@@ -95,7 +95,7 @@ namespace ZXing.QrCode.Internal
             return null;
         }
 
-        /// <summary> <p>Reads version information from one of its two locations within the QR Code.</p>
+        /// <summary> <p>Reads QR Code's version information from one of its two locations within the QR Code.</p>
         /// 
         /// </summary>
         /// <returns> {@link Version} encapsulating the QR Code's version

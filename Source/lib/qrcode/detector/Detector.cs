@@ -44,7 +44,7 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
-        public Detector(BinaryBitmap image) : this(image.BlackMatrix) { }
+        public Detector(BinaryBitmap image) : this(image.GetBlackMatrix()) { }
 
         /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
         public Detector(BitMatrix image) {
@@ -89,8 +89,6 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Processes the finder pattern info.
         /// </summary>
-        /// <param name="info">The info.</param>
-        /// <returns></returns>
         protected internal virtual DetectorResult processFinderPatternInfo(FinderPatternInfo info)
         {
             FinderPattern topLeft = info.TopLeft;

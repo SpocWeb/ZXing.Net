@@ -112,7 +112,7 @@ namespace ZXing.Datamatrix.Internal
             int[] codewordsInts = new int[numCodewords];
             for (int i = 0; i < numCodewords; i++)
             {
-                codewordsInts[i] = codewordBytes[i] & 0xFF;
+                codewordsInts[i] = codewordBytes[i];
             }
             int numECCodewords = codewordBytes.Length - numDataCodewords;
             if (!rsDecoder.decode(codewordsInts, numECCodewords))

@@ -26,7 +26,7 @@ namespace ZXing.Multi.QrCode
     /// <summary>
     /// This implementation can detect and decode multiple QR Codes in an image.
     /// </summary>
-    public sealed class QRCodeMultiReader : QRCodeReader, MultipleBarcodeReader
+    public sealed class QRCodeMultiReader : QRCodeReader, IMultipleBarcodeReader
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
@@ -41,46 +41,67 @@ namespace ZXing.Multi.QrCode
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
+        public Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        {
+            var detectorResults = new MultiDetector(image).detectMulti(hints);
+            return DecodeMultiple(hints, detectorResults);
+        }
+
+        /// <summary> Decodes multiple QR Codes </summary>
         public Result[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            var results = new List<Result>();
             var detectorResults = new MultiDetector(image).detectMulti(hints);
+            return DecodeMultiple(hints, detectorResults);
+        }
+
+        Result[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults)
+        {
+            var results = new List<Result>();
             foreach (var detectorResult in detectorResults)
             {
                 var decoderResult = getDecoder().decode(detectorResult.Bits, hints);
+
                 if (decoderResult == null)
                     continue;
 
                 var points = detectorResult.Points;
+
                 // If the code was mirrored: swap the bottom-left and the top-right points.
                 var data = decoderResult.Other as QRCodeDecoderMetaData;
                 if (data != null)
                 {
                     data.applyMirroredCorrection(points);
                 }
+
                 var result = new Result(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
                 var byteSegments = decoderResult.ByteSegments;
                 if (byteSegments != null)
                 {
                     result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
                 }
+
                 var ecLevel = decoderResult.ECLevel;
                 if (ecLevel != null)
                 {
                     result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
                 }
+
                 if (decoderResult.StructuredAppend)
                 {
                     result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
                     result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
                 }
+
                 results.Add(result);
             }
+
             if (results.Count == 0)
             {
                 return null;
             }
+
             results = ProcessStructuredAppend(results);
+
             return results.ToArray();
         }
 

@@ -68,8 +68,7 @@ namespace ZXing.QrCode.Internal
         public int VersionNumber => versionNumber;
 
         /// <summary>
-        /// Gets the alignment pattern centers.
-        /// </summary>
+        /// Gets the alignment pattern centers. </summary>
         public int[] AlignmentPatternCenters => alignmentPatternCenters;
 
         /// <summary>

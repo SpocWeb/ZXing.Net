@@ -15,29 +15,24 @@
 */
 
 using System.Collections.Generic;
+using ZXing.Common;
 
 namespace ZXing.Multi
 {
-    /// <summary>
-    /// Implementation of this interface attempt to read several barcodes from one image.
+    /// <summary> Attempt to read several barcodes from one image.
     /// <author>Sean Owen</author>
     /// 	<seealso cref="Reader"/>
     /// </summary>
-    public interface MultipleBarcodeReader
+    public interface IMultipleBarcodeReader
     {
-        /// <summary>
-        /// Decodes the multiple.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <returns></returns>
+        /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
         Result[] decodeMultiple(BinaryBitmap image);
 
-        /// <summary>
-        /// Decodes the multiple.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <param name="hints">The hints.</param>
-        /// <returns></returns>
+        /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
         Result[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints);
+
+        /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
+        Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints);
+
     }
 }

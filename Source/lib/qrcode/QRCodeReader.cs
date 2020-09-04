@@ -67,14 +67,14 @@ namespace ZXing.QrCode
         {
             DecoderResult decoderResult;
             ResultPoint[] points;
-            if (image == null || image.BlackMatrix == null)
+            if (image == null || image.GetBlackMatrix() == null)
             {
                 // something is wrong with the image
                 return null;
             }
             if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
             {
-                var bits = extractPureBits(image.BlackMatrix);
+                var bits = extractPureBits(image.GetBlackMatrix());
                 if (bits == null)
                     return null;
                 decoderResult = decoder.decode(bits, hints);
@@ -82,8 +82,8 @@ namespace ZXing.QrCode
             }
             else
             {
-                IGridSampler sampler = new DefaultGridSampler(image.BlackMatrix);
-                var detectorResult = new Detector(image.BlackMatrix).detect(hints);
+                IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
+                var detectorResult = new Detector(image.GetBlackMatrix()).detect(hints);
                 if (detectorResult == null)
                     return null;
                 decoderResult = decoder.decode(detectorResult.Bits, hints);

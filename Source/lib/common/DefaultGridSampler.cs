@@ -36,7 +36,7 @@ namespace ZXing.Common
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
         public override BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
-            => XGridSampler.sampleGrid(_Image, dimensionX, dimensionY, transform, 1);
+            => _Image.sampleGrid(dimensionX, dimensionY, transform, 1);
 
     }
 
@@ -52,7 +52,7 @@ namespace ZXing.Common
         readonly LuminanceSource Image;
 
         /// <inheritdoc />
-        public override BitMatrix GetImage() => Binarizer.BlackMatrix;
+        public override BitMatrix GetImage() => Binarizer.GetBlackMatrix();
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
         public override BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
@@ -93,7 +93,7 @@ namespace ZXing.Common
 
                 try
                 {
-                    if (image.SampleGridLine(xyPairs, bits, y, half * blackPoint, range))
+                    if (!image.SampleGridLine(xyPairs, bits, y, half * blackPoint, range))
                     {
                         return null;
                     }

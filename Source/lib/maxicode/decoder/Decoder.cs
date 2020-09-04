@@ -113,7 +113,7 @@ namespace ZXing.Maxicode.Internal
             {
                 if ((mode == ALL) || (i % 2 == (mode - 1)))
                 {
-                    codewordsInts[i / divisor] = codewordBytes[i + start] & 0xFF;
+                    codewordsInts[i / divisor] = codewordBytes[i + start];
                 }
             }
 

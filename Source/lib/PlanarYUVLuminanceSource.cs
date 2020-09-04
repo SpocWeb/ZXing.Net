@@ -204,7 +204,7 @@ namespace ZXing
                 int outputOffset = y * width;
                 for (int x = 0; x < width; x++)
                 {
-                    int grey = yuv[inputOffset + x * THUMBNAIL_SCALE_FACTOR] & 0xff;
+                    int grey = yuv[inputOffset + x * THUMBNAIL_SCALE_FACTOR];
                     pixels[outputOffset + x] = ((0x00FF0000 << 8) | (grey * 0x00010101));
                 }
                 inputOffset += dataWidth * THUMBNAIL_SCALE_FACTOR;

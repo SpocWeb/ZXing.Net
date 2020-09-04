@@ -316,7 +316,7 @@ namespace ZXing.QrCode.Internal
             {
 
 
-                int byte1 = bytes[i] & 0xFF;
+                int byte1 = bytes[i];
                 if ((byte1 < 0x81 || byte1 > 0x9F) && (byte1 < 0xE0 || byte1 > 0xEB))
                 {
 
@@ -589,7 +589,7 @@ namespace ZXing.QrCode.Internal
             int[] toEncode = new int[numDataBytes + numEcBytesInBlock];
             for (int i = 0; i < numDataBytes; i++)
             {
-                toEncode[i] = dataBytes[i] & 0xFF;
+                toEncode[i] = dataBytes[i];
 
             }
             new ReedSolomonEncoder(GenericGF.QR_CODE_FIELD_256).encode(toEncode, numEcBytesInBlock);
@@ -779,8 +779,8 @@ namespace ZXing.QrCode.Internal
             int maxI = bytes.Length - 1; // bytes.length must be even
             for (int i = 0; i < maxI; i += 2)
             {
-                int byte1 = bytes[i] & 0xFF;
-                int byte2 = bytes[i + 1] & 0xFF;
+                int byte1 = bytes[i];
+                int byte2 = bytes[i + 1];
                 int code = (byte1 << 8) | byte2;
                 int subtracted = -1;
                 if (code >= 0x8140 && code <= 0x9ffc)

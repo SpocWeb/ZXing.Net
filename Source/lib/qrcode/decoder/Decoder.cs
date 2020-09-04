@@ -152,13 +152,9 @@ namespace ZXing.QrCode.Internal
             return DecodedBitStreamParser.decode(resultBytes, version, ecLevel, hints);
         }
 
-        /// <summary>
-        ///   <p>Given data and error-correction codewords received, possibly corrupted by errors, attempts to
-        /// correct the errors in-place using Reed-Solomon error correction.</p>
-        /// </summary>
+        /// <summary> attempts to correct the errors in-place using Reed-Solomon error correction. </summary>
         /// <param name="codewordBytes">data and error correction codewords</param>
         /// <param name="numDataCodewords">number of codewords that are data bytes</param>
-        /// <returns></returns>
         private bool correctErrors(byte[] codewordBytes, int numDataCodewords)
         {
             int numCodewords = codewordBytes.Length;
@@ -166,7 +162,7 @@ namespace ZXing.QrCode.Internal
             int[] codewordsInts = new int[numCodewords];
             for (int i = 0; i < numCodewords; i++)
             {
-                codewordsInts[i] = codewordBytes[i] & 0xFF;
+                codewordsInts[i] = codewordBytes[i];
             }
             int numECCodewords = codewordBytes.Length - numDataCodewords;
 

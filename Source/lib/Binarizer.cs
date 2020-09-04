@@ -76,7 +76,7 @@ namespace ZXing
         /// fetched using getBlackRow(), so don't mix and match between them.
         /// </summary>
         /// <returns> The 2D array of bits for the image (true means black).</returns>
-        public abstract BitMatrix BlackMatrix { get; }
+        public abstract BitMatrix GetBlackMatrix();
 
         /// <summary> Creates a new object with the same type as this Binarizer implementation, but with pristine
         /// state. This is needed because Binarizer implementations may be stateful, e.g. keeping a cache

@@ -145,7 +145,7 @@ namespace ZXing
                 row = getRow(y, row);
                 for (int x = 0; x < width; x++)
                 {
-                    int luminance = row[x] & 0xFF;
+                    int luminance = row[x];
                     char c;
                     if (luminance < 0x40)
                     {
@@ -176,34 +176,34 @@ namespace ZXing
         {
             int max = xyPairs.Count;
             int[] sums = new int[max >> 1];
-            for (int x = 0; x < max; x += 2)
-            {
-                var imageX = (int)xyPairs[x];
-                if (imageX < 0 || imageX >= Width)
-                {
-                    return false;
-                }
-
-                var imageY = (int)xyPairs[x + 1];
+            byte[] row = new byte[Width];
+            for (int dy = -range - 1; ++dy <= range;) {
+                var imageY = (int)xyPairs[1];
                 if (imageY < 0 || imageY >= Height)
                 {
                     return false;
                 }
-
-                var sum = 0;
-                for (int dy = -range - 1; ++dy <= range;)
+                row = getRow(imageY + dy, row);
+                for (int x = 0; x < max; x += 2)
                 {
-                    for (int dx = -range - 1; ++dx <= range;)
+                    var imageX = (int)xyPairs[x];
+                    if (imageX < 0 || imageX >= Width)
                     {
-                        if (image[imageX + dx, imageY + dy])
-                        {
-                            ++sum;
-                        }
+                        return false;
+                    }
+
+                    if (imageY != (int) xyPairs[x + 1]) {
+                        //throw new ArgumentException();
+                    }
+
+                    for (int dx = -range - 1; ++dx <= range;) {
+                        sums[x >> 1] += row[imageX + dx];
                     }
                 }
-                bits[x >> 1, bitsRow] = sum > blackThreshold;
             }
-
+            for (int x = sums.Length; --x >= 0;) {
+                bits[x, bitsRow] = sums[x] > blackThreshold;
+            }
             return true;
         }
 

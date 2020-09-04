@@ -81,7 +81,7 @@ namespace ZXing.PDF417.Internal
             // different binarizers (SF: or different Skipped Row Counts/Steps?)
             //boolean tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER);
 
-            BitMatrix bitMatrix = image.BlackMatrix;
+            BitMatrix bitMatrix = image.GetBlackMatrix();
             if (bitMatrix == null)
                 return null;
 

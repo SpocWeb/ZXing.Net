@@ -15,21 +15,26 @@
 */
 
 using System.Collections.Generic;
+using ZXing.Common;
 
 namespace ZXing.Multi
 {
     /// <summary>
-    ///   <p>Attempts to locate multiple barcodes in an image by repeatedly decoding portion of the image.
-    /// After one barcode is found, the areas left, above, right and below the barcode's
-    /// {@link com.google.zxing.ResultPoint}s are scanned, recursively.</p>
-    ///   <p>A caller may want to also employ {@link ByQuadrantReader} when attempting to find multiple
-    /// 2D barcodes, like QR Codes, in an image, where the presence of multiple barcodes might prevent
+    ///   <p>Attempts to locate multiple barcodes in an image
+    ///   by repeatedly decoding portion of the image.
+    /// </summary>
+    /// <remarks>
+    /// After one barcode is found, the areas left, above, right and below
+    /// the barcode's <see cref="ResultPoint"/>s are scanned, recursively.</p>
+    ///   <p>A caller may want to also employ <see cref="ByQuadrantReader"/>
+    ///   when attempting to find multiple 2D barcodes, like QR Codes, in an image,
+    ///   where the presence of multiple barcodes might prevent
     /// detecting any one of them.</p>
-    ///   <p>That is, instead of passing a {@link Reader} a caller might pass
+    ///   <p>That is, instead of passing a <see cref="Reader"/> a caller might pass
     ///   <code>new ByQuadrantReader(reader)</code>.</p>
     ///   <author>Sean Owen</author>
-    /// </summary>
-    public sealed class GenericMultipleBarcodeReader : MultipleBarcodeReader, Reader
+    /// </remarks>
+    public sealed class GenericMultipleBarcodeReader : IMultipleBarcodeReader, Reader
     {
         private const int MIN_DIMENSION_TO_RECUR = 30;
         private const int MAX_DEPTH = 4;
@@ -217,6 +222,11 @@ namespace ZXing.Multi
         public void reset()
         {
             _delegate.reset();
+        }
+
+        public Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

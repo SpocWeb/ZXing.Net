@@ -274,11 +274,11 @@ namespace ZXing
         public virtual Result[] DecodeMultiple(LuminanceSource luminanceSource)
         {
             var results = default(Result[]);
-            var binarizer = CreateBinarizer(luminanceSource);
+            Binarizer binarizer = CreateBinarizer(luminanceSource);
             var binaryBitmap = new BinaryBitmap(binarizer);
             var rotationCount = 0;
             var rotationMaxCount = 1;
-            MultipleBarcodeReader multiReader = null;
+            IMultipleBarcodeReader multiReader = null;
 
             if (AutoRotate)
             {
@@ -298,9 +298,11 @@ namespace ZXing
                 multiReader = new GenericMultipleBarcodeReader(Reader);
             }
 
+            var gridSampler = new LuminanceGridSampler(luminanceSource);
             for (; rotationCount < rotationMaxCount; rotationCount++)
             {
                 results = multiReader.decodeMultiple(binaryBitmap, Options.Hints);
+                results = multiReader.decodeMultiple(gridSampler, Options.Hints);
 
                 if (results == null)
                 {
