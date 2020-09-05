@@ -91,10 +91,9 @@ namespace ZXing.OneD
 
             char decodedChar;
             int lastStart = nextStart;
-            int pattern;
             do
             {
-                if (!recordPattern(row, nextStart, counters, 8))
+                if (!RecordPattern(row, nextStart, counters, 8))
                 {
                     // not enough bars for a number but perhaps enough for the end pattern
                     var endPattern = findEndPattern(row, nextStart, counters);
@@ -105,7 +104,7 @@ namespace ZXing.OneD
                     nextStart = endPattern[1];
                     break;
                 }
-                pattern = toPattern(counters, 8);
+                var pattern = toPattern(counters, 8);
                 if (!patternToChar(pattern, out decodedChar))
                 {
                     // pattern doesn't result in an encoded number

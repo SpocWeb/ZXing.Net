@@ -175,7 +175,7 @@ namespace ZXing.Common.Test
                float rotation = testResult.Rotation;
                var rotatedImage = rotateImage(image, rotation);
                LuminanceSource source = new BitmapLuminanceSource(rotatedImage);
-               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+               BinaryBitmap bitmap = new BinaryBitmap(new TwoDBinarizer(source));
                try
                {
                   if (decode(bitmap, rotation, expectedText, expectedMetadata, false))

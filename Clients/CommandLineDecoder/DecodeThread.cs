@@ -199,7 +199,7 @@ namespace CommandLineDecoder
             }
             if (config.DumpBlackPoint)
             {
-                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                BinaryBitmap bitmap = new BinaryBitmap(new TwoDBinarizer(source));
                 dumpBlackPoint(uri, image, bitmap, source);
             }
             var reader = new BarcodeReader { AutoRotate = config.AutoRotate };
@@ -263,7 +263,7 @@ namespace CommandLineDecoder
                 }
                 if (config.DumpBlackPoint)
                 {
-                    var bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                    var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
                     dumpBlackPoint(uri, image, bitmap, source);
                 }
 

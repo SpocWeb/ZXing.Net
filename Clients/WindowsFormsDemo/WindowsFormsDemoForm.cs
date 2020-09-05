@@ -50,7 +50,10 @@ namespace WindowsFormsDemo
         public WindowsFormsDemoForm()
         {
             InitializeComponent();
-            barcodeReader = new BarcodeReader(null, null, source => UseGlobalHistogramBinarizer ? new GlobalHistogramBinarizer(source) : new HybridBinarizer(source))
+            barcodeReader = new BarcodeReader(null, null, source
+                => UseGlobalHistogramBinarizer
+                ? new GlobalHistogramBinarizer(source)
+                : new TwoDBinarizer(source))
             {
                 AutoRotate = true,
                 TryInverted = true,

@@ -27,7 +27,7 @@ namespace ZXing.OneD
 
         internal BarCodeText decodeRow(int rowNumber, BitArray row, int rowOffset)
         {
-            int[] extensionStartRange = UpcEanReader.findGuardPattern(row, rowOffset, false, EXTENSION_START_PATTERN);
+            int[] extensionStartRange = UpcEanReader.FindGuardPattern(row, rowOffset, false, EXTENSION_START_PATTERN);
             if (extensionStartRange == null) {
                 return null;
             }

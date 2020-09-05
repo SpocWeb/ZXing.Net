@@ -151,7 +151,7 @@ namespace ZXing.Common.Test
       {
          var rotatedImage = rotateImage(image, rotationInDegrees);
          var source = new BitmapLuminanceSource(rotatedImage);
-         var bitmap = new BinaryBitmap(new HybridBinarizer(source));
+         var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
          var result = getReader().Decode(bitmap);
          if (result != null)
          {

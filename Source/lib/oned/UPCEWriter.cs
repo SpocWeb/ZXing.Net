@@ -49,7 +49,7 @@ namespace ZXing.OneD
             {
                 case 7:
                     // No check digit present, calculate it and add it
-                    var check = UpcEanReader.getStandardUPCEANChecksum(UPCEReader.convertUPCEtoUPCA(contents));
+                    var check = UpcEanReader.GetStandardUpceanChecksum(UPCEReader.convertUPCEtoUPCA(contents));
                     if (check == null)
                     {
                         throw new ArgumentException("Checksum can't be calculated");
@@ -59,7 +59,7 @@ namespace ZXing.OneD
                 case 8:
                     try
                     {
-                        if (!UpcEanReader.checkStandardUPCEANChecksum(UPCEReader.convertUPCEtoUPCA(contents)))
+                        if (!UpcEanReader.CheckStandardUpceanChecksum(UPCEReader.convertUPCEtoUPCA(contents)))
                         {
                             throw new ArgumentException("Contents do not pass checksum");
                         }

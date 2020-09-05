@@ -118,7 +118,7 @@ namespace ZXing.OneD
             int lastStart;
             do
             {
-                if (!recordPattern(row, nextStart, counters)) {
+                if (!RecordPattern(row, nextStart, counters)) {
                     return null;
                 }
 

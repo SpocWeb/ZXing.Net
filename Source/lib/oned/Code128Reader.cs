@@ -183,7 +183,7 @@ namespace ZXing.OneD
                         int bestMatch = -1;
                         for (int startCode = CODE_START_A; startCode <= CODE_START_C; startCode++)
                         {
-                            int variance = patternMatchVariance(counters, CODE_PATTERNS[startCode],
+                            int variance = PatternMatchVariance(counters, CODE_PATTERNS[startCode],
                                 MAX_INDIVIDUAL_VARIANCE);
                             if (variance < bestVariance)
                             {
@@ -220,7 +220,7 @@ namespace ZXing.OneD
         private static bool decodeCode(BitArray row, int[] counters, int rowOffset, out int code)
         {
             code = -1;
-            if (!recordPattern(row, rowOffset, counters)) {
+            if (!RecordPattern(row, rowOffset, counters)) {
                 return false;
             }
 
@@ -228,7 +228,7 @@ namespace ZXing.OneD
             for (int d = 0; d < CODE_PATTERNS.Length; d++)
             {
                 int[] pattern = CODE_PATTERNS[d];
-                int variance = patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE);
+                int variance = PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE);
                 if (variance < bestVariance)
                 {
                     bestVariance = variance;

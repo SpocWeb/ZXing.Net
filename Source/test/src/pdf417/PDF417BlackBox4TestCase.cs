@@ -112,7 +112,7 @@ namespace ZXing.PDF417.Test
                   var rotation = testResults[x].Rotation;
                   var rotatedImage = rotateImage(image, rotation);
                   var source = new BitmapLuminanceSource(rotatedImage);
-                  var bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                  var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
                   try
                   {

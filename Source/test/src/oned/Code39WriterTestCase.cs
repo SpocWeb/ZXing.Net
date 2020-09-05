@@ -105,7 +105,7 @@ namespace ZXing.OneD.Test
                var result = sut.encode(contents, BarcodeFormat.CODE_39, 0, 0);
 
                var row = result.getRow(0, null);
-               var rtResult = sutReader.decodeRow(0, row, null);
+               var rtResult = sutReader.DecodeRow(0, row, null);
                var actualRoundtripResultText = rtResult.Text;
 
                Assert.That(actualRoundtripResultText, Is.EqualTo(contents));

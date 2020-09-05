@@ -46,11 +46,11 @@ namespace ZXing.OneD
                 }
                 else if (possibleFormats.Contains(BarcodeFormat.UPC_A) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
-                    readers.Add(new UPCAReader());
+                    readers.Add(new UpcAReader());
                 }
                 if (possibleFormats.Contains(BarcodeFormat.EAN_8) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
-                    readers.Add(new EAN8Reader());
+                    readers.Add(new Eân8Reader());
                 }
                 if (possibleFormats.Contains(BarcodeFormat.UPC_E) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
@@ -61,7 +61,7 @@ namespace ZXing.OneD
             {
                 readers.Add(new Ean13Reader());
                 // UPC-A is covered by EAN-13
-                readers.Add(new EAN8Reader());
+                readers.Add(new Eân8Reader());
                 readers.Add(new UPCEReader());
             }
             this.readers = readers.ToArray();
@@ -82,14 +82,14 @@ namespace ZXing.OneD
                                 IDictionary<DecodeHintType, object> hints)
         {
             // Compute this location once and reuse it on multiple implementations
-            int[] startGuardPattern = UpcEanReader.findStartGuardPattern(row);
+            int[] startGuardPattern = UpcEanReader.FindStartGuardPattern(row);
             if (startGuardPattern == null) {
                 return null;
             }
 
             foreach (UpcEanReader reader in readers)
             {
-                BarCodeText result = reader.decodeRow(rowNumber, row, startGuardPattern, hints);
+                BarCodeText result = reader.DecodeRow(rowNumber, row, startGuardPattern, hints);
                 if (result == null) {
                     continue;
                 }

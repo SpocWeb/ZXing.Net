@@ -85,7 +85,7 @@ namespace ZXing.OneD
         /// <param name="startRange">The start range.</param>
         /// <param name="result">The result.</param>
         /// <returns></returns>
-        protected internal override int decodeMiddle(BitArray row, int[] startRange, StringBuilder result)
+        protected internal override int DecodeMiddle(BitArray row, int[] startRange, StringBuilder result)
         {
             int[] counters = decodeMiddleCounters;
             counters[0] = 0;
@@ -99,7 +99,7 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 6 && rowOffset < end; x++)
             {
-                if (!decodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out var bestMatch)) {
+                if (!DecodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out var bestMatch)) {
                     return -1;
                 }
                 result.Append((char)('0' + bestMatch % 10));
@@ -126,9 +126,9 @@ namespace ZXing.OneD
         /// <param name="row">The row.</param>
         /// <param name="endStart">The end start.</param>
         /// <returns></returns>
-        protected override int[] decodeEnd(BitArray row, int endStart)
+        protected override int[] DecodeEnd(BitArray row, int endStart)
         {
-            return findGuardPattern(row, endStart, true, MIDDLE_END_PATTERN);
+            return FindGuardPattern(row, endStart, true, MIDDLE_END_PATTERN);
         }
 
         /// <summary>
@@ -136,9 +136,9 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        protected override bool checkChecksum(string s)
+        protected override bool CheckChecksum(string s)
         {
-            return base.checkChecksum(convertUPCEtoUPCA(s));
+            return base.CheckChecksum(convertUPCEtoUPCA(s));
         }
 
         /// <summary>

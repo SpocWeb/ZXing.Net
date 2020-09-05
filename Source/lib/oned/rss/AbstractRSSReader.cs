@@ -117,7 +117,7 @@ namespace ZXing.OneD.RSS
         {
             for (value = 0; value < finderPatterns.Length; value++)
             {
-                if (patternMatchVariance(counters, finderPatterns[value], MAX_INDIVIDUAL_VARIANCE) <
+                if (PatternMatchVariance(counters, finderPatterns[value], MAX_INDIVIDUAL_VARIANCE) <
                     MAX_AVG_VARIANCE)
                 {
                     return true;

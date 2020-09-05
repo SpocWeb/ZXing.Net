@@ -16,21 +16,24 @@
 
 namespace ZXing.Common
 {
-    /// <summary> Local threshold-algorithm; slower than <see cref="GlobalHistogramBinarizer"/>,
+    /// <summary> Local 2D threshold-algorithm;
+    /// slower than <see cref="GlobalHistogramBinarizer"/>,
     /// is fairly efficient for what it does.
     /// </summary>
     /// <remarks>
     /// It is designed for
-    /// high frequency images of barcodes with black data on white backgrounds. For this application,
-    /// it does a much better job than a global blackpoint with severe shadows and gradients.
-    /// However it tends to produce artifacts on lower frequency images and is therefore not
-    /// a good general purpose binarizer for uses outside ZXing.
+    /// high frequency images of barcodes with black data on white backgrounds.
+    /// For this application, it does a much better job than a global black-point
+    /// with severe shadows and gradients.
+    /// However it tends to produce artifacts on lower frequency images
+    /// and is therefore not a good general purpose binarizer for uses outside ZXing.
     /// 
     /// This class extends <see cref="GlobalHistogramBinarizer"/>,
     /// using the older histogram approach for 1D readers,
     /// and the newer local approach for 2D readers.
-    /// 1D decoding using a per-row histogram is already
-    /// inherently local, and only fails for horizontal gradients.
+    /// 
+    /// 1D decoding using a per-row histogram is already inherently local,
+    /// but fails for horizontal gradients.
     ///
     /// We can revisit that problem later,
     /// but for now it was not a win to use local blocks for 1D.
@@ -39,22 +42,15 @@ namespace ZXing.Common
     /// and the recommended class for library users.
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// </remarks>
-    public sealed class HybridBinarizer : GlobalHistogramBinarizer
+    public sealed class TwoDBinarizer : GlobalHistogramBinarizer
     {
         /// <summary> Calculates the complete black matrix </summary>
         public override BitMatrix GetBlackMatrix()
         {
             CalculateEntireImage();
+
             return matrix;
         }
-
-        // This class uses 5x5 blocks to compute local luminance, where each block is 8x8 pixels.
-        // So this is the smallest dimension in each axis we can accept.
-        private const int BLOCK_SIZE_POWER = 3;
-        private const int BLOCK_SIZE = 1 << BLOCK_SIZE_POWER; // ...0100...00
-        private const int BLOCK_SIZE_MASK = BLOCK_SIZE - 1;   // ...0011...11
-        private const int MINIMUM_DIMENSION = 40;
-        private const int MIN_DYNAMIC_RANGE = 24;
 
         private BitMatrix matrix;
 
@@ -62,20 +58,15 @@ namespace ZXing.Common
         /// initializing constructor
         /// </summary>
         /// <param name="source"></param>
-        public HybridBinarizer(LuminanceSource source)
-           : base(source)
-        {
-        }
+        public TwoDBinarizer(LuminanceSource source)
+            : base(source) { }
 
         /// <summary>
         /// creates a new instance
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public override Binarizer createBinarizer(LuminanceSource source)
-        {
-            return new HybridBinarizer(source);
-        }
+        public override Binarizer createBinarizer(LuminanceSource source) => new TwoDBinarizer(source);
 
         /// <summary> Eagerly calculates the final BitMatrix once for all requests. </summary>
         /// <remarks>
@@ -84,14 +75,17 @@ namespace ZXing.Common
         /// such as making profiling easier,
         /// and not doing heavy lifting when callers don't expect it.
         /// </remarks>
-        private void CalculateEntireImage() {
-            if (matrix != null) {
+        private void CalculateEntireImage()
+        {
+            if (matrix != null)
+            {
                 return;
             }
+
             LuminanceSource source = LuminanceSource;
             int width = source.Width;
             int height = source.Height;
-            if (width < MINIMUM_DIMENSION || height < MINIMUM_DIMENSION)
+            if (width < XHybridBinarizer.MINIMUM_DIMENSION || height < XHybridBinarizer.MINIMUM_DIMENSION)
             {
                 // If the image is too small, fall back to the global histogram approach.
                 matrix = base.GetBlackMatrix();
@@ -100,37 +94,47 @@ namespace ZXing.Common
             {
                 byte[] luminances = source.Matrix;
 
-                int subWidth = width >> BLOCK_SIZE_POWER;
-                if ((width & BLOCK_SIZE_MASK) != 0)
+                int subWidth = width >> XHybridBinarizer.BLOCK_SIZE_POWER;
+                if ((width & XHybridBinarizer.BLOCK_SIZE_MASK) != 0)
                 {
                     subWidth++;
                 }
-                int subHeight = height >> BLOCK_SIZE_POWER;
-                if ((height & BLOCK_SIZE_MASK) != 0)
+
+                int subHeight = height >> XHybridBinarizer.BLOCK_SIZE_POWER;
+                if ((height & XHybridBinarizer.BLOCK_SIZE_MASK) != 0)
                 {
                     subHeight++;
                 }
-                int[][] blackPoints = calculateBlackPoints(luminances, subWidth, subHeight, width, height);
+
+                int[][] blackPoints = luminances.calculateBlackPoints(subWidth, subHeight, width, height);
 
                 var newMatrix = new BitMatrix(width, height);
-                calculateThresholdForBlock(luminances, subWidth, subHeight, width, height, blackPoints, newMatrix);
+                blackPoints.calculateThresholdForBlock(luminances, subWidth, subHeight, width, height, newMatrix);
                 matrix = newMatrix;
             }
         }
+
+    }
+
+    static class XHybridBinarizer {
+
+        public const int MIN_DYNAMIC_RANGE = 24;
+
+        // This class uses 5x5 blocks to compute local luminance, where each block is 8x8 pixels.
+        // So this is the smallest dimension in each axis we can accept.
+        public const int BLOCK_SIZE_POWER = 3;
+        public const int BLOCK_SIZE = 1 << BLOCK_SIZE_POWER; // ...0100...00
+        public const int BLOCK_SIZE_MASK = BLOCK_SIZE - 1; // ...0011...11
+        public const int MINIMUM_DIMENSION = 40;
 
         /// <summary>
         /// For each 8x8 block in the image, calculate the average black point using a 5x5 grid
         /// of the blocks around it. Also handles the corner cases (fractional blocks are computed based
         /// on the last 8 pixels in the row/column which are also used in the previous block).
         /// </summary>
-        /// <param name="luminances">The luminances.</param>
-        /// <param name="subWidth">Width of the sub.</param>
-        /// <param name="subHeight">Height of the sub.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <param name="blackPoints">The black points.</param>
-        /// <param name="matrix">The matrix.</param>
-        private static void calculateThresholdForBlock(byte[] luminances, int subWidth, int subHeight, int width, int height, int[][] blackPoints, BitMatrix matrix)
+        public static void calculateThresholdForBlock(this int[][] blackPoints
+            , byte[] luminances, int subWidth, int subHeight, int width, int height
+            , BitMatrix matrix)
         {
             int maxYOffset = height - BLOCK_SIZE;
             int maxXOffset = width - BLOCK_SIZE;
@@ -167,36 +171,25 @@ namespace ZXing.Common
             }
         }
 
-        private static int cap(int value, int max)
-        {
-            return value < 2 ? 2 : value > max ? max : value;
-        }
+        public static int cap(int value, int max) => value < 2 ? 2 : value > max ? max : value;
 
-        /// <summary>
-        /// Applies a single threshold to an 8x8 block of pixels.
-        /// </summary>
-        /// <param name="luminances">The luminances.</param>
-        /// <param name="xoffset">The xoffset.</param>
-        /// <param name="yoffset">The yoffset.</param>
-        /// <param name="threshold">The threshold.</param>
-        /// <param name="stride">The stride.</param>
-        /// <param name="matrix">The matrix.</param>
-        private static void thresholdBlock(byte[] luminances, int xoffset, int yoffset, int threshold, int stride, BitMatrix matrix)
+        /// <summary> Applies individual threshold to an 8x8 block of pixels. </summary>
+        public static void thresholdBlock(this byte[] luminances
+            , int xOffset, int yOffset, int threshold, int stride, BitMatrix matrix)
         {
-            int offset = (yoffset * stride) + xoffset;
+            int offset = (yOffset * stride) + xOffset;
             for (int y = 0; y < BLOCK_SIZE; y++, offset += stride)
             {
                 for (int x = 0; x < BLOCK_SIZE; x++)
                 {
                     int pixel = luminances[offset + x];
                     // Comparison needs to be <= so that black == 0 pixels are black even if the threshold is 0.
-                    matrix[xoffset + x, yoffset + y] = (pixel <= threshold);
+                    matrix[xOffset + x, yOffset + y] = (pixel <= threshold);
                 }
             }
         }
 
-        /// <summary>
-        /// Calculates a single black point for each 8x8 block of pixels and saves it away.
+        /// <summary> Calculates a black point for each 8x8 block of pixels and saves it away.
         /// See the following thread for a discussion of this algorithm:
         /// http://groups.google.com/group/zxing/browse_thread/thread/d06efa2c35a7ddc0
         /// </summary>
@@ -206,7 +199,8 @@ namespace ZXing.Common
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <returns></returns>
-        private static int[][] calculateBlackPoints(byte[] luminances, int subWidth, int subHeight, int width, int height)
+        public static int[][] calculateBlackPoints(this byte[] luminances
+            , int subWidth, int subHeight, int width, int height)
         {
             int maxYOffset = height - BLOCK_SIZE;
             int maxXOffset = width - BLOCK_SIZE;

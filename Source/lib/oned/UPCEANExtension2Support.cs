@@ -70,7 +70,7 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 2 && rowOffset < end; x++)
             {
-                if (!UpcEanReader.decodeDigit(row, counters, rowOffset, UpcEanReader.L_AND_G_PATTERNS, out var bestMatch)) {
+                if (!UpcEanReader.DecodeDigit(row, counters, rowOffset, UpcEanReader.L_AND_G_PATTERNS, out var bestMatch)) {
                     return -1;
                 }
                 resultString.Append((char)('0' + bestMatch % 10));

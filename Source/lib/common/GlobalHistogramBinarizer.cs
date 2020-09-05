@@ -19,7 +19,7 @@ using System.Collections.Generic;
 
 namespace ZXing.Common
 {
-    /// <summary> This Binarizer implementation uses the old ZXing global histogram approach. </summary>
+    /// <summary> Implements the old ZXing global histogram approach. </summary>
     /// <remarks>
     /// It is suitable for low-end mobile devices
     /// which don't have enough CPU or memory to use a local threshold algorithm.
@@ -27,7 +27,7 @@ namespace ZXing.Common
     /// it cannot handle difficult shadows and gradients.
     /// 
     /// Faster mobile devices and all desktop applications
-    /// should probably use HybridBinarizer instead.
+    /// should probably use <see cref="TwoDBinarizer"/> instead.
     /// 
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// <author>Sean Owen</author>
@@ -143,7 +143,7 @@ namespace ZXing.Common
             return blackPoint;
         }
 
-        /// <summary> Sharpens the data, as this call is intended to only be used by 2D Readers. </summary>
+        /// <summary> Sharpens the data of each Row. </summary>
         public override BitMatrix GetBlackMatrix()
         {
             LuminanceSource source = LuminanceSource;
@@ -173,7 +173,7 @@ namespace ZXing.Common
         }
 
         /// <summary> Does NOT sharpen the data, as this call is intended to only be used by 2D Readers. </summary>
-        public BitMatrix GetBlackMatrix2()
+        public BitMatrix GetGlobalBlackMatrix2()
         {
             LuminanceSource source = LuminanceSource;
 

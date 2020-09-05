@@ -79,20 +79,12 @@ namespace ZXing.IMB
             for (int k = 0; k < table2.Length; k++)
                 table2Check.Add(table2[k], k);
         }
-        /// <summary>
-        /// decode the image
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="hints"></param>
-        /// <returns></returns>
-        protected override BarCodeText doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        protected override BarCodeText DoDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             currentBitmap = image;
-            return base.doDecode(image, hints);
+            return base.DoDecode(image, hints);
         }
-        /// <summary>
-        /// resets internal state
-        /// </summary>
+        /// <summary> resets internal state </summary>
         public override void Reset()
         {
             base.Reset();

@@ -28,7 +28,7 @@ namespace ZXing
     public class BarcodeReaderGeneric : IBarcodeReaderGeneric
     {
         private static readonly Func<LuminanceSource, Binarizer> defaultCreateBinarizer =
-           luminanceSource => new HybridBinarizer(luminanceSource);
+           luminanceSource => new TwoDBinarizer(luminanceSource);
 
         /// <summary>
         /// represents the default function which is called to get a <see cref="RGBLuminanceSource"/> instance from a raw byte array

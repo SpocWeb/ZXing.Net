@@ -232,13 +232,13 @@ namespace ZXing.OneD.RSS
 
             if (outsideChar)
             {
-                if (!recordPatternInReverse(row, pattern.StartEnd[0], counters)) {
+                if (!RecordPatternInReverse(row, pattern.StartEnd[0], counters)) {
                     return null;
                 }
             }
             else
             {
-                if (!recordPattern(row, pattern.StartEnd[1], counters)) {
+                if (!RecordPattern(row, pattern.StartEnd[1], counters)) {
                     return null;
                 }
 

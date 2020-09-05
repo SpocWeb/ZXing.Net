@@ -40,7 +40,7 @@ namespace ZXing.OneD.Test
             var matrix = BitMatrix.parse(encodedResult, "1", "0");
             var row = new BitArray(matrix.Width);
             matrix.getRow(0, row);
-            var result = sut.decodeRow(0, row, null);
+            var result = sut.DecodeRow(0, row, null);
             Assert.That(result.Text, Is.EqualTo(expectedResult));
         }
     }

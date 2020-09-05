@@ -75,7 +75,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.getBlackRow(rowNumber, null);
 
-         var theResult = rssExpandedReader.decodeRow(rowNumber, row, null);
+         var theResult = rssExpandedReader.DecodeRow(rowNumber, row, null);
          Assert.IsNotNull(theResult);
 
          Assert.AreEqual(BarcodeFormat.RSS_EXPANDED, theResult.BarcodeFormat);

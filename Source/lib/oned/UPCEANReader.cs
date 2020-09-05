@@ -37,19 +37,13 @@ namespace ZXing.OneD
         private static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.48f);
         private static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.7f);
 
-        /// <summary>
-        /// Start/end guard pattern.
-        /// </summary>
+        /// <summary> Start/end guard pattern. </summary>
         internal static int[] START_END_PATTERN = { 1, 1, 1, };
 
-        /// <summary>
-        /// Pattern marking the middle of a UPC/EAN pattern, separating the two halves.
-        /// </summary>
+        /// <summary> Pattern marking the middle of a UPC/EAN pattern, separating the two halves. </summary>
         internal static int[] MIDDLE_PATTERN = { 1, 1, 1, 1, 1 };
 
-        /// <summary>
-        /// end guard pattern.
-        /// </summary>
+        /// <summary> end guard pattern. </summary>
         internal static int[] END_PATTERN = { 1, 1, 1, 1, 1, 1 };
 
         /// <summary>
@@ -103,7 +97,7 @@ namespace ZXing.OneD
             eanManSupport = new EANManufacturerOrgSupport();
         }
 
-        internal static int[] findStartGuardPattern(BitArray row)
+        internal static int[] FindStartGuardPattern(BitArray row)
         {
             bool foundStart = false;
             int[] startRange = null;
@@ -113,7 +107,7 @@ namespace ZXing.OneD
             {
                 for (int idx = 0; idx < START_END_PATTERN.Length; idx++)
                     counters[idx] = 0;
-                startRange = findGuardPattern(row, nextStart, false, START_END_PATTERN, counters);
+                startRange = FindGuardPattern(row, nextStart, false, START_END_PATTERN, counters);
                 if (startRange == null) {
                     return null;
                 }
@@ -143,11 +137,11 @@ namespace ZXing.OneD
         /// </returns>
         public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
-            return decodeRow(rowNumber, row, findStartGuardPattern(row), hints);
+            return DecodeRow(rowNumber, row, FindStartGuardPattern(row), hints);
         }
 
         /// <summary>
-        ///   <p>Like <see cref="decodeRow(int,ZXing.Common.BitArray,System.Collections.Generic.IDictionary{ZXing.DecodeHintType,object})"/>, but
+        ///   <p>Like <see cref="DecodeRow(int,ZXing.Common.BitArray,int[],System.Collections.Generic.IDictionary{ZXing.DecodeHintType,object})"/>, but
         /// allows caller to inform method about where the UPC/EAN start pattern is
         /// found. This allows this to be computed once and reused across many implementations.</p>
         /// </summary>
@@ -156,7 +150,7 @@ namespace ZXing.OneD
         /// <param name="startGuardRange">start/end column where the opening start pattern was found</param>
         /// <param name="hints">optional hints that influence decoding</param>
         /// <returns><see cref="BarCodeText"/> encapsulating the result of decoding a barcode in the row</returns>
-        public virtual BarCodeText decodeRow(int rowNumber,
+        public virtual BarCodeText DecodeRow(int rowNumber,
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
@@ -170,7 +164,7 @@ namespace ZXing.OneD
 
             var result = decodeRowStringBuffer;
             result.Length = 0;
-            var endStart = decodeMiddle(row, startGuardRange, result);
+            var endStart = DecodeMiddle(row, startGuardRange, result);
             if (endStart < 0) {
                 return null;
             }
@@ -179,7 +173,7 @@ namespace ZXing.OneD
     endStart, rowNumber
 ));
 
-            var endRange = decodeEnd(row, endStart);
+            var endRange = DecodeEnd(row, endStart);
             if (endRange == null) {
                 return null;
             }
@@ -204,7 +198,7 @@ namespace ZXing.OneD
             {
                 return null;
             }
-            if (!checkChecksum(resultString))
+            if (!CheckChecksum(resultString))
             {
                 return null;
             }
@@ -250,10 +244,10 @@ namespace ZXing.OneD
 
             if (format == BarcodeFormat.EAN_13 || format == BarcodeFormat.UPC_A)
             {
-                string countryID = eanManSupport.lookupCountryIdentifier(resultString);
-                if (countryID != null)
+                string countryId = eanManSupport.lookupCountryIdentifier(resultString);
+                if (countryId != null)
                 {
-                    decodeResult.putMetadata(ResultMetadataType.POSSIBLE_COUNTRY, countryID);
+                    decodeResult.putMetadata(ResultMetadataType.POSSIBLE_COUNTRY, countryId);
                 }
             }
 
@@ -263,10 +257,10 @@ namespace ZXing.OneD
         /// <summary>
         /// </summary>
         /// <param name="s">string of digits to check</param>
-        /// <returns>see <see cref="checkStandardUPCEANChecksum(string)"/></returns>
-        protected virtual bool checkChecksum(string s)
+        /// <returns>see <see cref="CheckStandardUpceanChecksum"/></returns>
+        protected virtual bool CheckChecksum(string s)
         {
-            return checkStandardUPCEANChecksum(s);
+            return CheckStandardUpceanChecksum(s);
         }
 
         /// <summary>
@@ -275,7 +269,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="s">string of digits to check</param>
         /// <returns>true iff string of digits passes the UPC/EAN checksum algorithm</returns>
-        internal static bool checkStandardUPCEANChecksum(string s)
+        internal static bool CheckStandardUpceanChecksum(string s)
         {
             int length = s.Length;
             if (length == 0)
@@ -284,10 +278,10 @@ namespace ZXing.OneD
             }
 
             int check = s[length - 1] - '0';
-            return getStandardUPCEANChecksum(s.Substring(0, length - 1)) == check;
+            return GetStandardUpceanChecksum(s.Substring(0, length - 1)) == check;
         }
 
-        internal static int? getStandardUPCEANChecksum(string s)
+        internal static int? GetStandardUpceanChecksum(string s)
         {
             int length = s.Length;
             int sum = 0;
@@ -319,17 +313,17 @@ namespace ZXing.OneD
         /// <param name="row">The row.</param>
         /// <param name="endStart">The end start.</param>
         /// <returns></returns>
-        protected virtual int[] decodeEnd(BitArray row, int endStart)
+        protected virtual int[] DecodeEnd(BitArray row, int endStart)
         {
-            return findGuardPattern(row, endStart, false, START_END_PATTERN);
+            return FindGuardPattern(row, endStart, false, START_END_PATTERN);
         }
 
-        internal static int[] findGuardPattern(BitArray row,
+        internal static int[] FindGuardPattern(BitArray row,
                                       int rowOffset,
                                       bool whiteFirst,
                                       int[] pattern)
         {
-            return findGuardPattern(row, rowOffset, whiteFirst, pattern, new int[pattern.Length]);
+            return FindGuardPattern(row, rowOffset, whiteFirst, pattern, new int[pattern.Length]);
         }
 
         /// <summary>
@@ -342,7 +336,7 @@ namespace ZXing.OneD
         /// searched for as a pattern
         /// <param name="counters">array of counters, as long as pattern, to re-use</param>
         /// <returns>start/end horizontal offset of guard pattern, as an array of two ints</returns>
-        internal static int[] findGuardPattern(BitArray row,
+        internal static int[] FindGuardPattern(BitArray row,
                                       int rowOffset,
                                       bool whiteFirst,
                                       int[] pattern,
@@ -396,7 +390,7 @@ namespace ZXing.OneD
         /// be used
         /// <param name="digit">horizontal offset of first pixel beyond the decoded digit</param>
         /// <returns></returns>
-        internal static bool decodeDigit(BitArray row, int[] counters, int rowOffset, int[][] patterns, out int digit)
+        internal static bool DecodeDigit(BitArray row, int[] counters, int rowOffset, int[][] patterns, out int digit)
         {
             digit = -1;
 
@@ -433,7 +427,7 @@ namespace ZXing.OneD
         /// <param name="startRange">start/end offset of start guard pattern</param>
         /// <param name="resultString"><see cref="StringBuilder" />to append decoded chars to</param>
         /// <returns>horizontal offset of first pixel after the "middle" that was decoded or -1 if decoding could not complete successfully</returns>
-        protected internal abstract int decodeMiddle(BitArray row,
+        protected internal abstract int DecodeMiddle(BitArray row,
                                                      int[] startRange,
                                                      StringBuilder resultString);
     }

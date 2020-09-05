@@ -81,7 +81,7 @@ namespace ZXing.OneD
         /// <returns>
         /// horizontal offset of first pixel after the "middle" that was decoded or -1 if decoding could not complete successfully
         /// </returns>
-        protected internal override int decodeMiddle(BitArray row,
+        protected internal override int DecodeMiddle(BitArray row,
                                    int[] startRange,
                                    StringBuilder resultString)
         {
@@ -97,7 +97,7 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 6 && rowOffset < end; x++)
             {
-                if (!decodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out var bestMatch)) {
+                if (!DecodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out var bestMatch)) {
                     return -1;
                 }
                 resultString.Append((char)('0' + bestMatch % 10));
@@ -115,7 +115,7 @@ namespace ZXing.OneD
                 return -1;
             }
 
-            int[] middleRange = findGuardPattern(row, rowOffset, true, MIDDLE_PATTERN);
+            int[] middleRange = FindGuardPattern(row, rowOffset, true, MIDDLE_PATTERN);
             if (middleRange == null) {
                 return -1;
             }
@@ -123,7 +123,7 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 6 && rowOffset < end; x++)
             {
-                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
+                if (!DecodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
                     return -1;
                 }
                 resultString.Append((char)('0' + bestMatch));

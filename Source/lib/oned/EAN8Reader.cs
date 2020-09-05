@@ -23,14 +23,14 @@ namespace ZXing.OneD
     ///   <p>Implements decoding of the EAN-8 format.</p>
     ///   <author>Sean Owen</author>
     /// </summary>
-    public sealed class EAN8Reader : UpcEanReader
+    public sealed class Eân8Reader : UpcEanReader
     {
         private readonly int[] decodeMiddleCounters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EAN8Reader"/> class.
+        /// Initializes a new instance of the <see cref="Eân8Reader"/> class.
         /// </summary>
-        public EAN8Reader()
+        public Eân8Reader()
         {
             decodeMiddleCounters = new int[4];
         }
@@ -42,7 +42,7 @@ namespace ZXing.OneD
         /// <param name="startRange">The start range.</param>
         /// <param name="result">The result.</param>
         /// <returns></returns>
-        protected internal override int decodeMiddle(BitArray row,
+        protected internal override int DecodeMiddle(BitArray row,
                                    int[] startRange,
                                    StringBuilder result)
         {
@@ -56,7 +56,7 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 4 && rowOffset < end; x++)
             {
-                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
+                if (!DecodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
                     return -1;
                 }
                 result.Append((char)('0' + bestMatch));
@@ -66,7 +66,7 @@ namespace ZXing.OneD
                 }
             }
 
-            int[] middleRange = findGuardPattern(row, rowOffset, true, MIDDLE_PATTERN);
+            int[] middleRange = FindGuardPattern(row, rowOffset, true, MIDDLE_PATTERN);
             if (middleRange == null) {
                 return -1;
             }
@@ -74,7 +74,7 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 4 && rowOffset < end; x++)
             {
-                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
+                if (!DecodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
                     return -1;
                 }
                 result.Append((char)('0' + bestMatch));

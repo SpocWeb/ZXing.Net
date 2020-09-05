@@ -25,7 +25,7 @@ namespace ZXing.OneD
     ///   <author>dswitkin@google.com (Daniel Switkin)</author>
     ///   <author>Sean Owen</author>
     /// </summary>
-    public sealed class UPCAReader : UpcEanReader
+    public sealed class UpcAReader : UpcEanReader
     {
         private readonly UpcEanReader ean13Reader = new Ean13Reader();
 
@@ -34,18 +34,11 @@ namespace ZXing.OneD
         /// allows caller to inform method about where the UPC/EAN start pattern is
         /// found. This allows this to be computed once and reused across many implementations.</p>
         /// </summary>
-        /// <param name="rowNumber"></param>
-        /// <param name="row"></param>
-        /// <param name="startGuardRange"></param>
-        /// <param name="hints"></param>
-        /// <returns></returns>
         public override BarCodeText DecodeRow(int rowNumber,
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
-        {
-            return maybeReturnResult(ean13Reader.decodeRow(rowNumber, row, startGuardRange, hints));
-        }
+            => maybeReturnResult(ean13Reader.DecodeRow(rowNumber, row, startGuardRange, hints));
 
         /// <summary>
         ///   <p>Attempts to decode a one-dimensional barcode format given a single row of
@@ -57,10 +50,9 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
-        {
-            return maybeReturnResult(ean13Reader.decodeRow(rowNumber, row, hints));
-        }
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row
+            , IDictionary<DecodeHintType, object> hints)
+            => maybeReturnResult(ean13Reader.DecodeRow(rowNumber, row, hints));
 
         /// <summary>
         /// Decodes the specified image.
@@ -89,9 +81,9 @@ namespace ZXing.OneD
         /// <returns>
         /// horizontal offset of first pixel after the "middle" that was decoded or -1 if decoding could not complete successfully
         /// </returns>
-        protected internal override int decodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
+        protected internal override int DecodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
         {
-            return ean13Reader.decodeMiddle(row, startRange, resultString);
+            return ean13Reader.DecodeMiddle(row, startRange, resultString);
         }
 
         private static BarCodeText maybeReturnResult(BarCodeText result)
