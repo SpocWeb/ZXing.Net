@@ -299,7 +299,7 @@ namespace ZXing.Common.Test
                 {
                     [DecodeHintType.PURE_BARCODE] = true
                 };
-                result = barcodeReader.decode(source, pureHints);
+                result = barcodeReader.Decode(source, pureHints);
          }
          catch (ReaderException )
          {
@@ -366,7 +366,7 @@ namespace ZXing.Common.Test
          else
          {
             if (result == null) {
-                result = barcodeReader.decode(source, hints);
+                result = barcodeReader.Decode(source, hints);
             }
             if (result == null) {
                 throw new ReaderException();

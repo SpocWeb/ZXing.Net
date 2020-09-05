@@ -35,7 +35,7 @@ namespace ZXing.Aztec
         /// </returns>
         public BarCodeText decode(BinaryBitmap image)
         {
-            return decode(image, null);
+            return Decode(image, null);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace ZXing.Aztec
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             var blackmatrix = image.GetBlackMatrix();
             if (blackmatrix == null) {
@@ -118,7 +118,7 @@ namespace ZXing.Aztec
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        public void reset()
+        public void Reset()
         {
             // do nothing
         }

@@ -91,7 +91,7 @@ namespace ZXing.Multi
                 return;
             }
 
-            BarCodeText result = _delegate.decode(image, hints);
+            BarCodeText result = _delegate.Decode(image, hints);
             if (result == null)
                 return;
 
@@ -196,7 +196,7 @@ namespace ZXing.Multi
         /// </returns>
         public BarCodeText decode(BinaryBitmap image)
         {
-            return _delegate.decode(image);
+            return _delegate.Decode(image);
         }
 
         /// <summary>
@@ -211,18 +211,18 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            return _delegate.decode(image, hints);
+            return _delegate.Decode(image, hints);
         }
 
         /// <summary>
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        public void reset()
+        public void Reset()
         {
-            _delegate.reset();
+            _delegate.Reset();
         }
 
         public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)

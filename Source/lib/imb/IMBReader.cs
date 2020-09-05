@@ -93,9 +93,9 @@ namespace ZXing.IMB
         /// <summary>
         /// resets internal state
         /// </summary>
-        public override void reset()
+        public override void Reset()
         {
-            base.reset();
+            base.Reset();
             currentBitmap = null;
         }
 

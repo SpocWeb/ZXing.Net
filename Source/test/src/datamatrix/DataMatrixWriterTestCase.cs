@@ -94,7 +94,7 @@ namespace ZXing.Datamatrix.Test
                 { DecodeHintType.PURE_BARCODE, true }
             };
 
-            var result = reader.decode(new BinaryBitmap(matrix), readerhints);
+            var result = reader.Decode(new BinaryBitmap(matrix), readerhints);
 
          Assert.That(result, Is.Not.Null);
          Assert.That(result.Text, Is.EqualTo(content));

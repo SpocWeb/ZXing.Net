@@ -38,7 +38,7 @@ namespace ZXing.Datamatrix
         /// <returns>a String representing the content encoded by the Data Matrix code</returns>
         public BarCodeText decode(BinaryBitmap image)
         {
-            return decode(image, null);
+            return Decode(image, null);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace ZXing.Datamatrix
         /// <param name="image"></param>
         /// <param name="hints"></param>
         /// <returns>a String representing the content encoded by the Data Matrix code</returns>
-        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             DecoderResult decoderResult;
             ResultPoint[] points;
@@ -89,7 +89,7 @@ namespace ZXing.Datamatrix
         /// <summary>
         /// does nothing here
         /// </summary>
-        public void reset()
+        public void Reset()
         {
             // do nothing
         }

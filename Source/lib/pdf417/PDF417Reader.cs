@@ -38,7 +38,7 @@ namespace ZXing.PDF417
         /// </summary>
         public BarCodeText decode(BinaryBitmap image)
         {
-            return decode(image, null);
+            return Decode(image, null);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace ZXing.PDF417
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText decode(BinaryBitmap image,
+        public BarCodeText Decode(BinaryBitmap image,
                              IDictionary<DecodeHintType, object> hints)
         {
             BarCodeText[] results = decode(image, hints, false);
@@ -190,7 +190,7 @@ namespace ZXing.PDF417
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        public void reset()
+        public void Reset()
         {
             // do nothing
         }

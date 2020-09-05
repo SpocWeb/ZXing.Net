@@ -21,9 +21,8 @@ using ZXing.Common;
 
 namespace ZXing.OneD
 {
-    /// <summary>
-    /// <p>Implements decoding of the ITF format, or Interleaved Two of Five.</p>
-    ///
+    /// <summary> Decodes ITF format, or Interleaved Two of Five. <remarks>
+    /// </remarks>
     /// <p>This Reader will scan ITF barcodes of certain lengths only.
     /// At the moment it reads length 6, 8, 10, 12, 14, 16, 18, 20, 24, 44 and 48 as these have appeared "in the wild". Not all
     /// lengths are scanned, especially shorter ones, to avoid false positives. This in turn is due to a lack of
@@ -37,14 +36,14 @@ namespace ZXing.OneD
     ///
     /// <author>kevin.osullivan@sita.aero, SITA Lab.</author>
     /// </summary>
-    public sealed class ITFReader : OneDReader
+    public sealed class ItfReader : OneDReader
     {
         private static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.38f);
         private static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.5f);
 
         private const int W = 3; // Pixel width of a wide line
-        private const int w = 2; // Pixel width of a wide line
-        private const int N = 1; // Pixed width of a narrow line
+        private const int M = 2; // Pixel width of a medium line
+        private const int N = 1; // Pixel width of a narrow line
 
         /// <summary>
         /// Valid ITF lengths. Anything longer than the largest value is also allowed.
@@ -64,7 +63,7 @@ namespace ZXing.OneD
         private static readonly int[] START_PATTERN = { N, N, N, N };
         private static readonly int[][] END_PATTERN_REVERSED =
         {
-         new[] {N, N, w},
+         new[] {N, N, M},
          new[] {N, N, W}
       };
 
@@ -72,16 +71,16 @@ namespace ZXing.OneD
         /// Patterns of Wide / Narrow lines to indicate each digit
         /// </summary>
         internal static int[][] PATTERNS = {
-         new[] {N, N, w, w, N}, // 0
-         new[] {w, N, N, N, w}, // 1
-         new[] {N, w, N, N, w}, // 2
-         new[] {w, w, N, N, N}, // 3
-         new[] {N, N, w, N, w}, // 4
-         new[] {w, N, w, N, N}, // 5
-         new[] {N, w, w, N, N}, // 6
-         new[] {N, N, N, w, w}, // 7
-         new[] {w, N, N, w, N}, // 8
-         new[] {N, w, N, w, N}, // 9
+         new[] {N, N, M, M, N}, // 0
+         new[] {M, N, N, N, M}, // 1
+         new[] {N, M, N, N, M}, // 2
+         new[] {M, M, N, N, N}, // 3
+         new[] {N, N, M, N, M}, // 4
+         new[] {M, N, M, N, N}, // 5
+         new[] {N, M, M, N, N}, // 6
+         new[] {N, N, N, M, M}, // 7
+         new[] {M, N, N, M, N}, // 8
+         new[] {N, M, N, M, N}, // 9
 
          new[] {N, N, W, W, N}, // 0
          new[] {W, N, N, N, W}, // 1
@@ -108,16 +107,16 @@ namespace ZXing.OneD
         public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             // Find out where the Middle section (payload) starts & ends
-            int[] startRange = decodeStart(row);
+            int[] startRange = DecodeStart(row);
             if (startRange == null)
                 return null;
 
-            int[] endRange = decodeEnd(row);
+            int[] endRange = DecodeEnd(row);
             if (endRange == null)
                 return null;
 
             StringBuilder result = new StringBuilder(20);
-            if (!decodeMiddle(row, startRange[1], endRange[0], result))
+            if (!DecodeMiddle(row, startRange[1], endRange[0], result))
                 return null;
 
             string resultString = result.ToString();
@@ -192,7 +191,7 @@ namespace ZXing.OneD
         /// <returns>
         /// false, if decoding could not complete successfully
         /// </returns>
-        private static bool decodeMiddle(BitArray row,
+        private static bool DecodeMiddle(BitArray row,
                                          int payloadStart,
                                          int payloadEnd,
                                          StringBuilder resultString)
@@ -221,10 +220,10 @@ namespace ZXing.OneD
                 }
 
                 int bestMatch;
-                if (!decodeDigit(counterBlack, out bestMatch))
+                if (!DecodeDigit(counterBlack, out bestMatch))
                     return false;
                 resultString.Append((char)('0' + bestMatch));
-                if (!decodeDigit(counterWhite, out bestMatch))
+                if (!DecodeDigit(counterWhite, out bestMatch))
                     return false;
                 resultString.Append((char)('0' + bestMatch));
 
@@ -242,13 +241,13 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="row">row of black/white values to search</param>
         /// <returns>Array, containing index of start of 'start block' and end of 'start block'</returns>
-        private int[] decodeStart(BitArray row)
+        private int[] DecodeStart(BitArray row)
         {
-            int endStart = skipWhiteSpace(row);
+            int endStart = SkipWhiteSpace(row);
             if (endStart < 0)
                 return null;
 
-            int[] startPattern = findGuardPattern(row, endStart, START_PATTERN);
+            int[] startPattern = FindGuardPattern(row, endStart, START_PATTERN);
             if (startPattern == null)
                 return null;
 
@@ -257,7 +256,7 @@ namespace ZXing.OneD
             // made up of 4 narrow lines.
             narrowLineWidth = (startPattern[1] - startPattern[0]) >> 2;
 
-            if (!validateQuietZone(row, startPattern[0]))
+            if (!ValidateQuietZone(row, startPattern[0]))
                 return null;
 
             return startPattern;
@@ -277,7 +276,7 @@ namespace ZXing.OneD
         /// <param name="row">bit array representing the scanned barcode.</param>
         /// <param name="startPattern">index into row of the start or end pattern.</param>
         /// <returns>false, if the quiet zone cannot be found</returns>
-        private bool validateQuietZone(BitArray row, int startPattern)
+        private bool ValidateQuietZone(BitArray row, int startPattern)
         {
             int quietCount = narrowLineWidth * 10;  // expect to find this many pixels of quiet zone
 
@@ -305,7 +304,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="row">row of black/white values to search</param>
         /// <returns>index of the first black line or -1 if no black lines are found in the row.</returns>
-        private static int skipWhiteSpace(BitArray row)
+        private static int SkipWhiteSpace(BitArray row)
         {
             int width = row.Size;
             int endStart = row.getNextSet(0);
@@ -323,17 +322,17 @@ namespace ZXing.OneD
         /// <param name="row">row of black/white values to search</param>
         /// <returns>Array, containing index of start of 'end block' and end of 'end
         /// block' or null, if nothing found</returns>
-        private int[] decodeEnd(BitArray row)
+        private int[] DecodeEnd(BitArray row)
         {
             // For convenience, reverse the row and then
             // search from 'the start' for the end block
             row.reverse();
-            int endStart = skipWhiteSpace(row);
+            int endStart = SkipWhiteSpace(row);
             if (endStart < 0)
                 return null;
-            int[] endPattern = findGuardPattern(row, endStart, END_PATTERN_REVERSED[0]);
+            int[] endPattern = FindGuardPattern(row, endStart, END_PATTERN_REVERSED[0]);
             if (endPattern == null)
-                endPattern = findGuardPattern(row, endStart, END_PATTERN_REVERSED[1]);
+                endPattern = FindGuardPattern(row, endStart, END_PATTERN_REVERSED[1]);
             if (endPattern == null)
             {
                 row.reverse();
@@ -343,7 +342,7 @@ namespace ZXing.OneD
             // The start & end patterns must be pre/post fixed by a quiet zone. This
             // zone must be at least 10 times the width of a narrow line.
             // ref: http://www.barcode-1.net/i25code.html
-            if (!validateQuietZone(row, endPattern[0]))
+            if (!ValidateQuietZone(row, endPattern[0]))
             {
                 row.reverse();
                 return null;
@@ -366,7 +365,7 @@ namespace ZXing.OneD
         /// <param name="rowOffset">position to start search</param>
         /// <param name="pattern">pattern of counts of number of black and white pixels that are being searched for as a pattern</param>
         /// <returns>start/end horizontal offset of guard pattern, as an array of two ints</returns>
-        private static int[] findGuardPattern(BitArray row,
+        private static int[] FindGuardPattern(BitArray row,
                                               int rowOffset,
                                               int[] pattern)
         {
@@ -417,7 +416,7 @@ namespace ZXing.OneD
         /// <returns>
         /// false, if digit cannot be decoded
         /// </returns>
-        private static bool decodeDigit(int[] counters, out int bestMatch)
+        private static bool DecodeDigit(int[] counters, out int bestMatch)
         {
             int bestVariance = MAX_AVG_VARIANCE; // worst variance we'll accept
             bestMatch = -1;

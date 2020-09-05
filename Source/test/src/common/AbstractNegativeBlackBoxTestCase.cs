@@ -152,7 +152,7 @@ namespace ZXing.Common.Test
          var rotatedImage = rotateImage(image, rotationInDegrees);
          var source = new BitmapLuminanceSource(rotatedImage);
          var bitmap = new BinaryBitmap(new HybridBinarizer(source));
-         var result = getReader().decode(bitmap);
+         var result = getReader().Decode(bitmap);
          if (result != null)
          {
             Log.InfoFormat("Found false positive: '{0}' with format '{1}' (rotation: {2})",
@@ -165,7 +165,7 @@ namespace ZXing.Common.Test
             {
                 [DecodeHintType.TRY_HARDER] = true
             };
-            result = getReader().decode(bitmap, hints);
+            result = getReader().Decode(bitmap, hints);
          if (result != null)
          {
             Log.InfoFormat("Try harder found false positive: '{0}' with format '{1}' (rotation: {2})",

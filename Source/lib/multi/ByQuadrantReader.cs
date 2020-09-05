@@ -48,7 +48,7 @@ namespace ZXing.Multi
         /// </returns>
         public BarCodeText decode(BinaryBitmap image)
         {
-            return decode(image, null);
+            return Decode(image, null);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             int width = image.Width;
             int height = image.Height;
@@ -71,25 +71,25 @@ namespace ZXing.Multi
             int halfHeight = height / 2;
 
             // No need to call makeAbsolute as results will be relative to original top left here
-            var result = @delegate.decode(image.crop(0, 0, halfWidth, halfHeight), hints);
+            var result = @delegate.Decode(image.crop(0, 0, halfWidth, halfHeight), hints);
             if (result != null)
                 return result;
 
-            result = @delegate.decode(image.crop(halfWidth, 0, halfWidth, halfHeight), hints);
+            result = @delegate.Decode(image.crop(halfWidth, 0, halfWidth, halfHeight), hints);
             if (result != null)
             {
                 makeAbsolute(result.ResultPoints, halfWidth, 0);
                 return result;
             }
 
-            result = @delegate.decode(image.crop(0, halfHeight, halfWidth, halfHeight), hints);
+            result = @delegate.Decode(image.crop(0, halfHeight, halfWidth, halfHeight), hints);
             if (result != null)
             {
                 makeAbsolute(result.ResultPoints, 0, halfHeight);
                 return result;
             }
 
-            result = @delegate.decode(image.crop(halfWidth, halfHeight, halfWidth, halfHeight), hints);
+            result = @delegate.Decode(image.crop(halfWidth, halfHeight, halfWidth, halfHeight), hints);
             if (result != null)
             {
                 makeAbsolute(result.ResultPoints, halfWidth, halfHeight);
@@ -99,7 +99,7 @@ namespace ZXing.Multi
             int quarterWidth = halfWidth / 2;
             int quarterHeight = halfHeight / 2;
             var center = image.crop(quarterWidth, quarterHeight, halfWidth, halfHeight);
-            result = @delegate.decode(center, hints);
+            result = @delegate.Decode(center, hints);
             if (result != null)
             {
                 makeAbsolute(result.ResultPoints, quarterWidth, quarterHeight);
@@ -111,9 +111,9 @@ namespace ZXing.Multi
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        public void reset()
+        public void Reset()
         {
-            @delegate.reset();
+            @delegate.Reset();
         }
 
         private static void makeAbsolute(ResultPoint[] points, int leftOffset, int topOffset)

@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace ZXing
 {
-    /// <summary> Decodes an image of a barcode in some format into a String.    /// </summary>
+    /// <summary> Decodes an image of a barcode in some format into a String. </summary>
     /// <remarks>
     /// For example, <see cref="QrCode.QRCodeReader" /> can
     /// decode a QR code. The decoder may optionally receive hints from the caller which may help
@@ -39,12 +39,12 @@ namespace ZXing
         /// The implementation may or may not do anything with these hints.
         /// </param>
         /// <returns>String which the barcode encodes</returns>
-        BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null);
+        BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null);
 
         /// <summary> Resets any internal state the implementation has after a decode </summary>
         /// <remarks>
         /// To prepare it for reuse.
         /// </remarks>
-        void reset();
+        void Reset();
     }
 }

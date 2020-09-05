@@ -39,7 +39,7 @@ namespace ZXing.Maxicode
         /// </summary>
         public BarCodeText decode(BinaryBitmap image)
         {
-            return decode(image, null);
+            return Decode(image, null);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace ZXing.Maxicode
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             // Note that MaxiCode reader effectively always assumes PURE_BARCODE mode
             // and can't detect it in an image
@@ -77,7 +77,7 @@ namespace ZXing.Maxicode
         /// <summary>
         /// does nothing here
         /// </summary>
-        public void reset()
+        public void Reset()
         {
             // do nothing
         }

@@ -68,9 +68,9 @@ namespace ZXing.OneD
         /// <param name="image">The image.</param>
         /// <param name="hints">The hints.</param>
         /// <returns></returns>
-        public override BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            return maybeReturnResult(ean13Reader.decode(image, hints));
+            return maybeReturnResult(ean13Reader.Decode(image, hints));
         }
 
         /// <summary>

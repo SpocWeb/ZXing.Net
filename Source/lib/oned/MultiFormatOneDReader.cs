@@ -74,7 +74,7 @@ namespace ZXing.OneD
                 }
                 if (possibleFormats.Contains(BarcodeFormat.ITF) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
-                    readers.Add(new ITFReader());
+                    readers.Add(new ItfReader());
                 }
                 if (possibleFormats.Contains(BarcodeFormat.CODABAR) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
@@ -107,7 +107,7 @@ namespace ZXing.OneD
                 readers.Add(new CodaBarReader());
                 readers.Add(new Code93Reader());
                 readers.Add(new Code128Reader());
-                readers.Add(new ITFReader());
+                readers.Add(new ItfReader());
                 readers.Add(new RSS14Reader());
                 readers.Add(new RSSExpandedReader());
             }
@@ -141,11 +141,11 @@ namespace ZXing.OneD
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        public override void reset()
+        public override void Reset()
         {
             foreach (IBarCodeDecoder reader in readers)
             {
-                reader.reset();
+                reader.Reset();
             }
         }
     }
