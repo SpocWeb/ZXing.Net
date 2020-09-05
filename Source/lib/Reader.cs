@@ -31,11 +31,7 @@ namespace ZXing
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public interface Reader
     {
-        /// <summary>
-        /// Locates and decodes a barcode in some format within an image.
-        /// </summary>
-        /// <param name="image">image of barcode to decode</param>
-        /// <returns>String which the barcode encodes</returns>
+        /// <summary> Locates and decodes a barcode in some format within <paramref name="image"/>. </summary>
         Result decode(BinaryBitmap image);
 
         /// <summary> Locates and decodes a barcode in some format within an image. This method also accepts

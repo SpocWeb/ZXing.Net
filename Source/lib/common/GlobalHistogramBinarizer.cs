@@ -37,7 +37,7 @@ namespace ZXing.Common
         private readonly byte[] _Luminances;
         private readonly int[] _Buckets;
 
-        private void initArrays() {
+        private void ClearBuckets() {
             for (int x = 0; x < LUMINANCE_BUCKETS; x++) {
                 _Buckets[x] = 0;
             }
@@ -47,7 +47,7 @@ namespace ZXing.Common
             : base(source) {
             _Luminances = new byte[source.Width];
             _Buckets = new int[LUMINANCE_BUCKETS];
-            initArrays();
+            ClearBuckets();
             BlackPoint = GlobalBlackPoint();
         }
 
@@ -80,40 +80,46 @@ namespace ZXing.Common
         }
 
         /// <summary> Applies simple sharpening to the row data to improve performance of 1D Readers. </summary>
-        public override BitArray getBlackRow(int y, BitArray row) {
+        public override BitArray getBlackRow(int y, BitArray row = null)
+        {
             LuminanceSource source = LuminanceSource;
             int width = source.Width;
-            if (row == null || row.Size < width) {
+            if (row == null || row.Size < width)
+            {
                 row = new BitArray(width);
-            } else {
+            }
+            else
+            {
                 row.clear();
             }
 
-            initArrays();
             byte[] localLuminances = source.getRow(y, _Luminances);
-            int[] localBuckets = _Buckets;
-            for (int x = 0; x < width; x++) {
-                localBuckets[(localLuminances[x]) >> LUMINANCE_SHIFT]++;
-            }
-            int blackPoint = localBuckets.estimateBlackPoint();
+            int blackPoint = LocalBlackPoint(width, localLuminances);
             if (blackPoint < 0)
                 return null;
 
-            if (width < 3) {
+            if (width < 3)
+            {
                 // Special case for very small images
-                for (int x = 0; x < width; x++) {
-                    if ((localLuminances[x]) < blackPoint) {
+                for (int x = 0; x < width; x++)
+                {
+                    if (localLuminances[x] < blackPoint)
+                    {
                         row[x] = true;
                     }
                 }
-            } else {
+            }
+            else
+            {
                 int left = localLuminances[0];
                 int center = localLuminances[1];
-                for (int x = 1; x < width - 1; x++) {
+                for (int x = 1; x < width - 1; x++)
+                {
                     int right = localLuminances[x + 1];
                     // A simple -1 4 -1 box filter with a weight of 2.
                     // ((center << 2) - left - right) >> 1
-                    if (((center * 4) - left - right) / 2 < blackPoint) {
+                    if (((center * 4) - left - right) / 2 < blackPoint)
+                    {
                         row[x] = true;
                     }
                     left = center;
@@ -124,7 +130,19 @@ namespace ZXing.Common
             return row;
         }
 
-        /// <summary> Does NOT sharpen the data, as this call is intended to only be used by 2D Readers. </summary>
+        private int LocalBlackPoint(int width, byte[] localLuminances)
+        {
+            ClearBuckets();
+            int[] localBuckets = _Buckets;
+            for (int x = 0; x < width; x++)
+            {
+                localBuckets[(localLuminances[x]) >> LUMINANCE_SHIFT]++;
+            }
+            int blackPoint = localBuckets.estimateBlackPoint();
+            return blackPoint;
+        }
+
+        /// <summary> Sharpens the data, as this call is intended to only be used by 2D Readers. </summary>
         public override BitMatrix GetBlackMatrix()
         {
             LuminanceSource source = LuminanceSource;
@@ -132,13 +150,43 @@ namespace ZXing.Common
             int width = source.Width;
             int height = source.Height;
             BitMatrix matrix = new BitMatrix(width, height);
+            //var localLuminances = source.Matrix;
+            for (int y = 0; y < height; y++)
+            {
+                byte[] localLuminances = source.getRow(y, _Luminances);
+                int blackPoint = LocalBlackPoint(width, localLuminances);
+                if (blackPoint < 0)
+                {
+                    blackPoint = 127;
+                    //return null;
+                }
+                //int offset = y * width;
+                for (int x = 0; x < width; x++)
+                {
+                    int pixel = localLuminances[x]; // + offset];
+                    matrix[x, y] = pixel < blackPoint;
+                }
+            }
+
+            return matrix;
+        }
+
+        /// <summary> Does NOT sharpen the data, as this call is intended to only be used by 2D Readers. </summary>
+        public BitMatrix GetBlackMatrix2()
+        {
+            LuminanceSource source = LuminanceSource;
+
+            int width = source.Width;
+            int height = source.Height;
+            BitMatrix matrix = new BitMatrix(width, height);
             var blackPoint = GlobalBlackPoint();
+            // Delay reading the entire image luminance until the black point estimation succeeds.
+            // Although we end up reading four rows twice,
+            // it is consistent with our motto of "fail quickly"
+            // which is necessary for continuous scanning.
             if (blackPoint < 0)
                 return new BitMatrix(1, 1);
 
-            // We delay reading the entire image luminance until the black point estimation succeeds.
-            // Although we end up reading four rows twice, it is consistent with our motto of
-            // "fail quickly" which is necessary for continuous scanning.
             var localLuminances = source.Matrix;
             for (int y = 0; y < height; y++)
             {
@@ -182,7 +230,7 @@ namespace ZXing.Common
                 secondPeak = temp;
             }
 
-            // If there is too little contrast in the image to pick a meaningful black point,
+            // Too little contrast in the image to pick a meaningful black point,
             // throw rather than waste time trying to decode the image, and risk false positives.
             // TODO: It might be worth comparing the brightest and darkest pixels seen,
             // rather than the two peaks, to determine the contrast.

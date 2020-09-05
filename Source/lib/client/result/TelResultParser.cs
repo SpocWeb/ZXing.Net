@@ -38,7 +38,6 @@ namespace ZXing.Client.Result
             // Normalize "TEL:" to "tel:"
             String telURI = rawText.StartsWith("TEL:") ? "tel:" + rawText.Substring(4) : rawText;
             // Drop tel, query portion
-            //UPGRADE_WARNING: Method 'java.lang.String.indexOf' was converted to 'System.String.IndexOf' which may throw an exception. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1101'"
             int queryStart = rawText.IndexOf('?', 4);
             String number = queryStart < 0 ? rawText.Substring(4) : rawText.Substring(4, (queryStart) - (4));
             return new TelParsedResult(number, telURI, null);

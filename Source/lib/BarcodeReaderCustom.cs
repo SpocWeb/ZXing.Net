@@ -113,10 +113,7 @@ namespace ZXing
             return Decode(luminanceSource);
         }
 
-        /// <summary>
-        /// Decodes the specified barcode bitmap.
-        /// </summary>
-        /// <param name="barcodeBitmap">The barcode bitmap.</param>
+        /// <summary> Tries to find multiple BarCodes from <paramref name="barcodeBitmap"/> </summary>
         /// <returns>the result data or null</returns>
         public Result[] DecodeMultiple(T barcodeBitmap)
         {

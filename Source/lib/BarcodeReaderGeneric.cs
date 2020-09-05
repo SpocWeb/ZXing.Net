@@ -302,7 +302,7 @@ namespace ZXing
             for (; rotationCount < rotationMaxCount; rotationCount++)
             {
                 results = multiReader.decodeMultiple(binaryBitmap, Options.Hints);
-                results = multiReader.decodeMultiple(gridSampler, Options.Hints);
+                //results = multiReader.decodeMultiple(gridSampler, Options.Hints);
 
                 if (results == null)
                 {

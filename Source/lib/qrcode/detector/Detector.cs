@@ -157,7 +157,6 @@ namespace ZXing.QrCode.Internal
 
         private static PerspectiveTransform createTransform(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, ResultPoint alignmentPattern, int dimension)
         {
-            //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             float dimMinusThree = dimension - 3.5f;
             float bottomRightX;
             float bottomRightY;
@@ -240,9 +239,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         private float calculateModuleSizeOneWay(ResultPoint pattern, ResultPoint otherPattern)
         {
-            //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             float moduleSizeEst1 = sizeOfBlackWhiteBlackRunBothWays((int)pattern.X, (int)pattern.Y, (int)otherPattern.X, (int)otherPattern.Y);
-            //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             float moduleSizeEst2 = sizeOfBlackWhiteBlackRunBothWays((int)otherPattern.X, (int)otherPattern.Y, (int)pattern.X, (int)pattern.Y);
             if (Single.IsNaN(moduleSizeEst1))
             {
@@ -271,33 +268,27 @@ namespace ZXing.QrCode.Internal
             int otherToX = fromX - (toX - fromX);
             if (otherToX < 0)
             {
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 scale = fromX / (float)(fromX - otherToX);
                 otherToX = 0;
             }
             else if (otherToX >= Image.Width)
             {
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 scale = (Image.Width - 1 - fromX) / (float)(otherToX - fromX);
                 otherToX = Image.Width - 1;
             }
-            //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             int otherToY = (int)(fromY - (toY - fromY) * scale);
 
             scale = 1.0f;
             if (otherToY < 0)
             {
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 scale = fromY / (float)(fromY - otherToY);
                 otherToY = 0;
             }
             else if (otherToY >= Image.Height)
             {
-                //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
                 scale = (Image.Height - 1 - fromY) / (float)(otherToY - fromY);
                 otherToY = Image.Height - 1;
             }
-            //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             otherToX = (int)(fromX + (otherToX - fromX) * scale);
 
             result += sizeOfBlackWhiteBlackRun(fromX, fromY, otherToX, otherToY);
@@ -392,7 +383,6 @@ namespace ZXing.QrCode.Internal
         {
             // Look for an alignment pattern (3 modules in size) around where it
             // should be
-            //UPGRADE_WARNING: Data types in Visual C# might be different.  Verify the accuracy of narrowing conversions. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1042'"
             int allowance = (int)(allowanceFactor * overallEstModuleSize);
             int alignmentAreaLeftX = Math.Max(0, estAlignmentX - allowance);
             int alignmentAreaRightX = Math.Min(Image.Width - 1, estAlignmentX + allowance);

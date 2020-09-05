@@ -37,7 +37,6 @@ namespace ZXing.Client.Result
             {
                 return null;
             }
-            //UPGRADE_WARNING: Method 'java.lang.String.indexOf' was converted to 'System.String.IndexOf' which may throw an exception. "ms-help://MS.VSCC.v80/dv_commoner/local/redirect.htm?index='!DefaultContextWindowIndex'&keyword='jlca1101'"
             int titleEnd = rawText.IndexOf(':', 6);
             if (titleEnd < 0)
             {

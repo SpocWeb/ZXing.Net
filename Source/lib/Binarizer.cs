@@ -32,7 +32,10 @@ namespace ZXing
     /// </remarks>
     public abstract class Binarizer
     {
+        /// <summary> 2^5 = 32 Buckets </summary>
         public const int LUMINANCE_BITS = 5;
+
+        /// <summary> SHR 3 to obtain Bucket </summary>
         public const int LUMINANCE_SHIFT = 8 - LUMINANCE_BITS;
 
         /// <summary> 32 Buckets </summary>

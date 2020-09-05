@@ -15,98 +15,43 @@
 */
 
 using System;
-
 using ZXing.Common.Detector;
 
 namespace ZXing
 {
-    /// <summary>
-    /// Encapsulates a point of interest in an image containing a barcode. Typically, this
-    /// would be the location of a finder pattern or the corner of the barcode, for example.
-    /// </summary>
+    /// <summary> Point of interest in an image containing a barcode. </summary>
     /// <author>Sean Owen</author>
+    /// <remarks>
+    /// Typically, this would be the location of a finder pattern
+    /// or the corner of the barcode.
+    /// </remarks>
     public class ResultPoint
     {
-        private readonly float x;
-        private readonly float y;
-        private readonly byte[] bytesX;
-        private readonly byte[] bytesY;
-        private String toString;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResultPoint"/> class.
-        /// </summary>
-        public ResultPoint()
-        {
-        }
+        public ResultPoint() { }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResultPoint"/> class.
-        /// </summary>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
         public ResultPoint(float x, float y)
         {
-            this.x = x;
-            this.y = y;
-            // calculate only once for GetHashCode
-            bytesX = BitConverter.GetBytes(x);
-            bytesY = BitConverter.GetBytes(y);
+            X = x;
+            Y = y;
         }
 
-        /// <summary>
-        /// Gets the X.
-        /// </summary>
-        virtual public float X => x;
+        public float X { get; }
 
-        /// <summary>
-        /// Gets the Y.
-        /// </summary>
-        public virtual float Y => y;
+        public float Y { get; }
 
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="System.Object"/> to compare with this instance.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(Object other)
+        public override bool Equals(Object other) => Equals(other as ResultPoint);
+
+        public bool Equals(ResultPoint otherPoint)
         {
-            var otherPoint = other as ResultPoint;
             if (otherPoint == null)
                 return false;
-            return x == otherPoint.x && y == otherPoint.y;
+            return X == otherPoint.X && Y == otherPoint.Y;
         }
 
-        /// <summary>
-        /// Returns a hash code for this instance.
-        /// </summary>
-        /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-        /// </returns>
-        public override int GetHashCode()
-        {
-            return 31 * ((bytesX[0] << 24) + (bytesX[1] << 16) + (bytesX[2] << 8) + bytesX[3]) +
-                         (bytesY[0] << 24) + (bytesY[1] << 16) + (bytesY[2] << 8) + bytesY[3];
-        }
+        public override int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode();
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public override String ToString()
-        {
-            if (toString == null)
-            {
-                var result = new System.Text.StringBuilder(25);
-                result.AppendFormat(System.Globalization.CultureInfo.CurrentUICulture, "({0}, {1})", x, y);
-                toString = result.ToString();
-            }
-            return toString;
-        }
+        public override String ToString() => $"({X}, {Y})";
 
         /// <summary>
         /// Orders an array of three ResultPoints in an order [A,B,C] such that AB is less than AC and
@@ -157,28 +102,17 @@ namespace ZXing
             patterns[2] = pointC;
         }
 
-
-        /// <summary>
-        /// calculates the distance between two points
-        /// </summary>
-        /// <param name="pattern1">first pattern</param>
-        /// <param name="pattern2">second pattern</param>
-        /// <returns>
-        /// distance between two points
-        /// </returns>
         public static float distance(ResultPoint pattern1, ResultPoint pattern2)
-        {
-            return MathUtils.distance(pattern1.x, pattern1.y, pattern2.x, pattern2.y);
-        }
+            => MathUtils.distance(pattern1.X, pattern1.Y, pattern2.X, pattern2.Y);
 
         /// <summary>
         /// Returns the z component of the cross product between vectors BC and BA.
         /// </summary>
         private static float crossProductZ(ResultPoint pointA, ResultPoint pointB, ResultPoint pointC)
         {
-            float bX = pointB.x;
-            float bY = pointB.y;
-            return ((pointC.x - bX) * (pointA.y - bY)) - ((pointC.y - bY) * (pointA.x - bX));
+            float bX = pointB.X;
+            float bY = pointB.Y;
+            return ((pointC.X - bX) * (pointA.Y - bY)) - ((pointC.Y - bY) * (pointA.X - bX));
         }
     }
 }

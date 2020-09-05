@@ -19,20 +19,16 @@ using ZXing.Common;
 
 namespace ZXing
 {
-    /// <summary>
-    /// This class is the core bitmap class used by ZXing to represent 1 bit data. Reader objects
-    /// accept a BinaryBitmap and attempt to decode it.
-    /// </summary>
+    /// <summary> Core bitmap class used by ZXing to represent 1 bit data. </summary>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
+    /// <remarks>
+    /// Reader objects accept a BinaryBitmap and attempt to decode it.
+    /// </remarks>
     public sealed class BinaryBitmap
     {
         private readonly Binarizer binarizer;
         private BitMatrix matrix;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binarizer"></param>
         public BinaryBitmap(Binarizer binarizer)
         {
             this.binarizer = binarizer ?? throw new ArgumentException("Binarizer must be non-null.");
@@ -73,7 +69,8 @@ namespace ZXing
         /// 2. This work will only be done once even if the caller installs multiple 2D Readers.
         /// </remarks>
         /// <returns> The 2D array of bits for the image (true means black).</returns>
-        public BitMatrix BlackMatrix => matrix ?? (matrix = binarizer.BlackMatrix);
+        public BitMatrix GetBlackMatrix() => matrix ?? (matrix =
+            binarizer.GetBlackMatrix());
 
         /// <returns>
         /// Whether this bitmap can be cropped.
@@ -130,7 +127,7 @@ namespace ZXing
         /// </returns>
         public override string ToString()
         {
-            var blackMatrix = BlackMatrix;
+            var blackMatrix = GetBlackMatrix();
             return blackMatrix != null ? blackMatrix.ToString() : String.Empty;
         }
     }

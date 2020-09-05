@@ -19,10 +19,11 @@ using System;
 namespace ZXing.QrCode.Internal
 {
     /// <summary> Center of a finder pattern,
-    /// which are the square patterns found in 3 of the 4 corners of QR Codes.
+    /// which are the square patterns found in 3 of the 4 corners of QR Codes. </summary>
+    /// <remarks>
     /// It also encapsulates a count of similar finder patterns,
     /// as a convenience to the finder's bookkeeping.</p>
-    /// </summary>
+    /// </remarks>
     /// <author>Sean Owen</author>
     public sealed class FinderPattern : ResultPoint
     {
@@ -40,25 +41,14 @@ namespace ZXing.QrCode.Internal
             Count = count;
         }
 
-        /// <summary>
-        /// Gets the size of the estimated module.
-        /// </summary>
-        /// <value>
-        /// The size of the estimated module.
-        /// </value>
         public float EstimatedModuleSize { get; }
 
+        /// <summary> #of Evidence for this Pattern </summary>
         internal int Count { get; }
 
-        /*
-        internal void incrementCount()
-        {
-           this.count++;
-        }
-        */
-
         /// <summary> <p>Determines if this finder pattern "about equals" a finder pattern at the stated
-        /// position and size -- meaning, it is at nearly the same center with nearly the same size.</p>
+        /// position and size --
+        /// meaning, it is at nearly the same center with nearly the same size.</p>
         /// </summary>
         internal bool aboutEquals(float moduleSize, float i, float j)
         {
@@ -71,20 +61,13 @@ namespace ZXing.QrCode.Internal
             return false;
         }
 
-        /// <summary>
-        /// Combines this object's current estimate of a finder pattern position and module size
-        /// with a new estimate. It returns a new {@code FinderPattern} containing a weighted average
-        /// based on count.
-        /// </summary>
-        /// <param name="i">The i.</param>
-        /// <param name="j">The j.</param>
-        /// <param name="newModuleSize">New size of the module.</param>
-        /// <returns></returns>
-        internal FinderPattern combineEstimate(float i, float j, float newModuleSize)
+        /// <summary> Arith. Mean of current with new estimate in position and module size. </summary>
+        /// <returns> a new <see cref="FinderPattern"/> containing a weighted average based on <see cref="Count"/>. </returns>
+        internal FinderPattern combineEstimate(float x, float y, float newModuleSize)
         {
             int combinedCount = Count + 1;
-            float combinedX = (Count * X + j) / combinedCount;
-            float combinedY = (Count * Y + i) / combinedCount;
+            float combinedX = (Count * X + y) / combinedCount;
+            float combinedY = (Count * Y + x) / combinedCount;
             float combinedModuleSize = (Count * EstimatedModuleSize + newModuleSize) / combinedCount;
             return new FinderPattern(combinedX, combinedY, combinedModuleSize, combinedCount);
         }

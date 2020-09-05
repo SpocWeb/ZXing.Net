@@ -86,23 +86,21 @@ namespace ZXing.Common
             }
 
             // Next read whole bytes
-            if (numBits > 0)
-            {
-                while (numBits >= 8)
-                {
-                    result = (result << 8) | (bytes[byteOffset] & 0xFF);
-                    byteOffset++;
-                    numBits -= 8;
-                }
+            if (numBits <= 0) {
+                return result;
+            }
+            while (numBits >= 8) {
+                result = (result << 8) | (bytes[byteOffset] & 0xFF);
+                byteOffset++;
+                numBits -= 8;
+            }
 
-                // Finally read a partial byte
-                if (numBits > 0)
-                {
-                    int bitsToNotRead = 8 - numBits;
-                    int mask = (0xFF >> bitsToNotRead) << bitsToNotRead;
-                    result = (result << numBits) | ((bytes[byteOffset] & mask) >> bitsToNotRead);
-                    bitOffset += numBits;
-                }
+            // Finally read a partial byte
+            if (numBits > 0) {
+                int bitsToNotRead = 8 - numBits;
+                int mask = (0xFF >> bitsToNotRead) << bitsToNotRead;
+                result = (result << numBits) | ((bytes[byteOffset] & mask) >> bitsToNotRead);
+                bitOffset += numBits;
             }
 
             return result;
