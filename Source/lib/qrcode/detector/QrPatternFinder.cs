@@ -30,7 +30,7 @@ namespace ZXing.QrCode.Internal
     public class QrPatternFinder
     {
         private const int CENTER_QUORUM = 2;
-        private static readonly EstimatedModuleComparator moduleComparator = new EstimatedModuleComparator();
+        private static readonly EstimatedModuleComparer moduleComparator = new EstimatedModuleComparer();
 
         /// <summary> 1 pixel/module times 3 modules/center </summary>
         protected internal const int MIN_SKIP = 3;
@@ -581,10 +581,11 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary>
-        ///   <p>This is called when a horizontal scan finds a possible alignment pattern. It will
-        /// cross check with a vertical scan, and if successful, will, ah, cross-cross-check
-        /// with another horizontal scan. This is needed primarily to locate the real horizontal
-        /// center of the pattern in cases of extreme skew.
+        /// called when a horizontal scan finds a possible alignment pattern.
+        /// It will cross check with a vertical scan,
+        /// and if successful, will cross-cross-check with another horizontal scan.
+        /// This is needed primarily to locate the real horizontal center of the pattern
+        /// in cases of extreme skew.
         /// And then we cross-cross-cross check with another diagonal scan.</p>
         /// If that succeeds the finder pattern location is added to a list that tracks
         /// the number of times each location has been nearly-matched as a finder pattern.
@@ -594,9 +595,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="stateCount">reading state module counts from horizontal scan</param>
         /// <param name="i">row where finder pattern may be found</param>
         /// <param name="j">end of possible finder pattern in row</param>
-        /// <returns>
-        /// true if a finder pattern candidate was found this time
-        /// </returns>
+        /// <returns> true if a finder pattern candidate was found this time </returns>
         protected bool handlePossibleCenter(int[] stateCount, int i, int j)
         {
             int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] +
@@ -671,10 +670,10 @@ namespace ZXing.QrCode.Internal
                     else
                     {
                         // We have two confirmed centers
-                        // How far down can we skip before resuming looking for the next
-                        // pattern? In the worst case, only the difference between the
-                        // difference in the x / y coordinates of the two centers.
-                        // This is the case where you find top left last.
+                        /// How far down can we skip before resuming looking for the next pattern?
+                        /// In the worst case, only the difference
+                        /// between the difference in the x / y coordinates of the two centers.
+                        /// This is the case where you find top left last.
                         hasSkipped = true;
                         return (int) (Math.Abs(firstConfirmedCenter.X - center.X) - Math.Abs(firstConfirmedCenter.Y - center.Y)) / 2;
                     }
@@ -704,10 +703,12 @@ namespace ZXing.QrCode.Internal
             {
                 return false;
             }
-            // OK, we have at least 3 confirmed centers, but, it's possible that one is a "false positive"
-            // and that we need to keep looking. We detect this by asking if the estimated module sizes
-            // vary too much. We arbitrarily say that when the total deviation from average exceeds
-            // 5% of the total module size estimates, it's too much.
+            /// We have at least 3 confirmed centers,
+            /// but it's possible that one is a "false positive"
+            /// and that we need to keep looking.
+            /// We detect this by asking if the estimated module sizes vary too much
+            /// i.e. when the total deviation from average
+            /// exceeds 5% of the total module size estimates.
             float average = totalModuleSize / max;
             float totalDeviation = 0.0f;
             for (int i = 0; i < max; i++)
@@ -837,10 +838,7 @@ namespace ZXing.QrCode.Internal
             return bestPatterns;
         }
 
-        /// <summary>
-        /// Orders by {@link FinderPatternFinder#getEstimatedModuleSize()}
-        /// </summary>
-        private sealed class EstimatedModuleComparator : IComparer<FinderPattern>
+        private sealed class EstimatedModuleComparer : IComparer<FinderPattern>
         {
             public int Compare(FinderPattern center1, FinderPattern center2)
             {
