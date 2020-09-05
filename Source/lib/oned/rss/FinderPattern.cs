@@ -62,7 +62,7 @@ namespace ZXing.OneD.RSS
         /// <returns>
         ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        override public bool Equals(Object o)
+        public override bool Equals(Object o)
         {
             if (!(o is FinderPattern))
             {
@@ -78,7 +78,7 @@ namespace ZXing.OneD.RSS
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        override public int GetHashCode()
+        public override int GetHashCode()
         {
             return Value;
         }

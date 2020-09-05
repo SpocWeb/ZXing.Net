@@ -112,7 +112,7 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        override public String ToString()
+        public override String ToString()
         {
             var result = new StringBuilder(2 * width * height + 2);
             for (int y = 0; y < height; ++y)

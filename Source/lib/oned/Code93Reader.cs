@@ -66,7 +66,7 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
-        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;

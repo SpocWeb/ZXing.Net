@@ -81,7 +81,7 @@ namespace ZXing.OneD
         /// <returns>
         /// horizontal offset of first pixel after the "middle" that was decoded or -1 if decoding could not complete successfully
         /// </returns>
-        override protected internal int decodeMiddle(BitArray row,
+        protected internal override int decodeMiddle(BitArray row,
                                    int[] startRange,
                                    StringBuilder resultString)
         {
@@ -138,7 +138,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        override internal BarcodeFormat BarcodeFormat => BarcodeFormat.EAN_13;
+        internal override BarcodeFormat BarcodeFormat => BarcodeFormat.EAN_13;
 
         /// <summary>
         /// Based on pattern of odd-even ('L' and 'G') patterns used to encoded the explicitly-encoded

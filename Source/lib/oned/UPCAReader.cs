@@ -39,7 +39,7 @@ namespace ZXing.OneD
         /// <param name="startGuardRange"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        override public BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText decodeRow(int rowNumber,
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
@@ -57,7 +57,7 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             return maybeReturnResult(ean13Reader.decodeRow(rowNumber, row, hints));
         }
@@ -68,7 +68,7 @@ namespace ZXing.OneD
         /// <param name="image">The image.</param>
         /// <param name="hints">The hints.</param>
         /// <returns></returns>
-        override public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             return maybeReturnResult(ean13Reader.decode(image, hints));
         }

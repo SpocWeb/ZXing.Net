@@ -56,7 +56,7 @@ namespace ZXing
         /// <summary>
         /// Gets the luminance source object.
         /// </summary>
-        virtual public LuminanceSource LuminanceSource => source;
+        public virtual LuminanceSource LuminanceSource => source;
 
         /// <summary> Converts one row of luminance data to 1 bit data. May actually do the conversion, or return
         /// cached data. Callers should assume this method is expensive and call it as seldom as possible.

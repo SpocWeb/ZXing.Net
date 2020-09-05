@@ -42,7 +42,7 @@ namespace ZXing.OneD
         /// <param name="startRange">The start range.</param>
         /// <param name="result">The result.</param>
         /// <returns></returns>
-        override protected internal int decodeMiddle(BitArray row,
+        protected internal override int decodeMiddle(BitArray row,
                                    int[] startRange,
                                    StringBuilder result)
         {
@@ -90,7 +90,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        override internal BarcodeFormat BarcodeFormat => BarcodeFormat.EAN_8;
+        internal override BarcodeFormat BarcodeFormat => BarcodeFormat.EAN_8;
 
     }
 }

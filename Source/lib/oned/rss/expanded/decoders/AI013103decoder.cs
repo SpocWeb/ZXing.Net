@@ -39,12 +39,12 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        override protected void addWeightCode(StringBuilder buf, int weight)
+        protected override void addWeightCode(StringBuilder buf, int weight)
         {
             buf.Append("(3103)");
         }
 
-        override protected int checkWeight(int weight)
+        protected override int checkWeight(int weight)
         {
             return weight;
         }

@@ -54,7 +54,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        override public bool[] encode(String contents)
+        public override bool[] encode(String contents)
         {
             var length = contents.Length;
             for (var i = 0; i < length; i++)

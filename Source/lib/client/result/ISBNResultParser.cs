@@ -32,7 +32,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="result">The result.</param>
         /// <returns></returns>
-        override public ParsedResult parse(BarCodeText result)
+        public override ParsedResult parse(BarCodeText result)
         {
             BarcodeFormat format = result.BarcodeFormat;
             if (format != BarcodeFormat.EAN_13)

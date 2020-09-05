@@ -31,7 +31,7 @@ namespace ZXing.Client.Result
     /// </author>
     sealed class AddressBookAUResultParser : ResultParser
     {
-        override public ParsedResult parse(BarCodeText result)
+        public override ParsedResult parse(BarCodeText result)
         {
             var rawText = result.Text;
             // MEMORY is mandatory; seems like a decent indicator, as does end-of-record separator CR/LF

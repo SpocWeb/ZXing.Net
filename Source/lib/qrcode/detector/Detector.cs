@@ -30,34 +30,34 @@ namespace ZXing.QrCode.Internal
 
     /// <summary>Detect a QR Code in an image, even if the QR Code is rotated or skewed, or partially obscured. </summary>
     /// <author>Sean Owen</author>
-    public class Detector : ADetector
+    public class QrDetector : ADetector
     {
 
         private ResultPointCallback resultPointCallback;
 
         public readonly IGridSampler Sampler;
 
-        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
-        public Detector(IGridSampler sampler) {
+        /// <summary> Initializes a new instance of the <see cref="QrDetector"/> class. </summary>
+        public QrDetector(IGridSampler sampler) {
             Sampler = sampler;
             //this.Image = sampler.GetImage();
         }
 
-        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
-        public Detector(BinaryBitmap image) : this(image.GetBlackMatrix()) { }
+        /// <summary> Initializes a new instance of the <see cref="QrDetector"/> class. </summary>
+        public QrDetector(BinaryBitmap image) : this(image.GetBlackMatrix()) { }
 
-        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
-        public Detector(BitMatrix image) {
+        /// <summary> Initializes a new instance of the <see cref="QrDetector"/> class. </summary>
+        public QrDetector(BitMatrix image) {
             Sampler = new DefaultGridSampler(image);
         }
 
         /// <summary> This is only a candidate Image </summary>
-        virtual protected internal BitMatrix Image => Sampler.GetImage();
+        protected internal virtual BitMatrix Image => Sampler.GetImage();
 
         /// <summary>
         /// Gets the result point callback.
         /// </summary>
-        virtual protected internal ResultPointCallback ResultPointCallback => resultPointCallback;
+        protected internal virtual ResultPointCallback ResultPointCallback => resultPointCallback;
 
         /// <summary>
         ///   <p>Detects a QR Code in an image.</p>
@@ -79,7 +79,7 @@ namespace ZXing.QrCode.Internal
             resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
             QrPatternFinder finder = new QrPatternFinder(Image, resultPointCallback);
-            FinderPatternInfo info = finder.find(hints);
+            QrFinderPatternInfo info = finder.find(hints);
             if (info == null)
                 return null;
 
@@ -89,7 +89,7 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Processes the finder pattern info.
         /// </summary>
-        protected internal virtual DetectorResult processFinderPatternInfo(FinderPatternInfo info)
+        protected internal virtual DetectorResult processFinderPatternInfo(QrFinderPatternInfo info)
         {
             FinderPattern topLeft = info.TopLeft;
             FinderPattern topRight = info.TopRight;

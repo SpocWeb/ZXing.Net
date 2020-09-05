@@ -152,7 +152,7 @@ namespace WindowsFormsDemo
             Dispose(true);
         }
 
-        virtual protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             CloseConnection();
         }

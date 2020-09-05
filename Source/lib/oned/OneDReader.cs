@@ -62,7 +62,7 @@ namespace ZXing.OneD
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        virtual public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public virtual BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             var result = doDecode(image, hints);
             if (result == null)
@@ -104,7 +104,7 @@ namespace ZXing.OneD
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        virtual public void reset()
+        public virtual void reset()
         {
             // do nothing
         }
@@ -121,7 +121,7 @@ namespace ZXing.OneD
         /// <param name="image">The image to decode</param>
         /// <param name="hints">Any hints that were requested</param>
         /// <returns>The contents of the decoded barcode</returns>
-        virtual protected BarCodeText doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        protected virtual BarCodeText doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             int width = image.Width;
             int height = image.Height;

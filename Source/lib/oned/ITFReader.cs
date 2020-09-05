@@ -105,7 +105,7 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode
         /// </returns>
-        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             // Find out where the Middle section (payload) starts & ends
             int[] startRange = decodeStart(row);

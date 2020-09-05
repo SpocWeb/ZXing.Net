@@ -27,25 +27,26 @@ namespace ZXing.Multi.QrCode.Internal
     /// <author>Sean Owen</author>
     /// <author>Hannes Erven</author>
     /// </summary>
-    public sealed class MultiDetector : Detector
+    public sealed class MultiQrDetector : QrDetector
     {
         private static readonly DetectorResult[] EMPTY_DETECTOR_RESULTS = new DetectorResult[0];
 
-        public MultiDetector(IGridSampler sampler) : base(sampler) { }
+        public MultiQrDetector(IGridSampler sampler) : base(sampler) { }
 
-        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
-        public MultiDetector(BitMatrix image) : base(image) { }
+        /// <summary> Initializes a new instance of the <see cref="QrDetector"/> class. </summary>
+        public MultiQrDetector(BitMatrix image) : base(image) { }
 
-        /// <summary> Initializes a new instance of the <see cref="Detector"/> class. </summary>
-        public MultiDetector(BinaryBitmap image) : base(image) { }
+        /// <summary> Initializes a new instance of the <see cref="QrDetector"/> class. </summary>
+        public MultiQrDetector(BinaryBitmap image) : base(image) { }
 
         /// <summary> Detects multiple possible Locations. </summary>
         public DetectorResult[] detectMulti(IDictionary<DecodeHintType, object> hints)
         {
             var image = Image;
             var resultPointCallback =
-                hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
-            var finder = new MultiFinderPatternFinder(image, resultPointCallback);
+                hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null
+                    : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
+            var finder = new MultiQrPatternFinder(image, resultPointCallback);
             var infos = finder.findMulti(hints);
 
             if (infos.Length == 0)
@@ -54,7 +55,7 @@ namespace ZXing.Multi.QrCode.Internal
             }
 
             var result = new List<DetectorResult>();
-            foreach (FinderPatternInfo info in infos)
+            foreach (QrFinderPatternInfo info in infos)
             {
                 var detectorResult = processFinderPatternInfo(info);
                 if (detectorResult != null)

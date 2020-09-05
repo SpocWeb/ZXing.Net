@@ -44,14 +44,14 @@ namespace ZXing.Multi.QrCode
         /// <summary> Decodes multiple QR Codes </summary>
         public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
         {
-            var detectorResults = new MultiDetector(image).detectMulti(hints);
+            var detectorResults = new MultiQrDetector(image).detectMulti(hints);
             return DecodeMultiple(hints, detectorResults);
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
         public BarCodeText[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            var detectorResults = new MultiDetector(image).detectMulti(hints);
+            var detectorResults = new MultiQrDetector(image).detectMulti(hints);
             return DecodeMultiple(hints, detectorResults);
         }
 

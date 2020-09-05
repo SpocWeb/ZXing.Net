@@ -34,7 +34,7 @@ namespace ZXing.Client.Result
         // like the DoCoMo MECARD format, but this is not technically one of
         // DoCoMo's proposed formats
 
-        override public ParsedResult parse(BarCodeText result)
+        public override ParsedResult parse(BarCodeText result)
         {
             String rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("BIZCARD:"))

@@ -80,7 +80,7 @@ namespace ZXing.QrCode
             else
             {
                 IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
-                var detectorResult = new Detector(image.GetBlackMatrix()).detect(hints);
+                var detectorResult = new QrDetector(image.GetBlackMatrix()).detect(hints);
                 if (detectorResult == null)
                     return null;
                 decoderResult = decoder.decode(detectorResult.Bits, hints);

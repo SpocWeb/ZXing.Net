@@ -22,7 +22,7 @@ namespace ZXing.QrCode.Internal
 {
     /// <summary> Attempts to find finder patterns in a QR Code. </summary>
     /// <remarks>
-    /// Finder patterns are the square markers at three corners of a QR Code.
+    /// Finder patterns are the square markers at three of the four corners in a QR Code.
     /// 
     /// <p>This class is thread-safe but not re-entrant. Each thread must allocate its own object.</p>
     /// </remarks>
@@ -59,7 +59,7 @@ namespace ZXing.QrCode.Internal
 
         protected internal virtual List<FinderPattern> PossibleCenters => _PossibleCenters;
 
-        internal virtual FinderPatternInfo find(IDictionary<DecodeHintType, object> hints)
+        internal virtual QrFinderPatternInfo find(IDictionary<DecodeHintType, object> hints)
         {
             bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
             int maxI = _Image.Height;
@@ -189,7 +189,7 @@ namespace ZXing.QrCode.Internal
 
             ResultPoint.orderBestPatterns(patternInfo);
 
-            return new FinderPatternInfo(patternInfo);
+            return new QrFinderPatternInfo(patternInfo);
         }
 
         /// <summary> Given a count of black/white/black/white/black pixels just seen and an end position,

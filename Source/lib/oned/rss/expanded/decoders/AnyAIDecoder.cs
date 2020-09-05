@@ -44,7 +44,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         }
 
-        override public String parseInformation()
+        public override String parseInformation()
         {
             StringBuilder buf = new StringBuilder();
             return getGeneralDecoder().decodeAllCodes(buf, HEADER_SIZE);

@@ -77,7 +77,7 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null if an error occurs or barcode cannot be found
         /// </returns>
-        override public BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText decodeRow(int rowNumber,
                                 BitArray row,
                                 IDictionary<DecodeHintType, object> hints)
         {

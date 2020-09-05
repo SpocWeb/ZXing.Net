@@ -103,7 +103,7 @@ namespace ZXing
         /// <returns>
         /// An array containing the luminance data.
         /// </returns>
-        override public byte[] getRow(int y, byte[] row)
+        public override byte[] getRow(int y, byte[] row)
         {
             if (y < 0 || y >= Height)
             {
@@ -122,7 +122,7 @@ namespace ZXing
         /// <summary>
         /// 
         /// </summary>
-        override public byte[] Matrix
+        public override byte[] Matrix
         {
             get
             {
@@ -162,7 +162,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports cropping.</returns>
-        override public bool CropSupported => true;
+        public override bool CropSupported => true;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -175,7 +175,7 @@ namespace ZXing
         /// <returns>
         /// A cropped version of this object.
         /// </returns>
-        override public LuminanceSource crop(int left, int top, int width, int height)
+        public override LuminanceSource crop(int left, int top, int width, int height)
         {
             return new PlanarYUVLuminanceSource(yuvData,
                                                 dataWidth,

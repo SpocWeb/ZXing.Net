@@ -110,7 +110,7 @@ namespace ZXing.Rendering
         /// <param name="content">The content.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        virtual public Bitmap Render(BitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
+        public virtual Bitmap Render(BitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
         {
             var width = matrix.Width;
             var height = matrix.Height;

@@ -85,7 +85,7 @@ namespace ZXing.OneD
         /// <param name="startRange">The start range.</param>
         /// <param name="result">The result.</param>
         /// <returns></returns>
-        override internal protected int decodeMiddle(BitArray row, int[] startRange, StringBuilder result)
+        protected internal override int decodeMiddle(BitArray row, int[] startRange, StringBuilder result)
         {
             int[] counters = decodeMiddleCounters;
             counters[0] = 0;
@@ -125,7 +125,7 @@ namespace ZXing.OneD
         /// <param name="row">The row.</param>
         /// <param name="endStart">The end start.</param>
         /// <returns></returns>
-        override protected int[] decodeEnd(BitArray row, int endStart)
+        protected override int[] decodeEnd(BitArray row, int endStart)
         {
             return findGuardPattern(row, endStart, true, MIDDLE_END_PATTERN);
         }
@@ -135,7 +135,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        override protected bool checkChecksum(String s)
+        protected override bool checkChecksum(String s)
         {
             return base.checkChecksum(convertUPCEtoUPCA(s));
         }
@@ -168,7 +168,7 @@ namespace ZXing.OneD
         /// Get the format of this decoder.
         /// <returns>The 1D format.</returns>
         /// </summary>
-        override internal BarcodeFormat BarcodeFormat => BarcodeFormat.UPC_E;
+        internal override BarcodeFormat BarcodeFormat => BarcodeFormat.UPC_E;
 
         /// <summary>
         /// Expands a UPC-E value back into its full, equivalent UPC-A code value.

@@ -39,7 +39,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        override protected void addWeightCode(StringBuilder buf, int weight)
+        protected override void addWeightCode(StringBuilder buf, int weight)
         {
             if (weight < 10000)
             {
@@ -51,7 +51,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             }
         }
 
-        override protected int checkWeight(int weight)
+        protected override int checkWeight(int weight)
         {
             if (weight < 10000)
             {

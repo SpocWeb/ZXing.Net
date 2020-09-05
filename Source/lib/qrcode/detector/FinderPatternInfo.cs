@@ -17,21 +17,21 @@
 namespace ZXing.QrCode.Internal
 {
     /// <summary>
-    /// <p>Encapsulates information about finder patterns in an image, including the location of
-    /// the three finder patterns, and their estimated module size.</p>
+    /// <p>Encapsulates information about finder patterns in an image,
+    /// including the location of the three finder patterns, and their estimated module size.</p>
     /// </summary>
     /// <author>Sean Owen</author>
-    public sealed class FinderPatternInfo
+    public sealed class QrFinderPatternInfo
     {
         private readonly FinderPattern bottomLeft;
         private readonly FinderPattern topLeft;
         private readonly FinderPattern topRight;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FinderPatternInfo"/> class.
+        /// Initializes a new instance of the <see cref="QrFinderPatternInfo"/> class.
         /// </summary>
         /// <param name="patternCenters">The pattern centers.</param>
-        public FinderPatternInfo(FinderPattern[] patternCenters)
+        public QrFinderPatternInfo(FinderPattern[] patternCenters)
         {
             bottomLeft = patternCenters[0];
             topLeft = patternCenters[1];

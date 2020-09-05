@@ -50,7 +50,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             this.firstAIdigits = firstAIdigits;
         }
 
-        override public String parseInformation()
+        public override String parseInformation()
         {
             if (getInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE + DATE_SIZE)
             {
@@ -101,7 +101,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             buf.Append(day);
         }
 
-        override protected void addWeightCode(StringBuilder buf, int weight)
+        protected override void addWeightCode(StringBuilder buf, int weight)
         {
             int lastAI = weight / 100000;
             buf.Append('(');
@@ -110,7 +110,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             buf.Append(')');
         }
 
-        override protected int checkWeight(int weight)
+        protected override int checkWeight(int weight)
         {
             return weight % 100000;
         }

@@ -117,7 +117,7 @@ namespace ZXing.Common.Test
       // not return SummaryResults.
       [Test]
       [Ignore("2020-09-03 Fails in BaseLine")]
-      virtual public void testBlackBox()
+      public virtual void testBlackBox()
       {
          Assert.IsFalse(testResults.Count == 0);
 

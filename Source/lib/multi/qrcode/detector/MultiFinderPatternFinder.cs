@@ -21,11 +21,13 @@ using ZXing.QrCode.Internal;
 
 namespace ZXing.Multi.QrCode.Internal
 {
-    /// <summary>
-    /// <p>This class attempts to find finder patterns in a QR Code. Finder patterns are the square
-    /// markers at three corners of a QR Code.</p>
+    /// <summary> Attempts to find finder patterns in a QR Code. </summary>
+    /// <remarks>
+    /// Finder patterns are the square markers at three corners of a QR Code.
+    /// In larger QR Codes, another 4th is placed in the bottom Right Corner
+    /// and even more intermediate Finder Patterns in a regular square Raster. 
     ///
-    /// <p>This class is thread-safe but not reentrant. Each thread must allocate its own object.</p>
+    /// <p>This class is thread-safe but not re-entrant. Each thread must allocate its own object.</p>
     ///
     /// <p>In contrast to <see cref="QrPatternFinder" />, this class will return an array of all possible
     /// QR code locations in the image.</p>
@@ -34,10 +36,10 @@ namespace ZXing.Multi.QrCode.Internal
     ///
     /// <author>Sean Owen</author>
     /// <author>Hannes Erven</author>
-    /// </summary>
-    sealed class MultiFinderPatternFinder : QrPatternFinder
+    /// </remarks>
+    sealed class MultiQrPatternFinder : QrPatternFinder
     {
-        private static readonly FinderPatternInfo[] EMPTY_RESULT_ARRAY = new FinderPatternInfo[0];
+        private static readonly QrFinderPatternInfo[] EMPTY_RESULT_ARRAY = new QrFinderPatternInfo[0];
 
         // TODO MIN_MODULE_COUNT and MAX_MODULE_COUNT would be great hints to ask the user for
         // since it limits the number of regions to decode
@@ -63,10 +65,8 @@ namespace ZXing.Multi.QrCode.Internal
         private const float DIFF_MODSIZE_CUTOFF = 0.5f;
 
 
-        /// <summary>
-        /// A comparator that orders FinderPatterns by their estimated module size.
-        /// </summary>
-        private sealed class ModuleSizeComparator : IComparer<FinderPattern>
+        /// <summary> orders FinderPatterns by their estimated module size. </summary>
+        private sealed class ModuleSizeComparer : IComparer<FinderPattern>
         {
             public int Compare(FinderPattern center1, FinderPattern center2)
             {
@@ -75,23 +75,17 @@ namespace ZXing.Multi.QrCode.Internal
             }
         }
 
-        /// <summary>
-        /// <p>Creates a finder that will search the image for three finder patterns.</p>
-        ///
-        /// <param name="image">image to search</param>
-        /// <param name="resultPointCallback">callback for result points</param>
-        /// </summary>
-        internal MultiFinderPatternFinder(BitMatrix image, ResultPointCallback resultPointCallback)
+        internal MultiQrPatternFinder(BitMatrix image, ResultPointCallback resultPointCallback)
             : base(image, resultPointCallback)
         {
         }
 
-        /// <summary>
-        /// </summary>
-        /// <returns>the 3 best <see cref="FinderPattern" />s from our list of candidates. The "best" are
-        ///         those that have been detected at least CENTER_QUORUM times, and whose module
-        ///         size differs from the average among those patterns the least
-        /// </returns>
+        /// <summary>returns the 3 best <see cref="FinderPattern" />s from our list of candidates. </summary>
+        /// <returns> <see cref="null"/> if it couldn't find enough finder patterns. </returns>
+        /// <remarks>
+        /// The "best" are those that have been detected at least CENTER_QUORUM times,
+        /// and whose module size differs the least from the average among those patterns.
+        /// </remarks>
         private FinderPattern[][] selectMultipleBestPatterns()
         {
             List<FinderPattern> possibleCenters = PossibleCenters;
@@ -99,13 +93,10 @@ namespace ZXing.Multi.QrCode.Internal
 
             if (size < 3)
             {
-                // Couldn't find enough finder patterns
                 return null;
             }
 
-            /*
-             * Begin HE modifications to safely detect multiple codes of equal size
-             */
+            // Begin HE modifications to safely detect multiple codes of equal size
             if (size == 3)
             {
                 return new[] {
@@ -119,7 +110,7 @@ namespace ZXing.Multi.QrCode.Internal
             }
 
             // Sort by estimated module size to speed up the upcoming checks
-            possibleCenters.Sort(new ModuleSizeComparator());
+            possibleCenters.Sort(new ModuleSizeComparer());
 
             /*
              * Now lets start: build a list of tuples of three finder locations that
@@ -130,7 +121,7 @@ namespace ZXing.Multi.QrCode.Internal
              *    with pythagoras)
              *
              * Note: we allow each point to be used for more than one code region: this might seem
-             * counterintuitive at first, but the performance penalty is not that big. At this point,
+             * counter-intuitive at first, but the performance penalty is not that big. At this point,
              * we cannot make a good quality decision whether the three finders actually represent
              * a QR code, or are just by chance layouted so it looks like there might be a QR code there.
              * So, if the layout seems right, lets have the decoder try to decode.     
@@ -188,7 +179,7 @@ namespace ZXing.Multi.QrCode.Internal
                         ResultPoint.orderBestPatterns(test);
 
                         // Calculate the distances: a = topleft-bottomleft, b=topleft-topright, c = diagonal
-                        FinderPatternInfo info = new FinderPatternInfo(test);
+                        QrFinderPatternInfo info = new QrFinderPatternInfo(test);
                         float dA = ResultPoint.distance(info.TopLeft, info.BottomLeft);
                         float dC = ResultPoint.distance(info.TopRight, info.BottomLeft);
                         float dB = ResultPoint.distance(info.TopLeft, info.TopRight);
@@ -233,7 +224,7 @@ namespace ZXing.Multi.QrCode.Internal
             return null;
         }
 
-        public FinderPatternInfo[] findMulti(IDictionary<DecodeHintType, object> hints)
+        public QrFinderPatternInfo[] findMulti(IDictionary<DecodeHintType, object> hints)
         {
             bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
             BitMatrix image = Image;
@@ -314,11 +305,11 @@ namespace ZXing.Multi.QrCode.Internal
             FinderPattern[][] patternInfo = selectMultipleBestPatterns();
             if (patternInfo == null)
                 return EMPTY_RESULT_ARRAY;
-            List<FinderPatternInfo> result = new List<FinderPatternInfo>();
+            List<QrFinderPatternInfo> result = new List<QrFinderPatternInfo>();
             foreach (FinderPattern[] pattern in patternInfo)
             {
                 ResultPoint.orderBestPatterns(pattern);
-                result.Add(new FinderPatternInfo(pattern));
+                result.Add(new QrFinderPatternInfo(pattern));
             }
 
             if (result.Count == 0)

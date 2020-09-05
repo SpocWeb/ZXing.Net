@@ -43,7 +43,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        override public String parseInformation()
+        public override String parseInformation()
         {
             if (getInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE)
             {

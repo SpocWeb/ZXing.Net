@@ -85,7 +85,7 @@ namespace ZXing
         /// <returns>
         /// An array containing the luminance data.
         /// </returns>
-        override public byte[] getRow(int y, byte[] row)
+        public override byte[] getRow(int y, byte[] row)
         {
             int width = Width;
             if (row == null || row.Length < width)
