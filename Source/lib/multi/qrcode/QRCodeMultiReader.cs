@@ -15,7 +15,8 @@
  */
 
 using System.Collections.Generic;
-
+using System.IO;
+using System.Text;
 using ZXing.Common;
 using ZXing.Multi.QrCode.Internal;
 using ZXing.QrCode;
@@ -35,45 +36,45 @@ namespace ZXing.Multi.QrCode
         /// </summary>
         /// <param name="image">The image.</param>
         /// <returns></returns>
-        public Result[] decodeMultiple(BinaryBitmap image)
+        public BarCodeText[] decodeMultiple(BinaryBitmap image)
         {
             return decodeMultiple(image, null);
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
-        public Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
         {
             var detectorResults = new MultiDetector(image).detectMulti(hints);
             return DecodeMultiple(hints, detectorResults);
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
-        public Result[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             var detectorResults = new MultiDetector(image).detectMulti(hints);
             return DecodeMultiple(hints, detectorResults);
         }
 
-        Result[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults)
+        BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults)
         {
-            var results = new List<Result>();
+            var results = new List<BarCodeText>();
             foreach (var detectorResult in detectorResults)
             {
                 var decoderResult = getDecoder().decode(detectorResult.Bits, hints);
 
-                if (decoderResult == null)
+                if (decoderResult == null) {
                     continue;
+                }
 
                 var points = detectorResult.Points;
 
                 // If the code was mirrored: swap the bottom-left and the top-right points.
-                var data = decoderResult.Other as QRCodeDecoderMetaData;
-                if (data != null)
+                if (decoderResult.Other is QRCodeDecoderMetaData data)
                 {
                     data.applyMirroredCorrection(points);
                 }
 
-                var result = new Result(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
+                var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
                 var byteSegments = decoderResult.ByteSegments;
                 if (byteSegments != null)
                 {
@@ -105,10 +106,10 @@ namespace ZXing.Multi.QrCode
             return results.ToArray();
         }
 
-        internal static List<Result> ProcessStructuredAppend(List<Result> results)
+        public static List<BarCodeText> ProcessStructuredAppend(List<BarCodeText> results)
         {
-            var newResults = new List<Result>();
-            var saResults = new List<Result>();
+            var newResults = new List<BarCodeText>();
+            var saResults = new List<BarCodeText>();
             foreach (var result in results)
             {
                 if (result.ResultMetadata.ContainsKey(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE))
@@ -126,11 +127,11 @@ namespace ZXing.Multi.QrCode
             }
             // sort and concatenate the SA list items
             saResults.Sort(SaSequenceSort);
-            var newText = new System.Text.StringBuilder();
-            using (var newRawBytes = new System.IO.MemoryStream())
-            using (var newByteSegment = new System.IO.MemoryStream())
+            var newText = new StringBuilder();
+            using (var newRawBytes = new MemoryStream())
+            using (var newByteSegment = new MemoryStream())
             {
-                foreach (Result saResult in saResults)
+                foreach (BarCodeText saResult in saResults)
                 {
                     newText.Append(saResult.Text);
                     byte[] saBytes = saResult.RawBytes;
@@ -148,11 +149,13 @@ namespace ZXing.Multi.QrCode
                     }
                 }
 
-                Result newResult = new Result(newText.ToString(), newRawBytes.ToArray(), NO_POINTS, BarcodeFormat.QR_CODE);
+                BarCodeText newResult = new BarCodeText(newText.ToString(), newRawBytes.ToArray(), NO_POINTS, BarcodeFormat.QR_CODE);
                 if (newByteSegment.Length > 0)
                 {
-                    var byteSegmentList = new List<byte[]>();
-                    byteSegmentList.Add(newByteSegment.ToArray());
+                    var byteSegmentList = new List<byte[]>
+                    {
+                        newByteSegment.ToArray()
+                    };
                     newResult.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegmentList);
                 }
                 newResults.Add(newResult);
@@ -160,7 +163,7 @@ namespace ZXing.Multi.QrCode
             return newResults;
         }
 
-        private static int SaSequenceSort(Result a, Result b)
+        private static int SaSequenceSort(BarCodeText a, BarCodeText b)
         {
             var aNumber = (int) (a.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE]);
             var bNumber = (int) (b.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE]);

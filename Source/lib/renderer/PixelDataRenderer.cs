@@ -16,6 +16,8 @@
 
 
 using System;
+using ZXing.Common;
+
 #if UNITY
 using UnityEngine;
 using Color = UnityEngine.Color32;
@@ -28,14 +30,12 @@ using System.Drawing;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+
 #else
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 #endif
-
-using ZXing.Common;
-using ZXing.OneD;
 
 namespace ZXing.Rendering
 {
@@ -94,15 +94,16 @@ namespace ZXing.Rendering
         /// <value>
         /// The foreground color.
         /// </value>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         public Color Foreground { get; set; }
+
         /// <summary>
         /// Gets or sets the background color.
         /// </summary>
         /// <value>
         /// The background color.
         /// </value>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         public Color Background { get; set; }
 
         /// <summary>
@@ -147,7 +148,7 @@ namespace ZXing.Rendering
             int width = matrix.Width;
             int heigth = matrix.Height;
             bool outputContent = (options == null || !options.PureBarcode) &&
-                                 !String.IsNullOrEmpty(content) && (format == BarcodeFormat.CODE_39 ||
+                                 !string.IsNullOrEmpty(content) && (format == BarcodeFormat.CODE_39 ||
                                                                     format == BarcodeFormat.CODE_128 ||
                                                                     format == BarcodeFormat.EAN_13 ||
                                                                     format == BarcodeFormat.EAN_8 ||

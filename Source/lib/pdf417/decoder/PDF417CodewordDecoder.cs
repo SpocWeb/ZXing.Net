@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using ZXing.Common.Detector;
+
 namespace ZXing.PDF417.Internal
 {
     /// <summary>
@@ -82,7 +84,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="moduleBitCount">Module bit count.</param>
         private static int[] sampleBitCounts(int[] moduleBitCount)
         {
-            float bitCountSum = ZXing.Common.Detector.MathUtils.sum(moduleBitCount);
+            float bitCountSum = MathUtils.sum(moduleBitCount);
             int[] result = new int[PDF417Common.BARS_IN_MODULE];
             int bitCountIndex = 0;
             int sumPreviousBits = 0;
@@ -137,7 +139,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="moduleBitCount">Module bit count.</param>
         private static int getClosestDecodedValue(int[] moduleBitCount)
         {
-            int bitCountSum = ZXing.Common.Detector.MathUtils.sum(moduleBitCount);
+            int bitCountSum = MathUtils.sum(moduleBitCount);
             float[] bitCountRatios = new float[PDF417Common.BARS_IN_MODULE];
             if (bitCountSum > 1)
             {

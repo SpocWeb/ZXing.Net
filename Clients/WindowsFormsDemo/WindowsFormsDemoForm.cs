@@ -40,7 +40,7 @@ namespace WindowsFormsDemo
         private Timer webCamTimer;
         private readonly BarcodeReader barcodeReader;
         private readonly IList<ResultPoint> resultPoints;
-        private readonly IList<Result> lastResults;
+        private readonly IList<BarCodeText> lastResults;
         private EncodingOptions EncodingOptions { get; set; }
         private Type Renderer { get; set; }
         private bool TryMultipleBarcodes { get; set; }
@@ -84,7 +84,7 @@ namespace WindowsFormsDemo
                 }
             };
             resultPoints = new List<ResultPoint>();
-            lastResults = new List<Result>();
+            lastResults = new List<BarCodeText>();
             Renderer = typeof(BitmapRenderer);
         }
 
@@ -151,7 +151,7 @@ namespace WindowsFormsDemo
             txtContent.Text = String.Empty;
 
             var timerStart = DateTime.Now.Ticks;
-            IList<Result> results = null;
+            IList<BarCodeText> results = null;
             var previousFormats = barcodeReader.Options.PossibleFormats;
             if (possibleFormats != null)
                 barcodeReader.Options.PossibleFormats = possibleFormats;
@@ -167,7 +167,7 @@ namespace WindowsFormsDemo
                     {
                         if (results == null)
                         {
-                            results = new List<Result>();
+                            results = new List<BarCodeText>();
                         }
                         results.Add(result);
                     }

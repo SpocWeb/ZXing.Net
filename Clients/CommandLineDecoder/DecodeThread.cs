@@ -61,7 +61,7 @@ namespace CommandLineDecoder
                     {
                         if (config.Multi)
                         {
-                            Result[] results = decodeMulti(new Uri(Path.GetFullPath(input)), input, config.Hints);
+                            BarCodeText[] results = decodeMulti(new Uri(Path.GetFullPath(input)), input, config.Hints);
                             if (results != null)
                             {
                                 successful++;
@@ -73,7 +73,7 @@ namespace CommandLineDecoder
                         }
                         else
                         {
-                            Result result = decode(new Uri(Path.GetFullPath(input)), input, config.Hints);
+                            BarCodeText result = decode(new Uri(Path.GetFullPath(input)), input, config.Hints);
                             if (result != null)
                             {
                                 successful++;
@@ -99,7 +99,7 @@ namespace CommandLineDecoder
                         client.DownloadFile(uri, tempFile);
                         try
                         {
-                            Result result = decode(new Uri(tempFile), input, config.Hints);
+                            BarCodeText result = decode(new Uri(tempFile), input, config.Hints);
                             if (result != null)
                             {
                                 successful++;
@@ -127,7 +127,7 @@ namespace CommandLineDecoder
             return successful;
         }
 
-        private static void dumpResult(string input, Result result)
+        private static void dumpResult(string input, BarCodeText result)
         {
             int pos = input.LastIndexOf('.');
             if (pos > 0)
@@ -140,7 +140,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private static void dumpResultMulti(String input, Result[] results)
+        private static void dumpResultMulti(String input, BarCodeText[] results)
         {
             int pos = input.LastIndexOf('.');
             if (pos > 0)
@@ -156,7 +156,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private Result decode(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
+        private BarCodeText decode(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
         {
             Bitmap image = null;
             try
@@ -184,7 +184,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private Result decode(Uri uri, Bitmap image, string originalInput, IDictionary<DecodeHintType, object> hints)
+        private BarCodeText decode(Uri uri, Bitmap image, string originalInput, IDictionary<DecodeHintType, object> hints)
         {
             LuminanceSource source;
             if (config.Crop == null)
@@ -204,7 +204,7 @@ namespace CommandLineDecoder
             var reader = new BarcodeReader { AutoRotate = config.AutoRotate };
             foreach (var entry in hints)
                 reader.Options.Hints.Add(entry.Key, entry.Value);
-            Result result = reader.Decode(source);
+            BarCodeText result = reader.Decode(source);
             if (result != null)
             {
                 if (config.Brief)
@@ -236,7 +236,7 @@ namespace CommandLineDecoder
             return result;
         }
 
-        private Result[] decodeMulti(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
+        private BarCodeText[] decodeMulti(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
         {
             Bitmap image;
             try
@@ -269,7 +269,7 @@ namespace CommandLineDecoder
                 var reader = new BarcodeReader { AutoRotate = config.AutoRotate };
                 foreach (var entry in hints)
                     reader.Options.Hints.Add(entry.Key, entry.Value);
-                Result[] results = reader.DecodeMultiple(source);
+                BarCodeText[] results = reader.DecodeMultiple(source);
                 if (results != null && results.Length > 0)
                 {
                     if (config.Brief)
@@ -377,7 +377,7 @@ namespace CommandLineDecoder
 
             // 2D sampling
             offset += width;
-            BitMatrix matrix = bitmap.BlackMatrix;
+            BitMatrix matrix = bitmap.GetBlackMatrix();
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)

@@ -44,7 +44,7 @@ namespace ZXing
         /// If null, an exception is thrown when Decode is called</param>
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
-        public BarcodeReader(Reader reader,
+        public BarcodeReader(IBarCodeDecoder reader,
            Func<byte[], LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer
         )
@@ -62,7 +62,7 @@ namespace ZXing
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
-        public BarcodeReader(Reader reader,
+        public BarcodeReader(IBarCodeDecoder reader,
            Func<byte[], LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
            Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
@@ -86,15 +86,16 @@ namespace ZXing
         /// </summary>
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
-        public Result Decode(byte[] barcodeBitmap)
+        public BarCodeText Decode(byte[] barcodeBitmap)
         {
             if (CreateLuminanceSource == null)
             {
                 throw new InvalidOperationException("You have to declare a delegate which converts your byte array to a luminance source object.");
             }
 
-            if (barcodeBitmap == null)
+            if (barcodeBitmap == null) {
                 throw new ArgumentNullException("barcodeBitmap");
+            }
 
             var luminanceSource = CreateLuminanceSource(barcodeBitmap);
 
@@ -106,15 +107,16 @@ namespace ZXing
         /// </summary>
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
-        public Result[] DecodeMultiple(byte[] barcodeBitmap)
+        public BarCodeText[] DecodeMultiple(byte[] barcodeBitmap)
         {
             if (CreateLuminanceSource == null)
             {
                 throw new InvalidOperationException("You have to declare a delegate which converts your byte array to a luminance source object.");
             }
 
-            if (barcodeBitmap == null)
+            if (barcodeBitmap == null) {
                 throw new ArgumentNullException("barcodeBitmap");
+            }
 
             var luminanceSource = CreateLuminanceSource(barcodeBitmap);
 

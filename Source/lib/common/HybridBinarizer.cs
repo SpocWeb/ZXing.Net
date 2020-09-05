@@ -56,7 +56,7 @@ namespace ZXing.Common
         private const int MINIMUM_DIMENSION = 40;
         private const int MIN_DYNAMIC_RANGE = 24;
 
-        private BitMatrix matrix = null;
+        private BitMatrix matrix;
 
         /// <summary>
         /// initializing constructor

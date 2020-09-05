@@ -15,7 +15,6 @@
  */
 
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.Maxicode.Internal;
 
@@ -24,7 +23,7 @@ namespace ZXing.Maxicode
     /// <summary>
     /// This implementation can detect and decode a MaxiCode in an image.
     /// </summary>
-    public sealed class MaxiCodeReader : Reader
+    public sealed class MaxiCodeReader : IBarCodeDecoder
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
         private const int MATRIX_WIDTH = 30;
@@ -38,7 +37,7 @@ namespace ZXing.Maxicode
         /// <returns>a String representing the content encoded by the MaxiCode</returns>
         /// <exception cref="FormatException">if a MaxiCode cannot be decoded</exception>
         /// </summary>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -55,7 +54,7 @@ namespace ZXing.Maxicode
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             // Note that MaxiCode reader effectively always assumes PURE_BARCODE mode
             // and can't detect it in an image
@@ -66,7 +65,7 @@ namespace ZXing.Maxicode
             if (decoderResult == null)
                 return null;
 
-            var result = new Result(decoderResult.Text, decoderResult.RawBytes, NO_POINTS, BarcodeFormat.MAXICODE);
+            var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, NO_POINTS, BarcodeFormat.MAXICODE);
 
             var ecLevel = decoderResult.ECLevel;
             if (ecLevel != null)

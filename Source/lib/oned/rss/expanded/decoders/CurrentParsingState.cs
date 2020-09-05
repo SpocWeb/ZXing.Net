@@ -43,8 +43,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         internal CurrentParsingState()
         {
-            this.position = 0;
-            this.encoding = State.NUMERIC;
+            position = 0;
+            encoding = State.NUMERIC;
         }
 
         internal int getPosition()
@@ -64,32 +64,32 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         internal bool isAlpha()
         {
-            return this.encoding == State.ALPHA;
+            return encoding == State.ALPHA;
         }
 
         internal bool isNumeric()
         {
-            return this.encoding == State.NUMERIC;
+            return encoding == State.NUMERIC;
         }
 
         internal bool isIsoIec646()
         {
-            return this.encoding == State.ISO_IEC_646;
+            return encoding == State.ISO_IEC_646;
         }
 
         internal void setNumeric()
         {
-            this.encoding = State.NUMERIC;
+            encoding = State.NUMERIC;
         }
 
         internal void setAlpha()
         {
-            this.encoding = State.ALPHA;
+            encoding = State.ALPHA;
         }
 
         internal void setIsoIec646()
         {
-            this.encoding = State.ISO_IEC_646;
+            encoding = State.ISO_IEC_646;
         }
     }
 }

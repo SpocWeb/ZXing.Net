@@ -67,8 +67,9 @@ namespace ZXing.Client.Result
         public override bool Equals(object obj)
         {
             var other = obj as ParsedResult;
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
             return other.Type.Equals(Type) && other.DisplayResult.Equals(DisplayResult);
         }
         /// <summary>
@@ -86,8 +87,9 @@ namespace ZXing.Client.Result
         /// <param name="result"></param>
         public static void maybeAppend(String value, StringBuilder result)
         {
-            if (String.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(value)) {
                 return;
+            }
 
             // Don't add a newline before the first value
             if (result.Length > 0)

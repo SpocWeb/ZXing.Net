@@ -50,12 +50,12 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
             buff.Append("(01)");
             int initialGtinPosition = buff.Length;
-            int firstGtinDigit = this.getGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE, 4);
+            int firstGtinDigit = getGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE, 4);
             buff.Append(firstGtinDigit);
 
-            this.encodeCompressedGtinWithoutAI(buff, HEADER_SIZE + 4, initialGtinPosition);
+            encodeCompressedGtinWithoutAI(buff, HEADER_SIZE + 4, initialGtinPosition);
 
-            return this.getGeneralDecoder().decodeAllCodes(buff, HEADER_SIZE + 44);
+            return getGeneralDecoder().decodeAllCodes(buff, HEADER_SIZE + 44);
         }
     }
 }

@@ -33,9 +33,9 @@ namespace ZXing.OneD.RSS.Expanded
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
     /// </summary>
-    static class BitArrayBuilder
+    public static class BitArrayBuilder
     {
-        internal static BitArray buildBitArray(List<ExpandedPair> pairs)
+        public static BitArray buildBitArray(IReadOnlyList<ExpandedPair> pairs)
         {
             int charNumber = (pairs.Count << 1) - 1;
             if (pairs[pairs.Count - 1].RightChar == null)

@@ -15,10 +15,10 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-
 using ZXing.Common;
 using ZXing.OneD;
 
@@ -75,7 +75,7 @@ namespace ZXing.Rendering
             {
                 // have to ignore, no better idea
 #if !WindowsCE
-                System.Diagnostics.Trace.TraceError("default text font (Arial, 10, regular) couldn't be loaded: {0}", exc.Message);
+                Trace.TraceError("default text font (Arial, 10, regular) couldn't be loaded: {0}", exc.Message);
 #endif
             }
         }

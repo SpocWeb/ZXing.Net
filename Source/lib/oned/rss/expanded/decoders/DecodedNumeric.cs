@@ -51,27 +51,27 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         internal int getFirstDigit()
         {
-            return this.firstDigit;
+            return firstDigit;
         }
 
         internal int getSecondDigit()
         {
-            return this.secondDigit;
+            return secondDigit;
         }
 
         internal int getValue()
         {
-            return this.firstDigit * 10 + this.secondDigit;
+            return firstDigit * 10 + secondDigit;
         }
 
         internal bool isFirstDigitFNC1()
         {
-            return this.firstDigit == FNC1;
+            return firstDigit == FNC1;
         }
 
         internal bool isSecondDigitFNC1()
         {
-            return this.secondDigit == FNC1;
+            return secondDigit == FNC1;
         }
     }
 }

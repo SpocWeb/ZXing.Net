@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 using ZXing.Common.ReedSolomon;
 
@@ -102,16 +101,19 @@ namespace ZXing.Aztec.Internal
             ddata = detectorResult;
             var matrix = detectorResult.Bits;
             var rawbits = extractBits(matrix);
-            if (rawbits == null)
+            if (rawbits == null) {
                 return null;
+            }
 
             var correctedBits = correctBits(rawbits);
-            if (correctedBits == null)
+            if (correctedBits == null) {
                 return null;
+            }
 
             var result = getEncodedData(correctedBits);
-            if (result == null)
+            if (result == null) {
                 return null;
+            }
 
             var rawBytes = convertBoolArrayToByteArray(correctedBits);
 
@@ -219,8 +221,9 @@ namespace ZXing.Aztec.Internal
         /// <returns></returns>
         private static Table getTable(char t)
         {
-            if (!codeTableMap.ContainsKey(t))
+            if (!codeTableMap.ContainsKey(t)) {
                 return codeTableMap['U'];
+            }
             return codeTableMap[t];
         }
 
@@ -268,8 +271,9 @@ namespace ZXing.Aztec.Internal
 
             int numDataCodewords = ddata.NbDatablocks;
             int numCodewords = rawbits.Length / codewordSize;
-            if (numCodewords < numDataCodewords)
+            if (numCodewords < numDataCodewords) {
                 return null;
+            }
 
             int offset = rawbits.Length % codewordSize;
             int numECCodewords = numCodewords - numDataCodewords;
@@ -281,8 +285,9 @@ namespace ZXing.Aztec.Internal
             }
 
             var rsDecoder = new ReedSolomonDecoder(gf);
-            if (!rsDecoder.decode(dataWords, numECCodewords))
+            if (!rsDecoder.decode(dataWords, numECCodewords)) {
                 return null;
+            }
 
             // Now perform the unstuffing operation.
             // First, count how many bits are going to be thrown out as stuffing
@@ -295,7 +300,7 @@ namespace ZXing.Aztec.Internal
                 {
                     return null;
                 }
-                else if (dataWord == 1 || dataWord == mask - 1)
+                if (dataWord == 1 || dataWord == mask - 1)
                 {
                     stuffedBits++;
                 }
@@ -321,8 +326,9 @@ namespace ZXing.Aztec.Internal
                 }
             }
 
-            if (index != correctedBits.Length)
+            if (index != correctedBits.Length) {
                 return null;
+            }
 
             return correctedBits;
         }
@@ -433,7 +439,7 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="boolArr"></param>
         /// <returns></returns>
-        internal static byte[] convertBoolArrayToByteArray(bool[] boolArr)
+        public static byte[] convertBoolArrayToByteArray(bool[] boolArr)
         {
             byte[] byteArr = new byte[(boolArr.Length + 7) / 8];
             for (int i = 0; i < byteArr.Length; i++)

@@ -36,8 +36,10 @@ namespace ZXing.Common.ReedSolomon
         public ReedSolomonEncoder(GenericGF field)
         {
             this.field = field;
-            this.cachedGenerators = new List<GenericGFPoly>();
-            cachedGenerators.Add(new GenericGFPoly(field, new int[] { 1 }));
+            cachedGenerators = new List<GenericGFPoly>
+            {
+                new GenericGFPoly(field, new[] { 1 })
+            };
         }
 
         private GenericGFPoly buildGenerator(int degree)
@@ -47,7 +49,7 @@ namespace ZXing.Common.ReedSolomon
                 var lastGenerator = cachedGenerators[cachedGenerators.Count - 1];
                 for (int d = cachedGenerators.Count; d <= degree; d++)
                 {
-                    var nextGenerator = lastGenerator.multiply(new GenericGFPoly(field, new int[] { 1, field.exp(d - 1 + field.GeneratorBase) }));
+                    var nextGenerator = lastGenerator.multiply(new GenericGFPoly(field, new[] { 1, field.exp(d - 1 + field.GeneratorBase) }));
                     cachedGenerators.Add(nextGenerator);
                     lastGenerator = nextGenerator;
                 }
@@ -58,8 +60,6 @@ namespace ZXing.Common.ReedSolomon
         /// <summary>
         /// encodes
         /// </summary>
-        /// <param name="toEncode"></param>
-        /// <param name="ecBytes"></param>
         public void encode(int[] toEncode, int ecBytes)
         {
             if (ecBytes == 0)
@@ -81,13 +81,13 @@ namespace ZXing.Common.ReedSolomon
 
             var remainder = info.divide(generator)[1];
             var coefficients = remainder.Coefficients;
-            var numZeroCoefficients = ecBytes - coefficients.Length;
+            var numZeroCoefficients = ecBytes - coefficients.Count;
             for (var i = 0; i < numZeroCoefficients; i++)
             {
                 toEncode[dataBytes + i] = 0;
             }
 
-            Array.Copy(coefficients, 0, toEncode, dataBytes + numZeroCoefficients, coefficients.Length);
+            Array.Copy((int[])coefficients, 0, toEncode, dataBytes + numZeroCoefficients, coefficients.Count);
         }
     }
 }

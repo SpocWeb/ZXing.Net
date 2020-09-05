@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using System;
 
 namespace ZXing.PDF417.Internal
@@ -37,7 +38,7 @@ namespace ZXing.PDF417.Internal
         public DetectionResultRowIndicatorColumn(BoundingBox box, bool isLeft)
            : base(box)
         {
-            this.IsLeft = isLeft;
+            IsLeft = isLeft;
         }
 
         /// <summary>

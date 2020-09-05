@@ -24,8 +24,6 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 using ZXing.Common;
 
@@ -57,7 +55,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
             for (int i = 0; i < 4; ++i)
             {
-                int currentBlock = this.getGeneralDecoder().extractNumericValueFromBitArray(currentPos + 10 * i, 10);
+                int currentBlock = getGeneralDecoder().extractNumericValueFromBitArray(currentPos + 10 * i, 10);
                 if (currentBlock / 100 == 0)
                 {
                     buf.Append('0');

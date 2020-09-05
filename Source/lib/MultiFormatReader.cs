@@ -15,7 +15,6 @@
 */
 
 using System.Collections.Generic;
-
 using ZXing.Aztec;
 using ZXing.Datamatrix;
 using ZXing.IMB;
@@ -35,10 +34,10 @@ namespace ZXing
     /// Optionally, you can provide a hints object to request different behavior,
     /// for example only decoding QR codes.
     /// </remarks>
-    public sealed class MultiFormatReader : Reader
+    public sealed class MultiFormatReader : IBarCodeDecoder
     {
         private IDictionary<DecodeHintType, object> hints;
-        private IList<Reader> readers;
+        private IList<IBarCodeDecoder> readers;
 
         /// <summary> This version of decode honors the intent of Reader.decode(BinaryBitmap) in that it
         /// passes null as a hint to the decoders. However, that makes it inefficient to call repeatedly.
@@ -50,7 +49,7 @@ namespace ZXing
         /// <returns> The contents of the image
         /// </returns>
         /// <throws>  ReaderException Any errors which occurred </throws>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             Hints = null;
             return decodeInternal(image);
@@ -66,7 +65,7 @@ namespace ZXing
         /// <returns> The contents of the image
         /// </returns>
         /// <throws>  ReaderException Any errors which occurred </throws>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             Hints = hints;
             return decodeInternal(image);
@@ -81,7 +80,7 @@ namespace ZXing
         /// <returns> The contents of the image
         /// </returns>
         /// <throws>  ReaderException Any errors which occurred </throws>
-        public Result decodeWithState(BinaryBitmap image)
+        public BarCodeText decodeWithState(BinaryBitmap image)
         {
             // Make sure to set up the default state so we don't crash
             if (readers == null)
@@ -121,7 +120,7 @@ namespace ZXing
                        formats.Contains(BarcodeFormat.RSS_14) ||
                        formats.Contains(BarcodeFormat.RSS_EXPANDED);
 
-                    readers = new List<Reader>();
+                    readers = new List<IBarCodeDecoder>();
 
                     // Put 1D readers upfront in "normal" mode
                     if (addOneDReader && !tryHarder)
@@ -162,7 +161,7 @@ namespace ZXing
                 if (readers == null ||
                     readers.Count == 0)
                 {
-                    readers = readers ?? new List<Reader>();
+                    readers = readers ?? new List<IBarCodeDecoder>();
 
                     if (!tryHarder)
                     {
@@ -196,7 +195,7 @@ namespace ZXing
             }
         }
 
-        private Result decodeInternal(BinaryBitmap image)
+        private BarCodeText decodeInternal(BinaryBitmap image)
         {
             if (readers != null)
             {

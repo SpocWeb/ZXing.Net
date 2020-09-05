@@ -25,7 +25,6 @@
  */
 
 using System;
-
 using System.Text;
 using ZXing.Common;
 
@@ -48,7 +47,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         override public String parseInformation()
         {
             StringBuilder buf = new StringBuilder();
-            return this.getGeneralDecoder().decodeAllCodes(buf, HEADER_SIZE);
+            return getGeneralDecoder().decodeAllCodes(buf, HEADER_SIZE);
         }
     }
 }

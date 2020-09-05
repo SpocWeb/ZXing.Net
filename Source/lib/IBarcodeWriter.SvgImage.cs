@@ -22,7 +22,7 @@ namespace ZXing
     /// <summary>
     /// Interface for a smart class to encode some content into a barcode
     /// </summary>
-    public partial interface IBarcodeWriterSvg
+    public interface IBarcodeWriterSvg
     {
         /// <summary>
         /// Creates a visual representation of the contents

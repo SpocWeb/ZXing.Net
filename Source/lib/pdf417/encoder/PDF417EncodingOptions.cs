@@ -16,7 +16,6 @@
 
 using System;
 using System.ComponentModel;
-
 using ZXing.Common;
 using ZXing.PDF417.Internal;
 
@@ -163,7 +162,7 @@ namespace ZXing.PDF417
                         return (float)value;
                     }
                 }
-                return PDF417.Internal.PDF417.DEFAULT_PREFERRED_RATIO;
+                return Internal.PDF417.DEFAULT_PREFERRED_RATIO;
             }
             set { Hints[EncodeHintType.PDF417_IMAGE_ASPECT_RATIO] = value; }
         }

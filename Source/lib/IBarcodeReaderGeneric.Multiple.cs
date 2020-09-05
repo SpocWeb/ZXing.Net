@@ -31,7 +31,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        Result[] DecodeMultiple(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
+        BarCodeText[] DecodeMultiple(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
 
         /// <summary>
         /// Tries to decode barcodes within an image which is given by a luminance source.
@@ -42,6 +42,6 @@ namespace ZXing
         /// </summary>
         /// <param name="luminanceSource">The luminance source.</param>
         /// <returns></returns>
-        Result[] DecodeMultiple(LuminanceSource luminanceSource);
+        BarCodeText[] DecodeMultiple(LuminanceSource luminanceSource);
     }
 }

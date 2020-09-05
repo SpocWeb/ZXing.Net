@@ -43,17 +43,17 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         internal BlockParsedResult(DecodedInformation information, bool finished)
         {
             this.finished = finished;
-            this.decodedInformation = information;
+            decodedInformation = information;
         }
 
         internal DecodedInformation getDecodedInformation()
         {
-            return this.decodedInformation;
+            return decodedInformation;
         }
 
         internal bool isFinished()
         {
-            return this.finished;
+            return finished;
         }
     }
 }

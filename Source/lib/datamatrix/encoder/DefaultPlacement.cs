@@ -39,8 +39,8 @@ namespace ZXing.Datamatrix.Encoder
             this.codewords = codewords;
             this.numcols = numcols;
             this.numrows = numrows;
-            this.bits = new byte[numcols * numrows];
-            SupportClass.Fill(this.bits, (byte)2); //Initialize with "not set" value
+            bits = new byte[numcols * numrows];
+            SupportClass.Fill(bits, (byte)2); //Initialize with "not set" value
         }
         /// <summary>
         /// num rows

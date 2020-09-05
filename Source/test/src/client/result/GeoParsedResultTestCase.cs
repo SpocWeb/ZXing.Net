@@ -42,7 +42,7 @@ namespace ZXing.Client.Result.Test
                                  String query,
                                  String uri)
       {
-         ZXing.Result fakeResult = new ZXing.Result(contents, null, null, BarcodeFormat.QR_CODE);
+         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.GEO, result.Type);
          GeoParsedResult geoResult = (GeoParsedResult)result;

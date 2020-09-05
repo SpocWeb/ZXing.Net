@@ -29,7 +29,7 @@ namespace ZXing.PDF417.Test
         [Test]
         public void TestMacroPdfCreation()
         {
-            List<Result> results = new List<Result>();
+            List<BarCodeText> results = new List<BarCodeText>();
 
             var writer = new BarcodeWriter()
             {

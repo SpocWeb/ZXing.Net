@@ -32,6 +32,6 @@ namespace ZXing
         /// <param name="height">the height of the image which is represented by rawColor32</param>
         /// <returns>the result data or null</returns>
         [System.CLSCompliant(false)]
-        Result Decode(Color32[] rawColor32, int width, int height);
+        BarCodeText Decode(Color32[] rawColor32, int width, int height);
     }
 }

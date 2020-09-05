@@ -51,7 +51,7 @@ namespace ZXing.Multi.QrCode.Test
             Assert.AreEqual(4, results.Length);
 
             var barcodeContents = new HashSet<String>();
-            foreach (Result result in results)
+            foreach (BarCodeText result in results)
             {
                 barcodeContents.Add(result.Text);
                 Assert.AreEqual(BarcodeFormat.QR_CODE, result.BarcodeFormat);
@@ -76,9 +76,9 @@ namespace ZXing.Multi.QrCode.Test
         [Test]
         public void testProcessStructuredAppend()
         {
-            var sa1 = new Result("SA1", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
-            var sa2 = new Result("SA2", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
-            var sa3 = new Result("SA3", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var sa1 = new BarCodeText("SA1", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var sa2 = new BarCodeText("SA2", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var sa3 = new BarCodeText("SA3", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
             sa1.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, (0 << 4) + 2);
             sa1.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, "L");
             sa2.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, (1 << 4) + 2);
@@ -86,23 +86,25 @@ namespace ZXing.Multi.QrCode.Test
             sa3.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, (2 << 4) + 2);
             sa3.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, "L");
 
-            var nsa = new Result("NotSA", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var nsa = new BarCodeText("NotSA", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
             nsa.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, "L");
 
-            var inputs = new List<Result> {sa3, sa1, nsa, sa2};
+            var inputs = new List<BarCodeText> {sa3, sa1, nsa, sa2};
 
             var results = QRCodeMultiReader.ProcessStructuredAppend(inputs);
             Assert.That(results, Is.Not.Null);
             Assert.That(results.Count, Is.EqualTo(2));
 
             var barcodeContents = new HashSet<string>();
-            foreach (Result result in results)
+            foreach (BarCodeText result in results)
             {
                 barcodeContents.Add(result.Text);
             }
-            var expectedContents = new HashSet<string>();
-            expectedContents.Add("NotSA");
-            expectedContents.Add("SA1SA2SA3");
+            var expectedContents = new HashSet<string>
+            {
+                "NotSA",
+                "SA1SA2SA3"
+            };
             Assert.That(barcodeContents, Is.EqualTo(expectedContents));
         }
     }

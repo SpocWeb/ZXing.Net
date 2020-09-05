@@ -16,7 +16,6 @@
 
 using System;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.OneD

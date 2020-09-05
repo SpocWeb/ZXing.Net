@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -41,7 +39,7 @@ namespace ZXing.OneD
         /// <param name="startGuardRange"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        override public Result decodeRow(int rowNumber,
+        override public BarCodeText decodeRow(int rowNumber,
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
@@ -57,9 +55,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        override public Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             return maybeReturnResult(ean13Reader.decodeRow(rowNumber, row, hints));
         }
@@ -70,7 +68,7 @@ namespace ZXing.OneD
         /// <param name="image">The image.</param>
         /// <param name="hints">The hints.</param>
         /// <returns></returns>
-        override public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        override public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             return maybeReturnResult(ean13Reader.decode(image, hints));
         }
@@ -96,7 +94,7 @@ namespace ZXing.OneD
             return ean13Reader.decodeMiddle(row, startRange, resultString);
         }
 
-        private static Result maybeReturnResult(Result result)
+        private static BarCodeText maybeReturnResult(BarCodeText result)
         {
             if (result == null)
                 return null;
@@ -104,17 +102,14 @@ namespace ZXing.OneD
             var text = result.Text;
             if (text[0] == '0')
             {
-                var upcaResult = new Result(text.Substring(1), null, result.ResultPoints, BarcodeFormat.UPC_A);
+                var upcaResult = new BarCodeText(text.Substring(1), null, result.ResultPoints, BarcodeFormat.UPC_A);
                 if (result.ResultMetadata != null)
                 {
                     upcaResult.putAllMetadata(result.ResultMetadata);
                 }
                 return upcaResult;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

@@ -206,7 +206,7 @@ namespace ZXing.Datamatrix.Encoder
             int v = (1600 * c1) + (40 * c2) + c3 + 1;
             char cw1 = (char) (v / 256);
             char cw2 = (char) (v % 256);
-            return new String(new char[] {cw1, cw2});
+            return new String(new[] {cw1, cw2});
         }
     }
 }

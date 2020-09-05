@@ -160,10 +160,12 @@ namespace ZXing.Common.Test
             return false;
          }
 
-         // Try "try harder" getMode
-         var hints = new Dictionary<DecodeHintType, Object>();
-         hints[DecodeHintType.TRY_HARDER] = true;
-         result = getReader().decode(bitmap, hints);
+            // Try "try harder" getMode
+            var hints = new Dictionary<DecodeHintType, Object>
+            {
+                [DecodeHintType.TRY_HARDER] = true
+            };
+            result = getReader().decode(bitmap, hints);
          if (result != null)
          {
             Log.InfoFormat("Try harder found false positive: '{0}' with format '{1}' (rotation: {2})",

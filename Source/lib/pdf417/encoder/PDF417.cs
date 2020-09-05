@@ -769,14 +769,14 @@ namespace ZXing.PDF417.Internal
                 );
             }
 
-            if (this.metadata.SegmentIndex >= this.metadata.SegmentCount)
+            if (metadata.SegmentIndex >= metadata.SegmentCount)
             {
                 throw new WriterException(
                     "The macro segment index must be less than the segment count."
                 );
             }
 
-            if (this.metadata.SegmentCount < 1)
+            if (metadata.SegmentCount < 1)
             {
                 throw new WriterException(
                     "The macro segment count must be greater than 0."
@@ -789,7 +789,7 @@ namespace ZXing.PDF417.Internal
             sourceCodeWords++;
 
             // Segment index
-            string segmentIndex = PDF417HighLevelEncoder.encodeHighLevel(this.metadata.SegmentIndex.ToString("00000"), Compaction.NUMERIC, encoding, disableEci);
+            string segmentIndex = PDF417HighLevelEncoder.encodeHighLevel(metadata.SegmentIndex.ToString("00000"), Compaction.NUMERIC, encoding, disableEci);
 
             // Remove the latch to numeric prefix.
             segmentIndex = segmentIndex.Replace(((char)0x386).ToString(), "");
@@ -797,12 +797,12 @@ namespace ZXing.PDF417.Internal
             sourceCodeWords += segmentIndex.Length;
 
             // File Id
-            string fileId = PDF417HighLevelEncoder.encodeHighLevel(this.metadata.FileId, Compaction.TEXT, encoding, disableEci);
+            string fileId = PDF417HighLevelEncoder.encodeHighLevel(metadata.FileId, Compaction.TEXT, encoding, disableEci);
             macroCodewords.Append(fileId);
             sourceCodeWords += fileId.Length;
 
             // Optional file name
-            if (!(string.IsNullOrEmpty(this.metadata.FileName) || this.metadata.FileName.Trim().Length == 0))
+            if (!(string.IsNullOrEmpty(metadata.FileName) || metadata.FileName.Trim().Length == 0))
             {
                 macroCodewords.Append((char)MACRO_OPTIONAL_FIELD_TAG);
                 sourceCodeWords++;
@@ -811,7 +811,7 @@ namespace ZXing.PDF417.Internal
                 macroCodewords.Append((char)0x0);
                 sourceCodeWords++;
 
-                string fileName = PDF417HighLevelEncoder.encodeHighLevel(this.metadata.FileName, Compaction.TEXT, encoding, disableEci);
+                string fileName = PDF417HighLevelEncoder.encodeHighLevel(metadata.FileName, Compaction.TEXT, encoding, disableEci);
                 // Remove the latch to text prefix.
                 fileName = fileName.Replace(((char)0x384).ToString(), "");
 
@@ -820,38 +820,38 @@ namespace ZXing.PDF417.Internal
             }
 
             // Optional segment count
-            if (this.metadata.SegmentCount > 0)
+            if (metadata.SegmentCount > 0)
             {
-                appendMacroOptionalField(PDF417OptionalMacroFields.SegmentCount, this.metadata.SegmentCount.ToString("00000"), ref sourceCodeWords, macroCodewords);
+                appendMacroOptionalField(PDF417OptionalMacroFields.SegmentCount, metadata.SegmentCount.ToString("00000"), ref sourceCodeWords, macroCodewords);
             }
 
             // Optional time stamp
-            if (this.metadata.Timestamp.HasValue) {
-                appendMacroOptionalField(PDF417OptionalMacroFields.TimeStamp, this.metadata.Timestamp.Value.ToString(), ref sourceCodeWords, macroCodewords);
+            if (metadata.Timestamp.HasValue) {
+                appendMacroOptionalField(PDF417OptionalMacroFields.TimeStamp, metadata.Timestamp.Value.ToString(), ref sourceCodeWords, macroCodewords);
             }
 
             // Optional sender
-            if (!(string.IsNullOrEmpty(this.metadata.Sender) || this.metadata.Sender.Trim().Length == 0))
+            if (!(string.IsNullOrEmpty(metadata.Sender) || metadata.Sender.Trim().Length == 0))
             {
-                appendMacroOptionalField(PDF417OptionalMacroFields.Sender, this.metadata.Sender, ref sourceCodeWords, macroCodewords);
+                appendMacroOptionalField(PDF417OptionalMacroFields.Sender, metadata.Sender, ref sourceCodeWords, macroCodewords);
             }
 
             // Optional addressee
-            if (!(string.IsNullOrEmpty(this.metadata.Addressee) || this.metadata.Addressee.Trim().Length == 0))
+            if (!(string.IsNullOrEmpty(metadata.Addressee) || metadata.Addressee.Trim().Length == 0))
             {
-                appendMacroOptionalField(PDF417OptionalMacroFields.Addressee, this.metadata.Addressee, ref sourceCodeWords, macroCodewords);
+                appendMacroOptionalField(PDF417OptionalMacroFields.Addressee, metadata.Addressee, ref sourceCodeWords, macroCodewords);
             }
 
             // Optional file size
-            if (this.metadata.FileSize.HasValue)
+            if (metadata.FileSize.HasValue)
             {
-                appendMacroOptionalField(PDF417OptionalMacroFields.FileSize, this.metadata.FileSize.Value.ToString("0000000000"), ref sourceCodeWords, macroCodewords);
+                appendMacroOptionalField(PDF417OptionalMacroFields.FileSize, metadata.FileSize.Value.ToString("0000000000"), ref sourceCodeWords, macroCodewords);
             }
 
             // Optional checksum
-            if (this.metadata.Checksum.HasValue)
+            if (metadata.Checksum.HasValue)
             {
-                appendMacroOptionalField(PDF417OptionalMacroFields.Checksum, this.metadata.Checksum.ToString(), ref sourceCodeWords, macroCodewords);
+                appendMacroOptionalField(PDF417OptionalMacroFields.Checksum, metadata.Checksum.ToString(), ref sourceCodeWords, macroCodewords);
             }
 
             // Last segment
@@ -889,7 +889,7 @@ namespace ZXing.PDF417.Internal
                 case PDF417OptionalMacroFields.FileName:
                 case PDF417OptionalMacroFields.Sender:
                 case PDF417OptionalMacroFields.Addressee:
-                    encodedValue = PDF417HighLevelEncoder.encodeHighLevel(this.metadata.Addressee, Compaction.TEXT, encoding, disableEci);
+                    encodedValue = PDF417HighLevelEncoder.encodeHighLevel(metadata.Addressee, Compaction.TEXT, encoding, disableEci);
                     // Remove the latch to text prefix.
                     encodedValue = encodedValue.Replace(((char)0x384).ToString(), "");
                     break;
@@ -977,13 +977,13 @@ namespace ZXing.PDF417.Internal
                 float newRatio = (((float)BarcodeMatrix.COLUMN_WIDTH * cols + start_stop_width) * DEFAULT_MODULE_WIDTH) / (rows * HEIGHT);
 
                 // ignore if previous ratio is closer to preferred ratio
-                if (dimension != null && Math.Abs(newRatio - this.preferredRatio) > Math.Abs(ratio - this.preferredRatio))
+                if (dimension != null && Math.Abs(newRatio - preferredRatio) > Math.Abs(ratio - preferredRatio))
                 {
                     continue;
                 }
 
                 ratio = newRatio;
-                dimension = new int[] { cols, rows };
+                dimension = new[] { cols, rows };
             }
 
             // Handle case when min values were larger than necessary
@@ -992,7 +992,7 @@ namespace ZXing.PDF417.Internal
                 int rows = calculateNumberOfRows(sourceCodeWords, errorCorrectionCodeWords, minCols);
                 if (rows < minRows)
                 {
-                    dimension = new int[] { minCols, minRows };
+                    dimension = new[] { minCols, minRows };
                 }
             }
 
@@ -1010,7 +1010,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="ratio"></param>
         internal void setDesiredAspectRatio(float ratio)
         {
-            this.preferredRatio = ratio;
+            preferredRatio = ratio;
         }
 
         /// <summary>
@@ -1064,7 +1064,7 @@ namespace ZXing.PDF417.Internal
             this.encoding = Encoding.GetEncoding(1252);
          }
 #else
-            this.encoding = Encoding.GetEncoding(encodingname);
+            encoding = Encoding.GetEncoding(encodingname);
 #endif
         }
 
@@ -1074,7 +1074,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="disabled">if set to <c>true</c> don't add an ECI segment for different encodings than default.</param>
         internal void setDisableEci(bool disabled)
         {
-            this.disableEci = disabled;
+            disableEci = disabled;
         }
 
         /// <summary>

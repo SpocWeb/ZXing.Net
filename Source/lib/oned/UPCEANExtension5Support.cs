@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -36,7 +35,7 @@ namespace ZXing.OneD
         private readonly int[] decodeMiddleCounters = new int[4];
         private readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
 
-        internal Result decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
+        internal BarCodeText decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
         {
             StringBuilder result = decodeRowStringBuffer;
             result.Length = 0;
@@ -47,12 +46,12 @@ namespace ZXing.OneD
             String resultString = result.ToString();
             IDictionary<ResultMetadataType, Object> extensionData = parseExtensionString(resultString);
 
-            Result extensionResult =
-                new Result(resultString,
+            BarCodeText extensionResult =
+                new BarCodeText(resultString,
                            null,
-                           new ResultPoint[] {
-                       new ResultPoint((extensionStartRange[0] + extensionStartRange[1]) / 2.0f, (float) rowNumber),
-                       new ResultPoint((float) end, (float) rowNumber),
+                           new[] {
+                       new ResultPoint((extensionStartRange[0] + extensionStartRange[1]) / 2.0f, rowNumber),
+                       new ResultPoint(end, rowNumber),
                       },
                            BarcodeFormat.UPC_EAN_EXTENSION);
             if (extensionData != null)
@@ -119,12 +118,12 @@ namespace ZXing.OneD
             int sum = 0;
             for (int i = length - 2; i >= 0; i -= 2)
             {
-                sum += (int)s[i] - (int)'0';
+                sum += s[i] - '0';
             }
             sum *= 3;
             for (int i = length - 1; i >= 0; i -= 2)
             {
-                sum += (int)s[i] - (int)'0';
+                sum += s[i] - '0';
             }
             sum *= 3;
             return sum % 10;
@@ -159,8 +158,10 @@ namespace ZXing.OneD
             {
                 return null;
             }
-            IDictionary<ResultMetadataType, Object> result = new Dictionary<ResultMetadataType, Object>();
-            result[ResultMetadataType.SUGGESTED_PRICE] = value;
+            IDictionary<ResultMetadataType, Object> result = new Dictionary<ResultMetadataType, Object>
+            {
+                [ResultMetadataType.SUGGESTED_PRICE] = value
+            };
             return result;
         }
 

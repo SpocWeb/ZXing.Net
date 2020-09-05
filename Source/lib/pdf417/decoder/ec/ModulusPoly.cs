@@ -46,7 +46,7 @@ namespace ZXing.PDF417.Internal.EC
                 }
                 if (firstNonZero == coefficientsLength)
                 {
-                    this.coefficients = new int[] { 0 };
+                    this.coefficients = new[] { 0 };
                 }
                 else
                 {
@@ -142,7 +142,7 @@ namespace ZXing.PDF417.Internal.EC
                 return this;
             }
 
-            int[] smallerCoefficients = this.coefficients;
+            int[] smallerCoefficients = coefficients;
             int[] largerCoefficients = other.coefficients;
             if (smallerCoefficients.Length > largerCoefficients.Length)
             {
@@ -194,7 +194,7 @@ namespace ZXing.PDF417.Internal.EC
             {
                 return field.Zero;
             }
-            int[] aCoefficients = this.coefficients;
+            int[] aCoefficients = coefficients;
             int aLength = aCoefficients.Length;
             int[] bCoefficients = other.coefficients;
             int bLength = bCoefficients.Length;

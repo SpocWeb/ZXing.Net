@@ -16,8 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-
-using ZXing.Common;
+using System.Text;
 
 namespace ZXing.OneD
 {
@@ -123,10 +122,10 @@ namespace ZXing.OneD
             return total % 47;
         }
 
-        internal static String convertToExtended(String contents)
+        public static String convertToExtended(String contents)
         {
             int length = contents.Length;
-            var extendedContent = new System.Text.StringBuilder(length * 2);
+            var extendedContent = new StringBuilder(length * 2);
             for (int i = 0; i < length; i++)
             {
                 char character = contents[i];

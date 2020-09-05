@@ -19,14 +19,13 @@
  */
 
 using System;
+using System.Text;
+using ZXing.Common;
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
 using System.Numerics;
 #else
 using BigIntegerLibrary;
 #endif
-using System.Text;
-
-using ZXing.Common;
 
 namespace ZXing.PDF417.Internal
 {
@@ -34,7 +33,7 @@ namespace ZXing.PDF417.Internal
     /// PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
     /// annex P.
     /// </summary>
-    internal static class PDF417HighLevelEncoder
+    public static class PDF417HighLevelEncoder
     {
         /// <summary>
         /// code for Text compaction
@@ -170,7 +169,7 @@ namespace ZXing.PDF417.Internal
         /// or null for default / not applicable</param>
         /// <param name="disableEci">if true, don't add an ECI segment for different encodings than default</param>
         /// <returns>the encoded message (the char values range from 0 to 928)</returns>
-        internal static String encodeHighLevel(String msg, Compaction compaction, Encoding encoding, bool disableEci)
+        public static String encodeHighLevel(String msg, Compaction compaction, Encoding encoding, bool disableEci)
         {
             //the codewords 0..928 are encoded as Unicode characters
             var sb = new StringBuilder(msg.Length);
@@ -361,26 +360,21 @@ namespace ZXing.PDF417.Internal
                                 tmp.Append((char)(ch - 65));
                             }
                         }
-                        else
-                        {
+                        else {
                             if (isAlphaLower(ch))
                             {
                                 submode = SUBMODE_LOWER;
                                 tmp.Append((char)27); //ll
                                 continue;
                             }
-                            else if (isMixed(ch))
+                            if (isMixed(ch))
                             {
                                 submode = SUBMODE_MIXED;
                                 tmp.Append((char)28); //ml
                                 continue;
                             }
-                            else
-                            {
-                                tmp.Append((char)29); //ps
-                                tmp.Append((char)PUNCTUATION[ch]);
-                                break;
-                            }
+                            tmp.Append((char)29); //ps
+                            tmp.Append((char)PUNCTUATION[ch]);
                         }
                         break;
                     case SUBMODE_LOWER:
@@ -402,7 +396,6 @@ namespace ZXing.PDF417.Internal
                                 tmp.Append((char)27); //as
                                 tmp.Append((char)(ch - 65));
                                 //space cannot happen here, it is also in "Lower"
-                                break;
                             }
                             else if (isMixed(ch))
                             {
@@ -414,7 +407,6 @@ namespace ZXing.PDF417.Internal
                             {
                                 tmp.Append((char)29); //ps
                                 tmp.Append((char)PUNCTUATION[ch]);
-                                break;
                             }
                         }
                         break;
@@ -423,35 +415,31 @@ namespace ZXing.PDF417.Internal
                         {
                             tmp.Append((char)MIXED[ch]);
                         }
-                        else
-                        {
+                        else {
                             if (isAlphaUpper(ch))
                             {
                                 submode = SUBMODE_ALPHA;
                                 tmp.Append((char)28); //al
                                 continue;
                             }
-                            else if (isAlphaLower(ch))
+                            if (isAlphaLower(ch))
                             {
                                 submode = SUBMODE_LOWER;
                                 tmp.Append((char)27); //ll
                                 continue;
                             }
-                            else
+                            if (startpos + idx + 1 < count)
                             {
-                                if (startpos + idx + 1 < count)
+                                char next = msg[startpos + idx + 1];
+                                if (isPunctuation(next))
                                 {
-                                    char next = msg[startpos + idx + 1];
-                                    if (isPunctuation(next))
-                                    {
-                                        submode = SUBMODE_PUNCTUATION;
-                                        tmp.Append((char)25); //pl
-                                        continue;
-                                    }
+                                    submode = SUBMODE_PUNCTUATION;
+                                    tmp.Append((char)25); //pl
+                                    continue;
                                 }
-                                tmp.Append((char)29); //ps
-                                tmp.Append((char)PUNCTUATION[ch]);
                             }
+                            tmp.Append((char)29); //ps
+                            tmp.Append((char)PUNCTUATION[ch]);
                         }
                         break;
                     default: //SUBMODE_PUNCTUATION

@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.QrCode.Internal;
 
@@ -27,7 +26,7 @@ namespace ZXing.QrCode
     ///
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// </summary>
-    public sealed class QRCodeWriter : Writer
+    public sealed class QRCodeWriter : IBarCodeWriter
     {
         private const int QUIET_ZONE_SIZE = 4;
 

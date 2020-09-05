@@ -41,10 +41,12 @@ namespace ZXing.Client.Result.Test
       [Test]
       public void testRSSExpanded()
       {
-         IDictionary<String, String> uncommonAIs = new Dictionary<String, String>();
-         uncommonAIs["123"] = "544654";
-         ZXing.Result result =
-             new ZXing.Result("(01)66546(13)001205(3932)4455(3102)6544(123)544654", null, null, BarcodeFormat.RSS_EXPANDED);
+            IDictionary<String, String> uncommonAIs = new Dictionary<String, String>
+            {
+                ["123"] = "544654"
+            };
+            ZXing.BarCodeText result =
+             new ZXing.BarCodeText("(01)66546(13)001205(3932)4455(3102)6544(123)544654", null, null, BarcodeFormat.RSS_EXPANDED);
          var o = (ExpandedProductParsedResult)new ExpandedProductResultParser().parse(result);
          Assert.IsNotNull(o);
          Assert.AreEqual("66546", o.ProductID);

@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ZXing.Common.ReedSolomon
@@ -22,11 +23,12 @@ namespace ZXing.Common.ReedSolomon
     /// <summary>
     /// <p>Represents a polynomial whose coefficients are elements of a GF.
     /// Instances of this class are immutable.</p>
-    /// <p>Much credit is due to William Rucklidge since portions of this code are an indirect
+    /// <p>Much credit is due to William Rucklidge
+    /// since portions of this code are an indirect
     /// port of his C++ Reed-Solomon implementation.</p>
     /// </summary>
     /// <author>Sean Owen</author>
-    internal sealed class GenericGFPoly
+    public sealed class GenericGFPoly
     {
         private readonly GenericGF field;
         private readonly int[] coefficients;
@@ -41,7 +43,7 @@ namespace ZXing.Common.ReedSolomon
         /// <exception cref="ArgumentException">if argument is null or empty,
         /// or if leading coefficient is 0 and this is not a
         /// constant polynomial (that is, it is not the monomial "0")</exception>
-        internal GenericGFPoly(GenericGF field, int[] coefficients)
+        public GenericGFPoly(GenericGF field, int[] coefficients)
         {
             if (coefficients.Length == 0)
             {
@@ -59,7 +61,7 @@ namespace ZXing.Common.ReedSolomon
                 }
                 if (firstNonZero == coefficientsLength)
                 {
-                    this.coefficients = new int[] { 0 };
+                    this.coefficients = new[] { 0 };
                 }
                 else
                 {
@@ -77,25 +79,25 @@ namespace ZXing.Common.ReedSolomon
             }
         }
 
-        internal int[] Coefficients => coefficients;
+        public IReadOnlyList<int> Coefficients => coefficients;
 
         /// <summary>
         /// degree of this polynomial
         /// </summary>
-        internal int Degree => coefficients.Length - 1;
+        public int Degree => coefficients.Length - 1;
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="GenericGFPoly"/> is zero.
         /// </summary>
         /// <value>true iff this polynomial is the monomial "0"</value>
-        internal bool isZero => coefficients[0] == 0;
+        public bool isZero => coefficients[0] == 0;
 
         /// <summary>
         /// coefficient of x^degree term in this polynomial
         /// </summary>
         /// <param name="degree">The degree.</param>
         /// <returns>coefficient of x^degree term in this polynomial</returns>
-        internal int getCoefficient(int degree)
+        public int getCoefficient(int degree)
         {
             return coefficients[coefficients.Length - 1 - degree];
         }
@@ -105,7 +107,7 @@ namespace ZXing.Common.ReedSolomon
         /// </summary>
         /// <param name="a">A.</param>
         /// <returns>evaluation of this polynomial at a given point</returns>
-        internal int evaluateAt(int a)
+        public int evaluateAt(int a)
         {
             int result = 0;
             if (a == 0)
@@ -131,7 +133,7 @@ namespace ZXing.Common.ReedSolomon
             return result;
         }
 
-        internal GenericGFPoly addOrSubtract(GenericGFPoly other)
+        public GenericGFPoly addOrSubtract(GenericGFPoly other)
         {
             if (!field.Equals(other.field))
             {
@@ -146,7 +148,7 @@ namespace ZXing.Common.ReedSolomon
                 return this;
             }
 
-            int[] smallerCoefficients = this.coefficients;
+            int[] smallerCoefficients = coefficients;
             int[] largerCoefficients = other.coefficients;
             if (smallerCoefficients.Length > largerCoefficients.Length)
             {
@@ -167,7 +169,7 @@ namespace ZXing.Common.ReedSolomon
             return new GenericGFPoly(field, sumDiff);
         }
 
-        internal GenericGFPoly multiply(GenericGFPoly other)
+        public GenericGFPoly multiply(GenericGFPoly other)
         {
             if (!field.Equals(other.field))
             {
@@ -177,7 +179,7 @@ namespace ZXing.Common.ReedSolomon
             {
                 return field.Zero;
             }
-            int[] aCoefficients = this.coefficients;
+            int[] aCoefficients = coefficients;
             int aLength = aCoefficients.Length;
             int[] bCoefficients = other.coefficients;
             int bLength = bCoefficients.Length;
@@ -194,7 +196,7 @@ namespace ZXing.Common.ReedSolomon
             return new GenericGFPoly(field, product);
         }
 
-        internal GenericGFPoly multiply(int scalar)
+        public GenericGFPoly multiply(int scalar)
         {
             if (scalar == 0)
             {
@@ -213,7 +215,7 @@ namespace ZXing.Common.ReedSolomon
             return new GenericGFPoly(field, product);
         }
 
-        internal GenericGFPoly multiplyByMonomial(int degree, int coefficient)
+        public GenericGFPoly multiplyByMonomial(int degree, int coefficient)
         {
             if (degree < 0)
             {
@@ -232,7 +234,7 @@ namespace ZXing.Common.ReedSolomon
             return new GenericGFPoly(field, product);
         }
 
-        internal GenericGFPoly[] divide(GenericGFPoly other)
+        public GenericGFPoly[] divide(GenericGFPoly other)
         {
             if (!field.Equals(other.field))
             {
@@ -259,7 +261,7 @@ namespace ZXing.Common.ReedSolomon
                 remainder = remainder.addOrSubtract(term);
             }
 
-            return new GenericGFPoly[] { quotient, remainder };
+            return new[] { quotient, remainder };
         }
 
         public override String ToString()

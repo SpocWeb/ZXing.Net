@@ -563,10 +563,11 @@ namespace ZXing.Aztec.Test
             // 2. Aztec Decoder currently always decodes the data with a LATIN-1 charset:
             var byteData = Encoding.GetEncoding(charset).GetBytes(data);
             var expectedData = LATIN_1.GetString(byteData, 0, byteData.Length);
-            var hints = new Dictionary<EncodeHintType, Object>()
-                ;
-            hints[EncodeHintType.CHARACTER_SET] = charset;
-            hints[EncodeHintType.ERROR_CORRECTION] = eccPercent;
+            var hints = new Dictionary<EncodeHintType, Object>
+            {
+                [EncodeHintType.CHARACTER_SET] = charset,
+                [EncodeHintType.ERROR_CORRECTION] = eccPercent
+            };
             var writer = new AztecWriter();
             var matrix = writer.encode(data, BarcodeFormat.AZTEC, 0, 0, hints);
             var aztec = Internal.Encoder.encode(Encoding.GetEncoding(charset).GetBytes(data), eccPercent, Internal.Encoder.DEFAULT_AZTEC_LAYERS);

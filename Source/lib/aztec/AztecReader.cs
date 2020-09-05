@@ -15,9 +15,8 @@
  */
 
 using System.Collections.Generic;
-
-using ZXing.Common;
 using ZXing.Aztec.Internal;
+using ZXing.Common;
 
 namespace ZXing.Aztec
 {
@@ -25,7 +24,7 @@ namespace ZXing.Aztec
     /// This implementation can detect and decode Aztec codes in an image.
     /// </summary>
     /// <author>David Olivier</author>
-    public class AztecReader : Reader
+    public class AztecReader : IBarCodeDecoder
     {
         /// <summary>
         /// Locates and decodes a barcode in some format within an image.
@@ -34,7 +33,7 @@ namespace ZXing.Aztec
         /// <returns>
         /// a String representing the content encoded by the Data Matrix code
         /// </returns>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -50,18 +49,19 @@ namespace ZXing.Aztec
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             var blackmatrix = image.GetBlackMatrix();
-            if (blackmatrix == null)
+            if (blackmatrix == null) {
                 return null;
+            }
 
             IGridSampler gridSampler = new DefaultGridSampler(blackmatrix);
             Detector detector = new Detector(gridSampler);
             ResultPoint[] points = null;
             DecoderResult decoderResult = null;
 
-            var detectorResult = detector.detect(false);
+            var detectorResult = detector.detect();
             if (detectorResult != null)
             {
                 points = detectorResult.Points;
@@ -71,13 +71,15 @@ namespace ZXing.Aztec
             if (decoderResult == null)
             {
                 detectorResult = detector.detect(true);
-                if (detectorResult == null)
+                if (detectorResult == null) {
                     return null;
+                }
 
                 points = detectorResult.Points;
                 decoderResult = new Decoder().decode(detectorResult);
-                if (decoderResult == null)
+                if (decoderResult == null) {
                     return null;
+                }
             }
 
             if (hints != null &&
@@ -93,7 +95,7 @@ namespace ZXing.Aztec
                 }
             }
 
-            var result = new Result(decoderResult.Text, decoderResult.RawBytes, decoderResult.NumBits, points, BarcodeFormat.AZTEC);
+            var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, decoderResult.NumBits, points, BarcodeFormat.AZTEC);
 
             IList<byte[]> byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)

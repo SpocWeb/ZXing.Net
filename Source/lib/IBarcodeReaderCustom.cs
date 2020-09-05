@@ -26,6 +26,6 @@ namespace ZXing
         /// </summary>
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
-        Result Decode(T barcodeBitmap);
+        BarCodeText Decode(T barcodeBitmap);
     }
 }

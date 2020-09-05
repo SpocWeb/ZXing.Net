@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.Multi;
 using ZXing.PDF417.Internal;
@@ -29,7 +28,7 @@ namespace ZXing.PDF417
     /// <author>SITA Lab (kevin.osullivan@sita.aero)</author>
     /// <author>Guenther Grau</author>
     /// </remarks>
-    public sealed class PDF417Reader : Reader, IMultipleBarcodeReader
+    public sealed class PDF417Reader : IBarCodeDecoder, IMultipleBarcodeReader
     {
         /// <summary>
         /// Locates and decodes a PDF417 code in an image.
@@ -37,7 +36,7 @@ namespace ZXing.PDF417
         /// <returns>a String representing the content encoded by the PDF417 code</returns>
         /// <exception cref="FormatException">if a PDF417 cannot be decoded</exception>
         /// </summary>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -55,18 +54,15 @@ namespace ZXing.PDF417
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image,
+        public BarCodeText decode(BinaryBitmap image,
                              IDictionary<DecodeHintType, object> hints)
         {
-            Result[] results = decode(image, hints, false);
+            BarCodeText[] results = decode(image, hints, false);
             if (results.Length == 0)
             {
                 return null;
             }
-            else
-            {
-                return results[0]; // First barcode discovered.
-            }
+            return results[0]; // First barcode discovered.
         }
 
         /// <summary>
@@ -74,7 +70,7 @@ namespace ZXing.PDF417
         ///
         /// <returns>an array of Strings representing the content encoded by the PDF417 codes</returns>
         /// </summary>
-        public Result[] decodeMultiple(BinaryBitmap image)
+        public BarCodeText[] decodeMultiple(BinaryBitmap image)
         {
             return decodeMultiple(image, null);
         }
@@ -91,7 +87,7 @@ namespace ZXing.PDF417
         /// <returns>
         /// String which the barcodes encode
         /// </returns>
-        public Result[] decodeMultiple(BinaryBitmap image,
+        public BarCodeText[] decodeMultiple(BinaryBitmap image,
                                        IDictionary<DecodeHintType, object> hints)
         {
             return decode(image, hints, true);
@@ -105,9 +101,9 @@ namespace ZXing.PDF417
         /// <param name="image">Image.</param>
         /// <param name="hints">Hints.</param>
         /// <param name="multiple">If set to <c>true</c> multiple.</param>
-        private static Result[] decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints, bool multiple)
+        private static BarCodeText[] decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints, bool multiple)
         {
-            var results = new List<Result>();
+            var results = new List<BarCodeText>();
             var detectorResult = Detector.detect(image, hints, multiple);
             if (detectorResult != null)
             {
@@ -119,7 +115,7 @@ namespace ZXing.PDF417
                     {
                         continue;
                     }
-                    var result = new Result(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
+                    var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
                     result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
                     var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
                     if (pdf417ResultMetadata != null)
@@ -199,7 +195,7 @@ namespace ZXing.PDF417
             // do nothing
         }
 
-        public Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
         {
             throw new NotImplementedException();
         }

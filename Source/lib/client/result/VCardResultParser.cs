@@ -53,7 +53,7 @@ namespace ZXing.Client.Result
       private static readonly Regex SEMICOLON_OR_COMMA = new Regex("[;,]", RegexOptions.Compiled);
 #endif
 
-        override public ParsedResult parse(ZXing.Result result)
+        override public ParsedResult parse(BarCodeText result)
         {
             // Although we should insist on the raw text ending with "END:VCARD", there's no reason
             // to throw out everything else we parsed just because this was omitted. In fact, Eclair
@@ -254,8 +254,10 @@ namespace ZXing.Client.Result
                     }
                     if (metadata == null)
                     {
-                        var matched = new List<String>(1);
-                        matched.Add(element);
+                        var matched = new List<String>(1)
+                        {
+                            element
+                        };
                         matches.Add(matched);
                     }
                     else

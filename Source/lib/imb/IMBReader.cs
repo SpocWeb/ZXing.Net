@@ -16,15 +16,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
+using ZXing.Common;
+using ZXing.OneD;
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
 using System.Numerics;
 #else
 using BigIntegerLibrary;
 #endif
-using System.Text;
-
-using ZXing.Common;
-using ZXing.OneD;
 
 namespace ZXing.IMB
 {
@@ -36,29 +35,29 @@ namespace ZXing.IMB
     {
         private const int NUM_BARS_IMB = 65;
 
-        private static readonly int[] barPosA = new[] { 2, 6, 13, 16, 21, 30, 34, 40, 45, 48, 52, 56, 62 };
-        private static readonly int[] barPosB = new[] { 22, 18, 39, 41, 11, 57, 54, 50, 7, 32, 2, 62, 26 };
-        private static readonly int[] barPosC = new[] { 40, 35, 57, 52, 49, 7, 24, 17, 3, 63, 29, 44, 12 };
-        private static readonly int[] barPosD = new[] { 47, 5, 35, 39, 30, 42, 15, 60, 20, 10, 65, 54, 23 };
-        private static readonly int[] barPosE = new[] { 20, 41, 46, 1, 8, 51, 29, 61, 34, 15, 25, 37, 58 };
-        private static readonly int[] barPosF = new[] { 51, 25, 19, 64, 56, 4, 44, 31, 28, 36, 47, 11, 6 };
-        private static readonly int[] barPosG = new[] { 33, 37, 21, 9, 17, 49, 59, 14, 64, 26, 42, 4, 53 };
-        private static readonly int[] barPosH = new[] { 60, 14, 1, 27, 38, 61, 10, 24, 50, 55, 19, 32, 45 };
-        private static readonly int[] barPosI = new[] { 27, 46, 65, 59, 31, 12, 16, 43, 55, 5, 9, 22, 36 };
-        private static readonly int[] barPosJ = new[] { 63, 58, 53, 48, 43, 38, 33, 28, 23, 18, 13, 8, 3 };
-        private static readonly int[][] barPos = new[] { barPosA, barPosB, barPosC, barPosD, barPosE, barPosF, barPosG, barPosH, barPosI, barPosJ };
+        private static readonly int[] barPosA = { 2, 6, 13, 16, 21, 30, 34, 40, 45, 48, 52, 56, 62 };
+        private static readonly int[] barPosB = { 22, 18, 39, 41, 11, 57, 54, 50, 7, 32, 2, 62, 26 };
+        private static readonly int[] barPosC = { 40, 35, 57, 52, 49, 7, 24, 17, 3, 63, 29, 44, 12 };
+        private static readonly int[] barPosD = { 47, 5, 35, 39, 30, 42, 15, 60, 20, 10, 65, 54, 23 };
+        private static readonly int[] barPosE = { 20, 41, 46, 1, 8, 51, 29, 61, 34, 15, 25, 37, 58 };
+        private static readonly int[] barPosF = { 51, 25, 19, 64, 56, 4, 44, 31, 28, 36, 47, 11, 6 };
+        private static readonly int[] barPosG = { 33, 37, 21, 9, 17, 49, 59, 14, 64, 26, 42, 4, 53 };
+        private static readonly int[] barPosH = { 60, 14, 1, 27, 38, 61, 10, 24, 50, 55, 19, 32, 45 };
+        private static readonly int[] barPosI = { 27, 46, 65, 59, 31, 12, 16, 43, 55, 5, 9, 22, 36 };
+        private static readonly int[] barPosJ = { 63, 58, 53, 48, 43, 38, 33, 28, 23, 18, 13, 8, 3 };
+        private static readonly int[][] barPos = { barPosA, barPosB, barPosC, barPosD, barPosE, barPosF, barPosG, barPosH, barPosI, barPosJ };
 
-        private static readonly char[] barTypeA = new[] { 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A', 'A', 'A', 'D' };
-        private static readonly char[] barTypeB = new[] { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D' };
-        private static readonly char[] barTypeC = new[] { 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A' };
-        private static readonly char[] barTypeD = new[] { 'A', 'A', 'A', 'D', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A' };
-        private static readonly char[] barTypeE = new[] { 'D', 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'A', 'D', 'A' };
-        private static readonly char[] barTypeF = new[] { 'D', 'D', 'A', 'A', 'D', 'D', 'A', 'A', 'D', 'D', 'D', 'D', 'A' };
-        private static readonly char[] barTypeG = new[] { 'D', 'A', 'D', 'D', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
-        private static readonly char[] barTypeH = new[] { 'D', 'D', 'D', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D', 'D', 'A' };
-        private static readonly char[] barTypeI = new[] { 'A', 'A', 'A', 'D', 'D', 'D', 'A', 'D', 'D', 'D', 'A', 'D', 'A' };
-        private static readonly char[] barTypeJ = new[] { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
-        private static readonly char[][] barType = new[] { barTypeA, barTypeB, barTypeC, barTypeD, barTypeE, barTypeF, barTypeG, barTypeH, barTypeI, barTypeJ };
+        private static readonly char[] barTypeA = { 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A', 'A', 'A', 'D' };
+        private static readonly char[] barTypeB = { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D' };
+        private static readonly char[] barTypeC = { 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A' };
+        private static readonly char[] barTypeD = { 'A', 'A', 'A', 'D', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A' };
+        private static readonly char[] barTypeE = { 'D', 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'A', 'D', 'A' };
+        private static readonly char[] barTypeF = { 'D', 'D', 'A', 'A', 'D', 'D', 'A', 'A', 'D', 'D', 'D', 'D', 'A' };
+        private static readonly char[] barTypeG = { 'D', 'A', 'D', 'D', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
+        private static readonly char[] barTypeH = { 'D', 'D', 'D', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D', 'D', 'A' };
+        private static readonly char[] barTypeI = { 'A', 'A', 'A', 'D', 'D', 'D', 'A', 'D', 'D', 'D', 'A', 'D', 'A' };
+        private static readonly char[] barTypeJ = { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
+        private static readonly char[][] barType = { barTypeA, barTypeB, barTypeC, barTypeD, barTypeE, barTypeF, barTypeG, barTypeH, barTypeI, barTypeJ };
 
         private const int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
 
@@ -86,7 +85,7 @@ namespace ZXing.IMB
         /// <param name="image"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        protected override Result doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        protected override BarCodeText doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             currentBitmap = image;
             return base.doDecode(image, hints);
@@ -451,9 +450,9 @@ namespace ZXing.IMB
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             if (currentBitmap == null)
                 return null;
@@ -520,7 +519,7 @@ namespace ZXing.IMB
                 resultPointCallback(new ResultPoint(pixelStopOffset, rowNumber));
             }
 
-            return new Result(
+            return new BarCodeText(
                trackingNumber,
                null,
                new[]

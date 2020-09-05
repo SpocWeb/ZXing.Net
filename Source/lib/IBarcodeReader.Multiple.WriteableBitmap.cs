@@ -33,6 +33,6 @@ namespace ZXing
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
         [System.CLSCompliant(false)]
-        Result[] DecodeMultiple(WriteableBitmap barcodeBitmap);
+        BarCodeText[] DecodeMultiple(WriteableBitmap barcodeBitmap);
     }
 }

@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.Aztec.Internal
@@ -45,7 +44,7 @@ namespace ZXing.Aztec.Internal
         {
             this.token = token;
             this.mode = mode;
-            this.binaryShiftByteCount = binaryBytes;
+            binaryShiftByteCount = binaryBytes;
             this.bitCount = bitCount;
             // Make sure we match the token
             //int binaryShiftBitCount = (binaryShiftByteCount * 8) +
@@ -95,7 +94,7 @@ namespace ZXing.Aztec.Internal
             // Shifts exist only to UPPER and PUNCT, both with tokens size 5.
             token = token.add(HighLevelEncoder.SHIFT_TABLE[this.mode][mode], thisModeBitCount);
             token = token.add(value, 5);
-            return new State(token, this.mode, 0, this.bitCount + thisModeBitCount + 5);
+            return new State(token, this.mode, 0, bitCount + thisModeBitCount + 5);
         }
 
         /// <summary>
@@ -140,7 +139,7 @@ namespace ZXing.Aztec.Internal
             Token token = this.token;
             token = token.addBinaryShift(index - binaryShiftByteCount, binaryShiftByteCount);
             //assert token.getTotalBitCount() == this.bitCount;
-            return new State(token, mode, 0, this.bitCount);
+            return new State(token, mode, 0, bitCount);
         }
 
         /// <summary>
@@ -149,13 +148,13 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         public bool isBetterThanOrEqualTo(State other)
         {
-            int newModeBitCount = this.bitCount + (HighLevelEncoder.LATCH_TABLE[this.mode][other.mode] >> 16);
-            if (this.binaryShiftByteCount < other.binaryShiftByteCount)
+            int newModeBitCount = bitCount + (HighLevelEncoder.LATCH_TABLE[mode][other.mode] >> 16);
+            if (binaryShiftByteCount < other.binaryShiftByteCount)
             {
                 // add additional B/S encoding cost of other, if any
                 newModeBitCount += calculateBinaryShiftCost(other) - calculateBinaryShiftCost(this);
             }
-            else if (this.binaryShiftByteCount > other.binaryShiftByteCount && other.binaryShiftByteCount > 0)
+            else if (binaryShiftByteCount > other.binaryShiftByteCount && other.binaryShiftByteCount > 0)
             {
                 // maximum possible additional cost (we end up exceeding the 31 byte boundary and other state can stay beneath it)
                 newModeBitCount += 10;

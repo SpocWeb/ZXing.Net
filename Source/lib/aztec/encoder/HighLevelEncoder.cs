@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 using ZXing.Common;
 
 namespace ZXing.Aztec.Internal
@@ -48,8 +47,7 @@ namespace ZXing.Aztec.Internal
         // be up to 14 bits.  In the best possible case, we are already there!
         // The high half-word of each entry gives the number of bits.
         // The low half-word of each entry are the actual bits necessary to change
-        internal static readonly int[][] LATCH_TABLE = new int[][]
-           {
+        internal static readonly int[][] LATCH_TABLE = {
             new[]
                {
                   0,
@@ -183,13 +181,15 @@ namespace ZXing.Aztec.Internal
         /// <returns>text represented by this encoder encoded as a <see cref="BitArray"/></returns>
         public BitArray encode()
         {
-            ICollection<State> states = new Collection<State>();
-            states.Add(State.INITIAL_STATE);
+            ICollection<State> states = new Collection<State>
+            {
+                State.INITIAL_STATE
+            };
             for (int index = 0; index < text.Length; index++)
             {
                 int pairCode;
                 // don't remove the (int) type cast, mono compiler needs it
-                int nextChar = (index + 1 < text.Length) ? (int)text[index + 1] : 0;
+                int nextChar = (index + 1 < text.Length) ? text[index + 1] : 0;
                 switch (text[index])
                 {
                     case (byte)'\r':

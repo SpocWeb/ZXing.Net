@@ -15,7 +15,6 @@
  */
 
 using System;
-
 using ZXing.Common;
 
 namespace ZXing
@@ -33,7 +32,7 @@ namespace ZXing
         /// <summary>
         /// event is executed when a result was found via decode
         /// </summary>
-        event Action<Result> ResultFound;
+        event Action<BarCodeText> ResultFound;
 
         /// <summary>
         /// Specifies some options which influence the decoding process
@@ -50,7 +49,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        Result Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
+        BarCodeText Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
 
         /// <summary>
         /// Tries to decode a barcode within an image which is given by a luminance source.
@@ -61,6 +60,6 @@ namespace ZXing
         /// </summary>
         /// <param name="luminanceSource">The luminance source.</param>
         /// <returns></returns>
-        Result Decode(LuminanceSource luminanceSource);
+        BarCodeText Decode(LuminanceSource luminanceSource);
     }
 }

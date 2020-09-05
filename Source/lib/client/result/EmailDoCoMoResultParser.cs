@@ -34,7 +34,7 @@ namespace ZXing.Client.Result
 );
 #endif
 
-        public override ParsedResult parse(ZXing.Result result)
+        public override ParsedResult parse(BarCodeText result)
         {
             var rawText = result.Text;
             if (!rawText.StartsWith("MATMSG:"))

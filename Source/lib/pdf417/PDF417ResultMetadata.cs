@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System;
+
 namespace ZXing.PDF417
 {
     /// <summary>
@@ -33,7 +35,7 @@ namespace ZXing.PDF417
         /// <summary>
         /// old optional data format as int array, always null
         /// </summary>
-        [System.Obsolete("use dedicated already parsed fields")]
+        [Obsolete("use dedicated already parsed fields")]
         public int[] OptionalData { get; set; }
         /// <summary>
         /// true if it is the last segment

@@ -19,13 +19,11 @@ using System.Runtime.InteropServices;
 
 namespace ZXing.Interop.Decoding
 {
-    /// <summary>
-    /// Encapsulates the result of decoding a barcode within an image.
-    /// </summary>
+    /// <summary> Encapsulates the result of decoding a barcode within an image. </summary>
     [ComVisible(true)]
     [Guid("4A5EB14C-9F1C-437E-969D-9882D9AB8AF5")]
     [InterfaceType(ComInterfaceType.InterfaceIsDual)]
-    public interface IResult
+    public interface IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         String Text { get; }
@@ -50,14 +48,9 @@ namespace ZXing.Interop.Decoding
         /// </returns>
         ResultMetadataItem[] ResultMetadata { get; }
 
-        /// <summary>
-        /// Gets the timestamp.
-        /// </summary>
         long Timestamp { get; }
 
-        /// <summary>
-        /// how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length
-        /// </summary>
+        /// <summary> how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length </summary>
         int NumBits { get; }
     }
 }

@@ -19,7 +19,6 @@
  */
 
 using System;
-
 using System.Text;
 
 namespace ZXing.PDF417.Internal
@@ -167,12 +166,10 @@ namespace ZXing.PDF417.Internal
         /// <param name="errorCorrectionLevel">The error correction level (0-9)</param>
         /// <param name="sourceCodeWords">The number of codewords for AUTO errorCorrectionLevel</param>
         /// <returns>the number of codewords generated for error correction</returns>
-        internal static int getErrorCorrectionLevel(int errorCorrectionLevel, int sourceCodeWords)
-        {
+        internal static int getErrorCorrectionLevel(int errorCorrectionLevel, int sourceCodeWords) {
             if (errorCorrectionLevel == (int)PDF417ErrorCorrectionLevel.AUTO)
                 return getRecommendedMinimumErrorCorrectionLevel(sourceCodeWords);
-            else
-                return errorCorrectionLevel;
+            return errorCorrectionLevel;
         }
 
         /// <summary>

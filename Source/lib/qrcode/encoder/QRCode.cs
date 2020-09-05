@@ -104,7 +104,7 @@ namespace ZXing.QrCode.Internal
             else
             {
                 result.Append("\n matrix:\n");
-                result.Append(Matrix.ToString());
+                result.Append(Matrix);
             }
             result.Append(">>\n");
             return result.ToString();

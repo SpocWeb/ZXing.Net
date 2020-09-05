@@ -48,7 +48,7 @@ namespace ZXing.OneD.RSS
         {
             Value = value;
             StartEnd = startEnd;
-            ResultPoints = new ResultPoint[]
+            ResultPoints = new[]
                                    {
                                    new ResultPoint(start, rowNumber),
                                    new ResultPoint(end, rowNumber),

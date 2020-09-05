@@ -164,7 +164,7 @@ namespace ZXing.Common.ReedSolomon
             int inverse = field.inverse(sigmaTildeAtZero);
             GenericGFPoly sigma = t.multiply(inverse);
             GenericGFPoly omega = r.multiply(inverse);
-            return new GenericGFPoly[] { sigma, omega };
+            return new[] { sigma, omega };
         }
 
         private int[] findErrorLocations(GenericGFPoly errorLocator)
@@ -174,7 +174,7 @@ namespace ZXing.Common.ReedSolomon
             if (numErrors == 1)
             {
                 // shortcut
-                return new int[] { errorLocator.getCoefficient(1) };
+                return new[] { errorLocator.getCoefficient(1) };
             }
             int[] result = new int[numErrors];
             int e = 0;

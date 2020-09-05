@@ -15,7 +15,6 @@
  */
 
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.OneD.RSS;
 using ZXing.OneD.RSS.Expanded;
@@ -122,9 +121,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        override public Result decodeRow(int rowNumber,
+        override public BarCodeText decodeRow(int rowNumber,
                                 BitArray row,
                                 IDictionary<DecodeHintType, object> hints)
         {
@@ -144,7 +143,7 @@ namespace ZXing.OneD
         /// </summary>
         public override void reset()
         {
-            foreach (Reader reader in readers)
+            foreach (IBarCodeDecoder reader in readers)
             {
                 reader.reset();
             }

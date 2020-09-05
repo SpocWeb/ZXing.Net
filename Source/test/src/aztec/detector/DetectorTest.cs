@@ -105,7 +105,8 @@ namespace ZXing.Aztec.Test
                   {
                      copy.flip(orientationPoints[error].X, orientationPoints[error].Y);
                   }
-                  var result = new Detector(makeLarger(copy, 3)).detect(false);
+                  var larger = makeLarger(copy, 3);
+                  var result = new Detector(larger).detect(false);
                   if (result != null)
                   {
                      Assert.Fail("Should not reach here");

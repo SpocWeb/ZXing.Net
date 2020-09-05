@@ -40,7 +40,7 @@ namespace ZXing
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
         [System.CLSCompliant(false)]
-        public BarcodeReader(Reader reader,
+        public BarcodeReader(IBarCodeDecoder reader,
            Func<SoftwareBitmap, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer
         )
@@ -59,7 +59,7 @@ namespace ZXing
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
         [System.CLSCompliant(false)]
-        public BarcodeReader(Reader reader,
+        public BarcodeReader(IBarCodeDecoder reader,
            Func<SoftwareBitmap, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
            Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
@@ -91,15 +91,16 @@ namespace ZXing
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
         [System.CLSCompliant(false)]
-        public Result Decode(SoftwareBitmap barcodeBitmap)
+        public BarCodeText Decode(SoftwareBitmap barcodeBitmap)
         {
             if (CreateLuminanceSourceSoftwareBitmap == null)
             {
                 throw new InvalidOperationException("You have to declare a luminance source delegate.");
             }
 
-            if (barcodeBitmap == null)
+            if (barcodeBitmap == null) {
                 throw new ArgumentNullException("barcodeBitmap");
+            }
 
             var luminanceSource = CreateLuminanceSourceSoftwareBitmap(barcodeBitmap);
 
@@ -112,15 +113,16 @@ namespace ZXing
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
         [System.CLSCompliant(false)]
-        public Result[] DecodeMultiple(SoftwareBitmap barcodeBitmap)
+        public BarCodeText[] DecodeMultiple(SoftwareBitmap barcodeBitmap)
         {
             if (CreateLuminanceSourceSoftwareBitmap == null)
             {
                 throw new InvalidOperationException("You have to declare a luminance source delegate.");
             }
 
-            if (barcodeBitmap == null)
+            if (barcodeBitmap == null) {
                 throw new ArgumentNullException("barcodeBitmap");
+            }
 
             var luminanceSource = CreateLuminanceSourceSoftwareBitmap(barcodeBitmap);
 

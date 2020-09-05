@@ -16,7 +16,6 @@
 
 using System;
 using System.Text;
-using ZXing.QrCode.Internal;
 using ZXing.Common;
 
 namespace ZXing.Maxicode.Internal
@@ -142,7 +141,7 @@ namespace ZXing.Maxicode.Internal
         private static String getPostCode3(byte[] bytes)
         {
             return new String(
-               new char[]
+               new[]
                   {
                   SETS[0][getInt(bytes, new byte[] {39, 40, 41, 42, 31, 32})],
                   SETS[0][getInt(bytes, new byte[] {33, 34, 35, 36, 25, 26})],

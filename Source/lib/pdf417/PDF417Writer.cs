@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.PDF417.Internal;
 
@@ -26,7 +25,7 @@ namespace ZXing.PDF417
     /// <author>Jacob Haynes</author>
     /// <author>qwandor@google.com (Andrew Walbran)</author>
     /// </summary>
-    public sealed class PDF417Writer : Writer
+    public sealed class PDF417Writer : IBarCodeWriter
     {
         /// <summary>
         /// default white space (margin) around the code

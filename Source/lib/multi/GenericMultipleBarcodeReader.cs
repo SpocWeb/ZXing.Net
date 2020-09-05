@@ -14,6 +14,7 @@
 * limitations under the License.
 */
 
+using System;
 using System.Collections.Generic;
 using ZXing.Common;
 
@@ -30,24 +31,24 @@ namespace ZXing.Multi
     ///   when attempting to find multiple 2D barcodes, like QR Codes, in an image,
     ///   where the presence of multiple barcodes might prevent
     /// detecting any one of them.</p>
-    ///   <p>That is, instead of passing a <see cref="Reader"/> a caller might pass
+    ///   <p>That is, instead of passing a <see cref="IBarCodeDecoder"/> a caller might pass
     ///   <code>new ByQuadrantReader(reader)</code>.</p>
     ///   <author>Sean Owen</author>
     /// </remarks>
-    public sealed class GenericMultipleBarcodeReader : IMultipleBarcodeReader, Reader
+    public sealed class GenericMultipleBarcodeReader : IMultipleBarcodeReader, IBarCodeDecoder
     {
         private const int MIN_DIMENSION_TO_RECUR = 30;
         private const int MAX_DEPTH = 4;
 
-        private readonly Reader _delegate;
+        private readonly IBarCodeDecoder _delegate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericMultipleBarcodeReader"/> class.
         /// </summary>
         /// <param name="delegate">The @delegate.</param>
-        public GenericMultipleBarcodeReader(Reader @delegate)
+        public GenericMultipleBarcodeReader(IBarCodeDecoder @delegate)
         {
-            this._delegate = @delegate;
+            _delegate = @delegate;
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace ZXing.Multi
         /// </summary>
         /// <param name="image">The image.</param>
         /// <returns></returns>
-        public Result[] decodeMultiple(BinaryBitmap image)
+        public BarCodeText[] decodeMultiple(BinaryBitmap image)
         {
             return decodeMultiple(image, null);
         }
@@ -66,38 +67,38 @@ namespace ZXing.Multi
         /// <param name="image">The image.</param>
         /// <param name="hints">The hints.</param>
         /// <returns></returns>
-        public Result[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            var results = new List<Result>();
+            var results = new List<BarCodeText>();
             doDecodeMultiple(image, hints, results, 0, 0, 0);
             if ((results.Count == 0))
             {
                 return null;
             }
             int numResults = results.Count;
-            Result[] resultArray = new Result[numResults];
+            BarCodeText[] resultArray = new BarCodeText[numResults];
             for (int i = 0; i < numResults; i++)
             {
-                resultArray[i] = (Result)results[i];
+                resultArray[i] = results[i];
             }
             return resultArray;
         }
 
-        private void doDecodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints, IList<Result> results, int xOffset, int yOffset, int currentDepth)
+        private void doDecodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints, IList<BarCodeText> results, int xOffset, int yOffset, int currentDepth)
         {
             if (currentDepth > MAX_DEPTH)
             {
                 return;
             }
 
-            Result result = _delegate.decode(image, hints);
+            BarCodeText result = _delegate.decode(image, hints);
             if (result == null)
                 return;
 
             bool alreadyFound = false;
             for (int i = 0; i < results.Count; i++)
             {
-                Result existingResult = (Result)results[i];
+                BarCodeText existingResult = results[i];
                 if (existingResult.Text.Equals(result.Text))
                 {
                     alreadyFound = true;
@@ -169,7 +170,7 @@ namespace ZXing.Multi
             }
         }
 
-        private static Result translateResultPoints(Result result, int xOffset, int yOffset)
+        private static BarCodeText translateResultPoints(BarCodeText result, int xOffset, int yOffset)
         {
             var oldResultPoints = result.ResultPoints;
             var newResultPoints = new ResultPoint[oldResultPoints.Length];
@@ -181,7 +182,7 @@ namespace ZXing.Multi
                     newResultPoints[i] = new ResultPoint(oldPoint.X + xOffset, oldPoint.Y + yOffset);
                 }
             }
-            var newResult = new Result(result.Text, result.RawBytes, result.NumBits, newResultPoints, result.BarcodeFormat);
+            var newResult = new BarCodeText(result.Text, result.RawBytes, result.NumBits, newResultPoints, result.BarcodeFormat);
             newResult.putAllMetadata(result.ResultMetadata);
             return newResult;
         }
@@ -193,7 +194,7 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return _delegate.decode(image);
         }
@@ -210,7 +211,7 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             return _delegate.decode(image, hints);
         }
@@ -224,9 +225,9 @@ namespace ZXing.Multi
             _delegate.reset();
         }
 
-        public Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

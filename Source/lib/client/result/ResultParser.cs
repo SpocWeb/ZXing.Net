@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ZXing.Client.Result
@@ -72,14 +73,14 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="theResult">the raw <see cref="Result"/> to parse</param>
         /// <returns><see cref="ParsedResult" /> encapsulating the parsing result</returns>
-        public abstract ParsedResult parse(ZXing.Result theResult);
+        public abstract ParsedResult parse(BarCodeText theResult);
 
         /// <summary>
         /// Parses the result.
         /// </summary>
         /// <param name="theResult">The result.</param>
         /// <returns></returns>
-        public static ParsedResult parseResult(ZXing.Result theResult)
+        public static ParsedResult parseResult(BarCodeText theResult)
         {
             foreach (var parser in PARSERS)
             {
@@ -97,7 +98,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        protected static void maybeAppend(String value, System.Text.StringBuilder result)
+        protected static void maybeAppend(String value, StringBuilder result)
         {
             if (value != null)
             {
@@ -110,7 +111,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        protected static void maybeAppend(String[] value, System.Text.StringBuilder result)
+        protected static void maybeAppend(String[] value, StringBuilder result)
         {
             if (value != null)
             {
@@ -143,7 +144,7 @@ namespace ZXing.Client.Result
                 if (backslash >= 0)
                 {
                     int max = escaped.Length;
-                    var unescaped = new System.Text.StringBuilder(max - 1);
+                    var unescaped = new StringBuilder(max - 1);
                     unescaped.Append(escaped.ToCharArray(), 0, backslash);
                     bool nextIsEscaped = false;
                     for (int i = backslash; i < max; i++)
@@ -350,7 +351,7 @@ namespace ZXing.Client.Result
 
             int max = escapedArray.Length;
             // final length is at most 2 less than original due to at least 1 unescaping
-            var unescaped = new System.Text.StringBuilder(max - 2);
+            var unescaped = new StringBuilder(max - 2);
             // Can append everything up to first escape character
             unescaped.Append(escapedArray, 0, first);
 

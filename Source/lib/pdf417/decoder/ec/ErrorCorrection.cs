@@ -32,7 +32,7 @@ namespace ZXing.PDF417.Internal.EC
         /// </summary>
         public ErrorCorrection()
         {
-            this.field = ModulusGF.PDF417_GF;
+            field = ModulusGF.PDF417_GF;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace ZXing.PDF417.Internal.EC
                 {
                     int b = field.exp(received.Length - 1 - erasure);
                     // Add (1 - bx) term:
-                    ModulusPoly term = new ModulusPoly(field, new int[] { field.subtract(0, b), 1 });
+                    ModulusPoly term = new ModulusPoly(field, new[] { field.subtract(0, b), 1 });
                     knownErrors = knownErrors.multiply(term);
                 }
             }
@@ -176,7 +176,7 @@ namespace ZXing.PDF417.Internal.EC
             int inverse = field.inverse(sigmaTildeAtZero);
             ModulusPoly sigma = t.multiply(inverse);
             ModulusPoly omega = r.multiply(inverse);
-            return new ModulusPoly[] { sigma, omega };
+            return new[] { sigma, omega };
         }
 
         /// <summary>

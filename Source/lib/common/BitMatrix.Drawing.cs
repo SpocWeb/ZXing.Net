@@ -16,10 +16,6 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-
-using ZXing.OneD;
 
 namespace ZXing.Common
 {

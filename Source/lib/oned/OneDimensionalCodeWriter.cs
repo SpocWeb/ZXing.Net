@@ -16,7 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Text.RegularExpressions;
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -25,9 +25,9 @@ namespace ZXing.OneD
     ///   <p>Encapsulates functionality and implementation that is common to one-dimensional barcodes.</p>
     ///   <author>dsbnatut@gmail.com (Kazuki Nishiura)</author>
     /// </summary>
-    public abstract class OneDimensionalCodeWriter : Writer
+    public abstract class OneDimensionalCodeWriter : IBarCodeWriter
     {
-        private static readonly System.Text.RegularExpressions.Regex NUMERIC = new System.Text.RegularExpressions.Regex("[0-9]+");
+        private static readonly Regex NUMERIC = new Regex("[0-9]+");
 
         /// <summary>
         /// returns supported formats

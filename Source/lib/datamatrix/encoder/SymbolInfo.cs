@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ZXing.Datamatrix.Encoder
@@ -22,9 +23,9 @@ namespace ZXing.Datamatrix.Encoder
     /// <summary>
     /// Symbol info table for DataMatrix.
     /// </summary>
-    public class SymbolInfo
-    {
-        internal static readonly SymbolInfo[] PROD_SYMBOLS = {
+    public class SymbolInfo {
+
+        private static IReadOnlyList<SymbolInfo> symbols = new [] {
                                                          new SymbolInfo(false, 3, 5, 8, 8, 1),
                                                          new SymbolInfo(false, 5, 7, 10, 10, 1),
                                                          /*rect*/new SymbolInfo(true, 5, 7, 16, 6, 1),
@@ -60,11 +61,11 @@ namespace ZXing.Datamatrix.Encoder
                                                          new DataMatrixSymbolInfo144(),
                                                       };
 
-        private static SymbolInfo[] symbols = PROD_SYMBOLS;
+        public static readonly IReadOnlyList<SymbolInfo> PROD_SYMBOLS = symbols;
 
         private readonly bool rectangular;
         internal readonly int dataCapacity;
-        internal readonly int errorCodewords;
+        public readonly int errorCodewords;
         /// <summary>
         /// matrix width
         /// </summary>
@@ -82,9 +83,9 @@ namespace ZXing.Datamatrix.Encoder
          *
          * @param override the symbol info set to use
          */
-        public static void overrideSymbolSet(SymbolInfo[] @override)
+        public static void overrideSymbolSet(IReadOnlyList<SymbolInfo> symbolInfos)
         {
-            symbols = @override;
+            symbols = symbolInfos;
         }
         /// <summary>
         /// initializing constructor

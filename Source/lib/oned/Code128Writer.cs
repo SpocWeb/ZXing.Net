@@ -329,10 +329,7 @@ namespace ZXing.OneD
                         // then two more digits, switch
                         return forceCodesetB ? CODE_CODE_B : CODE_CODE_C;
                     }
-                    else
-                    {
-                        return CODE_CODE_B; // otherwise not worth switching
-                    }
+                    return CODE_CODE_B; // otherwise not worth switching
                 }
                 // At this point, there are at least 4 consecutive digits.
                 // Look ahead to choose whether to switch now or on the next round.

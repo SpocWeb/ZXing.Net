@@ -25,7 +25,7 @@ namespace ZXing.Common
     /// module, x is the column position, and y is the row position.
     /// The ordering is always x, y.
     /// The origin is at the top-left.</p>
-    ///   <p>Internally the bits are represented in a 1-D array of <see cref="Int32"/>.
+    ///   <p>Internally the bits are represented in a 1-D array of <see cref="int"/>.
     /// However, each row begins with a new int.
     /// This is done intentionally so that we can copy out a row into a BitArray very
     /// efficiently.</p>
@@ -34,7 +34,7 @@ namespace ZXing.Common
     /// </remarks>
     /// <author>Sean Owen</author>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
-    public sealed partial class BitMatrix : IBitMatrix
+    public sealed partial class BitMatrix : IBitMatrix//, IGridSampler
     {
         private readonly int width;
         private readonly int height;
@@ -91,11 +91,11 @@ namespace ZXing.Common
         {
             if (width < 1 || height < 1)
             {
-                throw new System.ArgumentException("Both dimensions must be greater than 0");
+                throw new ArgumentException("Both dimensions must be greater than 0");
             }
             this.width = width;
             this.height = height;
-            this.rowSize = (width + 31) >> 5;
+            rowSize = (width + 31) >> 5;
             bits = new int[rowSize * height];
         }
 
@@ -111,7 +111,7 @@ namespace ZXing.Common
         {
             this.width = width;
             this.height = height;
-            this.rowSize = (width + 31) >> 5;
+            rowSize = (width + 31) >> 5;
             this.bits = bits;
         }
 
@@ -328,17 +328,17 @@ namespace ZXing.Common
         {
             if (top < 0 || left < 0)
             {
-                throw new System.ArgumentException("Left and top must be nonnegative");
+                throw new ArgumentException("Left and top must be nonnegative");
             }
             if (height < 1 || width < 1)
             {
-                throw new System.ArgumentException("Height and width must be at least 1");
+                throw new ArgumentException("Height and width must be at least 1");
             }
             int right = left + width;
             int bottom = top + height;
             if (bottom > this.height || right > this.width)
             {
-                throw new System.ArgumentException("The region must fit inside the matrix");
+                throw new ArgumentException("The region must fit inside the matrix");
             }
             for (int y = top; y < bottom; y++)
             {
@@ -526,7 +526,7 @@ namespace ZXing.Common
             }
             x += bit;
 
-            return new int[] { x, y };
+            return new[] { x, y };
         }
 
         /// <summary>

@@ -31,13 +31,12 @@ namespace ZXing.QrCode.Internal
     /// </seealso>
     /// <seealso cref="ErrorCorrectionLevel">
     /// </seealso>
-    sealed class FormatInformation
+    public sealed class FormatInformation
     {
         private const int FORMAT_INFO_MASK_QR = 0x5412;
 
         /// <summary> See ISO 18004:2006, Annex C, Table C.1</summary>
-        private static readonly int[][] FORMAT_INFO_DECODE_LOOKUP = new int[][]
-                                                                       {
+        private static readonly int[][] FORMAT_INFO_DECODE_LOOKUP = {
                                                                         new [] { 0x5412, 0x00 },
                                                                         new [] { 0x5125, 0x01 },
                                                                         new [] { 0x5E7C, 0x02 },
@@ -73,8 +72,7 @@ namespace ZXing.QrCode.Internal
                                                                        };
 
         /// <summary> Offset i holds the number of 1 bits in the binary representation of i</summary>
-        private static readonly int[] BITS_SET_IN_HALF_BYTE = new[]
-           { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
+        private static readonly int[] BITS_SET_IN_HALF_BYTE = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
 
         private readonly ErrorCorrectionLevel errorCorrectionLevel;
         private readonly byte dataMask;
@@ -87,7 +85,7 @@ namespace ZXing.QrCode.Internal
             dataMask = (byte)(formatInfo & 0x07);
         }
 
-        internal static int numBitsDiffering(int a, int b)
+        public static int numBitsDiffering(int a, int b)
         {
             a ^= b; // a now has a 1 bit exactly where its bit differs with b's
                     // Count bits set quickly with a series of lookups:
@@ -110,7 +108,7 @@ namespace ZXing.QrCode.Internal
         /// information about the format it specifies, or <code>null</code>
         /// if doesn't seem to match any known pattern
         /// </returns>
-        internal static FormatInformation decodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
+        public static FormatInformation decodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
         {
             FormatInformation formatInfo = doDecodeFormatInformation(maskedFormatInfo1, maskedFormatInfo2);
             if (formatInfo != null)
@@ -163,9 +161,9 @@ namespace ZXing.QrCode.Internal
             return null;
         }
 
-        internal ErrorCorrectionLevel ErrorCorrectionLevel => errorCorrectionLevel;
+        public ErrorCorrectionLevel ErrorCorrectionLevel => errorCorrectionLevel;
 
-        internal byte DataMask => dataMask;
+        public byte DataMask => dataMask;
 
         public override int GetHashCode()
         {

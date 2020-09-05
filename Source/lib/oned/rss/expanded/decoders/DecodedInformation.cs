@@ -42,31 +42,31 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
            : base(newPosition)
         {
             this.newString = newString;
-            this.remaining = false;
-            this.remainingValue = 0;
+            remaining = false;
+            remainingValue = 0;
         }
 
         internal DecodedInformation(int newPosition, String newString, int remainingValue)
            : base(newPosition)
         {
-            this.remaining = true;
+            remaining = true;
             this.remainingValue = remainingValue;
             this.newString = newString;
         }
 
         internal String getNewString()
         {
-            return this.newString;
+            return newString;
         }
 
         internal bool isRemaining()
         {
-            return this.remaining;
+            return remaining;
         }
 
         internal int getRemainingValue()
         {
-            return this.remainingValue;
+            return remainingValue;
         }
     }
 }

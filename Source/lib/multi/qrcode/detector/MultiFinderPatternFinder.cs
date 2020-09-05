@@ -27,7 +27,7 @@ namespace ZXing.Multi.QrCode.Internal
     ///
     /// <p>This class is thread-safe but not reentrant. Each thread must allocate its own object.</p>
     ///
-    /// <p>In contrast to <see cref="FinderPatternFinder" />, this class will return an array of all possible
+    /// <p>In contrast to <see cref="QrPatternFinder" />, this class will return an array of all possible
     /// QR code locations in the image.</p>
     ///
     /// <p>Use the TRY_HARDER hint to ask for a more thorough detection.</p>
@@ -35,7 +35,7 @@ namespace ZXing.Multi.QrCode.Internal
     /// <author>Sean Owen</author>
     /// <author>Hannes Erven</author>
     /// </summary>
-    sealed class MultiFinderPatternFinder : FinderPatternFinder
+    sealed class MultiFinderPatternFinder : QrPatternFinder
     {
         private static readonly FinderPatternInfo[] EMPTY_RESULT_ARRAY = new FinderPatternInfo[0];
 
@@ -108,9 +108,8 @@ namespace ZXing.Multi.QrCode.Internal
              */
             if (size == 3)
             {
-                return new FinderPattern[][]
-                {
-                    new FinderPattern[]
+                return new[] {
+                    new[]
                     {
                         possibleCenters[0],
                         possibleCenters[1],
@@ -326,10 +325,7 @@ namespace ZXing.Multi.QrCode.Internal
             {
                 return EMPTY_RESULT_ARRAY;
             }
-            else
-            {
-                return result.ToArray();
-            }
+            return result.ToArray();
         }
     }
 }

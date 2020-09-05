@@ -100,7 +100,7 @@ namespace ZXing.PDF417.Test
 
             for (int x = 0; x < testCount; x++)
             {
-               List<Result> results = new List<Result>();
+               List<BarCodeText> results = new List<BarCodeText>();
                foreach (var imageFile in testImageGroup.Value)
                {
 #if !SILVERLIGHT
@@ -131,7 +131,7 @@ namespace ZXing.PDF417.Test
                   });
                var resultText = new StringBuilder();
                String fileId = null;
-               foreach (Result result in results)
+               foreach (BarCodeText result in results)
                {
                   PDF417ResultMetadata resultMetadata = getMeta(result);
                   Assert.NotNull(resultMetadata, "resultMetadata");
@@ -188,12 +188,12 @@ namespace ZXing.PDF417.Test
          }
       }
 
-      private static PDF417ResultMetadata getMeta(Result result)
+      private static PDF417ResultMetadata getMeta(BarCodeText result)
       {
          return result.ResultMetadata == null ? null : (PDF417ResultMetadata) result.ResultMetadata[ResultMetadataType.PDF417_EXTRA_METADATA];
       }
 
-      private Result[] decode(BinaryBitmap source, bool tryHarder)
+      private BarCodeText[] decode(BinaryBitmap source, bool tryHarder)
       {
          IDictionary<DecodeHintType, Object> hints = new Dictionary<DecodeHintType, object>();
          if (tryHarder)

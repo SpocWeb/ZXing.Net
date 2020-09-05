@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
+using System;
+using System.Collections.Generic;
+
 namespace ZXing.OneD
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Common;
-
     /// <summary>
     /// This class renders CodaBar as <see cref="bool" />[].
     /// </summary>

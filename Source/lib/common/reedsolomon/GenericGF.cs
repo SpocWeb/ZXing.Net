@@ -83,7 +83,7 @@ namespace ZXing.Common.ReedSolomon
         {
             this.primitive = primitive;
             this.size = size;
-            this.generatorBase = genBase;
+            generatorBase = genBase;
 
             expTable = new int[size];
             logTable = new int[size];
@@ -103,11 +103,11 @@ namespace ZXing.Common.ReedSolomon
                 logTable[expTable[i]] = i;
             }
             // logTable[0] == 0 but this should never be used
-            zero = new GenericGFPoly(this, new int[] { 0 });
-            one = new GenericGFPoly(this, new int[] { 1 });
+            zero = new GenericGFPoly(this, new[] { 0 });
+            one = new GenericGFPoly(this, new[] { 1 });
         }
 
-        internal GenericGFPoly Zero => zero;
+        public GenericGFPoly Zero => zero;
 
         internal GenericGFPoly One => one;
 
@@ -117,7 +117,7 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="degree">The degree.</param>
         /// <param name="coefficient">The coefficient.</param>
         /// <returns>the monomial representing coefficient * x^degree</returns>
-        internal GenericGFPoly buildMonomial(int degree, int coefficient)
+        public GenericGFPoly buildMonomial(int degree, int coefficient)
         {
             if (degree < 0)
             {

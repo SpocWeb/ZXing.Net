@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System.Drawing;
 using ZXing.Rendering;
 
 namespace ZXing
@@ -21,7 +22,7 @@ namespace ZXing
     /// <summary>
     /// A smart class to encode some content to a barcode image
     /// </summary>
-    public class BarcodeWriter : BarcodeWriter<System.Drawing.Bitmap>, IBarcodeWriter
+    public class BarcodeWriter : BarcodeWriter<Bitmap>, IBarcodeWriter
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeWriter"/> class.

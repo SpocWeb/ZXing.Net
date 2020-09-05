@@ -17,16 +17,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Aztec.Internal;
 using ZXing.Common;
+using Encoder = ZXing.Aztec.Internal.Encoder;
 
 namespace ZXing.Aztec
 {
     /// <summary>
     /// Renders an Aztec code as a <see cref="BitMatrix" />
     /// </summary>
-    public sealed class AztecWriter : Writer
+    public sealed class AztecWriter : IBarCodeWriter
     {
         private static readonly Encoding DEFAULT_CHARSET;
 
@@ -77,8 +77,8 @@ namespace ZXing.Aztec
         public BitMatrix encode(String contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
         {
             var charset = DEFAULT_CHARSET;
-            int eccPercent = Internal.Encoder.DEFAULT_EC_PERCENT;
-            int layers = Internal.Encoder.DEFAULT_AZTEC_LAYERS;
+            int eccPercent = Encoder.DEFAULT_EC_PERCENT;
+            int layers = Encoder.DEFAULT_AZTEC_LAYERS;
 
             if (hints != null)
             {
@@ -123,7 +123,7 @@ namespace ZXing.Aztec
             {
                 throw new ArgumentException("Can only encode AZTEC code, but got " + format);
             }
-            var aztec = Internal.Encoder.encode(charset.GetBytes(contents), eccPercent, layers);
+            var aztec = Encoder.encode(charset.GetBytes(contents), eccPercent, layers);
             return renderResult(aztec, width, height);
         }
 

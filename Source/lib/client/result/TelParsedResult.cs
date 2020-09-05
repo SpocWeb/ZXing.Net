@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Text;
 
 namespace ZXing.Client.Result
 {
@@ -37,7 +38,7 @@ namespace ZXing.Client.Result
             TelURI = telURI;
             Title = title;
 
-            var result = new System.Text.StringBuilder(20);
+            var result = new StringBuilder(20);
             maybeAppend(number, result);
             maybeAppend(title, result);
             displayResultValue = result.ToString();

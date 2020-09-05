@@ -75,9 +75,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null if an error occurs or barcode cannot be found
         /// </returns>
-        override public Result decodeRow(int rowNumber,
+        override public BarCodeText decodeRow(int rowNumber,
                                 BitArray row,
                                 IDictionary<DecodeHintType, object> hints)
         {
@@ -88,7 +88,7 @@ namespace ZXing.OneD
 
             foreach (UPCEANReader reader in readers)
             {
-                Result result = reader.decodeRow(rowNumber, row, startGuardPattern, hints);
+                BarCodeText result = reader.decodeRow(rowNumber, row, startGuardPattern, hints);
                 if (result == null)
                     continue;
 
@@ -114,7 +114,7 @@ namespace ZXing.OneD
                 if (ean13MayBeUPCA && canReturnUPCA)
                 {
                     // Transfer the metadata across
-                    var resultUPCA = new Result(result.Text.Substring(1),
+                    var resultUPCA = new BarCodeText(result.Text.Substring(1),
                                                    result.RawBytes,
                                                    result.ResultPoints,
                                                    BarcodeFormat.UPC_A);
@@ -133,7 +133,7 @@ namespace ZXing.OneD
         /// </summary>
         public override void reset()
         {
-            foreach (Reader reader in readers)
+            foreach (IBarCodeDecoder reader in readers)
             {
                 reader.reset();
             }

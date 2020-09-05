@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Text;
 
 namespace ZXing.Common
 {
@@ -47,8 +48,9 @@ namespace ZXing.Common
             get => (bits[i >> 5] & (1 << (i & 0x1F))) != 0;
             set
             {
-                if (value)
+                if (value) {
                     bits[i >> 5] |= 1 << (i & 0x1F);
+                }
             }
         }
 
@@ -57,8 +59,8 @@ namespace ZXing.Common
         /// </summary>
         public BitArray()
         {
-            this.size = 0;
-            this.bits = new int[1];
+            size = 0;
+            bits = new int[1];
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace ZXing.Common
                 throw new ArgumentException("size must be at least 1");
             }
             this.size = size;
-            this.bits = makeArray(size);
+            bits = makeArray(size);
         }
 
         // For testing only
@@ -105,8 +107,9 @@ namespace ZXing.Common
         private static int numberOfTrailingZeros(int num)
         {
             var index = (-num & num) % 37;
-            if (index < 0)
+            if (index < 0) {
                 index *= -1;
+            }
             return _lookup[index];
         }
 
@@ -408,14 +411,17 @@ namespace ZXing.Common
         public override bool Equals(Object o)
         {
             var other = o as BitArray;
-            if (other == null)
+            if (other == null) {
                 return false;
-            if (size != other.size)
+            }
+            if (size != other.size) {
                 return false;
+            }
             for (var index = 0; index < bits.Length; index++)
             {
-                if (bits[index] != other.bits[index])
+                if (bits[index] != other.bits[index]) {
                     return false;
+                }
             }
             return true;
         }
@@ -444,7 +450,7 @@ namespace ZXing.Common
         /// </returns>
         public override String ToString()
         {
-            var result = new System.Text.StringBuilder(size + (size / 8) + 1);
+            var result = new StringBuilder(size + (size / 8) + 1);
             for (int i = 0; i < size; i++)
             {
                 if ((i & 0x07) == 0)

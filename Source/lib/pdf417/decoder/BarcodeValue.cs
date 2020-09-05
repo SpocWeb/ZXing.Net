@@ -36,12 +36,12 @@ namespace ZXing.PDF417.Internal
         ///
         /// </summary>
         /// <param name="value">Value.</param>
-        public void setValue(int @value)
+        public void setValue(int value)
         {
             int confidence;
-            values.TryGetValue(@value, out confidence);
+            values.TryGetValue(value, out confidence);
             confidence++;
-            values[@value] = confidence;
+            values[value] = confidence;
         }
 
         /// <summary>

@@ -24,10 +24,10 @@ namespace ZXing.QrCode.Internal
     /// <remarks>
     /// Finder patterns are the square markers at three corners of a QR Code.
     /// 
-    /// <p>This class is thread-safe but not reentrant. Each thread must allocate its own object.</p>
+    /// <p>This class is thread-safe but not re-entrant. Each thread must allocate its own object.</p>
     /// </remarks>
     /// <author>Sean Owen</author>
-    public class FinderPatternFinder
+    public class QrPatternFinder
     {
         private const int CENTER_QUORUM = 2;
         private static readonly EstimatedModuleComparator moduleComparator = new EstimatedModuleComparator();
@@ -47,9 +47,9 @@ namespace ZXing.QrCode.Internal
         private readonly ResultPointCallback resultPointCallback;
 
         /// <summary> Creates a finder that will search the image for three finder patterns. </summary>
-        public FinderPatternFinder(BitMatrix image, ResultPointCallback resultPointCallback = null)
+        public QrPatternFinder(BitMatrix image, ResultPointCallback resultPointCallback = null)
         {
-            this._Image = image;
+            _Image = image;
             _PossibleCenters = new List<FinderPattern>();
             crossCheckStateCount = new int[5];
             this.resultPointCallback = resultPointCallback;
@@ -67,10 +67,12 @@ namespace ZXing.QrCode.Internal
             // We are looking for black/white/black/white/black modules in
             // 1:1:3:1:1 ratio; this tracks the number of such modules seen so far
 
-            // Let's assume that the maximum version QR Code we support takes up 1/4 the height of the
-            // image, and then account for the center being 3 modules in size. This gives the smallest
-            // number of pixels the center could be, so skip this often. When trying harder, look for all
-            // QR versions regardless of how dense they are.
+            // Let's assume that the maximum version QR Code we support
+            // takes up 1/4 the height of the image,
+            // and then account for the center being 3 modules in size.
+            // This gives the smallest number of pixels the center could be,
+            // so skip this often.
+            // When trying harder, look for all QR versions regardless of how dense they are.
             int iSkip = (3 * maxI) / (4 * MAX_MODULES);
             if (iSkip < MIN_SKIP || tryHarder)
             {
@@ -181,8 +183,9 @@ namespace ZXing.QrCode.Internal
             }
 
             FinderPattern[] patternInfo = selectBestPatterns();
-            if (patternInfo == null)
+            if (patternInfo == null) {
                 return null;
+            }
 
             ResultPoint.orderBestPatterns(patternInfo);
 
@@ -195,8 +198,9 @@ namespace ZXing.QrCode.Internal
         private static float? centerFromEnd(int[] stateCount, int end)
         {
             var result = (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0f;
-            if (Single.IsNaN(result))
+            if (Single.IsNaN(result)) {
                 return null;
+            }
             return result;
         }
 
@@ -598,8 +602,9 @@ namespace ZXing.QrCode.Internal
             int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] +
                                   stateCount[4];
             float? centerJ = centerFromEnd(stateCount, j);
-            if (centerJ == null)
+            if (centerJ == null) {
                 return false;
+            }
             float? centerI = crossCheckVertical(i, (int) centerJ.Value, stateCount[2], stateCountTotal);
             if (centerI != null)
             {
@@ -842,10 +847,12 @@ namespace ZXing.QrCode.Internal
         {
             public int Compare(FinderPattern center1, FinderPattern center2)
             {
-                if (center1.EstimatedModuleSize == center2.EstimatedModuleSize)
+                if (center1.EstimatedModuleSize == center2.EstimatedModuleSize) {
                     return 0;
-                if (center1.EstimatedModuleSize < center2.EstimatedModuleSize)
+                }
+                if (center1.EstimatedModuleSize < center2.EstimatedModuleSize) {
                     return -1;
+                }
                 return 1;
             }
         }

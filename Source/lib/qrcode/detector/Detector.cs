@@ -78,7 +78,7 @@ namespace ZXing.QrCode.Internal
         {
             resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
-            FinderPatternFinder finder = new FinderPatternFinder(Image, resultPointCallback);
+            QrPatternFinder finder = new QrPatternFinder(Image, resultPointCallback);
             FinderPatternInfo info = finder.find(hints);
             if (info == null)
                 return null;

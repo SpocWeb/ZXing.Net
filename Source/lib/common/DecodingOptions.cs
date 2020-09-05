@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -490,9 +491,9 @@ namespace ZXing.Common
                 return values.GetEnumerator();
             }
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            IEnumerator IEnumerable.GetEnumerator()
             {
-                return ((System.Collections.IEnumerable)values).GetEnumerator();
+                return ((IEnumerable)values).GetEnumerator();
             }
         }
     }

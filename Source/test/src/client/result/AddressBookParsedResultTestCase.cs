@@ -160,7 +160,7 @@ namespace ZXing.Client.Result.Test
                                  String birthday,
                                  String note)
       {
-         ZXing.Result fakeResult = new ZXing.Result(contents, null, null, BarcodeFormat.QR_CODE);
+         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.ADDRESSBOOK, result.Type);
          AddressBookParsedResult addressResult = (AddressBookParsedResult)result;

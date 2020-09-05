@@ -13,8 +13,8 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-using System;
 
+using System;
 using ZXing.Common;
 
 namespace ZXing.QrCode.Internal
@@ -29,27 +29,26 @@ namespace ZXing.QrCode.Internal
     /// 
     /// </summary>
     /// <author>Sean Owen</author>
-    internal static class DataMask
+    public static class DataMask
     {
         /// <summary> See ISO 18004:2006 6.8.1</summary>
-        private static readonly Func<int, int, bool>[] DATA_MASKS = new Func<int, int, bool>[]
-                                                           {
+        private static readonly Func<int, int, bool>[] DATA_MASKS = {
                                                             // 000: mask bits for which (x + y) mod 2 == 0
-                                                            new Func<int, int, bool>((i, j) => ((i + j) & 0x01) == 0),
+                                                            (i, j) => ((i + j) & 0x01) == 0,
                                                             // 001: mask bits for which x mod 2 == 0
-                                                            new Func<int, int, bool>((i, j) => (i & 0x01) == 0),
+                                                            (i, j) => (i & 0x01) == 0,
                                                             // 010: mask bits for which y mod 3 == 0
-                                                            new Func<int, int, bool>((i, j) => j % 3 == 0),
+                                                            (i, j) => j % 3 == 0,
                                                             // 011: mask bits for which (x + y) mod 3 == 0
-                                                            new Func<int, int, bool>((i, j) => (i + j) % 3 == 0),
+                                                            (i, j) => (i + j) % 3 == 0,
                                                             // 100: mask bits for which (x/2 + y/3) mod 2 == 0
-                                                            new Func<int, int, bool>((i, j) => ((((int)((uint)i >> 1)) + (j / 3)) & 0x01) == 0),
+                                                            (i, j) => ((((int)((uint)i >> 1)) + (j / 3)) & 0x01) == 0,
                                                             // 101: mask bits for which xy mod 2 + xy mod 3 == 0, equivalently, such that xy mod 6 == 0
-                                                            new Func<int, int, bool>((i, j) => (i * j) % 6 == 0),
+                                                            (i, j) => (i * j) % 6 == 0,
                                                             // 110: mask bits for which (xy mod 2 + xy mod 3) mod 2 == 0, equivalently, such that xy mod 6 < 3
-                                                            new Func<int, int, bool>((i, j) => ((i * j) % 6) < 3),
+                                                            (i, j) => ((i * j) % 6) < 3,
                                                             // 111: mask bits for which ((x+y)mod 2 + xy mod 3) mod 2 == 0, equivalently, such that (x + y + xy mod 3) mod 2 == 0
-                                                            new Func<int, int, bool>((i, j) => ((i + j + ((i * j) % 3)) & 0x01) == 0),
+                                                            (i, j) => ((i + j + ((i * j) % 3)) & 0x01) == 0,
                                                            };
 
         /// <summary> <p> revert the data masking process applied to a QR Code
@@ -58,11 +57,11 @@ namespace ZXing.QrCode.Internal
         /// <param name="reference"></param>
         /// <param name="bits">representation of QR Code bits</param>
         /// <param name="dimension">dimension of QR Code, represented by bits, being unmasked</param>
-        internal static void unmaskBitMatrix(int reference, IBitMatrix bits, int dimension)
+        public static void unmaskBitMatrix(int reference, IBitMatrix bits, int dimension)
         {
             if (reference < 0 || reference > 7)
             {
-                throw new System.ArgumentException();
+                throw new ArgumentException();
             }
 
             var isMasked = DATA_MASKS[reference];

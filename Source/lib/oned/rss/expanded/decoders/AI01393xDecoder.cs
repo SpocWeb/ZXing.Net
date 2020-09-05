@@ -23,6 +23,7 @@
  *
  *   http://www.piramidepse.com/
  */
+
 using System;
 using System.Text;
 using ZXing.Common;
@@ -45,7 +46,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         public override String parseInformation()
         {
-            if (this.getInformation().Size < HEADER_SIZE + GTIN_SIZE)
+            if (getInformation().Size < HEADER_SIZE + GTIN_SIZE)
             {
                 return null;
             }
@@ -55,13 +56,13 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             encodeCompressedGtin(buf, HEADER_SIZE);
 
             int lastAIdigit =
-                this.getGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE + GTIN_SIZE, LAST_DIGIT_SIZE);
+                getGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE + GTIN_SIZE, LAST_DIGIT_SIZE);
 
             buf.Append("(393");
             buf.Append(lastAIdigit);
             buf.Append(')');
 
-            int firstThreeDigits = this.getGeneralDecoder().extractNumericValueFromBitArray(
+            int firstThreeDigits = getGeneralDecoder().extractNumericValueFromBitArray(
                 HEADER_SIZE + GTIN_SIZE + LAST_DIGIT_SIZE, FIRST_THREE_DIGITS_SIZE);
             if (firstThreeDigits / 100 == 0)
             {
@@ -73,7 +74,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             }
             buf.Append(firstThreeDigits);
 
-            DecodedInformation generalInformation = this.getGeneralDecoder().decodeGeneralPurposeField(
+            DecodedInformation generalInformation = getGeneralDecoder().decodeGeneralPurposeField(
                 HEADER_SIZE + GTIN_SIZE + LAST_DIGIT_SIZE + FIRST_THREE_DIGITS_SIZE, null);
             buf.Append(generalInformation.getNewString());
 

@@ -58,7 +58,7 @@ namespace ZXing.Datamatrix.Internal
             {
                 total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
             }
-            this.totalCodewords = total;
+            totalCodewords = total;
         }
 
         /// <summary>
@@ -160,13 +160,13 @@ namespace ZXing.Datamatrix.Internal
             internal ECBlocks(int ecCodewords, ECB ecBlocks)
             {
                 this.ecCodewords = ecCodewords;
-                this._ecBlocksValue = new ECB[] { ecBlocks };
+                _ecBlocksValue = new[] { ecBlocks };
             }
 
             internal ECBlocks(int ecCodewords, ECB ecBlocks1, ECB ecBlocks2)
             {
                 this.ecCodewords = ecCodewords;
-                this._ecBlocksValue = new ECB[] { ecBlocks1, ecBlocks2 };
+                _ecBlocksValue = new[] { ecBlocks1, ecBlocks2 };
             }
 
             internal int ECCodewords => ecCodewords;
@@ -211,7 +211,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         private static Version[] buildVersions()
         {
-            return new Version[]
+            return new[]
                       {
                       new Version(1, 10, 10, 8, 8,
                                   new ECBlocks(5, new ECB(1, 3))),

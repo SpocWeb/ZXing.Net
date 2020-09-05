@@ -15,29 +15,20 @@
  */
 
 using System;
-
 using ZXing.Common;
 
 namespace ZXing
 {
-    /// <summary>
-    /// Interface for a smart class to decode the barcode inside a bitmap object
-    /// </summary>
+    /// <summary> decode the barcode inside a bitmap object </summary>
     public partial interface IBarcodeReader
     {
-        /// <summary>
-        /// event is executed when a result point was found
-        /// </summary>
+        /// <summary> raised when a result point was found </summary>
         event Action<ResultPoint> ResultPointFound;
 
-        /// <summary>
-        /// event is executed when a result was found via decode
-        /// </summary>
-        event Action<Result> ResultFound;
+        /// <summary> raised when a result was found via decode </summary>
+        event Action<BarCodeText> ResultFound;
 
-        /// <summary>
-        /// Specifies some options which influence the decoding process
-        /// </summary>
+        /// <summary> options for the decoding process </summary>
         DecodingOptions Options { get; set; }
 
         /// <summary>
@@ -50,17 +41,16 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        Result Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
+        BarCodeText Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
 
-        /// <summary>
-        /// Tries to decode a barcode within an image which is given by a luminance source.
-        /// That method gives a chance to prepare a luminance source completely before calling
-        /// the time consuming decoding method. On the other hand there is a chance to create
-        /// a luminance source which is independent from external resources (like Bitmap objects)
+        /// <summary> Tries to decode a barcode within an image which is given by a luminance source. </summary>
+        /// <remarks>
+        /// That method gives a chance to prepare a luminance source completely
+        /// before calling the time consuming decoding method.
+        /// On the other hand there is a chance to create a luminance source
+        /// which is independent from external resources (like Bitmap objects)
         /// and the decoding call can be made in a background thread.
-        /// </summary>
-        /// <param name="luminanceSource">The luminance source.</param>
-        /// <returns></returns>
-        Result Decode(LuminanceSource luminanceSource);
+        /// </remarks>
+        BarCodeText Decode(LuminanceSource luminanceSource);
     }
 }

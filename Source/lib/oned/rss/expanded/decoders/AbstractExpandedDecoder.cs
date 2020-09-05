@@ -41,7 +41,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         internal AbstractExpandedDecoder(BitArray information)
         {
             this.information = information;
-            this.generalDecoder = new GeneralAppIdDecoder(information);
+            generalDecoder = new GeneralAppIdDecoder(information);
         }
 
         /// <summary>

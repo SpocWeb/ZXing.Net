@@ -31,14 +31,14 @@ namespace ZXing.OneD.RSS.Expanded
     /// <summary>
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// </summary>
-    internal sealed class ExpandedPair
+    public sealed class ExpandedPair
     {
         internal bool MayBeLast { get; private set; }
         internal DataCharacter LeftChar { get; private set; }
         internal DataCharacter RightChar { get; private set; }
-        internal FinderPattern FinderPattern { get; private set; }
+        public FinderPattern FinderPattern { get; private set; }
 
-        internal ExpandedPair(DataCharacter leftChar,
+        public ExpandedPair(DataCharacter leftChar,
             DataCharacter rightChar,
             FinderPattern finderPattern)
         {

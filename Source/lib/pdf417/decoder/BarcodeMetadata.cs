@@ -52,11 +52,11 @@ namespace ZXing.PDF417.Internal
         /// <param name="errorCorrectionLevel"></param>
         public BarcodeMetadata(int columnCount, int rowCountUpperPart, int rowCountLowerPart, int errorCorrectionLevel)
         {
-            this.ColumnCount = columnCount;
-            this.ErrorCorrectionLevel = errorCorrectionLevel;
-            this.RowCountUpper = rowCountUpperPart;
-            this.RowCountLower = rowCountLowerPart;
-            this.RowCount = rowCountLowerPart + rowCountUpperPart;
+            ColumnCount = columnCount;
+            ErrorCorrectionLevel = errorCorrectionLevel;
+            RowCountUpper = rowCountUpperPart;
+            RowCountLower = rowCountLowerPart;
+            RowCount = rowCountLowerPart + rowCountUpperPart;
         }
     }
 }

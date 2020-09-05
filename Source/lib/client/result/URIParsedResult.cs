@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Text;
 
 namespace ZXing.Client.Result
 {
@@ -55,7 +56,7 @@ namespace ZXing.Client.Result
             Title = title;
             PossiblyMaliciousURI = URIResultParser.isPossiblyMaliciousURI(uri);
 
-            var result = new System.Text.StringBuilder(30);
+            var result = new StringBuilder(30);
             maybeAppend(Title, result);
             maybeAppend(URI, result);
             displayResultValue = result.ToString();

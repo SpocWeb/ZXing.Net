@@ -173,6 +173,9 @@
     <Compile Include="..\BarcodeReaderGeneric.cs">
       <Link>BarcodeReaderGeneric.cs</Link>
     </Compile>
+    <Compile Include="..\BarCodeText.cs">
+      <Link>BarCodeText.cs</Link>
+    </Compile>
     <Compile Include="..\BarcodeWriter.PixelData.cs">
       <Link>BarcodeWriter.PixelData.cs</Link>
     </Compile>
@@ -466,6 +469,9 @@
     </Compile>
     <Compile Include="..\FormatException.cs">
       <Link>FormatException.cs</Link>
+    </Compile>
+    <Compile Include="..\IBarCodeDecoder.cs">
+      <Link>IBarCodeDecoder.cs</Link>
     </Compile>
     <Compile Include="..\IBarcodeReader.cs">
       <Link>IBarcodeReader.cs</Link>
@@ -884,8 +890,8 @@
     <Compile Include="..\qrcode\detector\FinderPattern.cs">
       <Link>qrcode\detector\FinderPattern.cs</Link>
     </Compile>
-    <Compile Include="..\qrcode\detector\FinderPatternFinder.cs">
-      <Link>qrcode\detector\FinderPatternFinder.cs</Link>
+    <Compile Include="..\qrcode\detector\QrPatternFinder.cs">
+      <Link>qrcode\detector\QrPatternFinder.cs</Link>
     </Compile>
     <Compile Include="..\qrcode\detector\FinderPatternInfo.cs">
       <Link>qrcode\detector\FinderPatternInfo.cs</Link>
@@ -917,8 +923,8 @@
     <Compile Include="..\qrcode\QRCodeWriter.cs">
       <Link>qrcode\QRCodeWriter.cs</Link>
     </Compile>
-    <Compile Include="..\Reader.cs">
-      <Link>Reader.cs</Link>
+    <Compile Include="..\IBarCodeReader.cs">
+      <Link>IBarCodeReader.cs</Link>
     </Compile>
     <Compile Include="..\ReaderException.cs">
       <Link>ReaderException.cs</Link>
@@ -946,9 +952,6 @@
     </Compile>
     <Compile Include="..\renderer\WriteableBitmapRenderer.NetFx.cs">
       <Link>renderer\WriteableBitmapRenderer.NetFx.cs</Link>
-    </Compile>
-    <Compile Include="..\Result.cs">
-      <Link>Result.cs</Link>
     </Compile>
     <Compile Include="..\ResultMetadataType.cs">
       <Link>ResultMetadataType.cs</Link>

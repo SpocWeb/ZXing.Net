@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+using System;
+
 namespace ZXing.Common
 {
 
@@ -41,7 +43,7 @@ namespace ZXing.Common
         {
             if (val < 0 || val > 999999)
             {
-                throw new System.ArgumentException("Bad ECI value: " + val);
+                throw new ArgumentException("Bad ECI value: " + val);
             }
             if (val < 900)
             {

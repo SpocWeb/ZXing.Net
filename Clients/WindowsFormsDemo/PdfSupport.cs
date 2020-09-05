@@ -29,12 +29,10 @@ namespace WindowsFormsDemo
                         // Iterate references to external objects
                         foreach (PdfItem item in items)
                         {
-                            PdfReference reference = item as PdfReference;
-                            if (reference != null)
+                            if (item is PdfReference reference)
                             {
-                                PdfDictionary xObject = reference.Value as PdfDictionary;
                                 // Is external object an image?
-                                if (xObject != null && xObject.Elements.GetString("/Subtype") == "/Image")
+                                if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
                                 {
                                     var bitmap = ExportImage(xObject);
                                     if (bitmap != null)

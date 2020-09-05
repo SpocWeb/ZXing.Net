@@ -44,12 +44,12 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         internal char getValue()
         {
-            return this.value;
+            return value;
         }
 
         internal bool isFNC1()
         {
-            return this.value == FNC1;
+            return value == FNC1;
         }
     }
 }

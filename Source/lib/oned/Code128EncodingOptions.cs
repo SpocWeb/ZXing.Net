@@ -16,7 +16,6 @@
 
 using System;
 using System.ComponentModel;
-
 using ZXing.Common;
 
 namespace ZXing.OneD

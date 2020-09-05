@@ -25,7 +25,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using ZXing.Common;
 
@@ -52,7 +51,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             String remaining = null;
             do
             {
-                DecodedInformation info = this.decodeGeneralPurposeField(currentPosition, remaining);
+                DecodedInformation info = decodeGeneralPurposeField(currentPosition, remaining);
                 String parsedFields = FieldParser.parseFieldsInGeneralPurpose(info.getNewString());
                 if (parsedFields != null)
                 {
@@ -81,33 +80,33 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
             // It's numeric if it still has 7 positions
             // and one of the first 4 bits is "1".
-            if (pos + 7 > this.information.Size)
+            if (pos + 7 > information.Size)
             {
-                return pos + 4 <= this.information.Size;
+                return pos + 4 <= information.Size;
             }
 
             for (int i = pos; i < pos + 3; ++i)
             {
-                if (this.information[i])
+                if (information[i])
                 {
                     return true;
                 }
             }
 
-            return this.information[pos + 3];
+            return information[pos + 3];
         }
 
         private DecodedNumeric decodeNumeric(int pos)
         {
             int numeric;
-            if (pos + 7 > this.information.Size)
+            if (pos + 7 > information.Size)
             {
                 numeric = extractNumericValueFromBitArray(pos, 4);
                 if (numeric == 0)
                 {
-                    return new DecodedNumeric(this.information.Size, DecodedNumeric.FNC1, DecodedNumeric.FNC1);
+                    return new DecodedNumeric(information.Size, DecodedNumeric.FNC1, DecodedNumeric.FNC1);
                 }
-                return new DecodedNumeric(this.information.Size, numeric - 1, DecodedNumeric.FNC1);
+                return new DecodedNumeric(information.Size, numeric - 1, DecodedNumeric.FNC1);
             }
             numeric = extractNumericValueFromBitArray(pos, 7);
 
@@ -119,7 +118,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         internal int extractNumericValueFromBitArray(int pos, int bits)
         {
-            return extractNumericValueFromBitArray(this.information, pos, bits);
+            return extractNumericValueFromBitArray(information, pos, bits);
         }
 
         internal static int extractNumericValueFromBitArray(BitArray information, int pos, int bits)
@@ -138,21 +137,21 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         internal DecodedInformation decodeGeneralPurposeField(int pos, String remaining)
         {
-            this.buffer.Length = 0;
+            buffer.Length = 0;
 
             if (remaining != null)
             {
-                this.buffer.Append(remaining);
+                buffer.Append(remaining);
             }
 
-            this.current.setPosition(pos);
+            current.setPosition(pos);
 
             DecodedInformation lastDecoded = parseBlocks();
             if (lastDecoded != null && lastDecoded.isRemaining())
             {
-                return new DecodedInformation(this.current.getPosition(), this.buffer.ToString(), lastDecoded.getRemainingValue());
+                return new DecodedInformation(current.getPosition(), buffer.ToString(), lastDecoded.getRemainingValue());
             }
-            return new DecodedInformation(this.current.getPosition(), this.buffer.ToString());
+            return new DecodedInformation(current.getPosition(), buffer.ToString());
         }
 
         private DecodedInformation parseBlocks()
@@ -249,13 +248,13 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             }
             else if (isAlphaTo646ToAlphaLatch(current.getPosition()))
             {
-                if (current.getPosition() + 5 < this.information.Size)
+                if (current.getPosition() + 5 < information.Size)
                 {
                     current.incrementPosition(5);
                 }
                 else
                 {
-                    current.setPosition(this.information.Size);
+                    current.setPosition(information.Size);
                 }
 
                 current.setAlpha();
@@ -286,13 +285,13 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             }
             else if (isAlphaTo646ToAlphaLatch(current.getPosition()))
             {
-                if (current.getPosition() + 5 < this.information.Size)
+                if (current.getPosition() + 5 < information.Size)
                 {
                     current.incrementPosition(5);
                 }
                 else
                 {
-                    current.setPosition(this.information.Size);
+                    current.setPosition(information.Size);
                 }
 
                 current.setIsoIec646();
@@ -302,7 +301,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         private bool isStillIsoIec646(int pos)
         {
-            if (pos + 5 > this.information.Size)
+            if (pos + 5 > information.Size)
             {
                 return false;
             }
@@ -313,7 +312,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return true;
             }
 
-            if (pos + 7 > this.information.Size)
+            if (pos + 7 > information.Size)
             {
                 return false;
             }
@@ -324,7 +323,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return true;
             }
 
-            if (pos + 8 > this.information.Size)
+            if (pos + 8 > information.Size)
             {
                 return false;
             }
@@ -434,7 +433,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         private bool isStillAlpha(int pos)
         {
-            if (pos + 5 > this.information.Size)
+            if (pos + 5 > information.Size)
             {
                 return false;
             }
@@ -446,7 +445,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return true;
             }
 
-            if (pos + 6 > this.information.Size)
+            if (pos + 6 > information.Size)
             {
                 return false;
             }
@@ -501,21 +500,21 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         private bool isAlphaTo646ToAlphaLatch(int pos)
         {
-            if (pos + 1 > this.information.Size)
+            if (pos + 1 > information.Size)
             {
                 return false;
             }
 
-            for (int i = 0; i < 5 && i + pos < this.information.Size; ++i)
+            for (int i = 0; i < 5 && i + pos < information.Size; ++i)
             {
                 if (i == 2)
                 {
-                    if (!this.information[pos + 2])
+                    if (!information[pos + 2])
                     {
                         return false;
                     }
                 }
-                else if (this.information[pos + i])
+                else if (information[pos + i])
                 {
                     return false;
                 }
@@ -527,14 +526,14 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         private bool isAlphaOr646ToNumericLatch(int pos)
         {
             // Next is alphanumeric if there are 3 positions and they are all zeros
-            if (pos + 3 > this.information.Size)
+            if (pos + 3 > information.Size)
             {
                 return false;
             }
 
             for (int i = pos; i < pos + 3; ++i)
             {
-                if (this.information[i])
+                if (information[i])
                 {
                     return false;
                 }
@@ -546,14 +545,14 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
             // Next is alphanumeric if there are 4 positions and they are all zeros, or
             // if there is a subset of this just before the end of the symbol
-            if (pos + 1 > this.information.Size)
+            if (pos + 1 > information.Size)
             {
                 return false;
             }
 
-            for (int i = 0; i < 4 && i + pos < this.information.Size; ++i)
+            for (int i = 0; i < 4 && i + pos < information.Size; ++i)
             {
-                if (this.information[pos + i])
+                if (information[pos + i])
                 {
                     return false;
                 }

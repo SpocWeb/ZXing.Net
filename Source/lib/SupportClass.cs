@@ -30,13 +30,13 @@ namespace ZXing
         /// <param name="destinationArray">Array to return the chars</param>
         /// <param name="destinationStart">Position of the destination array of chars to start storing the chars</param>
         /// <returns>An array of chars</returns>
-        public static void GetCharsFromString(System.String sourceString, int sourceStart, int sourceEnd, char[] destinationArray, int destinationStart)
+        public static void GetCharsFromString(String sourceString, int sourceStart, int sourceEnd, char[] destinationArray, int destinationStart)
         {
             int sourceCounter = sourceStart;
             int destinationCounter = destinationStart;
             while (sourceCounter < sourceEnd)
             {
-                destinationArray[destinationCounter] = (char)sourceString[sourceCounter];
+                destinationArray[destinationCounter] = sourceString[sourceCounter];
                 sourceCounter++;
                 destinationCounter++;
             }
@@ -48,7 +48,7 @@ namespace ZXing
         /// </summary>
         /// <param name="vector">The List which capacity will be set</param>
         /// <param name="newCapacity">The new capacity value</param>
-        public static void SetCapacity<T>(System.Collections.Generic.IList<T> vector, int newCapacity) where T : new()
+        public static void SetCapacity<T>(IList<T> vector, int newCapacity) where T : new()
         {
             while (newCapacity > vector.Count)
                 vector.Add(new T());

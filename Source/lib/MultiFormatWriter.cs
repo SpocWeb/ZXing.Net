@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Aztec;
 using ZXing.Common;
 using ZXing.Datamatrix;
@@ -34,13 +33,13 @@ namespace ZXing
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    public sealed class MultiFormatWriter : Writer
+    public sealed class MultiFormatWriter : IBarCodeWriter
     {
-        private static readonly IDictionary<BarcodeFormat, Func<Writer>> formatMap;
+        private static readonly IDictionary<BarcodeFormat, Func<IBarCodeWriter>> formatMap;
 
         static MultiFormatWriter()
         {
-            formatMap = new Dictionary<BarcodeFormat, Func<Writer>>
+            formatMap = new Dictionary<BarcodeFormat, Func<IBarCodeWriter>>
                         {
                            {BarcodeFormat.EAN_8, () => new EAN8Writer()},
                            {BarcodeFormat.UPC_E, () => new UPCEWriter()},

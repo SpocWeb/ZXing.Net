@@ -21,18 +21,18 @@ namespace ZXing.Multi
 {
     /// <summary> Attempt to read several barcodes from one image.
     /// <author>Sean Owen</author>
-    /// 	<seealso cref="Reader"/>
+    /// 	<seealso cref="IBarCodeDecoder"/>
     /// </summary>
     public interface IMultipleBarcodeReader
     {
         /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
-        Result[] decodeMultiple(BinaryBitmap image);
+        BarCodeText[] decodeMultiple(BinaryBitmap image);
 
         /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
-        Result[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints);
+        BarCodeText[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints);
 
         /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
-        Result[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints);
+        BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints);
 
     }
 }

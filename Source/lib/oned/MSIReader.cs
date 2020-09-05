@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -75,8 +74,8 @@ namespace ZXing.OneD
         /// <param name="rowNumber">row number from top of the row</param>
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
-        /// <returns><see cref="Result"/>containing encoded string and start/end of barcode</returns>
-        override public Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
+        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
@@ -146,8 +145,8 @@ namespace ZXing.OneD
                 }
             }
 
-            float left = (float)(start[1] + start[0]) / 2.0f;
-            float right = (float)(nextStart + lastStart) / 2.0f;
+            float left = (start[1] + start[0]) / 2.0f;
+            float right = (nextStart + lastStart) / 2.0f;
 
             var resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK)
                                          ? null
@@ -158,7 +157,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(right, rowNumber));
             }
 
-            return new Result(
+            return new BarCodeText(
                resultString,
                rawBytes,
                new[]
@@ -194,7 +193,7 @@ namespace ZXing.OneD
                     {
                         // narrow and wide areas should be as near as possible to factor 2
                         // lets say we will check 1.5 <= factor <= 5
-                        var factorNarrowToWide = ((float)counters[0]) / ((float)counters[1]);
+                        var factorNarrowToWide = counters[0] / ((float)counters[1]);
                         if (factorNarrowToWide >= 1.5 && factorNarrowToWide <= 5)
                         {
                             calculateAverageCounterWidth(counters, patternLength);
@@ -203,7 +202,7 @@ namespace ZXing.OneD
                                 // Look for whitespace before start pattern, >= 50% of width of start pattern
                                 if (row.isRange(Math.Max(0, patternStart - ((i - patternStart) >> 1)), patternStart, false))
                                 {
-                                    return new int[] { patternStart, i };
+                                    return new[] { patternStart, i };
                                 }
                             }
                         }
@@ -247,7 +246,7 @@ namespace ZXing.OneD
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        var factorNarrowToWide = ((float)counters[1]) / ((float)counters[0]);
+                        var factorNarrowToWide = counters[1] / ((float)counters[0]);
                         if (factorNarrowToWide >= 1.5 && factorNarrowToWide <= 5)
                         {
                             if (toPattern(counters, patternLength) == END_ENCODING)
@@ -256,7 +255,7 @@ namespace ZXing.OneD
                                 var minEndOfWhite = Math.Min(row.Size - 1, i + ((i - patternStart) >> 1));
                                 if (row.isRange(i, minEndOfWhite, false))
                                 {
-                                    return new int[] { patternStart, i };
+                                    return new[] { patternStart, i };
                                 }
                             }
                         }
@@ -333,7 +332,7 @@ namespace ZXing.OneD
             return false;
         }
 
-        private static readonly int[] doubleAndCrossSum = new[] { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
+        private static readonly int[] doubleAndCrossSum = { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
 
         private static int CalculateChecksumLuhn(string number)
         {

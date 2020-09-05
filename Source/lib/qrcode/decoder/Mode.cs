@@ -82,23 +82,23 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Mode TERMINATOR = new Mode(new int[] { 0, 0, 0 }, 0x00, Names.TERMINATOR); // Not really a mode...
+        public static readonly Mode TERMINATOR = new Mode(new[] { 0, 0, 0 }, 0x00, Names.TERMINATOR); // Not really a mode...
                                                                                                           /// <summary>
                                                                                                           /// 
                                                                                                           /// </summary>
-        public static readonly Mode NUMERIC = new Mode(new int[] { 10, 12, 14 }, 0x01, Names.NUMERIC);
+        public static readonly Mode NUMERIC = new Mode(new[] { 10, 12, 14 }, 0x01, Names.NUMERIC);
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Mode ALPHANUMERIC = new Mode(new int[] { 9, 11, 13 }, 0x02, Names.ALPHANUMERIC);
+        public static readonly Mode ALPHANUMERIC = new Mode(new[] { 9, 11, 13 }, 0x02, Names.ALPHANUMERIC);
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Mode STRUCTURED_APPEND = new Mode(new int[] { 0, 0, 0 }, 0x03, Names.STRUCTURED_APPEND); // Not supported
+        public static readonly Mode STRUCTURED_APPEND = new Mode(new[] { 0, 0, 0 }, 0x03, Names.STRUCTURED_APPEND); // Not supported
                                                                                                                         /// <summary>
                                                                                                                         /// 
                                                                                                                         /// </summary>
-        public static readonly Mode BYTE = new Mode(new int[] { 8, 16, 16 }, 0x04, Names.BYTE);
+        public static readonly Mode BYTE = new Mode(new[] { 8, 16, 16 }, 0x04, Names.BYTE);
         /// <summary>
         /// 
         /// </summary>
@@ -106,7 +106,7 @@ namespace ZXing.QrCode.Internal
                                                                            /// <summary>
                                                                            /// 
                                                                            /// </summary>
-        public static readonly Mode KANJI = new Mode(new int[] { 8, 10, 12 }, 0x08, Names.KANJI);
+        public static readonly Mode KANJI = new Mode(new[] { 8, 10, 12 }, 0x08, Names.KANJI);
         /// <summary>
         /// 
         /// </summary>
@@ -116,7 +116,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         public static readonly Mode FNC1_SECOND_POSITION = new Mode(null, 0x09, Names.FNC1_SECOND_POSITION);
         /// <summary>See GBT 18284-2000; "Hanzi" is a transliteration of this mode name.</summary>
-        public static readonly Mode HANZI = new Mode(new int[] { 8, 10, 12 }, 0x0D, Names.HANZI);
+        public static readonly Mode HANZI = new Mode(new[] { 8, 10, 12 }, 0x0D, Names.HANZI);
 
         private readonly int[] characterCountBitsForVersions;
 

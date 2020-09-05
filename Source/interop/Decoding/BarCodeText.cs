@@ -27,7 +27,7 @@ namespace ZXing.Interop.Decoding
     [ComVisible(true)]
     [Guid("6A7AC019-6108-474E-9806-E36F5409EE66")]
     [ClassInterface(ClassInterfaceType.AutoDual)]
-    public sealed class Result : IResult
+    public sealed class BarCodeText : IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         public String Text { get; private set; }
@@ -62,7 +62,7 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public int NumBits { get; private set; }
 
-        internal Result(ZXing.Result result)
+        internal BarCodeText(ZXing.BarCodeText result)
         {
             if (result != null)
             {
@@ -76,7 +76,7 @@ namespace ZXing.Interop.Decoding
                     var index = 0;
                     foreach (var item in result.ResultMetadata)
                     {
-                        ResultMetadata[index] = new ResultMetadataItem { Key = item.Key.ToInterop(), Value = item.Value != null ? item.Value.ToString() : null };
+                        ResultMetadata[index] = new ResultMetadataItem { Key = item.Key.ToInterop(), Value = item.Value?.ToString() };
                         index++;
                     }
                 }

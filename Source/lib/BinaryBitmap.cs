@@ -34,7 +34,7 @@ namespace ZXing
             this.binarizer = binarizer ?? throw new ArgumentException("Binarizer must be non-null.");
         }
 
-        internal BinaryBitmap(BitMatrix matrix)
+        public BinaryBitmap(BitMatrix matrix)
         {
             this.matrix = matrix ?? throw new ArgumentException("matrix must be non-null.");
         }

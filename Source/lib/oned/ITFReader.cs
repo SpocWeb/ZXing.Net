@@ -64,36 +64,35 @@ namespace ZXing.OneD
         private static readonly int[] START_PATTERN = { N, N, N, N };
         private static readonly int[][] END_PATTERN_REVERSED =
         {
-         new int[] {N, N, w},
-         new int[] {N, N, W}
+         new[] {N, N, w},
+         new[] {N, N, W}
       };
 
         /// <summary>
         /// Patterns of Wide / Narrow lines to indicate each digit
         /// </summary>
-        internal static int[][] PATTERNS = new int[][]
-        {
-         new int[] {N, N, w, w, N}, // 0
-         new int[] {w, N, N, N, w}, // 1
-         new int[] {N, w, N, N, w}, // 2
-         new int[] {w, w, N, N, N}, // 3
-         new int[] {N, N, w, N, w}, // 4
-         new int[] {w, N, w, N, N}, // 5
-         new int[] {N, w, w, N, N}, // 6
-         new int[] {N, N, N, w, w}, // 7
-         new int[] {w, N, N, w, N}, // 8
-         new int[] {N, w, N, w, N}, // 9
+        internal static int[][] PATTERNS = {
+         new[] {N, N, w, w, N}, // 0
+         new[] {w, N, N, N, w}, // 1
+         new[] {N, w, N, N, w}, // 2
+         new[] {w, w, N, N, N}, // 3
+         new[] {N, N, w, N, w}, // 4
+         new[] {w, N, w, N, N}, // 5
+         new[] {N, w, w, N, N}, // 6
+         new[] {N, N, N, w, w}, // 7
+         new[] {w, N, N, w, N}, // 8
+         new[] {N, w, N, w, N}, // 9
 
-         new int[] {N, N, W, W, N}, // 0
-         new int[] {W, N, N, N, W}, // 1
-         new int[] {N, W, N, N, W}, // 2
-         new int[] {W, W, N, N, N}, // 3
-         new int[] {N, N, W, N, W}, // 4
-         new int[] {W, N, W, N, N}, // 5
-         new int[] {N, W, W, N, N}, // 6
-         new int[] {N, N, N, W, W}, // 7
-         new int[] {W, N, N, W, N}, // 8
-         new int[] {N, W, N, W, N} // 9
+         new[] {N, N, W, W, N}, // 0
+         new[] {W, N, N, N, W}, // 1
+         new[] {N, W, N, N, W}, // 2
+         new[] {W, W, N, N, N}, // 3
+         new[] {N, N, W, N, W}, // 4
+         new[] {W, N, W, N, N}, // 5
+         new[] {N, W, W, N, N}, // 6
+         new[] {N, N, N, W, W}, // 7
+         new[] {W, N, N, W, N}, // 8
+         new[] {N, W, N, W, N} // 9
         };
 
         /// <summary>
@@ -104,9 +103,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode
         /// </returns>
-        override public Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             // Find out where the Middle section (payload) starts & ends
             int[] startRange = decodeStart(row);
@@ -173,10 +172,10 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(endRange[0], rowNumber));
             }
 
-            return new Result(
+            return new BarCodeText(
                resultString,
                null, // no natural byte representation for these barcodes
-               new ResultPoint[]
+               new[]
                   {
                   new ResultPoint(startRange[1], rowNumber),
                   new ResultPoint(endRange[0], rowNumber)
@@ -280,7 +279,7 @@ namespace ZXing.OneD
         /// <returns>false, if the quiet zone cannot be found</returns>
         private bool validateQuietZone(BitArray row, int startPattern)
         {
-            int quietCount = this.narrowLineWidth * 10;  // expect to find this many pixels of quiet zone
+            int quietCount = narrowLineWidth * 10;  // expect to find this many pixels of quiet zone
 
             // if there are not so many pixel at all let's try as many as possible
             quietCount = quietCount < startPattern ? quietCount : startPattern;
@@ -390,7 +389,7 @@ namespace ZXing.OneD
                     {
                         if (patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
                         {
-                            return new int[] { patternStart, x };
+                            return new[] { patternStart, x };
                         }
                         patternStart += counters[0] + counters[1];
                         Array.Copy(counters, 2, counters, 0, counterPosition - 1);

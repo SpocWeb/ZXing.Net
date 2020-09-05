@@ -91,7 +91,7 @@ namespace ZXing.Client.Result
             this.summary = summary;
             try
             {
-                this.start = parseDate(startString);
+                start = parseDate(startString);
             }
             catch (Exception pe)
             {
@@ -107,7 +107,7 @@ namespace ZXing.Client.Result
             {
                 try
                 {
-                    this.end = parseDate(endString);
+                    end = parseDate(endString);
                 }
                 catch (Exception pe)
                 {
@@ -115,8 +115,8 @@ namespace ZXing.Client.Result
                 }
             }
 
-            this.startAllDay = startString.Length == 8;
-            this.endAllDay = endString != null && endString.Length == 8;
+            startAllDay = startString.Length == 8;
+            endAllDay = endString != null && endString.Length == 8;
 
             this.location = location;
             this.organizer = organizer;

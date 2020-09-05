@@ -14,8 +14,6 @@
 * limitations under the License.
 */
 
-using System;
-
 namespace ZXing.Client.Result
 {
     /// <summary> Parses the "URLTO" result format, which is of the form "URLTO:[title]:[url]".
@@ -29,7 +27,7 @@ namespace ZXing.Client.Result
     /// </author>
     sealed class URLTOResultParser : ResultParser
     {
-        override public ParsedResult parse(ZXing.Result result)
+        override public ParsedResult parse(BarCodeText result)
         {
             var rawText = result.Text;
             if (rawText == null ||

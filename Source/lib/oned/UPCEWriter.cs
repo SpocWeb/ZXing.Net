@@ -17,8 +17,6 @@
 using System;
 using System.Collections.Generic;
 
-using ZXing.Common;
-
 namespace ZXing.OneD
 {
     /// <summary>

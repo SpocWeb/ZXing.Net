@@ -37,7 +37,7 @@ namespace ZXing.Client.Result
     /// </author>
     sealed class AddressBookDoCoMoResultParser : AbstractDoCoMoResultParser
     {
-        override public ParsedResult parse(ZXing.Result result)
+        override public ParsedResult parse(BarCodeText result)
         {
             String rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("MECARD:"))

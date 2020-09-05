@@ -26,7 +26,7 @@ namespace ZXing.OneD
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// <author>Sean Owen</author>
     /// </summary>
-    public abstract class OneDReader : Reader
+    public abstract class OneDReader : IBarCodeDecoder
     {
         /// <summary>
         /// 
@@ -44,7 +44,7 @@ namespace ZXing.OneD
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -62,7 +62,7 @@ namespace ZXing.OneD
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        virtual public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        virtual public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             var result = doDecode(image, hints);
             if (result == null)
@@ -121,7 +121,7 @@ namespace ZXing.OneD
         /// <param name="image">The image to decode</param>
         /// <param name="hints">Any hints that were requested</param>
         /// <returns>The contents of the decoded barcode</returns>
-        virtual protected Result doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        virtual protected BarCodeText doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             int width = image.Width;
             int height = image.Height;
@@ -182,7 +182,7 @@ namespace ZXing.OneD
                         }
                     }
                     // Look for a barcode
-                    Result result = decodeRow(rowNumber, row, hints);
+                    BarCodeText result = decodeRow(rowNumber, row, hints);
                     if (result == null)
                         continue;
 
@@ -264,11 +264,8 @@ namespace ZXing.OneD
                     {
                         break;
                     }
-                    else
-                    {
-                        counters[counterPosition] = 1;
-                        isWhite = !isWhite;
-                    }
+                    counters[counterPosition] = 1;
+                    isWhite = !isWhite;
                 }
                 i++;
             }
@@ -363,8 +360,8 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode
         /// </returns>
-        public abstract Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints);
+        public abstract BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints);
     }
 }

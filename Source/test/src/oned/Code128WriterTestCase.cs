@@ -38,7 +38,7 @@ namespace ZXing.OneD.Test
         private const String STOP = "1100011101011";
         private const String LF = "10000110010";
 
-        private Writer writer;
+        private IBarCodeWriter writer;
         private Code128Reader reader;
 
         [SetUp]

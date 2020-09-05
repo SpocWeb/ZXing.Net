@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -30,7 +29,7 @@ namespace ZXing.OneD
         private readonly int[] decodeMiddleCounters = new int[4];
         private readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
 
-        internal Result decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
+        internal BarCodeText decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
         {
             StringBuilder result = decodeRowStringBuffer;
             result.Length = 0;
@@ -41,12 +40,12 @@ namespace ZXing.OneD
             String resultString = result.ToString();
             IDictionary<ResultMetadataType, Object> extensionData = parseExtensionString(resultString);
 
-            Result extensionResult =
-                new Result(resultString,
+            BarCodeText extensionResult =
+                new BarCodeText(resultString,
                            null,
-                           new ResultPoint[] {
-                       new ResultPoint((extensionStartRange[0] + extensionStartRange[1]) / 2.0f, (float) rowNumber),
-                       new ResultPoint((float) end, (float) rowNumber),
+                           new[] {
+                       new ResultPoint((extensionStartRange[0] + extensionStartRange[1]) / 2.0f, rowNumber),
+                       new ResultPoint(end, rowNumber),
                       },
                            BarcodeFormat.UPC_EAN_EXTENSION);
             if (extensionData != null)
@@ -114,8 +113,10 @@ namespace ZXing.OneD
             {
                 return null;
             }
-            IDictionary<ResultMetadataType, Object> result = new Dictionary<ResultMetadataType, Object>();
-            result[ResultMetadataType.ISSUE_NUMBER] = Convert.ToInt32(raw);
+            IDictionary<ResultMetadataType, Object> result = new Dictionary<ResultMetadataType, Object>
+            {
+                [ResultMetadataType.ISSUE_NUMBER] = Convert.ToInt32(raw)
+            };
             return result;
         }
     }

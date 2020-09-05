@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
+using ZXing.Common.Detector;
 
 namespace ZXing.PDF417
 {
@@ -54,10 +56,10 @@ namespace ZXing.PDF417
         /// </summary>
         /// <returns>The bit count sum.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        [System.Obsolete]
+        [Obsolete]
         public static int getBitCountSum(int[] moduleBitCount)
         {
-            return ZXing.Common.Detector.MathUtils.sum(moduleBitCount);
+            return MathUtils.sum(moduleBitCount);
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace ZXing.PDF417
         /// <param name="symbol">encoded symbol to translate to a codeword</param>
         public static int getCodeword(long symbol)
         {
-            int i = System.Array.BinarySearch(SYMBOL_TABLE, (int)(symbol & 0x3FFFF));
+            int i = Array.BinarySearch(SYMBOL_TABLE, (int)(symbol & 0x3FFFF));
             if (i < 0)
             {
                 return -1;

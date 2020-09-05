@@ -40,7 +40,7 @@ namespace ZXing
         /// If null, an exception is thrown when Decode is called</param>
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
-        public BarcodeReader(Reader reader = null,
+        public BarcodeReader(IBarCodeDecoder reader = null,
            Func<T, LuminanceSource> createLuminanceSource = null,
            Func<LuminanceSource, Binarizer> createBinarizer = null
         )
@@ -58,14 +58,14 @@ namespace ZXing
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
-        public BarcodeReader(Reader reader = null,
+        public BarcodeReader(IBarCodeDecoder reader = null,
            Func<T, LuminanceSource> createLuminanceSource = null,
            Func<LuminanceSource, Binarizer> createBinarizer = null,
            Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource = null
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
-            this.CreateLuminanceSource = createLuminanceSource;
+            CreateLuminanceSource = createLuminanceSource;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace ZXing
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
-        protected BarcodeReader(Reader reader,
+        protected BarcodeReader(IBarCodeDecoder reader,
            Func<LuminanceSource, Binarizer> createBinarizer,
            Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
         )
@@ -98,7 +98,7 @@ namespace ZXing
         /// </summary>
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
-        public Result Decode(T barcodeBitmap)
+        public BarCodeText Decode(T barcodeBitmap)
         {
             if (CreateLuminanceSource == null)
             {
@@ -115,7 +115,7 @@ namespace ZXing
 
         /// <summary> Tries to find multiple BarCodes from <paramref name="barcodeBitmap"/> </summary>
         /// <returns>the result data or null</returns>
-        public Result[] DecodeMultiple(T barcodeBitmap)
+        public BarCodeText[] DecodeMultiple(T barcodeBitmap)
         {
             if (CreateLuminanceSource == null)
             {

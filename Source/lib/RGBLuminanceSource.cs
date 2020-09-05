@@ -21,7 +21,7 @@ namespace ZXing
     /// <summary>
     /// Luminance source class which support different formats of images.
     /// </summary>
-    public partial class RGBLuminanceSource : BaseLuminanceSource
+    public class RGBLuminanceSource : BaseLuminanceSource
     {
         /// <summary>
         /// enumeration of supported bitmap format which the RGBLuminanceSource can process

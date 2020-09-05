@@ -15,15 +15,14 @@
  */
 
 using System;
+using System.IO;
 using System.Text;
-
+using ZXing.Common;
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
 using System.Numerics;
 #else
 using BigIntegerLibrary;
 #endif
-
-using ZXing.Common;
 
 namespace ZXing.PDF417.Internal
 {
@@ -32,7 +31,7 @@ namespace ZXing.PDF417.Internal
     ///
     /// <author>SITA Lab (kevin.osullivan@sita.aero)</author>
     /// </summary>
-    internal static class DecodedBitStreamParser
+    public static class DecodedBitStreamParser
     {
         private enum Mode
         {
@@ -114,7 +113,7 @@ namespace ZXing.PDF417.Internal
 #endif
         private const int NUMBER_OF_SEQUENCE_CODEWORDS = 2;
 
-        internal static DecoderResult decode(int[] codewords, String ecLevel)
+        public static DecoderResult decode(int[] codewords, String ecLevel)
         {
             var result = new StringBuilder(codewords.Length * 2);
             // Get compaction mode
@@ -135,8 +134,9 @@ namespace ZXing.PDF417.Internal
                         codeIndex = byteCompaction(code, codewords, encoding ?? (encoding = getEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME)), codeIndex, result);
                         break;
                     case MODE_SHIFT_TO_BYTE_COMPACTION_MODE:
-                        if (encoding == null)
+                        if (encoding == null) {
                             encoding = getEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME);
+                        }
                         result.Append(encoding.GetString(new []{(byte)codewords[codeIndex++]}, 0, 1));
                         break;
                     case NUMERIC_COMPACTION_MODE_LATCH:
@@ -169,8 +169,9 @@ namespace ZXing.PDF417.Internal
                         codeIndex = textCompaction(codewords, codeIndex, result);
                         break;
                 }
-                if (codeIndex < 0)
+                if (codeIndex < 0) {
                     return null;
+                }
                 if (codeIndex < codewords.Length)
                 {
                     code = codewords[codeIndex++];
@@ -241,7 +242,7 @@ namespace ZXing.PDF417.Internal
             return encoding;
         }
 
-        internal static int decodeMacroBlock(int[] codewords, int codeIndex, PDF417ResultMetadata resultMetadata)
+        public static int decodeMacroBlock(int[] codewords, int codeIndex, PDF417ResultMetadata resultMetadata)
         {
             if (codeIndex + NUMBER_OF_SEQUENCE_CODEWORDS > codewords[0])
             {
@@ -254,8 +255,9 @@ namespace ZXing.PDF417.Internal
                 segmentIndexArray[i] = codewords[codeIndex];
             }
             var s = decodeBase900toBase10(segmentIndexArray, NUMBER_OF_SEQUENCE_CODEWORDS);
-            if (s == null)
+            if (s == null) {
                 return -1;
+            }
             resultMetadata.SegmentIndex = Int32.Parse(s);
 
             var fileId = new StringBuilder();
@@ -300,8 +302,9 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     int intResult;
-                                    if (Int32.TryParse(segmentCount.ToString(), out intResult))
+                                    if (Int32.TryParse(segmentCount.ToString(), out intResult)) {
                                         resultMetadata.SegmentCount = intResult;
+                                    }
 #endif
                                 }
                                 break;
@@ -314,8 +317,9 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     long longResult;
-                                    if (Int64.TryParse(timestamp.ToString(), out longResult))
+                                    if (Int64.TryParse(timestamp.ToString(), out longResult)) {
                                         resultMetadata.Timestamp = longResult;
+                                    }
 #endif
                                 }
                                 break;
@@ -328,8 +332,9 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     int intResult;
-                                    if (Int32.TryParse(checksum.ToString(), out intResult))
+                                    if (Int32.TryParse(checksum.ToString(), out intResult)) {
                                         resultMetadata.Checksum = intResult;
+                                    }
 #endif
                                 }
                                 break;
@@ -342,20 +347,17 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     long longResult;
-                                    if (Int64.TryParse(fileSize.ToString(), out longResult))
+                                    if (Int64.TryParse(fileSize.ToString(), out longResult)) {
                                         resultMetadata.FileSize = longResult;
+                                    }
 #endif
                                 }
-                                break;
-                            default:
                                 break;
                         }
                         break;
                     case MACRO_PDF417_TERMINATOR:
                         codeIndex++;
                         resultMetadata.IsLastSegment = true;
-                        break;
-                    default:
                         break;
                 }
             }
@@ -668,7 +670,7 @@ namespace ZXing.PDF417.Internal
             var value = 0L;
             var end = false;
 
-            using (var decodedBytes = new System.IO.MemoryStream())
+            using (var decodedBytes = new MemoryStream())
             {
                 switch (mode)
                 {
@@ -830,8 +832,9 @@ namespace ZXing.PDF417.Internal
                     // current Numeric Compaction mode grouping as described in 5.4.4.2,
                     // and then to start a new one grouping.
                     var s = decodeBase900toBase10(numericCodewords, count);
-                    if (s == null)
+                    if (s == null) {
                         return -1;
+                    }
                     result.Append(s);
                     count = 0;
                 }

@@ -176,9 +176,11 @@ namespace ZXing.QrCode.Test
          Assert.NotNull(goldenResult);
 
          QRCodeWriter writer = new QRCodeWriter();
-         IDictionary<EncodeHintType, Object> hints = new Dictionary<EncodeHintType, Object>();
-         hints[EncodeHintType.ERROR_CORRECTION] = ecLevel;
-         BitMatrix generatedResult = writer.encode(contents, BarcodeFormat.QR_CODE, resolution,
+            IDictionary<EncodeHintType, Object> hints = new Dictionary<EncodeHintType, Object>
+            {
+                [EncodeHintType.ERROR_CORRECTION] = ecLevel
+            };
+            BitMatrix generatedResult = writer.encode(contents, BarcodeFormat.QR_CODE, resolution,
              resolution, hints);
 
          Assert.AreEqual(resolution, generatedResult.Width);

@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ZXing.Common;
+using ZXing.Common.Detector;
 
 namespace ZXing.OneD.RSS
 {
@@ -66,9 +67,9 @@ namespace ZXing.OneD.RSS
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        override public Result decodeRow(int rowNumber,
+        override public BarCodeText decodeRow(int rowNumber,
             BitArray row,
             IDictionary<DecodeHintType, object> hints)
         {
@@ -130,7 +131,7 @@ namespace ZXing.OneD.RSS
             possibleRightPairs.Clear();
         }
 
-        private static Result constructResult(Pair leftPair, Pair rightPair)
+        private static BarCodeText constructResult(Pair leftPair, Pair rightPair)
         {
             long symbolValue = 4537077L * leftPair.Value + rightPair.Value;
             String text = symbolValue.ToString();
@@ -157,10 +158,10 @@ namespace ZXing.OneD.RSS
 
             ResultPoint[] leftPoints = leftPair.FinderPattern.ResultPoints;
             ResultPoint[] rightPoints = rightPair.FinderPattern.ResultPoints;
-            return new Result(
+            return new BarCodeText(
                 buffer.ToString(),
                 null,
-                new ResultPoint[] {leftPoints[0], leftPoints[1], rightPoints[0], rightPoints[1],},
+                new[] {leftPoints[0], leftPoints[1], rightPoints[0], rightPoints[1],},
                 BarcodeFormat.RSS_14);
         }
 
@@ -245,16 +246,16 @@ namespace ZXing.OneD.RSS
             }
 
             int numModules = outsideChar ? 16 : 15;
-            float elementWidth = (float) ZXing.Common.Detector.MathUtils.sum(counters) / (float) numModules;
+            float elementWidth = MathUtils.sum(counters) / (float) numModules;
 
-            int[] oddCounts = this.getOddCounts();
-            int[] evenCounts = this.getEvenCounts();
-            float[] oddRoundingErrors = this.getOddRoundingErrors();
-            float[] evenRoundingErrors = this.getEvenRoundingErrors();
+            int[] oddCounts = getOddCounts();
+            int[] evenCounts = getEvenCounts();
+            float[] oddRoundingErrors = getOddRoundingErrors();
+            float[] evenRoundingErrors = getEvenRoundingErrors();
 
             for (int i = 0; i < counters.Length; i++)
             {
-                float value = (float) counters[i] / elementWidth;
+                float value = counters[i] / elementWidth;
                 int rounded = (int) (value + 0.5f); // Round
                 if (rounded < 1)
                 {
@@ -367,7 +368,7 @@ namespace ZXing.OneD.RSS
                     {
                         if (isFinderPattern(counters))
                         {
-                            return new int[] {patternStart, x};
+                            return new[] {patternStart, x};
                         }
                         patternStart += counters[0] + counters[1];
                         counters[0] = counters[2];
@@ -414,13 +415,13 @@ namespace ZXing.OneD.RSS
                 start = row.Size - 1 - start;
                 end = row.Size - 1 - end;
             }
-            return new FinderPattern(value, new int[] {firstElementStart, startEnd[1]}, start, end, rowNumber);
+            return new FinderPattern(value, new[] {firstElementStart, startEnd[1]}, start, end, rowNumber);
         }
 
         private bool adjustOddEvenCounts(bool outsideChar, int numModules)
         {
-            int oddSum = ZXing.Common.Detector.MathUtils.sum(getOddCounts());
-            int evenSum = ZXing.Common.Detector.MathUtils.sum(getEvenCounts());
+            int oddSum = MathUtils.sum(getOddCounts());
+            int evenSum = MathUtils.sum(getEvenCounts());
             int mismatch = oddSum + evenSum - numModules;
             bool oddParityBad = (oddSum & 0x01) == (outsideChar ? 1 : 0);
             bool evenParityBad = (evenSum & 0x01) == 1;

@@ -15,6 +15,7 @@
  */
 
 using System;
+using ZXing.Common.Detector;
 
 namespace ZXing.OneD.RSS
 {
@@ -133,7 +134,7 @@ namespace ZXing.OneD.RSS
         [Obsolete]
         protected static int count(int[] array)
         {
-            return ZXing.Common.Detector.MathUtils.sum(array);
+            return MathUtils.sum(array);
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace ZXing.OneD.RSS
         {
             int firstTwoSum = counters[0] + counters[1];
             int sum = firstTwoSum + counters[2] + counters[3];
-            float ratio = (float)firstTwoSum / (float)sum;
+            float ratio = firstTwoSum / (float)sum;
             if (ratio >= MIN_FINDER_PATTERN_RATIO && ratio <= MAX_FINDER_PATTERN_RATIO)
             {
                 // passes ratio test in spec, but see if the counts are unreasonable

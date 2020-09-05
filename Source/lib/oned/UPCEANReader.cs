@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -139,9 +138,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             return decodeRow(rowNumber, row, findStartGuardPattern(row), hints);
         }
@@ -155,8 +154,8 @@ namespace ZXing.OneD
         /// <param name="row">encoding of the row of the barcode image</param>
         /// <param name="startGuardRange">start/end column where the opening start pattern was found</param>
         /// <param name="hints">optional hints that influence decoding</param>
-        /// <returns><see cref="Result"/> encapsulating the result of decoding a barcode in the row</returns>
-        public virtual Result decodeRow(int rowNumber,
+        /// <returns><see cref="BarCodeText"/> encapsulating the result of decoding a barcode in the row</returns>
+        public virtual BarCodeText decodeRow(int rowNumber,
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
@@ -219,9 +218,9 @@ namespace ZXing.OneD
             var left = (startGuardRange[1] + startGuardRange[0]) / 2.0f;
             var right = (endRange[1] + endRange[0]) / 2.0f;
             var format = BarcodeFormat;
-            var decodeResult = new Result(resultString,
+            var decodeResult = new BarCodeText(resultString,
                                              null, // no natural byte representation for these barcodes
-                                             new ResultPoint[]
+                                             new[]
                                                 {
                                                 new ResultPoint(left, rowNumber),
                                                 new ResultPoint(right, rowNumber)
@@ -373,7 +372,7 @@ namespace ZXing.OneD
                     {
                         if (patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
                         {
-                            return new int[] { patternStart, x };
+                            return new[] { patternStart, x };
                         }
                         patternStart += counters[0] + counters[1];
                         Array.Copy(counters, 2, counters, 0, counterPosition - 1);

@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -26,10 +25,9 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class MSIWriter : OneDimensionalCodeWriter
     {
-        private static readonly int[] startWidths = new[] { 2, 1 };
-        private static readonly int[] endWidths = new[] { 1, 2, 1 };
-        private static readonly int[][] numberWidths = new[]
-                                                          {
+        private static readonly int[] startWidths = { 2, 1 };
+        private static readonly int[] endWidths = { 1, 2, 1 };
+        private static readonly int[][] numberWidths = {
                                                            new[] { 1, 2, 1, 2, 1, 2, 1, 2 },
                                                            new[] { 1, 2, 1, 2, 1, 2, 2, 1 },
                                                            new[] { 1, 2, 1, 2, 2, 1, 1, 2 },

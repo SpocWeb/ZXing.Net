@@ -51,8 +51,9 @@ namespace ZXing.QrCode
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.ERROR_CORRECTION))
+                    if (Hints.ContainsKey(EncodeHintType.ERROR_CORRECTION)) {
                         Hints.Remove(EncodeHintType.ERROR_CORRECTION);
+                    }
                 }
                 else
                 {
@@ -62,7 +63,7 @@ namespace ZXing.QrCode
         }
 
         /// <summary>
-        /// Specifies what character encoding to use where applicable (type <see cref="String"/>)
+        /// Specifies what character encoding to use where applicable (type <see cref="string"/>)
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
         [CategoryAttribute("Standard"), DescriptionAttribute("Specifies what character encoding to " +
@@ -82,8 +83,9 @@ namespace ZXing.QrCode
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.CHARACTER_SET))
+                    if (Hints.ContainsKey(EncodeHintType.CHARACTER_SET)) {
                         Hints.Remove(EncodeHintType.CHARACTER_SET);
+                    }
                 }
                 else
                 {
@@ -143,8 +145,9 @@ namespace ZXing.QrCode
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.QR_VERSION))
+                    if (Hints.ContainsKey(EncodeHintType.QR_VERSION)) {
                         Hints.Remove(EncodeHintType.QR_VERSION);
+                    }
                 }
                 else
                 {
@@ -159,17 +162,20 @@ namespace ZXing.QrCode
    {
       public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
       {
-         if (sourceType == typeof(ErrorCorrectionLevel))
-            return true;
-         if (sourceType == typeof(String))
-            return true;
+         if (sourceType == typeof(ErrorCorrectionLevel)) {
+             return true;
+         }
+         if (sourceType == typeof(String)) {
+             return true;
+         }
          return base.CanConvertFrom(context, sourceType);
       }
 
       public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
       {
-         if (destinationType == typeof(ErrorCorrectionLevel))
-            return true;
+         if (destinationType == typeof(ErrorCorrectionLevel)) {
+             return true;
+         }
          return base.CanConvertTo(context, destinationType);
       }
 
@@ -201,8 +207,9 @@ namespace ZXing.QrCode
 
       public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
       {
-         if (value == null)
-            return null;
+         if (value == null) {
+             return null;
+         }
          var level = value as ErrorCorrectionLevel;
          if (level != null)
          {

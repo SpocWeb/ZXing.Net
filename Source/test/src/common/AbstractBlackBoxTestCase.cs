@@ -51,7 +51,7 @@ namespace ZXing.Common.Test
       }
 
       private readonly string testBase;
-      private readonly Reader barcodeReader;
+      private readonly IBarCodeDecoder barcodeReader;
       private readonly BarcodeFormat? expectedFormat;
       private readonly List<TestResult> testResults;
 
@@ -67,7 +67,7 @@ namespace ZXing.Common.Test
       }
 
       protected AbstractBlackBoxTestCase(String testBasePathSuffix,
-                                         Reader barcodeReader,
+                                         IBarCodeDecoder barcodeReader,
                                          BarcodeFormat? expectedFormat)
       {
          this.testBase = buildTestBase(testBasePathSuffix);
@@ -108,7 +108,7 @@ namespace ZXing.Common.Test
          return Directory.EnumerateFiles(testBase).Where(p => accept(testBase, p));
       }
 
-      protected Reader getReader()
+      protected IBarCodeDecoder getReader()
       {
          return barcodeReader;
       }
@@ -292,25 +292,27 @@ namespace ZXing.Common.Test
 
          // Try in 'pure' mode mostly to exercise PURE_BARCODE code paths for exceptions;
          // not expected to pass, generally
-         Result result = null;
+         BarCodeText result = null;
          try
          {
-            var pureHints = new Dictionary<DecodeHintType, object>();
-            pureHints[DecodeHintType.PURE_BARCODE] = true;
-            result = barcodeReader.decode(source, pureHints);
+                var pureHints = new Dictionary<DecodeHintType, object>
+                {
+                    [DecodeHintType.PURE_BARCODE] = true
+                };
+                result = barcodeReader.decode(source, pureHints);
          }
          catch (ReaderException )
          {
             // continue
          }
 
-         var multiReader = barcodeReader as MultipleBarcodeReader;
-         if (multiReader != null)
+         if (barcodeReader is IMultipleBarcodeReader multiReader)
          {
             var expectedResults = expectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             var results = multiReader.decodeMultiple(source, hints);
-            if (results == null)
-               throw new ReaderException();
+            if (results == null) {
+                throw new ReaderException();
+            }
 
             if (expectedResults.Length != results.Length)
             {
@@ -363,10 +365,12 @@ namespace ZXing.Common.Test
          }
          else
          {
-            if (result == null)
-               result = barcodeReader.decode(source, hints);
-            if (result == null)
-               throw new ReaderException();
+            if (result == null) {
+                result = barcodeReader.decode(source, hints);
+            }
+            if (result == null) {
+                throw new ReaderException();
+            }
 
             if (expectedFormat != result.BarcodeFormat)
             {
@@ -389,7 +393,7 @@ namespace ZXing.Common.Test
                ResultMetadataType key;
                ResultMetadataType.TryParse(metadatum.Key, out key);
                Object expectedValue = metadatum.Value;
-               Object actualValue = resultMetadata == null ? null : resultMetadata[key];
+               Object actualValue = resultMetadata?[key];
                if (!expectedValue.Equals(actualValue))
                {
                   Log.InfoFormat("Metadata mismatch for key '{0}': expected '{1}' but got '{2}'",

@@ -44,7 +44,7 @@ namespace ZXing.Interop.Decoding
         /// <returns>
         /// the result data or null
         /// </returns>
-        Result DecodeImageBytes(
+        BarCodeText DecodeImageBytes(
            [In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
            [In] int width,
            [In] int height,
@@ -60,7 +60,7 @@ namespace ZXing.Interop.Decoding
         /// <returns>
         /// the result data or null
         /// </returns>
-        Result[] DecodeImageBytesMultiple(
+        BarCodeText[] DecodeImageBytesMultiple(
             [In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
             [In] int width,
             [In] int height,
@@ -71,13 +71,13 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         /// <param name="barcodeBitmapFilePath">The filename with path to an image which should be decoded</param>
         /// <returns>the result data or null</returns>
-        Result DecodeImageFile(String barcodeBitmapFilePath);
+        BarCodeText DecodeImageFile(String barcodeBitmapFilePath);
 
         /// <summary>
         /// Decodes the specified barcode bitmap.
         /// </summary>
         /// <param name="barcodeBitmapFilePath">The filename with path to an image which should be decoded</param>
         /// <returns>the results data or null</returns>
-        Result[] DecodeImageFileMultiple(String barcodeBitmapFilePath);
+        BarCodeText[] DecodeImageFileMultiple(String barcodeBitmapFilePath);
     }
 }

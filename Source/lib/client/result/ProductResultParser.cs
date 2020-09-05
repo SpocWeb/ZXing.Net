@@ -26,7 +26,7 @@ namespace ZXing.Client.Result
     internal sealed class ProductResultParser : ResultParser
     {
         // Treat all UPC and EAN variants as UPCs, in the sense that they are all product barcodes.
-        public override ParsedResult parse(ZXing.Result result)
+        public override ParsedResult parse(BarCodeText result)
         {
             BarcodeFormat format = result.BarcodeFormat;
             if (!(format == BarcodeFormat.UPC_A || format == BarcodeFormat.UPC_E ||

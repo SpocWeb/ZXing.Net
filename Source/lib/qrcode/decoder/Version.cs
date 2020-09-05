@@ -15,7 +15,6 @@
 */
 
 using System;
-
 using ZXing.Common;
 
 namespace ZXing.QrCode.Internal
@@ -29,8 +28,7 @@ namespace ZXing.QrCode.Internal
         /// <summary> See ISO 18004:2006 Annex D.
         /// Element i represents the raw version bits that specify version i + 7
         /// </summary>
-        private static readonly int[] VERSION_DECODE_INFO = new[]
-                                                               {
+        private static readonly int[] VERSION_DECODE_INFO = {
                                                                 0x07C94, 0x085BC, 0x09A99, 0x0A4D3, 0x0BBF6,
                                                                 0x0C762, 0x0D847, 0x0E60D, 0x0F928, 0x10B78,
                                                                 0x1145D, 0x12A17, 0x13532, 0x149A6, 0x15683,
@@ -59,7 +57,7 @@ namespace ZXing.QrCode.Internal
             {
                 total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
             }
-            this.totalCodewords = total;
+            totalCodewords = total;
         }
 
         /// <summary>
@@ -127,7 +125,7 @@ namespace ZXing.QrCode.Internal
             return VERSIONS[versionNumber - 1];
         }
 
-        internal static Version decodeVersionInformation(int versionBits)
+        public static Version decodeVersionInformation(int versionBits)
         {
             int bestDifference = Int32.MaxValue;
             int bestVersion = 0;
@@ -159,7 +157,7 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary> See ISO 18004:2006 Annex E</summary>
-        internal BitMatrix buildFunctionPattern()
+        public BitMatrix buildFunctionPattern()
         {
             int dimension = DimensionForVersion;
             BitMatrix bitMatrix = new BitMatrix(dimension);
@@ -295,48 +293,48 @@ namespace ZXing.QrCode.Internal
         /// <summary> See ISO 18004:2006 6.5.1 Table 9</summary>
         private static Version[] buildVersions()
         {
-            return new Version[]
+            return new[]
                {
                new Version(1, new int[] {},
                            new ECBlocks(7, new ECB(1, 19)),
                            new ECBlocks(10, new ECB(1, 16)),
                            new ECBlocks(13, new ECB(1, 13)),
                            new ECBlocks(17, new ECB(1, 9))),
-               new Version(2, new int[] {6, 18},
+               new Version(2, new[] {6, 18},
                            new ECBlocks(10, new ECB(1, 34)),
                            new ECBlocks(16, new ECB(1, 28)),
                            new ECBlocks(22, new ECB(1, 22)),
                            new ECBlocks(28, new ECB(1, 16))),
-               new Version(3, new int[] {6, 22},
+               new Version(3, new[] {6, 22},
                            new ECBlocks(15, new ECB(1, 55)),
                            new ECBlocks(26, new ECB(1, 44)),
                            new ECBlocks(18, new ECB(2, 17)),
                            new ECBlocks(22, new ECB(2, 13))),
-               new Version(4, new int[] {6, 26},
+               new Version(4, new[] {6, 26},
                            new ECBlocks(20, new ECB(1, 80)),
                            new ECBlocks(18, new ECB(2, 32)),
                            new ECBlocks(26, new ECB(2, 24)),
                            new ECBlocks(16, new ECB(4, 9))),
-               new Version(5, new int[] {6, 30},
+               new Version(5, new[] {6, 30},
                            new ECBlocks(26, new ECB(1, 108)),
                            new ECBlocks(24, new ECB(2, 43)),
                            new ECBlocks(18, new ECB(2, 15),
                                         new ECB(2, 16)),
                            new ECBlocks(22, new ECB(2, 11),
                                         new ECB(2, 12))),
-               new Version(6, new int[] {6, 34},
+               new Version(6, new[] {6, 34},
                            new ECBlocks(18, new ECB(2, 68)),
                            new ECBlocks(16, new ECB(4, 27)),
                            new ECBlocks(24, new ECB(4, 19)),
                            new ECBlocks(28, new ECB(4, 15))),
-               new Version(7, new int[] {6, 22, 38},
+               new Version(7, new[] {6, 22, 38},
                            new ECBlocks(20, new ECB(2, 78)),
                            new ECBlocks(18, new ECB(4, 31)),
                            new ECBlocks(18, new ECB(2, 14),
                                         new ECB(4, 15)),
                            new ECBlocks(26, new ECB(4, 13),
                                         new ECB(1, 14))),
-               new Version(8, new int[] {6, 24, 42},
+               new Version(8, new[] {6, 24, 42},
                            new ECBlocks(24, new ECB(2, 97)),
                            new ECBlocks(22, new ECB(2, 38),
                                         new ECB(2, 39)),
@@ -344,7 +342,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(2, 19)),
                            new ECBlocks(26, new ECB(4, 14),
                                         new ECB(2, 15))),
-               new Version(9, new int[] {6, 26, 46},
+               new Version(9, new[] {6, 26, 46},
                            new ECBlocks(30, new ECB(2, 116)),
                            new ECBlocks(22, new ECB(3, 36),
                                         new ECB(2, 37)),
@@ -352,7 +350,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(4, 17)),
                            new ECBlocks(24, new ECB(4, 12),
                                         new ECB(4, 13))),
-               new Version(10, new int[] {6, 28, 50},
+               new Version(10, new[] {6, 28, 50},
                            new ECBlocks(18, new ECB(2, 68),
                                         new ECB(2, 69)),
                            new ECBlocks(26, new ECB(4, 43),
@@ -361,7 +359,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(2, 20)),
                            new ECBlocks(28, new ECB(6, 15),
                                         new ECB(2, 16))),
-               new Version(11, new int[] {6, 30, 54},
+               new Version(11, new[] {6, 30, 54},
                            new ECBlocks(20, new ECB(4, 81)),
                            new ECBlocks(30, new ECB(1, 50),
                                         new ECB(4, 51)),
@@ -369,7 +367,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(4, 23)),
                            new ECBlocks(24, new ECB(3, 12),
                                         new ECB(8, 13))),
-               new Version(12, new int[] {6, 32, 58},
+               new Version(12, new[] {6, 32, 58},
                            new ECBlocks(24, new ECB(2, 92),
                                         new ECB(2, 93)),
                            new ECBlocks(22, new ECB(6, 36),
@@ -378,7 +376,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(6, 21)),
                            new ECBlocks(28, new ECB(7, 14),
                                         new ECB(4, 15))),
-               new Version(13, new int[] {6, 34, 62},
+               new Version(13, new[] {6, 34, 62},
                            new ECBlocks(26, new ECB(4, 107)),
                            new ECBlocks(22, new ECB(8, 37),
                                         new ECB(1, 38)),
@@ -386,7 +384,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(4, 21)),
                            new ECBlocks(22, new ECB(12, 11),
                                         new ECB(4, 12))),
-               new Version(14, new int[] {6, 26, 46, 66},
+               new Version(14, new[] {6, 26, 46, 66},
                            new ECBlocks(30, new ECB(3, 115),
                                         new ECB(1, 116)),
                            new ECBlocks(24, new ECB(4, 40),
@@ -395,7 +393,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(5, 17)),
                            new ECBlocks(24, new ECB(11, 12),
                                         new ECB(5, 13))),
-               new Version(15, new int[] {6, 26, 48, 70},
+               new Version(15, new[] {6, 26, 48, 70},
                            new ECBlocks(22, new ECB(5, 87),
                                         new ECB(1, 88)),
                            new ECBlocks(24, new ECB(5, 41),
@@ -404,7 +402,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(7, 25)),
                            new ECBlocks(24, new ECB(11, 12),
                                         new ECB(7, 13))),
-               new Version(16, new int[] {6, 26, 50, 74},
+               new Version(16, new[] {6, 26, 50, 74},
                            new ECBlocks(24, new ECB(5, 98),
                                         new ECB(1, 99)),
                            new ECBlocks(28, new ECB(7, 45),
@@ -413,7 +411,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(2, 20)),
                            new ECBlocks(30, new ECB(3, 15),
                                         new ECB(13, 16))),
-               new Version(17, new int[] {6, 30, 54, 78},
+               new Version(17, new[] {6, 30, 54, 78},
                            new ECBlocks(28, new ECB(1, 107),
                                         new ECB(5, 108)),
                            new ECBlocks(28, new ECB(10, 46),
@@ -422,7 +420,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(15, 23)),
                            new ECBlocks(28, new ECB(2, 14),
                                         new ECB(17, 15))),
-               new Version(18, new int[] {6, 30, 56, 82},
+               new Version(18, new[] {6, 30, 56, 82},
                            new ECBlocks(30, new ECB(5, 120),
                                         new ECB(1, 121)),
                            new ECBlocks(26, new ECB(9, 43),
@@ -431,7 +429,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(1, 23)),
                            new ECBlocks(28, new ECB(2, 14),
                                         new ECB(19, 15))),
-               new Version(19, new int[] {6, 30, 58, 86},
+               new Version(19, new[] {6, 30, 58, 86},
                            new ECBlocks(28, new ECB(3, 113),
                                         new ECB(4, 114)),
                            new ECBlocks(26, new ECB(3, 44),
@@ -440,7 +438,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(4, 22)),
                            new ECBlocks(26, new ECB(9, 13),
                                         new ECB(16, 14))),
-               new Version(20, new int[] {6, 34, 62, 90},
+               new Version(20, new[] {6, 34, 62, 90},
                            new ECBlocks(28, new ECB(3, 107),
                                         new ECB(5, 108)),
                            new ECBlocks(26, new ECB(3, 41),
@@ -449,7 +447,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(5, 25)),
                            new ECBlocks(28, new ECB(15, 15),
                                         new ECB(10, 16))),
-               new Version(21, new int[] {6, 28, 50, 72, 94},
+               new Version(21, new[] {6, 28, 50, 72, 94},
                            new ECBlocks(28, new ECB(4, 116),
                                         new ECB(4, 117)),
                            new ECBlocks(26, new ECB(17, 42)),
@@ -457,14 +455,14 @@ namespace ZXing.QrCode.Internal
                                         new ECB(6, 23)),
                            new ECBlocks(30, new ECB(19, 16),
                                         new ECB(6, 17))),
-               new Version(22, new int[] {6, 26, 50, 74, 98},
+               new Version(22, new[] {6, 26, 50, 74, 98},
                            new ECBlocks(28, new ECB(2, 111),
                                         new ECB(7, 112)),
                            new ECBlocks(28, new ECB(17, 46)),
                            new ECBlocks(30, new ECB(7, 24),
                                         new ECB(16, 25)),
                            new ECBlocks(24, new ECB(34, 13))),
-               new Version(23, new int[] {6, 30, 54, 78, 102},
+               new Version(23, new[] {6, 30, 54, 78, 102},
                            new ECBlocks(30, new ECB(4, 121),
                                         new ECB(5, 122)),
                            new ECBlocks(28, new ECB(4, 47),
@@ -473,7 +471,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(14, 25)),
                            new ECBlocks(30, new ECB(16, 15),
                                         new ECB(14, 16))),
-               new Version(24, new int[] {6, 28, 54, 80, 106},
+               new Version(24, new[] {6, 28, 54, 80, 106},
                            new ECBlocks(30, new ECB(6, 117),
                                         new ECB(4, 118)),
                            new ECBlocks(28, new ECB(6, 45),
@@ -482,7 +480,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(16, 25)),
                            new ECBlocks(30, new ECB(30, 16),
                                         new ECB(2, 17))),
-               new Version(25, new int[] {6, 32, 58, 84, 110},
+               new Version(25, new[] {6, 32, 58, 84, 110},
                            new ECBlocks(26, new ECB(8, 106),
                                         new ECB(4, 107)),
                            new ECBlocks(28, new ECB(8, 47),
@@ -491,7 +489,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(22, 25)),
                            new ECBlocks(30, new ECB(22, 15),
                                         new ECB(13, 16))),
-               new Version(26, new int[] {6, 30, 58, 86, 114},
+               new Version(26, new[] {6, 30, 58, 86, 114},
                            new ECBlocks(28, new ECB(10, 114),
                                         new ECB(2, 115)),
                            new ECBlocks(28, new ECB(19, 46),
@@ -500,7 +498,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(6, 23)),
                            new ECBlocks(30, new ECB(33, 16),
                                         new ECB(4, 17))),
-               new Version(27, new int[] {6, 34, 62, 90, 118},
+               new Version(27, new[] {6, 34, 62, 90, 118},
                            new ECBlocks(30, new ECB(8, 122),
                                         new ECB(4, 123)),
                            new ECBlocks(28, new ECB(22, 45),
@@ -509,7 +507,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(26, 24)),
                            new ECBlocks(30, new ECB(12, 15),
                                         new ECB(28, 16))),
-               new Version(28, new int[] {6, 26, 50, 74, 98, 122},
+               new Version(28, new[] {6, 26, 50, 74, 98, 122},
                            new ECBlocks(30, new ECB(3, 117),
                                         new ECB(10, 118)),
                            new ECBlocks(28, new ECB(3, 45),
@@ -518,7 +516,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(31, 25)),
                            new ECBlocks(30, new ECB(11, 15),
                                         new ECB(31, 16))),
-               new Version(29, new int[] {6, 30, 54, 78, 102, 126},
+               new Version(29, new[] {6, 30, 54, 78, 102, 126},
                            new ECBlocks(30, new ECB(7, 116),
                                         new ECB(7, 117)),
                            new ECBlocks(28, new ECB(21, 45),
@@ -527,7 +525,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(37, 24)),
                            new ECBlocks(30, new ECB(19, 15),
                                         new ECB(26, 16))),
-               new Version(30, new int[] {6, 26, 52, 78, 104, 130},
+               new Version(30, new[] {6, 26, 52, 78, 104, 130},
                            new ECBlocks(30, new ECB(5, 115),
                                         new ECB(10, 116)),
                            new ECBlocks(28, new ECB(19, 47),
@@ -536,7 +534,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(25, 25)),
                            new ECBlocks(30, new ECB(23, 15),
                                         new ECB(25, 16))),
-               new Version(31, new int[] {6, 30, 56, 82, 108, 134},
+               new Version(31, new[] {6, 30, 56, 82, 108, 134},
                            new ECBlocks(30, new ECB(13, 115),
                                         new ECB(3, 116)),
                            new ECBlocks(28, new ECB(2, 46),
@@ -545,7 +543,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(1, 25)),
                            new ECBlocks(30, new ECB(23, 15),
                                         new ECB(28, 16))),
-               new Version(32, new int[] {6, 34, 60, 86, 112, 138},
+               new Version(32, new[] {6, 34, 60, 86, 112, 138},
                            new ECBlocks(30, new ECB(17, 115)),
                            new ECBlocks(28, new ECB(10, 46),
                                         new ECB(23, 47)),
@@ -553,7 +551,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(35, 25)),
                            new ECBlocks(30, new ECB(19, 15),
                                         new ECB(35, 16))),
-               new Version(33, new int[] {6, 30, 58, 86, 114, 142},
+               new Version(33, new[] {6, 30, 58, 86, 114, 142},
                            new ECBlocks(30, new ECB(17, 115),
                                         new ECB(1, 116)),
                            new ECBlocks(28, new ECB(14, 46),
@@ -562,7 +560,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(19, 25)),
                            new ECBlocks(30, new ECB(11, 15),
                                         new ECB(46, 16))),
-               new Version(34, new int[] {6, 34, 62, 90, 118, 146},
+               new Version(34, new[] {6, 34, 62, 90, 118, 146},
                            new ECBlocks(30, new ECB(13, 115),
                                         new ECB(6, 116)),
                            new ECBlocks(28, new ECB(14, 46),
@@ -571,7 +569,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(7, 25)),
                            new ECBlocks(30, new ECB(59, 16),
                                         new ECB(1, 17))),
-               new Version(35, new int[] {6, 30, 54, 78, 102, 126, 150},
+               new Version(35, new[] {6, 30, 54, 78, 102, 126, 150},
                            new ECBlocks(30, new ECB(12, 121),
                                         new ECB(7, 122)),
                            new ECBlocks(28, new ECB(12, 47),
@@ -580,7 +578,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(14, 25)),
                            new ECBlocks(30, new ECB(22, 15),
                                         new ECB(41, 16))),
-               new Version(36, new int[] {6, 24, 50, 76, 102, 128, 154},
+               new Version(36, new[] {6, 24, 50, 76, 102, 128, 154},
                            new ECBlocks(30, new ECB(6, 121),
                                         new ECB(14, 122)),
                            new ECBlocks(28, new ECB(6, 47),
@@ -589,7 +587,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(10, 25)),
                            new ECBlocks(30, new ECB(2, 15),
                                         new ECB(64, 16))),
-               new Version(37, new int[] {6, 28, 54, 80, 106, 132, 158},
+               new Version(37, new[] {6, 28, 54, 80, 106, 132, 158},
                            new ECBlocks(30, new ECB(17, 122),
                                         new ECB(4, 123)),
                            new ECBlocks(28, new ECB(29, 46),
@@ -598,7 +596,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(10, 25)),
                            new ECBlocks(30, new ECB(24, 15),
                                         new ECB(46, 16))),
-               new Version(38, new int[] {6, 32, 58, 84, 110, 136, 162},
+               new Version(38, new[] {6, 32, 58, 84, 110, 136, 162},
                            new ECBlocks(30, new ECB(4, 122),
                                         new ECB(18, 123)),
                            new ECBlocks(28, new ECB(13, 46),
@@ -607,7 +605,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(14, 25)),
                            new ECBlocks(30, new ECB(42, 15),
                                         new ECB(32, 16))),
-               new Version(39, new int[] {6, 26, 54, 82, 110, 138, 166},
+               new Version(39, new[] {6, 26, 54, 82, 110, 138, 166},
                            new ECBlocks(30, new ECB(20, 117),
                                         new ECB(4, 118)),
                            new ECBlocks(28, new ECB(40, 47),
@@ -616,7 +614,7 @@ namespace ZXing.QrCode.Internal
                                         new ECB(22, 25)),
                            new ECBlocks(30, new ECB(10, 15),
                                         new ECB(67, 16))),
-               new Version(40, new int[] {6, 30, 58, 86, 114, 142, 170},
+               new Version(40, new[] {6, 30, 58, 86, 114, 142, 170},
                            new ECBlocks(30, new ECB(19, 118),
                                         new ECB(6, 119)),
                            new ECBlocks(28, new ECB(18, 47),

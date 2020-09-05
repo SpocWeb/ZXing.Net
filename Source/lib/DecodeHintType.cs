@@ -14,7 +14,6 @@
 * limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
 
 namespace ZXing
@@ -23,7 +22,7 @@ namespace ZXing
     /// Encapsulates a type of hint that a caller may pass to a barcode reader to help it
     /// more quickly or accurately decode it. It is up to implementations to decide what,
     /// if anything, to do with the information that is supplied.
-    /// <seealso cref="Reader.decode(BinaryBitmap, IDictionary{DecodeHintType, object})" />
+    /// <seealso cref="IBarCodeDecoder.decode(BinaryBitmap, System.Collections.Generic.IDictionary{ZXing.DecodeHintType,object})" />
     /// </summary>
     /// <author>Sean Owen</author>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>

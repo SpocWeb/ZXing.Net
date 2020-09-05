@@ -47,7 +47,7 @@ namespace ZXing
         /// If null, an exception is thrown when Decode is called</param>
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
-        public BarcodeReader(Reader reader,
+        public BarcodeReader(IBarCodeDecoder reader,
            Func<Color32[], int, int, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer
         )
@@ -65,7 +65,7 @@ namespace ZXing
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
-        public BarcodeReader(Reader reader,
+        public BarcodeReader(IBarCodeDecoder reader,
            Func<Color32[], int, int, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
            Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
@@ -97,7 +97,7 @@ namespace ZXing
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns>the result data or null</returns>
-        public Result Decode(Color32[] rawColor32, int width, int height)
+        public BarCodeText Decode(Color32[] rawColor32, int width, int height)
         {
             if (CreateLuminanceSource == null)
             {
@@ -119,7 +119,7 @@ namespace ZXing
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns>the result data or null</returns>
-        public Result[] DecodeMultiple(Color32[] rawColor32, int width, int height)
+        public BarCodeText[] DecodeMultiple(Color32[] rawColor32, int width, int height)
         {
             if (CreateLuminanceSource == null)
             {

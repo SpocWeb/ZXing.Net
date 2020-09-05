@@ -83,9 +83,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             var gaps = new List<PixelInterval>();
 
@@ -134,10 +134,6 @@ namespace ZXing.OneD
                         {
                             primary.incSimilar();
                         }
-                        else
-                        {
-                            //System.out.println("NOT SIMILAR");
-                        }
                     }
                     else if ((p_color == isWhite) && (s_color == isBlack))
                     {
@@ -151,10 +147,6 @@ namespace ZXing.OneD
                         {
                             // White and large black
                             primary.incSimilar();
-                        }
-                        else
-                        {
-                            //System.out.println("NOT SIMILAR");
                         }
                     }
                     else if ((p_color == isBlack) && (s_color == isWhite))
@@ -171,10 +163,6 @@ namespace ZXing.OneD
                             // large black and white
                             primary.incSimilar();
                             primary.incLarge();
-                        }
-                        else
-                        {
-                            //System.out.println("NOT SIMILAR");
                         }
                     }
                     else if ((p_color == isBlack) && (s_color == isBlack))
@@ -196,14 +184,6 @@ namespace ZXing.OneD
                         {
                             primary.incSimilar();
                         }
-                        else
-                        {
-                            //System.out.println("NOT SIMILAR");
-                        }
-                    }
-                    else
-                    {
-                        //System.out.println("UNKNOWN COLORS");
                     }
                 } // j
             } // i
@@ -243,11 +223,11 @@ namespace ZXing.OneD
 //    }
 
             float left = 0.0f;
-            float right = (float) (end - 1);
-            return new Result(
+            float right = end - 1;
+            return new BarCodeText(
                 resultString,
                 null,
-                new ResultPoint[]
+                new[]
                 {
                     new ResultPoint(left, rowNumber),
                     new ResultPoint(right, rowNumber)
@@ -265,7 +245,7 @@ namespace ZXing.OneD
                 similars = new double[l];
             for (int i = 0; i < l; i++)
             {
-                similars[i] = (double) gaps[i].Similar;
+                similars[i] = gaps[i].Similar;
             }
 
             double dMean = mean(similars);
@@ -276,7 +256,7 @@ namespace ZXing.OneD
             {
                 PixelInterval gap = gaps[i];
                 bool color = gap.Color;
-                double sim = (double) gap.Similar;
+                double sim = gap.Similar;
                 if ((color == isWhite) && (!inProgress) && (sim < dMean))
                 {
                     //System.out.println("start");

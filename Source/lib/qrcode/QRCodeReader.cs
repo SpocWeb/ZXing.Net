@@ -16,17 +16,14 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.QrCode.Internal;
 
 namespace ZXing.QrCode
 {
-    /// <summary>
-    /// This implementation can detect and decode QR Codes in an image.
+    /// <summary> can detect and decode QR Codes in an image. </summary>
     /// <author>Sean Owen</author>
-    /// </summary>
-    public class QRCodeReader : Reader
+    public class QRCodeReader : IBarCodeDecoder
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
@@ -46,7 +43,7 @@ namespace ZXing.QrCode
         ///
         /// <returns>a String representing the content encoded by the QR code</returns>
         /// </summary>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -63,7 +60,7 @@ namespace ZXing.QrCode
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             DecoderResult decoderResult;
             ResultPoint[] points;
@@ -99,7 +96,7 @@ namespace ZXing.QrCode
                 data.applyMirroredCorrection(points);
             }
 
-            var result = new Result(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
+            var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
             var byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)
             {

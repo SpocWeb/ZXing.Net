@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+using System;
+
 namespace ZXing.QrCode.Internal
 {
     /// <summary> <p>Encapsulates a block of data within a QR Code. QR Codes may split their data into
@@ -55,7 +57,7 @@ namespace ZXing.QrCode.Internal
 
             if (rawCodewords.Length != version.TotalCodewords)
             {
-                throw new System.ArgumentException();
+                throw new ArgumentException();
             }
 
             // Figure out the number and size of data blocks used by this version and

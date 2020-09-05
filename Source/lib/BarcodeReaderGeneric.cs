@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.Multi;
 using ZXing.Multi.QrCode;
@@ -29,7 +28,7 @@ namespace ZXing
     public class BarcodeReaderGeneric : IBarcodeReaderGeneric
     {
         private static readonly Func<LuminanceSource, Binarizer> defaultCreateBinarizer =
-           (luminanceSource) => new HybridBinarizer(luminanceSource);
+           luminanceSource => new HybridBinarizer(luminanceSource);
 
         /// <summary>
         /// represents the default function which is called to get a <see cref="RGBLuminanceSource"/> instance from a raw byte array
@@ -37,7 +36,7 @@ namespace ZXing
         protected static readonly Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> defaultCreateRGBLuminanceSource =
            (rawBytes, width, height, format) => new RGBLuminanceSource(rawBytes, width, height, format);
 
-        private Reader reader;
+        private IBarCodeDecoder reader;
         private readonly Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource;
 
         private readonly Func<LuminanceSource, Binarizer> createBinarizer;
@@ -82,7 +81,7 @@ namespace ZXing
         /// <value>
         /// The reader.
         /// </value>
-        protected Reader Reader => reader ?? (reader = new MultiFormatReader());
+        protected IBarCodeDecoder Reader => reader ?? (reader = new MultiFormatReader());
 
         /// <summary>
         /// Gets or sets a method which is called if an important point is found
@@ -116,7 +115,7 @@ namespace ZXing
         /// <summary>
         /// event is executed if a result was found via decode
         /// </summary>
-        public event Action<Result> ResultFound;
+        public event Action<BarCodeText> ResultFound;
 
         /// <summary>
         /// Gets or sets a value indicating whether the image should be automatically rotated.
@@ -160,7 +159,7 @@ namespace ZXing
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb array.
         /// If null the RGBLuminanceSource is used. The handler is only called when Decode with a byte[] array is called.</param>
-        public BarcodeReaderGeneric(Reader reader = null,
+        public BarcodeReaderGeneric(IBarCodeDecoder reader = null,
            Func<LuminanceSource, Binarizer> createBinarizer = null,
            Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource = null
            )
@@ -181,9 +180,9 @@ namespace ZXing
         /// </summary>
         /// <param name="luminanceSource">The luminance source.</param>
         /// <returns></returns>
-        public virtual Result Decode(LuminanceSource luminanceSource)
+        public virtual BarCodeText Decode(LuminanceSource luminanceSource)
         {
-            var result = default(Result);
+            var result = default(BarCodeText);
             var binarizer = CreateBinarizer(luminanceSource);
             var binaryBitmap = new BinaryBitmap(binarizer);
             var multiformatReader = Reader as MultiFormatReader;
@@ -271,9 +270,9 @@ namespace ZXing
         /// </summary>
         /// <param name="luminanceSource">The luminance source.</param>
         /// <returns></returns>
-        public virtual Result[] DecodeMultiple(LuminanceSource luminanceSource)
+        public virtual BarCodeText[] DecodeMultiple(LuminanceSource luminanceSource)
         {
-            var results = default(Result[]);
+            var results = default(BarCodeText[]);
             Binarizer binarizer = CreateBinarizer(luminanceSource);
             var binaryBitmap = new BinaryBitmap(binarizer);
             var rotationCount = 0;
@@ -351,7 +350,7 @@ namespace ZXing
         /// raises the ResultFound event
         /// </summary>
         /// <param name="results"></param>
-        protected void OnResultsFound(IEnumerable<Result> results)
+        protected void OnResultsFound(IEnumerable<BarCodeText> results)
         {
             if (ResultFound != null)
             {
@@ -366,7 +365,7 @@ namespace ZXing
         /// raises the ResultFound event
         /// </summary>
         /// <param name="result"></param>
-        protected void OnResultFound(Result result)
+        protected void OnResultFound(BarCodeText result)
         {
             if (ResultFound != null)
             {
@@ -396,7 +395,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        public Result Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
+        public BarCodeText Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
         {
             if (rawRGB == null)
                 throw new ArgumentNullException("rawRGB");
@@ -416,7 +415,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        public Result[] DecodeMultiple(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
+        public BarCodeText[] DecodeMultiple(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
         {
             if (rawRGB == null)
                 throw new ArgumentNullException("rawRGB");

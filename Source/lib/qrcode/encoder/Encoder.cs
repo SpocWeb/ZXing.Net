@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 using ZXing.Common.ReedSolomon;
 
@@ -40,7 +39,7 @@ namespace ZXing.QrCode.Internal
          25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1,  // 0x50-0x5f
       };
 
-        internal static String DEFAULT_BYTE_MODE_ENCODING = "ISO-8859-1";
+        public static String DEFAULT_BYTE_MODE_ENCODING = "ISO-8859-1";
 
         // The mask penalty calculation is complicated.  See Table 21 of JISX0510:2004 (p.45) for details.
         // Basically it applies four rules and summate all penalties.
@@ -232,7 +231,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="code">The code.</param>
         /// <returns>the code point of the table used in alphanumeric mode or
         /// -1 if there is no corresponding code in the table.</returns>
-        internal static int getAlphanumericCode(int code)
+        public static int getAlphanumericCode(int code)
         {
             if (code < ALPHANUMERIC_TABLE.Length)
             {
@@ -383,7 +382,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="numDataBytes">The num data bytes.</param>
         /// <param name="bits">The bits.</param>
-        internal static void terminateBits(int numDataBytes, BitArray bits)
+        public static void terminateBits(int numDataBytes, BitArray bits)
         {
             int capacity = numDataBytes << 3;
             if (bits.Size > capacity)
@@ -428,7 +427,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="blockID">The block ID.</param>
         /// <param name="numDataBytesInBlock">The num data bytes in block.</param>
         /// <param name="numECBytesInBlock">The num EC bytes in block.</param>
-        internal static void getNumDataBytesAndNumECBytesForBlockID(int numTotalBytes,
+        public static void getNumDataBytesAndNumECBytesForBlockID(int numTotalBytes,
                                                            int numDataBytes,
                                                            int numRSBlocks,
                                                            int blockID,
@@ -502,7 +501,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="numDataBytes">The num data bytes.</param>
         /// <param name="numRSBlocks">The num RS blocks.</param>
         /// <returns></returns>
-        internal static BitArray interleaveWithECBytes(BitArray bits,
+        public static BitArray interleaveWithECBytes(BitArray bits,
                                                int numTotalBytes,
                                                int numDataBytes,
                                                int numRSBlocks)
@@ -583,7 +582,7 @@ namespace ZXing.QrCode.Internal
             return result;
         }
 
-        internal static byte[] generateECBytes(byte[] dataBytes, int numEcBytesInBlock)
+        public static byte[] generateECBytes(byte[] dataBytes, int numEcBytesInBlock)
         {
             int numDataBytes = dataBytes.Length;
             int[] toEncode = new int[numDataBytes + numEcBytesInBlock];
@@ -608,7 +607,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
-        internal static void appendModeInfo(Mode mode, BitArray bits)
+        public static void appendModeInfo(Mode mode, BitArray bits)
         {
             bits.appendBits(mode.Bits, 4);
         }
@@ -621,7 +620,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="version">The version.</param>
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
-        internal static void appendLengthInfo(int numLetters, Version version, Mode mode, BitArray bits)
+        public static void appendLengthInfo(int numLetters, Version version, Mode mode, BitArray bits)
         {
             int numBits = mode.getCharacterCountBits(version);
             if (numLetters >= (1 << numBits))
@@ -638,27 +637,28 @@ namespace ZXing.QrCode.Internal
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
         /// <param name="encoding">The encoding.</param>
-        internal static void appendBytes(String content,
+        public static void appendBytes(String content,
                                 Mode mode,
                                 BitArray bits,
                                 String encoding)
         {
-            if (mode.Equals(Mode.NUMERIC))
+            if (mode.Equals(Mode.NUMERIC)) {
                 appendNumericBytes(content, bits);
-            else
-               if (mode.Equals(Mode.ALPHANUMERIC))
-                appendAlphanumericBytes(content, bits);
-            else
-                  if (mode.Equals(Mode.BYTE))
-                append8BitBytes(content, bits, encoding);
-            else
-                     if (mode.Equals(Mode.KANJI))
-                appendKanjiBytes(content, bits);
-            else
-                throw new WriterException("Invalid mode: " + mode);
+            } else
+               if (mode.Equals(Mode.ALPHANUMERIC)) {
+                   appendAlphanumericBytes(content, bits);
+               } else
+                  if (mode.Equals(Mode.BYTE)) {
+                      append8BitBytes(content, bits, encoding);
+                  } else
+                     if (mode.Equals(Mode.KANJI)) {
+                         appendKanjiBytes(content, bits);
+                     } else {
+                         throw new WriterException("Invalid mode: " + mode);
+                     }
         }
 
-        internal static void appendNumericBytes(String content, BitArray bits)
+        public static void appendNumericBytes(String content, BitArray bits)
         {
             int length = content.Length;
 
@@ -690,7 +690,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        internal static void appendAlphanumericBytes(String content, BitArray bits)
+        public static void appendAlphanumericBytes(String content, BitArray bits)
         {
             int length = content.Length;
 
@@ -722,7 +722,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        internal static void append8BitBytes(String content, BitArray bits, String encoding)
+        public static void append8BitBytes(String content, BitArray bits, String encoding)
         {
             byte[] bytes;
             try
@@ -761,7 +761,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        internal static void appendKanjiBytes(String content, BitArray bits)
+        public static void appendKanjiBytes(String content, BitArray bits)
         {
             byte[] bytes;
             try

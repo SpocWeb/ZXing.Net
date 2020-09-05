@@ -197,7 +197,7 @@ namespace ZXing.OneD
                             if (row.isRange(Math.Max(0, patternStart - (i - patternStart) / 2), patternStart,
                                 false))
                             {
-                                return new int[] { patternStart, i, bestMatch };
+                                return new[] { patternStart, i, bestMatch };
                             }
                         }
                         patternStart += counters[0] + counters[1];
@@ -246,9 +246,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             bool convertFNC1 = hints != null && hints.ContainsKey(DecodeHintType.ASSUME_GS1);
 
@@ -257,8 +257,10 @@ namespace ZXing.OneD
                 return null;
             int startCode = startPatternInfo[2];
 
-            var rawCodes = new List<byte>(20);
-            rawCodes.Add((byte)startCode);
+            var rawCodes = new List<byte>(20)
+            {
+                (byte)startCode
+            };
 
             int codeSet;
             switch (startCode)
@@ -616,7 +618,7 @@ namespace ZXing.OneD
                 rawBytes[i] = rawCodes[i];
             }
 
-            return new Result(
+            return new BarCodeText(
                result.ToString(),
                rawBytes,
                new[]

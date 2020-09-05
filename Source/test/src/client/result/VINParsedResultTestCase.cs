@@ -27,10 +27,10 @@ namespace ZXing.Client.Result.Test
       [Test]
       public void testNotVIN()
       {
-         var fakeResult = new ZXing.Result("1M8GDM9A1KP042788", null, null, BarcodeFormat.CODE_39);
+         var fakeResult = new ZXing.BarCodeText("1M8GDM9A1KP042788", null, null, BarcodeFormat.CODE_39);
          var result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.TEXT, result.Type);
-         fakeResult = new ZXing.Result("1M8GDM9AXKP042788", null, null, BarcodeFormat.CODE_128);
+         fakeResult = new ZXing.BarCodeText("1M8GDM9AXKP042788", null, null, BarcodeFormat.CODE_128);
          result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.TEXT, result.Type);
       }
@@ -53,7 +53,7 @@ namespace ZXing.Client.Result.Test
                                  char plant,
                                  String sequential)
       {
-         var fakeResult = new ZXing.Result(contents, null, null, BarcodeFormat.CODE_39);
+         var fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.CODE_39);
          var result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.VIN, result.Type);
          var vinResult = (VINParsedResult) result;

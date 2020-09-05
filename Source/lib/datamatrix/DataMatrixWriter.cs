@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.Datamatrix.Encoder;
 using ZXing.QrCode.Internal;
@@ -28,7 +27,7 @@ namespace ZXing.Datamatrix
     /// </summary>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// <author>Guillaume Le Biller Added to zxing lib.</author>
-    public sealed class DataMatrixWriter : Writer
+    public sealed class DataMatrixWriter : IBarCodeWriter
     {
         /// <summary>
         /// encodes the content to a BitMatrix

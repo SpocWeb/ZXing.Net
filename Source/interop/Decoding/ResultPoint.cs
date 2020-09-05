@@ -58,8 +58,9 @@ namespace ZXing.Interop.Decoding
         public override bool Equals(Object other)
         {
             var otherPoint = other as ResultPoint;
-            if (otherPoint == null)
+            if (otherPoint == null) {
                 return false;
+            }
             return X == otherPoint.X && Y == otherPoint.Y;
         }
 
@@ -90,8 +91,9 @@ namespace ZXing.Interop.Decoding
     {
         public static ResultPoint[] ToInteropResultPoints(this ZXing.ResultPoint[] resultPoints)
         {
-            if (resultPoints == null)
+            if (resultPoints == null) {
                 return null;
+            }
 
             var result = new ResultPoint[resultPoints.Length];
             for (var index = 0; index < resultPoints.Length; index++)

@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-
 #if NETFX_CORE
 using Windows.UI;
 #elif SILVERLIGHT
@@ -28,7 +23,9 @@ using UnityEngine;
 #elif !(PORTABLE || NETSTANDARD)
 using System.Drawing;
 #endif
-
+using System;
+using System.Globalization;
+using System.Text;
 using ZXing.Common;
 using ZXing.OneD;
 
@@ -444,20 +441,20 @@ namespace ZXing.Rendering
 
             internal void AddText(string text, string fontName, int fontSize)
             {
-                content.AppendFormat(System.Globalization.CultureInfo.InvariantCulture,
+                content.AppendFormat(CultureInfo.InvariantCulture,
                    "<text x=\"50%\" y=\"98%\" style=\"font-family: {0}; font-size: {1}px\" text-anchor=\"middle\">{2}</text>",
                    fontName, fontSize, text);
             }
 
             internal void AddRec(int posX, int posY, int width, int height)
             {
-                content.AppendFormat(System.Globalization.CultureInfo.InvariantCulture, "<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\"/>", posX, posY, width, height);
+                content.AppendFormat(CultureInfo.InvariantCulture, "<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\"/>", posX, posY, width, height);
             }
 
 #if !UNITY
             internal static double ConvertAlpha(Color alpha)
             {
-                return Math.Round((((double)alpha.A) / (double)255), 2);
+                return Math.Round((alpha.A / (double)255), 2);
             }
 
             internal static string GetBackgroundStyle(Color color)

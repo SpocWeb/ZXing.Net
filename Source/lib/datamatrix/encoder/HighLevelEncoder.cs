@@ -23,7 +23,7 @@ namespace ZXing.Datamatrix.Encoder
     /// DataMatrix ECC 200 data encoder following the algorithm described in ISO/IEC 16022:200(E) in
     /// annex S.
     /// </summary>
-    internal static class HighLevelEncoder
+    public static class HighLevelEncoder
     {
         /// <summary>
         /// Padding character
@@ -175,19 +175,19 @@ namespace ZXing.Datamatrix.Encoder
             switch (encodingMode)
             {
                 case Encodation.BASE256:
-                    context.writeCodeword(HighLevelEncoder.LATCH_TO_BASE256);
+                    context.writeCodeword(LATCH_TO_BASE256);
                     break;
                 case Encodation.C40:
-                    context.writeCodeword(HighLevelEncoder.LATCH_TO_C40);
+                    context.writeCodeword(LATCH_TO_C40);
                     break;
                 case Encodation.X12:
-                    context.writeCodeword(HighLevelEncoder.LATCH_TO_ANSIX12);
+                    context.writeCodeword(LATCH_TO_ANSIX12);
                     break;
                 case Encodation.TEXT:
-                    context.writeCodeword(HighLevelEncoder.LATCH_TO_TEXT);
+                    context.writeCodeword(LATCH_TO_TEXT);
                     break;
                 case Encodation.EDIFACT:
-                    context.writeCodeword(HighLevelEncoder.LATCH_TO_EDIFACT);
+                    context.writeCodeword(LATCH_TO_EDIFACT);
                     break;
                 case Encodation.ASCII:
                     break;

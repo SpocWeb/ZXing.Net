@@ -30,7 +30,7 @@ namespace ZXing.Datamatrix.Internal
     /// <author>bbrown@google.com (Brian Brown)</author>
     /// <author>Sean Owen</author>
     /// </summary>
-    internal static class DecodedBitStreamParser
+    public static class DecodedBitStreamParser
     {
         private enum Mode
         {
@@ -81,7 +81,7 @@ namespace ZXing.Datamatrix.Internal
             '|', '}', '~', (char) 127
          };
 
-        internal static DecoderResult decode(byte[] bytes)
+        public static DecoderResult decode(byte[] bytes)
         {
             BitSource bits = new BitSource(bytes);
             StringBuilder result = new StringBuilder(100);
@@ -92,32 +92,38 @@ namespace ZXing.Datamatrix.Internal
             {
                 if (mode == Mode.ASCII_ENCODE)
                 {
-                    if (!decodeAsciiSegment(bits, result, resultTrailer, out mode))
+                    if (!decodeAsciiSegment(bits, result, resultTrailer, out mode)) {
                         return null;
+                    }
                 }
                 else
                 {
                     switch (mode)
                     {
                         case Mode.C40_ENCODE:
-                            if (!decodeC40Segment(bits, result))
+                            if (!decodeC40Segment(bits, result)) {
                                 return null;
+                            }
                             break;
                         case Mode.TEXT_ENCODE:
-                            if (!decodeTextSegment(bits, result))
+                            if (!decodeTextSegment(bits, result)) {
                                 return null;
+                            }
                             break;
                         case Mode.ANSIX12_ENCODE:
-                            if (!decodeAnsiX12Segment(bits, result))
+                            if (!decodeAnsiX12Segment(bits, result)) {
                                 return null;
+                            }
                             break;
                         case Mode.EDIFACT_ENCODE:
-                            if (!decodeEdifactSegment(bits, result))
+                            if (!decodeEdifactSegment(bits, result)) {
                                 return null;
+                            }
                             break;
                         case Mode.BASE256_ENCODE:
-                            if (!decodeBase256Segment(bits, result, byteSegments))
+                            if (!decodeBase256Segment(bits, result, byteSegments)) {
                                 return null;
+                            }
                             break;
                         default:
                             return null;
@@ -127,7 +133,7 @@ namespace ZXing.Datamatrix.Internal
             } while (mode != Mode.PAD_ENCODE && bits.available() > 0);
             if (resultTrailer.Length > 0)
             {
-                result.Append(resultTrailer.ToString());
+                result.Append(resultTrailer);
             }
             return new DecoderResult(bytes, result.ToString(), byteSegments.Count == 0 ? null : byteSegments, null);
         }
@@ -149,7 +155,7 @@ namespace ZXing.Datamatrix.Internal
                 {
                     return false;
                 }
-                else if (oneByte <= 128)
+                if (oneByte <= 128)
                 {
                     // ASCII data (ASCII value + 1)
                     if (upperShift)
@@ -161,13 +167,13 @@ namespace ZXing.Datamatrix.Internal
                     mode = Mode.ASCII_ENCODE;
                     return true;
                 }
-                else if (oneByte == 129)
+                if (oneByte == 129)
                 {
                     // Pad
                     mode = Mode.PAD_ENCODE;
                     return true;
                 }
-                else if (oneByte <= 229)
+                if (oneByte <= 229)
                 {
                     // 2-digit data 00-99 (Numeric Value + 130)
                     int value = oneByte - 130;
@@ -193,8 +199,8 @@ namespace ZXing.Datamatrix.Internal
                             break;
                         case 233: // Structured Append
                         case 234: // Reader Programming
-                                  // Ignore these symbols for now
-                                  //throw ReaderException.getInstance();
+                            // Ignore these symbols for now
+                            //throw ReaderException.getInstance();
                             break;
                         case 235: // Upper Shift (shift to Extended ASCII)
                             upperShift = true;
@@ -217,9 +223,9 @@ namespace ZXing.Datamatrix.Internal
                             mode = Mode.EDIFACT_ENCODE;
                             return true;
                         case 241: // ECI Character
-                                  // TODO(bbrown): I think we need to support ECI
-                                  //throw ReaderException.getInstance();
-                                  // Ignore this symbol for now
+                            // TODO(bbrown): I think we need to support ECI
+                            //throw ReaderException.getInstance();
+                            // Ignore this symbol for now
                             break;
                         default:
                             // Not to be used in ASCII encodation

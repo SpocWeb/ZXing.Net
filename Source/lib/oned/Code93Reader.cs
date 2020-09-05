@@ -65,8 +65,8 @@ namespace ZXing.OneD
         /// <param name="rowNumber">row number from top of the row</param>
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
-        /// <returns><see cref="Result"/>containing encoded string and start/end of barcode</returns>
-        override public Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
+        override public BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
@@ -144,7 +144,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(right, rowNumber));
             }
 
-            return new Result(
+            return new BarCodeText(
                resultString,
                null,
                new[]
@@ -179,7 +179,7 @@ namespace ZXing.OneD
                     {
                         if (toPattern(counters) == ASTERISK_ENCODING)
                         {
-                            return new int[] { patternStart, i };
+                            return new[] { patternStart, i };
                         }
                         patternStart += counters[0] + counters[1];
                         Array.Copy(counters, 2, counters, 0, counterPosition - 1);

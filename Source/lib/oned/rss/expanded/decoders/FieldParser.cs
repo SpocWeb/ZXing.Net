@@ -33,7 +33,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
     /// </summary>
-    static class FieldParser
+    public static class FieldParser
     {
         private static readonly Object VARIABLE_LENGTH = new Object();
 
@@ -52,54 +52,54 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                                        {"00", new object[] {18}},
                                        {"01", new object[] {14}},
                                        {"02", new object[] {14}},
-                                       {"10", new object[] {VARIABLE_LENGTH, 20}},
+                                       {"10", new[] {VARIABLE_LENGTH, 20}},
                                        {"11", new object[] {6}},
                                        {"12", new object[] {6}},
                                        {"13", new object[] {6}},
                                        {"15", new object[] {6}},
                                        {"17", new object[] {6}},
                                        {"20", new object[] {2}},
-                                       {"21", new object[] {VARIABLE_LENGTH, 20}},
-                                       {"22", new object[] {VARIABLE_LENGTH, 29}},
-                                       {"30", new object[] {VARIABLE_LENGTH, 8}},
-                                       {"37", new object[] {VARIABLE_LENGTH, 8}},
+                                       {"21", new[] {VARIABLE_LENGTH, 20}},
+                                       {"22", new[] {VARIABLE_LENGTH, 29}},
+                                       {"30", new[] {VARIABLE_LENGTH, 8}},
+                                       {"37", new[] {VARIABLE_LENGTH, 8}},
                                        //internal company codes
-                                       {"90", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"91", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"92", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"93", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"94", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"95", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"96", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"97", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"98", new object[] {VARIABLE_LENGTH, 30}},
-                                       {"99", new object[] {VARIABLE_LENGTH, 30}}
+                                       {"90", new[] {VARIABLE_LENGTH, 30}},
+                                       {"91", new[] {VARIABLE_LENGTH, 30}},
+                                       {"92", new[] {VARIABLE_LENGTH, 30}},
+                                       {"93", new[] {VARIABLE_LENGTH, 30}},
+                                       {"94", new[] {VARIABLE_LENGTH, 30}},
+                                       {"95", new[] {VARIABLE_LENGTH, 30}},
+                                       {"96", new[] {VARIABLE_LENGTH, 30}},
+                                       {"97", new[] {VARIABLE_LENGTH, 30}},
+                                       {"98", new[] {VARIABLE_LENGTH, 30}},
+                                       {"99", new[] {VARIABLE_LENGTH, 30}}
                                     };
             THREE_DIGIT_DATA_LENGTH = new Dictionary<string, object[]>
                                       {
                                          // Same format as above
 
-                                         {"240", new object[] {VARIABLE_LENGTH, 30}},
-                                         {"241", new object[] {VARIABLE_LENGTH, 30}},
-                                         {"242", new object[] {VARIABLE_LENGTH, 6}},
-                                         {"250", new object[] {VARIABLE_LENGTH, 30}},
-                                         {"251", new object[] {VARIABLE_LENGTH, 30}},
-                                         {"253", new object[] {VARIABLE_LENGTH, 17}},
-                                         {"254", new object[] {VARIABLE_LENGTH, 20}},
+                                         {"240", new[] {VARIABLE_LENGTH, 30}},
+                                         {"241", new[] {VARIABLE_LENGTH, 30}},
+                                         {"242", new[] {VARIABLE_LENGTH, 6}},
+                                         {"250", new[] {VARIABLE_LENGTH, 30}},
+                                         {"251", new[] {VARIABLE_LENGTH, 30}},
+                                         {"253", new[] {VARIABLE_LENGTH, 17}},
+                                         {"254", new[] {VARIABLE_LENGTH, 20}},
 
-                                         {"400", new object[] {VARIABLE_LENGTH, 30}},
-                                         {"401", new object[] {VARIABLE_LENGTH, 30}},
+                                         {"400", new[] {VARIABLE_LENGTH, 30}},
+                                         {"401", new[] {VARIABLE_LENGTH, 30}},
                                          {"402", new object[] {17}},
-                                         {"403", new object[] {VARIABLE_LENGTH, 30}},
+                                         {"403", new[] {VARIABLE_LENGTH, 30}},
                                          {"410", new object[] {13}},
                                          {"411", new object[] {13}},
                                          {"412", new object[] {13}},
                                          {"413", new object[] {13}},
                                          {"414", new object[] {13}},
-                                         {"420", new object[] {VARIABLE_LENGTH, 20}},
-                                         {"421", new object[] {VARIABLE_LENGTH, 15}},
+                                         {"420", new[] {VARIABLE_LENGTH, 20}},
+                                         {"421", new[] {VARIABLE_LENGTH, 15}},
                                          {"422", new object[] {3}},
-                                         {"423", new object[] {VARIABLE_LENGTH, 15}},
+                                         {"423", new[] {VARIABLE_LENGTH, 15}},
                                          {"424", new object[] {3}},
                                          {"425", new object[] {3}},
                                          {"426", new object[] {3}},
@@ -158,38 +158,38 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                                                     {"367", new object[] {6}},
                                                     {"368", new object[] {6}},
                                                     {"369", new object[] {6}},
-                                                    {"390", new object[] {VARIABLE_LENGTH, 15}},
-                                                    {"391", new object[] {VARIABLE_LENGTH, 18}},
-                                                    {"392", new object[] {VARIABLE_LENGTH, 15}},
-                                                    {"393", new object[] {VARIABLE_LENGTH, 18}},
-                                                    {"703", new object[] {VARIABLE_LENGTH, 30}}
+                                                    {"390", new[] {VARIABLE_LENGTH, 15}},
+                                                    {"391", new[] {VARIABLE_LENGTH, 18}},
+                                                    {"392", new[] {VARIABLE_LENGTH, 15}},
+                                                    {"393", new[] {VARIABLE_LENGTH, 18}},
+                                                    {"703", new[] {VARIABLE_LENGTH, 30}}
 
                                                  };
             FOUR_DIGIT_DATA_LENGTH = new Dictionary<string, object[]>
                                      {
                                         {"7001", new object[] {13}},
-                                        {"7002", new object[] {VARIABLE_LENGTH, 30}},
+                                        {"7002", new[] {VARIABLE_LENGTH, 30}},
                                         {"7003", new object[] {10}},
 
                                         {"8001", new object[] {14}},
-                                        {"8002", new object[] {VARIABLE_LENGTH, 20}},
-                                        {"8003", new object[] {VARIABLE_LENGTH, 30}},
-                                        {"8004", new object[] {VARIABLE_LENGTH, 30}},
+                                        {"8002", new[] {VARIABLE_LENGTH, 20}},
+                                        {"8003", new[] {VARIABLE_LENGTH, 30}},
+                                        {"8004", new[] {VARIABLE_LENGTH, 30}},
                                         {"8005", new object[] {6}},
                                         {"8006", new object[] {18}},
-                                        {"8007", new object[] {VARIABLE_LENGTH, 30}},
-                                        {"8008", new object[] {VARIABLE_LENGTH, 12}},
+                                        {"8007", new[] {VARIABLE_LENGTH, 30}},
+                                        {"8008", new[] {VARIABLE_LENGTH, 12}},
                                         {"8018", new object[] {18}},
-                                        {"8020", new object[] {VARIABLE_LENGTH, 25}},
+                                        {"8020", new[] {VARIABLE_LENGTH, 25}},
                                         {"8100", new object[] {6}},
                                         {"8101", new object[] {10}},
                                         {"8102", new object[] {2}},
-                                        {"8110", new object[] {VARIABLE_LENGTH, 70}},
-                                        {"8200", new object[] {VARIABLE_LENGTH, 70}},
+                                        {"8110", new[] {VARIABLE_LENGTH, 70}},
+                                        {"8200", new[] {VARIABLE_LENGTH, 70}},
                                      };
         }
 
-        internal static String parseFieldsInGeneralPurpose(String rawInformation)
+        public static String parseFieldsInGeneralPurpose(String rawInformation)
         {
             if (String.IsNullOrEmpty(rawInformation))
             {

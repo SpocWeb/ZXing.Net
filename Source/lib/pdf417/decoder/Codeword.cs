@@ -57,11 +57,11 @@ namespace ZXing.PDF417.Internal
         /// <param name="value">Value.</param>
         public Codeword(int startX, int endX, int bucket, int value)
         {
-            this.StartX = startX;
-            this.EndX = endX;
-            this.Bucket = bucket;
-            this.Value = value;
-            this.RowNumber = BARCODE_ROW_UNKNOWN;
+            StartX = startX;
+            EndX = endX;
+            Bucket = bucket;
+            Value = value;
+            RowNumber = BARCODE_ROW_UNKNOWN;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         public void setRowNumberAsRowIndicatorColumn()
         {
-            this.RowNumber = (Value / 30) * 3 + Bucket / 3;
+            RowNumber = (Value / 30) * 3 + Bucket / 3;
         }
 
         /// <summary>

@@ -84,7 +84,7 @@ namespace ZXing.Client.Result.Test
             String password,
             String type)
         {
-            var fakeResult = new ZXing.Result(contents, null, null, BarcodeFormat.QR_CODE);
+            var fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
             var result = ResultParser.parseResult(fakeResult);
 
             // Ensure it is a wifi code

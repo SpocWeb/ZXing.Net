@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using ZXing.Common;
 
 namespace ZXing.QrCode.Internal
@@ -28,7 +27,7 @@ namespace ZXing.QrCode.Internal
     /// <p>See ISO 18004:2006, 6.4.3 - 6.4.7</p>
     /// <author>Sean Owen</author>
     /// </summary>
-    internal static class DecodedBitStreamParser
+    public static class DecodedBitStreamParser
     {
         /// <summary>
         /// See ISO 18004:2006, 6.4.4 Table 5
@@ -36,7 +35,7 @@ namespace ZXing.QrCode.Internal
         private static readonly char[] ALPHANUMERIC_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:".ToCharArray();
         private const int GB2312_SUBSET = 1;
 
-        internal static DecoderResult decode(byte[] bytes,
+        public static DecoderResult decode(byte[] bytes,
                                              Version version,
                                              ErrorCorrectionLevel ecLevel,
                                              IDictionary<DecodeHintType, object> hints)
@@ -106,8 +105,9 @@ namespace ZXing.QrCode.Internal
                             int countHanzi = bits.readBits(mode.getCharacterCountBits(version));
                             if (subset == GB2312_SUBSET)
                             {
-                                if (!decodeHanziSegment(bits, result, countHanzi))
+                                if (!decodeHanziSegment(bits, result, countHanzi)) {
                                     return null;
+                                }
                             }
                             break;
                         default:
@@ -117,20 +117,24 @@ namespace ZXing.QrCode.Internal
                             switch (mode.Name)
                             {
                                 case Mode.Names.NUMERIC:
-                                    if (!decodeNumericSegment(bits, result, count))
+                                    if (!decodeNumericSegment(bits, result, count)) {
                                         return null;
+                                    }
                                     break;
                                 case Mode.Names.ALPHANUMERIC:
-                                    if (!decodeAlphanumericSegment(bits, result, count, fc1InEffect))
+                                    if (!decodeAlphanumericSegment(bits, result, count, fc1InEffect)) {
                                         return null;
+                                    }
                                     break;
                                 case Mode.Names.BYTE:
-                                    if (!decodeByteSegment(bits, result, count, currentCharacterSetECI, byteSegments, hints))
+                                    if (!decodeByteSegment(bits, result, count, currentCharacterSetECI, byteSegments, hints)) {
                                         return null;
+                                    }
                                     break;
                                 case Mode.Names.KANJI:
-                                    if (!decodeKanjiSegment(bits, result, count))
+                                    if (!decodeKanjiSegment(bits, result, count)) {
                                         return null;
+                                    }
                                     break;
                                 default:
                                     return null;

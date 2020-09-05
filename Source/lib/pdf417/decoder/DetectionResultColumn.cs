@@ -51,8 +51,8 @@ namespace ZXing.PDF417.Internal
         /// <param name="box">The Bounding Box around the column (in the BitMatrix)</param>
         public DetectionResultColumn(BoundingBox box)
         {
-            this.Box = BoundingBox.Create(box);
-            this.Codewords = new Codeword[Box.MaxY - Box.MinY + 1];
+            Box = BoundingBox.Create(box);
+            Codewords = new Codeword[Box.MaxY - Box.MinY + 1];
         }
 
         /// <summary>

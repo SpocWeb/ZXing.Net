@@ -49,8 +49,8 @@ namespace ZXing.PDF417.Internal.EC
                 logTable[expTable[i]] = i;
             }
             // logTable[0] == 0 but this should never be used
-            Zero = new ModulusPoly(this, new int[] { 0 });
-            One = new ModulusPoly(this, new int[] { 1 });
+            Zero = new ModulusPoly(this, new[] { 0 });
+            One = new ModulusPoly(this, new[] { 1 });
         }
 
         internal ModulusPoly buildMonomial(int degree, int coefficient)

@@ -25,7 +25,7 @@ namespace ZXing.OneD
         private readonly UPCEANExtension2Support twoSupport = new UPCEANExtension2Support();
         private readonly UPCEANExtension5Support fiveSupport = new UPCEANExtension5Support();
 
-        internal Result decodeRow(int rowNumber, BitArray row, int rowOffset)
+        internal BarCodeText decodeRow(int rowNumber, BitArray row, int rowOffset)
         {
             int[] extensionStartRange = UPCEANReader.findGuardPattern(row, rowOffset, false, EXTENSION_START_PATTERN);
             if (extensionStartRange == null)

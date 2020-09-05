@@ -82,9 +82,9 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns>
-        ///   <see cref="Result"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
+        ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override Result decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
@@ -187,7 +187,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(right, rowNumber));
             }
 
-            return new Result(
+            return new BarCodeText(
                decodeRowResult.ToString(),
                null,
                new[]
@@ -208,7 +208,7 @@ namespace ZXing.OneD
             // We break out of this loop in the middle, in order to handle
             // inter-character spaces properly.
             int pos = start;
-            for (int i = 0; true; i++)
+            for (int i = 0;; i++)
             {
                 int pattern = CHARACTER_ENCODINGS[decodeRowResult[i]];
                 for (int j = 6; j >= 0; j--)
@@ -245,7 +245,7 @@ namespace ZXing.OneD
 
             // Now verify that all of the stripes are within the thresholds.
             pos = start;
-            for (int i = 0; true; i++)
+            for (int i = 0;; i++)
             {
                 int pattern = CHARACTER_ENCODINGS[decodeRowResult[i]];
                 for (int j = 6; j >= 0; j--)

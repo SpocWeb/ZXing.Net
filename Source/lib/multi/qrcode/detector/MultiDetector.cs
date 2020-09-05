@@ -64,10 +64,7 @@ namespace ZXing.Multi.QrCode.Internal
             {
                 return EMPTY_DETECTOR_RESULTS;
             }
-            else
-            {
-                return result.ToArray();
-            }
+            return result.ToArray();
         }
     }
 }

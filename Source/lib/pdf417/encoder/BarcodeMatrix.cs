@@ -46,7 +46,7 @@ namespace ZXing.PDF417.Internal
             }
             this.width = width * COLUMN_WIDTH;
             this.height = height;
-            this.currentRow = -1;
+            currentRow = -1;
         }
 
         internal void set(int x, int y, sbyte value)

@@ -26,15 +26,15 @@ namespace ZXing.Multi
     /// 'quadrant' to cover the case where a barcode is found in the center.
     /// </summary>
     /// <seealso cref="GenericMultipleBarcodeReader" />
-    public sealed class ByQuadrantReader : Reader
+    public sealed class ByQuadrantReader : IBarCodeDecoder
     {
-        private readonly Reader @delegate;
+        private readonly IBarCodeDecoder @delegate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByQuadrantReader"/> class.
         /// </summary>
         /// <param name="delegate">The @delegate.</param>
-        public ByQuadrantReader(Reader @delegate)
+        public ByQuadrantReader(IBarCodeDecoder @delegate)
         {
             this.@delegate = @delegate;
         }
@@ -46,7 +46,7 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -63,7 +63,7 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             int width = image.Width;
             int height = image.Height;

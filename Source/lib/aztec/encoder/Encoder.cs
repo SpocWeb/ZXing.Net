@@ -15,7 +15,6 @@
  */
 
 using System;
-
 using ZXing.Common;
 using ZXing.Common.ReedSolomon;
 
@@ -258,7 +257,7 @@ namespace ZXing.Aztec.Internal
             matrix[center + size, center + size - 1] = true;
         }
 
-        internal static BitArray generateModeMessage(bool compact, int layers, int messageSizeInWords)
+        public static BitArray generateModeMessage(bool compact, int layers, int messageSizeInWords)
         {
             var modeMessage = new BitArray();
             if (compact)
@@ -330,8 +329,9 @@ namespace ZXing.Aztec.Internal
 
         private static BitArray generateCheckWords(BitArray bitArray, int totalBits, int wordSize)
         {
-            if (bitArray.Size % wordSize != 0)
+            if (bitArray.Size % wordSize != 0) {
                 throw new InvalidOperationException("size of bit array is not a multiple of the word size");
+            }
 
             // bitArray is guaranteed to be a multiple of the wordSize, so no padding needed
             int messageSizeInWords = bitArray.Size / wordSize;
@@ -387,7 +387,7 @@ namespace ZXing.Aztec.Internal
             }
         }
 
-        internal static BitArray stuffBits(BitArray bits, int wordSize)
+        public static BitArray stuffBits(BitArray bits, int wordSize)
         {
             var @out = new BitArray();
 

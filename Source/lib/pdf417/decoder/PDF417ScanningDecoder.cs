@@ -18,8 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-
 using ZXing.Common;
+using ZXing.Common.Detector;
 using ZXing.PDF417.Internal.EC;
 
 namespace ZXing.PDF417.Internal
@@ -428,20 +428,16 @@ namespace ZXing.PDF417.Internal
                 {
                     return null;
                 }
-                for (int i = 0; i < ambiguousIndexCount.Length; i++)
-                {
+                for (int i = 0; i < ambiguousIndexCount.Length; i++) {
                     if (ambiguousIndexCount[i] < ambiguousIndexValues[i].Length - 1)
                     {
                         ambiguousIndexCount[i]++;
                         break;
                     }
-                    else
+                    ambiguousIndexCount[i] = 0;
+                    if (i == ambiguousIndexCount.Length - 1)
                     {
-                        ambiguousIndexCount[i] = 0;
-                        if (i == ambiguousIndexCount.Length - 1)
-                        {
-                            return null;
-                        }
+                        return null;
                     }
                 }
             }
@@ -593,7 +589,7 @@ namespace ZXing.PDF417.Internal
                 return null;
             }
             int endColumn;
-            int codewordBitCount = ZXing.Common.Detector.MathUtils.sum(moduleBitCount);
+            int codewordBitCount = MathUtils.sum(moduleBitCount);
             if (leftToRight)
             {
                 endColumn = startColumn + codewordBitCount;

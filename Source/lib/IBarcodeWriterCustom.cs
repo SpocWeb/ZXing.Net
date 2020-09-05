@@ -22,7 +22,7 @@ namespace ZXing
     /// <summary>
     /// Interface for a smart class to encode some content into a barcode
     /// </summary>
-    public partial interface IBarcodeWriter<out TOutput>
+    public interface IBarcodeWriter<out TOutput>
 #else
    /// <summary>
    /// Interface for a smart class to encode some content into a barcode

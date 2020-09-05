@@ -34,13 +34,13 @@ namespace ZXing.QrCode.Internal
         /// <summary> H = ~30% correction</summary>
         public static readonly ErrorCorrectionLevel H = new ErrorCorrectionLevel(3, 0x02, "H");
 
-        private static readonly ErrorCorrectionLevel[] FOR_BITS = new[] { M, L, H, Q };
+        private static readonly ErrorCorrectionLevel[] FOR_BITS = { M, L, H, Q };
 
         private readonly int bits;
 
         private ErrorCorrectionLevel(int ordinal, int bits, String name)
         {
-            this.ordinal_Renamed_Field = ordinal;
+            ordinal_Renamed_Field = ordinal;
             this.bits = bits;
             this.name = name;
         }

@@ -89,10 +89,12 @@ namespace ZXing.Datamatrix.Test
          Assert.IsNotNull(matrix);
 
          var reader = new DataMatrixReader();
-         var readerhints = new Dictionary<DecodeHintType, Object>();
-         readerhints.Add(DecodeHintType.PURE_BARCODE, true);
+            var readerhints = new Dictionary<DecodeHintType, Object>
+            {
+                { DecodeHintType.PURE_BARCODE, true }
+            };
 
-         var result = reader.decode(new BinaryBitmap(matrix), readerhints);
+            var result = reader.decode(new BinaryBitmap(matrix), readerhints);
 
          Assert.That(result, Is.Not.Null);
          Assert.That(result.Text, Is.EqualTo(content));

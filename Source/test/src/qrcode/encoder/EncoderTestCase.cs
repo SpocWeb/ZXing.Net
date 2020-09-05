@@ -155,9 +155,11 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testSimpleUTF8ECI()
       {
-         var hints = new Dictionary<EncodeHintType, Object>();
-         hints[EncodeHintType.CHARACTER_SET] = "UTF-8";
-         var qrCode = Encoder.encode("hello", ErrorCorrectionLevel.H, hints);
+            var hints = new Dictionary<EncodeHintType, Object>
+            {
+                [EncodeHintType.CHARACTER_SET] = "UTF-8"
+            };
+            var qrCode = Encoder.encode("hello", ErrorCorrectionLevel.H, hints);
          const string expected = "<<\n" +
                                  " mode: BYTE\n" +
                                  " ecLevel: H\n" +
@@ -192,10 +194,12 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEncodeKanjiMode()
       {
-         var hints = new Dictionary<EncodeHintType, Object>();
-         hints[EncodeHintType.CHARACTER_SET] = "Shift_JIS";
-         // Nihon in Kanji
-         var qrCode = Encoder.encode("\u65e5\u672c", ErrorCorrectionLevel.M, hints);
+            var hints = new Dictionary<EncodeHintType, Object>
+            {
+                [EncodeHintType.CHARACTER_SET] = "Shift_JIS"
+            };
+            // Nihon in Kanji
+            var qrCode = Encoder.encode("\u65e5\u672c", ErrorCorrectionLevel.M, hints);
          const string expected =
             "<<\n" +
             " mode: KANJI\n" +
@@ -231,9 +235,11 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEncodeShiftjisNumeric()
       {
-         var hints = new Dictionary<EncodeHintType, Object>();
-         hints[EncodeHintType.CHARACTER_SET] = "Shift_JIS";
-         var qrCode = Encoder.encode("0123", ErrorCorrectionLevel.M, hints);
+            var hints = new Dictionary<EncodeHintType, Object>
+            {
+                [EncodeHintType.CHARACTER_SET] = "Shift_JIS"
+            };
+            var qrCode = Encoder.encode("0123", ErrorCorrectionLevel.M, hints);
          const string expected =
             "<<\n" +
             " mode: NUMERIC\n" +
@@ -269,46 +275,56 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEncodeGS1WithStringTypeHint()
       {
-         var hints = new Dictionary<EncodeHintType, object>();
-         hints[EncodeHintType.GS1_FORMAT] = "true";
-         QRCode qrCode = Encoder.encode("100001%11171218", ErrorCorrectionLevel.H, hints);
+            var hints = new Dictionary<EncodeHintType, object>
+            {
+                [EncodeHintType.GS1_FORMAT] = "true"
+            };
+            QRCode qrCode = Encoder.encode("100001%11171218", ErrorCorrectionLevel.H, hints);
          verifyGS1EncodedData(qrCode);
       }
 
       [Test]
       public void testEncodeGS1WithBooleanTypeHint()
       {
-         var hints = new Dictionary<EncodeHintType, object>();
-         hints[EncodeHintType.GS1_FORMAT] = true;
-         var qrCode = Encoder.encode("100001%11171218", ErrorCorrectionLevel.H, hints);
+            var hints = new Dictionary<EncodeHintType, object>
+            {
+                [EncodeHintType.GS1_FORMAT] = true
+            };
+            var qrCode = Encoder.encode("100001%11171218", ErrorCorrectionLevel.H, hints);
          verifyGS1EncodedData(qrCode);
       }
 
       [Test]
       public void testDoesNotEncodeGS1WhenBooleanTypeHintExplicitlyFalse()
       {
-         var hints = new Dictionary<EncodeHintType, object>();
-         hints[EncodeHintType.GS1_FORMAT] = false;
-         var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints);
+            var hints = new Dictionary<EncodeHintType, object>
+            {
+                [EncodeHintType.GS1_FORMAT] = false
+            };
+            var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints);
          verifyNotGS1EncodedData(qrCode);
       }
 
       [Test]
       public void testDoesNotEncodeGS1WhenStringTypeHintExplicitlyFalse()
       {
-         var hints = new Dictionary<EncodeHintType, object>();
-         hints[EncodeHintType.GS1_FORMAT] = "false";
-         var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints);
+            var hints = new Dictionary<EncodeHintType, object>
+            {
+                [EncodeHintType.GS1_FORMAT] = "false"
+            };
+            var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints);
          verifyNotGS1EncodedData(qrCode);
       }
 
       [Test]
       public void testGS1ModeHeaderWithECI()
       {
-         var hints = new Dictionary<EncodeHintType, object>();
-         hints[EncodeHintType.CHARACTER_SET] = "UTF-8";
-         hints[EncodeHintType.GS1_FORMAT] = true;
-         var qrCode = Encoder.encode("hello", ErrorCorrectionLevel.H, hints);
+            var hints = new Dictionary<EncodeHintType, object>
+            {
+                [EncodeHintType.CHARACTER_SET] = "UTF-8",
+                [EncodeHintType.GS1_FORMAT] = true
+            };
+            var qrCode = Encoder.encode("hello", ErrorCorrectionLevel.H, hints);
          var expected =
             "<<\n" +
             " mode: BYTE\n" +

@@ -83,9 +83,9 @@
     <Compile Include="MultiFormatReader.cs" />
     <Compile Include="MultiFormatWriter.cs" />
     <Compile Include="PlanarYUVLuminanceSource.cs" />
-    <Compile Include="Reader.cs" />
+    <Compile Include="IBarCodeReader.cs" />
     <Compile Include="ReaderException.cs" />
-    <Compile Include="Result.cs" />
+    <Compile Include="BarCodeText.cs" />
     <Compile Include="ResultMetadataType.cs" />
     <Compile Include="ResultPoint.cs" />
     <Compile Include="ResultPointCallback.cs" />
@@ -313,7 +313,7 @@
     <Compile Include="qrcode\detector\AlignmentPatternFinder.cs" />
     <Compile Include="qrcode\detector\Detector.cs" />
     <Compile Include="qrcode\detector\FinderPattern.cs" />
-    <Compile Include="qrcode\detector\FinderPatternFinder.cs" />
+    <Compile Include="qrcode\detector\QrPatternFinder.cs" />
     <Compile Include="qrcode\detector\FinderPatternInfo.cs" />
     <Compile Include="qrcode\encoder\BlockPair.cs" />
     <Compile Include="qrcode\encoder\ByteMatrix.cs" />

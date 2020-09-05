@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -27,11 +26,10 @@ namespace ZXing.OneD
     public sealed class PlesseyWriter : OneDimensionalCodeWriter
     {
         private const String ALPHABET_STRING = "0123456789ABCDEF";
-        private static readonly int[] startWidths = new[] { 14, 11, 14, 11, 5, 20, 14, 11 };
-        private static readonly int[] terminationWidths = new[] { 25 };
-        private static readonly int[] endWidths = new[] { 20, 5, 20, 5, 14, 11, 14, 11 };
-        private static readonly int[][] numberWidths = new[]
-                                                          {
+        private static readonly int[] startWidths = { 14, 11, 14, 11, 5, 20, 14, 11 };
+        private static readonly int[] terminationWidths = { 25 };
+        private static readonly int[] endWidths = { 20, 5, 20, 5, 14, 11, 14, 11 };
+        private static readonly int[][] numberWidths = {
                                                            new[] { 5, 20, 5, 20, 5, 20, 5, 20 },     // 0
                                                            new[] { 14, 11, 5, 20, 5, 20, 5, 20 },    // 1
                                                            new[] { 5, 20, 14, 11, 5, 20, 5, 20 },    // 2
@@ -49,9 +47,9 @@ namespace ZXing.OneD
                                                            new[] { 5, 20, 14, 11, 14, 11, 14, 11 },  // E / 14
                                                            new[] { 14, 11, 14, 11, 14, 11, 14, 11 }, // F / 15
                                                         };
-        private static readonly byte[] crcGrid = new byte[] { 1, 1, 1, 1, 0, 1, 0, 0, 1 };
-        private static readonly int[] crc0Widths = new[] { 5, 20 };
-        private static readonly int[] crc1Widths = new[] { 14, 11 };
+        private static readonly byte[] crcGrid = { 1, 1, 1, 1, 0, 1, 0, 0, 1 };
+        private static readonly int[] crc0Widths = { 5, 20 };
+        private static readonly int[] crc1Widths = { 14, 11 };
 
         private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.PLESSEY };
 

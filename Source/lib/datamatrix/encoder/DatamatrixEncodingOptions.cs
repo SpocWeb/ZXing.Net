@@ -16,7 +16,6 @@
 
 using System;
 using System.ComponentModel;
-
 using ZXing.Common;
 using ZXing.Datamatrix.Encoder;
 

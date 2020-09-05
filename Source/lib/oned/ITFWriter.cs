@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-
 using ZXing.Common;
 
 namespace ZXing.OneD
@@ -34,18 +33,17 @@ namespace ZXing.OneD
         private const int W = 3; // Pixel width of a 3x wide line
         private const int N = 1; // Pixed width of a narrow line
 
-        internal static int[][] PATTERNS = new int[][]
-        {
-         new int[] {N, N, W, W, N}, // 0
-         new int[] {W, N, N, N, W}, // 1
-         new int[] {N, W, N, N, W}, // 2
-         new int[] {W, W, N, N, N}, // 3
-         new int[] {N, N, W, N, W}, // 4
-         new int[] {W, N, W, N, N}, // 5
-         new int[] {N, W, W, N, N}, // 6
-         new int[] {N, N, N, W, W}, // 7
-         new int[] {W, N, N, W, N}, // 8
-         new int[] {N, W, N, W, N} // 9
+        internal static int[][] PATTERNS = {
+         new[] {N, N, W, W, N}, // 0
+         new[] {W, N, N, N, W}, // 1
+         new[] {N, W, N, N, W}, // 2
+         new[] {W, W, N, N, N}, // 3
+         new[] {N, N, W, N, W}, // 4
+         new[] {W, N, W, N, N}, // 5
+         new[] {N, W, W, N, N}, // 6
+         new[] {N, N, N, W, W}, // 7
+         new[] {W, N, N, W, N}, // 8
+         new[] {N, W, N, W, N} // 9
         };
 
         private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.ITF };

@@ -39,7 +39,7 @@ namespace AForgeDemo
         private readonly CameraDevices camDevices;
         private Bitmap currentBitmapForDecoding;
         private readonly Thread decodingThread;
-        private Result currentResult;
+        private BarCodeText currentResult;
         private readonly Pen resultRectPen;
 
         public AForgeDemoForm()
@@ -174,7 +174,7 @@ namespace AForgeDemo
                     var result = reader.Decode(currentBitmapForDecoding);
                     if (result != null)
                     {
-                        Invoke(new Action<Result>(ShowResult), result);
+                        Invoke(new Action<BarCodeText>(ShowResult), result);
                     }
                     currentBitmapForDecoding.Dispose();
                     currentBitmapForDecoding = null;
@@ -183,7 +183,7 @@ namespace AForgeDemo
             }
         }
 
-        private void ShowResult(Result result)
+        private void ShowResult(BarCodeText result)
         {
             currentResult = result;
             txtBarcodeFormat.Text = result.BarcodeFormat.ToString();

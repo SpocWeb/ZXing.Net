@@ -15,7 +15,6 @@
  */
 
 using System.Collections.Generic;
-
 using ZXing.Common;
 using ZXing.Datamatrix.Internal;
 
@@ -26,7 +25,7 @@ namespace ZXing.Datamatrix
     ///
     /// <author>bbrown@google.com (Brian Brown)</author>
     /// </summary>
-    public sealed class DataMatrixReader : Reader
+    public sealed class DataMatrixReader : IBarCodeDecoder
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
@@ -37,7 +36,7 @@ namespace ZXing.Datamatrix
         /// </summary>
         /// <param name="image"></param>
         /// <returns>a String representing the content encoded by the Data Matrix code</returns>
-        public Result decode(BinaryBitmap image)
+        public BarCodeText decode(BinaryBitmap image)
         {
             return decode(image, null);
         }
@@ -48,7 +47,7 @@ namespace ZXing.Datamatrix
         /// <param name="image"></param>
         /// <param name="hints"></param>
         /// <returns>a String representing the content encoded by the Data Matrix code</returns>
-        public Result decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             DecoderResult decoderResult;
             ResultPoint[] points;
@@ -72,7 +71,7 @@ namespace ZXing.Datamatrix
             if (decoderResult == null)
                 return null;
 
-            Result result = new Result(decoderResult.Text, decoderResult.RawBytes, points,
+            BarCodeText result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points,
                 BarcodeFormat.DATA_MATRIX);
             IList<byte[]> byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)

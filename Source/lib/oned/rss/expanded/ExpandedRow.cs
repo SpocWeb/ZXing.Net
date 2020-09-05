@@ -22,7 +22,7 @@ namespace ZXing.OneD.RSS.Expanded
     /// <summary>
     /// One row of an RSS Expanded Stacked symbol, consisting of 1+ expanded pairs.
     /// </summary>
-    internal sealed class ExpandedRow
+    public sealed class ExpandedRow
     {
         private readonly bool wasReversed;
 
@@ -33,9 +33,9 @@ namespace ZXing.OneD.RSS.Expanded
             this.wasReversed = wasReversed;
         }
 
-        internal List<ExpandedPair> Pairs { get; private set; }
+        public IReadOnlyList<ExpandedPair> Pairs { get; private set; }
 
-        internal int RowNumber { get; private set; }
+        public int RowNumber { get; private set; }
 
         internal bool IsEquivalent(List<ExpandedPair> otherPairs)
         {

@@ -48,30 +48,30 @@ namespace ZXing.Interop.Decoding
             set { wrappedReader.Options = value.wrappedDecodingOptions; }
         }
 
-        public Result DecodeImageBytes([In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
+        public BarCodeText DecodeImageBytes([In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
            [In] int width,
            [In] int height,
            [In] BitmapFormat format)
         {
-            return new Result(wrappedReader.Decode(rawRGB, width, height, format.ToZXing()));
+            return new BarCodeText(wrappedReader.Decode(rawRGB, width, height, format.ToZXing()));
         }
 
-        public Result[] DecodeImageBytesMultiple([In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
+        public BarCodeText[] DecodeImageBytesMultiple([In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
             [In] int width,
             [In] int height,
             [In] BitmapFormat format)
         {
             var results = wrappedReader.DecodeMultiple(rawRGB, width, height, format.ToZXing());
-            return results?.Select(_ => new Result(_)).ToArray();
+            return results?.Select(_ => new BarCodeText(_)).ToArray();
         }
 
-        public Result DecodeImageFile(String barcodeBitmapFilePath)
+        public BarCodeText DecodeImageFile(String barcodeBitmapFilePath)
         {
             try
             {
                 using (var bitmap = (Bitmap)Bitmap.FromFile(barcodeBitmapFilePath))
                 {
-                    return new Result(wrappedReader.Decode(bitmap));
+                    return new BarCodeText(wrappedReader.Decode(bitmap));
                 }
             }
             catch (Exception)
@@ -80,14 +80,14 @@ namespace ZXing.Interop.Decoding
             }
         }
 
-        public Result[] DecodeImageFileMultiple(String barcodeBitmapFilePath)
+        public BarCodeText[] DecodeImageFileMultiple(String barcodeBitmapFilePath)
         {
             try
             {
                 using (var bitmap = (Bitmap)Bitmap.FromFile(barcodeBitmapFilePath))
                 {
                     var results = wrappedReader.DecodeMultiple(bitmap);
-                    return results?.Select(_ => new Result(_)).ToArray();
+                    return results?.Select(_ => new BarCodeText(_)).ToArray();
                 }
             }
             catch (Exception)

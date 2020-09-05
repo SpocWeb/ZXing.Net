@@ -36,7 +36,7 @@ namespace ZXing.Aztec.Internal
          0x707, // 03407 .XX X.. ... XXX
       };
 
-        private readonly IGridSampler gridSampler;
+        private readonly IGridSampler GridSampler;
 
         private bool compact;
         private int nbLayers;
@@ -46,14 +46,18 @@ namespace ZXing.Aztec.Internal
 
         readonly IRoBitMatrix _Image;
 
-        public Detector(IGridSampler gridSampler)
-        {
+        public Detector(IGridSampler gridSampler) {
+            GridSampler = gridSampler;
             _Image = gridSampler.GetImage();
         }
 
-        public Detector(IRoBitMatrix bitMatrix)
-        {
+        public Detector(BitMatrix bitMatrix)
+            : this (bitMatrix, new DefaultGridSampler(bitMatrix)){ }
+
+        public Detector(IRoBitMatrix bitMatrix, IGridSampler gridSampler) {
             _Image = bitMatrix;
+            GridSampler = gridSampler;
+            ;
         }
 
         /// <summary>
@@ -67,8 +71,9 @@ namespace ZXing.Aztec.Internal
         {
             // 1. Get the center of the aztec matrix
             var pCenter = getMatrixCenter();
-            if (pCenter == null)
+            if (pCenter == null) {
                 return null;
+            }
 
             // 2. Get the center points of the four diagonal points just outside the bull's eye
             //  [topRight, bottomRight, bottomLeft, topLeft]
@@ -140,8 +145,9 @@ namespace ZXing.Aztec.Internal
             // sides[shift] is the row/column that goes from the corner with three
             // orientation marks to the corner with two.
             shift = getRotation(sides, length);
-            if (shift < 0)
+            if (shift < 0) {
                 return false;
+            }
 
             // Flatten the parameter bits into a single 28- or 40-bit long
             long parameterData = 0;
@@ -165,8 +171,9 @@ namespace ZXing.Aztec.Internal
             // Corrects parameter data using RS.  Returns just the data portion
             // without the error correction.
             int correctedData = getCorrectedParameterData(parameterData, compact);
-            if (correctedData < 0)
+            if (correctedData < 0) {
                 return false;
+            }
 
             if (compact)
             {
@@ -251,8 +258,9 @@ namespace ZXing.Aztec.Internal
             }
 
             var rsDecoder = new ReedSolomonDecoder(GenericGF.AZTEC_PARAM);
-            if (!rsDecoder.decode(parameterWords, numECCodewords))
+            if (!rsDecoder.decode(parameterWords, numECCodewords)) {
                 return -1;
+            }
 
             // Toss the error correction.  Just return the data as an integer
             int result = 0;
@@ -343,8 +351,9 @@ namespace ZXing.Aztec.Internal
 
             //Get a white rectangle that can be the border of the matrix in center bull's eye or
             var whiteDetector = WhiteRectangleDetector.Create(_Image);
-            if (whiteDetector == null)
+            if (whiteDetector == null) {
                 return null;
+            }
             ResultPoint[] cornerPoints = whiteDetector.detect();
             if (cornerPoints != null)
             {
@@ -374,8 +383,9 @@ namespace ZXing.Aztec.Internal
             // This will ensure that we end up with a white rectangle in center bull's eye
             // in order to compute a more accurate center.
             whiteDetector = WhiteRectangleDetector.Create(_Image, 15, cx, cy);
-            if (whiteDetector == null)
+            if (whiteDetector == null) {
                 return null;
+            }
             cornerPoints = whiteDetector.detect();
             if (cornerPoints != null)
             {
@@ -407,9 +417,7 @@ namespace ZXing.Aztec.Internal
         /// <param name="bullsEyeCorners">the array of bull's eye corners</param>
         /// <returns>the array of aztec code corners</returns>
         private ResultPoint[] getMatrixCornerPoints(ResultPoint[] bullsEyeCorners)
-        {
-            return expandSquare(bullsEyeCorners, 2 * nbCenterLayers, getDimension());
-        }
+            => expandSquare(bullsEyeCorners, 2 * nbCenterLayers, getDimension());
 
         /// <summary>
         /// Creates a BitMatrix by sampling the provided image.
@@ -432,7 +440,7 @@ namespace ZXing.Aztec.Internal
             float low = dimension / 2.0f - nbCenterLayers;
             float high = dimension / 2.0f + nbCenterLayers;
 
-            return gridSampler.sampleGrid(
+            return GridSampler.sampleGrid(
                                       dimension,
                                       dimension,
                                       low, low, // topleft
@@ -657,7 +665,7 @@ namespace ZXing.Aztec.Internal
             return 4 * nbLayers + 2 * ((nbLayers - 4) / 8 + 1) + 15;
         }
 
-        internal sealed class Point
+        public sealed class Point
         {
             public int X { get; private set; }
             public int Y { get; private set; }
@@ -667,7 +675,7 @@ namespace ZXing.Aztec.Internal
                 return new ResultPoint(X, Y);
             }
 
-            internal Point(int x, int y)
+            public Point(int x, int y)
             {
                 X = x;
                 Y = y;

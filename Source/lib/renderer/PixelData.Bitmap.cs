@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+
 namespace ZXing.Rendering
 {
     /// <summary>
@@ -25,19 +29,19 @@ namespace ZXing.Rendering
         /// converts the pixel data to a bitmap object
         /// </summary>
         /// <returns></returns>
-        public System.Drawing.Bitmap ToBitmap()
+        public Bitmap ToBitmap()
         {
-            var bmp = new System.Drawing.Bitmap(Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var bmp = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
             bmp.SetResolution(96, 96);
             var bmpData = bmp.LockBits(
-               new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
-               System.Drawing.Imaging.ImageLockMode.WriteOnly,
-               System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+               new Rectangle(0, 0, bmp.Width, bmp.Height),
+               ImageLockMode.WriteOnly,
+               PixelFormat.Format32bppArgb);
 
             try
             {
                 //Copy the data from the byte array into BitmapData.Scan0
-                System.Runtime.InteropServices.Marshal.Copy(Pixels, 0, bmpData.Scan0, Pixels.Length);
+                Marshal.Copy(Pixels, 0, bmpData.Scan0, Pixels.Length);
             }
             finally
             {
