@@ -110,7 +110,7 @@ namespace ZXing.QrCode.Internal
                                 if (foundPatternCross(stateCount))
                                 {
                                     // Yes
-                                    bool confirmed = handlePossibleCenter(stateCount, i, j);
+                                    bool confirmed = IsRealCenter(stateCount, i, j);
                                     if (confirmed)
                                     {
                                         // Start examining every other line. Checking each line turned out to be too
@@ -169,7 +169,7 @@ namespace ZXing.QrCode.Internal
                 }
                 if (foundPatternCross(stateCount))
                 {
-                    bool confirmed = handlePossibleCenter(stateCount, i, maxJ);
+                    bool confirmed = IsRealCenter(stateCount, i, maxJ);
                     if (confirmed)
                     {
                         iSkip = stateCount[0];
@@ -193,11 +193,10 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary> Given a count of black/white/black/white/black pixels just seen and an end position,
-        /// figures the location of the center of this run.
-        /// </summary>
-        private static float? centerFromEnd(int[] stateCount, int end)
+        /// figures the location of the center of this run. </summary>
+        private static float? centerFromEnd(int[] stateCount, int endCol)
         {
-            var result = (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0f;
+            var result = (endCol - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0f;
             if (float.IsNaN(result)) {
                 return null;
             }
@@ -276,30 +275,6 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        /// <summary>
-        /// sets everything to 0
-        /// </summary>
-        /// <param name="counts"></param>
-        [Obsolete]
-        protected void clearCounts(int[] counts)
-        {
-            doClearCounts(counts);
-        }
-
-        /// <summary>
-        /// shifts left by 2 index
-        /// </summary>
-        /// <param name="stateCount"></param>
-        [Obsolete]
-        protected void shiftCounts2(int[] stateCount)
-        {
-            doShiftCounts2(stateCount);
-        }
-
-        /// <summary>
-        /// sets everything to 0
-        /// </summary>
-        /// <param name="counts"></param>
         protected static void doClearCounts(int[] counts)
         {
             SupportClass.Fill(counts, 0);
@@ -408,9 +383,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="maxCount">maximum reasonable number of modules that should be
         /// observed in any reading state, based on the results of the horizontal scan</param>
         /// <param name="originalStateCountTotal">The original state count total.</param>
-        /// <returns>
-        /// vertical center of finder pattern, or null if not found
-        /// </returns>
+        /// <returns> vertical center of finder pattern, or null if not found </returns>
         private float? crossCheckVertical(int startI, int centerJ, int maxCount, int originalStateCountTotal)
         {
             int maxI = _Image.Height;
@@ -566,45 +539,31 @@ namespace ZXing.QrCode.Internal
             return foundPatternCross(stateCount) ? centerFromEnd(stateCount, j) : null;
         }
 
-        /// <summary>
-        /// @see #handlePossibleCenter(int[], int, int)
-        /// </summary>
-        /// <param name="stateCount">reading state module counts from horizontal scan</param>
-        /// <param name="i">row where finder pattern may be found</param>
-        /// <param name="j">end of possible finder pattern in row</param>
-        /// <param name="pureBarcode">ignored</param>
-        /// <returns>true if a finder pattern candidate was found this time</returns>
-        [Obsolete("only exists for backwards compatibility")]
-        protected bool handlePossibleCenter(int[] stateCount, int i, int j, bool pureBarcode)
-        {
-            return handlePossibleCenter(stateCount, i, j);
-        }
-
-        /// <summary>
-        /// called when a horizontal scan finds a possible alignment pattern.
+        /// <summary> called when a horizontal scan finds a possible alignment pattern. </summary>
+        /// <remarks>
         /// It will cross check with a vertical scan,
         /// and if successful, will cross-cross-check with another horizontal scan.
         /// This is needed primarily to locate the real horizontal center of the pattern
         /// in cases of extreme skew.
-        /// And then we cross-cross-cross check with another diagonal scan.</p>
+        /// And then we cross-cross-cross check with another diagonal scan.
         /// If that succeeds the finder pattern location is added to a list that tracks
         /// the number of times each location has been nearly-matched as a finder pattern.
         /// Each additional find is more evidence that the location is in fact a finder
         /// pattern center
-        /// </summary>
+        /// </remarks>
         /// <param name="stateCount">reading state module counts from horizontal scan</param>
-        /// <param name="i">row where finder pattern may be found</param>
+        /// <param name="row">row where finder pattern may be found</param>
         /// <param name="j">end of possible finder pattern in row</param>
         /// <returns> true if a finder pattern candidate was found this time </returns>
-        protected bool handlePossibleCenter(int[] stateCount, int i, int j)
+        protected bool IsRealCenter(int[] stateCount, int row, int endCol)
         {
             int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] +
                                   stateCount[4];
-            float? centerJ = centerFromEnd(stateCount, j);
+            float? centerJ = centerFromEnd(stateCount, endCol);
             if (centerJ == null) {
                 return false;
             }
-            float? centerI = crossCheckVertical(i, (int) centerJ.Value, stateCount[2], stateCountTotal);
+            float? centerI = crossCheckVertical(row, (int) centerJ.Value, stateCount[2], stateCountTotal);
             if (centerI == null)
             {
                 return false;

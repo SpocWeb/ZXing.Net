@@ -272,7 +272,7 @@ namespace ZXing.Multi.QrCode.Internal
                             if (currentState == 4)
                             {
                                 // A winner?
-                                if (foundPatternCross(stateCount) && handlePossibleCenter(stateCount, i, j))
+                                if (foundPatternCross(stateCount) && IsRealCenter(stateCount, i, j))
                                 {
                                     // Yes
                                     // Clear state to start looking again
@@ -301,7 +301,7 @@ namespace ZXing.Multi.QrCode.Internal
 
                 if (foundPatternCross(stateCount))
                 {
-                    handlePossibleCenter(stateCount, i, maxJ);
+                    IsRealCenter(stateCount, i, maxJ);
                 } // end if foundPatternCross
             } // for i=iSkip-1 ...
             FinderPattern[][] patternInfo = selectMultipleBestPatterns();
