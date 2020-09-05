@@ -43,9 +43,9 @@ namespace ZXing.Common.Test
       private static readonly DanielVaughan.Logging.ILog Log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-      public bool accept(String dir, String name)
+      public bool accept(string dir, string name)
       {
-         String lowerCase = name.ToLower(CultureInfo.InvariantCulture);
+            string lowerCase = name.ToLower(CultureInfo.InvariantCulture);
          return lowerCase.EndsWith(".jpg") || lowerCase.EndsWith(".jpeg") ||
                 lowerCase.EndsWith(".gif") || lowerCase.EndsWith(".png");
       }
@@ -55,7 +55,7 @@ namespace ZXing.Common.Test
       private readonly BarcodeFormat? expectedFormat;
       private readonly List<TestResult> testResults;
 
-      public static String buildTestBase(String testBasePathSuffix)
+      public static string buildTestBase(string testBasePathSuffix)
       {
          // A little workaround to prevent aggravation in my IDE
          if (!Directory.Exists(testBasePathSuffix))
@@ -66,7 +66,7 @@ namespace ZXing.Common.Test
          return testBasePathSuffix;
       }
 
-      protected AbstractBlackBoxTestCase(String testBasePathSuffix,
+      protected AbstractBlackBoxTestCase(string testBasePathSuffix,
                                          IBarCodeDecoder barcodeReader,
                                          BarcodeFormat? expectedFormat)
       {
@@ -141,15 +141,15 @@ namespace ZXing.Common.Test
             image.SetSource(File.OpenRead(testImage));
 #endif
 
-            String expectedText;
-            String expectedTextFile = Path.Combine(Path.GetDirectoryName(absPath), Path.GetFileNameWithoutExtension(absPath) + ".txt");
+                string expectedText;
+                string expectedTextFile = Path.Combine(Path.GetDirectoryName(absPath), Path.GetFileNameWithoutExtension(absPath) + ".txt");
             if (File.Exists(expectedTextFile))
             {
                expectedText = File.ReadAllText(expectedTextFile, System.Text.Encoding.UTF8);
             }
             else
             {
-               String expectedBinFile = Path.Combine(Path.GetDirectoryName(absPath), Path.GetFileNameWithoutExtension(absPath) + ".bin");
+                    string expectedBinFile = Path.Combine(Path.GetDirectoryName(absPath), Path.GetFileNameWithoutExtension(absPath) + ".bin");
                if (File.Exists(expectedBinFile))
                {
                   // it is only a dirty workaround for some special cases
@@ -161,7 +161,7 @@ namespace ZXing.Common.Test
                }
             }
 
-            String expectedMetadataFile = Path.Combine(Path.GetDirectoryName(absPath), Path.GetFileNameWithoutExtension(absPath) + ".metadata.txt");
+                string expectedMetadataFile = Path.Combine(Path.GetDirectoryName(absPath), Path.GetFileNameWithoutExtension(absPath) + ".metadata.txt");
             var expectedMetadata = new Dictionary<string, string>();
             if (File.Exists(expectedMetadataFile))
             {
@@ -266,7 +266,7 @@ namespace ZXing.Common.Test
          for (int x = 0; x < testCount; x++)
          {
             TestResult testResult = testResults[x];
-            String label = "Rotation " + testResult.Rotation + " degrees: Too many images failed";
+                string label = "Rotation " + testResult.Rotation + " degrees: Too many images failed";
             Assert.IsTrue(passedCounts[x] >= testResult.MustPassCount, label);
             Assert.IsTrue(tryHarderCounts[x] >= testResult.TryHarderCount, "Try harder, " + label);
             label = "Rotation " + testResult.Rotation + " degrees: Too many images misread";
@@ -277,14 +277,14 @@ namespace ZXing.Common.Test
 
       private bool decode(BinaryBitmap source,
                              float rotation,
-                             String expectedText,
+                             string expectedText,
                              IDictionary<string, string> expectedMetadata,
                              bool tryHarder)
       {
 
-         String suffix = String.Format(" ({0}rotation: {1})", tryHarder ? "try harder, " : "", (int)rotation);
+            string suffix = string.Format(" ({0}rotation: {1})", tryHarder ? "try harder, " : "", (int)rotation);
 
-         IDictionary<DecodeHintType, Object> hints = new Dictionary<DecodeHintType, Object>();
+         IDictionary<DecodeHintType, object> hints = new Dictionary<DecodeHintType, object>();
          if (tryHarder)
          {
             hints[DecodeHintType.TRY_HARDER] = true;
@@ -328,7 +328,7 @@ namespace ZXing.Common.Test
                      expectedFormat, oneResult.BarcodeFormat, suffix);
                   return false;
                }
-               String resultText = oneResult.Text;
+                    string resultText = oneResult.Text;
                bool found = false;
                foreach (var expectedResult in expectedResults)
                {
@@ -349,7 +349,7 @@ namespace ZXing.Common.Test
                bool found = false;
                foreach (var oneResult in results)
                {
-                  String resultText = oneResult.Text;
+                        string resultText = oneResult.Text;
                   if (expectedResult.Equals(resultText))
                   {
                      found = true;
@@ -379,7 +379,7 @@ namespace ZXing.Common.Test
                return false;
             }
 
-            String resultText = result.Text;
+                string resultText = result.Text;
             if (!expectedText.Equals(resultText))
             {
                Log.InfoFormat("Content mismatch: expected '{0}' but got '{1}'{2}",
@@ -392,8 +392,8 @@ namespace ZXing.Common.Test
             {
                ResultMetadataType key;
                ResultMetadataType.TryParse(metadatum.Key, out key);
-               Object expectedValue = metadatum.Value;
-               Object actualValue = resultMetadata?[key];
+                    object expectedValue = metadatum.Value;
+                    object actualValue = resultMetadata?[key];
                if (!expectedValue.Equals(actualValue))
                {
                   Log.InfoFormat("Metadata mismatch for key '{0}': expected '{1}' but got '{2}'",

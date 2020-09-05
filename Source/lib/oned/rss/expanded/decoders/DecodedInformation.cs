@@ -34,11 +34,11 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// </summary>
     internal sealed class DecodedInformation : DecodedObject
     {
-        private String newString;
+        private string newString;
         private int remainingValue;
         private bool remaining;
 
-        internal DecodedInformation(int newPosition, String newString)
+        internal DecodedInformation(int newPosition, string newString)
            : base(newPosition)
         {
             this.newString = newString;
@@ -46,7 +46,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             remainingValue = 0;
         }
 
-        internal DecodedInformation(int newPosition, String newString, int remainingValue)
+        internal DecodedInformation(int newPosition, string newString, int remainingValue)
            : base(newPosition)
         {
             remaining = true;
@@ -54,7 +54,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             this.newString = newString;
         }
 
-        internal String getNewString()
+        internal string getNewString()
         {
             return newString;
         }

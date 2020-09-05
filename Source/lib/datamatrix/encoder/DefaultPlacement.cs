@@ -23,7 +23,7 @@ namespace ZXing.Datamatrix.Encoder
     /// </summary>
     public class DefaultPlacement
     {
-        private readonly String codewords;
+        private readonly string codewords;
         private readonly int numrows;
         private readonly int numcols;
         private readonly byte[] bits;
@@ -34,7 +34,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="codewords">the codewords to place</param>
         /// <param name="numcols">the number of columns</param>
         /// <param name="numrows">the number of rows</param>
-        public DefaultPlacement(String codewords, int numcols, int numrows)
+        public DefaultPlacement(string codewords, int numcols, int numrows)
         {
             this.codewords = codewords;
             this.numcols = numcols;

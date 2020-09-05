@@ -40,7 +40,7 @@ namespace ZXing
 
         public float Y { get; }
 
-        public override bool Equals(Object other) => Equals(other as ResultPoint);
+        public override bool Equals(object other) => Equals(other as ResultPoint);
 
         public bool Equals(ResultPoint otherPoint)
         {
@@ -51,7 +51,7 @@ namespace ZXing
 
         public override int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode();
 
-        public override String ToString() => $"({X}, {Y})";
+        public override string ToString() => $"({X}, {Y})";
 
         /// <summary>
         /// Orders an array of three ResultPoints in an order [A,B,C] such that AB is less than AC and

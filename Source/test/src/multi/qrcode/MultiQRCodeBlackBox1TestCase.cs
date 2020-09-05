@@ -50,7 +50,7 @@ namespace ZXing.Multi.QrCode.Test
             Assert.IsNotNull(results);
             Assert.AreEqual(4, results.Length);
 
-            var barcodeContents = new HashSet<String>();
+            var barcodeContents = new HashSet<string>();
             foreach (BarCodeText result in results)
             {
                 barcodeContents.Add(result.Text);
@@ -59,7 +59,7 @@ namespace ZXing.Multi.QrCode.Test
                 Assert.IsNotNull(metadata);
             }
 
-            var expectedContents = new HashSet<String>
+            var expectedContents = new HashSet<string>
             {
                 "You earned the class a 5 MINUTE DANCE PARTY!!  Awesome!  Way to go!  Let's boogie!",
                 "You earned the class 5 EXTRA MINUTES OF RECESS!!  Fabulous!!  Way to go!!",

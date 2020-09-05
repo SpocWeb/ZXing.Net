@@ -24,7 +24,7 @@ namespace ZXing.Client.Result
     /// <author>jbreiden@google.com (Jeff Breidenbach)</author>
     public sealed class ISBNParsedResult : ParsedResult
     {
-        internal ISBNParsedResult(String isbn)
+        internal ISBNParsedResult(string isbn)
            : base(ParsedResultType.ISBN)
         {
             ISBN = isbn;
@@ -34,6 +34,6 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the ISBN number
         /// </summary>
-        public String ISBN { get; private set; }
+        public string ISBN { get; private set; }
     }
 }

@@ -31,12 +31,12 @@ namespace ZXing.OneD
     public sealed class EANManufacturerOrgSupport
     {
         private List<int[]> ranges = new List<int[]>();
-        private List<String> countryIdentifiers = new List<String>();
+        private List<string> countryIdentifiers = new List<string>();
 
-        public String lookupCountryIdentifier(String productCode)
+        public string lookupCountryIdentifier(string productCode)
         {
             initIfNeeded();
-            int prefix = Int32.Parse(productCode.Substring(0, 3));
+            int prefix = int.Parse(productCode.Substring(0, 3));
             int max = ranges.Count;
             for (int i = 0; i < max; i++)
             {
@@ -55,7 +55,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        private void add(int[] range, String id)
+        private void add(int[] range, string id)
         {
             ranges.Add(range);
             countryIdentifiers.Add(id);

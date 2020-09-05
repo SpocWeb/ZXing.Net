@@ -36,13 +36,13 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    public class AI01_3202_3203_DecoderTest : AbstractDecoderTest
    {
 
-      private static String header = "..X.X";
+      private static string header = "..X.X";
 
       [Test]
       public void test01_3202_1()
       {
-         String data = header + compressedGtin_900123456798908 + compressed15bitWeight_1750;
-         String expected = "(01)90012345678908(3202)001750";
+            string data = header + compressedGtin_900123456798908 + compressed15bitWeight_1750;
+            string expected = "(01)90012345678908(3202)001750";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -50,8 +50,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_3203_1()
       {
-         String data = header + compressedGtin_900123456798908 + compressed15bitWeight_11750;
-         String expected = "(01)90012345678908(3203)001750";
+            string data = header + compressedGtin_900123456798908 + compressed15bitWeight_11750;
+            string expected = "(01)90012345678908(3203)001750";
 
          assertCorrectBinaryString(data, expected);
       }

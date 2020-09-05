@@ -172,7 +172,7 @@ namespace ZXing.OneD
                                        // that start on the center line.
                         if (hints != null && hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK))
                         {
-                            IDictionary<DecodeHintType, Object> newHints = new Dictionary<DecodeHintType, Object>();
+                            IDictionary<DecodeHintType, object> newHints = new Dictionary<DecodeHintType, object>();
                             foreach (var hint in hints)
                             {
                                 if (hint.Key != DecodeHintType.NEED_RESULT_POINT_CALLBACK)
@@ -329,7 +329,7 @@ namespace ZXing.OneD
             {
                 // If we don't even have one pixel per unit of bar width, assume this is too small
                 // to reliably match, so fail:
-                return Int32.MaxValue;
+                return int.MaxValue;
             }
             // We're going to fake floating-point math in integers. We just need to use more bits.
             // Scale up patternLength so that intermediate values below like scaledCounter will have
@@ -345,7 +345,7 @@ namespace ZXing.OneD
                 int variance = counter > scaledPattern ? counter - scaledPattern : scaledPattern - counter;
                 if (variance > maxIndividualVariance)
                 {
-                    return Int32.MaxValue;
+                    return int.MaxValue;
                 }
                 totalVariance += variance;
             }

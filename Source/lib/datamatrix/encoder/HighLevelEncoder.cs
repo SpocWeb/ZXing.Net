@@ -90,15 +90,15 @@ namespace ZXing.Datamatrix.Encoder
         /// <summary>
         /// 05 Macro header
         /// </summary>
-        public const String MACRO_05_HEADER = "[)>\u001E05\u001D";
+        public const string MACRO_05_HEADER = "[)>\u001E05\u001D";
         /// <summary>
         /// 06 Macro header
         /// </summary>
-        public const String MACRO_06_HEADER = "[)>\u001E06\u001D";
+        public const string MACRO_06_HEADER = "[)>\u001E06\u001D";
         /// <summary>
         /// Macro trailer
         /// </summary>
-        public const String MACRO_TRAILER = "\u001E\u0004";
+        public const string MACRO_TRAILER = "\u001E\u0004";
 
         /*
         /// <summary>
@@ -126,7 +126,7 @@ namespace ZXing.Datamatrix.Encoder
         /// </summary>
         /// <param name="msg">the message</param>
         /// <returns>the encoded message (the char values range from 0 to 255)</returns>
-        public static String encodeHighLevel(String msg)
+        public static string encodeHighLevel(string msg)
         {
             return encodeHighLevel(msg, SymbolShapeHint.FORCE_NONE, null, null, Encodation.ASCII);
         }
@@ -141,7 +141,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="maxSize">the maximum symbol size constraint or null for no constraint</param>
         /// <param name="defaultEncodation">encoding mode to start with</param>
         /// <returns>the encoded message (the char values range from 0 to 255)</returns>
-        public static String encodeHighLevel(String msg,
+        public static string encodeHighLevel(string msg,
                                              SymbolShapeHint shape,
                                              Dimension minSize,
                                              Dimension maxSize,
@@ -227,7 +227,7 @@ namespace ZXing.Datamatrix.Encoder
             return context.Codewords.ToString();
         }
 
-        internal static int lookAheadTest(String msg, int startpos, int currentMode)
+        internal static int lookAheadTest(string msg, int startpos, int currentMode)
         {
             if (startpos >= msg.Length)
             {
@@ -251,7 +251,7 @@ namespace ZXing.Datamatrix.Encoder
                 //step K
                 if ((startpos + charsProcessed) == msg.Length)
                 {
-                    var min = Int32.MaxValue;
+                    var min = int.MaxValue;
                     var mins = new byte[6];
                     var intCharCounts = new int[6];
                     min = findMinimums(charCounts, intCharCounts, min, mins);
@@ -370,7 +370,7 @@ namespace ZXing.Datamatrix.Encoder
                 {
                     var intCharCounts = new int[6];
                     var mins = new byte[6];
-                    findMinimums(charCounts, intCharCounts, Int32.MaxValue, mins);
+                    findMinimums(charCounts, intCharCounts, int.MaxValue, mins);
                     int minCount = getMinimumCount(mins);
 
                     if (intCharCounts[Encodation.ASCII] < intCharCounts[Encodation.BASE256]
@@ -509,7 +509,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="msg">the message</param>
         /// <param name="startpos">the start position within the message</param>
         /// <returns>the requested character count</returns>
-        public static int determineConsecutiveDigitCount(String msg, int startpos)
+        public static int determineConsecutiveDigitCount(string msg, int startpos)
         {
             int count = 0;
             int len = msg.Length;
@@ -532,7 +532,7 @@ namespace ZXing.Datamatrix.Encoder
 
         internal static void illegalCharacter(char c)
         {
-            throw new ArgumentException(String.Format("Illegal character: {0} (0x{1:X})", c, (int)c));
+            throw new ArgumentException(string.Format("Illegal character: {0} (0x{1:X})", c, (int)c));
         }
     }
 }

@@ -70,7 +70,7 @@ namespace ZXing.Client.Result
         /// <returns>
         ///   <c>true</c> if it is basically a valid email address; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool isBasicallyValidEmailAddress(String email)
+        internal static bool isBasicallyValidEmailAddress(string email)
         {
             return email != null && ATEXT_ALPHANUMERIC.Match(email).Success && email.IndexOf('@') >= 0;
         }

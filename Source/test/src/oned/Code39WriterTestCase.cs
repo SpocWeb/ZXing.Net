@@ -83,7 +83,7 @@ namespace ZXing.OneD.Test
             "011011001010010110110100000");
       }
 
-      private static void doTest(String input, String expected)
+      private static void doTest(string input, string expected)
       {
          var result = new Code39Writer().encode(input, BarcodeFormat.CODE_39, 0, 0);
          Assert.AreEqual(expected, BitMatrixTestCase.matrixToString(result));
@@ -95,7 +95,7 @@ namespace ZXing.OneD.Test
          var sut = new Code39Writer();
          var sutReader = new Code39Reader(false, true);
 
-         var contents = String.Empty;
+         var contents = string.Empty;
 
          for (var i = 0; i < 128; i++)
          {
@@ -110,7 +110,7 @@ namespace ZXing.OneD.Test
 
                Assert.That(actualRoundtripResultText, Is.EqualTo(contents));
 
-               contents = String.Empty;
+               contents = string.Empty;
             }
          }
       }

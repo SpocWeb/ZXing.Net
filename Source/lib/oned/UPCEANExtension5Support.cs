@@ -43,8 +43,8 @@ namespace ZXing.OneD
             if (end < 0)
                 return null;
 
-            String resultString = result.ToString();
-            IDictionary<ResultMetadataType, Object> extensionData = parseExtensionString(resultString);
+            string resultString = result.ToString();
+            IDictionary<ResultMetadataType, object> extensionData = parseExtensionString(resultString);
 
             BarCodeText extensionResult =
                 new BarCodeText(resultString,
@@ -112,7 +112,7 @@ namespace ZXing.OneD
             return rowOffset;
         }
 
-        private static int extensionChecksum(String s)
+        private static int extensionChecksum(string s)
         {
             int length = s.Length;
             int sum = 0;
@@ -147,27 +147,27 @@ namespace ZXing.OneD
         /// <param name="raw">raw content of extension</param>
         /// <returns>formatted interpretation of raw content as a {@link Map} mapping
         /// one {@link ResultMetadataType} to appropriate value, or {@code null} if not known</returns>
-        private static IDictionary<ResultMetadataType, Object> parseExtensionString(String raw)
+        private static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
         {
             if (raw.Length != 5)
             {
                 return null;
             }
-            Object value = parseExtension5String(raw);
+            object value = parseExtension5String(raw);
             if (value == null)
             {
                 return null;
             }
-            IDictionary<ResultMetadataType, Object> result = new Dictionary<ResultMetadataType, Object>
+            IDictionary<ResultMetadataType, object> result = new Dictionary<ResultMetadataType, object>
             {
                 [ResultMetadataType.SUGGESTED_PRICE] = value
             };
             return result;
         }
 
-        private static String parseExtension5String(String raw)
+        private static string parseExtension5String(string raw)
         {
-            String currency;
+            string currency;
             switch (raw[0])
             {
                 case '0':
@@ -200,9 +200,9 @@ namespace ZXing.OneD
                     break;
             }
             int rawAmount = int.Parse(raw.Substring(1));
-            String unitsString = (rawAmount / 100).ToString();
+            string unitsString = (rawAmount / 100).ToString();
             int hundredths = rawAmount % 100;
-            String hundredthsString = hundredths < 10 ? "0" + hundredths : hundredths.ToString();
+            string hundredthsString = hundredths < 10 ? "0" + hundredths : hundredths.ToString();
             return currency + unitsString + '.' + hundredthsString;
         }
     }

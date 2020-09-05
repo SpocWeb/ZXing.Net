@@ -26,7 +26,7 @@ namespace ZXing.Interop.Decoding
     public interface IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
-        String Text { get; }
+        string Text { get; }
 
         /// <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         byte[] RawBytes { get; }

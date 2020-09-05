@@ -72,7 +72,7 @@ namespace ZXing
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
         {
             return encode(contents, format, width, height, null);
         }
@@ -86,7 +86,7 @@ namespace ZXing
         /// <param name="height"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
         {
             if (!formatMap.ContainsKey(format))
                 throw new ArgumentException("No encoder available for format " + format);

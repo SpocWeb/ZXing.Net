@@ -34,22 +34,22 @@ namespace ZXing.Client.Result.Test
       [TestCase("mms:+15551212", "+15551212", null, null, null, "sms:+15551212")]
       [TestCase("mms:+15551212?subject=foo&body=bar", "+15551212", "foo", "bar", null, "sms:+15551212?body=bar&subject=foo")]
       [TestCase("mms:+15551212;via=999333", "+15551212", null, null, "999333", "sms:+15551212;via=999333")]
-      public void testSMSMMS(String contents,
-                                 String number,
-                                 String subject,
-                                 String body,
-                                 String via,
-                                 String parsedURI)
+      public void testSMSMMS(string contents,
+                                 string number,
+                                 string subject,
+                                 string body,
+                                 string via,
+                                 string parsedURI)
       {
-         doTest(contents, new String[] { number }, subject, body, new String[] { via }, parsedURI);
+         doTest(contents, new string[] { number }, subject, body, new string[] { via }, parsedURI);
       }
 
-      private static void doTest(String contents,
-                                 String[] numbers,
-                                 String subject,
-                                 String body,
-                                 String[] vias,
-                                 String parsedURI)
+      private static void doTest(string contents,
+                                 string[] numbers,
+                                 string subject,
+                                 string body,
+                                 string[] vias,
+                                 string parsedURI)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);

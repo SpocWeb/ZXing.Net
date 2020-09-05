@@ -31,67 +31,67 @@ namespace ZXing.Client.Result.Test
       [Test]
       public void testAddressBookDocomo()
       {
-         doTest("MECARD:N:Sean Owen;;", null, new String[] { "Sean Owen" }, null, null, null, null, null, null, null, null, null);
+         doTest("MECARD:N:Sean Owen;;", null, new string[] { "Sean Owen" }, null, null, null, null, null, null, null, null, null);
          doTest("MECARD:NOTE:ZXing Team;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;;",
-             null, new String[] { "Sean Owen" }, null, null, new String[] { "srowen@example.org" }, null, null, null,
-              new String[] { "google.com" }, null, "ZXing Team");
+             null, new string[] { "Sean Owen" }, null, null, new string[] { "srowen@example.org" }, null, null, null,
+              new string[] { "google.com" }, null, "ZXing Team");
       }
 
       [Test]
       public void testAddressBookAU()
       {
          doTest("MEMORY:foo\r\nNAME1:Sean\r\nTEL1:+12125551212\r\n",
-             null, new String[] { "Sean" }, null, null, null, new String[] { "+12125551212" }, null, null, null, null, "foo");
+             null, new string[] { "Sean" }, null, null, null, new string[] { "+12125551212" }, null, null, null, null, "foo");
       }
 
       [Test]
       public void testVCard()
       {
          doTest("BEGIN:VCARD\r\nADR;HOME:123 Main St\r\nVERSION:2.1\r\nN:Owen;Sean\r\nEND:VCARD",
-                null, new String[] { "Sean Owen" }, null, new String[] { "123 Main St" }, null, null, null, null, null, null, null);
+                null, new string[] { "Sean Owen" }, null, new string[] { "123 Main St" }, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testVCardFullN()
       {
          doTest("BEGIN:VCARD\r\nVERSION:2.1\r\nN:Owen;Sean;T;Mr.;Esq.\r\nEND:VCARD",
-                null, new String[] { "Mr. Sean T Owen Esq." }, null, null, null, null, null, null, null, null, null);
+                null, new string[] { "Mr. Sean T Owen Esq." }, null, null, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testVCardFullN2()
       {
          doTest("BEGIN:VCARD\r\nVERSION:2.1\r\nN:Owen;Sean;;;\r\nEND:VCARD",
-                null, new String[] { "Sean Owen" }, null, null, null, null, null, null, null, null, null);
+                null, new string[] { "Sean Owen" }, null, null, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testVCardFullN3()
       {
          doTest("BEGIN:VCARD\r\nVERSION:2.1\r\nN:;Sean;;;\r\nEND:VCARD",
-                null, new String[] { "Sean" }, null, null, null, null, null, null, null, null, null);
+                null, new string[] { "Sean" }, null, null, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testVCardCaseInsensitive()
       {
          doTest("begin:vcard\r\nadr;HOME:123 Main St\r\nVersion:2.1\r\nn:Owen;Sean\r\nEND:VCARD",
-                null, new String[] { "Sean Owen" }, null, new String[] { "123 Main St" }, null, null, null, null, null, null, null);
+                null, new string[] { "Sean Owen" }, null, new string[] { "123 Main St" }, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testEscapedVCard()
       {
          doTest("BEGIN:VCARD\r\nADR;HOME:123\\;\\\\ Main\\, St\\nHome\r\nVERSION:2.1\r\nN:Owen;Sean\r\nEND:VCARD",
-                null, new String[] { "Sean Owen" }, null, new String[] { "123;\\ Main, St\nHome" }, null, null, null, null, null, null, null);
+                null, new string[] { "Sean Owen" }, null, new string[] { "123;\\ Main, St\nHome" }, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testBizcard()
       {
          doTest("BIZCARD:N:Sean;X:Owen;C:Google;A:123 Main St;M:+12125551212;E:srowen@example.org;",
-             null, new String[] { "Sean Owen" }, null, new String[] { "123 Main St" }, new String[] { "srowen@example.org" },
-             new String[] { "+12125551212" }, null, "Google", null, null, null);
+             null, new string[] { "Sean Owen" }, null, new string[] { "123 Main St" }, new string[] { "srowen@example.org" },
+             new string[] { "+12125551212" }, null, "Google", null, null, null);
       }
 
       [Test]
@@ -99,9 +99,9 @@ namespace ZXing.Client.Result.Test
       {
          doTest("MECARD:N:Foo Bar;ORG:Company;TEL:5555555555;EMAIL:foo.bar@xyz.com;ADR:City, 10001;" +
                 "ADR:City, 10001;NOTE:This is the memo.;;",
-                null, new String[] { "Foo Bar" }, null, new String[] { "City, 10001", "City, 10001" },
-                new String[] { "foo.bar@xyz.com" },
-                new String[] { "5555555555" }, null, "Company", null, null, "This is the memo.");
+                null, new string[] { "Foo Bar" }, null, new string[] { "City, 10001", "City, 10001" },
+                new string[] { "foo.bar@xyz.com" },
+                new string[] { "5555555555" }, null, "Company", null, null, "This is the memo.");
       }
 
       [Test]
@@ -111,7 +111,7 @@ namespace ZXing.Client.Result.Test
                 "=38=38=20=4C=79=6E=62=72=6F=6F=6B=0D=0A=43=\r\n" +
                 "=4F=20=36=39=39=\r\n" +
                 "=39=39;;;\r\nEND:VCARD",
-                null, null, null, new String[] { "88 Lynbrook\r\nCO 69999" },
+                null, null, null, new string[] { "88 Lynbrook\r\nCO 69999" },
                 null, null, null, null, null, null, null);
       }
 
@@ -132,33 +132,33 @@ namespace ZXing.Client.Result.Test
       public void testVCardValueURI()
       {
          doTest("BEGIN:VCARD\r\nTEL;VALUE=uri:tel:+1-555-555-1212\r\nEND:VCARD",
-             null, null, null, null, null, new String[] { "+1-555-555-1212" }, new String[] { null },
+             null, null, null, null, null, new string[] { "+1-555-555-1212" }, new string[] { null },
              null, null, null, null);
 
          doTest("BEGIN:VCARD\r\nN;VALUE=text:Owen;Sean\r\nEND:VCARD",
-             null, new String[] { "Sean Owen" }, null, null, null, null, null, null, null, null, null);
+             null, new string[] { "Sean Owen" }, null, null, null, null, null, null, null, null, null);
       }
 
       [Test]
       public void testVCardTypes()
       {
          doTest("BEGIN:VCARD\r\nTEL;HOME:\r\nTEL;WORK:10\r\nTEL:20\r\nTEL;CELL:30\r\nEND:VCARD",
-            null, null, null, null, null, new String[] {"10", "20", "30"},
-            new String[] {"WORK", "", "CELL"}, null, null, null, null);
+            null, null, null, null, null, new string[] {"10", "20", "30"},
+            new string[] {"WORK", "", "CELL"}, null, null, null, null);
       }
 
-      private static void doTest(String contents,
-                                 String title,
-                                 String[] names,
-                                 String pronunciation,
-                                 String[] addresses,
-                                 String[] emails,
-                                 String[] phoneNumbers,
-                                 String[] phoneTypes,
-                                 String org,
-                                 String[] urls,
-                                 String birthday,
-                                 String note)
+      private static void doTest(string contents,
+                                 string title,
+                                 string[] names,
+                                 string pronunciation,
+                                 string[] addresses,
+                                 string[] emails,
+                                 string[] phoneNumbers,
+                                 string[] phoneTypes,
+                                 string org,
+                                 string[] urls,
+                                 string birthday,
+                                 string note)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);

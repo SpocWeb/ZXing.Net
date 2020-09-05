@@ -27,27 +27,27 @@ namespace ZXing.Client.Result
         /// <summary>
         /// VIN
         /// </summary>
-        public String VIN { get; private set; }
+        public string VIN { get; private set; }
         /// <summary>
         /// manufacturer id
         /// </summary>
-        public String WorldManufacturerID { get; private set; }
+        public string WorldManufacturerID { get; private set; }
         /// <summary>
         /// vehicle descriptor section
         /// </summary>
-        public String VehicleDescriptorSection { get; private set; }
+        public string VehicleDescriptorSection { get; private set; }
         /// <summary>
         /// vehicle identifier section
         /// </summary>
-        public String VehicleIdentifierSection { get; private set; }
+        public string VehicleIdentifierSection { get; private set; }
         /// <summary>
         /// country code
         /// </summary>
-        public String CountryCode { get; private set; }
+        public string CountryCode { get; private set; }
         /// <summary>
         /// vehicle attributes
         /// </summary>
-        public String VehicleAttributes { get; private set; }
+        public string VehicleAttributes { get; private set; }
         /// <summary>
         /// model year
         /// </summary>
@@ -59,7 +59,7 @@ namespace ZXing.Client.Result
         /// <summary>
         /// sequential number
         /// </summary>
-        public String SequentialNumber { get; private set; }
+        public string SequentialNumber { get; private set; }
 
         /// <summary>
         /// initializing constructor
@@ -73,15 +73,15 @@ namespace ZXing.Client.Result
         /// <param name="modelYear"></param>
         /// <param name="plantCode"></param>
         /// <param name="sequentialNumber"></param>
-        public VINParsedResult(String vin,
-                               String worldManufacturerID,
-                               String vehicleDescriptorSection,
-                               String vehicleIdentifierSection,
-                               String countryCode,
-                               String vehicleAttributes,
+        public VINParsedResult(string vin,
+                               string worldManufacturerID,
+                               string vehicleDescriptorSection,
+                               string vehicleIdentifierSection,
+                               string countryCode,
+                               string vehicleAttributes,
                                int modelYear,
                                char plantCode,
-                               String sequentialNumber)
+                               string sequentialNumber)
            : base(ParsedResultType.VIN)
         {
             VIN = vin;

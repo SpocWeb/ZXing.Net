@@ -39,7 +39,7 @@ namespace ZXing.Client.Result
             {
                 return null;
             }
-            String rawText = result.Text;
+            string rawText = result.Text;
             int length = rawText.Length;
             if (length != 13)
             {

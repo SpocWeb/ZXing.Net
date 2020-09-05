@@ -68,7 +68,7 @@ namespace ZXing.Client.Result
                                                null);
         }
 
-        private static String[] matchMultipleValuePrefix(String prefix, String rawText)
+        private static string[] matchMultipleValuePrefix(string prefix, string rawText)
         {
             IList<string> values = null;
             // For now, always 3, and always trim

@@ -25,7 +25,7 @@ namespace ZXing.Interop.Decoding
     public class ResultPoint
     {
         private readonly int hashCode;
-        private readonly String toString;
+        private readonly string toString;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultPoint"/> class.
@@ -49,13 +49,13 @@ namespace ZXing.Interop.Decoding
         public float Y { get; private set; }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="other">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="other">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(Object other)
+        public override bool Equals(object other)
         {
             var otherPoint = other as ResultPoint;
             if (otherPoint == null) {
@@ -76,12 +76,12 @@ namespace ZXing.Interop.Decoding
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
             return toString;
         }

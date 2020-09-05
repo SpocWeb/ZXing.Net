@@ -33,7 +33,7 @@ namespace ZXing
         /// <param name="width">The preferred width in pixels</param>
         /// <param name="height">The preferred height in pixels</param>
         /// <returns> The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)</returns>
-        BitMatrix encode(String contents, BarcodeFormat format, int width, int height);
+        BitMatrix encode(string contents, BarcodeFormat format, int width, int height);
 
         /// <summary> Encode <paramref name="contents"/> into a barcode. </summary>
         /// <param name="contents">The contents to encode in the barcode</param>
@@ -42,7 +42,7 @@ namespace ZXing
         /// <param name="height">The preferred height in pixels</param>
         /// <param name="hints">Additional parameters to supply to the encoder</param>
         /// <returns> The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)</returns>
-        BitMatrix encode(String contents, BarcodeFormat format, int width, int height
+        BitMatrix encode(string contents, BarcodeFormat format, int width, int height
             , IDictionary<EncodeHintType, object> hints);
     }
 }

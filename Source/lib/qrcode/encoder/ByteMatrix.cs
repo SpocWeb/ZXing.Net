@@ -55,7 +55,7 @@ namespace ZXing.QrCode.Internal
         public int Width => width;
 
         /// <summary>
-        /// Gets or sets the <see cref="System.Int32"/> with the specified x.
+        /// Gets or sets the <see cref="int"/> with the specified x.
         /// </summary>
         public int this[int x, int y]
         {
@@ -107,12 +107,12 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
             var result = new StringBuilder(2 * width * height + 2);
             for (int y = 0; y < height; ++y)

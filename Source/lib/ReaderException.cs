@@ -38,7 +38,7 @@ namespace ZXing
         /// Initializes a new instance of the <see cref="ReaderException"/> class.
         /// </summary>
         /// <param name="message"></param>
-        public ReaderException(String message)
+        public ReaderException(string message)
            : base(message)
         {
         }
@@ -56,7 +56,7 @@ namespace ZXing
         /// </summary>
         /// <param name="innerException">The inner exception.</param>
         /// <param name="message"></param>
-        public ReaderException(String message, Exception innerException)
+        public ReaderException(string message, Exception innerException)
            : base(message, innerException)
         {
         }

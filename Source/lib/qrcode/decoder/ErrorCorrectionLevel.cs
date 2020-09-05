@@ -38,7 +38,7 @@ namespace ZXing.QrCode.Internal
 
         private readonly int bits;
 
-        private ErrorCorrectionLevel(int ordinal, int bits, String name)
+        private ErrorCorrectionLevel(int ordinal, int bits, string name)
         {
             ordinal_Renamed_Field = ordinal;
             this.bits = bits;
@@ -53,10 +53,10 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Gets the name.
         /// </summary>
-        public String Name => name;
+        public string Name => name;
 
         private readonly int ordinal_Renamed_Field;
-        private readonly String name;
+        private readonly string name;
 
         /// <summary>
         /// Ordinals this instance.
@@ -68,12 +68,12 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
             return name;
         }

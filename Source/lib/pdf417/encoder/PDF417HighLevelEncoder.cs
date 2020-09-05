@@ -169,12 +169,12 @@ namespace ZXing.PDF417.Internal
         /// or null for default / not applicable</param>
         /// <param name="disableEci">if true, don't add an ECI segment for different encodings than default</param>
         /// <returns>the encoded message (the char values range from 0 to 928)</returns>
-        public static String encodeHighLevel(String msg, Compaction compaction, Encoding encoding, bool disableEci)
+        public static string encodeHighLevel(string msg, Compaction compaction, Encoding encoding, bool disableEci)
         {
             //the codewords 0..928 are encoded as Unicode characters
             var sb = new StringBuilder(msg.Length);
 
-            if (encoding != null && !disableEci && String.Compare(DEFAULT_ENCODING_NAME, encoding.WebName, StringComparison.Ordinal) != 0)
+            if (encoding != null && !disableEci && string.Compare(DEFAULT_ENCODING_NAME, encoding.WebName, StringComparison.Ordinal) != 0)
             {
                 CharacterSetECI eci = CharacterSetECI.getCharacterSetECIByName(encoding.WebName);
                 if (eci != null)
@@ -313,7 +313,7 @@ namespace ZXing.PDF417.Internal
             return encoding;
         }
 
-        private static byte[] toBytes(String msg, Encoding encoding)
+        private static byte[] toBytes(string msg, Encoding encoding)
         {
             return getEncoder(encoding).GetBytes(msg);
         }
@@ -334,7 +334,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="initialSubmode">should normally be SUBMODE_ALPHA</param>
         /// <returns>the text submode in which this method ends</returns>
         /// </summary>
-        private static int encodeText(String msg,
+        private static int encodeText(string msg,
                                       int startpos,
                                       int count,
                                       StringBuilder sb,
@@ -549,7 +549,7 @@ namespace ZXing.PDF417.Internal
             }
         }
 
-        private static void encodeNumeric(String msg, int startpos, int count, StringBuilder sb)
+        private static void encodeNumeric(string msg, int startpos, int count, StringBuilder sb)
         {
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
          int idx = 0;
@@ -560,7 +560,7 @@ namespace ZXing.PDF417.Internal
          {
             tmp.Length = 0;
             int len = Math.Min(44, count - idx);
-            String part = '1' + msg.Substring(startpos + idx, len);
+                string part = '1' + msg.Substring(startpos + idx, len);
 #if SILVERLIGHT4 || SILVERLIGHT5
             BigInteger bigint = BigIntegerExtensions.Parse(part);
 #else
@@ -646,7 +646,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startpos">the start position within the message</param>
         /// <returns>the requested character count</returns>
         /// </summary>
-        private static int determineConsecutiveDigitCount(String msg, int startpos)
+        private static int determineConsecutiveDigitCount(string msg, int startpos)
         {
             int count = 0;
             int len = msg.Length;
@@ -674,7 +674,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startpos">the start position within the message</param>
         /// <returns>the requested character count</returns>
         /// </summary>
-        private static int determineConsecutiveTextCount(String msg, int startpos)
+        private static int determineConsecutiveTextCount(string msg, int startpos)
         {
             int len = msg.Length;
             int idx = startpos;
@@ -721,7 +721,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="encoding"></param>
         /// <param name="byteCount"></param>
         /// <returns>the requested character count</returns>
-        private static int determineConsecutiveBinaryCount(String msg, byte[] bytes, int startpos, Encoding encoding, out int byteCount)
+        private static int determineConsecutiveBinaryCount(string msg, byte[] bytes, int startpos, Encoding encoding, out int byteCount)
         {
             int len = msg.Length;
             int idx = startpos;

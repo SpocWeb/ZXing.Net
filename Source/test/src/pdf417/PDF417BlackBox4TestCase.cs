@@ -47,11 +47,11 @@ namespace ZXing.PDF417.Test
 
       private static readonly Encoding UTF8 = Encoding.UTF8;
       private static readonly Encoding ISO88591 = Encoding.GetEncoding("ISO8859-1");
-      private const String TEST_BASE_PATH_SUFFIX = "test/data/blackbox/pdf417-4";
+      private const string TEST_BASE_PATH_SUFFIX = "test/data/blackbox/pdf417-4";
       private readonly PDF417Reader barcodeReader = new PDF417Reader();
 
       private readonly List<TestResult> testResults = new List<TestResult>();
-      private String testBase;
+      private string testBase;
 
       public PDF417BlackBox4TestCase()
          : base(TEST_BASE_PATH_SUFFIX, null, BarcodeFormat.PDF_417)
@@ -74,19 +74,19 @@ namespace ZXing.PDF417.Test
       {
          Assert.IsFalse(testResults.Count == 0);
 
-         IDictionary<String, List<String>> imageFiles = getImageFileLists();
+         IDictionary<string, List<string>> imageFiles = getImageFileLists();
          int testCount = testResults.Count;
 
          int[] passedCounts = new int[testCount];
          int[] tryHarderCounts = new int[testCount];
 
-         foreach (KeyValuePair<String, List<String>> testImageGroup in imageFiles)
+         foreach (KeyValuePair<string, List<string>> testImageGroup in imageFiles)
          {
             log.InfoFormat("Starting Image Group {0}", testImageGroup.Key);
 
-            String fileBaseName = testImageGroup.Key;
-            String expectedText;
-            String expectedTextFile = fileBaseName + ".txt";
+                string fileBaseName = testImageGroup.Key;
+                string expectedText;
+                string expectedTextFile = fileBaseName + ".txt";
             if (File.Exists(expectedTextFile))
             {
                expectedText = File.ReadAllText(expectedTextFile, UTF8);
@@ -130,7 +130,7 @@ namespace ZXing.PDF417.Test
                      return resultMetadata.SegmentIndex - otherResultMetadata.SegmentIndex;
                   });
                var resultText = new StringBuilder();
-               String fileId = null;
+                    string fileId = null;
                foreach (BarCodeText result in results)
                {
                   PDF417ResultMetadata resultMetadata = getMeta(result);
@@ -182,7 +182,7 @@ namespace ZXing.PDF417.Test
          for (int x = 0; x < testCount; x++)
          {
             TestResult testResult = testResults[x];
-            String label = "Rotation " + testResult.Rotation + " degrees: Too many images failed";
+                string label = "Rotation " + testResult.Rotation + " degrees: Too many images failed";
             Assert.IsTrue(passedCounts[x] >= testResult.MustPassCount, label);
             Assert.IsTrue(tryHarderCounts[x] >= testResult.TryHarderCount, "Try harder, " + label);
          }
@@ -195,7 +195,7 @@ namespace ZXing.PDF417.Test
 
       private BarCodeText[] decode(BinaryBitmap source, bool tryHarder)
       {
-         IDictionary<DecodeHintType, Object> hints = new Dictionary<DecodeHintType, object>();
+         IDictionary<DecodeHintType, object> hints = new Dictionary<DecodeHintType, object>();
          if (tryHarder)
          {
             hints[DecodeHintType.TRY_HARDER] = true;
@@ -204,17 +204,17 @@ namespace ZXing.PDF417.Test
          return barcodeReader.decodeMultiple(source, hints);
       }
 
-      private IDictionary<String, List<String>> getImageFileLists()
+      private IDictionary<string, List<string>> getImageFileLists()
       {
-         IDictionary<String, List<String>> result = new Dictionary<string, List<String>>();
+         IDictionary<string, List<string>> result = new Dictionary<string, List<string>>();
          foreach (string fileName in getImageFiles())
          {
-            String testImageFileName = fileName;
-            String fileBaseName = testImageFileName.Substring(0, testImageFileName.LastIndexOf('-'));
-            List<String> files;
+                string testImageFileName = fileName;
+                string fileBaseName = testImageFileName.Substring(0, testImageFileName.LastIndexOf('-'));
+            List<string> files;
             if (!result.ContainsKey(fileBaseName))
             {
-               files = new List<String>();
+               files = new List<string>();
                result[fileBaseName] = files;
             }
             else

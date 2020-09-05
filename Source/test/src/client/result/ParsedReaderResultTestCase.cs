@@ -234,7 +234,7 @@ namespace ZXing.Client.Result.Test
          // Yeah, it's OK that this is thought of as maybe a URI as long as it's not CALENDAR
          // Make sure illegal entries without newlines don't crash
       [TestCase("BEGIN:VEVENTSUMMARY:EventDTSTART:20081030T122030ZDTEND:20081030T132030ZEND:VEVENT", "BEGIN:VEVENTSUMMARY:EventDTSTART:20081030T122030ZDTEND:20081030T132030ZEND:VEVENT", ParsedResultType.URI, TestName = "VEvent: Illegal entries shouldn't crash")]
-      public void testVEvent(String content, String goldenresult, ParsedResultType type)
+      public void testVEvent(string content, string goldenresult, ParsedResultType type)
       {
          doTestResult(content, goldenresult, type);
       }
@@ -326,15 +326,15 @@ namespace ZXing.Client.Result.Test
       }
       */
 
-      private static void doTestResult(String contents,
-                                       String goldenResult,
+      private static void doTestResult(string contents,
+                                       string goldenResult,
                                        ParsedResultType type)
       {
          doTestResult(contents, goldenResult, type, BarcodeFormat.QR_CODE); // QR code is arbitrary
       }
 
-      private static void doTestResult(String contents,
-                                       String goldenResult,
+      private static void doTestResult(string contents,
+                                       string goldenResult,
                                        ParsedResultType type,
                                        BarcodeFormat format)
       {
@@ -343,7 +343,7 @@ namespace ZXing.Client.Result.Test
          Assert.IsNotNull(result);
          Assert.AreEqual(type, result.Type);
 
-         String displayResult = result.DisplayResult;
+            string displayResult = result.DisplayResult;
          Assert.AreEqual(goldenResult, displayResult);
       }
    }

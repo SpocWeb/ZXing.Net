@@ -39,7 +39,7 @@ namespace ZXing.QrCode.Internal
          25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1,  // 0x50-0x5f
       };
 
-        public static String DEFAULT_BYTE_MODE_ENCODING = "ISO-8859-1";
+        public static string DEFAULT_BYTE_MODE_ENCODING = "ISO-8859-1";
 
         // The mask penalty calculation is complicated.  See Table 21 of JISX0510:2004 (p.45) for details.
         // Basically it applies four rules and summate all penalties.
@@ -63,7 +63,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="content">text to encode</param>
         /// <param name="ecLevel">error correction level to use</param>
         /// <returns><see cref="QRCode"/> representing the encoded QR code</returns>
-        public static QRCode encode(String content, ErrorCorrectionLevel ecLevel)
+        public static QRCode encode(string content, ErrorCorrectionLevel ecLevel)
         {
             return encode(content, ecLevel, null);
         }
@@ -75,7 +75,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="ecLevel">The ec level.</param>
         /// <param name="hints">The hints.</param>
         /// <returns></returns>
-        public static QRCode encode(String content,
+        public static QRCode encode(string content,
                                   ErrorCorrectionLevel ecLevel,
                                   IDictionary<EncodeHintType, object> hints)
         {
@@ -83,7 +83,7 @@ namespace ZXing.QrCode.Internal
             bool hasEncodingHint = hints != null && hints.ContainsKey(EncodeHintType.CHARACTER_SET);
 
 #if !SILVERLIGHT || WINDOWS_PHONE
-            var encoding = hints == null || !hints.ContainsKey(EncodeHintType.CHARACTER_SET) ? null : (String)hints[EncodeHintType.CHARACTER_SET];
+            var encoding = hints == null || !hints.ContainsKey(EncodeHintType.CHARACTER_SET) ? null : (string)hints[EncodeHintType.CHARACTER_SET];
             if (encoding == null)
             {
                 encoding = DEFAULT_BYTE_MODE_ENCODING;
@@ -138,7 +138,7 @@ namespace ZXing.QrCode.Internal
             Version version;
             if (hints != null && hints.ContainsKey(EncodeHintType.QR_VERSION))
             {
-                int versionNumber = Int32.Parse(hints[EncodeHintType.QR_VERSION].ToString());
+                int versionNumber = int.Parse(hints[EncodeHintType.QR_VERSION].ToString());
                 version = Version.getVersionForNumber(versionNumber);
                 int bitsNeeded = calculateBitsNeeded(mode, headerBits, dataBits, version);
                 if (!willFit(bitsNeeded, version, ecLevel))
@@ -186,7 +186,7 @@ namespace ZXing.QrCode.Internal
             var maskPattern = -1;
             if (hints != null && hints.ContainsKey(EncodeHintType.QR_MASK_PATTERN))
             {
-                var hintMaskPattern = Int32.Parse(hints[EncodeHintType.QR_MASK_PATTERN].ToString());
+                var hintMaskPattern = int.Parse(hints[EncodeHintType.QR_MASK_PATTERN].ToString());
                 maskPattern = QRCode.isValidMaskPattern(hintMaskPattern) ? hintMaskPattern : -1;
             }
 
@@ -245,7 +245,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns></returns>
-        public static Mode chooseMode(String content)
+        public static Mode chooseMode(string content)
         {
             return chooseMode(content, null);
         }
@@ -257,7 +257,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="content">The content.</param>
         /// <param name="encoding">The encoding.</param>
         /// <returns></returns>
-        private static Mode chooseMode(String content, String encoding)
+        private static Mode chooseMode(string content, string encoding)
         {
             if ("Shift_JIS".Equals(encoding) && isOnlyDoubleByteKanji(content))
             {
@@ -295,7 +295,7 @@ namespace ZXing.QrCode.Internal
             return Mode.BYTE;
         }
 
-        private static bool isOnlyDoubleByteKanji(String content)
+        private static bool isOnlyDoubleByteKanji(string content)
         {
             byte[] bytes;
             try
@@ -330,7 +330,7 @@ namespace ZXing.QrCode.Internal
                                              Version version,
                                              ByteMatrix matrix)
         {
-            int minPenalty = Int32.MaxValue;  // Lower penalty is better.
+            int minPenalty = int.MaxValue;  // Lower penalty is better.
             int bestMaskPattern = -1;
             // We try all mask patterns to choose the best one.
             for (int maskPattern = 0; maskPattern < QRCode.NUM_MASK_PATTERNS; maskPattern++)
@@ -637,10 +637,10 @@ namespace ZXing.QrCode.Internal
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
         /// <param name="encoding">The encoding.</param>
-        public static void appendBytes(String content,
+        public static void appendBytes(string content,
                                 Mode mode,
                                 BitArray bits,
-                                String encoding)
+                                string encoding)
         {
             if (mode.Equals(Mode.NUMERIC)) {
                 appendNumericBytes(content, bits);
@@ -658,7 +658,7 @@ namespace ZXing.QrCode.Internal
                      }
         }
 
-        public static void appendNumericBytes(String content, BitArray bits)
+        public static void appendNumericBytes(string content, BitArray bits)
         {
             int length = content.Length;
 
@@ -690,7 +690,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        public static void appendAlphanumericBytes(String content, BitArray bits)
+        public static void appendAlphanumericBytes(string content, BitArray bits)
         {
             int length = content.Length;
 
@@ -722,7 +722,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        public static void append8BitBytes(String content, BitArray bits, String encoding)
+        public static void append8BitBytes(string content, BitArray bits, string encoding)
         {
             byte[] bytes;
             try
@@ -761,7 +761,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        public static void appendKanjiBytes(String content, BitArray bits)
+        public static void appendKanjiBytes(string content, BitArray bits)
         {
             byte[] bytes;
             try

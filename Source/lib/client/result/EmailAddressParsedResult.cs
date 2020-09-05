@@ -28,44 +28,44 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the email address
         /// </summary>
-        public String EmailAddress => Tos == null || Tos.Length == 0 ? null : Tos[0];
+        public string EmailAddress => Tos == null || Tos.Length == 0 ? null : Tos[0];
 
         /// <summary>
         /// the TOs
         /// </summary>
-        public String[] Tos { get; private set; }
+        public string[] Tos { get; private set; }
         /// <summary>
         /// the CCs
         /// </summary>
-        public String[] CCs { get; private set; }
+        public string[] CCs { get; private set; }
         /// <summary>
         /// the BCCs
         /// </summary>
-        public String[] BCCs { get; private set; }
+        public string[] BCCs { get; private set; }
         /// <summary>
         /// the subject
         /// </summary>
-        public String Subject { get; private set; }
+        public string Subject { get; private set; }
         /// <summary>
         /// the body
         /// </summary>
-        public String Body { get; private set; }
+        public string Body { get; private set; }
         /// <summary>
         /// the mailto: uri
         /// </summary>
         [Obsolete("deprecated without replacement")]
-        public String MailtoURI => "mailto:";
+        public string MailtoURI => "mailto:";
 
-        internal EmailAddressParsedResult(String to)
+        internal EmailAddressParsedResult(string to)
            : this(new[] { to }, null, null, null, null)
         {
         }
 
-        internal EmailAddressParsedResult(String[] tos,
-                                 String[] ccs,
-                                 String[] bccs,
-                                 String subject,
-                                 String body)
+        internal EmailAddressParsedResult(string[] tos,
+                                 string[] ccs,
+                                 string[] bccs,
+                                 string subject,
+                                 string body)
            : base(ParsedResultType.EMAIL_ADDRESS)
         {
             Tos = tos;

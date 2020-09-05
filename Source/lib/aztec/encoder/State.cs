@@ -181,9 +181,9 @@ namespace ZXing.Aztec.Internal
             return bitArray;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return String.Format("{0} bits={1} bytes={2}", HighLevelEncoder.MODE_NAMES[mode], bitCount, binaryShiftByteCount);
+            return string.Format("{0} bits={1} bytes={2}", HighLevelEncoder.MODE_NAMES[mode], bitCount, binaryShiftByteCount);
         }
 
         private static int calculateBinaryShiftCost(State state)

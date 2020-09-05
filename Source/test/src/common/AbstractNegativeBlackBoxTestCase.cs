@@ -67,7 +67,7 @@ namespace ZXing.Common.Test
       }
 
       // Use the multiformat reader to evaluate all decoders in the system.
-      protected AbstractNegativeBlackBoxTestCase(String testBasePathSuffix)
+      protected AbstractNegativeBlackBoxTestCase(string testBasePathSuffix)
          : base(testBasePathSuffix, new MultiFormatReader(), null)
       {
          testResults = new List<TestResult>();
@@ -161,7 +161,7 @@ namespace ZXing.Common.Test
          }
 
             // Try "try harder" getMode
-            var hints = new Dictionary<DecodeHintType, Object>
+            var hints = new Dictionary<DecodeHintType, object>
             {
                 [DecodeHintType.TRY_HARDER] = true
             };

@@ -40,7 +40,7 @@ namespace ZXing.Common
         /// <summary>
         /// text representation of the result
         /// </summary>
-        public String Text { get; private set; }
+        public string Text { get; private set; }
 
         /// <summary>
         /// list of byte segments in the result, or null if not applicable
@@ -50,7 +50,7 @@ namespace ZXing.Common
         /// <summary>
         /// name of error correction level used, or null if not applicable
         /// </summary>
-        public String ECLevel { get; private set; }
+        public string ECLevel { get; private set; }
 
         /// <summary>
         /// gets a value which describe if structure append data was found
@@ -90,7 +90,7 @@ namespace ZXing.Common
         /// <param name="text"></param>
         /// <param name="byteSegments"></param>
         /// <param name="ecLevel"></param>
-        public DecoderResult(byte[] rawBytes, String text, IList<byte[]> byteSegments, String ecLevel)
+        public DecoderResult(byte[] rawBytes, string text, IList<byte[]> byteSegments, string ecLevel)
            : this(rawBytes, text, byteSegments, ecLevel, -1, -1)
         {
         }
@@ -104,7 +104,7 @@ namespace ZXing.Common
         /// <param name="ecLevel"></param>
         /// <param name="saSequence"></param>
         /// <param name="saParity"></param>
-        public DecoderResult(byte[] rawBytes, String text, IList<byte[]> byteSegments, String ecLevel, int saSequence, int saParity)
+        public DecoderResult(byte[] rawBytes, string text, IList<byte[]> byteSegments, string ecLevel, int saSequence, int saParity)
            : this(rawBytes, rawBytes == null ? 0 : 8 * rawBytes.Length, text, byteSegments, ecLevel, saSequence, saParity)
         {
         }
@@ -117,7 +117,7 @@ namespace ZXing.Common
         /// <param name="text"></param>
         /// <param name="byteSegments"></param>
         /// <param name="ecLevel"></param>
-        public DecoderResult(byte[] rawBytes, int numBits, String text, IList<byte[]> byteSegments, String ecLevel)
+        public DecoderResult(byte[] rawBytes, int numBits, string text, IList<byte[]> byteSegments, string ecLevel)
            : this(rawBytes, numBits, text, byteSegments, ecLevel, -1, -1)
         {
         }
@@ -132,7 +132,7 @@ namespace ZXing.Common
         /// <param name="ecLevel"></param>
         /// <param name="saSequence"></param>
         /// <param name="saParity"></param>
-        public DecoderResult(byte[] rawBytes, int numBits, String text, IList<byte[]> byteSegments, String ecLevel, int saSequence, int saParity)
+        public DecoderResult(byte[] rawBytes, int numBits, string text, IList<byte[]> byteSegments, string ecLevel, int saSequence, int saParity)
         {
             if (rawBytes == null && text == null)
             {

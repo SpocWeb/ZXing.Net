@@ -34,7 +34,7 @@ namespace ZXing.Client.Result.Test
          doTest("9784567890123");
       }
 
-      private static void doTest(String contents)
+      private static void doTest(string contents)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.EAN_13);
          ParsedResult result = ResultParser.parseResult(fakeResult);

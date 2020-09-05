@@ -56,13 +56,13 @@ namespace ZXing.OneD.RSS
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="o">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="o">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (!(o is FinderPattern))
             {

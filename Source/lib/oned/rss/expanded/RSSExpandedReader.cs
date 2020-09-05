@@ -393,7 +393,7 @@ namespace ZXing.OneD.RSS.Expanded
             BitArray binary = BitArrayBuilder.buildBitArray(pairs);
 
             AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(binary);
-            String resultingString = decoder.parseInformation();
+            string resultingString = decoder.parseInformation();
             if (resultingString == null) {
                 return null;
             }

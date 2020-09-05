@@ -162,7 +162,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="codewords">The codewords.</param>
         /// <param name="symbolInfo">information about the symbol to be encoded</param>
         /// <returns>the codewords with interleaved error correction.</returns>
-        public static String encodeECC200(String codewords, SymbolInfo symbolInfo)
+        public static string encodeECC200(string codewords, SymbolInfo symbolInfo)
         {
             if (codewords.Length != symbolInfo.dataCapacity)
             {
@@ -174,7 +174,7 @@ namespace ZXing.Datamatrix.Encoder
             int blockCount = symbolInfo.getInterleavedBlockCount();
             if (blockCount == 1)
             {
-                String ecc = createECCBlock(codewords, symbolInfo.errorCodewords);
+                string ecc = createECCBlock(codewords, symbolInfo.errorCodewords);
                 sb.Append(ecc);
             }
             else
@@ -194,7 +194,7 @@ namespace ZXing.Datamatrix.Encoder
                     {
                         temp.Append(codewords[d]);
                     }
-                    String ecc = createECCBlock(temp.ToString(), errorSizes[block]);
+                    string ecc = createECCBlock(temp.ToString(), errorSizes[block]);
                     int pos = 0;
                     for (int e = block; e < errorSizes[block] * blockCount; e += blockCount)
                     {
@@ -205,7 +205,7 @@ namespace ZXing.Datamatrix.Encoder
             return sb.ToString();
         }
 
-        private static String createECCBlock(String codewords, int numECWords)
+        private static string createECCBlock(string codewords, int numECWords)
         {
             int table = -1;
             for (int i = 0; i < FACTOR_SETS.Length; i++)
@@ -256,7 +256,7 @@ namespace ZXing.Datamatrix.Encoder
             {
                 eccReversed[i] = ecc[numECWords - i - 1];
             }
-            return new String(eccReversed);
+            return new string(eccReversed);
         }
     }
 }

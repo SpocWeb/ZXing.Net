@@ -113,7 +113,7 @@ namespace ZXing.PDF417.Internal
 #endif
         private const int NUMBER_OF_SEQUENCE_CODEWORDS = 2;
 
-        public static DecoderResult decode(int[] codewords, String ecLevel)
+        public static DecoderResult decode(int[] codewords, string ecLevel)
         {
             var result = new StringBuilder(codewords.Length * 2);
             // Get compaction mode
@@ -258,7 +258,7 @@ namespace ZXing.PDF417.Internal
             if (s == null) {
                 return -1;
             }
-            resultMetadata.SegmentIndex = Int32.Parse(s);
+            resultMetadata.SegmentIndex = int.Parse(s);
 
             var fileId = new StringBuilder();
             codeIndex = textCompaction(codewords, codeIndex, fileId);
@@ -302,7 +302,7 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     int intResult;
-                                    if (Int32.TryParse(segmentCount.ToString(), out intResult)) {
+                                    if (int.TryParse(segmentCount.ToString(), out intResult)) {
                                         resultMetadata.SegmentCount = intResult;
                                     }
 #endif
@@ -317,7 +317,7 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     long longResult;
-                                    if (Int64.TryParse(timestamp.ToString(), out longResult)) {
+                                    if (long.TryParse(timestamp.ToString(), out longResult)) {
                                         resultMetadata.Timestamp = longResult;
                                     }
 #endif
@@ -332,7 +332,7 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     int intResult;
-                                    if (Int32.TryParse(checksum.ToString(), out intResult)) {
+                                    if (int.TryParse(checksum.ToString(), out intResult)) {
                                         resultMetadata.Checksum = intResult;
                                     }
 #endif
@@ -347,7 +347,7 @@ namespace ZXing.PDF417.Internal
                            catch { }
 #else
                                     long longResult;
-                                    if (Int64.TryParse(fileSize.ToString(), out longResult)) {
+                                    if (long.TryParse(fileSize.ToString(), out longResult)) {
                                         resultMetadata.FileSize = longResult;
                                     }
 #endif
@@ -882,7 +882,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="count">The number of codewords</param>
         /// <returns>The decoded string representing the Numeric data.</returns>
         /// </summary>
-        private static String decodeBase900toBase10(int[] codewords, int count)
+        private static string decodeBase900toBase10(int[] codewords, int count)
         {
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
          BigInteger result = BigInteger.Zero;
@@ -890,7 +890,7 @@ namespace ZXing.PDF417.Internal
          {
             result = BigInteger.Add(result, BigInteger.Multiply(EXP900[count - i - 1], new BigInteger(codewords[i])));
          }
-         String resultString = result.ToString();
+            string resultString = result.ToString();
          if (resultString[0] != '1')
          {
             return null;

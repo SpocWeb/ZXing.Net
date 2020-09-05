@@ -199,12 +199,12 @@ namespace ZXing.QrCode.Internal
         public int Bits { get; private set; }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
             return Name.ToString();
         }

@@ -367,9 +367,9 @@ namespace ZXing.PDF417.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultRowIndicatorColumn"/>.
+        /// Returns a <see cref="string"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultRowIndicatorColumn"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultRowIndicatorColumn"/>.</returns>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultRowIndicatorColumn"/>.</returns>
         public override string ToString()
         {
             return "Is Left: " + IsLeft + " \n" + base.ToString();

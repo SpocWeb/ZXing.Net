@@ -40,7 +40,7 @@ namespace ZXing.QrCode
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
         {
             return encode(contents, format, width, height, null);
         }
@@ -55,13 +55,13 @@ namespace ZXing.QrCode
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents,
+        public BitMatrix encode(string contents,
                                 BarcodeFormat format,
                                 int width,
                                 int height,
                                 IDictionary<EncodeHintType, object> hints)
         {
-            if (String.IsNullOrEmpty(contents))
+            if (string.IsNullOrEmpty(contents))
             {
                 throw new ArgumentException("Found empty contents");
             }

@@ -50,28 +50,28 @@ namespace ZXing.Client.Result
                 // ExtendedProductParsedResult NOT created. Not a RSS Expanded barcode
                 return null;
             }
-            String rawText = result.Text;
+            string rawText = result.Text;
 
-            String productID = null;
-            String sscc = null;
-            String lotNumber = null;
-            String productionDate = null;
-            String packagingDate = null;
-            String bestBeforeDate = null;
-            String expirationDate = null;
-            String weight = null;
-            String weightType = null;
-            String weightIncrement = null;
-            String price = null;
-            String priceIncrement = null;
-            String priceCurrency = null;
-            var uncommonAIs = new Dictionary<String, String>();
+            string productID = null;
+            string sscc = null;
+            string lotNumber = null;
+            string productionDate = null;
+            string packagingDate = null;
+            string bestBeforeDate = null;
+            string expirationDate = null;
+            string weight = null;
+            string weightType = null;
+            string weightIncrement = null;
+            string price = null;
+            string priceIncrement = null;
+            string priceCurrency = null;
+            var uncommonAIs = new Dictionary<string, string>();
 
             int i = 0;
 
             while (i < rawText.Length)
             {
-                String ai = findAIvalue(i, rawText);
+                string ai = findAIvalue(i, rawText);
                 if (ai == null)
                 {
                     // Error. Code doesn't match with RSS expanded pattern
@@ -79,7 +79,7 @@ namespace ZXing.Client.Result
                     return null;
                 }
                 i += ai.Length + 2;
-                String value = findValue(i, rawText);
+                string value = findValue(i, rawText);
                 i += value.Length;
 
                 if ("00".Equals(ai))
@@ -174,7 +174,7 @@ namespace ZXing.Client.Result
                                                    uncommonAIs);
         }
 
-        private static String findAIvalue(int i, String rawText)
+        private static string findAIvalue(int i, string rawText)
         {
             char c = rawText[i];
             // First character must be a open parenthesis.If not, ERROR
@@ -202,7 +202,7 @@ namespace ZXing.Client.Result
             return buf.ToString();
         }
 
-        private static String findValue(int i, String rawText)
+        private static string findValue(int i, string rawText)
         {
             var buf = new StringBuilder();
             var rawTextAux = rawText.Substring(i);

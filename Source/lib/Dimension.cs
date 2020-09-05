@@ -56,7 +56,7 @@ namespace ZXing
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public override bool Equals(Object other)
+        public override bool Equals(object other)
         {
             if (other is Dimension)
             {
@@ -79,7 +79,7 @@ namespace ZXing
         /// 
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             return width + "x" + height;
         }

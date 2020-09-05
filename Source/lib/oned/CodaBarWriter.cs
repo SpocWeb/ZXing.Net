@@ -41,7 +41,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             if (contents.Length < 2)
             {
@@ -51,8 +51,8 @@ namespace ZXing.OneD
             else
             {
                 // Verify input and calculate decoded length.
-                char firstChar = Char.ToUpper(contents[0]);
-                char lastChar = Char.ToUpper(contents[contents.Length - 1]);
+                char firstChar = char.ToUpper(contents[0]);
+                char lastChar = char.ToUpper(contents[contents.Length - 1]);
                 bool startsNormal = CodaBarReader.arrayContains(START_END_CHARS, firstChar);
                 bool endsNormal = CodaBarReader.arrayContains(START_END_CHARS, lastChar);
                 bool startsAlt = CodaBarReader.arrayContains(ALT_START_END_CHARS, firstChar);
@@ -89,7 +89,7 @@ namespace ZXing.OneD
             int resultLength = 20;
             for (int i = 1; i < contents.Length - 1; i++)
             {
-                if (Char.IsDigit(contents[i]) || contents[i] == '-' || contents[i] == '$')
+                if (char.IsDigit(contents[i]) || contents[i] == '-' || contents[i] == '$')
                 {
                     resultLength += 9;
                 }
@@ -109,7 +109,7 @@ namespace ZXing.OneD
             int position = 0;
             for (int index = 0; index < contents.Length; index++)
             {
-                char c = Char.ToUpper(contents[index]);
+                char c = char.ToUpper(contents[index]);
                 if (index == 0 || index == contents.Length - 1)
                 {
                     // The start/end chars are not in the CodaBarReader.ALPHABET.

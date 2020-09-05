@@ -36,7 +36,7 @@ namespace ZXing.Common
         /// </summary>
         /// <returns>A black and white bitmap converted from this ByteMatrix.</returns>
         [Obsolete("Use BarcodeWriter instead")]
-        public Bitmap ToBitmap(BarcodeFormat format, String content)
+        public Bitmap ToBitmap(BarcodeFormat format, string content)
         {
             var writer = new BarcodeWriter { Format = format };
             return writer.Write(content);

@@ -29,7 +29,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="text"></param>
         /// <param name="language"></param>
-        public TextParsedResult(String text, String language)
+        public TextParsedResult(string text, string language)
            : base(ParsedResultType.TEXT)
         {
             Text = text;
@@ -39,10 +39,10 @@ namespace ZXing.Client.Result
         /// <summary>
         /// text
         /// </summary>
-        public String Text { get; private set; }
+        public string Text { get; private set; }
         /// <summary>
         /// language
         /// </summary>
-        public String Language { get; private set; }
+        public string Language { get; private set; }
     }
 }

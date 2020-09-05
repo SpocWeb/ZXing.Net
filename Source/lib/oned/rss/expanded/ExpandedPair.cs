@@ -49,14 +49,14 @@ namespace ZXing.OneD.RSS.Expanded
 
         public bool MustBeLast => RightChar == null;
 
-        public override String ToString()
+        public override string ToString()
         {
             return
                 "[ " + LeftChar + " , " + RightChar + " : " +
                 (FinderPattern == null ? "null" : FinderPattern.Value.ToString()) + " ]";
         }
 
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (!(o is ExpandedPair))
             {
@@ -69,7 +69,7 @@ namespace ZXing.OneD.RSS.Expanded
                 EqualsOrNull(FinderPattern, that.FinderPattern);
         }
 
-        private static bool EqualsOrNull(Object o1, Object o2)
+        private static bool EqualsOrNull(object o1, object o2)
         {
             return o1 == null ? o2 == null : o1.Equals(o2);
         }
@@ -79,7 +79,7 @@ namespace ZXing.OneD.RSS.Expanded
             return hashNotNull(LeftChar) ^ hashNotNull(RightChar) ^ hashNotNull(FinderPattern);
         }
 
-        private static int hashNotNull(Object o)
+        private static int hashNotNull(object o)
         {
             return o == null ? 0 : o.GetHashCode();
         }

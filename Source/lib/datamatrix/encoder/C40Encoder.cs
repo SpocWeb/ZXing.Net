@@ -198,7 +198,7 @@ namespace ZXing.Datamatrix.Encoder
             return len;
         }
 
-        private static String encodeToCodewords(StringBuilder sb, int startPos)
+        private static string encodeToCodewords(StringBuilder sb, int startPos)
         {
             char c1 = sb[startPos];
             char c2 = sb[startPos + 1];
@@ -206,7 +206,7 @@ namespace ZXing.Datamatrix.Encoder
             int v = (1600 * c1) + (40 * c2) + c3 + 1;
             char cw1 = (char) (v / 256);
             char cw2 = (char) (v % 256);
-            return new String(new[] {cw1, cw2});
+            return new string(new[] {cw1, cw2});
         }
     }
 }

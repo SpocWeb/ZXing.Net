@@ -32,7 +32,7 @@ namespace ZXing.Client.Result
     {
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null)
             {
                 return null;
@@ -43,18 +43,18 @@ namespace ZXing.Client.Result
                 return null;
             }
 
-            String summary = matchSingleVCardPrefixedField("SUMMARY", rawText);
-            String start = matchSingleVCardPrefixedField("DTSTART", rawText);
+            string summary = matchSingleVCardPrefixedField("SUMMARY", rawText);
+            string start = matchSingleVCardPrefixedField("DTSTART", rawText);
             if (start == null)
             {
                 return null;
             }
-            String end = matchSingleVCardPrefixedField("DTEND", rawText);
-            String duration = matchSingleVCardPrefixedField("DURATION", rawText);
-            String location = matchSingleVCardPrefixedField("LOCATION", rawText);
-            String organizer = stripMailto(matchSingleVCardPrefixedField("ORGANIZER", rawText));
+            string end = matchSingleVCardPrefixedField("DTEND", rawText);
+            string duration = matchSingleVCardPrefixedField("DURATION", rawText);
+            string location = matchSingleVCardPrefixedField("LOCATION", rawText);
+            string organizer = stripMailto(matchSingleVCardPrefixedField("ORGANIZER", rawText));
 
-            String[] attendees = matchVCardPrefixedField("ATTENDEE", rawText);
+            string[] attendees = matchVCardPrefixedField("ATTENDEE", rawText);
             if (attendees != null)
             {
                 for (int i = 0; i < attendees.Length; i++)
@@ -62,15 +62,15 @@ namespace ZXing.Client.Result
                     attendees[i] = stripMailto(attendees[i]);
                 }
             }
-            String description = matchSingleVCardPrefixedField("DESCRIPTION", rawText);
+            string description = matchSingleVCardPrefixedField("DESCRIPTION", rawText);
 
-            String geoString = matchSingleVCardPrefixedField("GEO", rawText);
+            string geoString = matchSingleVCardPrefixedField("GEO", rawText);
             double latitude;
             double longitude;
             if (geoString == null)
             {
-                latitude = Double.NaN;
-                longitude = Double.NaN;
+                latitude = double.NaN;
+                longitude = double.NaN;
             }
             else
             {
@@ -85,9 +85,9 @@ namespace ZXing.Client.Result
             try { longitude = Double.Parse(geoString.Substring(semicolon + 1), NumberStyles.Float, CultureInfo.InvariantCulture); }
             catch { return null; }
 #else
-                if (!Double.TryParse(geoString.Substring(0, semicolon), NumberStyles.Float, CultureInfo.InvariantCulture, out latitude))
+                if (!double.TryParse(geoString.Substring(0, semicolon), NumberStyles.Float, CultureInfo.InvariantCulture, out latitude))
                     return null;
-                if (!Double.TryParse(geoString.Substring(semicolon + 1), NumberStyles.Float, CultureInfo.InvariantCulture, out longitude))
+                if (!double.TryParse(geoString.Substring(semicolon + 1), NumberStyles.Float, CultureInfo.InvariantCulture, out longitude))
                     return null;
 #endif
             }
@@ -111,22 +111,22 @@ namespace ZXing.Client.Result
             }
         }
 
-        private static String matchSingleVCardPrefixedField(String prefix,
-                                                            String rawText)
+        private static string matchSingleVCardPrefixedField(string prefix,
+                                                            string rawText)
         {
             var values = VCardResultParser.matchSingleVCardPrefixedField(prefix, rawText, true, false);
             return values == null || values.Count == 0 ? null : values[0];
         }
 
-        private static String[] matchVCardPrefixedField(String prefix, String rawText)
+        private static string[] matchVCardPrefixedField(string prefix, string rawText)
         {
-            List<List<String>> values = VCardResultParser.matchVCardPrefixedField(prefix, rawText, true, false);
+            List<List<string>> values = VCardResultParser.matchVCardPrefixedField(prefix, rawText, true, false);
             if (values == null || values.Count == 0)
             {
                 return null;
             }
             int size = values.Count;
-            String[] result = new String[size];
+            string[] result = new string[size];
             for (int i = 0; i < size; i++)
             {
                 result[i] = values[i][0];
@@ -134,7 +134,7 @@ namespace ZXing.Client.Result
             return result;
         }
 
-        private static String stripMailto(String s)
+        private static string stripMailto(string s)
         {
             if (s != null && (s.StartsWith("mailto:") || s.StartsWith("MAILTO:")))
             {

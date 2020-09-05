@@ -49,10 +49,10 @@ namespace ZXing.Common.Test
                 "SJIS");
       }
 
-      private static void doTest(byte[] bytes, String charsetName)
+      private static void doTest(byte[] bytes, string charsetName)
       {
          var charset = Encoding.GetEncoding(charsetName);
-         String guessedName = StringUtils.guessEncoding(bytes, null);
+            string guessedName = StringUtils.guessEncoding(bytes, null);
          var guessedEncoding = Encoding.GetEncoding(guessedName);
          Assert.AreEqual(charset, guessedEncoding);
       }
@@ -62,7 +62,7 @@ namespace ZXing.Common.Test
        * to write that into the Java source file rather than risk character encoding issues in the 
        * source file itself
        */
-      public static void main(String[] args)
+      public static void main(string[] args)
       {
          var text = args[0];
          var charset = Encoding.GetEncoding(args[1]);

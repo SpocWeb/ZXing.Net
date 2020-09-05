@@ -34,12 +34,12 @@ namespace ZXing.Datamatrix.Test
          //Sample from Annexe R in ISO/IEC 16022:2000(E)
          char[] cw = { (char)142, (char)164, (char)186 };
          SymbolInfo symbolInfo = SymbolInfo.lookup(3);
-         String s = ErrorCorrection.encodeECC200(String.Join("", cw), symbolInfo);
+            string s = ErrorCorrection.encodeECC200(string.Join("", cw), symbolInfo);
          Assert.AreEqual("142 164 186 114 25 5 88 102", HighLevelEncodeTestCase.visualize(s));
 
          //"A" encoded (ASCII encoding + 2 padding characters)
          cw = new char[] { (char)66, (char)129, (char)70 };
-         s = ErrorCorrection.encodeECC200(String.Join("", cw), symbolInfo);
+         s = ErrorCorrection.encodeECC200(string.Join("", cw), symbolInfo);
          Assert.AreEqual("66 129 70 138 234 82 82 95", HighLevelEncodeTestCase.visualize(s));
       }
    }

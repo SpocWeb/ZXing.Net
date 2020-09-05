@@ -135,7 +135,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        protected override bool checkChecksum(String s)
+        protected override bool checkChecksum(string s)
         {
             return base.checkChecksum(convertUPCEtoUPCA(s));
         }
@@ -176,7 +176,7 @@ namespace ZXing.OneD
         /// <param name="upce">UPC-E code as string of digits</param>
         /// <returns>equivalent UPC-A code as string of digits</returns>
         /// </summary>
-        public static String convertUPCEtoUPCA(String upce)
+        public static string convertUPCEtoUPCA(string upce)
         {
             var upceChars = upce.Substring(1, 6);
             StringBuilder result = new StringBuilder(12);

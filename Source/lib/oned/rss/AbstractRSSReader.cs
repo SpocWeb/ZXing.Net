@@ -192,8 +192,8 @@ namespace ZXing.OneD.RSS
             if (ratio >= MIN_FINDER_PATTERN_RATIO && ratio <= MAX_FINDER_PATTERN_RATIO)
             {
                 // passes ratio test in spec, but see if the counts are unreasonable
-                int minCounter = Int32.MaxValue;
-                int maxCounter = Int32.MinValue;
+                int minCounter = int.MaxValue;
+                int maxCounter = int.MinValue;
                 foreach (int counter in counters)
                 {
                     if (counter > maxCounter)

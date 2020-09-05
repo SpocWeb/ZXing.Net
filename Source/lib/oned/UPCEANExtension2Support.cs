@@ -37,8 +37,8 @@ namespace ZXing.OneD
             if (end < 0)
                 return null;
 
-            String resultString = result.ToString();
-            IDictionary<ResultMetadataType, Object> extensionData = parseExtensionString(resultString);
+            string resultString = result.ToString();
+            IDictionary<ResultMetadataType, object> extensionData = parseExtensionString(resultString);
 
             BarCodeText extensionResult =
                 new BarCodeText(resultString,
@@ -107,13 +107,13 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="raw">raw content of extension</param>
         /// <returns>formatted interpretation of raw content as a {@link Map} mapping</returns>
-        private static IDictionary<ResultMetadataType, Object> parseExtensionString(String raw)
+        private static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
         {
             if (raw.Length != 2)
             {
                 return null;
             }
-            IDictionary<ResultMetadataType, Object> result = new Dictionary<ResultMetadataType, Object>
+            IDictionary<ResultMetadataType, object> result = new Dictionary<ResultMetadataType, object>
             {
                 [ResultMetadataType.ISSUE_NUMBER] = Convert.ToInt32(raw)
             };

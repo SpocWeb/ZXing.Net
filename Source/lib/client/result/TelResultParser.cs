@@ -29,17 +29,17 @@ namespace ZXing.Client.Result
     {
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null ||
                (!rawText.StartsWith("tel:") && !rawText.StartsWith("TEL:")))
             {
                 return null;
             }
             // Normalize "TEL:" to "tel:"
-            String telURI = rawText.StartsWith("TEL:") ? "tel:" + rawText.Substring(4) : rawText;
+            string telURI = rawText.StartsWith("TEL:") ? "tel:" + rawText.Substring(4) : rawText;
             // Drop tel, query portion
             int queryStart = rawText.IndexOf('?', 4);
-            String number = queryStart < 0 ? rawText.Substring(4) : rawText.Substring(4, (queryStart) - (4));
+            string number = queryStart < 0 ? rawText.Substring(4) : rawText.Substring(4, (queryStart) - (4));
             return new TelParsedResult(number, telURI, null);
         }
     }

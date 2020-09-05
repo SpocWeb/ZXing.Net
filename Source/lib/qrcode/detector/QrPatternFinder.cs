@@ -198,7 +198,7 @@ namespace ZXing.QrCode.Internal
         private static float? centerFromEnd(int[] stateCount, int end)
         {
             var result = (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0f;
-            if (Single.IsNaN(result)) {
+            if (float.IsNaN(result)) {
                 return null;
             }
             return result;
@@ -718,12 +718,6 @@ namespace ZXing.QrCode.Internal
             return totalDeviation <= 0.05f * totalModuleSize;
         }
 
-        /// <summary>
-        /// Get square of distance between a and b.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
         private static double squaredDistance(FinderPattern a, FinderPattern b)
         {
             double x = a.X - b.X;
@@ -745,7 +739,7 @@ namespace ZXing.QrCode.Internal
 
             _PossibleCenters.Sort(moduleComparator);
 
-            double distortion = Double.MaxValue;
+            double distortion = double.MaxValue;
             FinderPattern[] bestPatterns = new FinderPattern[3];
 
             for (int i = 0; i < _PossibleCenters.Count - 2; i++)
@@ -835,7 +829,7 @@ namespace ZXing.QrCode.Internal
                 }
             }
 
-            if (distortion == Double.MaxValue)
+            if (distortion == double.MaxValue)
             {
                 return null;
             }

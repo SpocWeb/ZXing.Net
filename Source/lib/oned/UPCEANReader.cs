@@ -247,7 +247,7 @@ namespace ZXing.OneD
 
             if (format == BarcodeFormat.EAN_13 || format == BarcodeFormat.UPC_A)
             {
-                String countryID = eanManSupport.lookupCountryIdentifier(resultString);
+                string countryID = eanManSupport.lookupCountryIdentifier(resultString);
                 if (countryID != null)
                 {
                     decodeResult.putMetadata(ResultMetadataType.POSSIBLE_COUNTRY, countryID);
@@ -260,8 +260,8 @@ namespace ZXing.OneD
         /// <summary>
         /// </summary>
         /// <param name="s">string of digits to check</param>
-        /// <returns>see <see cref="checkStandardUPCEANChecksum(String)"/></returns>
-        protected virtual bool checkChecksum(String s)
+        /// <returns>see <see cref="checkStandardUPCEANChecksum(string)"/></returns>
+        protected virtual bool checkChecksum(string s)
         {
             return checkStandardUPCEANChecksum(s);
         }
@@ -272,7 +272,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="s">string of digits to check</param>
         /// <returns>true iff string of digits passes the UPC/EAN checksum algorithm</returns>
-        internal static bool checkStandardUPCEANChecksum(String s)
+        internal static bool checkStandardUPCEANChecksum(string s)
         {
             int length = s.Length;
             if (length == 0)
@@ -284,7 +284,7 @@ namespace ZXing.OneD
             return getStandardUPCEANChecksum(s.Substring(0, length - 1)) == check;
         }
 
-        internal static int? getStandardUPCEANChecksum(String s)
+        internal static int? getStandardUPCEANChecksum(string s)
         {
             int length = s.Length;
             int sum = 0;

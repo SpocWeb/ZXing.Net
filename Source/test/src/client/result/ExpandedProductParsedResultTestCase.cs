@@ -41,7 +41,7 @@ namespace ZXing.Client.Result.Test
       [Test]
       public void testRSSExpanded()
       {
-            IDictionary<String, String> uncommonAIs = new Dictionary<String, String>
+            IDictionary<string, string> uncommonAIs = new Dictionary<string, string>
             {
                 ["123"] = "544654"
             };

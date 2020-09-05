@@ -681,7 +681,7 @@ namespace ZXing.Aztec.Internal
                 Y = y;
             }
 
-            public override String ToString()
+            public override string ToString()
             {
                 return "<" + X + ' ' + Y + '>';
             }

@@ -44,7 +44,7 @@ namespace ZXing.OneD
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
         {
             return encode(contents, format, width, height, null);
         }
@@ -56,13 +56,13 @@ namespace ZXing.OneD
         /// {@code height} to zero to get minimum size barcode. If negative value is set to {@code width}
         /// or {@code height}, {@code IllegalArgumentException} is thrown.
         /// </summary>
-        public virtual BitMatrix encode(String contents,
+        public virtual BitMatrix encode(string contents,
             BarcodeFormat format,
             int width,
             int height,
             IDictionary<EncodeHintType, object> hints)
         {
-            if (String.IsNullOrEmpty(contents))
+            if (string.IsNullOrEmpty(contents))
             {
                 throw new ArgumentException("Found empty contents");
             }
@@ -129,7 +129,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents">string to check for numeric characters</param>
         /// <exception cref="ArgumentException">if input contains characters other than digits 0-9.</exception>
-        protected static void checkNumeric(String contents)
+        protected static void checkNumeric(string contents)
         {
             if (!NUMERIC.Match(contents).Success)
             {
@@ -175,14 +175,14 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents">barcode contents to encode</param>
         /// <returns>a <c>bool[]</c> of horizontal pixels (false = white, true = black)</returns>
-        public abstract bool[] encode(String contents);
+        public abstract bool[] encode(string contents);
 
         /// <summary>
         /// Calculates the checksum digit modulo10.
         /// </summary>
         /// <param name="contents">The contents.</param>
         /// <returns></returns>
-        public static String CalculateChecksumDigitModulo10(String contents)
+        public static string CalculateChecksumDigitModulo10(string contents)
         {
             var oddsum = 0;
             var evensum = 0;

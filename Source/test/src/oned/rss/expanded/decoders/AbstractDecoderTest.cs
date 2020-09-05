@@ -38,40 +38,40 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    [TestFixture]
    public abstract class AbstractDecoderTest
    {
-      protected static String numeric_10 = "..X..XX";
-      protected static String numeric_12 = "..X.X.X";
-      protected static String numeric_1FNC1 = "..XXX.X";
+      protected static string numeric_10 = "..X..XX";
+      protected static string numeric_12 = "..X.X.X";
+      protected static string numeric_1FNC1 = "..XXX.X";
       //protected static String numeric_FNC11 = "XXX.XXX";
 
-      protected static String numeric2alpha = "....";
+      protected static string numeric2alpha = "....";
 
-      protected static String alpha_A = "X.....";
-      protected static String alpha_FNC1 = ".XXXX";
-      protected static String alpha2numeric = "...";
-      protected static String alpha2isoiec646 = "..X..";
+      protected static string alpha_A = "X.....";
+      protected static string alpha_FNC1 = ".XXXX";
+      protected static string alpha2numeric = "...";
+      protected static string alpha2isoiec646 = "..X..";
 
-      protected static String i646_B = "X.....X";
-      protected static String i646_C = "X....X.";
-      protected static String i646_FNC1 = ".XXXX";
-      protected static String isoiec646_2alpha = "..X..";
+      protected static string i646_B = "X.....X";
+      protected static string i646_C = "X....X.";
+      protected static string i646_FNC1 = ".XXXX";
+      protected static string isoiec646_2alpha = "..X..";
 
-      protected static String compressedGtin_900123456798908 = ".........X..XXX.X.X.X...XX.XXXXX.XXXX.X.";
-      protected static String compressedGtin_900000000000008 = "........................................";
+      protected static string compressedGtin_900123456798908 = ".........X..XXX.X.X.X...XX.XXXXX.XXXX.X.";
+      protected static string compressedGtin_900000000000008 = "........................................";
 
-      protected static String compressed15bitWeight_1750 = "....XX.XX.X.XX.";
-      protected static String compressed15bitWeight_11750 = ".X.XX.XXXX..XX.";
-      protected static String compressed15bitWeight_0 = "...............";
+      protected static string compressed15bitWeight_1750 = "....XX.XX.X.XX.";
+      protected static string compressed15bitWeight_11750 = ".X.XX.XXXX..XX.";
+      protected static string compressed15bitWeight_0 = "...............";
 
-      protected static String compressed20bitWeight_1750 = ".........XX.XX.X.XX.";
+      protected static string compressed20bitWeight_1750 = ".........XX.XX.X.XX.";
 
-      protected static String compressedDate_March_12th_2010 = "....XXXX.X..XX..";
-      protected static String compressedDate_End = "X..X.XX.........";
+      protected static string compressedDate_March_12th_2010 = "....XXXX.X..XX..";
+      protected static string compressedDate_End = "X..X.XX.........";
 
-      protected static void assertCorrectBinaryString(String binaryString, String expectedNumber)
+      protected static void assertCorrectBinaryString(string binaryString, string expectedNumber)
       {
          BitArray binary = BinaryUtil.buildBitArrayFromStringWithoutSpaces(binaryString);
          AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(binary);
-         String result = decoder.parseInformation();
+            string result = decoder.parseInformation();
          Assert.AreEqual(expectedNumber, result);
       }
    }

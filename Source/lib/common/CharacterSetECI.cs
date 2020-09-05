@@ -29,11 +29,11 @@ namespace ZXing.Common
         public static readonly IDictionary<int, CharacterSetECI> VALUE_TO_ECI;
         internal static readonly IDictionary<string, CharacterSetECI> NAME_TO_ECI;
 
-        private readonly String encodingName;
+        private readonly string encodingName;
         /// <summary>
         /// encoding name
         /// </summary>
-        public String EncodingName => encodingName;
+        public string EncodingName => encodingName;
 
         static CharacterSetECI()
         {
@@ -72,20 +72,20 @@ namespace ZXing.Common
             addCharacterSet(30, new[] { "EUC-KR", "EUC_KR" });
         }
 
-        private CharacterSetECI(int value, String encodingName)
+        private CharacterSetECI(int value, string encodingName)
            : base(value)
         {
             this.encodingName = encodingName;
         }
 
-        private static void addCharacterSet(int value, String encodingName)
+        private static void addCharacterSet(int value, string encodingName)
         {
             var eci = new CharacterSetECI(value, encodingName);
             VALUE_TO_ECI[value] = eci; // can't use valueOf
             NAME_TO_ECI[encodingName] = eci;
         }
 
-        private static void addCharacterSet(int value, String[] encodingNames)
+        private static void addCharacterSet(int value, string[] encodingNames)
         {
             var eci = new CharacterSetECI(value, encodingNames[0]);
             VALUE_TO_ECI[value] = eci; // can't use valueOf
@@ -108,7 +108,7 @@ namespace ZXing.Common
 
         /// <param name="name">character set ECI encoding name</param>
         /// <returns><see cref="CharacterSetECI"/> representing ECI for character encoding, or null if it is legalbut unsupported</returns>
-        public static CharacterSetECI getCharacterSetECIByName(String name)
+        public static CharacterSetECI getCharacterSetECIByName(string name)
         {
             return NAME_TO_ECI[name.ToUpper()];
         }

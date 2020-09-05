@@ -125,7 +125,7 @@ namespace ZXing.QrCode.Internal
         private static FormatInformation doDecodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
         {
             // Find the int in FORMAT_INFO_DECODE_LOOKUP with fewest bits differing
-            int bestDifference = Int32.MaxValue;
+            int bestDifference = int.MaxValue;
             int bestFormatInfo = 0;
             foreach (var decodeInfo in FORMAT_INFO_DECODE_LOOKUP)
             {
@@ -170,7 +170,7 @@ namespace ZXing.QrCode.Internal
             return (errorCorrectionLevel.ordinal() << 3) | dataMask;
         }
 
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (!(o is FormatInformation))
             {

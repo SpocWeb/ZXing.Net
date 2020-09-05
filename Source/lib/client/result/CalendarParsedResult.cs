@@ -51,15 +51,15 @@ namespace ZXing.Client.Result
 );
 #endif
 
-        private readonly String summary;
+        private readonly string summary;
         private readonly DateTime start;
         private readonly bool startAllDay;
         private readonly DateTime? end;
         private readonly bool endAllDay;
-        private readonly String location;
-        private readonly String organizer;
-        private readonly String[] attendees;
-        private readonly String description;
+        private readonly string location;
+        private readonly string organizer;
+        private readonly string[] attendees;
+        private readonly string description;
         private readonly double latitude;
         private readonly double longitude;
 
@@ -76,14 +76,14 @@ namespace ZXing.Client.Result
         /// <param name="description"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        public CalendarParsedResult(String summary,
-           String startString,
-           String endString,
-           String durationString,
-           String location,
-           String organizer,
-           String[] attendees,
-           String description,
+        public CalendarParsedResult(string summary,
+           string startString,
+           string endString,
+           string durationString,
+           string location,
+           string organizer,
+           string[] attendees,
+           string description,
            double latitude,
            double longitude)
            : base(ParsedResultType.CALENDAR)
@@ -138,7 +138,7 @@ namespace ZXing.Client.Result
         /// <summary>
         /// summary
         /// </summary>
-        public String Summary => summary;
+        public string Summary => summary;
 
         /// <summary>
         /// Gets the start.
@@ -168,22 +168,22 @@ namespace ZXing.Client.Result
         /// <summary>
         /// location
         /// </summary>
-        public String Location => location;
+        public string Location => location;
 
         /// <summary>
         /// organizer
         /// </summary>
-        public String Organizer => organizer;
+        public string Organizer => organizer;
 
         /// <summary>
         /// attendees
         /// </summary>
-        public String[] Attendees => attendees;
+        public string[] Attendees => attendees;
 
         /// <summary>
         /// description
         /// </summary>
-        public String Description => description;
+        public string Description => description;
 
         /// <summary>
         /// latitude
@@ -202,11 +202,11 @@ namespace ZXing.Client.Result
         /// <param name="when">The string to parse</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">if not a date formatted string</exception>
-        private static DateTime parseDate(String when)
+        private static DateTime parseDate(string when)
         {
             if (!DATE_TIME.Match(when).Success)
             {
-                throw new ArgumentException(String.Format("no date format: {0}", when));
+                throw new ArgumentException(string.Format("no date format: {0}", when));
             }
             if (when.Length == 8)
             {
@@ -234,7 +234,7 @@ namespace ZXing.Client.Result
             return parseDateTimeString(when);
         }
 
-        private static String format(bool allDay, DateTime? date)
+        private static string format(bool allDay, DateTime? date)
         {
             if (date == null)
             {
@@ -245,7 +245,7 @@ namespace ZXing.Client.Result
             return date.Value.ToString("F", CultureInfo.CurrentCulture);
         }
 
-        private static long parseDurationMS(String durationString)
+        private static long parseDurationMS(string durationString)
         {
             if (durationString == null)
             {
@@ -259,16 +259,16 @@ namespace ZXing.Client.Result
             long durationMS = 0L;
             for (int i = 0; i < RFC2445_DURATION_FIELD_UNITS.Length; i++)
             {
-                String fieldValue = m.Groups[i + 1].Value;
-                if (!String.IsNullOrEmpty(fieldValue))
+                string fieldValue = m.Groups[i + 1].Value;
+                if (!string.IsNullOrEmpty(fieldValue))
                 {
-                    durationMS += RFC2445_DURATION_FIELD_UNITS[i] * Int32.Parse(fieldValue);
+                    durationMS += RFC2445_DURATION_FIELD_UNITS[i] * int.Parse(fieldValue);
                 }
             }
             return durationMS;
         }
 
-        private static DateTime parseDateTimeString(String dateTimeString)
+        private static DateTime parseDateTimeString(string dateTimeString)
         {
             return DateTime.ParseExact(dateTimeString, "yyyyMMdd'T'HHmmss", CultureInfo.InvariantCulture);
         }

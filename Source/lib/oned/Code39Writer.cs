@@ -41,7 +41,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             int length = contents.Length;
             if (length > 80)
@@ -97,7 +97,7 @@ namespace ZXing.OneD
             }
         }
 
-        private static String tryToConvertToExtendedMode(String contents)
+        private static string tryToConvertToExtendedMode(string contents)
         {
             var length = contents.Length;
             var extendedContent = new StringBuilder();

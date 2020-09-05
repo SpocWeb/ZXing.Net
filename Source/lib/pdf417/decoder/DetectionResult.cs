@@ -357,9 +357,9 @@ namespace ZXing.PDF417.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResult"/>.
+        /// Returns a <see cref="string"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResult"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResult"/>.</returns>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResult"/>.</returns>
         public override string ToString()
         {
             StringBuilder formatter = new StringBuilder();

@@ -35,12 +35,12 @@ namespace ZXing.Client.Result.Test
       [TestCase("geo:-20.33,132.3344,0.01", -20.33, 132.3344, 0.01, null, null)]
       [TestCase("geo:-20.33,132.3344,0.01?q=foobar", -20.33, 132.3344, 0.01, "q=foobar", null)]
       [TestCase("GEO:-20.33,132.3344,0.01?q=foobar", -20.33, 132.3344, 0.01, "q=foobar", null)]
-      public void testGeo(String contents,
+      public void testGeo(string contents,
                                  double latitude,
                                  double longitude,
                                  double altitude,
-                                 String query,
-                                 String uri)
+                                 string query,
+                                 string uri)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);

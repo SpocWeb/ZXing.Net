@@ -36,21 +36,21 @@ namespace ZXing.Client.Result
 
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("BIZCARD:"))
             {
                 return null;
             }
-            String firstName = matchSingleDoCoMoPrefixedField("N:", rawText, true);
-            String lastName = matchSingleDoCoMoPrefixedField("X:", rawText, true);
-            String fullName = buildName(firstName, lastName);
-            String title = matchSingleDoCoMoPrefixedField("T:", rawText, true);
-            String org = matchSingleDoCoMoPrefixedField("C:", rawText, true);
-            String[] addresses = matchDoCoMoPrefixedField("A:", rawText);
-            String phoneNumber1 = matchSingleDoCoMoPrefixedField("B:", rawText, true);
-            String phoneNumber2 = matchSingleDoCoMoPrefixedField("M:", rawText, true);
-            String phoneNumber3 = matchSingleDoCoMoPrefixedField("F:", rawText, true);
-            String email = matchSingleDoCoMoPrefixedField("E:", rawText, true);
+            string firstName = matchSingleDoCoMoPrefixedField("N:", rawText, true);
+            string lastName = matchSingleDoCoMoPrefixedField("X:", rawText, true);
+            string fullName = buildName(firstName, lastName);
+            string title = matchSingleDoCoMoPrefixedField("T:", rawText, true);
+            string org = matchSingleDoCoMoPrefixedField("C:", rawText, true);
+            string[] addresses = matchDoCoMoPrefixedField("A:", rawText);
+            string phoneNumber1 = matchSingleDoCoMoPrefixedField("B:", rawText, true);
+            string phoneNumber2 = matchSingleDoCoMoPrefixedField("M:", rawText, true);
+            string phoneNumber3 = matchSingleDoCoMoPrefixedField("F:", rawText, true);
+            string email = matchSingleDoCoMoPrefixedField("E:", rawText, true);
 
             return new AddressBookParsedResult(maybeWrap(fullName),
                                                null,
@@ -70,7 +70,7 @@ namespace ZXing.Client.Result
                                                null);
         }
 
-        private static String[] buildPhoneNumbers(String number1, String number2, String number3)
+        private static string[] buildPhoneNumbers(string number1, string number2, string number3)
         {
             var numbers = new List<string>();
             if (number1 != null)
@@ -93,7 +93,7 @@ namespace ZXing.Client.Result
             return SupportClass.toStringArray(numbers);
         }
 
-        private static String buildName(String firstName, String lastName)
+        private static string buildName(string firstName, string lastName)
         {
             if (firstName == null)
             {

@@ -41,7 +41,7 @@ namespace ZXing.Client.Result
         /// <summary>
         /// user friendly value
         /// </summary>
-        public virtual String DisplayResult => displayResultValue;
+        public virtual string DisplayResult => displayResultValue;
 
         /// <summary>
         /// constructor
@@ -55,7 +55,7 @@ namespace ZXing.Client.Result
         /// gets a user friendly value
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             return DisplayResult;
         }
@@ -85,9 +85,9 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        public static void maybeAppend(String value, StringBuilder result)
+        public static void maybeAppend(string value, StringBuilder result)
         {
-            if (String.IsNullOrEmpty(value)) {
+            if (string.IsNullOrEmpty(value)) {
                 return;
             }
 
@@ -103,11 +103,11 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="values"></param>
         /// <param name="result"></param>
-        public static void maybeAppend(String[] values, StringBuilder result)
+        public static void maybeAppend(string[] values, StringBuilder result)
         {
             if (values != null)
             {
-                foreach (String value in values)
+                foreach (string value in values)
                 {
                     maybeAppend(value, result);
                 }

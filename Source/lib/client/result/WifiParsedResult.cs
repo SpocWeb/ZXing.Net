@@ -31,7 +31,7 @@ namespace ZXing.Client.Result
         /// <param name="networkEncryption"></param>
         /// <param name="ssid"></param>
         /// <param name="password"></param>
-        public WifiParsedResult(String networkEncryption, String ssid, String password)
+        public WifiParsedResult(string networkEncryption, string ssid, string password)
            : this(networkEncryption, ssid, password, false)
         {
         }
@@ -43,7 +43,7 @@ namespace ZXing.Client.Result
         /// <param name="ssid"></param>
         /// <param name="password"></param>
         /// <param name="hidden"></param>
-        public WifiParsedResult(String networkEncryption, String ssid, String password, bool hidden)
+        public WifiParsedResult(string networkEncryption, string ssid, string password, bool hidden)
            : this(networkEncryption, ssid, password, hidden, null, null, null, null)
         {
 
@@ -60,7 +60,7 @@ namespace ZXing.Client.Result
         /// <param name="anonymousIdentity"></param>
         /// <param name="eapMethod"></param>
         /// <param name="phase2Method"></param>
-        public WifiParsedResult(String networkEncryption, String ssid, String password, bool hidden, String identity, String anonymousIdentity, String eapMethod, String phase2Method)
+        public WifiParsedResult(string networkEncryption, string ssid, string password, bool hidden, string identity, string anonymousIdentity, string eapMethod, string phase2Method)
            : base(ParsedResultType.WIFI)
         {
             Ssid = ssid;
@@ -87,15 +87,15 @@ namespace ZXing.Client.Result
         /// <summary>
         /// SSID
         /// </summary>
-        public String Ssid { get; private set; }
+        public string Ssid { get; private set; }
         /// <summary>
         /// network encryption
         /// </summary>
-        public String NetworkEncryption { get; private set; }
+        public string NetworkEncryption { get; private set; }
         /// <summary>
         /// password
         /// </summary>
-        public String Password { get; private set; }
+        public string Password { get; private set; }
         /// <summary>
         /// hidden flag
         /// </summary>
@@ -103,19 +103,19 @@ namespace ZXing.Client.Result
         /// <summary>
         /// identity
         /// </summary>
-        public String Identity { get; private set; }
+        public string Identity { get; private set; }
 
         /// <summary>
         /// anonymous
         /// </summary>
-        public String AnonymousIdentity { get; private set; }
+        public string AnonymousIdentity { get; private set; }
         /// <summary>
         /// eap
         /// </summary>
-        public String EapMethod { get; private set; }
+        public string EapMethod { get; private set; }
         /// <summary>
         /// phase 2 method
         /// </summary>
-        public String Phase2Method { get; private set; }
+        public string Phase2Method { get; private set; }
     }
 }

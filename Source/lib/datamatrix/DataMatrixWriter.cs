@@ -37,7 +37,7 @@ namespace ZXing.Datamatrix
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
         {
             return encode(contents, format, width, height, null);
         }
@@ -51,9 +51,9 @@ namespace ZXing.Datamatrix
         /// <param name="height"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
         {
-            if (String.IsNullOrEmpty(contents))
+            if (string.IsNullOrEmpty(contents))
             {
                 throw new ArgumentException("Found empty contents", contents);
             }
@@ -112,12 +112,12 @@ namespace ZXing.Datamatrix
 
 
             //1. step: Data encodation
-            String encoded = HighLevelEncoder.encodeHighLevel(contents, shape, minSize, maxSize, defaultEncodation);
+            string encoded = HighLevelEncoder.encodeHighLevel(contents, shape, minSize, maxSize, defaultEncodation);
 
             SymbolInfo symbolInfo = SymbolInfo.lookup(encoded.Length, shape, minSize, maxSize, true);
 
             //2. step: ECC generation
-            String codewords = ErrorCorrection.encodeECC200(encoded, symbolInfo);
+            string codewords = ErrorCorrection.encodeECC200(encoded, symbolInfo);
 
             //3. step: Module placement in Matrix
             var placement = new DefaultPlacement(codewords, symbolInfo.getSymbolDataWidth(), symbolInfo.getSymbolDataHeight());

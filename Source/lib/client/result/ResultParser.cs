@@ -98,7 +98,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        protected static void maybeAppend(String value, StringBuilder result)
+        protected static void maybeAppend(string value, StringBuilder result)
         {
             if (value != null)
             {
@@ -111,7 +111,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        protected static void maybeAppend(String[] value, StringBuilder result)
+        protected static void maybeAppend(string[] value, StringBuilder result)
         {
             if (value != null)
             {
@@ -127,7 +127,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected static String[] maybeWrap(String value)
+        protected static string[] maybeWrap(string value)
         {
             return value == null ? null : new[] { value };
         }
@@ -136,7 +136,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="escaped"></param>
         /// <returns></returns>
-        protected static String unescapeBackslash(String escaped)
+        protected static string unescapeBackslash(string escaped)
         {
             if (escaped != null)
             {
@@ -196,12 +196,12 @@ namespace ZXing.Client.Result
             return -1;
         }
 
-        internal static bool isStringOfDigits(String value, int length)
+        internal static bool isStringOfDigits(string value, int length)
         {
             return value != null && length > 0 && length == value.Length && DIGITS.Match(value).Success;
         }
 
-        internal static bool isSubstringOfDigits(String value, int offset, int length)
+        internal static bool isSubstringOfDigits(string value, int offset, int length)
         {
             if (value == null || length <= 0)
             {
@@ -211,14 +211,14 @@ namespace ZXing.Client.Result
             return value.Length >= max && DIGITS.Match(value, offset, length).Success;
         }
 
-        internal static IDictionary<string, string> parseNameValuePairs(String uri)
+        internal static IDictionary<string, string> parseNameValuePairs(string uri)
         {
             int paramStart = uri.IndexOf('?');
             if (paramStart < 0)
             {
                 return null;
             }
-            var result = new Dictionary<String, String>(3);
+            var result = new Dictionary<string, string>(3);
             foreach (var keyValue in AMPERSAND.Split(uri.Substring(paramStart + 1)))
             {
                 appendKeyValue(keyValue, result);
@@ -226,13 +226,13 @@ namespace ZXing.Client.Result
             return result;
         }
 
-        private static void appendKeyValue(String keyValue, IDictionary<String, String> result)
+        private static void appendKeyValue(string keyValue, IDictionary<string, string> result)
         {
-            String[] keyValueTokens = EQUALS.Split(keyValue, 2);
+            string[] keyValueTokens = EQUALS.Split(keyValue, 2);
             if (keyValueTokens.Length == 2)
             {
-                String key = keyValueTokens[0];
-                String value = keyValueTokens[1];
+                string key = keyValueTokens[0];
+                string value = keyValueTokens[1];
                 try
                 {
                     //value = URLDecoder.decode(value, "UTF-8");
@@ -247,7 +247,7 @@ namespace ZXing.Client.Result
             }
         }
 
-        internal static String[] matchPrefixedField(String prefix, String rawText, char endChar, bool trim)
+        internal static string[] matchPrefixedField(string prefix, string rawText, char endChar, bool trim)
         {
             IList<string> matches = null;
             int i = 0;
@@ -283,12 +283,12 @@ namespace ZXing.Client.Result
                         {
                             matches = new List<string>();
                         }
-                        String element = unescapeBackslash(rawText.Substring(start, (i) - (start)));
+                        string element = unescapeBackslash(rawText.Substring(start, (i) - (start)));
                         if (trim)
                         {
                             element = element.Trim();
                         }
-                        if (!String.IsNullOrEmpty(element))
+                        if (!string.IsNullOrEmpty(element))
                         {
                             matches.Add(element);
                         }
@@ -304,7 +304,7 @@ namespace ZXing.Client.Result
             return SupportClass.toStringArray(matches);
         }
 
-        private static int countPrecedingBackslashes(String s, int pos)
+        private static int countPrecedingBackslashes(string s, int pos)
         {
             int count = 0;
             for (int i = pos - 1; i >= 0; i--)
@@ -321,9 +321,9 @@ namespace ZXing.Client.Result
             return count;
         }
 
-        internal static String matchSinglePrefixedField(String prefix, String rawText, char endChar, bool trim)
+        internal static string matchSinglePrefixedField(string prefix, string rawText, char endChar, bool trim)
         {
-            String[] matches = matchPrefixedField(prefix, rawText, endChar, trim);
+            string[] matches = matchPrefixedField(prefix, rawText, endChar, trim);
             return matches == null ? null : matches[0];
         }
         /// <summary>
@@ -331,7 +331,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="escaped"></param>
         /// <returns></returns>
-        protected static String urlDecode(String escaped)
+        protected static string urlDecode(string escaped)
         {
             // Should we better use HttpUtility.UrlDecode?
             // Is HttpUtility.UrlDecode available for all platforms?

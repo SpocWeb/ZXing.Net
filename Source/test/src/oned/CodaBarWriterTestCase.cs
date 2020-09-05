@@ -54,13 +54,13 @@ namespace ZXing.OneD.Test
          Assert.AreEqual(encode("T123456789-$T"), encode("A123456789-$A"));
       }
 
-      private static void doTest(String input, String expected)
+      private static void doTest(string input, string expected)
       {
          var result = encode(input);
          Assert.AreEqual(expected, BitMatrixTestCase.matrixToString(result));
       }
 
-      private static BitMatrix encode(String input)
+      private static BitMatrix encode(string input)
       {
          return new CodaBarWriter().encode(input, BarcodeFormat.CODABAR, 0, 0);
       }

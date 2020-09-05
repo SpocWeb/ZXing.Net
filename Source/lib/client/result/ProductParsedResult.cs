@@ -24,12 +24,12 @@ namespace ZXing.Client.Result
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public sealed class ProductParsedResult : ParsedResult
     {
-        internal ProductParsedResult(String productID)
+        internal ProductParsedResult(string productID)
            : this(productID, productID)
         {
         }
 
-        internal ProductParsedResult(String productID, String normalizedProductID)
+        internal ProductParsedResult(string productID, string normalizedProductID)
            : base(ParsedResultType.PRODUCT)
         {
             ProductID = productID;
@@ -39,10 +39,10 @@ namespace ZXing.Client.Result
         /// <summary>
         /// product id
         /// </summary>
-        public String ProductID { get; private set; }
+        public string ProductID { get; private set; }
         /// <summary>
         /// normalized product id
         /// </summary>
-        public String NormalizedProductID { get; private set; }
+        public string NormalizedProductID { get; private set; }
     }
 }

@@ -264,7 +264,7 @@ namespace ZXing.Common.ReedSolomon
             return new[] { quotient, remainder };
         }
 
-        public override String ToString()
+        public override string ToString()
         {
             if (isZero)
             {

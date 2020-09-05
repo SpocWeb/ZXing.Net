@@ -28,11 +28,11 @@ namespace ZXing.Client.Result
         /// <summary>
         /// URI
         /// </summary>
-        public String URI { get; private set; }
+        public string URI { get; private set; }
         /// <summary>
         /// title
         /// </summary>
-        public String Title { get; private set; }
+        public string Title { get; private set; }
 
         /// <returns> true if the URI contains suspicious patterns that may suggest it intends to
         /// mislead the user about its true nature. At the moment this looks for the presence
@@ -49,7 +49,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="title"></param>
-        public URIParsedResult(String uri, String title)
+        public URIParsedResult(string uri, string title)
            : base(ParsedResultType.URI)
         {
             URI = massageURI(uri);
@@ -65,7 +65,7 @@ namespace ZXing.Client.Result
         /// <summary> Transforms a string that represents a URI into something more proper, by adding or canonicalizing
         /// the protocol.
         /// </summary>
-        private static String massageURI(String uri)
+        private static string massageURI(string uri)
         {
             int protocolEnd = uri.IndexOf(':');
             if (protocolEnd < 0 || isColonFollowedByPortNumber(uri, protocolEnd))
@@ -76,7 +76,7 @@ namespace ZXing.Client.Result
             }
             return uri;
         }
-        private static bool isColonFollowedByPortNumber(String uri, int protocolEnd)
+        private static bool isColonFollowedByPortNumber(string uri, int protocolEnd)
         {
             int start = protocolEnd + 1;
             int nextSlash = uri.IndexOf('/', start);

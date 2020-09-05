@@ -120,7 +120,7 @@ namespace WindowsFormsDemo
             var fileName = txtBarcodeImageFile.Text;
             if (!File.Exists(fileName))
             {
-                MessageBox.Show(this, String.Format("File not found: {0}", fileName), "Error", MessageBoxButtons.OK,
+                MessageBox.Show(this, string.Format("File not found: {0}", fileName), "Error", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
                 return;
             }
@@ -148,7 +148,7 @@ namespace WindowsFormsDemo
         {
             resultPoints.Clear();
             lastResults.Clear();
-            txtContent.Text = String.Empty;
+            txtContent.Text = string.Empty;
 
             var timerStart = DateTime.Now.Ticks;
             IList<BarCodeText> results = null;
@@ -299,7 +299,7 @@ namespace WindowsFormsDemo
         {
             if (picEncodedBarCode.Image != null)
             {
-                var fileName = String.Empty;
+                var fileName = string.Empty;
                 using (var dlg = new SaveFileDialog())
                 {
                     dlg.DefaultExt = "png";

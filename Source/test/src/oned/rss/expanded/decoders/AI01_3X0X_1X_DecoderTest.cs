@@ -35,20 +35,20 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    /// </summary>
    public class AI01_3X0X_1X_DecoderTest : AbstractDecoderTest
    {
-      private static String header_310x_11 = "..XXX...";
-      private static String header_320x_11 = "..XXX..X";
-      private static String header_310x_13 = "..XXX.X.";
-      private static String header_320x_13 = "..XXX.XX";
-      private static String header_310x_15 = "..XXXX..";
-      private static String header_320x_15 = "..XXXX.X";
-      private static String header_310x_17 = "..XXXXX.";
-      private static String header_320x_17 = "..XXXXXX";
+      private static string header_310x_11 = "..XXX...";
+      private static string header_320x_11 = "..XXX..X";
+      private static string header_310x_13 = "..XXX.X.";
+      private static string header_320x_13 = "..XXX.XX";
+      private static string header_310x_15 = "..XXXX..";
+      private static string header_320x_15 = "..XXXX.X";
+      private static string header_310x_17 = "..XXXXX.";
+      private static string header_320x_17 = "..XXXXXX";
 
       [Test]
       public void test01_310X_1X_endDate()
       {
-         String data = header_310x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_End;
-         String expected = "(01)90012345678908(3100)001750";
+            string data = header_310x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_End;
+            string expected = "(01)90012345678908(3100)001750";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -56,8 +56,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_310X_11_1()
       {
-         String data = header_310x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3100)001750(11)100312";
+            string data = header_310x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3100)001750(11)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -65,8 +65,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_320X_11_1()
       {
-         String data = header_320x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3200)001750(11)100312";
+            string data = header_320x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3200)001750(11)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -74,8 +74,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_310X_13_1()
       {
-         String data = header_310x_13 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3100)001750(13)100312";
+            string data = header_310x_13 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3100)001750(13)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -83,8 +83,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_320X_13_1()
       {
-         String data = header_320x_13 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3200)001750(13)100312";
+            string data = header_320x_13 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3200)001750(13)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -92,8 +92,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_310X_15_1()
       {
-         String data = header_310x_15 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3100)001750(15)100312";
+            string data = header_310x_15 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3100)001750(15)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -101,8 +101,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_320X_15_1()
       {
-         String data = header_320x_15 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3200)001750(15)100312";
+            string data = header_320x_15 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3200)001750(15)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -110,8 +110,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_310X_17_1()
       {
-         String data = header_310x_17 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3100)001750(17)100312";
+            string data = header_310x_17 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3100)001750(17)100312";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -119,8 +119,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void test01_320X_17_1()
       {
-         String data = header_320x_17 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
-         String expected = "(01)90012345678908(3200)001750(17)100312";
+            string data = header_320x_17 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string expected = "(01)90012345678908(3200)001750(17)100312";
 
          assertCorrectBinaryString(data, expected);
       }

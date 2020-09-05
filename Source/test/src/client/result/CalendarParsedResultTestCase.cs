@@ -159,7 +159,7 @@ namespace ZXing.Client.Result.Test
              "DTSTART:20080504T123456Z\r\n" +
              "ORGANIZER:mailto:bob@example.org\r\n" +
              "END:VEVENT\r\nEND:VCALENDAR",
-             null, null, null, "20080504T123456Z", null, "bob@example.org", null, Double.NaN, Double.NaN);
+             null, null, null, "20080504T123456Z", null, "bob@example.org", null, double.NaN, double.NaN);
       }
 
       [Test]
@@ -172,7 +172,7 @@ namespace ZXing.Client.Result.Test
              "ATTENDEE:mailto:alice@example.org\r\n" +
              "END:VEVENT\r\nEND:VCALENDAR",
              null, null, null, "20080504T123456Z", null, null,
-             new String[] { "bob@example.org", "alice@example.org" }, Double.NaN, Double.NaN);
+             new string[] { "bob@example.org", "alice@example.org" }, double.NaN, double.NaN);
       }
 
       [Test]
@@ -210,24 +210,24 @@ namespace ZXing.Client.Result.Test
                 null, null, null, "20111110T000000Z", "20111110T000000Z");
       }
 
-      private static void doTest(String contents,
-                                 String description,
-                                 String summary,
-                                 String location,
-                                 String startString,
-                                 String endString)
+      private static void doTest(string contents,
+                                 string description,
+                                 string summary,
+                                 string location,
+                                 string startString,
+                                 string endString)
       {
-         doTest(contents, description, summary, location, startString, endString, null, null, Double.NaN, Double.NaN);
+         doTest(contents, description, summary, location, startString, endString, null, null, double.NaN, double.NaN);
       }
 
-      private static void doTest(String contents,
-                                 String description,
-                                 String summary,
-                                 String location,
-                                 String startString,
-                                 String endString,
-                                 String organizer,
-                                 String[] attendees,
+      private static void doTest(string contents,
+                                 string description,
+                                 string summary,
+                                 string location,
+                                 string startString,
+                                 string endString,
+                                 string organizer,
+                                 string[] attendees,
                                  double latitude,
                                  double longitude)
       {
@@ -248,9 +248,9 @@ namespace ZXing.Client.Result.Test
 
       private static void assertEqualOrNaN(double expected, double actual)
       {
-         if (Double.IsNaN(expected))
+         if (double.IsNaN(expected))
          {
-            Assert.IsTrue(Double.IsNaN(actual));
+            Assert.IsTrue(double.IsNaN(actual));
          }
          else
          {

@@ -79,7 +79,7 @@ namespace ZXing.Aztec.Internal
         /// string representation
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             return "<" + binaryShiftStart + "::" + (binaryShiftStart + binaryShiftByteCount - 1) + '>';
         }

@@ -60,7 +60,7 @@ namespace ZXing.OneD.Test
             Assert.That(dst, Is.EqualTo(src));
         }
 
-        private static void doTest(String input, String expected)
+        private static void doTest(string input, string expected)
         {
             var result = new Code93Writer().encode(input, BarcodeFormat.CODE_93, 0, 0);
             Assert.AreEqual(expected, BitMatrixTestCase.matrixToString(result));

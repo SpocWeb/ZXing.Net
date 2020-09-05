@@ -53,7 +53,7 @@ namespace ZXing.Aztec.Internal
         /// string representation
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             int value = this.value & ((1 << bitCount) - 1);
             value |= 1 << bitCount;

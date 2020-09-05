@@ -155,7 +155,7 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testSimpleUTF8ECI()
       {
-            var hints = new Dictionary<EncodeHintType, Object>
+            var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.CHARACTER_SET] = "UTF-8"
             };
@@ -194,7 +194,7 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEncodeKanjiMode()
       {
-            var hints = new Dictionary<EncodeHintType, Object>
+            var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.CHARACTER_SET] = "Shift_JIS"
             };
@@ -235,7 +235,7 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEncodeShiftjisNumeric()
       {
-            var hints = new Dictionary<EncodeHintType, Object>
+            var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.CHARACTER_SET] = "Shift_JIS"
             };
@@ -733,7 +733,7 @@ namespace ZXing.QrCode.Internal.Test
 
       private void verifyGS1EncodedData(QRCode qrCode)
       {
-         String expected =
+            string expected =
            "<<\n" +
                " mode: ALPHANUMERIC\n" +
                " ecLevel: H\n" +
@@ -771,7 +771,7 @@ namespace ZXing.QrCode.Internal.Test
 
       private void verifyNotGS1EncodedData(QRCode qrCode)
       {
-         String expected =
+            string expected =
            "<<\n" +
                " mode: ALPHANUMERIC\n" +
                " ecLevel: H\n" +
@@ -803,7 +803,7 @@ namespace ZXing.QrCode.Internal.Test
          Assert.AreEqual(expected, qrCode.ToString());
       }
 
-      private static String shiftJISString(byte[] bytes)
+      private static string shiftJISString(byte[] bytes)
       {
          try
          {

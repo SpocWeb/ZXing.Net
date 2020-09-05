@@ -39,28 +39,28 @@ namespace ZXing.Client.Result
         /// <summary>
         /// extension for kilogram weight type
         /// </summary>
-        public static String KILOGRAM = "KG";
+        public static string KILOGRAM = "KG";
         /// <summary>
         /// extension for pounds weight type
         /// </summary>
-        public static String POUND = "LB";
+        public static string POUND = "LB";
 
-        private readonly String rawText;
-        private readonly String productID;
-        private readonly String sscc;
-        private readonly String lotNumber;
-        private readonly String productionDate;
-        private readonly String packagingDate;
-        private readonly String bestBeforeDate;
-        private readonly String expirationDate;
-        private readonly String weight;
-        private readonly String weightType;
-        private readonly String weightIncrement;
-        private readonly String price;
-        private readonly String priceIncrement;
-        private readonly String priceCurrency;
+        private readonly string rawText;
+        private readonly string productID;
+        private readonly string sscc;
+        private readonly string lotNumber;
+        private readonly string productionDate;
+        private readonly string packagingDate;
+        private readonly string bestBeforeDate;
+        private readonly string expirationDate;
+        private readonly string weight;
+        private readonly string weightType;
+        private readonly string weightIncrement;
+        private readonly string price;
+        private readonly string priceIncrement;
+        private readonly string priceCurrency;
         // For AIS that not exist in this object
-        private readonly IDictionary<String, String> uncommonAIs;
+        private readonly IDictionary<string, string> uncommonAIs;
 
         /// <summary>
         /// initializing constructor
@@ -80,21 +80,21 @@ namespace ZXing.Client.Result
         /// <param name="priceIncrement"></param>
         /// <param name="priceCurrency"></param>
         /// <param name="uncommonAIs"></param>
-        public ExpandedProductParsedResult(String rawText,
-                                           String productID,
-                                           String sscc,
-                                           String lotNumber,
-                                           String productionDate,
-                                           String packagingDate,
-                                           String bestBeforeDate,
-                                           String expirationDate,
-                                           String weight,
-                                           String weightType,
-                                           String weightIncrement,
-                                           String price,
-                                           String priceIncrement,
-                                           String priceCurrency,
-                                           IDictionary<String, String> uncommonAIs)
+        public ExpandedProductParsedResult(string rawText,
+                                           string productID,
+                                           string sscc,
+                                           string lotNumber,
+                                           string productionDate,
+                                           string packagingDate,
+                                           string bestBeforeDate,
+                                           string expirationDate,
+                                           string weight,
+                                           string weightType,
+                                           string weightIncrement,
+                                           string price,
+                                           string priceIncrement,
+                                           string priceCurrency,
+                                           IDictionary<string, string> uncommonAIs)
            : base(ParsedResultType.PRODUCT)
         {
             this.rawText = rawText;
@@ -121,7 +121,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (!(o is ExpandedProductParsedResult))
             {
@@ -145,12 +145,12 @@ namespace ZXing.Client.Result
                 && equalsOrNull(uncommonAIs, other.uncommonAIs);
         }
 
-        private static bool equalsOrNull(Object o1, Object o2)
+        private static bool equalsOrNull(object o1, object o2)
         {
             return o1 == null ? o2 == null : o1.Equals(o2);
         }
 
-        private static bool equalsOrNull(IDictionary<String, String> o1, IDictionary<String, String> o2)
+        private static bool equalsOrNull(IDictionary<string, string> o1, IDictionary<string, string> o2)
         {
             if (o1 == null)
                 return o2 == null;
@@ -189,7 +189,7 @@ namespace ZXing.Client.Result
             return hash;
         }
 
-        private static int hashNotNull(Object o)
+        private static int hashNotNull(object o)
         {
             return o == null ? 0 : o.GetHashCode();
         }
@@ -197,77 +197,77 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the raw text
         /// </summary>
-        public String RawText => rawText;
+        public string RawText => rawText;
 
         /// <summary>
         /// the product id
         /// </summary>
-        public String ProductID => productID;
+        public string ProductID => productID;
 
         /// <summary>
         /// the sscc
         /// </summary>
-        public String Sscc => sscc;
+        public string Sscc => sscc;
 
         /// <summary>
         /// the lot number
         /// </summary>
-        public String LotNumber => lotNumber;
+        public string LotNumber => lotNumber;
 
         /// <summary>
         /// the production date
         /// </summary>
-        public String ProductionDate => productionDate;
+        public string ProductionDate => productionDate;
 
         /// <summary>
         /// the packaging date
         /// </summary>
-        public String PackagingDate => packagingDate;
+        public string PackagingDate => packagingDate;
 
         /// <summary>
         /// the best before date
         /// </summary>
-        public String BestBeforeDate => bestBeforeDate;
+        public string BestBeforeDate => bestBeforeDate;
 
         /// <summary>
         /// the expiration date
         /// </summary>
-        public String ExpirationDate => expirationDate;
+        public string ExpirationDate => expirationDate;
 
         /// <summary>
         /// the weight
         /// </summary>
-        public String Weight => weight;
+        public string Weight => weight;
 
         /// <summary>
         /// the weight type
         /// </summary>
-        public String WeightType => weightType;
+        public string WeightType => weightType;
 
         /// <summary>
         /// the weight increment
         /// </summary>
-        public String WeightIncrement => weightIncrement;
+        public string WeightIncrement => weightIncrement;
 
         /// <summary>
         /// the price
         /// </summary>
-        public String Price => price;
+        public string Price => price;
 
         /// <summary>
         /// the price increment
         /// </summary>
-        public String PriceIncrement => priceIncrement;
+        public string PriceIncrement => priceIncrement;
 
         /// <summary>
         /// the price currency
         /// </summary>
-        public String PriceCurrency => priceCurrency;
+        public string PriceCurrency => priceCurrency;
 
         /// <summary>
         /// the uncommon AIs
         /// </summary>
-        public IDictionary<String, String> UncommonAIs => uncommonAIs;
+        public IDictionary<string, string> UncommonAIs => uncommonAIs;
 
         /// <summary>
         /// the display representation (raw text)

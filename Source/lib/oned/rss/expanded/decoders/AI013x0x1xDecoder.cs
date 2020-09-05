@@ -40,17 +40,17 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         private static int WEIGHT_SIZE = 20;
         private static int DATE_SIZE = 16;
 
-        private String dateCode;
-        private String firstAIdigits;
+        private string dateCode;
+        private string firstAIdigits;
 
-        internal AI013x0x1xDecoder(BitArray information, String firstAIdigits, String dateCode)
+        internal AI013x0x1xDecoder(BitArray information, string firstAIdigits, string dateCode)
            : base(information)
         {
             this.dateCode = dateCode;
             this.firstAIdigits = firstAIdigits;
         }
 
-        public override String parseInformation()
+        public override string parseInformation()
         {
             if (getInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE + DATE_SIZE)
             {

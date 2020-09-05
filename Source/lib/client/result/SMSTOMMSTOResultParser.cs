@@ -35,7 +35,7 @@ namespace ZXing.Client.Result
         /// <returns></returns>
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (!(rawText.StartsWith("smsto:") || rawText.StartsWith("SMSTO:") ||
                   rawText.StartsWith("mmsto:") || rawText.StartsWith("MMSTO:")))
             {
@@ -43,8 +43,8 @@ namespace ZXing.Client.Result
             }
             // Thanks to dominik.wild for suggesting this enhancement to support
             // smsto:number:body URIs
-            String number = rawText.Substring(6);
-            String body = null;
+            string number = rawText.Substring(6);
+            string body = null;
             int bodyStart = number.IndexOf(':');
             if (bodyStart >= 0)
             {

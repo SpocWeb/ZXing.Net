@@ -35,13 +35,13 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    /// </summary>
    public class AnyAIDecoderTest : AbstractDecoderTest
    {
-      private static String header = ".....";
+      private static string header = ".....";
 
       [Test]
       public void testAnyAIDecoder_1()
       {
-         String data = header + numeric_10 + numeric_12 + numeric2alpha + alpha_A + alpha2numeric + numeric_12;
-         String expected = "(10)12A12";
+            string data = header + numeric_10 + numeric_12 + numeric2alpha + alpha_A + alpha2numeric + numeric_12;
+            string expected = "(10)12A12";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -49,8 +49,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void testAnyAIDecoder_2()
       {
-         String data = header + numeric_10 + numeric_12 + numeric2alpha + alpha_A + alpha2isoiec646 + i646_B;
-         String expected = "(10)12AB";
+            string data = header + numeric_10 + numeric_12 + numeric2alpha + alpha_A + alpha2isoiec646 + i646_B;
+            string expected = "(10)12AB";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -58,8 +58,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void testAnyAIDecoder_3()
       {
-         String data = header + numeric_10 + numeric2alpha + alpha2isoiec646 + i646_B + i646_C + isoiec646_2alpha + alpha_A + alpha2numeric + numeric_10;
-         String expected = "(10)BCA10";
+            string data = header + numeric_10 + numeric2alpha + alpha2isoiec646 + i646_B + i646_C + isoiec646_2alpha + alpha_A + alpha2numeric + numeric_10;
+            string expected = "(10)BCA10";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -67,8 +67,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void testAnyAIDecoder_numericFNC1_secondDigit()
       {
-         String data = header + numeric_10 + numeric_1FNC1;
-         String expected = "(10)1";
+            string data = header + numeric_10 + numeric_1FNC1;
+            string expected = "(10)1";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -76,8 +76,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void testAnyAIDecoder_alphaFNC1()
       {
-         String data = header + numeric_10 + numeric2alpha + alpha_A + alpha_FNC1;
-         String expected = "(10)A";
+            string data = header + numeric_10 + numeric2alpha + alpha_A + alpha_FNC1;
+            string expected = "(10)A";
 
          assertCorrectBinaryString(data, expected);
       }
@@ -85,8 +85,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       [Test]
       public void testAnyAIDecoder_646FNC1()
       {
-         String data = header + numeric_10 + numeric2alpha + alpha_A + isoiec646_2alpha + i646_B + i646_FNC1;
-         String expected = "(10)AB";
+            string data = header + numeric_10 + numeric2alpha + alpha_A + isoiec646_2alpha + i646_B + i646_FNC1;
+            string expected = "(10)AB";
 
          assertCorrectBinaryString(data, expected);
       }

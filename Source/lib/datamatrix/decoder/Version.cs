@@ -201,7 +201,7 @@ namespace ZXing.Datamatrix.Internal
         /// returns the version number as string
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             return versionNumber.ToString();
         }

@@ -110,7 +110,7 @@ namespace ZXing.PDF417.Test
             foreach (var error in errors)
             {
                 var bytes = encoding.GetBytes(error.Key);
-                Console.WriteLine(String.Format("Content: {0} ({1}); Error: {2}", error.Key, bytes[0], error.Value.Message));
+                Console.WriteLine(string.Format("Content: {0} ({1}); Error: {2}", error.Key, bytes[0], error.Value.Message));
             }
 
             if (errors.Count > 0)
@@ -149,7 +149,7 @@ namespace ZXing.PDF417.Test
             }
             Console.WriteLine(content.ToString());
             var bitmap = writer.Write(content.ToString());
-            bitmap.Save(String.Format("D:\\test-{0}.png", encodingStr), ImageFormat.Png);
+            bitmap.Save(string.Format("D:\\test-{0}.png", encodingStr), ImageFormat.Png);
             var result = reader.Decode(bitmap);
             if (result == null)
                 throw new InvalidOperationException("cant be decoded");
@@ -199,7 +199,7 @@ namespace ZXing.PDF417.Test
 
             foreach (var error in errors)
             {
-                Console.WriteLine(String.Format("Content: {0}; Error: {1}", error.Key, error.Value.Message));
+                Console.WriteLine(string.Format("Content: {0}; Error: {1}", error.Key, error.Value.Message));
             }
 
             if (errors.Count > 0)

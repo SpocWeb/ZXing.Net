@@ -21,7 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class EncoderContext
     {
-        private readonly String msg;
+        private readonly string msg;
         private SymbolShapeHint shape;
         private Dimension minSize;
         private Dimension maxSize;
@@ -51,7 +51,7 @@ namespace ZXing.Datamatrix.Encoder
 #endif
         }
 
-        public EncoderContext(String msg)
+        public EncoderContext(string msg)
         {
             //From this point on Strings are not Unicode anymore!
             var msgBinary = encoding.GetBytes(msg);
@@ -93,7 +93,7 @@ namespace ZXing.Datamatrix.Encoder
 
         public char Current => msg[pos];
 
-        public void writeCodewords(String codewords)
+        public void writeCodewords(string codewords)
         {
             this.codewords.Append(codewords);
         }
@@ -151,7 +151,7 @@ namespace ZXing.Datamatrix.Encoder
 
         public int NewEncoding => newEncoding;
 
-        public String Message => msg;
+        public string Message => msg;
 
         public bool Fnc1CodewordIsWritten { get; set; }
     }

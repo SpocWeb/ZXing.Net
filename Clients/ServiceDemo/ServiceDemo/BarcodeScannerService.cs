@@ -62,13 +62,13 @@ namespace ServiceDemo
                                 directory = Path.GetFullPath(args[1]);
                             }
                             if (!Directory.Exists(directory))
-                                throw new ArgumentException(String.Format("The barcode directory {0} doesn't exists.", directory));
+                                throw new ArgumentException(string.Format("The barcode directory {0} doesn't exists.", directory));
 
                             var transactedInstaller = new TransactedInstaller();
                             var serviceInstaller = new ServiceInstaller();
                             transactedInstaller.Installers.Add(serviceInstaller);
                             var ctx = new InstallContext();
-                            ctx.Parameters["assemblypath"] = String.Format("{0} \"{1}\"", Assembly.GetExecutingAssembly().Location, directory);
+                            ctx.Parameters["assemblypath"] = string.Format("{0} \"{1}\"", Assembly.GetExecutingAssembly().Location, directory);
                             transactedInstaller.Context = ctx;
                             transactedInstaller.Install(new Hashtable());
 
@@ -83,7 +83,7 @@ namespace ServiceDemo
                             var serviceInstaller = new ServiceInstaller();
                             transactedInstaller.Installers.Add(serviceInstaller);
                             var ctx = new InstallContext();
-                            ctx.Parameters["assemblypath"] = String.Format("{0}", Assembly.GetExecutingAssembly().Location);
+                            ctx.Parameters["assemblypath"] = string.Format("{0}", Assembly.GetExecutingAssembly().Location);
                             transactedInstaller.Context = ctx;
                             transactedInstaller.Uninstall(null);
 
@@ -93,7 +93,7 @@ namespace ServiceDemo
                     default:
                         if (args[0][0] != '/' &&
                             args[0][0] != '-')
-                            throw new ArgumentException(String.Format("The argument {0} isn't supported.", args[0]));
+                            throw new ArgumentException(string.Format("The argument {0} isn't supported.", args[0]));
                         break;
                 }
             }
@@ -112,7 +112,7 @@ namespace ServiceDemo
             }
 
             Console.WriteLine("Waiting for barcode images: {0}", directory);
-            EventLog.WriteEntry(String.Format("Waiting for barcode images: {0}", directory));
+            EventLog.WriteEntry(string.Format("Waiting for barcode images: {0}", directory));
 
             fileWatcher.Path = directory;
         }

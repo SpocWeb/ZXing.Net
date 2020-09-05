@@ -27,8 +27,8 @@ namespace WindowsFormsDemo
         //This function enables enumerate the web cam devices
         [DllImport("avicap32.dll")]
         protected static extern bool capGetDriverDescriptionA(short wDriverIndex,
-            [MarshalAs(UnmanagedType.VBByRefStr)]ref String lpszName,
-           int cbName, [MarshalAs(UnmanagedType.VBByRefStr)] ref String lpszVer, int cbVer);
+            [MarshalAs(UnmanagedType.VBByRefStr)]ref string lpszName,
+           int cbName, [MarshalAs(UnmanagedType.VBByRefStr)] ref string lpszVer, int cbVer);
 
         //This function enables create a  window child with so that you can display it in a picturebox for example
         [DllImport("avicap32.dll")]
@@ -63,8 +63,8 @@ namespace WindowsFormsDemo
         /// </summary>
         public void Load()
         {
-            string Name = String.Empty.PadRight(100);
-            string Version = String.Empty.PadRight(100);
+            string Name = string.Empty.PadRight(100);
+            string Version = string.Empty.PadRight(100);
             bool moreDevices;
             short index = 0;
 

@@ -181,7 +181,7 @@ namespace ZXing.QrCode.Internal
         private static float? centerFromEnd(int[] stateCount, int end)
         {
             var result = (end - stateCount[2]) - stateCount[1] / 2.0f;
-            if (Single.IsNaN(result))
+            if (float.IsNaN(result))
                 return null;
             return result;
         }

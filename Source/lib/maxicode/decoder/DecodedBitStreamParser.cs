@@ -48,7 +48,7 @@ namespace ZXing.Maxicode.Internal
         private const string NINE_DIGITS = "000000000";
         private const string THREE_DIGITS = "000";
 
-        private static String[] SETS = {
+        private static string[] SETS = {
                                  "\nABCDEFGHIJKLMNOPQRSTUVWXYZ"+ECI+FS+GS+RS+NS+' '+PAD+"\"#$%&'()*+,-./0123456789:"+SHIFTB+SHIFTC+SHIFTD+SHIFTE+LATCHB,
                                  "`abcdefghijklmnopqrstuvwxyz"+ECI+FS+GS+RS+NS+'{'+PAD+"}~\u007F;<=>?[\\]^_ ,./:@!|"+PAD+TWOSHIFTA+THREESHIFTA+PAD+SHIFTA+SHIFTC+SHIFTD+SHIFTE+LATCHA,
                                  "\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4\u00D5\u00D6\u00D7\u00D8\u00D9\u00DA"+ECI+FS+GS+RS+"\u00DB\u00DC\u00DD\u00DE\u00DF\u00AA\u00AC\u00B1\u00B2\u00B3\u00B5\u00B9\u00BA\u00BC\u00BD\u00BE\u0080\u0081\u0082\u0083\u0084\u0085\u0086\u0087\u0088\u0089"+LATCHA+' '+LOCK+SHIFTD+SHIFTE+LATCHB,
@@ -64,7 +64,7 @@ namespace ZXing.Maxicode.Internal
             {
                 case 2:
                 case 3:
-                    String postcode;
+                    string postcode;
                     if (mode == 2)
                     {
                         int pc = getPostCode2(bytes);
@@ -75,8 +75,8 @@ namespace ZXing.Maxicode.Internal
                     {
                         postcode = getPostCode3(bytes);
                     }
-                    String country = getCountry(bytes).ToString(THREE_DIGITS);
-                    String service = getServiceClass(bytes).ToString(THREE_DIGITS);
+                    string country = getCountry(bytes).ToString(THREE_DIGITS);
+                    string service = getServiceClass(bytes).ToString(THREE_DIGITS);
                     result.Append(getMessage(bytes, 10, 84));
                     if (result.ToString().StartsWith("[)>" + RS + "01" + GS))
                     {
@@ -138,9 +138,9 @@ namespace ZXing.Maxicode.Internal
         20, 21, 22, 23, 24, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 1, 2});
         }
 
-        private static String getPostCode3(byte[] bytes)
+        private static string getPostCode3(byte[] bytes)
         {
-            return new String(
+            return new string(
                new[]
                   {
                   SETS[0][getInt(bytes, new byte[] {39, 40, 41, 42, 31, 32})],
@@ -153,7 +153,7 @@ namespace ZXing.Maxicode.Internal
                );
         }
 
-        private static String getMessage(byte[] bytes, int start, int len)
+        private static string getMessage(byte[] bytes, int start, int len)
         {
             StringBuilder sb = new StringBuilder();
             int shift = -1;

@@ -62,12 +62,12 @@ namespace ZXing.OneD.RSS.Expanded.Test
                null, null, null, null, null, null,
                "001750",
                ExpandedProductParsedResult.KILOGRAM,
-               "3", null, null, null, new Dictionary<String, String>());
+               "3", null, null, null, new Dictionary<string, string>());
 
          assertCorrectImage2result(path, expected);
       }
 
-      private static void assertCorrectImage2result(String imageFileName, ExpandedProductParsedResult expected)
+      private static void assertCorrectImage2result(string imageFileName, ExpandedProductParsedResult expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 

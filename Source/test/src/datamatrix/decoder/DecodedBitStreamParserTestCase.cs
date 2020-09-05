@@ -34,7 +34,7 @@ namespace ZXing.Datamatrix.Internal.Test
                            ('a' + 1), ('b' + 1), ('c' + 1),
                            ('A' + 1), ('B' + 1), ('C' + 1)
                         };
-         String decodedString = DecodedBitStreamParser.decode(bytes).Text;
+            string decodedString = DecodedBitStreamParser.decode(bytes).Text;
          Assert.AreEqual("abcABC", decodedString);
       }
 
@@ -46,7 +46,7 @@ namespace ZXing.Datamatrix.Internal.Test
                            130, (1 + 130),
                            (98 + 130), (99 + 130)
                         };
-         String decodedString = DecodedBitStreamParser.decode(bytes).Text;
+            string decodedString = DecodedBitStreamParser.decode(bytes).Text;
          Assert.AreEqual("00019899", decodedString);
       }
 

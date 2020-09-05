@@ -44,7 +44,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        public override String parseInformation()
+        public override string parseInformation()
         {
             StringBuilder buff = new StringBuilder();
 

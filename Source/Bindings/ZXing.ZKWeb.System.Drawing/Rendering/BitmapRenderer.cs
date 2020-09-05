@@ -111,7 +111,7 @@ namespace ZXing.ZKWeb.Rendering
             var emptyArea = 0;
             var outputContent = font != null &&
                                 (options == null || !options.PureBarcode) &&
-                                !String.IsNullOrEmpty(content) &&
+                                !string.IsNullOrEmpty(content) &&
                                 (format == BarcodeFormat.CODE_39 ||
                                  format == BarcodeFormat.CODE_93 ||
                                  format == BarcodeFormat.CODE_128 ||

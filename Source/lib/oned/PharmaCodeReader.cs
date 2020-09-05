@@ -194,7 +194,7 @@ namespace ZXing.OneD
                 return null;
             }
 
-            String resultString = iResult.ToString();
+            string resultString = iResult.ToString();
 //Counter counter = Counter.getInstance(25);
 //counter.addCode(iResult);
 
@@ -250,8 +250,8 @@ namespace ZXing.OneD
 
             double dMean = mean(similars);
             bool inProgress = false;
-            String fStr = "";
-            String cStr = "";
+            string fStr = "";
+            string cStr = "";
             for (int i = 0; i < l; i++)
             {
                 PixelInterval gap = gaps[i];
@@ -300,7 +300,7 @@ namespace ZXing.OneD
             }
 
             //System.out.println("Str: "+ fStr +" "+ cStr);
-            String stg2 = '1' + fStr;
+            string stg2 = '1' + fStr;
             int ret_val = Convert.ToInt32(stg2, 2) - 1;
             //System.out.println(ret_val);
             return ret_val;

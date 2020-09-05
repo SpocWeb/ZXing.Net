@@ -37,7 +37,7 @@ namespace ZXing
         /// <summary>
         /// 
         /// </summary>
-        public FormatException(String message)
+        public FormatException(string message)
            : base(message)
         {
         }
@@ -52,7 +52,7 @@ namespace ZXing
         /// <summary>
         /// 
         /// </summary>
-        public FormatException(String message, Exception innerException)
+        public FormatException(string message, Exception innerException)
            : base(message, innerException)
         {
         }

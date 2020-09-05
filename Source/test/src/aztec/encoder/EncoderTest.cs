@@ -522,7 +522,7 @@ namespace ZXing.Aztec.Test
 
         // Helper routines
 
-        private static void testEncode(String data, bool compact, int layers, String expected)
+        private static void testEncode(string data, bool compact, int layers, string expected)
         {
             AztecCode aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 33, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
@@ -531,7 +531,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(expected, matrix.ToString(), "encode() failed");
         }
 
-        private static void testEncodeDecode(String data, bool compact, int layers)
+        private static void testEncodeDecode(string data, bool compact, int layers)
         {
             AztecCode aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 25, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
@@ -553,8 +553,8 @@ namespace ZXing.Aztec.Test
         }
 
 
-        private static void testWriter(String data,
-            String charset,
+        private static void testWriter(string data,
+            string charset,
             int eccPercent,
             bool compact,
             int layers)
@@ -563,7 +563,7 @@ namespace ZXing.Aztec.Test
             // 2. Aztec Decoder currently always decodes the data with a LATIN-1 charset:
             var byteData = Encoding.GetEncoding(charset).GetBytes(data);
             var expectedData = LATIN_1.GetString(byteData, 0, byteData.Length);
-            var hints = new Dictionary<EncodeHintType, Object>
+            var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.CHARACTER_SET] = charset,
                 [EncodeHintType.ERROR_CORRECTION] = eccPercent
@@ -602,13 +602,13 @@ namespace ZXing.Aztec.Test
             return new Random(0x0EADBEEF);
         }
 
-        private static void testModeMessage(bool compact, int layers, int words, String expected)
+        private static void testModeMessage(bool compact, int layers, int words, string expected)
         {
             BitArray @in = Internal.Encoder.generateModeMessage(compact, layers, words);
             Assert.AreEqual(stripSpace(expected), stripSpace(@in.ToString()), "generateModeMessage() failed");
         }
 
-        private static void testStuffBits(int wordSize, String bits, String expected)
+        private static void testStuffBits(int wordSize, string bits, string expected)
         {
             BitArray @in = toBitArray(bits);
             BitArray stuffed = Internal.Encoder.stuffBits(@in, wordSize);
@@ -636,15 +636,15 @@ namespace ZXing.Aztec.Test
             return result;
         }
 
-        private static void testHighLevelEncodeString(String s, String expectedBits)
+        private static void testHighLevelEncodeString(string s, string expectedBits)
         {
             BitArray bits = new HighLevelEncoder(LATIN_1.GetBytes(s)).encode();
-            String receivedBits = stripSpace(bits.ToString());
+            string receivedBits = stripSpace(bits.ToString());
             Assert.AreEqual(stripSpace(expectedBits), receivedBits, "highLevelEncode() failed for input string: " + s);
             Assert.AreEqual(s, Internal.Decoder.highLevelDecode(toBooleanArray(bits)));
         }
 
-        private static void testHighLevelEncodeString(String s, int expectedReceivedBits)
+        private static void testHighLevelEncodeString(string s, int expectedReceivedBits)
         {
             BitArray bits = new HighLevelEncoder(LATIN_1.GetBytes(s)).encode();
             int receivedBitCount = stripSpace(bits.ToString()).Length;
@@ -652,7 +652,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(s, Internal.Decoder.highLevelDecode(toBooleanArray(bits)));
         }
 
-        private static String stripSpace(String s)
+        private static string stripSpace(string s)
         {
             return SPACES.Replace(s, "");
         }

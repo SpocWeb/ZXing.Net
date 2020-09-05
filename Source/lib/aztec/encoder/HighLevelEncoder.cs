@@ -34,7 +34,7 @@ namespace ZXing.Aztec.Internal
     public sealed class HighLevelEncoder
     {
 
-        internal static String[] MODE_NAMES = { "UPPER", "LOWER", "DIGIT", "MIXED", "PUNCT" };
+        internal static string[] MODE_NAMES = { "UPPER", "LOWER", "DIGIT", "MIXED", "PUNCT" };
 
         internal const int MODE_UPPER = 0; // 5 bits
         internal const int MODE_LOWER = 1; // 5 bits

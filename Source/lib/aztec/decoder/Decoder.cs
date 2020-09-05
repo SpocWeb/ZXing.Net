@@ -39,37 +39,37 @@ namespace ZXing.Aztec.Internal
             BINARY
         }
 
-        private static readonly String[] UPPER_TABLE =
+        private static readonly string[] UPPER_TABLE =
         {
          "CTRL_PS", " ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
          "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "CTRL_LL", "CTRL_ML", "CTRL_DL", "CTRL_BS"
       };
 
-        private static readonly String[] LOWER_TABLE =
+        private static readonly string[] LOWER_TABLE =
         {
          "CTRL_PS", " ", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
          "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "CTRL_US", "CTRL_ML", "CTRL_DL", "CTRL_BS"
       };
 
-        private static readonly String[] MIXED_TABLE =
+        private static readonly string[] MIXED_TABLE =
         {
          "CTRL_PS", " ", "\x1", "\x2", "\x3", "\x4", "\x5", "\x6", "\x7", "\b", "\t", "\n",
          "\xB", "\f", "\r", "\x1B", "\x1C", "\x1D", "\x1E", "\x1F", "@", "\\", "^", "_",
          "`", "|", "~", "\x7F", "CTRL_LL", "CTRL_UL", "CTRL_PL", "CTRL_BS"
       };
 
-        private static readonly String[] PUNCT_TABLE =
+        private static readonly string[] PUNCT_TABLE =
         {
          "", "\r", "\r\n", ". ", ", ", ": ", "!", "\"", "#", "$", "%", "&", "'", "(", ")",
          "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "[", "]", "{", "}", "CTRL_UL"
       };
 
-        private static readonly String[] DIGIT_TABLE =
+        private static readonly string[] DIGIT_TABLE =
         {
          "CTRL_PS", " ", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", ".", "CTRL_UL", "CTRL_US"
       };
 
-        private static readonly IDictionary<Table, String[]> codeTables = new Dictionary<Table, String[]>
+        private static readonly IDictionary<Table, string[]> codeTables = new Dictionary<Table, string[]>
       {
          {Table.UPPER, UPPER_TABLE},
          {Table.LOWER, LOWER_TABLE},
@@ -125,7 +125,7 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="correctedBits"></param>
         /// <returns></returns>
-        public static String highLevelDecode(bool[] correctedBits)
+        public static string highLevelDecode(bool[] correctedBits)
         {
             return getEncodedData(correctedBits);
         }
@@ -135,7 +135,7 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="correctedBits">The corrected bits.</param>
         /// <returns>the decoded string</returns>
-        private static String getEncodedData(bool[] correctedBits)
+        private static string getEncodedData(bool[] correctedBits)
         {
             var endIndex = correctedBits.Length;
             var latchTable = Table.UPPER; // table most recently latched to
@@ -187,7 +187,7 @@ namespace ZXing.Aztec.Internal
                     }
                     int code = readCode(correctedBits, index, size);
                     index += size;
-                    String str = getCharacter(strTable, code);
+                    string str = getCharacter(strTable, code);
                     if (str.StartsWith("CTRL_"))
                     {
                         // Table changes
@@ -233,7 +233,7 @@ namespace ZXing.Aztec.Internal
         /// <param name="table">the table used</param>
         /// <param name="code">the code of the character</param>
         /// <returns></returns>
-        private static String getCharacter(String[] table, int code)
+        private static string getCharacter(string[] table, int code)
         {
             return table[code];
         }

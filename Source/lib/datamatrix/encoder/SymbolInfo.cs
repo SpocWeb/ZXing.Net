@@ -311,7 +311,7 @@ namespace ZXing.Datamatrix.Encoder
         /// user friendly representation
         /// </summary>
         /// <returns></returns>
-        public override String ToString()
+        public override string ToString()
         {
             var sb = new StringBuilder();
             sb.Append(rectangular ? "Rectangular Symbol:" : "Square Symbol:");

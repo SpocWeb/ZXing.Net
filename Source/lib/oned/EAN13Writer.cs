@@ -46,7 +46,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             int length = contents.Length;
             switch (length)
@@ -79,7 +79,7 @@ namespace ZXing.OneD
 
             checkNumeric(contents);
 
-            int firstDigit = Int32.Parse(contents.Substring(0, 1));
+            int firstDigit = int.Parse(contents.Substring(0, 1));
             int parities = EAN13Reader.FIRST_DIGIT_ENCODINGS[firstDigit];
             var result = new bool[CODE_WIDTH];
             int pos = 0;
@@ -89,7 +89,7 @@ namespace ZXing.OneD
             // See EAN13Reader for a description of how the first digit & left bars are encoded
             for (int i = 1; i <= 6; i++)
             {
-                int digit = Int32.Parse(contents.Substring(i, 1));
+                int digit = int.Parse(contents.Substring(i, 1));
                 if ((parities >> (6 - i) & 1) == 1)
                 {
                     digit += 10;
@@ -101,7 +101,7 @@ namespace ZXing.OneD
 
             for (int i = 7; i <= 12; i++)
             {
-                int digit = Int32.Parse(contents.Substring(i, 1));
+                int digit = int.Parse(contents.Substring(i, 1));
                 pos += appendPattern(result, pos, UPCEANReader.L_PATTERNS[digit], true);
             }
             appendPattern(result, pos, UPCEANReader.START_END_PATTERN, true);

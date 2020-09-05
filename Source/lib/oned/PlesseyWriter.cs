@@ -25,7 +25,7 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class PlesseyWriter : OneDimensionalCodeWriter
     {
-        private const String ALPHABET_STRING = "0123456789ABCDEF";
+        private const string ALPHABET_STRING = "0123456789ABCDEF";
         private static readonly int[] startWidths = { 14, 11, 14, 11, 5, 20, 14, 11 };
         private static readonly int[] terminationWidths = { 25 };
         private static readonly int[] endWidths = { 20, 5, 20, 5, 14, 11, 14, 11 };
@@ -65,7 +65,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             var length = contents.Length;
             for (var i = 0; i < length; i++)

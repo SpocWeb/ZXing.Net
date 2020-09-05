@@ -502,7 +502,7 @@ namespace ZXing.Common.ReedSolomon.Test
            }
        }
 
-       private static void assertDataEquals(String message, int[] expected, int[] received)
+       private static void assertDataEquals(string message, int[] expected, int[] received)
        {
            for (int i = 0; i < expected.Length; i++)
            {
@@ -516,7 +516,7 @@ namespace ZXing.Common.ReedSolomon.Test
            }
        }
 
-       private static String arrayToString(int[] data)
+       private static string arrayToString(int[] data)
        {
            StringBuilder sb = new StringBuilder("{");
            for (int i = 0; i < data.Length; i++)

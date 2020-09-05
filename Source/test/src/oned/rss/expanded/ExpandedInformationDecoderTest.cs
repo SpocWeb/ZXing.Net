@@ -45,7 +45,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          BitArray information = BinaryUtil.buildBitArrayFromString(" .......X ..XX..X. X.X....X .......X ....");
 
          AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(information);
-         String decoded = decoder.parseInformation();
+            string decoded = decoder.parseInformation();
          Assert.AreEqual("(10)12A", decoded);
       }
 

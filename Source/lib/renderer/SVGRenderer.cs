@@ -197,7 +197,7 @@ namespace ZXing.Rendering
             int width = matrix.Width;
             int height = matrix.Height;
             var outputContent = (options == null || !options.PureBarcode) &&
-                       !String.IsNullOrEmpty(content) &&
+                       !string.IsNullOrEmpty(content) &&
                        (format == BarcodeFormat.CODE_39 ||
                         format == BarcodeFormat.CODE_93 ||
                         format == BarcodeFormat.CODE_128 ||
@@ -222,7 +222,7 @@ namespace ZXing.Rendering
 
             if (outputContent)
             {
-                var fontName = String.IsNullOrEmpty(FontName) ? DefaultFontName : FontName;
+                var fontName = string.IsNullOrEmpty(FontName) ? DefaultFontName : FontName;
                 var fontSize = FontSize < 1 ? DefaultFontSize : FontSize;
 
                 content = ModifyContentDependingOnBarcodeFormat(format, content);
@@ -350,7 +350,7 @@ namespace ZXing.Rendering
             /// <value>
             /// The content.
             /// </value>
-            public String Content
+            public string Content
             {
                 get => content.ToString();
                 set { content.Length = 0; if (value != null) content.Append(value); }

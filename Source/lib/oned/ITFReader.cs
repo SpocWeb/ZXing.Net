@@ -120,7 +120,7 @@ namespace ZXing.OneD
             if (!decodeMiddle(row, startRange[1], endRange[0], result))
                 return null;
 
-            String resultString = result.ToString();
+            string resultString = result.ToString();
 
             int[] allowedLengths = null;
             int maxAllowedLength = LARGEST_DEFAULT_ALLOWED_LENGTH;

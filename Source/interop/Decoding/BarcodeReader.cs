@@ -65,7 +65,7 @@ namespace ZXing.Interop.Decoding
             return results?.Select(_ => new BarCodeText(_)).ToArray();
         }
 
-        public BarCodeText DecodeImageFile(String barcodeBitmapFilePath)
+        public BarCodeText DecodeImageFile(string barcodeBitmapFilePath)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace ZXing.Interop.Decoding
             }
         }
 
-        public BarCodeText[] DecodeImageFileMultiple(String barcodeBitmapFilePath)
+        public BarCodeText[] DecodeImageFileMultiple(string barcodeBitmapFilePath)
         {
             try
             {

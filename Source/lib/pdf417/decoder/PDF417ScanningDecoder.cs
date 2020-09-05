@@ -888,11 +888,11 @@ namespace ZXing.PDF417.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the <see cref="ZXing.PDF417.Internal.BarcodeValue"/> jagged array.
+        /// Returns a <see cref="string"/> that represents the <see cref="ZXing.PDF417.Internal.BarcodeValue"/> jagged array.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the <see cref="ZXing.PDF417.Internal.BarcodeValue"/> jagged array.</returns>
+        /// <returns>A <see cref="string"/> that represents the <see cref="ZXing.PDF417.Internal.BarcodeValue"/> jagged array.</returns>
         /// <param name="barcodeMatrix">Barcode matrix as a jagged array.</param>
-        public static String ToString(BarcodeValue[][] barcodeMatrix)
+        public static string ToString(BarcodeValue[][] barcodeMatrix)
         {
             StringBuilder formatter = new StringBuilder();
             for (int row = 0; row < barcodeMatrix.Length; row++)

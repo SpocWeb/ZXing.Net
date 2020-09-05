@@ -165,7 +165,7 @@ namespace ZXing.QrCode
          if (sourceType == typeof(ErrorCorrectionLevel)) {
              return true;
          }
-         if (sourceType == typeof(String)) {
+         if (sourceType == typeof(string)) {
              return true;
          }
          return base.CanConvertFrom(context, sourceType);
@@ -186,7 +186,7 @@ namespace ZXing.QrCode
          {
             return level.Name;
          }
-         if (value is String)
+         if (value is string)
          {
             switch (value.ToString())
             {

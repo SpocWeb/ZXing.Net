@@ -127,7 +127,7 @@ namespace ZXing.QrCode.Internal
 
         public static Version decodeVersionInformation(int versionBits)
         {
-            int bestDifference = Int32.MaxValue;
+            int bestDifference = int.MaxValue;
             int bestVersion = 0;
             for (int i = 0; i < VERSION_DECODE_INFO.Length; i++)
             {
@@ -280,12 +280,12 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
             return Convert.ToString(versionNumber);
         }

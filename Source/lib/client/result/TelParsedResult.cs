@@ -31,7 +31,7 @@ namespace ZXing.Client.Result
         /// <param name="number"></param>
         /// <param name="telURI"></param>
         /// <param name="title"></param>
-        public TelParsedResult(String number, String telURI, String title)
+        public TelParsedResult(string number, string telURI, string title)
            : base(ParsedResultType.TEL)
         {
             Number = number;
@@ -47,14 +47,14 @@ namespace ZXing.Client.Result
         /// <summary>
         /// number
         /// </summary>
-        public String Number { get; private set; }
+        public string Number { get; private set; }
         /// <summary>
         /// URI
         /// </summary>
-        public String TelURI { get; private set; }
+        public string TelURI { get; private set; }
         /// <summary>
         /// title
         /// </summary>
-        public String Title { get; private set; }
+        public string Title { get; private set; }
     }
 }

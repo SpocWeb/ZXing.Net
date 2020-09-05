@@ -51,7 +51,7 @@ namespace ZXing.PDF417
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents,
+        public BitMatrix encode(string contents,
                                 BarcodeFormat format,
                                 int width,
                                 int height,
@@ -142,7 +142,7 @@ namespace ZXing.PDF417
                 if (hints.ContainsKey(EncodeHintType.CHARACTER_SET))
                 {
 #if !SILVERLIGHT || WINDOWS_PHONE
-                    var encoding = (String)hints[EncodeHintType.CHARACTER_SET];
+                    var encoding = (string)hints[EncodeHintType.CHARACTER_SET];
                     if (encoding != null)
                     {
                         encoder.setEncoding(encoding);
@@ -177,7 +177,7 @@ namespace ZXing.PDF417
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents,
+        public BitMatrix encode(string contents,
                                 BarcodeFormat format,
                                 int width,
                                 int height)
@@ -189,7 +189,7 @@ namespace ZXing.PDF417
         /// Takes encoder, accounts for width/height, and retrieves bit matrix
         /// </summary>
         private static BitMatrix bitMatrixFromEncoder(Internal.PDF417 encoder,
-                                                      String contents,
+                                                      string contents,
                                                       int errorCorrectionLevel,
                                                       int width,
                                                       int height,

@@ -207,7 +207,7 @@ namespace ZXing.Rendering
                     s = " s";
                 if (this == East)
                     s = " e";
-                return String.Format("({0}, {1}{2})", Col, Row, s);
+                return string.Format("({0}, {1}{2})", Col, Row, s);
             }
 
             public static bool operator ==(Coordinate left, Coordinate right)

@@ -47,12 +47,12 @@ namespace ZXing.OneD.RSS.Expanded.Test
                                  new int[] { 673, 16 }
                               };
 
-         String expected = " .......X ..XX..X. X.X....X .......X ....";
+            string expected = " .......X ..XX..X. X.X....X .......X ....";
 
          checkBinary(pairValues, expected);
       }
 
-      private static void checkBinary(int[][] pairValues, String expected)
+      private static void checkBinary(int[][] pairValues, string expected)
       {
          BitArray binary = buildBitArray(pairValues);
          Assert.AreEqual(expected, binary.ToString());

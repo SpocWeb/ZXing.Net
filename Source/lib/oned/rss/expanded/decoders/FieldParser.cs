@@ -35,7 +35,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// </summary>
     public static class FieldParser
     {
-        private static readonly Object VARIABLE_LENGTH = new Object();
+        private static readonly object VARIABLE_LENGTH = new object();
 
         // "DIGITS", new Integer(LENGTH)
         //    or
@@ -189,9 +189,9 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                                      };
         }
 
-        public static String parseFieldsInGeneralPurpose(String rawInformation)
+        public static string parseFieldsInGeneralPurpose(string rawInformation)
         {
-            if (String.IsNullOrEmpty(rawInformation))
+            if (string.IsNullOrEmpty(rawInformation))
             {
                 return null;
             }
@@ -203,7 +203,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return null;
             }
 
-            String firstTwoDigits = rawInformation.Substring(0, 2);
+            string firstTwoDigits = rawInformation.Substring(0, 2);
 
             if (TWO_DIGIT_DATA_LENGTH.ContainsKey(firstTwoDigits))
             {
@@ -220,7 +220,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return null;
             }
 
-            String firstThreeDigits = rawInformation.Substring(0, 3);
+            string firstThreeDigits = rawInformation.Substring(0, 3);
 
             if (THREE_DIGIT_DATA_LENGTH.ContainsKey(firstThreeDigits))
             {
@@ -247,7 +247,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return null;
             }
 
-            String firstFourDigits = rawInformation.Substring(0, 4);
+            string firstFourDigits = rawInformation.Substring(0, 4);
 
             if (FOUR_DIGIT_DATA_LENGTH.ContainsKey(firstFourDigits))
             {
@@ -262,35 +262,35 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             return null;
         }
 
-        private static String processFixedAI(int aiSize, int fieldSize, String rawInformation)
+        private static string processFixedAI(int aiSize, int fieldSize, string rawInformation)
         {
             if (rawInformation.Length < aiSize)
             {
                 return null;
             }
 
-            String ai = rawInformation.Substring(0, aiSize);
+            string ai = rawInformation.Substring(0, aiSize);
 
             if (rawInformation.Length < aiSize + fieldSize)
             {
                 return null;
             }
 
-            String field = rawInformation.Substring(aiSize, fieldSize);
-            String remaining = rawInformation.Substring(aiSize + fieldSize);
-            String result = '(' + ai + ')' + field;
-            String parsedAI = parseFieldsInGeneralPurpose(remaining);
+            string field = rawInformation.Substring(aiSize, fieldSize);
+            string remaining = rawInformation.Substring(aiSize + fieldSize);
+            string result = '(' + ai + ')' + field;
+            string parsedAI = parseFieldsInGeneralPurpose(remaining);
             return parsedAI == null ? result : result + parsedAI;
         }
 
-        private static String processVariableAI(int aiSize, int variableFieldSize, String rawInformation)
+        private static string processVariableAI(int aiSize, int variableFieldSize, string rawInformation)
         {
-            String ai = rawInformation.Substring(0, aiSize);
+            string ai = rawInformation.Substring(0, aiSize);
             int maxSize = Math.Min(rawInformation.Length, aiSize + variableFieldSize);
-            String field = rawInformation.Substring(aiSize, maxSize - aiSize);
-            String remaining = rawInformation.Substring(maxSize);
-            String result = '(' + ai + ')' + field;
-            String parsedAI = parseFieldsInGeneralPurpose(remaining);
+            string field = rawInformation.Substring(aiSize, maxSize - aiSize);
+            string remaining = rawInformation.Substring(maxSize);
+            string result = '(' + ai + ')' + field;
+            string parsedAI = parseFieldsInGeneralPurpose(remaining);
             return parsedAI == null ? result : result + parsedAI;
         }
     }

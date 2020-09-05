@@ -211,7 +211,7 @@ namespace ZXing.Common.Test
          array[63] = true;
          var ints = array.Array;
          Assert.AreEqual(1, ints[0]);
-         Assert.AreEqual(Int32.MinValue, ints[1]);
+         Assert.AreEqual(int.MinValue, ints[1]);
       }
 
       [Test]

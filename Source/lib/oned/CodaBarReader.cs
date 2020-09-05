@@ -34,7 +34,7 @@ namespace ZXing.OneD
         private static readonly int MAX_ACCEPTABLE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 2.0f);
         private static readonly int PADDING = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 1.5f);
 
-        private const String ALPHABET_STRING = "0123456789-$:/.+ABCD";
+        private const string ALPHABET_STRING = "0123456789-$:/.+ABCD";
         internal static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
 
         /**
@@ -367,7 +367,7 @@ namespace ZXing.OneD
             int[] theCounters = counters;
 
             int maxBar = 0;
-            int minBar = Int32.MaxValue;
+            int minBar = int.MaxValue;
             for (int j = position; j < end; j += 2)
             {
                 int currentCounter = theCounters[j];
@@ -383,7 +383,7 @@ namespace ZXing.OneD
             int thresholdBar = (minBar + maxBar) / 2;
 
             int maxSpace = 0;
-            int minSpace = Int32.MaxValue;
+            int minSpace = int.MaxValue;
             for (int j = position + 1; j < end; j += 2)
             {
                 int currentCounter = theCounters[j];

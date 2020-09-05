@@ -44,7 +44,7 @@ namespace ZXing.OneD
         /// <returns>
         /// a byte array of horizontal pixels (false = white, true = black)
         /// </returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             int length = contents.Length;
             switch (length)
@@ -84,7 +84,7 @@ namespace ZXing.OneD
 
             for (int i = 0; i <= 3; i++)
             {
-                int digit = Int32.Parse(contents.Substring(i, 1));
+                int digit = int.Parse(contents.Substring(i, 1));
                 pos += appendPattern(result, pos, UPCEANReader.L_PATTERNS[digit], false);
             }
 
@@ -92,7 +92,7 @@ namespace ZXing.OneD
 
             for (int i = 4; i <= 7; i++)
             {
-                int digit = Int32.Parse(contents.Substring(i, 1));
+                int digit = int.Parse(contents.Substring(i, 1));
                 pos += appendPattern(result, pos, UPCEANReader.L_PATTERNS[digit], true);
             }
             appendPattern(result, pos, UPCEANReader.START_END_PATTERN, true);

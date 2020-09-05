@@ -35,7 +35,7 @@ namespace ZXing.Client.Result
 
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null)
             {
                 return null;
@@ -44,39 +44,39 @@ namespace ZXing.Client.Result
             if (rawText.ToLower().StartsWith("mailto:"))
             {
                 // If it starts with mailto:, assume it is definitely trying to be an email address
-                String hostEmail = rawText.Substring(7);
+                string hostEmail = rawText.Substring(7);
                 int queryStart = hostEmail.IndexOf('?');
                 if (queryStart >= 0)
                 {
                     hostEmail = hostEmail.Substring(0, queryStart);
                 }
                 hostEmail = urlDecode(hostEmail);
-                String[] tos = null;
-                if (!String.IsNullOrEmpty(hostEmail))
+                string[] tos = null;
+                if (!string.IsNullOrEmpty(hostEmail))
                 {
                     tos = COMMA.Split(hostEmail);
                 }
                 var nameValues = parseNameValuePairs(rawText);
-                String[] ccs = null;
-                String[] bccs = null;
-                String subject = null;
-                String body = null;
+                string[] ccs = null;
+                string[] bccs = null;
+                string subject = null;
+                string body = null;
                 if (nameValues != null)
                 {
                     if (tos == null)
                     {
-                        String tosString;
+                        string tosString;
                         if (nameValues.TryGetValue("to", out tosString) && tosString != null)
                         {
                             tos = COMMA.Split(tosString);
                         }
                     }
-                    String ccString;
+                    string ccString;
                     if (nameValues.TryGetValue("cc", out ccString) && ccString != null)
                     {
                         ccs = COMMA.Split(ccString);
                     }
-                    String bccString;
+                    string bccString;
                     if (nameValues.TryGetValue("bcc", out bccString) && bccString != null)
                     {
                         bccs = COMMA.Split(bccString);

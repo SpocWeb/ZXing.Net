@@ -75,7 +75,7 @@ namespace ZXing.Client.Result
             }
         }
 
-        private static bool checkChecksum(String vin)
+        private static bool checkChecksum(string vin)
         {
             var sum = 0;
             for (var i = 0; i < vin.Length; i++)
@@ -175,7 +175,7 @@ namespace ZXing.Client.Result
             throw new ArgumentException(c.ToString());
         }
 
-        private static String countryCode(String wmi)
+        private static string countryCode(string wmi)
         {
             char c1 = wmi[0];
             char c2 = wmi[1];

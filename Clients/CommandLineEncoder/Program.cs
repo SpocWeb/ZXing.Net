@@ -30,7 +30,7 @@ namespace CommandLineEncoder
     {
         private const BarcodeFormat DEFAULT_BARCODE_FORMAT = BarcodeFormat.QR_CODE;
         private static readonly ImageFormat DEFAULT_IMAGE_FORMAT = ImageFormat.Png;
-        private const String DEFAULT_OUTPUT_FILE = "out";
+        private const string DEFAULT_OUTPUT_FILE = "out";
         private const int DEFAULT_WIDTH = 300;
         private const int DEFAULT_HEIGHT = 300;
 
@@ -52,7 +52,7 @@ namespace CommandLineEncoder
             var width = DEFAULT_WIDTH;
             var height = DEFAULT_HEIGHT;
             var clipboard = false;
-            var characterSet = (String)null;
+            var characterSet = (string)null;
             var disableEci = false;
             foreach (var arg in args)
             {
@@ -125,7 +125,7 @@ namespace CommandLineEncoder
                 outFileString += '.' + imageFormat.ToString();
             }
 
-            String contents = null;
+            string contents = null;
             foreach (var arg in args)
             {
                 if (!arg.StartsWith("--"))

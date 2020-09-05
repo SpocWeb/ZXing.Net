@@ -71,13 +71,13 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         /// <param name="barcodeBitmapFilePath">The filename with path to an image which should be decoded</param>
         /// <returns>the result data or null</returns>
-        BarCodeText DecodeImageFile(String barcodeBitmapFilePath);
+        BarCodeText DecodeImageFile(string barcodeBitmapFilePath);
 
         /// <summary>
         /// Decodes the specified barcode bitmap.
         /// </summary>
         /// <param name="barcodeBitmapFilePath">The filename with path to an image which should be decoded</param>
         /// <returns>the results data or null</returns>
-        BarCodeText[] DecodeImageFileMultiple(String barcodeBitmapFilePath);
+        BarCodeText[] DecodeImageFileMultiple(string barcodeBitmapFilePath);
     }
 }

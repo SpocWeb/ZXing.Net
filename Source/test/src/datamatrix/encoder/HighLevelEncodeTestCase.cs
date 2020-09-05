@@ -55,7 +55,7 @@ namespace ZXing.Datamatrix.Test
       public void testASCIIEncodation()
       {
 
-         String visualized = encodeHighLevel("123456");
+            string visualized = encodeHighLevel("123456");
          Assert.AreEqual("142 164 186", visualized);
 
          visualized = encodeHighLevel("123456£");
@@ -69,7 +69,7 @@ namespace ZXing.Datamatrix.Test
       public void testC40EncodationBasic1()
       {
 
-         String visualized = encodeHighLevel("AIMAIMAIM");
+            string visualized = encodeHighLevel("AIMAIMAIM");
          Assert.AreEqual("230 91 11 91 11 91 11 254", visualized);
          //230 shifts to C40 encodation, 254 unlatches, "else" case
       }
@@ -78,7 +78,7 @@ namespace ZXing.Datamatrix.Test
       public void testC40EncodationBasic2()
       {
 
-         String visualized = encodeHighLevel("AIMAIAB");
+            string visualized = encodeHighLevel("AIMAIAB");
          Assert.AreEqual("230 91 11 90 255 254 67 129", visualized);
          //"B" is normally encoded as "15" (one C40 value)
          //"else" case: "B" is encoded as ASCII
@@ -110,8 +110,8 @@ namespace ZXing.Datamatrix.Test
       [Test]
       public void testC40EncodationSpecExample()
       {
-         //Example in Figure 1 in the spec
-         String visualized = encodeHighLevel("A1B2C3D4E5F6G7H8I9J0K1L2");
+            //Example in Figure 1 in the spec
+            string visualized = encodeHighLevel("A1B2C3D4E5F6G7H8I9J0K1L2");
          Assert.AreEqual("230 88 88 40 8 107 147 59 67 126 206 78 126 144 121 35 47 254", visualized);
       }
 
@@ -123,7 +123,7 @@ namespace ZXing.Datamatrix.Test
          //with the 16x48 symbol (47 data codewords)
          useTestSymbols();
 
-         String visualized = encodeHighLevel("AIMAIMAIMAIMAIMAIM");
+            string visualized = encodeHighLevel("AIMAIMAIMAIMAIMAIM");
          Assert.AreEqual("230 91 11 91 11 91 11 91 11 91 11 91 11", visualized);
          //case "a": Unlatch is not required
 
@@ -149,7 +149,7 @@ namespace ZXing.Datamatrix.Test
       public void testC40EncodationSpecialCases2()
       {
 
-         String visualized = encodeHighLevel("AIMAIMAIMAIMAIMAIMAI");
+            string visualized = encodeHighLevel("AIMAIMAIMAIMAIMAIMAI");
          Assert.AreEqual("230 91 11 91 11 91 11 91 11 91 11 91 11 254 66 74", visualized);
          //available > 2, rest = 2 --> unlatch and encode as ASCII
       }
@@ -158,7 +158,7 @@ namespace ZXing.Datamatrix.Test
       public void testTextEncodation()
       {
 
-         String visualized = encodeHighLevel("aimaimaim");
+            string visualized = encodeHighLevel("aimaimaim");
          Assert.AreEqual("239 91 11 91 11 91 11 254", visualized);
          //239 shifts to Text encodation, 254 unlatches
 
@@ -181,9 +181,9 @@ namespace ZXing.Datamatrix.Test
       public void testX12Encodation()
       {
 
-         //238 shifts to X12 encodation, 254 unlatches
+            //238 shifts to X12 encodation, 254 unlatches
 
-         String visualized = encodeHighLevel("ABC>ABC123>AB");
+            string visualized = encodeHighLevel("ABC>ABC123>AB");
          Assert.AreEqual("238 89 233 14 192 100 207 44 31 67", visualized);
 
          visualized = encodeHighLevel("ABC>ABC123>ABC");
@@ -206,9 +206,9 @@ namespace ZXing.Datamatrix.Test
       public void testEDIFACTEncodation()
       {
 
-         //240 shifts to EDIFACT encodation
+            //240 shifts to EDIFACT encodation
 
-         String visualized = encodeHighLevel(".A.C1.3.DATA.123DATA.123DATA");
+            string visualized = encodeHighLevel(".A.C1.3.DATA.123DATA.123DATA");
          Assert.AreEqual("240 184 27 131 198 236 238 16 21 1 187 28 179 16 21 1 187 28 179 16 21 1",
                          visualized);
 
@@ -242,9 +242,9 @@ namespace ZXing.Datamatrix.Test
       public void testBase256Encodation()
       {
 
-         //231 shifts to Base256 encodation
+            //231 shifts to Base256 encodation
 
-         String visualized = encodeHighLevel("«äöüé»");
+            string visualized = encodeHighLevel("«äöüé»");
          Assert.AreEqual("231 44 108 59 226 126 1 104", visualized);
          visualized = encodeHighLevel("«äöüéà»");
          Assert.AreEqual("231 51 108 59 226 126 1 141 254 129", visualized);
@@ -277,7 +277,7 @@ namespace ZXing.Datamatrix.Test
          assertEndsWith("146 40 190 87", visualized);
       }
 
-      private static String createBinaryMessage(int len)
+      private static string createBinaryMessage(int len)
       {
          var sb = new StringBuilder();
          sb.Append("«äöüéàá-");
@@ -289,7 +289,7 @@ namespace ZXing.Datamatrix.Test
          return sb.ToString();
       }
 
-      private static void assertStartsWith(String expected, String actual)
+      private static void assertStartsWith(string expected, string actual)
       {
          if (!actual.StartsWith(expected))
          {
@@ -297,7 +297,7 @@ namespace ZXing.Datamatrix.Test
          }
       }
 
-      private static void assertEndsWith(String expected, String actual)
+      private static void assertEndsWith(string expected, string actual)
       {
          if (!actual.EndsWith(expected))
          {
@@ -309,7 +309,7 @@ namespace ZXing.Datamatrix.Test
       public void testUnlatchingFromC40()
       {
 
-         String visualized = encodeHighLevel("AIMAIMAIMAIMaimaimaim");
+            string visualized = encodeHighLevel("AIMAIMAIMAIMaimaimaim");
          Assert.AreEqual("230 91 11 91 11 91 11 254 66 74 78 239 91 11 91 11 91 11", visualized);
       }
 
@@ -317,7 +317,7 @@ namespace ZXing.Datamatrix.Test
       public void testUnlatchingFromText()
       {
 
-         String visualized = encodeHighLevel("aimaimaimaim12345678");
+            string visualized = encodeHighLevel("aimaimaimaim12345678");
          Assert.AreEqual("239 91 11 91 11 91 11 91 11 254 142 164 186 208 129 237", visualized);
       }
 
@@ -325,17 +325,17 @@ namespace ZXing.Datamatrix.Test
       public void testHelloWorld()
       {
 
-         String visualized = encodeHighLevel("Hello World!");
+            string visualized = encodeHighLevel("Hello World!");
          Assert.AreEqual("73 239 116 130 175 123 148 64 158 233 254 34", visualized);
       }
 
       [Test]
       public void testBug1664266()
       {
-         //There was an exception and the encoder did not handle the unlatching from
-         //EDIFACT encoding correctly
+            //There was an exception and the encoder did not handle the unlatching from
+            //EDIFACT encoding correctly
 
-         String visualized = encodeHighLevel("CREX-TAN:h");
+            string visualized = encodeHighLevel("CREX-TAN:h");
          Assert.AreEqual("240 13 33 88 181 64 78 124 59 105", visualized);
 
          visualized = encodeHighLevel("CREX-TAN:hh");
@@ -348,24 +348,24 @@ namespace ZXing.Datamatrix.Test
       [Test]
       public void testX12Unlatch()
       {
-         String visualized = encodeHighLevel("*DTCP01");
+            string visualized = encodeHighLevel("*DTCP01");
          Assert.AreEqual("238 9 10 104 141 254 50 129", visualized);
       }
 
       [Test]
       public void testX12Unlatch2()
       {
-         String visualized = encodeHighLevel("*DTCP0");
+            string visualized = encodeHighLevel("*DTCP0");
          Assert.AreEqual("238 9 10 104 141", visualized);
       }
 
       [Test]
       public void testBug3048549()
       {
-         //There was an IllegalArgumentException for an illegal character here because
-         //of an encoding problem of the character 0x0060 in Java source code.
+            //There was an IllegalArgumentException for an illegal character here because
+            //of an encoding problem of the character 0x0060 in Java source code.
 
-         String visualized = encodeHighLevel("fiykmj*Rh2`,e6");
+            string visualized = encodeHighLevel("fiykmj*Rh2`,e6");
          Assert.AreEqual("239 122 87 154 40 7 171 115 207 12 130 71 155 254 129 237", visualized);
 
       }
@@ -374,7 +374,7 @@ namespace ZXing.Datamatrix.Test
       public void testMacroCharacters()
       {
 
-         String visualized = encodeHighLevel("[)>\u001E05\u001D5555\u001C6666\u001E\u0004");
+            string visualized = encodeHighLevel("[)>\u001E05\u001D5555\u001C6666\u001E\u0004");
          //Assert.AreEqual("92 42 63 31 135 30 185 185 29 196 196 31 5 129 87 237", visualized);
          Assert.AreEqual("236 185 185 29 196 196 129 56", visualized);
       }
@@ -383,7 +383,7 @@ namespace ZXing.Datamatrix.Test
       public void testEncodingWithStartAsX12AndLatchToEDIFACTInTheMiddle()
       {
 
-         String visualized = encodeHighLevel("*MEMANT-1F-MESTECH");
+            string visualized = encodeHighLevel("*MEMANT-1F-MESTECH");
          Assert.AreEqual("238 10 99 164 204 254 240 82 220 70 180 209 83 80 80 200", visualized);
       }
 
@@ -393,8 +393,8 @@ namespace ZXing.Datamatrix.Test
 
         byte[] data = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A,
             0x7E, 0x7F, (byte) 0x80, (byte) 0x81, (byte) 0x82};
-        String expected = encodeHighLevel(Encoding.GetEncoding("ISO8859-1").GetString(data, 0, data.Length));
-        String visualized = encodeHighLevel("url(data:text/plain;charset=iso-8859-1,"
+            string expected = encodeHighLevel(Encoding.GetEncoding("ISO8859-1").GetString(data, 0, data.Length));
+            string visualized = encodeHighLevel("url(data:text/plain;charset=iso-8859-1,"
                                                 + "%00%01%02%03%04%05%06%07%08%09%0A%7E%7F%80%81%82)");
         Assert.AreEqual(expected, visualized);
         Assert.AreEqual("1 2 3 4 5 6 7 8 9 10 11 231 153 173 67 218 112 7", visualized);
@@ -403,9 +403,9 @@ namespace ZXing.Datamatrix.Test
         Assert.AreEqual("127 85 102 116 117 127 129 56", visualized);
       }
 
-      private static String encodeHighLevel(String msg)
+      private static string encodeHighLevel(string msg)
       {
-         String encoded = HighLevelEncoder.encodeHighLevel(msg);
+            string encoded = HighLevelEncoder.encodeHighLevel(msg);
          //DecodeHighLevel.decode(encoded);
          return visualize(encoded);
       }
@@ -416,7 +416,7 @@ namespace ZXing.Datamatrix.Test
       /// </summary>
       /// <param name="codewords">The codewords.</param>
       /// <returns>the visualized codewords</returns>
-      internal static String visualize(String codewords)
+      internal static string visualize(string codewords)
       {
          var sb = new StringBuilder();
          for (int i = 0; i < codewords.Length; i++)

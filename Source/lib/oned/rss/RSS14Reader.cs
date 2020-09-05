@@ -134,7 +134,7 @@ namespace ZXing.OneD.RSS
         private static BarCodeText constructResult(Pair leftPair, Pair rightPair)
         {
             long symbolValue = 4537077L * leftPair.Value + rightPair.Value;
-            String text = symbolValue.ToString();
+            string text = symbolValue.ToString();
 
             StringBuilder buffer = new StringBuilder(14);
             for (int i = 13 - text.Length; i > 0; i--)

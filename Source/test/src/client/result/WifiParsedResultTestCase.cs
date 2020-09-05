@@ -79,10 +79,10 @@ namespace ZXing.Client.Result.Test
         /// <summary>
         /// Given the string contents for the barcode, check that it matches our expectations
         /// </summary>
-        private static void doTest(String contents,
-            String ssid,
-            String password,
-            String type)
+        private static void doTest(string contents,
+            string ssid,
+            string password,
+            string type)
         {
             var fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
             var result = ResultParser.parseResult(fakeResult);

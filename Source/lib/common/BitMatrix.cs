@@ -143,7 +143,7 @@ namespace ZXing.Common
         /// <param name="setString"></param>
         /// <param name="unsetString"></param>
         /// <returns></returns>
-        public static BitMatrix parse(String stringRepresentation, String setString, String unsetString)
+        public static BitMatrix parse(string stringRepresentation, string setString, string unsetString)
         {
             if (stringRepresentation == null)
             {
@@ -530,11 +530,11 @@ namespace ZXing.Common
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified <see cref="object"/> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
@@ -578,12 +578,12 @@ namespace ZXing.Common
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
 #if WindowsCE
          return ToString("X ", "  ", "\r\n");
@@ -593,14 +593,14 @@ namespace ZXing.Common
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <param name="setString">The set string.</param>
         /// <param name="unsetString">The unset string.</param>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public String ToString(String setString, String unsetString)
+        public string ToString(string setString, string unsetString)
         {
 #if WindowsCE
          return buildToString(setString, unsetString, "\r\n");
@@ -610,20 +610,20 @@ namespace ZXing.Common
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <param name="setString">The set string.</param>
         /// <param name="unsetString">The unset string.</param>
         /// <param name="lineSeparator">The line separator.</param>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public String ToString(String setString, String unsetString, String lineSeparator)
+        public string ToString(string setString, string unsetString, string lineSeparator)
         {
             return buildToString(setString, unsetString, lineSeparator);
         }
 
-        private String buildToString(String setString, String unsetString, String lineSeparator)
+        private string buildToString(string setString, string unsetString, string lineSeparator)
         {
             var result = new StringBuilder(height * (width + 1));
             for (int y = 0; y < height; y++)

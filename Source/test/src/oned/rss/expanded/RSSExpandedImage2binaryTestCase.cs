@@ -64,12 +64,12 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [TestCase("20.png", " ..XXXX.X ........ .X..XXX. X.X.X... XX.XXXXX .XXXX.X. ..XX...X .X.....X .XX..... XXXX.X.. XX..", TestName = "(01)90012345678908(3202)001750(15)100312")]
       [TestCase("21.png", " ..XXXXX. ........ .X..XXX. X.X.X... XX.XXXXX .XXXX.X. ..XX...X .X.....X .XX..... XXXX.X.. XX..", TestName = "(01)90012345678908(3102)001750(17)100312")]
       [TestCase("22.png", " ..XXXXXX ........ .X..XXX. X.X.X... XX.XXXXX .XXXX.X. ..XX...X .X.....X .XX..... XXXX.X.. XX..", TestName = "(01)90012345678908(3202)001750(17)100312")]
-      public void testDecodeRow2binary(String imageFileName, String expectedResult)
+      public void testDecodeRow2binary(string imageFileName, string expectedResult)
       {
          assertCorrectImage2binary(imageFileName, expectedResult);
       }
 
-      private static void assertCorrectImage2binary(String imageFileName, String expected)
+      private static void assertCorrectImage2binary(string imageFileName, string expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 

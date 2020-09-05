@@ -26,7 +26,7 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class MSIReader : OneDReader
     {
-        internal static String ALPHABET_STRING = "0123456789";
+        internal static string ALPHABET_STRING = "0123456789";
         private static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace ZXing.OneD
             // there are only two sizes for MSI barcodes
             // all numbers are encoded as a chain of the pattern 100 and 110
             // the complete pattern of one number always starts with 1 or 11 (black bar(s))
-            int minCounter = Int32.MaxValue;
+            int minCounter = int.MaxValue;
             int maxCounter = 0;
             for (var index = 0; index < patternLength; index++)
             {

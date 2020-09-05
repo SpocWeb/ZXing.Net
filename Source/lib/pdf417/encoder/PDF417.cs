@@ -626,7 +626,7 @@ namespace ZXing.PDF417.Internal
             logic.addBar(last, width);
         }
 
-        private void encodeLowLevel(String fullCodewords,
+        private void encodeLowLevel(string fullCodewords,
                                     int c,
                                     int r,
                                     int errorCorrectionLevel,
@@ -691,11 +691,11 @@ namespace ZXing.PDF417.Internal
         /// <param name="longDimension"></param>
         /// <param name="shortDimension"></param>
         /// <param name="aspectRatio"></param>
-        internal void generateBarcodeLogic(String msg, int errorCorrectionLevel, int longDimension, int shortDimension, ref int aspectRatio)
+        internal void generateBarcodeLogic(string msg, int errorCorrectionLevel, int longDimension, int shortDimension, ref int aspectRatio)
         {
 
             //1. step: High-level encoding
-            String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg, compaction, encoding, disableEci);
+            string highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg, compaction, encoding, disableEci);
             int sourceCodeWords = highLevel.Length;
 
             string macroCodeWords = getMacroBlock(ref sourceCodeWords);
@@ -735,11 +735,11 @@ namespace ZXing.PDF417.Internal
             }
 
             //4. step: Error correction
-            String dataCodewords = sb.ToString();
+            string dataCodewords = sb.ToString();
 
-            String ec = PDF417ErrorCorrection.generateErrorCorrection(dataCodewords, errorCorrectionLevel);
+            string ec = PDF417ErrorCorrection.generateErrorCorrection(dataCodewords, errorCorrectionLevel);
 
-            String fullCodewords = dataCodewords + ec;
+            string fullCodewords = dataCodewords + ec;
 
             //5. step: low-level encoding
             barcodeMatrix = new BarcodeMatrix(rows, cols, compact);
@@ -933,7 +933,7 @@ namespace ZXing.PDF417.Internal
 
             int dimMaxRows = 0;
             int dimMaxCols = 0;
-            int calculatedRows = Int32.MaxValue;
+            int calculatedRows = int.MaxValue;
             bool canFit = false;
 
             if (longDimension >= start_stop_width + BarcodeMatrix.COLUMN_WIDTH)
@@ -1050,7 +1050,7 @@ namespace ZXing.PDF417.Internal
         /// Sets output encoding.
         /// </summary>
         /// <param name="encodingname">sets character encoding to use</param>
-        internal void setEncoding(String encodingname)
+        internal void setEncoding(string encodingname)
         {
 #if WindowsCE
          try

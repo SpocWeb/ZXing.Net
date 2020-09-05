@@ -124,7 +124,7 @@ namespace ZXing.Client.Result.Test
             doTest("opc.tcp://test.samplehost.com:4841", "opc.tcp://test.samplehost.com:4841", null);
         }
 
-        private static void doTest(String contents, String uri, String title)
+        private static void doTest(string contents, string uri, string title)
         {
             ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
             ParsedResult result = ResultParser.parseResult(fakeResult);
@@ -134,7 +134,7 @@ namespace ZXing.Client.Result.Test
             Assert.AreEqual(title, uriResult.Title);
         }
 
-        private static void doTestNotUri(String text)
+        private static void doTestNotUri(string text)
         {
             ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(text, null, null, BarcodeFormat.QR_CODE);
             ParsedResult result = ResultParser.parseResult(fakeResult);
@@ -142,7 +142,7 @@ namespace ZXing.Client.Result.Test
             Assert.AreEqual(text, result.DisplayResult);
         }
 
-        private static void doTestIsPossiblyMalicious(String uri, bool malicious)
+        private static void doTestIsPossiblyMalicious(string uri, bool malicious)
         {
             var fakeResult = new ZXing.BarCodeText(uri, null, null, BarcodeFormat.QR_CODE);
             ParsedResult result = ResultParser.parseResult(fakeResult);

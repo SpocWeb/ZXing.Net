@@ -82,7 +82,7 @@ namespace CommandLineDecoder
                 else if (arg.StartsWith("--crop"))
                 {
                     int[] crop = new int[4];
-                    String[] tokens = arg.Substring(7).Split(',');
+                    string[] tokens = arg.Substring(7).Split(',');
                     for (int i = 0; i < crop.Length; i++)
                     {
                         crop[i] = int.Parse(tokens[i]);
@@ -151,7 +151,7 @@ namespace CommandLineDecoder
 
             if (copyResultToClipboard)
             {
-                var completeResult = String.Empty;
+                var completeResult = string.Empty;
                 foreach (var decodeObject in decodeObjects)
                 {
                     completeResult += decodeObject.ResultString;
@@ -170,13 +170,13 @@ namespace CommandLineDecoder
 
         // Build all the inputs up front into a single flat list, so the threads can atomically pull
         // paths/URLs off the queue.
-        private static void addArgumentToInputs(String argument, Config config, Inputs inputs)
+        private static void addArgumentToInputs(string argument, Config config, Inputs inputs)
         {
             if (Directory.Exists(argument))
             {
                 foreach (var singleFile in Directory.EnumerateFiles(argument))
                 {
-                    String filename = singleFile.ToLower(CultureInfo.InvariantCulture);
+                    string filename = singleFile.ToLower(CultureInfo.InvariantCulture);
                     // Skip hidden files and directories (e.g. svn stuff).)
                     if (filename.StartsWith("."))
                     {
@@ -207,7 +207,7 @@ namespace CommandLineDecoder
         // Manually turn on all formats, even those not yet considered production quality.
         private static IDictionary<DecodeHintType, object> buildHints(Config config)
         {
-            var hints = new Dictionary<DecodeHintType, Object>();
+            var hints = new Dictionary<DecodeHintType, object>();
             var vector = new List<BarcodeFormat>(8)
                     {
                        BarcodeFormat.UPC_A,

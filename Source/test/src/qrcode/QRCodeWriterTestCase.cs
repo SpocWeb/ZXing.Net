@@ -39,14 +39,14 @@ namespace ZXing.QrCode.Test
    public sealed class QRCodeWriterTestCase
    {
 
-      private static String BASE_IMAGE_PATH = "test/data/golden/qrcode/";
+      private static string BASE_IMAGE_PATH = "test/data/golden/qrcode/";
 #if !SILVERLIGHT
-      private static Bitmap loadImage(String fileName)
+      private static Bitmap loadImage(string fileName)
 #else
       private static WriteableBitmap loadImage(String fileName)
 #endif
       {
-         String file = BASE_IMAGE_PATH + fileName;
+            string file = BASE_IMAGE_PATH + fileName;
          if (!File.Exists(file))
          {
             // try starting with 'core' since the test base is often given as the project root
@@ -165,10 +165,10 @@ namespace ZXing.QrCode.Test
          Assert.AreEqual(strangeHeight, matrix.Height);
       }
 
-      private static void compareToGoldenFile(String contents,
+      private static void compareToGoldenFile(string contents,
                                               ErrorCorrectionLevel ecLevel,
                                               int resolution,
-                                              String fileName)
+                                              string fileName)
       {
          var image = loadImage(fileName);
          Assert.NotNull(image);
@@ -176,7 +176,7 @@ namespace ZXing.QrCode.Test
          Assert.NotNull(goldenResult);
 
          QRCodeWriter writer = new QRCodeWriter();
-            IDictionary<EncodeHintType, Object> hints = new Dictionary<EncodeHintType, Object>
+            IDictionary<EncodeHintType, object> hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.ERROR_CORRECTION] = ecLevel
             };

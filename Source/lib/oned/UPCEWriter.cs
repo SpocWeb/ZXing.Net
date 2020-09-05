@@ -42,7 +42,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             int length = contents.Length;
             switch (length)

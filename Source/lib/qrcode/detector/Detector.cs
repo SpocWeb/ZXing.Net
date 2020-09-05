@@ -241,11 +241,11 @@ namespace ZXing.QrCode.Internal
         {
             float moduleSizeEst1 = sizeOfBlackWhiteBlackRunBothWays((int)pattern.X, (int)pattern.Y, (int)otherPattern.X, (int)otherPattern.Y);
             float moduleSizeEst2 = sizeOfBlackWhiteBlackRunBothWays((int)otherPattern.X, (int)otherPattern.Y, (int)pattern.X, (int)pattern.Y);
-            if (Single.IsNaN(moduleSizeEst1))
+            if (float.IsNaN(moduleSizeEst1))
             {
                 return moduleSizeEst2 / 7.0f;
             }
-            if (Single.IsNaN(moduleSizeEst2))
+            if (float.IsNaN(moduleSizeEst2))
             {
                 return moduleSizeEst1 / 7.0f;
             }
@@ -364,7 +364,7 @@ namespace ZXing.QrCode.Internal
                 return MathUtils.distance(toX + xStep, toY, fromX, fromY);
             }
             // else we didn't find even black-white-black; no estimate is really possible
-            return Single.NaN;
+            return float.NaN;
 
         }
 

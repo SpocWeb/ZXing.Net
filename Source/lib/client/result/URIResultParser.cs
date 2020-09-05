@@ -57,7 +57,7 @@ namespace ZXing.Client.Result
 
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             // We specifically handle the odd "URL" scheme here for simplicity and add "URI" for fun
             // Assume anything starting this way really means to be a URI
             if (rawText.StartsWith("URL:") || rawText.StartsWith("URI:"))
@@ -80,12 +80,12 @@ namespace ZXing.Client.Result
          *  http://yourbank.com@phisher.com  This URI connects to phisher.com but may appear
          *  to connect to yourbank.com at first glance.
          */
-        internal static bool isPossiblyMaliciousURI(String uri)
+        internal static bool isPossiblyMaliciousURI(string uri)
         {
             return !ALLOWED_URI_CHARS_PATTERN.Match(uri).Success || USER_IN_HOST.Match(uri).Success;
         }
 
-        internal static bool isBasicallyValidURI(String uri)
+        internal static bool isBasicallyValidURI(string uri)
         {
             if (uri.IndexOf(" ") >= 0)
             {

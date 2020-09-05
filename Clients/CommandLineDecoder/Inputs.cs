@@ -24,10 +24,10 @@ namespace CommandLineDecoder
     /// </summary>
     internal sealed class Inputs
     {
-        private readonly List<String> inputs = new List<String>(10);
+        private readonly List<string> inputs = new List<string>(10);
         private int position;
 
-        public void addInput(String pathOrUrl)
+        public void addInput(string pathOrUrl)
         {
             lock (inputs)
             {
@@ -35,13 +35,13 @@ namespace CommandLineDecoder
             }
         }
 
-        public String getNextInput()
+        public string getNextInput()
         {
             lock (inputs)
             {
                 if (position < inputs.Count)
                 {
-                    String result = inputs[position];
+                    string result = inputs[position];
                     position++;
                     return result;
                 }

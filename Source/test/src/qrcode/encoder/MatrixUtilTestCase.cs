@@ -43,7 +43,7 @@ namespace ZXing.QrCode.Internal.Test
          array.set(0, 2, 2);
          array.set(1, 2, 2);
          array.set(2, 2, 2);
-         String expected = " 0 1 0\n" + " 1 0 1\n" + "      \n";
+            string expected = " 0 1 0\n" + " 1 0 1\n" + "      \n";
          Assert.AreEqual(expected, array.ToString());
       }
 
@@ -62,8 +62,8 @@ namespace ZXing.QrCode.Internal.Test
       public void testEmbedBasicPatterns()
       {
          {
-            // Version 1.
-            String expected =
+                // Version 1.
+                string expected =
               " 1 1 1 1 1 1 1 0           0 1 1 1 1 1 1 1\n" +
               " 1 0 0 0 0 0 1 0           0 1 0 0 0 0 0 1\n" +
               " 1 0 1 1 1 0 1 0           0 1 0 1 1 1 0 1\n" +
@@ -91,9 +91,9 @@ namespace ZXing.QrCode.Internal.Test
             Assert.AreEqual(expected, matrix.ToString());
          }
          {
-            // Version 2.  Position adjustment pattern should apppear at right
-            // bottom corner.
-            String expected =
+                // Version 2.  Position adjustment pattern should apppear at right
+                // bottom corner.
+                string expected =
               " 1 1 1 1 1 1 1 0                   0 1 1 1 1 1 1 1\n" +
               " 1 0 0 0 0 0 1 0                   0 1 0 0 0 0 0 1\n" +
               " 1 0 1 1 1 0 1 0                   0 1 0 1 1 1 0 1\n" +
@@ -129,8 +129,8 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEmbedTypeInfo()
       {
-         // Type info bits = 100000011001110.
-         String expected =
+            // Type info bits = 100000011001110.
+            string expected =
            "                 0                        \n" +
            "                 1                        \n" +
            "                 1                        \n" +
@@ -161,8 +161,8 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEmbedVersionInfo()
       {
-         // Version info bits = 000111 110010 010100
-         String expected =
+            // Version info bits = 000111 110010 010100
+            string expected =
            "                     0 0 1                \n" +
            "                     0 1 0                \n" +
            "                     0 1 0                \n" +
@@ -195,8 +195,8 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testEmbedDataBits()
       {
-         // Cells other than basic patterns should be filled with zero.
-         String expected =
+            // Cells other than basic patterns should be filled with zero.
+            string expected =
            " 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 1 1 1 1 1 1\n" +
            " 1 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 1\n" +
            " 1 0 1 1 1 0 1 0 0 0 0 0 0 0 1 0 1 1 1 0 1\n" +
@@ -229,8 +229,8 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testBuildMatrix()
       {
-         // From http://www.swetake.com/qr/qr7.html
-         String expected =
+            // From http://www.swetake.com/qr/qr7.html
+            string expected =
            " 1 1 1 1 1 1 1 0 0 1 1 0 0 0 1 1 1 1 1 1 1\n" +
            " 1 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 1\n" +
            " 1 0 1 1 1 0 1 0 0 0 0 1 0 0 1 0 1 1 1 0 1\n" +

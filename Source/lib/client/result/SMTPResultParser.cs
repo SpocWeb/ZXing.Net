@@ -33,14 +33,14 @@ namespace ZXing.Client.Result
         /// <returns></returns>
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (!(rawText.StartsWith("smtp:") || rawText.StartsWith("SMTP:")))
             {
                 return null;
             }
-            String emailAddress = rawText.Substring(5);
-            String subject = null;
-            String body = null;
+            string emailAddress = rawText.Substring(5);
+            string subject = null;
+            string body = null;
             int colon = emailAddress.IndexOf(':');
             if (colon >= 0)
             {

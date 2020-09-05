@@ -41,7 +41,7 @@ namespace ZXing.Client.Result
 
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null)
             {
                 return null;
@@ -53,8 +53,8 @@ namespace ZXing.Client.Result
                 return null;
             }
 
-            String query = matcher.Groups[4].Value;
-            if (String.IsNullOrEmpty(query))
+            string query = matcher.Groups[4].Value;
+            if (string.IsNullOrEmpty(query))
                 query = null;
 
             double latitude;
@@ -64,7 +64,7 @@ namespace ZXing.Client.Result
          try { latitude = Double.Parse(matcher.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture); }
          catch { return null; }
 #else
-            if (!Double.TryParse(matcher.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out latitude))
+            if (!double.TryParse(matcher.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out latitude))
                 return null;
 #endif
             if (latitude > 90.0 || latitude < -90.0)
@@ -75,20 +75,20 @@ namespace ZXing.Client.Result
          try { longitude = Double.Parse(matcher.Groups[2].Value, NumberStyles.Float, CultureInfo.InvariantCulture); }
          catch { return null; }
 #else
-            if (!Double.TryParse(matcher.Groups[2].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out longitude))
+            if (!double.TryParse(matcher.Groups[2].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out longitude))
                 return null;
 #endif
             if (longitude > 180.0 || longitude < -180.0)
             {
                 return null;
             }
-            if (!String.IsNullOrEmpty(matcher.Groups[3].Value))
+            if (!string.IsNullOrEmpty(matcher.Groups[3].Value))
             {
 #if WindowsCE
             try { altitude = Double.Parse(matcher.Groups[3].Value, NumberStyles.Float, CultureInfo.InvariantCulture); }
             catch { return null; }
 #else
-                if (!Double.TryParse(matcher.Groups[3].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out altitude))
+                if (!double.TryParse(matcher.Groups[3].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out altitude))
                     return null;
 #endif
                 if (altitude < 0.0)

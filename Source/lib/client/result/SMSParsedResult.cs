@@ -32,10 +32,10 @@ namespace ZXing.Client.Result
         /// <param name="via"></param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
-        public SMSParsedResult(String number,
-                               String via,
-                               String subject,
-                               String body)
+        public SMSParsedResult(string number,
+                               string via,
+                               string subject,
+                               string body)
            : this(new[] { number }, new[] { via }, subject, body)
         {
         }
@@ -46,10 +46,10 @@ namespace ZXing.Client.Result
         /// <param name="vias"></param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
-        public SMSParsedResult(String[] numbers,
-                               String[] vias,
-                               String subject,
-                               String body)
+        public SMSParsedResult(string[] numbers,
+                               string[] vias,
+                               string subject,
+                               string body)
            : base(ParsedResultType.SMS)
         {
             Numbers = numbers;
@@ -65,7 +65,7 @@ namespace ZXing.Client.Result
             displayResultValue = result.ToString();
         }
 
-        private String getSMSURI()
+        private string getSMSURI()
         {
             var result = new StringBuilder();
             result.Append("sms:");
@@ -113,22 +113,22 @@ namespace ZXing.Client.Result
         /// <summary>
         /// numbers
         /// </summary>
-        public String[] Numbers { get; private set; }
+        public string[] Numbers { get; private set; }
         /// <summary>
         ///  vias
         /// </summary>
-        public String[] Vias { get; private set; }
+        public string[] Vias { get; private set; }
         /// <summary>
         /// subject
         /// </summary>
-        public String Subject { get; private set; }
+        public string Subject { get; private set; }
         /// <summary>
         /// body
         /// </summary>
-        public String Body { get; private set; }
+        public string Body { get; private set; }
         /// <summary>
         /// sms uri
         /// </summary>
-        public String SMSURI { get; private set; }
+        public string SMSURI { get; private set; }
     }
 }

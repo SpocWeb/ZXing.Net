@@ -23,17 +23,17 @@ namespace ZXing.Datamatrix.Test
 {
    public sealed class DebugPlacement : DefaultPlacement
    {
-      internal DebugPlacement(String codewords, int numcols, int numrows)
+      internal DebugPlacement(string codewords, int numcols, int numrows)
          : base(codewords, numcols, numrows)
       {
       }
 
-      internal String[] toBitFieldStringArray()
+      internal string[] toBitFieldStringArray()
       {
          var bits = Bits;
          var numrows = Numrows;
          var numcols = Numcols;
-         var array = new String[numrows];
+         var array = new string[numrows];
          var startpos = 0;
          for (var row = 0; row < numrows; row++)
          {

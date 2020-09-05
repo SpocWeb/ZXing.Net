@@ -36,7 +36,7 @@ namespace ZXing.Client.Result
     {
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null ||
                 !(rawText.StartsWith("sms:") || rawText.StartsWith("SMS:") ||
                   rawText.StartsWith("mms:") || rawText.StartsWith("MMS:")))
@@ -46,8 +46,8 @@ namespace ZXing.Client.Result
 
             // Check up front if this is a URI syntax string with query arguments
             var nameValuePairs = parseNameValuePairs(rawText);
-            String subject = null;
-            String body = null;
+            string subject = null;
+            string body = null;
             var querySyntax = false;
             if (nameValuePairs != null && nameValuePairs.Count != 0)
             {
@@ -58,7 +58,7 @@ namespace ZXing.Client.Result
 
             // Drop sms, query portion
             var queryStart = rawText.IndexOf('?', 4);
-            String smsURIWithoutQuery;
+            string smsURIWithoutQuery;
             // If it's not query syntax, the question mark is part of the subject or message
             if (queryStart < 0 || !querySyntax)
             {
@@ -71,11 +71,11 @@ namespace ZXing.Client.Result
 
             int lastComma = -1;
             int comma;
-            var numbers = new List<String>(1);
-            var vias = new List<String>(1);
+            var numbers = new List<string>(1);
+            var vias = new List<string>(1);
             while ((comma = smsURIWithoutQuery.IndexOf(',', lastComma + 1)) > lastComma)
             {
-                String numberPart = smsURIWithoutQuery.Substring(lastComma + 1, comma);
+                string numberPart = smsURIWithoutQuery.Substring(lastComma + 1, comma);
                 addNumberVia(numbers, vias, numberPart);
                 lastComma = comma;
             }
@@ -87,9 +87,9 @@ namespace ZXing.Client.Result
                                        body);
         }
 
-        private static void addNumberVia(ICollection<String> numbers,
-                                         ICollection<String> vias,
-                                         String numberPart)
+        private static void addNumberVia(ICollection<string> numbers,
+                                         ICollection<string> vias,
+                                         string numberPart)
         {
             int numberEnd = numberPart.IndexOf(';');
             if (numberEnd < 0)
@@ -100,8 +100,8 @@ namespace ZXing.Client.Result
             else
             {
                 numbers.Add(numberPart.Substring(0, numberEnd));
-                String maybeVia = numberPart.Substring(numberEnd + 1);
-                String via;
+                string maybeVia = numberPart.Substring(numberEnd + 1);
+                string via;
                 if (maybeVia.StartsWith("via="))
                 {
                     via = maybeVia.Substring(4);

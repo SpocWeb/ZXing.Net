@@ -30,7 +30,7 @@ namespace ZXing
         /// <param name="destinationArray">Array to return the chars</param>
         /// <param name="destinationStart">Position of the destination array of chars to start storing the chars</param>
         /// <returns>An array of chars</returns>
-        public static void GetCharsFromString(String sourceString, int sourceStart, int sourceEnd, char[] destinationArray, int destinationStart)
+        public static void GetCharsFromString(string sourceString, int sourceStart, int sourceEnd, char[] destinationArray, int destinationStart)
         {
             int sourceCounter = sourceStart;
             int destinationCounter = destinationStart;
@@ -61,9 +61,9 @@ namespace ZXing
         /// </summary>
         /// <param name="strings">The strings.</param>
         /// <returns></returns>
-        public static String[] toStringArray(ICollection<string> strings)
+        public static string[] toStringArray(ICollection<string> strings)
         {
-            var result = new String[strings.Count];
+            var result = new string[strings.Count];
             strings.CopyTo(result, 0);
             return result;
         }
@@ -78,7 +78,7 @@ namespace ZXing
         public static string Join<T>(string separator, IEnumerable<T> values)
         {
             var builder = new StringBuilder();
-            separator = separator ?? String.Empty;
+            separator = separator ?? string.Empty;
             if (values != null)
             {
                 foreach (var value in values)

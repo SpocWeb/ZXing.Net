@@ -29,7 +29,7 @@ namespace ZXing.OneD
     public sealed class Code93Reader : OneDReader
     {
         // Note that 'abcd' are dummy characters in place of control characters.
-        internal const String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*";
+        internal const string ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*";
         private static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace ZXing.OneD
             // Remove checksum digits
             decodeRowResult.Length = decodeRowResult.Length - 2;
 
-            String resultString = decodeExtended(decodeRowResult);
+            string resultString = decodeExtended(decodeRowResult);
             if (resultString == null)
                 return null;
 
@@ -248,7 +248,7 @@ namespace ZXing.OneD
             return false;
         }
 
-        private static String decodeExtended(StringBuilder encoded)
+        private static string decodeExtended(StringBuilder encoded)
         {
             int length = encoded.Length;
             StringBuilder decoded = new StringBuilder(length);

@@ -36,7 +36,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents">barcode contents to encode.It should not be encoded for extended characters.</param>
         /// <returns>a { @code bool[]} of horizontal pixels(false = white, true = black)</returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             contents = convertToExtended(contents);
             int length = contents.Length;
@@ -105,7 +105,7 @@ namespace ZXing.OneD
             return 9;
         }
 
-        private static int computeChecksumIndex(String contents, int maxWeight)
+        private static int computeChecksumIndex(string contents, int maxWeight)
         {
             int weight = 1;
             int total = 0;
@@ -122,7 +122,7 @@ namespace ZXing.OneD
             return total % 47;
         }
 
-        public static String convertToExtended(String contents)
+        public static string convertToExtended(string contents)
         {
             int length = contents.Length;
             var extendedContent = new StringBuilder(length * 2);

@@ -30,7 +30,7 @@ namespace ZXing.Interop.Decoding
     public sealed class BarCodeText : IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
-        public String Text { get; private set; }
+        public string Text { get; private set; }
 
         /// <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         public byte[] RawBytes { get; private set; }
@@ -86,12 +86,12 @@ namespace ZXing.Interop.Decoding
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
-        public override String ToString()
+        public override string ToString()
         {
             if (Text == null)
             {
@@ -111,7 +111,7 @@ namespace ZXing.Interop.Decoding
 
         public override string ToString()
         {
-            return Key + ":" + (Value ?? String.Empty);
+            return Key + ":" + (Value ?? string.Empty);
         }
     }
 

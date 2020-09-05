@@ -27,7 +27,7 @@ namespace ZXing.Common.Test
       [Test]
       public void CharacterSetECI_Should_Return_Usable_Charactersets()
       {
-         var errors = String.Empty;
+         var errors = string.Empty;
          foreach (var charSetEntry in CharacterSetECI.VALUE_TO_ECI)
          {
             try

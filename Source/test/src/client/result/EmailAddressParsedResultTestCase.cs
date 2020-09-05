@@ -39,10 +39,10 @@ namespace ZXing.Client.Result.Test
       public void testTos()
       {
          doTest("mailto:srowen@example.org,bob@example.org",
-                new String[] {"srowen@example.org", "bob@example.org"},
+                new string[] {"srowen@example.org", "bob@example.org"},
                 null, null, null, null);
          doTest("mailto:?to=srowen@example.org,bob@example.org",
-                new String[] {"srowen@example.org", "bob@example.org"},
+                new string[] {"srowen@example.org", "bob@example.org"},
                 null, null, null, null);
       }
 
@@ -51,11 +51,11 @@ namespace ZXing.Client.Result.Test
       {
          doTest("mailto:?cc=srowen@example.org",
                 null,
-                new String[] {"srowen@example.org"},
+                new string[] {"srowen@example.org"},
                 null, null, null);
          doTest("mailto:?cc=srowen@example.org,bob@example.org",
                 null,
-                new String[] {"srowen@example.org", "bob@example.org"},
+                new string[] {"srowen@example.org", "bob@example.org"},
                 null, null, null);
       }
 
@@ -64,11 +64,11 @@ namespace ZXing.Client.Result.Test
       {
          doTest("mailto:?bcc=srowen@example.org",
                 null, null,
-                new String[] {"srowen@example.org"},
+                new string[] {"srowen@example.org"},
                 null, null);
          doTest("mailto:?bcc=srowen@example.org,bob@example.org",
                 null, null,
-                new String[] {"srowen@example.org", "bob@example.org"},
+                new string[] {"srowen@example.org", "bob@example.org"},
                 null, null);
       }
 
@@ -76,9 +76,9 @@ namespace ZXing.Client.Result.Test
       public void testAll()
       {
          doTest("mailto:bob@example.org?cc=foo@example.org&bcc=srowen@example.org&subject=baz&body=buzz",
-                new String[] {"bob@example.org"},
-                new String[] {"foo@example.org"},
-                new String[] {"srowen@example.org"},
+                new string[] {"bob@example.org"},
+                new string[] {"foo@example.org"},
+                new string[] {"srowen@example.org"},
                 "baz",
                 "buzz");
       }
@@ -101,20 +101,20 @@ namespace ZXing.Client.Result.Test
          doTest("smtp:srowen@example.org:foo:bar", "srowen@example.org", "foo", "bar");
       }
 
-      private static void doTest(String contents,
-                                 String to,
-                                 String subject,
-                                 String body)
+      private static void doTest(string contents,
+                                 string to,
+                                 string subject,
+                                 string body)
       {
-         doTest(contents, new String[] {to}, null, null, subject, body);
+         doTest(contents, new string[] {to}, null, null, subject, body);
       }
 
-      private static void doTest(String contents,
-                                 String[] tos,
-                                 String[] ccs,
-                                 String[] bccs,
-                                 String subject,
-                                 String body)
+      private static void doTest(string contents,
+                                 string[] tos,
+                                 string[] ccs,
+                                 string[] bccs,
+                                 string subject,
+                                 string body)
       {
          var fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          var result = ResultParser.parseResult(fakeResult);

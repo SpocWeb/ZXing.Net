@@ -38,13 +38,13 @@ namespace ZXing.OneD.RSS.Expanded.Test
    [TestFixture]
    public sealed class BinaryUtilTest
    {
-      private const String SPACE = " ";
+      private const string SPACE = " ";
 
       [Test]
       public void testBuildBitArrayFromString()
       {
 
-         String data = " ..X..X.. ..XXX... XXXXXXXX ........";
+            string data = " ..X..X.. ..XXX... XXXXXXXX ........";
          check(data);
 
          data = " XXX..X..";
@@ -60,7 +60,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          check(data);
       }
 
-      private static void check(String data)
+      private static void check(string data)
       {
          BitArray binary = BinaryUtil.buildBitArrayFromString(data);
          Assert.AreEqual(data, binary.ToString());
@@ -69,7 +69,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [Test]
       public void testBuildBitArrayFromStringWithoutSpaces()
       {
-         String data = " ..X..X.. ..XXX... XXXXXXXX ........";
+            string data = " ..X..X.. ..XXX... XXXXXXXX ........";
          checkWithoutSpaces(data);
 
          data = " XXX..X..";
@@ -85,9 +85,9 @@ namespace ZXing.OneD.RSS.Expanded.Test
          checkWithoutSpaces(data);
       }
 
-      private static void checkWithoutSpaces(String data)
+      private static void checkWithoutSpaces(string data)
       {
-         String dataWithoutSpaces = Regex.Replace(data, SPACE, "");
+            string dataWithoutSpaces = Regex.Replace(data, SPACE, "");
          BitArray binary = BinaryUtil.buildBitArrayFromStringWithoutSpaces(dataWithoutSpaces);
          Assert.AreEqual(data, binary.ToString());
       }

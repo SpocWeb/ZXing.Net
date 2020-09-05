@@ -39,33 +39,33 @@ namespace ZXing.Client.Result
     {
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("MECARD:"))
             {
                 return null;
             }
-            String[] rawName = matchDoCoMoPrefixedField("N:", rawText);
+            string[] rawName = matchDoCoMoPrefixedField("N:", rawText);
             if (rawName == null)
             {
                 return null;
             }
-            String name = parseName(rawName[0]);
-            String pronunciation = matchSingleDoCoMoPrefixedField("SOUND:", rawText, true);
-            String[] phoneNumbers = matchDoCoMoPrefixedField("TEL:", rawText);
-            String[] emails = matchDoCoMoPrefixedField("EMAIL:", rawText);
-            String note = matchSingleDoCoMoPrefixedField("NOTE:", rawText, false);
-            String[] addresses = matchDoCoMoPrefixedField("ADR:", rawText);
-            String birthday = matchSingleDoCoMoPrefixedField("BDAY:", rawText, true);
+            string name = parseName(rawName[0]);
+            string pronunciation = matchSingleDoCoMoPrefixedField("SOUND:", rawText, true);
+            string[] phoneNumbers = matchDoCoMoPrefixedField("TEL:", rawText);
+            string[] emails = matchDoCoMoPrefixedField("EMAIL:", rawText);
+            string note = matchSingleDoCoMoPrefixedField("NOTE:", rawText, false);
+            string[] addresses = matchDoCoMoPrefixedField("ADR:", rawText);
+            string birthday = matchSingleDoCoMoPrefixedField("BDAY:", rawText, true);
             if (!isStringOfDigits(birthday, 8))
             {
                 // No reason to throw out the whole card because the birthday is formatted wrong.
                 birthday = null;
             }
-            String[] urls = matchDoCoMoPrefixedField("URL:", rawText);
+            string[] urls = matchDoCoMoPrefixedField("URL:", rawText);
 
             // Although ORG may not be strictly legal in MECARD, it does exist in VCARD and we might as well
             // honor it when found in the wild.
-            String org = matchSingleDoCoMoPrefixedField("ORG:", rawText, true);
+            string org = matchSingleDoCoMoPrefixedField("ORG:", rawText, true);
 
             return new AddressBookParsedResult(maybeWrap(name),
                                                null,
@@ -85,7 +85,7 @@ namespace ZXing.Client.Result
                                                null);
         }
 
-        private static String parseName(String name)
+        private static string parseName(string name)
         {
             int comma = name.IndexOf(',');
             if (comma >= 0)

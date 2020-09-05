@@ -45,14 +45,14 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             this.information = information;
         }
 
-        internal String decodeAllCodes(StringBuilder buff, int initialPosition)
+        internal string decodeAllCodes(StringBuilder buff, int initialPosition)
         {
             int currentPosition = initialPosition;
-            String remaining = null;
+            string remaining = null;
             do
             {
                 DecodedInformation info = decodeGeneralPurposeField(currentPosition, remaining);
-                String parsedFields = FieldParser.parseFieldsInGeneralPurpose(info.getNewString());
+                string parsedFields = FieldParser.parseFieldsInGeneralPurpose(info.getNewString());
                 if (parsedFields != null)
                 {
                     buff.Append(parsedFields);
@@ -135,7 +135,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             return value;
         }
 
-        internal DecodedInformation decodeGeneralPurposeField(int pos, String remaining)
+        internal DecodedInformation decodeGeneralPurposeField(int pos, string remaining)
         {
             buffer.Length = 0;
 

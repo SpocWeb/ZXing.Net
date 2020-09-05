@@ -205,7 +205,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="dataCodewords">the data codewords</param>
         /// <param name="errorCorrectionLevel">the error correction level (0-8)</param>
         /// <returns>the String representing the error correction codewords</returns>
-        internal static String generateErrorCorrection(String dataCodewords, int errorCorrectionLevel)
+        internal static string generateErrorCorrection(string dataCodewords, int errorCorrectionLevel)
         {
             if (errorCorrectionLevel == (int)PDF417ErrorCorrectionLevel.AUTO)
                 errorCorrectionLevel = getRecommendedMinimumErrorCorrectionLevel(errorCorrectionLevel);

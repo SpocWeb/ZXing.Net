@@ -42,7 +42,7 @@ namespace ZXing.OneD.RSS.Expanded
             return Pairs.Equals(otherPairs);
         }
 
-        public override String ToString()
+        public override string ToString()
         {
             return "{ " + Pairs + " }";
         }
@@ -50,7 +50,7 @@ namespace ZXing.OneD.RSS.Expanded
         /// <summary>
         /// Two rows are equal if they contain the same pairs in the same order.
         /// </summary>
-        public override bool Equals(Object o)
+        public override bool Equals(object o)
         {
             if (!(o is ExpandedRow))
             {

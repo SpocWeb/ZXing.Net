@@ -59,7 +59,7 @@ namespace ZXing.Aztec
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
         {
             return encode(contents, format, width, height, null);
         }
@@ -74,7 +74,7 @@ namespace ZXing.Aztec
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(String contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
+        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
         {
             var charset = DEFAULT_CHARSET;
             int eccPercent = Encoder.DEFAULT_EC_PERCENT;
@@ -117,7 +117,7 @@ namespace ZXing.Aztec
                           layers);
         }
 
-        private static BitMatrix encode(String contents, BarcodeFormat format, int width, int height, Encoding charset, int eccPercent, int layers)
+        private static BitMatrix encode(string contents, BarcodeFormat format, int width, int height, Encoding charset, int eccPercent, int layers)
         {
             if (format != BarcodeFormat.AZTEC)
             {

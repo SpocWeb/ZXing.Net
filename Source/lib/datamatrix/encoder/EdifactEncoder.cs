@@ -89,7 +89,7 @@ namespace ZXing.Datamatrix.Encoder
                     throw new InvalidOperationException("Count must not exceed 4");
                 }
                 int restChars = count - 1;
-                String encoded = encodeToCodewords(buffer, 0);
+                string encoded = encodeToCodewords(buffer, 0);
                 bool endOfSymbolReached = !context.HasMoreCharacters;
                 bool restInAscii = endOfSymbolReached && restChars <= 2;
 
@@ -137,7 +137,7 @@ namespace ZXing.Datamatrix.Encoder
             }
         }
 
-        private static String encodeToCodewords(StringBuilder sb, int startPos)
+        private static string encodeToCodewords(StringBuilder sb, int startPos)
         {
             int len = sb.Length - startPos;
             if (len == 0)

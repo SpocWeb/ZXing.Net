@@ -43,15 +43,15 @@ namespace ZXing.Client.Result.Test
          doTest("LJCPCBLCX11000237", "LJC", "PCBLCX", "11000237", "CN", "PCBLC", 2001, '1', "000237");
       }
 
-      private static void doTest(String contents,
-                                 String wmi,
-                                 String vds,
-                                 String vis,
-                                 String country,
-                                 String attributes,
+      private static void doTest(string contents,
+                                 string wmi,
+                                 string vds,
+                                 string vis,
+                                 string country,
+                                 string attributes,
                                  int year,
                                  char plant,
-                                 String sequential)
+                                 string sequential)
       {
          var fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.CODE_39);
          var result = ResultParser.parseResult(fakeResult);

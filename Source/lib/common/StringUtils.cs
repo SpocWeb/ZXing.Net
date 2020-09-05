@@ -28,24 +28,24 @@ namespace ZXing.Common
     public static class StringUtils
     {
 #if (WINDOWS_PHONE || SILVERLIGHT4 || SILVERLIGHT5 || NETFX_CORE || PORTABLE || NETSTANDARD)
-        private const String PLATFORM_DEFAULT_ENCODING = "UTF-8";
+        private const string PLATFORM_DEFAULT_ENCODING = "UTF-8";
 #else
-      private static readonly String PLATFORM_DEFAULT_ENCODING = Encoding.Default.WebName;
+      private static readonly string PLATFORM_DEFAULT_ENCODING = Encoding.Default.WebName;
 #endif
         /// <summary>
         /// SJIS
         /// </summary>
-        public static String SHIFT_JIS = "SJIS";
+        public static string SHIFT_JIS = "SJIS";
         /// <summary>
         /// GB2312
         /// </summary>
-        public static String GB2312 = "GB2312";
-        private const String EUC_JP = "EUC-JP";
-        private const String UTF8 = "UTF-8";
-        private const String ISO88591 = "ISO-8859-1";
+        public static string GB2312 = "GB2312";
+        private const string EUC_JP = "EUC-JP";
+        private const string UTF8 = "UTF-8";
+        private const string ISO88591 = "ISO-8859-1";
         private static readonly bool ASSUME_SHIFT_JIS =
-           String.Compare(SHIFT_JIS, PLATFORM_DEFAULT_ENCODING, StringComparison.OrdinalIgnoreCase) == 0 ||
-           String.Compare(EUC_JP, PLATFORM_DEFAULT_ENCODING, StringComparison.OrdinalIgnoreCase) == 0;
+           string.Compare(SHIFT_JIS, PLATFORM_DEFAULT_ENCODING, StringComparison.OrdinalIgnoreCase) == 0 ||
+           string.Compare(EUC_JP, PLATFORM_DEFAULT_ENCODING, StringComparison.OrdinalIgnoreCase) == 0;
 
         /// <summary>
         /// Guesses the encoding.
@@ -55,11 +55,11 @@ namespace ZXing.Common
         /// <returns>name of guessed encoding; at the moment will only guess one of:
         /// {@link #SHIFT_JIS}, {@link #UTF8}, {@link #ISO88591}, or the platform
         /// default encoding if none of these can possibly be correct</returns>
-        public static String guessEncoding(byte[] bytes, IDictionary<DecodeHintType, object> hints)
+        public static string guessEncoding(byte[] bytes, IDictionary<DecodeHintType, object> hints)
         {
             if (hints != null && hints.ContainsKey(DecodeHintType.CHARACTER_SET))
             {
-                String characterSet = (String)hints[DecodeHintType.CHARACTER_SET];
+                string characterSet = (string)hints[DecodeHintType.CHARACTER_SET];
                 if (characterSet != null)
                 {
                     return characterSet;

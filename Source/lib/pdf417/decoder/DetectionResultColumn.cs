@@ -136,9 +136,9 @@ namespace ZXing.PDF417.Internal
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultColumn"/>.
+        /// Returns a <see cref="string"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultColumn"/>.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultColumn"/>.</returns>
+        /// <returns>A <see cref="string"/> that represents the current <see cref="ZXing.PDF417.Internal.DetectionResultColumn"/>.</returns>
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

@@ -26,7 +26,7 @@ namespace ZXing.Client.Result
     /// <author>Sean Owen</author>
     public sealed class GeoParsedResult : ParsedResult
     {
-        internal GeoParsedResult(double latitude, double longitude, double altitude, String query)
+        internal GeoParsedResult(double latitude, double longitude, double altitude, string query)
            : base(ParsedResultType.GEO)
         {
             Latitude = latitude;
@@ -51,20 +51,20 @@ namespace ZXing.Client.Result
         public double Altitude { get; private set; }
 
         /// <return> query string associated with geo URI or null if none exists</return>
-        public String Query { get; private set; }
+        public string Query { get; private set; }
 
         /// <summary>
         /// the geo URI
         /// </summary>
-        public String GeoURI { get; private set; }
+        public string GeoURI { get; private set; }
 
         /// <returns> a URI link to Google Maps which display the point on the Earth described
         /// by this instance, and sets the zoom level in a way that roughly reflects the
         /// altitude, if specified
         /// </returns>
-        public String GoogleMapsURI { get; private set; }
+        public string GoogleMapsURI { get; private set; }
 
-        private String getDisplayResult()
+        private string getDisplayResult()
         {
             var result = new StringBuilder(20);
             result.AppendFormat(CultureInfo.InvariantCulture, "{0:0.0###########}", Latitude);
@@ -85,7 +85,7 @@ namespace ZXing.Client.Result
             return result.ToString();
         }
 
-        private String getGeoURI()
+        private string getGeoURI()
         {
             var result = new StringBuilder();
             result.Append("geo:");
@@ -105,7 +105,7 @@ namespace ZXing.Client.Result
             return result.ToString();
         }
 
-        private String getGoogleMapsURI()
+        private string getGoogleMapsURI()
         {
             var result = new StringBuilder(50);
             result.Append("http://maps.google.com/?ll=");

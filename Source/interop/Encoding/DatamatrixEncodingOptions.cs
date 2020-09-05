@@ -171,7 +171,7 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public override bool Equals(System.Object other)
+        public override bool Equals(object other)
         {
             if (other is Dimension)
             {
@@ -194,7 +194,7 @@ namespace ZXing.Interop.Encoding
         /// 
         /// </summary>
         /// <returns></returns>
-        public override System.String ToString()
+        public override string ToString()
         {
             return Width + "x" + Height;
         }

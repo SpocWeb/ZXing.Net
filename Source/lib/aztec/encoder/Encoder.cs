@@ -84,7 +84,7 @@ namespace ZXing.Aztec.Internal
                 if (layers > (compact ? MAX_NB_BITS_COMPACT : MAX_NB_BITS))
                 {
                     throw new ArgumentException(
-                       String.Format("Illegal value {0} for layers", userSpecifiedLayers));
+                       string.Format("Illegal value {0} for layers", userSpecifiedLayers));
                 }
                 totalBitsInLayer = TotalBitsInLayer(layers, compact);
                 wordSize = WORD_SIZE[layers];

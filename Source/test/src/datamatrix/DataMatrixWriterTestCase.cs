@@ -35,7 +35,7 @@ namespace ZXing.Datamatrix.Test
       {
          var writer = new DataMatrixWriter();
 
-         var hints = new Dictionary<EncodeHintType, Object>
+         var hints = new Dictionary<EncodeHintType, object>
                         {{EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE}};
 
          const int bigEnough = 64;
@@ -51,7 +51,7 @@ namespace ZXing.Datamatrix.Test
       {
          var writer = new DataMatrixWriter();
 
-         var hints = new Dictionary<EncodeHintType, Object>
+         var hints = new Dictionary<EncodeHintType, object>
                         {{EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE}};
 
          const int bigEnough = 14;
@@ -78,18 +78,18 @@ namespace ZXing.Datamatrix.Test
       [Test]
       public void Should_Encode_FNC1()
       {
-         var content = String.Format("{0}abcdefg{0}1223456", (char)29);
+         var content = string.Format("{0}abcdefg{0}1223456", (char)29);
 
          var writer = new DataMatrixWriter();
 
-         var hints = new Dictionary<EncodeHintType, Object>();
+         var hints = new Dictionary<EncodeHintType, object>();
 
          var matrix = writer.encode(content, BarcodeFormat.DATA_MATRIX, 1, 1, hints);
 
          Assert.IsNotNull(matrix);
 
          var reader = new DataMatrixReader();
-            var readerhints = new Dictionary<DecodeHintType, Object>
+            var readerhints = new Dictionary<DecodeHintType, object>
             {
                 { DecodeHintType.PURE_BARCODE, true }
             };
@@ -152,7 +152,7 @@ Four score and seven our forefathers brought forth", SymbolShapeHint.FORCE_SQUAR
       [TestCase("MEMANT -1F-M-2estech", SymbolShapeHint.FORCE_NONE)]
       [TestCase("MEMANT -1F-M-2e-stech", SymbolShapeHint.FORCE_NONE)]
       [TestCase("MEMANT -1F-M6ABCDEF", SymbolShapeHint.FORCE_NONE)]
-      public void TestEncodeDecode(String data, SymbolShapeHint shape)
+      public void TestEncodeDecode(string data, SymbolShapeHint shape)
       {
          var writer = new DataMatrixWriter();
          var options = new DatamatrixEncodingOptions {SymbolShape = shape};

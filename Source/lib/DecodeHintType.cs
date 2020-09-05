@@ -29,7 +29,7 @@ namespace ZXing
     public enum DecodeHintType
     {
         /// <summary>
-        /// Unspecified, application-specific hint. Maps to an unspecified <see cref="System.Object" />.
+        /// Unspecified, application-specific hint. Maps to an unspecified <see cref="object" />.
         /// </summary>
         OTHER,
 

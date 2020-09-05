@@ -39,7 +39,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 {
    internal static class TestCaseUtil
    {
-      internal static BinaryBitmap getBinaryBitmap(String directory, String path)
+      internal static BinaryBitmap getBinaryBitmap(string directory, string path)
       {
          var bufferedImage = readImage(directory, path);
          var luminanceSource = new BitmapLuminanceSource(bufferedImage);
@@ -47,7 +47,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
       }
 
 #if !SILVERLIGHT
-      internal static Bitmap readImage(String directory, String fileName)
+      internal static Bitmap readImage(string directory, string fileName)
       {
          var path = AbstractBlackBoxTestCase.buildTestBase(directory);
          return new Bitmap(Image.FromFile(Path.Combine(path, fileName)));

@@ -60,7 +60,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             int length = contents.Length;
             if (length % 2 != 0)
@@ -74,7 +74,7 @@ namespace ZXing.OneD
             }
             for (var i = 0; i < length; i++)
             {
-                if (!Char.IsDigit(contents[i]))
+                if (!char.IsDigit(contents[i]))
                     throw new ArgumentException("Requested contents should only contain digits, but got '" + contents[i] + "'");
             }
 

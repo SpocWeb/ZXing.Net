@@ -35,7 +35,7 @@ namespace ZXing.Client.Result
                 return null;
             }
             // Really neither of these should happen:
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null)
             {
                 return null;
@@ -47,7 +47,7 @@ namespace ZXing.Client.Result
             }
             // Not actually checking the checksum again here    
 
-            String normalizedProductID;
+            string normalizedProductID;
             // Expand UPC-E for purposes of searching
             if (format == BarcodeFormat.UPC_E && rawText.Length == 8)
             {

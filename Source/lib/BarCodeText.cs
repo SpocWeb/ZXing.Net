@@ -23,7 +23,7 @@ namespace ZXing
     public sealed class BarCodeText //: IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
-        public String Text { get; private set; }
+        public string Text { get; private set; }
 
         /// <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         public byte[] RawBytes { get; private set; }
@@ -62,7 +62,7 @@ namespace ZXing
         /// <param name="rawBytes">The raw bytes.</param>
         /// <param name="resultPoints">The result points.</param>
         /// <param name="format">The format.</param>
-        public BarCodeText(String text,
+        public BarCodeText(string text,
                       byte[] rawBytes,
                       ResultPoint[] resultPoints,
                       BarcodeFormat format)
@@ -78,7 +78,7 @@ namespace ZXing
         /// <param name="numBits"></param>
         /// <param name="resultPoints">The result points.</param>
         /// <param name="format">The format.</param>
-        public BarCodeText(String text,
+        public BarCodeText(string text,
                       byte[] rawBytes,
                       int numBits,
                       ResultPoint[] resultPoints,
@@ -95,7 +95,7 @@ namespace ZXing
         /// <param name="resultPoints">The result points.</param>
         /// <param name="format">The format.</param>
         /// <param name="timestamp">The timestamp.</param>
-        public BarCodeText(String text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
+        public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp)
         {
         }
@@ -107,7 +107,7 @@ namespace ZXing
         /// <param name="resultPoints">The result points.</param>
         /// <param name="format">The format.</param>
         /// <param name="timestamp">The timestamp.</param>
-        public BarCodeText(String text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
+        public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
         {
             if (text == null && rawBytes == null)
             {
@@ -127,7 +127,7 @@ namespace ZXing
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="value">The value.</param>
-        public void putMetadata(ResultMetadataType type, Object value)
+        public void putMetadata(ResultMetadataType type, object value)
         {
             if (ResultMetadata == null)
             {
@@ -171,7 +171,7 @@ namespace ZXing
             }
         }
 
-        public override String ToString() => Text ?? GetType().Name + "[" + RawBytes.Length + " bytes]";
+        public override string ToString() => Text ?? GetType().Name + "[" + RawBytes.Length + " bytes]";
 
     }
 }

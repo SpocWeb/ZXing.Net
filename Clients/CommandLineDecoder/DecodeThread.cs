@@ -46,10 +46,10 @@ namespace CommandLineDecoder
 
         public void run()
         {
-            ResultString = String.Empty;
+            ResultString = string.Empty;
             while (true)
             {
-                String input = inputs.getNextInput();
+                string input = inputs.getNextInput();
                 if (input == null)
                 {
                     break;
@@ -140,7 +140,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private static void dumpResultMulti(String input, BarCodeText[] results)
+        private static void dumpResultMulti(string input, BarCodeText[] results)
         {
             int pos = input.LastIndexOf('.');
             if (pos > 0)
@@ -314,14 +314,14 @@ namespace CommandLineDecoder
         private static void dumpBlackPoint(Uri uri, Bitmap image, BinaryBitmap bitmap, LuminanceSource luminanceSource)
         {
             // TODO: Update to compare different Binarizer implementations.
-            String inputName = uri.LocalPath;
+            string inputName = uri.LocalPath;
             if (inputName.Contains(".mono.png"))
             {
                 return;
             }
 
             // Use the current working directory for URLs
-            String resultName = inputName;
+            string resultName = inputName;
             int pos;
             if ("http".Equals(uri.Scheme))
             {

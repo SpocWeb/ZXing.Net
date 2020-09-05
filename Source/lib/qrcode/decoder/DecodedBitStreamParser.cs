@@ -302,7 +302,7 @@ namespace ZXing.QrCode.Internal
             {
                 readBytes[i] = (byte)bits.readBits(8);
             }
-            String encoding;
+            string encoding;
             if (currentCharacterSetECI == null)
             {
                 // The spec isn't clear on this mode; see

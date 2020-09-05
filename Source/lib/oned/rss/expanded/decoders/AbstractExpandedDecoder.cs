@@ -62,7 +62,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         /// Parses the information.
         /// </summary>
         /// <returns></returns>
-        public abstract String parseInformation();
+        public abstract string parseInformation();
 
         /// <summary>
         /// Creates the decoder.

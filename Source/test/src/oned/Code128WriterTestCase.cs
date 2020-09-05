@@ -24,19 +24,19 @@ namespace ZXing.OneD.Test
 {
     public class Code128WriterTestCase
     {
-        private const String FNC1 = "11110101110";
-        private const String FNC2 = "11110101000";
-        private const String FNC3 = "10111100010";
-        private const String FNC4A = "11101011110";
-        private const String FNC4B = "10111101110";
-        private const String START_CODE_A = "11010000100";
-        private const String START_CODE_B = "11010010000";
-        private const String START_CODE_C = "11010011100";
-        private const String SWITCH_CODE_A = "11101011110";
-        private const String SWITCH_CODE_B = "10111101110";
-        private const String QUIET_SPACE = "00000";
-        private const String STOP = "1100011101011";
-        private const String LF = "10000110010";
+        private const string FNC1 = "11110101110";
+        private const string FNC2 = "11110101000";
+        private const string FNC3 = "10111100010";
+        private const string FNC4A = "11101011110";
+        private const string FNC4B = "10111101110";
+        private const string START_CODE_A = "11010000100";
+        private const string START_CODE_B = "11010010000";
+        private const string START_CODE_C = "11010011100";
+        private const string SWITCH_CODE_A = "11101011110";
+        private const string SWITCH_CODE_B = "10111101110";
+        private const string QUIET_SPACE = "00000";
+        private const string STOP = "1100011101011";
+        private const string LF = "10000110010";
 
         private IBarCodeWriter writer;
         private Code128Reader reader;
@@ -124,13 +124,13 @@ namespace ZXing.OneD.Test
         [Test]
         public void testEncodeWithFncsAndNumberInCodesetA()
         {
-            String toEncode = "\n" + "\u00f1" + "\u00f4" + "1" + "\n";
+            string toEncode = "\n" + "\u00f1" + "\u00f4" + "1" + "\n";
 
-            String expected = QUIET_SPACE + START_CODE_A + LF + FNC1 + FNC4A + "10011100110" + LF + "10101111000" + STOP + QUIET_SPACE;
+            string expected = QUIET_SPACE + START_CODE_A + LF + FNC1 + FNC4A + "10011100110" + LF + "10101111000" + STOP + QUIET_SPACE;
 
             BitMatrix result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            String actual = BitMatrixTestCase.matrixToString(result);
+            string actual = BitMatrixTestCase.matrixToString(result);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -138,7 +138,7 @@ namespace ZXing.OneD.Test
         [Test]
         public void Should_Encode_And_Decode_Roundtrip()
         {
-            var contents = String.Empty;
+            var contents = string.Empty;
 
             for (var i = 0; i < 128; i++)
             {
@@ -146,7 +146,7 @@ namespace ZXing.OneD.Test
                 if ((i + 1) % 32 == 0)
                 {
                     Should_Encode(contents);
-                    contents = String.Empty;
+                    contents = string.Empty;
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace ZXing.OneD.Test
                 QUIET_SPACE + START_CODE_B + "10010110000" + "10010000110" + SWITCH_CODE_A + "10100001100" + SWITCH_CODE_B + "10010110000" + "10010000110" + "11010001110" + STOP + QUIET_SPACE);
         }
 
-        private void testEncode(String toEncode, String expected)
+        private void testEncode(string toEncode, string expected)
         {
             var result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 

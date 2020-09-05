@@ -58,36 +58,36 @@ namespace ZXing.Client.Result
             // Although we should insist on the raw text ending with "END:VCARD", there's no reason
             // to throw out everything else we parsed just because this was omitted. In fact, Eclair
             // is doing just that, and we can't parse its contacts without this leniency.
-            String rawText = result.Text;
+            string rawText = result.Text;
             var m = BEGIN_VCARD.Match(rawText);
             if (!m.Success || m.Index != 0)
             {
                 return null;
             }
-            List<List<String>> names = matchVCardPrefixedField("FN", rawText, true, false);
+            List<List<string>> names = matchVCardPrefixedField("FN", rawText, true, false);
             if (names == null)
             {
                 // If no display names found, look for regular name fields and format them
                 names = matchVCardPrefixedField("N", rawText, true, false);
                 formatNames(names);
             }
-            List<String> nicknameString = matchSingleVCardPrefixedField("NICKNAME", rawText, true, false);
-            String[] nicknames = nicknameString == null ? null : COMMA.Split(nicknameString[0]);
-            List<List<String>> phoneNumbers = matchVCardPrefixedField("TEL", rawText, true, false);
-            List<List<String>> emails = matchVCardPrefixedField("EMAIL", rawText, true, false);
-            List<String> note = matchSingleVCardPrefixedField("NOTE", rawText, false, false);
-            List<List<String>> addresses = matchVCardPrefixedField("ADR", rawText, true, true);
-            List<String> org = matchSingleVCardPrefixedField("ORG", rawText, true, true);
-            List<String> birthday = matchSingleVCardPrefixedField("BDAY", rawText, true, false);
+            List<string> nicknameString = matchSingleVCardPrefixedField("NICKNAME", rawText, true, false);
+            string[] nicknames = nicknameString == null ? null : COMMA.Split(nicknameString[0]);
+            List<List<string>> phoneNumbers = matchVCardPrefixedField("TEL", rawText, true, false);
+            List<List<string>> emails = matchVCardPrefixedField("EMAIL", rawText, true, false);
+            List<string> note = matchSingleVCardPrefixedField("NOTE", rawText, false, false);
+            List<List<string>> addresses = matchVCardPrefixedField("ADR", rawText, true, true);
+            List<string> org = matchSingleVCardPrefixedField("ORG", rawText, true, true);
+            List<string> birthday = matchSingleVCardPrefixedField("BDAY", rawText, true, false);
             if (birthday != null && !isLikeVCardDate(birthday[0]))
             {
                 birthday = null;
             }
-            List<String> title = matchSingleVCardPrefixedField("TITLE", rawText, true, false);
-            List<List<String>> urls = matchVCardPrefixedField("URL", rawText, true, false);
-            List<String> instantMessenger = matchSingleVCardPrefixedField("IMPP", rawText, true, false);
-            List<String> geoString = matchSingleVCardPrefixedField("GEO", rawText, true, false);
-            String[] geo = geoString == null ? null : SEMICOLON_OR_COMMA.Split(geoString[0]);
+            List<string> title = matchSingleVCardPrefixedField("TITLE", rawText, true, false);
+            List<List<string>> urls = matchVCardPrefixedField("URL", rawText, true, false);
+            List<string> instantMessenger = matchSingleVCardPrefixedField("IMPP", rawText, true, false);
+            List<string> geoString = matchSingleVCardPrefixedField("GEO", rawText, true, false);
+            string[] geo = geoString == null ? null : SEMICOLON_OR_COMMA.Split(geoString[0]);
             if (geo != null && geo.Length != 2)
             {
                 geo = null;
@@ -110,12 +110,12 @@ namespace ZXing.Client.Result
                                                geo);
         }
 
-        public static List<List<String>> matchVCardPrefixedField(String prefix,
-                                                          String rawText,
+        public static List<List<string>> matchVCardPrefixedField(string prefix,
+                                                          string rawText,
                                                           bool trim,
                                                           bool parseFieldDivider)
         {
-            List<List<String>> matches = null;
+            List<List<string>> matches = null;
             int i = 0;
             int max = rawText.Length;
 
@@ -136,35 +136,35 @@ namespace ZXing.Client.Result
                 }
                 i = match.Index + match.Length;
 
-                String metadataString = match.Groups[1].Value; // group 1 = metadata substring
-                List<String> metadata = null;
+                string metadataString = match.Groups[1].Value; // group 1 = metadata substring
+                List<string> metadata = null;
                 bool quotedPrintable = false;
-                String quotedPrintableCharset = null;
-                String valueType = null;
+                string quotedPrintableCharset = null;
+                string valueType = null;
                 if (metadataString != null)
                 {
-                    foreach (String metadatum in SEMICOLON.Split(metadataString))
+                    foreach (string metadatum in SEMICOLON.Split(metadataString))
                     {
                         if (metadata == null)
                         {
-                            metadata = new List<String>(1);
+                            metadata = new List<string>(1);
                         }
                         metadata.Add(metadatum);
-                        String[] metadatumTokens = EQUALS.Split(metadatum, 2);
+                        string[] metadatumTokens = EQUALS.Split(metadatum, 2);
                         if (metadatumTokens.Length > 1)
                         {
-                            String key = metadatumTokens[0];
-                            String value = metadatumTokens[1];
-                            if (String.Compare("ENCODING", key, StringComparison.OrdinalIgnoreCase) == 0 &&
-                                String.Compare("QUOTED-PRINTABLE", value, StringComparison.OrdinalIgnoreCase) == 0)
+                            string key = metadatumTokens[0];
+                            string value = metadatumTokens[1];
+                            if (string.Compare("ENCODING", key, StringComparison.OrdinalIgnoreCase) == 0 &&
+                                string.Compare("QUOTED-PRINTABLE", value, StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 quotedPrintable = true;
                             }
-                            else if (String.Compare("CHARSET", key, StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Compare("CHARSET", key, StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 quotedPrintableCharset = value;
                             }
-                            else if (String.Compare("VALUE", key, StringComparison.OrdinalIgnoreCase) == 0)
+                            else if (string.Compare("VALUE", key, StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 valueType = value;
                             }
@@ -205,13 +205,13 @@ namespace ZXing.Client.Result
                     // found a match
                     if (matches == null)
                     {
-                        matches = new List<List<String>>(1); // lazy init
+                        matches = new List<List<string>>(1); // lazy init
                     }
                     if (i >= 1 && rawText[i - 1] == '\r')
                     {
                         i--; // Back up over \r, which really should be there
                     }
-                    String element = rawText.Substring(matchStart, i - matchStart);
+                    string element = rawText.Substring(matchStart, i - matchStart);
                     if (trim)
                     {
                         element = element.Trim();
@@ -254,7 +254,7 @@ namespace ZXing.Client.Result
                     }
                     if (metadata == null)
                     {
-                        var matched = new List<String>(1)
+                        var matched = new List<string>(1)
                         {
                             element
                         };
@@ -277,7 +277,7 @@ namespace ZXing.Client.Result
             return matches;
         }
 
-        private static String decodeQuotedPrintable(String value, String charset)
+        private static string decodeQuotedPrintable(string value, string charset)
         {
             int length = value.Length;
             var result = new StringBuilder(length);
@@ -322,13 +322,13 @@ namespace ZXing.Client.Result
         }
 
         private static void maybeAppendFragment(MemoryStream fragmentBuffer,
-                                                String charset,
+                                                string charset,
                                                 StringBuilder result)
         {
             if (fragmentBuffer.Length > 0)
             {
                 byte[] fragmentBytes = fragmentBuffer.ToArray();
-                String fragment;
+                string fragment;
                 if (charset == null)
                 {
 #if WindowsCE
@@ -368,31 +368,31 @@ namespace ZXing.Client.Result
             }
         }
 
-        internal static List<String> matchSingleVCardPrefixedField(String prefix,
-                                                      String rawText,
+        internal static List<string> matchSingleVCardPrefixedField(string prefix,
+                                                      string rawText,
                                                       bool trim,
                                                       bool parseFieldDivider)
         {
-            List<List<String>> values = matchVCardPrefixedField(prefix, rawText, trim, parseFieldDivider);
+            List<List<string>> values = matchVCardPrefixedField(prefix, rawText, trim, parseFieldDivider);
             return values == null || values.Count == 0 ? null : values[0];
         }
 
-        private static String toPrimaryValue(List<String> list)
+        private static string toPrimaryValue(List<string> list)
         {
             return list == null || list.Count == 0 ? null : list[0];
         }
 
-        private static String[] toPrimaryValues(ICollection<List<String>> lists)
+        private static string[] toPrimaryValues(ICollection<List<string>> lists)
         {
             if (lists == null || lists.Count == 0)
             {
                 return null;
             }
-            var result = new List<String>(lists.Count);
+            var result = new List<string>(lists.Count);
             foreach (var list in lists)
             {
-                String value = list[0];
-                if (!String.IsNullOrEmpty(value))
+                string value = list[0];
+                if (!string.IsNullOrEmpty(value))
                 {
                     result.Add(value);
                 }
@@ -400,22 +400,22 @@ namespace ZXing.Client.Result
             return SupportClass.toStringArray(result);
         }
 
-        private static String[] toTypes(ICollection<List<String>> lists)
+        private static string[] toTypes(ICollection<List<string>> lists)
         {
             if (lists == null || lists.Count == 0)
             {
                 return null;
             }
-            List<String> result = new List<String>(lists.Count);
+            List<string> result = new List<string>(lists.Count);
             foreach (var list in lists)
             {
-                String value = list[0];
-                if (!String.IsNullOrEmpty(value))
+                string value = list[0];
+                if (!string.IsNullOrEmpty(value))
                 {
-                    String type = null;
+                    string type = null;
                     for (int i = 1; i < list.Count; i++)
                     {
-                        String metadatum = list[i];
+                        string metadatum = list[i];
                         int equals = metadatum.IndexOf('=');
                         if (equals < 0)
                         {
@@ -423,7 +423,7 @@ namespace ZXing.Client.Result
                             type = metadatum;
                             break;
                         }
-                        if (String.Compare("TYPE", metadatum.Substring(0, equals), StringComparison.OrdinalIgnoreCase) == 0)
+                        if (string.Compare("TYPE", metadatum.Substring(0, equals), StringComparison.OrdinalIgnoreCase) == 0)
                         {
                             type = metadatum.Substring(equals + 1);
                             break;
@@ -435,7 +435,7 @@ namespace ZXing.Client.Result
             return SupportClass.toStringArray(result);
         }
 
-        private static bool isLikeVCardDate(String value)
+        private static bool isLikeVCardDate(string value)
         {
             return value == null || VCARD_LIKE_DATE.Match(value).Success;
         }
@@ -446,14 +446,14 @@ namespace ZXing.Client.Result
          *
          * @param names name values to format, in place
          */
-        private static void formatNames(IEnumerable<List<String>> names)
+        private static void formatNames(IEnumerable<List<string>> names)
         {
             if (names != null)
             {
                 foreach (var list in names)
                 {
-                    String name = list[0];
-                    String[] components = new String[5];
+                    string name = list[0];
+                    string[] components = new string[5];
                     int start = 0;
                     int end;
                     int componentIndex = 0;
@@ -477,9 +477,9 @@ namespace ZXing.Client.Result
             }
         }
 
-        private static void maybeAppendComponent(String[] components, int i, StringBuilder newName)
+        private static void maybeAppendComponent(string[] components, int i, StringBuilder newName)
         {
-            if (!String.IsNullOrEmpty(components[i]))
+            if (!string.IsNullOrEmpty(components[i]))
             {
                 if (newName.Length > 0)
                 {

@@ -72,7 +72,7 @@ namespace ZXing.OneD
         /// {@code height} to zero to get minimum size barcode. If negative value is set to {@code width}
         /// or {@code height}, {@code IllegalArgumentException} is thrown.
         /// </summary>
-        public override BitMatrix encode(String contents,
+        public override BitMatrix encode(string contents,
             BarcodeFormat format,
             int width,
             int height,
@@ -98,7 +98,7 @@ namespace ZXing.OneD
         /// <summary>
         /// Encode the contents following specified format.
         /// </summary>
-        public override bool[] encode(String contents)
+        public override bool[] encode(string contents)
         {
             int length = contents.Length;
             // Check content
@@ -171,7 +171,7 @@ namespace ZXing.OneD
                                     break;
                                 default:
                                     // CODE_CODE_C
-                                    patternIndex = Int32.Parse(contents.Substring(position, 2));
+                                    patternIndex = int.Parse(contents.Substring(position, 2));
                                     position++; // Also incremented below
                                     break;
                             }
@@ -247,7 +247,7 @@ namespace ZXing.OneD
         }
 
 
-        private static CType findCType(String value, int start)
+        private static CType findCType(string value, int start)
         {
             int last = value.Length;
             if (start >= last)
@@ -275,7 +275,7 @@ namespace ZXing.OneD
             return CType.TWO_DIGITS;
         }
 
-        private int chooseCode(String value, int start, int oldCode)
+        private int chooseCode(string value, int start, int oldCode)
         {
             CType lookahead = findCType(value, start);
             if (lookahead == CType.ONE_DIGIT)

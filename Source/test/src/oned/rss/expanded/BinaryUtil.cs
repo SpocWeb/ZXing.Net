@@ -43,9 +43,9 @@ namespace ZXing.OneD.RSS.Expanded.Test
       /// <summary>
       /// Constructs a BitArray from a String like the one returned from BitArray.toString()
       /// </summary>
-      public static BitArray buildBitArrayFromString(String data)
+      public static BitArray buildBitArrayFromString(string data)
       {
-         String dotsAndXs = Regex.Replace(Regex.Replace(data, ONE, "X"), ZERO, ".");
+            string dotsAndXs = Regex.Replace(Regex.Replace(data, ONE, "X"), ZERO, ".");
          BitArray binary = new BitArray(Regex.Replace(dotsAndXs, SPACE, "").Length);
          int counter = 0;
 
@@ -70,10 +70,10 @@ namespace ZXing.OneD.RSS.Expanded.Test
          return binary;
       }
 
-      public static BitArray buildBitArrayFromStringWithoutSpaces(String data)
+      public static BitArray buildBitArrayFromStringWithoutSpaces(string data)
       {
          StringBuilder sb = new StringBuilder();
-         String dotsAndXs = Regex.Replace(Regex.Replace(data, ONE, "X"), ZERO, ".");
+            string dotsAndXs = Regex.Replace(Regex.Replace(data, ONE, "X"), ZERO, ".");
          int current = 0;
          while (current < dotsAndXs.Length)
          {

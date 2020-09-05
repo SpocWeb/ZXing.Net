@@ -25,22 +25,22 @@ namespace ZXing.Client.Result
     /// <author>Sean Owen</author>
     public sealed class AddressBookParsedResult : ParsedResult
     {
-        private readonly String[] names;
-        private readonly String[] nicknames;
-        private readonly String pronunciation;
-        private readonly String[] phoneNumbers;
-        private readonly String[] phoneTypes;
-        private readonly String[] emails;
-        private readonly String[] emailTypes;
-        private readonly String instantMessenger;
-        private readonly String note;
-        private readonly String[] addresses;
-        private readonly String[] addressTypes;
-        private readonly String org;
-        private readonly String birthday;
-        private readonly String title;
-        private readonly String[] urls;
-        private readonly String[] geo;
+        private readonly string[] names;
+        private readonly string[] nicknames;
+        private readonly string pronunciation;
+        private readonly string[] phoneNumbers;
+        private readonly string[] phoneTypes;
+        private readonly string[] emails;
+        private readonly string[] emailTypes;
+        private readonly string instantMessenger;
+        private readonly string note;
+        private readonly string[] addresses;
+        private readonly string[] addressTypes;
+        private readonly string org;
+        private readonly string birthday;
+        private readonly string title;
+        private readonly string[] urls;
+        private readonly string[] geo;
 
         /// <summary>
         /// initializing constructor
@@ -52,13 +52,13 @@ namespace ZXing.Client.Result
         /// <param name="emailTypes"></param>
         /// <param name="addresses"></param>
         /// <param name="addressTypes"></param>
-        public AddressBookParsedResult(String[] names,
-                                   String[] phoneNumbers,
-                                   String[] phoneTypes,
-                                   String[] emails,
-                                   String[] emailTypes,
-                                   String[] addresses,
-                                   String[] addressTypes)
+        public AddressBookParsedResult(string[] names,
+                                   string[] phoneNumbers,
+                                   string[] phoneTypes,
+                                   string[] emails,
+                                   string[] emailTypes,
+                                   string[] addresses,
+                                   string[] addressTypes)
            : this(names,
              null,
              null,
@@ -97,22 +97,22 @@ namespace ZXing.Client.Result
         /// <param name="title"></param>
         /// <param name="urls"></param>
         /// <param name="geo"></param>
-        public AddressBookParsedResult(String[] names,
-                                       String[] nicknames,
-                                       String pronunciation,
-                                       String[] phoneNumbers,
-                                       String[] phoneTypes,
-                                       String[] emails,
-                                       String[] emailTypes,
-                                       String instantMessenger,
-                                       String note,
-                                       String[] addresses,
-                                       String[] addressTypes,
-                                       String org,
-                                       String birthday,
-                                       String title,
-                                       String[] urls,
-                                       String[] geo)
+        public AddressBookParsedResult(string[] names,
+                                       string[] nicknames,
+                                       string pronunciation,
+                                       string[] phoneNumbers,
+                                       string[] phoneTypes,
+                                       string[] emails,
+                                       string[] emailTypes,
+                                       string instantMessenger,
+                                       string note,
+                                       string[] addresses,
+                                       string[] addressTypes,
+                                       string org,
+                                       string birthday,
+                                       string title,
+                                       string[] urls,
+                                       string[] geo)
            : base(ParsedResultType.ADDRESSBOOK)
         {
             if (phoneNumbers != null && phoneTypes != null && phoneNumbers.Length != phoneTypes.Length)
@@ -151,79 +151,79 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the names
         /// </summary>
-        public String[] Names => names;
+        public string[] Names => names;
 
         /// <summary>
         /// the nicknames
         /// </summary>
-        public String[] Nicknames => nicknames;
+        public string[] Nicknames => nicknames;
 
         /// <summary>
         /// In Japanese, the name is written in kanji, which can have multiple readings. Therefore a hint
         /// is often provided, called furigana, which spells the name phonetically.
         /// </summary>
         /// <return>The pronunciation of the getNames() field, often in hiragana or katakana.</return>
-        public String Pronunciation => pronunciation;
+        public string Pronunciation => pronunciation;
 
         /// <summary>
         /// the phone numbers
         /// </summary>
-        public String[] PhoneNumbers => phoneNumbers;
+        public string[] PhoneNumbers => phoneNumbers;
 
         /// <return>optional descriptions of the type of each phone number. It could be like "HOME", but,
         /// there is no guaranteed or standard format.</return>
-        public String[] PhoneTypes => phoneTypes;
+        public string[] PhoneTypes => phoneTypes;
 
         /// <summary>
         /// the e-mail addresses
         /// </summary>
-        public String[] Emails => emails;
+        public string[] Emails => emails;
 
         /// <return>optional descriptions of the type of each e-mail. It could be like "WORK", but,
         /// there is no guaranteed or standard format.</return>
-        public String[] EmailTypes => emailTypes;
+        public string[] EmailTypes => emailTypes;
 
         /// <summary>
         /// the instant messenger addresses
         /// </summary>
-        public String InstantMessenger => instantMessenger;
+        public string InstantMessenger => instantMessenger;
 
         /// <summary>
         /// the note field
         /// </summary>
-        public String Note => note;
+        public string Note => note;
 
         /// <summary>
         /// the addresses
         /// </summary>
-        public String[] Addresses => addresses;
+        public string[] Addresses => addresses;
 
         /// <return>optional descriptions of the type of each e-mail. It could be like "WORK", but,
         /// there is no guaranteed or standard format.</return>
-        public String[] AddressTypes => addressTypes;
+        public string[] AddressTypes => addressTypes;
 
         /// <summary>
         /// the title
         /// </summary>
-        public String Title => title;
+        public string Title => title;
 
         /// <summary>
         /// the organisations
         /// </summary>
-        public String Org => org;
+        public string Org => org;
 
         /// <summary>
         /// the urls
         /// </summary>
-        public String[] URLs => urls;
+        public string[] URLs => urls;
 
         /// <return>birthday formatted as yyyyMMdd (e.g. 19780917)</return>
-        public String Birthday => birthday;
+        public string Birthday => birthday;
 
         /// <return>a location as a latitude/longitude pair</return>
-        public String[] Geo => geo;
+        public string[] Geo => geo;
 
-        private String getDisplayResult()
+        private string getDisplayResult()
         {
             var result = new StringBuilder(100);
             maybeAppend(names, result);

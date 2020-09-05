@@ -56,17 +56,17 @@ namespace ZXing.Client.Result
             // To try to retain backwards compatibility, we set one or the other based on whether the string
             // is 'true' or 'false':
             bool hidden = false;
-            String phase2Method = matchSinglePrefixedField("PH2:", rawText, ';', false);
-            String hValue = matchSinglePrefixedField("H:", rawText, ';', false);
+            string phase2Method = matchSinglePrefixedField("PH2:", rawText, ';', false);
+            string hValue = matchSinglePrefixedField("H:", rawText, ';', false);
             if (hValue != null)
             {
                 // If PH2 was specified separately, or if the value is clearly boolean, interpret it as 'hidden'
-                if (phase2Method != null || String.Compare("true", hValue, StringComparison.OrdinalIgnoreCase) == 0 || String.Compare("false", hValue, StringComparison.OrdinalIgnoreCase) == 0)
+                if (phase2Method != null || string.Compare("true", hValue, StringComparison.OrdinalIgnoreCase) == 0 || string.Compare("false", hValue, StringComparison.OrdinalIgnoreCase) == 0)
                 {
 #if WindowsCE
                     try { hidden = Boolean.Parse(hValue); } catch { }
 #else
-                    Boolean.TryParse(hValue, out hidden);
+                    bool.TryParse(hValue, out hidden);
 #endif
                 }
                 else

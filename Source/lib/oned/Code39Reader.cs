@@ -28,7 +28,7 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class Code39Reader : OneDReader
     {
-        internal static String ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+        internal static string ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 
         /// <summary>
         /// Returns a string with all possible characters
@@ -187,7 +187,7 @@ namespace ZXing.OneD
                 useCode39ExtendedMode = (bool)hints[DecodeHintType.USE_CODE_39_EXTENDED_MODE];
             }
 
-            String resultString;
+            string resultString;
             if (useCode39ExtendedMode)
             {
                 resultString = decodeExtended(decodeRowResult.ToString());
@@ -283,7 +283,7 @@ namespace ZXing.OneD
             int wideCounters;
             do
             {
-                int minCounter = Int32.MaxValue;
+                int minCounter = int.MaxValue;
                 foreach (var counter in counters)
                 {
                     if (counter < minCounter && counter > maxNarrowCounter)
@@ -343,7 +343,7 @@ namespace ZXing.OneD
             return pattern == ASTERISK_ENCODING;
         }
 
-        private static String decodeExtended(String encoded)
+        private static string decodeExtended(string encoded)
         {
             int length = encoded.Length;
             StringBuilder decoded = new StringBuilder(length);

@@ -55,7 +55,7 @@ namespace ZXing.Aztec.Test
       }
 
       // Test that we can tolerate errors in the parameter locator bits
-      private static void testErrorInParameterLocator(String data)
+      private static void testErrorInParameterLocator(string data)
       {
          var aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 25, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
          var random = new Random(aztec.Matrix.GetHashCode()); // pseudo-random, but deterministic

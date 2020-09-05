@@ -297,7 +297,7 @@ namespace ZXing.Common.Test
          }
       }
 
-      public static String matrixToString(BitMatrix result)
+      public static string matrixToString(BitMatrix result)
       {
          Assert.AreEqual(1, result.Height);
          StringBuilder builder = new StringBuilder(result.Width);

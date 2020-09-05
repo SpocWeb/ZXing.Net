@@ -24,19 +24,19 @@ namespace ZXing
     {
         /// <summary>
         /// Specifies the width of the barcode image
-        /// type: <see cref="System.Int32" />
+        /// type: <see cref="int" />
         /// </summary>
         WIDTH,
 
         /// <summary>
         /// Specifies the height of the barcode image
-        /// type: <see cref="System.Int32" />
+        /// type: <see cref="int" />
         /// </summary>
         HEIGHT,
 
         /// <summary>
         /// Don't put the content string into the output image.
-        /// type: <see cref="System.Boolean" />
+        /// type: <see cref="bool" />
         /// </summary>
         PURE_BARCODE,
 
@@ -44,16 +44,16 @@ namespace ZXing
         /// Specifies what degree of error correction to use, for example in QR Codes.
         /// Type depends on the encoder. For example for QR codes it's type
         /// <see cref="ZXing.QrCode.Internal.ErrorCorrectionLevel" />
-        /// For Aztec it is of type <see cref="System.Int32" />, representing the minimal percentage of error correction words. 
-        /// In all cases, it can also be a <see cref="System.String" /> representation of the desired value as well.
+        /// For Aztec it is of type <see cref="int" />, representing the minimal percentage of error correction words. 
+        /// In all cases, it can also be a <see cref="string" /> representation of the desired value as well.
         /// Note: an Aztec symbol should have a minimum of 25% EC words.
-        /// For PDF417 it is of type <see cref="ZXing.PDF417.Internal.PDF417ErrorCorrectionLevel"/> or <see cref="System.Int32" /> (between 0 and 8),
+        /// For PDF417 it is of type <see cref="ZXing.PDF417.Internal.PDF417ErrorCorrectionLevel"/> or <see cref="int" /> (between 0 and 8),
         /// </summary>
         ERROR_CORRECTION,
 
         /// <summary>
         /// Specifies what character encoding to use where applicable.
-        /// type: <see cref="System.String" />
+        /// type: <see cref="string" />
         /// </summary>
         CHARACTER_SET,
 
@@ -61,7 +61,7 @@ namespace ZXing
         /// Specifies margin, in pixels, to use when generating the barcode. The meaning can vary
         /// by format; for example it controls margin before and after the barcode horizontally for
         /// most 1D formats.
-        /// type: <see cref="System.Int32" />, or <see cref="System.String" /> representation of the integer value
+        /// type: <see cref="int" />, or <see cref="string" /> representation of the integer value
         /// </summary>
         MARGIN,
 
@@ -73,20 +73,20 @@ namespace ZXing
 
         /// <summary>
         /// Specifies the desired aspect ratio (number of columns / number of rows) of the output image.  Default is 3.
-        /// type: <see cref="System.Single" />.
+        /// type: <see cref="float" />.
         /// </summary>
         PDF417_IMAGE_ASPECT_RATIO,
 
         /// <summary>
         /// Specifies whether to use compact mode for PDF417
-        /// type: <see cref="System.Boolean" />, or "true" or "false"
-        /// <see cref="System.String" /> value
+        /// type: <see cref="bool" />, or "true" or "false"
+        /// <see cref="string" /> value
         /// </summary>
         PDF417_COMPACT,
 
         /// <summary>
         /// Specifies what compaction mode to use for PDF417.
-        /// type: <see cref="ZXing.PDF417.Internal.Compaction" /> or <see cref="System.String" /> value of one of its
+        /// type: <see cref="ZXing.PDF417.Internal.Compaction" /> or <see cref="string" /> value of one of its
         /// enum values
         /// </summary>
         PDF417_COMPACTION,
@@ -110,7 +110,7 @@ namespace ZXing
         /// ISO-8859-1 (default) to UTF-8 with the necessary ECI segment.
         /// If you set the property to true you can use UTF-8 encoding
         /// and the ECI segment is omitted.
-        /// type: <see cref="System.Boolean" />
+        /// type: <see cref="bool" />
         /// </summary>
         DISABLE_ECI,
 
@@ -146,20 +146,20 @@ namespace ZXing
         /// A negative number (-1, -2, -3, -4) specifies a compact Aztec code
         /// 0 indicates to use the minimum number of layers (the default)
         /// A positive number (1, 2, .. 32) specifies a normal (non-compact) Aztec code
-        /// type: <see cref="System.Int32" />, or <see cref="System.String" /> representation of the integer value
+        /// type: <see cref="int" />, or <see cref="string" /> representation of the integer value
         /// </summary>
         AZTEC_LAYERS,
 
         /// <summary>
         /// Specifies the exact version of QR code to be encoded.
-        /// (Type <see cref="System.Int32" />, or <see cref="System.String" /> representation of the integer value).
+        /// (Type <see cref="int" />, or <see cref="string" /> representation of the integer value).
         /// </summary>
         QR_VERSION,
 
         /// <summary>
         /// Specifies whether the data should be encoded to the GS1 standard
-        /// type: <see cref="System.Boolean" />, or "true" or "false"
-        /// <see cref="System.String" /> value
+        /// type: <see cref="bool" />, or "true" or "false"
+        /// <see cref="string" /> value
         /// </summary>
         GS1_FORMAT,
 
@@ -167,7 +167,7 @@ namespace ZXing
         ///  Specifies the QR code mask pattern to be used. Allowed values are
         /// 0..QRCode.NUM_MASK_PATTERNS-1. By default the code will automatically select
         /// the optimal mask pattern.
-        /// (Type <see cref="System.Int32" />, or <see cref="System.String" /> representation of the integer value).
+        /// (Type <see cref="int" />, or <see cref="string" /> representation of the integer value).
         /// </summary>
         QR_MASK_PATTERN,
     }

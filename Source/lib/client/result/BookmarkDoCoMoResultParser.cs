@@ -26,18 +26,18 @@ namespace ZXing.Client.Result
     {
         public override ParsedResult parse(BarCodeText result)
         {
-            String rawText = result.Text;
+            string rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("MEBKM:"))
             {
                 return null;
             }
-            String title = matchSingleDoCoMoPrefixedField("TITLE:", rawText, true);
-            String[] rawUri = matchDoCoMoPrefixedField("URL:", rawText);
+            string title = matchSingleDoCoMoPrefixedField("TITLE:", rawText, true);
+            string[] rawUri = matchDoCoMoPrefixedField("URL:", rawText);
             if (rawUri == null)
             {
                 return null;
             }
-            String uri = rawUri[0];
+            string uri = rawUri[0];
             if (!URIResultParser.isBasicallyValidURI(uri))
             {
                 return null;
