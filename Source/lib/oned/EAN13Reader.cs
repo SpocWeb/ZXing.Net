@@ -26,7 +26,7 @@ namespace ZXing.OneD
     /// <author>Sean Owen</author>
     /// <author>alasdair@google.com (Alasdair Mackintosh)</author>
     /// </summary>
-    public sealed class EAN13Reader : UPCEANReader
+    public sealed class Ean13Reader : UpcEanReader
     {
         // For an EAN-13 barcode, the first digit is represented by the parities used
         // to encode the next six digits, according to the table below. For example,
@@ -64,9 +64,9 @@ namespace ZXing.OneD
         private readonly int[] decodeMiddleCounters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EAN13Reader"/> class.
+        /// Initializes a new instance of the <see cref="Ean13Reader"/> class.
         /// </summary>
-        public EAN13Reader()
+        public Ean13Reader()
         {
             decodeMiddleCounters = new int[4];
         }
@@ -97,9 +97,9 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 6 && rowOffset < end; x++)
             {
-                int bestMatch;
-                if (!decodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out bestMatch))
+                if (!decodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out var bestMatch)) {
                     return -1;
+                }
                 resultString.Append((char)('0' + bestMatch % 10));
                 foreach (int counter in counters)
                 {
@@ -111,19 +111,21 @@ namespace ZXing.OneD
                 }
             }
 
-            if (!determineFirstDigit(resultString, lgPatternFound))
+            if (!determineFirstDigit(resultString, lgPatternFound)) {
                 return -1;
+            }
 
             int[] middleRange = findGuardPattern(row, rowOffset, true, MIDDLE_PATTERN);
-            if (middleRange == null)
+            if (middleRange == null) {
                 return -1;
+            }
             rowOffset = middleRange[1];
 
             for (int x = 0; x < 6 && rowOffset < end; x++)
             {
-                int bestMatch;
-                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out bestMatch))
+                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
                     return -1;
+                }
                 resultString.Append((char)('0' + bestMatch));
                 foreach (int counter in counters)
                 {

@@ -461,8 +461,9 @@ namespace ZXing.Test
                     else
                     {
                         var strideBlockCount = (int)((4096 * 16) / stride);
-                        if (strideBlockCount < 1)
+                        if (strideBlockCount < 1) {
                             strideBlockCount = 1;
+                        }
                         var strideBlockSize = strideBlockCount * stride;
                         var strideStep = data.Stride * strideBlockCount;
                         var linePadding = stride - width * pixelWidth;

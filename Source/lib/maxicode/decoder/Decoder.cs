@@ -63,8 +63,9 @@ namespace ZXing.Maxicode.Internal
             BitMatrixParser parser = new BitMatrixParser(bits);
             byte[] codewords = parser.readCodewords();
 
-            if (!correctErrors(codewords, 0, 10, 10, ALL))
+            if (!correctErrors(codewords, 0, 10, 10, ALL)) {
                 return null;
+            }
 
             int mode = codewords[0] & 0x0F;
             byte[] datawords;
@@ -73,17 +74,21 @@ namespace ZXing.Maxicode.Internal
                 case 2:
                 case 3:
                 case 4:
-                    if (!correctErrors(codewords, 20, 84, 40, EVEN))
+                    if (!correctErrors(codewords, 20, 84, 40, EVEN)) {
                         return null;
-                    if (!correctErrors(codewords, 20, 84, 40, ODD))
+                    }
+                    if (!correctErrors(codewords, 20, 84, 40, ODD)) {
                         return null;
+                    }
                     datawords = new byte[94];
                     break;
                 case 5:
-                    if (!correctErrors(codewords, 20, 68, 56, EVEN))
+                    if (!correctErrors(codewords, 20, 68, 56, EVEN)) {
                         return null;
-                    if (!correctErrors(codewords, 20, 68, 56, ODD))
+                    }
+                    if (!correctErrors(codewords, 20, 68, 56, ODD)) {
                         return null;
+                    }
                     datawords = new byte[78];
                     break;
                 default:
@@ -117,8 +122,9 @@ namespace ZXing.Maxicode.Internal
                 }
             }
 
-            if (!rsDecoder.decode(codewordsInts, ecCodewords / divisor))
+            if (!rsDecoder.decode(codewordsInts, ecCodewords / divisor)) {
                 return false;
+            }
 
             // Copy back into array of bytes -- only need to worry about the bytes that were data
             // We don't care about errors in the error-correction codewords

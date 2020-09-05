@@ -240,8 +240,9 @@ namespace ZXing.Client.Result
             {
                 return null;
             }
-            if (allDay)
+            if (allDay) {
                 return date.Value.ToString("D", CultureInfo.CurrentCulture);
+            }
             return date.Value.ToString("F", CultureInfo.CurrentCulture);
         }
 

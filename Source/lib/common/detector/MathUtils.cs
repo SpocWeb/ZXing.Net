@@ -33,10 +33,12 @@ namespace ZXing.Common.Detector
         /// <returns>nearest <c>int</c></returns>
         public static int round(float d)
         {
-            if (float.IsNaN(d))
+            if (float.IsNaN(d)) {
                 return 0;
-            if (float.IsPositiveInfinity(d))
+            }
+            if (float.IsPositiveInfinity(d)) {
                 return int.MaxValue;
+            }
             return (int)(d + (d < 0.0f ? -0.5f : 0.5f));
         }
 

@@ -175,8 +175,9 @@ namespace CommandLineDecoder
                 throw new FileNotFoundException("Resource not found: " + uri);
             }
 
-            if (image == null)
+            if (image == null) {
                 return null;
+            }
 
             using (image)
             {

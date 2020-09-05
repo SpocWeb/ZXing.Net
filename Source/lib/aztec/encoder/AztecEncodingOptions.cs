@@ -47,8 +47,9 @@ namespace ZXing.Aztec
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.ERROR_CORRECTION))
+                    if (Hints.ContainsKey(EncodeHintType.ERROR_CORRECTION)) {
                         Hints.Remove(EncodeHintType.ERROR_CORRECTION);
+                    }
                 }
                 else
                 {
@@ -82,8 +83,9 @@ namespace ZXing.Aztec
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.AZTEC_LAYERS))
+                    if (Hints.ContainsKey(EncodeHintType.AZTEC_LAYERS)) {
                         Hints.Remove(EncodeHintType.AZTEC_LAYERS);
+                    }
                 }
                 else
                 {

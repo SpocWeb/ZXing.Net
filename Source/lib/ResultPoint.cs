@@ -44,8 +44,9 @@ namespace ZXing
 
         public bool Equals(ResultPoint otherPoint)
         {
-            if (otherPoint == null)
+            if (otherPoint == null) {
                 return false;
+            }
             return X == otherPoint.X && Y == otherPoint.Y;
         }
 

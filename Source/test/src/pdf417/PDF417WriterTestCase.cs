@@ -97,8 +97,9 @@ namespace ZXing.PDF417.Test
                 {
                     var bitmap = writer.Write(content);
                     var result = reader.Decode(bitmap);
-                    if (result == null)
+                    if (result == null) {
                         throw new InvalidOperationException("cant be decoded");
+                    }
                     Assert.That(result.Text, Is.EqualTo(content));
                 }
                 catch (Exception e)
@@ -113,8 +114,9 @@ namespace ZXing.PDF417.Test
                 Console.WriteLine(string.Format("Content: {0} ({1}); Error: {2}", error.Key, bytes[0], error.Value.Message));
             }
 
-            if (errors.Count > 0)
+            if (errors.Count > 0) {
                 throw new AssertionException("not every content could be encoded and decoded");
+            }
         }
 
         [TestCase("UTF-8")]
@@ -151,8 +153,9 @@ namespace ZXing.PDF417.Test
             var bitmap = writer.Write(content.ToString());
             bitmap.Save(string.Format("D:\\test-{0}.png", encodingStr), ImageFormat.Png);
             var result = reader.Decode(bitmap);
-            if (result == null)
+            if (result == null) {
                 throw new InvalidOperationException("cant be decoded");
+            }
             Assert.That(result.Text, Is.EqualTo(content.ToString()));
         }
 
@@ -187,8 +190,9 @@ namespace ZXing.PDF417.Test
                 {
                     var bitmap = writer.Write(content.ToString());
                     var result = reader.Decode(bitmap);
-                    if (result == null)
+                    if (result == null) {
                         throw new InvalidOperationException("cant be decoded");
+                    }
                     Assert.That(result.Text, Is.EqualTo(content.ToString()));
                 }
                 catch (Exception e)
@@ -202,8 +206,9 @@ namespace ZXing.PDF417.Test
                 Console.WriteLine(string.Format("Content: {0}; Error: {1}", error.Key, error.Value.Message));
             }
 
-            if (errors.Count > 0)
+            if (errors.Count > 0) {
                 throw new AssertionException("not every content could be encoded and decoded");
+            }
         }
 
     }

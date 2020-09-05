@@ -54,8 +54,9 @@ namespace ZXing.Datamatrix
             if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
             {
                 BitMatrix bits = extractPureBits(image.GetBlackMatrix());
-                if (bits == null)
+                if (bits == null) {
                     return null;
+                }
                 decoderResult = decoder.decode(bits);
                 points = NO_POINTS;
             }
@@ -63,13 +64,15 @@ namespace ZXing.Datamatrix
             {
                 IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
                 DetectorResult detectorResult = new Detector(sampler).detect();
-                if (detectorResult == null || detectorResult.Bits == null)
+                if (detectorResult == null || detectorResult.Bits == null) {
                     return null;
+                }
                 decoderResult = decoder.decode(detectorResult.Bits);
                 points = detectorResult.Points;
             }
-            if (decoderResult == null)
+            if (decoderResult == null) {
                 return null;
+            }
 
             BarCodeText result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points,
                 BarcodeFormat.DATA_MATRIX);
@@ -111,9 +114,9 @@ namespace ZXing.Datamatrix
                 return null;
             }
 
-            int moduleSize;
-            if (!DataMatrixReader.moduleSize(leftTopBlack, image, out moduleSize))
+            if (!DataMatrixReader.moduleSize(leftTopBlack, image, out var moduleSize)) {
                 return null;
+            }
 
             int top = leftTopBlack[1];
             int bottom = rightBottomBlack[1];

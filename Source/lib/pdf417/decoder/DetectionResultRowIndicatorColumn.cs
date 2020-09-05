@@ -319,8 +319,9 @@ namespace ZXing.PDF417.Internal
             for (int row = 0; row < codewords.Length; row++)
             {
                 var codeword = codewords[row];
-                if (codeword == null)
+                if (codeword == null) {
                     continue;
+                }
 
                 int indicatorValue = codeword.Value % 30;
                 int rowNumber = codeword.RowNumber;

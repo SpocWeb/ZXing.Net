@@ -101,7 +101,7 @@ namespace ZXing.OneD.Test
 
             var encResult = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
             var row = encResult.getRow(0, null);
-            var rtResult = reader.decodeRow(0, row, null);
+            var rtResult = reader.DecodeRow(0, row, null);
             var actual = rtResult.Text;
             Assert.AreEqual(expected, actual);
         }
@@ -166,7 +166,7 @@ namespace ZXing.OneD.Test
             var matrix = BitMatrix.parse(resultString, "1", "0");
             var row = new BitArray(matrix.Width);
             matrix.getRow(0, row);
-            var decodingResult = sutDecode.decodeRow(0, row, null);
+            var decodingResult = sutDecode.DecodeRow(0, row, null);
             Assert.That(decodingResult, Is.Not.Null);
             Assert.That(decodingResult.Text, Is.EqualTo(contents));
         }
@@ -193,7 +193,7 @@ namespace ZXing.OneD.Test
             Assert.AreEqual(expected, actual, toEncode);
 
             var row = result.getRow(0, null);
-            var rtResult = reader.decodeRow(0, row, null);
+            var rtResult = reader.DecodeRow(0, row, null);
             var actualRoundtripResultText = rtResult.Text;
             Assert.AreEqual(toEncode, actualRoundtripResultText);
         }

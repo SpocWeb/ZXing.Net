@@ -27,7 +27,7 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class MultiFormatUPCEANReader : OneDReader
     {
-        private readonly UPCEANReader[] readers;
+        private readonly UpcEanReader[] readers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiFormatUPCEANReader"/> class.
@@ -37,12 +37,12 @@ namespace ZXing.OneD
         {
             var possibleFormats = hints == null || !hints.ContainsKey(DecodeHintType.POSSIBLE_FORMATS) ? null :
                 (IList<BarcodeFormat>)hints[DecodeHintType.POSSIBLE_FORMATS];
-            var readers = new List<UPCEANReader>();
+            var readers = new List<UpcEanReader>();
             if (possibleFormats != null)
             {
                 if (possibleFormats.Contains(BarcodeFormat.EAN_13) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
-                    readers.Add(new EAN13Reader());
+                    readers.Add(new Ean13Reader());
                 }
                 else if (possibleFormats.Contains(BarcodeFormat.UPC_A) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
@@ -59,7 +59,7 @@ namespace ZXing.OneD
             }
             if (readers.Count == 0)
             {
-                readers.Add(new EAN13Reader());
+                readers.Add(new Ean13Reader());
                 // UPC-A is covered by EAN-13
                 readers.Add(new EAN8Reader());
                 readers.Add(new UPCEReader());
@@ -77,20 +77,22 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText DecodeRow(int rowNumber,
                                 BitArray row,
                                 IDictionary<DecodeHintType, object> hints)
         {
             // Compute this location once and reuse it on multiple implementations
-            int[] startGuardPattern = UPCEANReader.findStartGuardPattern(row);
-            if (startGuardPattern == null)
+            int[] startGuardPattern = UpcEanReader.findStartGuardPattern(row);
+            if (startGuardPattern == null) {
                 return null;
+            }
 
-            foreach (UPCEANReader reader in readers)
+            foreach (UpcEanReader reader in readers)
             {
                 BarCodeText result = reader.decodeRow(rowNumber, row, startGuardPattern, hints);
-                if (result == null)
+                if (result == null) {
                     continue;
+                }
 
                 // Special case: a 12-digit code encoded in UPC-A is identical to a "0"
                 // followed by those 12 digits encoded as EAN-13. Each will recognize such a code,

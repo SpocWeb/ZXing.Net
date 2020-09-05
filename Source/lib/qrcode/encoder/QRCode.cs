@@ -91,10 +91,11 @@ namespace ZXing.QrCode.Internal
             result.Append("\n ecLevel: ");
             result.Append(ECLevel);
             result.Append("\n version: ");
-            if (Version == null)
+            if (Version == null) {
                 result.Append("null");
-            else
+            } else {
                 result.Append(Version);
+            }
             result.Append("\n maskPattern: ");
             result.Append(MaskPattern);
             if (Matrix == null)

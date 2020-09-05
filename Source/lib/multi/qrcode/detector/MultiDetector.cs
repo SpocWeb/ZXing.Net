@@ -58,8 +58,9 @@ namespace ZXing.Multi.QrCode.Internal
             foreach (QrFinderPatternInfo info in infos)
             {
                 var detectorResult = processFinderPatternInfo(info);
-                if (detectorResult != null)
+                if (detectorResult != null) {
                     result.Add(detectorResult);
+                }
             }
             if (result.Count == 0)
             {

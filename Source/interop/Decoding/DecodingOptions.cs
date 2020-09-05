@@ -209,8 +209,9 @@ namespace ZXing.Interop.Decoding
 
         public void Add(Common.BarcodeFormat format)
         {
-            if (options.PossibleFormats == null)
+            if (options.PossibleFormats == null) {
                 options.PossibleFormats = new List<ZXing.BarcodeFormat>();
+            }
             options.PossibleFormats.Add(format.ToZXing());
         }
 
@@ -219,8 +220,9 @@ namespace ZXing.Interop.Decoding
             if (options.PossibleFormats != null)
             {
                 options.PossibleFormats.Remove(format.ToZXing());
-                if (options.PossibleFormats.Count == 0)
+                if (options.PossibleFormats.Count == 0) {
                     options.PossibleFormats = null;
+                }
             }
         }
 

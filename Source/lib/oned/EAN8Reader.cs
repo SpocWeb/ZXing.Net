@@ -23,7 +23,7 @@ namespace ZXing.OneD
     ///   <p>Implements decoding of the EAN-8 format.</p>
     ///   <author>Sean Owen</author>
     /// </summary>
-    public sealed class EAN8Reader : UPCEANReader
+    public sealed class EAN8Reader : UpcEanReader
     {
         private readonly int[] decodeMiddleCounters;
 
@@ -56,9 +56,9 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 4 && rowOffset < end; x++)
             {
-                int bestMatch;
-                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out bestMatch))
+                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
                     return -1;
+                }
                 result.Append((char)('0' + bestMatch));
                 foreach (int counter in counters)
                 {
@@ -67,15 +67,16 @@ namespace ZXing.OneD
             }
 
             int[] middleRange = findGuardPattern(row, rowOffset, true, MIDDLE_PATTERN);
-            if (middleRange == null)
+            if (middleRange == null) {
                 return -1;
+            }
             rowOffset = middleRange[1];
 
             for (int x = 0; x < 4 && rowOffset < end; x++)
             {
-                int bestMatch;
-                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out bestMatch))
+                if (!decodeDigit(row, counters, rowOffset, L_PATTERNS, out var bestMatch)) {
                     return -1;
+                }
                 result.Append((char)('0' + bestMatch));
                 foreach (int counter in counters)
                 {

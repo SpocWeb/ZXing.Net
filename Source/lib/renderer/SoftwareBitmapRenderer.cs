@@ -138,9 +138,7 @@ namespace ZXing.Rendering
             {
                 unsafe
                 {
-                    byte* data;
-                    uint capacity;
-                    ((IMemoryBufferByteAccess)reference).GetBuffer(out data, out capacity);
+                    ((IMemoryBufferByteAccess)reference).GetBuffer(out var data, out var capacity);
 
                     for (int y = 0; y < matrix.Height - emptyArea; y++)
                     {

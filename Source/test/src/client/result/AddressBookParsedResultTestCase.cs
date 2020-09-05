@@ -179,12 +179,15 @@ namespace ZXing.Client.Result.Test
 
       internal static bool AreEqual<T>(IList<T> left, IList<T> right)
       {
-         if (left == null)
-            return right == null;
-         if (right == null)
-            return false;
-         if (left.Count != right.Count)
-            return false;
+         if (left == null) {
+             return right == null;
+         }
+         if (right == null) {
+             return false;
+         }
+         if (left.Count != right.Count) {
+             return false;
+         }
 
          foreach (var leftItem in left)
          {
@@ -197,8 +200,9 @@ namespace ZXing.Client.Result.Test
                   break;
                }
             }
-            if (!found)
-               return false;
+            if (!found) {
+                return false;
+            }
          }
          foreach (var rightItem in right)
          {
@@ -211,8 +215,9 @@ namespace ZXing.Client.Result.Test
                   break;
                }
             }
-            if (!found)
-               return false;
+            if (!found) {
+                return false;
+            }
          }
          return true;
       }

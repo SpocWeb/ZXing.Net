@@ -181,8 +181,9 @@ namespace ZXing.QrCode.Internal
         private static float? centerFromEnd(int[] stateCount, int end)
         {
             var result = (end - stateCount[2]) - stateCount[1] / 2.0f;
-            if (float.IsNaN(result))
+            if (float.IsNaN(result)) {
                 return null;
+            }
             return result;
         }
 
@@ -295,8 +296,9 @@ namespace ZXing.QrCode.Internal
         {
             int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2];
             float? centerJ = centerFromEnd(stateCount, j);
-            if (centerJ == null)
+            if (centerJ == null) {
                 return null;
+            }
             float? centerI = crossCheckVertical(i, (int)centerJ, 2 * stateCount[1], stateCountTotal);
             if (centerI != null)
             {

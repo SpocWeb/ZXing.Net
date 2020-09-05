@@ -20,40 +20,22 @@ using ZXing.Common;
 
 namespace ZXing.OneD
 {
-    /// <summary>
-    /// Encapsulates functionality and implementation that is common to all families
-    /// of one-dimensional barcodes.
+    /// <summary> common to all families of one-dimensional barcodes. </summary>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// <author>Sean Owen</author>
-    /// </summary>
     public abstract class OneDReader : IBarCodeDecoder
     {
-        /// <summary>
-        /// 
-        /// </summary>
         protected static int INTEGER_MATH_SHIFT = 8;
-        /// <summary>
-        /// 
-        /// </summary>
+
         protected static int PATTERN_MATCH_RESULT_SCALE_FACTOR = 1 << INTEGER_MATH_SHIFT;
 
-        /// <summary>
-        /// Locates and decodes a barcode in some format within an image.
-        /// </summary>
-        /// <param name="image">image of barcode to decode</param>
-        /// <returns>
-        /// String which the barcode encodes
-        /// </returns>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            return Decode(image, null);
-        }
-
-        /// <summary>
-        /// Locates and decodes a barcode in some format within an image. This method also accepts
-        /// hints, each possibly associated to some data, which may help the implementation decode.
-        /// Note that we don't try rotation without the try harder flag, even if rotation was supported.
-        /// </summary>
+        /// <summary> Locates and decodes a barcode in some format within an image. </summary>
+        /// <remarks>
+        /// This method also accepts hints, each possibly associated to some data,
+        /// which may help the implementation decode.
+        /// Note that we don't try rotation without the try harder flag,
+        /// even if rotation was supported.
+        /// </remarks>
         /// <param name="image">image of barcode to decode</param>
         /// <param name="hints">passed as a <see cref="IDictionary{TKey, TValue}"/> from <see cref="DecodeHintType"/>
         /// to arbitrary data. The
@@ -62,40 +44,42 @@ namespace ZXing.OneD
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public virtual BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public virtual BarCodeText Decode(BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints = null)
         {
-            var result = doDecode(image, hints);
-            if (result == null)
+            var result = DoDecode(image, hints);
+            if (result != null) {
+                return result;
+            }
+            bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
+            bool tryHarderWithoutRotation = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER_WITHOUT_ROTATION);
+            if (!tryHarder || tryHarderWithoutRotation || !image.RotateSupported) {
+                return null;
+            }
+            BinaryBitmap rotatedImage = image.rotateCounterClockwise();
+            result = DoDecode(rotatedImage, hints);
+            if (result == null) {
+                return null;
+            }
+            // Record that we found it rotated 90 degrees CCW / 270 degrees CW
+            IDictionary<ResultMetadataType, object> metadata = result.ResultMetadata;
+            int orientation = 270;
+            if (metadata != null && metadata.ContainsKey(ResultMetadataType.ORIENTATION))
             {
-                bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
-                bool tryHarderWithoutRotation = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER_WITHOUT_ROTATION);
-                if (tryHarder && !tryHarderWithoutRotation && image.RotateSupported)
-                {
-                    BinaryBitmap rotatedImage = image.rotateCounterClockwise();
-                    result = doDecode(rotatedImage, hints);
-                    if (result == null)
-                        return null;
-                    // Record that we found it rotated 90 degrees CCW / 270 degrees CW
-                    IDictionary<ResultMetadataType, object> metadata = result.ResultMetadata;
-                    int orientation = 270;
-                    if (metadata != null && metadata.ContainsKey(ResultMetadataType.ORIENTATION))
-                    {
-                        // But if we found it reversed in doDecode(), add in that result here:
-                        orientation = (orientation +
-                                       (int)metadata[ResultMetadataType.ORIENTATION]) % 360;
-                    }
-                    result.putMetadata(ResultMetadataType.ORIENTATION, orientation);
-                    // Update result points
-                    ResultPoint[] points = result.ResultPoints;
-                    if (points != null)
-                    {
-                        int height = rotatedImage.Height;
-                        for (int i = 0; i < points.Length; i++)
-                        {
-                            points[i] = new ResultPoint(height - points[i].Y - 1, points[i].X);
-                        }
-                    }
-                }
+                // But if we found it reversed in doDecode(), add in that result here:
+                orientation = (orientation +
+                    (int)metadata[ResultMetadataType.ORIENTATION]) % 360;
+            }
+            result.putMetadata(ResultMetadataType.ORIENTATION, orientation);
+            // Update result points
+            ResultPoint[] points = result.ResultPoints;
+            if (points == null) {
+                return result;
+            }
+            int height = rotatedImage.Height;
+            for (int i = 0; i < points.Length; i++)
+            {
+                points[i] = new ResultPoint(height - points[i].Y - 1, points[i].X);
             }
             return result;
         }
@@ -121,7 +105,7 @@ namespace ZXing.OneD
         /// <param name="image">The image to decode</param>
         /// <param name="hints">Any hints that were requested</param>
         /// <returns>The contents of the decoded barcode</returns>
-        protected virtual BarCodeText doDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        protected virtual BarCodeText DoDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
             int width = image.Width;
             int height = image.Height;
@@ -155,8 +139,9 @@ namespace ZXing.OneD
 
                 // Estimate black point for this row and load it:
                 row = image.getBlackRow(rowNumber, row);
-                if (row == null)
+                if (row == null) {
                     continue;
+                }
 
                 // While we have the image data in a BitArray, it's fairly cheap to reverse it in place to
                 // handle decoding upside down barcodes.
@@ -175,16 +160,18 @@ namespace ZXing.OneD
                             IDictionary<DecodeHintType, object> newHints = new Dictionary<DecodeHintType, object>();
                             foreach (var hint in hints)
                             {
-                                if (hint.Key != DecodeHintType.NEED_RESULT_POINT_CALLBACK)
+                                if (hint.Key != DecodeHintType.NEED_RESULT_POINT_CALLBACK) {
                                     newHints.Add(hint.Key, hint.Value);
+                                }
                             }
                             hints = newHints;
                         }
                     }
                     // Look for a barcode
-                    BarCodeText result = decodeRow(rowNumber, row, hints);
-                    if (result == null)
+                    BarCodeText result = DecodeRow(rowNumber, row, hints);
+                    if (result == null) {
                         continue;
+                    }
 
                     // We found our barcode
                     if (attempt == 1)
@@ -216,11 +203,11 @@ namespace ZXing.OneD
         /// <param name="row">row to count from</param>
         /// <param name="start">offset into row to start at</param>
         /// <param name="counters">array into which to record counts</param>
-        protected static bool recordPattern(BitArray row,
+        protected static bool RecordPattern(BitArray row,
                                             int start,
                                             int[] counters)
         {
-            return recordPattern(row, start, counters, counters.Length);
+            return RecordPattern(row, start, counters, counters.Length);
         }
 
         /// <summary>
@@ -234,7 +221,7 @@ namespace ZXing.OneD
         /// <param name="start">offset into row to start at</param>
         /// <param name="counters">array into which to record counts</param>
         /// <param name="numCounters"></param>
-        protected static bool recordPattern(BitArray row,
+        protected static bool RecordPattern(BitArray row,
                                             int start,
                                             int[] counters,
                                             int numCounters)
@@ -281,7 +268,7 @@ namespace ZXing.OneD
         /// <param name="start">The start.</param>
         /// <param name="counters">The counters.</param>
         /// <returns></returns>
-        protected static bool recordPatternInReverse(BitArray row, int start, int[] counters)
+        protected static bool RecordPatternInReverse(BitArray row, int start, int[] counters)
         {
             // This could be more efficient I guess
             int numTransitionsLeft = counters.Length;
@@ -298,7 +285,7 @@ namespace ZXing.OneD
             {
                 return false;
             }
-            return recordPattern(row, start + 1, counters);
+            return RecordPattern(row, start + 1, counters);
         }
 
         /// <summary>
@@ -313,7 +300,7 @@ namespace ZXing.OneD
         ///  where the ratio has been multiplied by 256. So, 0 means no variance (perfect match); 256 means
         ///  the total variance between counters and patterns equals the pattern length, higher values mean
         ///  even more variance</returns>
-        protected static int patternMatchVariance(int[] counters,
+        protected static int PatternMatchVariance(int[] counters,
                                                   int[] pattern,
                                                   int maxIndividualVariance)
         {
@@ -362,6 +349,7 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode
         /// </returns>
-        public abstract BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints);
+        public abstract BarCodeText DecodeRow(int rowNumber, BitArray row
+            , IDictionary<DecodeHintType, object> hints);
     }
 }

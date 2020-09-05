@@ -47,8 +47,9 @@ namespace ZXing.Datamatrix
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.DATA_MATRIX_SHAPE))
+                    if (Hints.ContainsKey(EncodeHintType.DATA_MATRIX_SHAPE)) {
                         Hints.Remove(EncodeHintType.DATA_MATRIX_SHAPE);
+                    }
                 }
                 else
                 {
@@ -77,8 +78,9 @@ namespace ZXing.Datamatrix
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.MIN_SIZE))
+                    if (Hints.ContainsKey(EncodeHintType.MIN_SIZE)) {
                         Hints.Remove(EncodeHintType.MIN_SIZE);
+                    }
                 }
                 else
                 {
@@ -107,8 +109,9 @@ namespace ZXing.Datamatrix
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.MAX_SIZE))
+                    if (Hints.ContainsKey(EncodeHintType.MAX_SIZE)) {
                         Hints.Remove(EncodeHintType.MAX_SIZE);
+                    }
                 }
                 else
                 {
@@ -141,8 +144,9 @@ namespace ZXing.Datamatrix
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.DATA_MATRIX_DEFAULT_ENCODATION))
+                    if (Hints.ContainsKey(EncodeHintType.DATA_MATRIX_DEFAULT_ENCODATION)) {
                         Hints.Remove(EncodeHintType.DATA_MATRIX_DEFAULT_ENCODATION);
+                    }
                 }
                 else
                 {

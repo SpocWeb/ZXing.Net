@@ -58,10 +58,11 @@ namespace WindowsFormsDemo
             };
             barcodeReader.ResultPointFound += point =>
             {
-                if (point == null)
+                if (point == null) {
                     resultPoints.Clear();
-                else
+                } else {
                     resultPoints.Add(point);
+                }
             };
             barcodeReader.ResultFound += result =>
             {
@@ -127,19 +128,21 @@ namespace WindowsFormsDemo
 
             if (fileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
             {
-                if (TryOnlyMultipleQRCodes)
+                if (TryOnlyMultipleQRCodes) {
                     Decode(PdfSupport.GetBitmapsFromPdf(fileName), TryMultipleBarcodes, new List<BarcodeFormat> { BarcodeFormat.QR_CODE });
-                else
+                } else {
                     Decode(PdfSupport.GetBitmapsFromPdf(fileName), TryMultipleBarcodes, null);
+                }
             }
             else
             {
                 using (var bitmap = (Bitmap)Bitmap.FromFile(fileName))
                 {
-                    if (TryOnlyMultipleQRCodes)
+                    if (TryOnlyMultipleQRCodes) {
                         Decode(new[] { bitmap }, TryMultipleBarcodes, new List<BarcodeFormat> { BarcodeFormat.QR_CODE });
-                    else
+                    } else {
                         Decode(new[] { bitmap }, TryMultipleBarcodes, null);
+                    }
                 }
             }
         }
@@ -153,14 +156,15 @@ namespace WindowsFormsDemo
             var timerStart = DateTime.Now.Ticks;
             IList<BarCodeText> results = null;
             var previousFormats = barcodeReader.Options.PossibleFormats;
-            if (possibleFormats != null)
+            if (possibleFormats != null) {
                 barcodeReader.Options.PossibleFormats = possibleFormats;
+            }
 
             foreach (var bitmap in bitmaps)
             {
-                if (tryMultipleBarcodes)
+                if (tryMultipleBarcodes) {
                     results = barcodeReader.DecodeMultiple(bitmap);
-                else
+                } else
                 {
                     var result = barcodeReader.Decode(bitmap);
                     if (result != null)
@@ -198,14 +202,18 @@ namespace WindowsFormsDemo
                         var rect = new Rectangle((int)result.ResultPoints[0].X + offsetX, (int)result.ResultPoints[0].Y + offsetY, 1, 1);
                         foreach (var point in result.ResultPoints)
                         {
-                            if (point.X + offsetX < rect.Left)
+                            if (point.X + offsetX < rect.Left) {
                                 rect = new Rectangle((int)point.X + offsetX, rect.Y, rect.Width + rect.X - (int)point.X - offsetX, rect.Height);
-                            if (point.X + offsetX > rect.Right)
+                            }
+                            if (point.X + offsetX > rect.Right) {
                                 rect = new Rectangle(rect.X, rect.Y, rect.Width + (int)point.X - (rect.X - offsetX), rect.Height);
-                            if (point.Y + offsetY < rect.Top)
+                            }
+                            if (point.Y + offsetY < rect.Top) {
                                 rect = new Rectangle(rect.X, (int)point.Y + offsetY, rect.Width, rect.Height + rect.Y - (int)point.Y - offsetY);
-                            if (point.Y + offsetY > rect.Bottom)
+                            }
+                            if (point.Y + offsetY > rect.Bottom) {
                                 rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height + (int)point.Y - (rect.Y - offsetY));
+                            }
                         }
                         using (var g = picBarcode.CreateGraphics())
                         {
@@ -262,8 +270,9 @@ namespace WindowsFormsDemo
         void webCamTimer_Tick(object sender, EventArgs e)
         {
             var bitmap = wCam.GetCurrentImage();
-            if (bitmap == null)
+            if (bitmap == null) {
                 return;
+            }
             var reader = new BarcodeReader();
             var result = reader.Decode(bitmap);
             if (result != null)
@@ -304,8 +313,9 @@ namespace WindowsFormsDemo
                 {
                     dlg.DefaultExt = "png";
                     dlg.Filter = "PNG Files (*.png)|*.png|SVG Files (*.svg)|*.svg|BMP Files (*.bmp)|*.bmp|TIFF Files (*.tif)|*.tif|JPG Files (*.jpg)|*.jpg|All Files (*.*)|*.*";
-                    if (dlg.ShowDialog(this) != DialogResult.OK)
+                    if (dlg.ShowDialog(this) != DialogResult.OK) {
                         return;
+                    }
                     fileName = dlg.FileName;
                 }
                 var extension = Path.GetExtension(fileName).ToLower();
@@ -461,8 +471,9 @@ namespace WindowsFormsDemo
 
         private void btnExtendedResult_Click(object sender, EventArgs e)
         {
-            if (lastResults.Count < 1)
+            if (lastResults.Count < 1) {
                 return;
+            }
             var parsedResult = ResultParser.parseResult(lastResults[0]);
             using (var dlg = new ExtendedResultForm())
             {

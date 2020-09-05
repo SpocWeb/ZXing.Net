@@ -235,8 +235,7 @@ namespace ZXing.PDF417.Internal
                                 {
                                     bytes = toBytes(msg, encoding);
                                 }
-                                int byteCount;
-                                int b = determineConsecutiveBinaryCount(msg, bytes, p, encoding, out byteCount);
+                                int b = determineConsecutiveBinaryCount(msg, bytes, p, encoding, out var byteCount);
                                 if (b == 0)
                                 {
                                     b = 1;

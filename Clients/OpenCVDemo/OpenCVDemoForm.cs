@@ -98,8 +98,9 @@ namespace OpenCVDemo
 
         protected override void OnClosed(EventArgs e)
         {
-            if (capture != null)
+            if (capture != null) {
                 capture.Dispose();
+            }
         }
 
 

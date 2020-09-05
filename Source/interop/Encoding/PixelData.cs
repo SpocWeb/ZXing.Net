@@ -39,8 +39,9 @@ namespace ZXing.Interop.Encoding
     {
         public static PixelData ToInterop(this Rendering.PixelData other)
         {
-            if (other == null)
+            if (other == null) {
                 return null;
+            }
 
             return new PixelData(other.Width, other.Height, other.Pixels);
         }

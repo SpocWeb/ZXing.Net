@@ -759,8 +759,9 @@ namespace ZXing.PDF417.Internal
         /// </exception>
         private string getMacroBlock(ref int sourceCodeWords)
         {
-            if (metadata == null)
+            if (metadata == null) {
                 return null;
+            }
 
             if (metadata.SegmentIndex < 0)
             {
@@ -951,8 +952,9 @@ namespace ZXing.PDF417.Internal
                 int newRatio = 4;
 
                 //Integer division.
-                if (dimMaxRows >= calculatedRows)
+                if (dimMaxRows >= calculatedRows) {
                     newRatio = Math.Min(dimMaxRows / calculatedRows, newRatio);
+                }
                 aspectRatio = newRatio;
                 dimMaxRows = Math.Min(shortDimension / aspectRatio, maxRows);
                 canFit = calculatedRows <= dimMaxRows;

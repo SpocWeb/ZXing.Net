@@ -60,8 +60,9 @@ namespace ZXing.OneD
             for (var i = 0; i < length; i++)
             {
                 int indexInString = MSIReader.ALPHABET_STRING.IndexOf(contents[i]);
-                if (indexInString < 0)
+                if (indexInString < 0) {
                     throw new ArgumentException("Requested contents contains a not encodable character: '" + contents[i] + "'");
+                }
             }
 
             var codeWidth = 3 + length * 12 + 4;

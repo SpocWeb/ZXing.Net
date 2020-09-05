@@ -34,8 +34,9 @@ namespace ZXing.OneD
             StringBuilder result = decodeRowStringBuffer;
             result.Length = 0;
             int end = decodeMiddle(row, extensionStartRange, result);
-            if (end < 0)
+            if (end < 0) {
                 return null;
+            }
 
             string resultString = result.ToString();
             IDictionary<ResultMetadataType, object> extensionData = parseExtensionString(resultString);
@@ -69,9 +70,9 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 2 && rowOffset < end; x++)
             {
-                int bestMatch;
-                if (!UPCEANReader.decodeDigit(row, counters, rowOffset, UPCEANReader.L_AND_G_PATTERNS, out bestMatch))
+                if (!UpcEanReader.decodeDigit(row, counters, rowOffset, UpcEanReader.L_AND_G_PATTERNS, out var bestMatch)) {
                     return -1;
+                }
                 resultString.Append((char)('0' + bestMatch % 10));
                 foreach (int counter in counters)
                 {

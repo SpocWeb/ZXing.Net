@@ -28,7 +28,7 @@ namespace ZXing.OneD
     ///   <author>Sean Owen</author>
     ///   <author>alasdair@google.com (Alasdair Mackintosh)</author>
     /// </summary>
-    public abstract class UPCEANReader : OneDReader
+    public abstract class UpcEanReader : OneDReader
     {
 
         // These two values are critical for determining how permissive the decoding will be.
@@ -73,7 +73,7 @@ namespace ZXing.OneD
         /// </summary>
         internal static int[][] L_AND_G_PATTERNS;
 
-        static UPCEANReader()
+        static UpcEanReader()
         {
             L_AND_G_PATTERNS = new int[20][];
             Array.Copy(L_PATTERNS, 0, L_AND_G_PATTERNS, 0, 10);
@@ -94,9 +94,9 @@ namespace ZXing.OneD
         private readonly EANManufacturerOrgSupport eanManSupport;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UPCEANReader"/> class.
+        /// Initializes a new instance of the <see cref="UpcEanReader"/> class.
         /// </summary>
-        protected UPCEANReader()
+        protected UpcEanReader()
         {
             decodeRowStringBuffer = new StringBuilder(20);
             extensionReader = new UPCEANExtensionSupport();
@@ -114,8 +114,9 @@ namespace ZXing.OneD
                 for (int idx = 0; idx < START_END_PATTERN.Length; idx++)
                     counters[idx] = 0;
                 startRange = findGuardPattern(row, nextStart, false, START_END_PATTERN, counters);
-                if (startRange == null)
+                if (startRange == null) {
                     return null;
+                }
                 int start = startRange[0];
                 nextStart = startRange[1];
                 // Make sure there is a quiet zone at least as big as the start pattern before the barcode.
@@ -140,7 +141,7 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             return decodeRow(rowNumber, row, findStartGuardPattern(row), hints);
         }
@@ -170,16 +171,18 @@ namespace ZXing.OneD
             var result = decodeRowStringBuffer;
             result.Length = 0;
             var endStart = decodeMiddle(row, startGuardRange, result);
-            if (endStart < 0)
+            if (endStart < 0) {
                 return null;
+            }
 
             resultPointCallback?.Invoke(new ResultPoint(
     endStart, rowNumber
 ));
 
             var endRange = decodeEnd(row, endStart);
-            if (endRange == null)
+            if (endRange == null) {
                 return null;
+            }
 
             resultPointCallback?.Invoke(new ResultPoint(
     (endRange[0] + endRange[1]) / 2.0f, rowNumber
@@ -361,7 +364,7 @@ namespace ZXing.OneD
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        if (patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
+                        if (PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
                         {
                             return new[] { patternStart, x };
                         }
@@ -397,15 +400,16 @@ namespace ZXing.OneD
         {
             digit = -1;
 
-            if (!recordPattern(row, rowOffset, counters))
+            if (!RecordPattern(row, rowOffset, counters)) {
                 return false;
+            }
 
             int bestVariance = MAX_AVG_VARIANCE; // worst variance we'll accept
             int max = patterns.Length;
             for (int i = 0; i < max; i++)
             {
                 int[] pattern = patterns[i];
-                int variance = patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE);
+                int variance = PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE);
                 if (variance < bestVariance)
                 {
                     bestVariance = variance;

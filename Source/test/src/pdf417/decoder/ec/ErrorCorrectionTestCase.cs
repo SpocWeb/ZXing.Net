@@ -129,14 +129,15 @@ namespace ZXing.PDF417.Internal.Test
 
       private bool checkDecode(int[] received, int[] erasures)
       {
-         int errorCount;
-         if (!ec.decode(received, ECC_BYTES, erasures, out errorCount))
-            return false;
+          if (!ec.decode(received, ECC_BYTES, erasures, out var errorCount)) {
+              return false;
+          }
 
-         for (int i = 0; i < PDF417_TEST.Length; i++)
+          for (int i = 0; i < PDF417_TEST.Length; i++)
          {
-            if (received[i] != PDF417_TEST[i])
-               return false;
+            if (received[i] != PDF417_TEST[i]) {
+                return false;
+            }
          }
 
          return true;

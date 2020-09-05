@@ -106,8 +106,9 @@ namespace ZXing.IMB
 
             foreach (char bit in binary)
             {
-                if (bit == '1')
+                if (bit == '1') {
                     result += factor;
+                }
 
                 factor /= 2;
             }
@@ -121,10 +122,11 @@ namespace ZXing.IMB
 
             foreach (char bit in binary)
             {
-                if (bit == '1')
+                if (bit == '1') {
                     result += '0';
-                else
+                } else {
                     result += '1';
+                }
             }
 
             return result;
@@ -140,8 +142,9 @@ namespace ZXing.IMB
             // fill in the binaryFcsChars
             for (int pos = 0; pos < 65; pos++)
             {
-                if (imb[pos] != 'D' && imb[pos] != 'A' && imb[pos] != 'F')
+                if (imb[pos] != 'D' && imb[pos] != 'A' && imb[pos] != 'F') {
                     continue;
+                }
 
                 int offset = pos + 1;
                 for (int a = 0; a < 10; a++) // int[][] barPos
@@ -151,8 +154,9 @@ namespace ZXing.IMB
                     {
                         if (barPos[a][i] == offset)
                         {
-                            if (barType[a][i] == imb[pos] || imb[pos] == 'F')
+                            if (barType[a][i] == imb[pos] || imb[pos] == 'F') {
                                 binaryFcsChars[a][12 - i] = '1';
+                            }
                         }
                     }
                 }
@@ -179,13 +183,15 @@ namespace ZXing.IMB
             {
                 if (!table1Check.ContainsKey(decFcsChars[k]))
                 {
-                    if (table2Check.ContainsKey(decFcsChars[k]))
+                    if (table2Check.ContainsKey(decFcsChars[k])) {
                         codeWord[k] = table2Check[decFcsChars[k]] + 1287;
-                    else
+                    } else {
                         return false; // invert the imb
+                    }
                 }
-                else
+                else {
                     codeWord[k] = table1Check[decFcsChars[k]];
+                }
             }
 
             return true;
@@ -195,28 +201,30 @@ namespace ZXing.IMB
         {
 
             // get codewords A-J
-            int[] codeWord;
-            if (!getCodeWords(out codeWord, imb, table1Check, table2Check, barPos, barType))
+            if (!getCodeWords(out var codeWord, imb, table1Check, table2Check, barPos, barType))
             {
                 // imb is upside down
                 StringBuilder invertedImb = new StringBuilder(imb.Length);
                 for (int k = imb.Length - 1; k >= 0; k--)
                 {
-                    if (imb[k] == 'A')
+                    if (imb[k] == 'A') {
                         invertedImb.Append('D');
-                    else if (imb[k] == 'D')
+                    } else if (imb[k] == 'D') {
                         invertedImb.Append('A');
-                    else
+                    } else {
                         invertedImb.Append(imb[k]);
+                    }
                 }
 
-                if (!getCodeWords(out codeWord, invertedImb.ToString(), table1Check, table2Check, barPos, barType))
+                if (!getCodeWords(out codeWord, invertedImb.ToString(), table1Check, table2Check, barPos, barType)) {
                     return null;
+                }
             }
 
 
-            if (codeWord[A] > 658)
+            if (codeWord[A] > 658) {
                 codeWord[A] -= 659;
+            }
             codeWord[J] /= 2;
 
             // codewords to binaryData
@@ -276,15 +284,17 @@ namespace ZXing.IMB
 
                         listRow.Add(1);
 
-                        if (topRow[i] ^ isWhite)
+                        if (topRow[i] ^ isWhite) {
                             listTop.Add(1);
-                        else
+                        } else {
                             listTop.Add(0);
+                        }
 
-                        if (botRow[i] ^ isWhite)
+                        if (botRow[i] ^ isWhite) {
                             listBot.Add(1);
-                        else
+                        } else {
                             listBot.Add(0);
+                        }
                     }
                 }
                 else // if current pixel is white
@@ -293,15 +303,17 @@ namespace ZXing.IMB
                     {
                         listRow.Add(0);
 
-                        if (topRow[i] ^ isWhite)
+                        if (topRow[i] ^ isWhite) {
                             listTop.Add(1);
-                        else
+                        } else {
                             listTop.Add(0);
+                        }
 
-                        if (botRow[i] ^ isWhite)
+                        if (botRow[i] ^ isWhite) {
                             listBot.Add(1);
-                        else
+                        } else {
                             listBot.Add(0);
+                        }
                     }
 
                     insideBar = false;
@@ -368,9 +380,9 @@ namespace ZXing.IMB
                         numWSBetween++;
                         insideWS = true;
 
-                        if (countBars <= 1)
+                        if (countBars <= 1) {
                             prevBarLength = currBarLength;
-                        else
+                        } else
                         {
                             if (prevBarLength != currBarLength)
                             {
@@ -424,16 +436,18 @@ namespace ZXing.IMB
 
                     if (i == stop)
                     {
-                        if (currentBarWidth == barWidth)
+                        if (currentBarWidth == barWidth) {
                             countBars++;
+                        }
                     }
                 }
                 else // if current pixel is white
                 {
                     if (insideBar)
                     {
-                        if (currentBarWidth == barWidth)
+                        if (currentBarWidth == barWidth) {
                             countBars++;
+                        }
                     }
                     insideBar = false;
                     currentBarWidth = 0;
@@ -452,17 +466,19 @@ namespace ZXing.IMB
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
-            if (currentBitmap == null)
+            if (currentBitmap == null) {
                 return null;
+            }
 
             int pixelStartOffset = 0;
             int pixelStopOffset = currentBitmap.Width - 1;
             int pixelBarLength = 0;
             int numBars = isIMB(row, ref pixelStartOffset, ref pixelStopOffset, ref pixelBarLength);
-            if (numBars != NUM_BARS_IMB)
+            if (numBars != NUM_BARS_IMB) {
                 return null;
+            }
 
             // create the two bitarrays to check top and bottom
             BitArray topRow = new BitArray(currentBitmap.Width);
@@ -472,15 +488,17 @@ namespace ZXing.IMB
 
             do
             {
-                if (rowNumberTop <= 0)
+                if (rowNumberTop <= 0) {
                     return null;
+                }
                 rowNumberTop--;
                 topRow = currentBitmap.getBlackRow(rowNumberTop, topRow);
             } while (getNumberBars(topRow, pixelStartOffset, pixelStopOffset, pixelBarLength) >= NUM_BARS_IMB);
             do
             {
-                if (rowNumberBot >= (currentBitmap.Height - 1))
+                if (rowNumberBot >= (currentBitmap.Height - 1)) {
                     return null;
+                }
                 rowNumberBot++;
                 botRow = currentBitmap.getBlackRow(rowNumberBot, botRow);
             } while (getNumberBars(botRow, pixelStartOffset, pixelStopOffset, pixelBarLength) >= NUM_BARS_IMB);
@@ -493,22 +511,25 @@ namespace ZXing.IMB
             string symbolCode = "";
             for (int k = 0; k < listRow.Count; k++)
             {
-                if (listRow[k] == 0)
+                if (listRow[k] == 0) {
                     continue;
+                }
 
-                if (listBot[k] == 1 && listTop[k] == 1)
+                if (listBot[k] == 1 && listTop[k] == 1) {
                     symbolCode += "F";
-                else if (listBot[k] == 1)
+                } else if (listBot[k] == 1) {
                     symbolCode += "D";
-                else if (listTop[k] == 1)
+                } else if (listTop[k] == 1) {
                     symbolCode += "A";
-                else
+                } else {
                     symbolCode += "T";
+                }
             }
 
             string trackingNumber = getTrackingNumber(symbolCode);
-            if (trackingNumber == null)
+            if (trackingNumber == null) {
                 return null;
+            }
 
             var resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK)
                                          ? null

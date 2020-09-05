@@ -241,8 +241,7 @@ namespace ZXing.Client.Result
                         // as value, to support tel: and mailto:
                         try
                         {
-                            Uri uri;
-                            if (Uri.TryCreate(element, UriKind.RelativeOrAbsolute, out uri))
+                            if (Uri.TryCreate(element, UriKind.RelativeOrAbsolute, out var uri))
                             {
                                 element = uri.AbsoluteUri.Replace(uri.Scheme + ':', "");
                             }

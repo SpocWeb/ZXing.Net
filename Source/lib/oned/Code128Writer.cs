@@ -89,8 +89,9 @@ namespace ZXing.OneD
                 Convert.ToBoolean(hints[EncodeHintType.GS1_FORMAT].ToString()))
             {
                 // append the FNC1 character at the first position if not already present
-                if (!string.IsNullOrEmpty(contents) && contents[0] != ESCAPE_FNC_1)
+                if (!string.IsNullOrEmpty(contents) && contents[0] != ESCAPE_FNC_1) {
                     contents = ESCAPE_FNC_1 + contents;
+                }
             }
 
             return base.encode(contents, format, width, height, hints);
@@ -115,7 +116,9 @@ namespace ZXing.OneD
                     default:
                         if (c > 127)
                             // support for FNC4 isn't implemented, no full Latin-1 character set available at the moment
+                        {
                             throw new ArgumentException("Bad character in input: " + c);
+                        }
                         break;
                 }
             }
@@ -149,10 +152,11 @@ namespace ZXing.OneD
                             patternIndex = CODE_FNC_3;
                             break;
                         case ESCAPE_FNC_4:
-                            if (newCodeSet == CODE_CODE_A)
+                            if (newCodeSet == CODE_CODE_A) {
                                 patternIndex = CODE_FNC_4_A;
-                            else
+                            } else {
                                 patternIndex = CODE_FNC_4_B;
+                            }
                             break;
                         default:
                             // Then handle normal characters otherwise

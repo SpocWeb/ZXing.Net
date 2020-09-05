@@ -60,8 +60,9 @@ namespace ZXing.PDF417.Internal
                                            int maxCodewordWidth)
         {
             var boundingBox = BoundingBox.Create(image, imageTopLeft, imageBottomLeft, imageTopRight, imageBottomRight);
-            if (boundingBox == null)
+            if (boundingBox == null) {
                 return null;
+            }
 
             DetectionResultRowIndicatorColumn leftRowIndicatorColumn = null;
             DetectionResultRowIndicatorColumn rightRowIndicatorColumn = null;
@@ -343,8 +344,9 @@ namespace ZXing.PDF417.Internal
         private static DecoderResult createDecoderResult(DetectionResult detectionResult)
         {
             BarcodeValue[][] barcodeMatrix = createBarcodeMatrix(detectionResult);
-            if (barcodeMatrix == null)
+            if (barcodeMatrix == null) {
                 return null;
+            }
 
             if (!adjustCodewordCount(detectionResult, barcodeMatrix))
             {
@@ -417,8 +419,9 @@ namespace ZXing.PDF417.Internal
                 try
                 {
                     var result = decodeCodewords(codewords, ecLevel, erasureArray);
-                    if (result != null)
+                    if (result != null) {
                         return result;
+                    }
                 }
                 catch (ReaderException)
                 {
@@ -795,8 +798,7 @@ namespace ZXing.PDF417.Internal
                 return -1;
 
             }
-            int errorCount;
-            if (!errorCorrection.decode(codewords, numECCodewords, erasures, out errorCount))
+            if (!errorCorrection.decode(codewords, numECCodewords, erasures, out var errorCount))
             {
                 return -1;
             }

@@ -146,8 +146,9 @@ namespace ZXing.Interop.Common
 
         public static IList<ZXing.BarcodeFormat> ToZXing(this IList<BarcodeFormat> formate)
         {
-            if (formate == null)
+            if (formate == null) {
                 return null;
+            }
 
             var result = new List<ZXing.BarcodeFormat>();
 
@@ -212,8 +213,9 @@ namespace ZXing.Interop.Common
 
         public static BarcodeFormat[] ToInterop(this IList<ZXing.BarcodeFormat> formate)
         {
-            if (formate == null)
+            if (formate == null) {
                 return null;
+            }
 
             var result = new BarcodeFormat[formate.Count];
             var index = 0;

@@ -56,8 +56,9 @@ namespace ZXing.Interop.Encoding
             get
             {
                 var wrappedValue = wrappedDatamatrixEncodingOptions.MinSize;
-                if (wrappedValue == null)
+                if (wrappedValue == null) {
                     return null;
+                }
                 return new Dimension(wrappedValue.Width, wrappedValue.Height);
             }
             set
@@ -74,8 +75,9 @@ namespace ZXing.Interop.Encoding
             get
             {
                 var wrappedValue = wrappedDatamatrixEncodingOptions.MaxSize;
-                if (wrappedValue == null)
+                if (wrappedValue == null) {
                     return null;
+                }
                 return new Dimension(wrappedValue.Width, wrappedValue.Height);
             }
             set

@@ -104,8 +104,9 @@ namespace ZXing
             remove
             {
                 explicitResultPointFound -= value;
-                if (explicitResultPointFound == null)
+                if (explicitResultPointFound == null) {
                     Options.Hints.Remove(DecodeHintType.NEED_RESULT_POINT_CALLBACK);
+                }
                 usePreviousState = false;
             }
         }
@@ -196,8 +197,9 @@ namespace ZXing
             }
             else
             {
-                if (Options.Hints.ContainsKey(DecodeHintType.TRY_HARDER_WITHOUT_ROTATION))
+                if (Options.Hints.ContainsKey(DecodeHintType.TRY_HARDER_WITHOUT_ROTATION)) {
                     Options.Hints.Remove(DecodeHintType.TRY_HARDER_WITHOUT_ROTATION);
+                }
             }
 
             for (; rotationCount < rotationMaxCount; rotationCount++)
@@ -231,8 +233,9 @@ namespace ZXing
 
                 if (result != null ||
                     !luminanceSource.RotateSupported ||
-                    !AutoRotate)
+                    !AutoRotate) {
                     break;
+                }
 
                 luminanceSource = luminanceSource.rotateCounterClockwise();
                 binarizer = CreateBinarizer(luminanceSource);
@@ -314,8 +317,9 @@ namespace ZXing
 
                 if (results != null ||
                     !luminanceSource.RotateSupported ||
-                    !AutoRotate)
+                    !AutoRotate) {
                     break;
+                }
 
                 binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.rotateCounterClockwise()));
             }
@@ -391,8 +395,9 @@ namespace ZXing
         /// </returns>
         public BarCodeText Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
         {
-            if (rawRGB == null)
+            if (rawRGB == null) {
                 throw new ArgumentNullException("rawRGB");
+            }
 
             var luminanceSource = createRGBLuminanceSource(rawRGB, width, height, format);
 
@@ -411,8 +416,9 @@ namespace ZXing
         /// </returns>
         public BarCodeText[] DecodeMultiple(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
         {
-            if (rawRGB == null)
+            if (rawRGB == null) {
                 throw new ArgumentNullException("rawRGB");
+            }
 
             var luminanceSource = createRGBLuminanceSource(rawRGB, width, height, format);
 

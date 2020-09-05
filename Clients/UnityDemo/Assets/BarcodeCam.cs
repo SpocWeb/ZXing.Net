@@ -117,8 +117,9 @@ public class BarcodeCam : MonoBehaviour
 
         while (true)
         {
-            if (isQuit)
+            if (isQuit) {
                 break;
+            }
 
             try
             {

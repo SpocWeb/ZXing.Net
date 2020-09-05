@@ -72,8 +72,9 @@ namespace ZXing.QrCode
             if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
             {
                 var bits = extractPureBits(image.GetBlackMatrix());
-                if (bits == null)
+                if (bits == null) {
                     return null;
+                }
                 decoderResult = decoder.decode(bits, hints);
                 points = NO_POINTS;
             }
@@ -81,13 +82,15 @@ namespace ZXing.QrCode
             {
                 IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
                 var detectorResult = new QrDetector(image.GetBlackMatrix()).detect(hints);
-                if (detectorResult == null)
+                if (detectorResult == null) {
                     return null;
+                }
                 decoderResult = decoder.decode(detectorResult.Bits, hints);
                 points = detectorResult.Points;
             }
-            if (decoderResult == null)
+            if (decoderResult == null) {
                 return null;
+            }
 
             // If the code was mirrored: swap the bottom-left and the top-right points.
             var data = decoderResult.Other as QRCodeDecoderMetaData;
@@ -141,9 +144,9 @@ namespace ZXing.QrCode
                 return null;
             }
 
-            float moduleSize;
-            if (!QRCodeReader.moduleSize(leftTopBlack, image, out moduleSize))
+            if (!QRCodeReader.moduleSize(leftTopBlack, image, out var moduleSize)) {
                 return null;
+            }
 
             int top = leftTopBlack[1];
             int bottom = rightBottomBlack[1];

@@ -188,8 +188,9 @@ namespace ZXing.PDF417
             {
                 if (value == null)
                 {
-                    if (Hints.ContainsKey(EncodeHintType.CHARACTER_SET))
+                    if (Hints.ContainsKey(EncodeHintType.CHARACTER_SET)) {
                         Hints.Remove(EncodeHintType.CHARACTER_SET);
+                    }
                 }
                 else
                 {

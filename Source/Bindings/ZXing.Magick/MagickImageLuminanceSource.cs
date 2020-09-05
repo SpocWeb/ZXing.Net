@@ -60,10 +60,12 @@ namespace ZXing.Magick
 
         private static byte[] CalculateLuminance(IMagickImage src)
         {
-            if (src == null)
+            if (src == null) {
                 throw new ArgumentNullException(nameof(src));
-            if (src.BitDepth() < 8)
+            }
+            if (src.BitDepth() < 8) {
                 src.BitDepth(8);
+            }
             return src.ToByteArray(MagickFormat.Gray);
         }
     }

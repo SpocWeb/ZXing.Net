@@ -79,13 +79,15 @@ namespace ZXing.Common.ReedSolomon
             var syndrome = new GenericGFPoly(field, syndromeCoefficients);
 
             var sigmaOmega = runEuclideanAlgorithm(field.buildMonomial(twoS, 1), syndrome, twoS);
-            if (sigmaOmega == null)
+            if (sigmaOmega == null) {
                 return false;
+            }
 
             var sigma = sigmaOmega[0];
             var errorLocations = findErrorLocations(sigma);
-            if (errorLocations == null)
+            if (errorLocations == null) {
                 return false;
+            }
 
             var omega = sigmaOmega[1];
             var errorMagnitudes = findErrorMagnitudes(omega, errorLocations);

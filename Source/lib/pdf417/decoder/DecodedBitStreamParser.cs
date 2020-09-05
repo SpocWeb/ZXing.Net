@@ -301,8 +301,7 @@ namespace ZXing.PDF417.Internal
                            try { resultMetadata.SegmentCount = Int32.Parse(segmentCount.ToString()); }
                            catch { }
 #else
-                                    int intResult;
-                                    if (int.TryParse(segmentCount.ToString(), out intResult)) {
+                                    if (int.TryParse(segmentCount.ToString(), out var intResult)) {
                                         resultMetadata.SegmentCount = intResult;
                                     }
 #endif
@@ -316,8 +315,7 @@ namespace ZXing.PDF417.Internal
                            try { resultMetadata.Timestamp = Int64.Parse(timestamp.ToString()); }
                            catch { }
 #else
-                                    long longResult;
-                                    if (long.TryParse(timestamp.ToString(), out longResult)) {
+                                    if (long.TryParse(timestamp.ToString(), out var longResult)) {
                                         resultMetadata.Timestamp = longResult;
                                     }
 #endif
@@ -331,8 +329,7 @@ namespace ZXing.PDF417.Internal
                            try { resultMetadata.Checksum = Int32.Parse(checksum.ToString()); }
                            catch { }
 #else
-                                    int intResult;
-                                    if (int.TryParse(checksum.ToString(), out intResult)) {
+                                    if (int.TryParse(checksum.ToString(), out var intResult)) {
                                         resultMetadata.Checksum = intResult;
                                     }
 #endif
@@ -346,8 +343,7 @@ namespace ZXing.PDF417.Internal
                            try { resultMetadata.FileSize = Int64.Parse(fileSize.ToString()); }
                            catch { }
 #else
-                                    long longResult;
-                                    if (long.TryParse(fileSize.ToString(), out longResult)) {
+                                    if (long.TryParse(fileSize.ToString(), out var longResult)) {
                                         resultMetadata.FileSize = longResult;
                                     }
 #endif

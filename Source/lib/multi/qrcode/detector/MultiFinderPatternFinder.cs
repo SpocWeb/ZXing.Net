@@ -305,8 +305,9 @@ namespace ZXing.Multi.QrCode.Internal
                 } // end if foundPatternCross
             } // for i=iSkip-1 ...
             FinderPattern[][] patternInfo = selectMultipleBestPatterns();
-            if (patternInfo == null)
+            if (patternInfo == null) {
                 return EMPTY_RESULT_ARRAY;
+            }
             List<QrFinderPatternInfo> result = new List<QrFinderPatternInfo>();
             foreach (FinderPattern[] pattern in patternInfo)
             {

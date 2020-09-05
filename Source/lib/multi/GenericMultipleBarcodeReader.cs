@@ -92,8 +92,9 @@ namespace ZXing.Multi
             }
 
             BarCodeText result = _delegate.Decode(image, hints);
-            if (result == null)
+            if (result == null) {
                 return;
+            }
 
             bool alreadyFound = false;
             for (int i = 0; i < results.Count; i++)

@@ -101,16 +101,21 @@ namespace ZXing.Interop.Encoding
     {
         public static ErrorCorrectionLevel ToInterop(this QrCode.Internal.ErrorCorrectionLevel other)
         {
-            if (other == null)
+            if (other == null) {
                 return ErrorCorrectionLevel.L;
-            if (other == QrCode.Internal.ErrorCorrectionLevel.H)
+            }
+            if (other == QrCode.Internal.ErrorCorrectionLevel.H) {
                 return ErrorCorrectionLevel.H;
-            if (other == QrCode.Internal.ErrorCorrectionLevel.L)
+            }
+            if (other == QrCode.Internal.ErrorCorrectionLevel.L) {
                 return ErrorCorrectionLevel.L;
-            if (other == QrCode.Internal.ErrorCorrectionLevel.M)
+            }
+            if (other == QrCode.Internal.ErrorCorrectionLevel.M) {
                 return ErrorCorrectionLevel.M;
-            if (other != QrCode.Internal.ErrorCorrectionLevel.Q)
+            }
+            if (other != QrCode.Internal.ErrorCorrectionLevel.Q) {
                 return ErrorCorrectionLevel.Q;
+            }
             return ErrorCorrectionLevel.L;
         }
         public static QrCode.Internal.ErrorCorrectionLevel ToZXing(this ErrorCorrectionLevel other)

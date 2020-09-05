@@ -75,15 +75,16 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
             decodeRowResult.Length = 0;
 
             int[] start = findStartPattern(row, counters);
-            if (start == null)
+            if (start == null) {
                 return null;
+            }
 
             // Read off white space    
             int nextStart = row.getNextSet(start[1]);
@@ -97,8 +98,9 @@ namespace ZXing.OneD
                 {
                     // not enough bars for a number but perhaps enough for the end pattern
                     var endPattern = findEndPattern(row, nextStart, counters);
-                    if (endPattern == null)
+                    if (endPattern == null) {
                         return null;
+                    }
                     lastStart = nextStart;
                     nextStart = endPattern[1];
                     break;
@@ -109,8 +111,9 @@ namespace ZXing.OneD
                     // pattern doesn't result in an encoded number
                     // but it could be the end pattern followed by some black areas
                     var endPattern = findEndPattern(row, nextStart, counters);
-                    if (endPattern == null)
+                    if (endPattern == null) {
                         return null;
+                    }
                     lastStart = nextStart;
                     nextStart = endPattern[1];
                     break;

@@ -72,9 +72,7 @@ namespace ZXing
                 {
                     unsafe
                     {
-                        byte* data;
-                        uint capacity;
-                        ((IMemoryBufferByteAccess)reference).GetBuffer(out data, out capacity);
+                        ((IMemoryBufferByteAccess)reference).GetBuffer(out var data, out var capacity);
 
                         // Get information about the BitmapBuffer
                         BitmapPlaneDescription desc = bitmapBuffer.GetPlaneDescription(0);

@@ -95,8 +95,9 @@ namespace ZXing.Common
 
             byte[] localLuminances = source.getRow(y, _Luminances);
             int blackPoint = LocalBlackPoint(width, localLuminances);
-            if (blackPoint < 0)
+            if (blackPoint < 0) {
                 return null;
+            }
 
             if (width < 3)
             {
@@ -184,8 +185,9 @@ namespace ZXing.Common
             // Although we end up reading four rows twice,
             // it is consistent with our motto of "fail quickly"
             // which is necessary for continuous scanning.
-            if (blackPoint < 0)
+            if (blackPoint < 0) {
                 return new BitMatrix(1, 1);
+            }
 
             var localLuminances = source.Matrix;
             for (int y = 0; y < height; y++)

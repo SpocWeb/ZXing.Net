@@ -119,7 +119,7 @@ namespace ZXing.OneD.RSS.Expanded
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText DecodeRow(int rowNumber,
             BitArray row,
             IDictionary<DecodeHintType, object> hints)
         {
@@ -645,8 +645,7 @@ namespace ZXing.OneD.RSS.Expanded
             Array.Copy(counters, 0, counters, 1, counters.Length - 1);
 
             counters[0] = firstCounter;
-            int value;
-            if (!parseFinderValue(counters, FINDER_PATTERNS, out value)) {
+            if (!parseFinderValue(counters, FINDER_PATTERNS, out var value)) {
                 return null;
             }
 
@@ -663,13 +662,13 @@ namespace ZXing.OneD.RSS.Expanded
 
             if (leftChar)
             {
-                if (!recordPatternInReverse(row, pattern.StartEnd[0], counters)) {
+                if (!RecordPatternInReverse(row, pattern.StartEnd[0], counters)) {
                     return null;
                 }
             }
             else
             {
-                if (!recordPattern(row, pattern.StartEnd[1], counters)) {
+                if (!RecordPattern(row, pattern.StartEnd[1], counters)) {
                     return null;
                 }
                 // reverse it

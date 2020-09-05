@@ -61,8 +61,9 @@ namespace ZXing.SkiaSharp
 
         private void CalculateLuminance(SKBitmap src)
         {
-            if (src == null)
+            if (src == null) {
                 throw new ArgumentNullException("src");
+            }
 
             var imageInfo = src.Info;
             var width = imageInfo.Width;

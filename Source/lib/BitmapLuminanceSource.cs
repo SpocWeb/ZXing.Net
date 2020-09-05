@@ -93,10 +93,11 @@ namespace ZXing
                     {
 #if !WindowsCE
                         case 0:
-                            if (bitmap.PixelFormat == PixelFormat.Format4bppIndexed)
+                            if (bitmap.PixelFormat == PixelFormat.Format4bppIndexed) {
                                 CalculateLuminanceValuesForIndexed4Bit(bitmap, data, luminances);
-                            else
+                            } else {
                                 CalculateLuminanceValuesForIndexed1Bit(bitmap, data, luminances);
+                            }
                             break;
                         case 1:
                             CalculateLuminanceValuesForIndexed8Bit(bitmap, data, luminances);
@@ -167,8 +168,9 @@ namespace ZXing
             var buffer = new byte[stride];
             var ptrInBitmap = data.Scan0;
 
-            if (pixelWidth != 0)
+            if (pixelWidth != 0) {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 
             // prepare palette for 1, 4 and 8 bit indexed bitmaps
             var luminancePalette = new byte[256];
@@ -212,8 +214,9 @@ namespace ZXing
         /// <param name="luminances"></param>
         protected static void CalculateLuminanceValuesForIndexed4Bit(Bitmap bitmap, BitmapData data, byte[] luminances)
         {
-            if (bitmap.PixelFormat != PixelFormat.Format4bppIndexed)
+            if (bitmap.PixelFormat != PixelFormat.Format4bppIndexed) {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 
             var height = data.Height;
             var width = data.Width;
@@ -224,8 +227,9 @@ namespace ZXing
             var ptrInBitmap = data.Scan0;
             var evenWidth = (width / 2) * 2;
 
-            if (pixelWidth != 0)
+            if (pixelWidth != 0) {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 
             // prepare palette for 1, 4 and 8 bit indexed bitmaps
             var luminancePalette = new byte[256];
@@ -283,8 +287,9 @@ namespace ZXing
             var buffer = new byte[stride];
             var ptrInBitmap = data.Scan0;
 
-            if (pixelWidth != 1)
+            if (pixelWidth != 1) {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 
             // prepare palette for 1, 4 and 8 bit indexed bitmaps
             var luminancePalette = new byte[256];
@@ -333,7 +338,9 @@ namespace ZXing
 
             if (pixelWidth != 2)
 #if !WindowsCE
+            {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 #else
                 throw new InvalidOperationException("Unsupported pixel format");
 #endif
@@ -385,7 +392,9 @@ namespace ZXing
 
             if (pixelWidth != 3)
 #if !WindowsCE
+            {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 #else
                 throw new InvalidOperationException("Unsupported pixel format");
 #endif
@@ -431,7 +440,9 @@ namespace ZXing
 
             if (pixelWidth != 4)
 #if !WindowsCE
+            {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 #else
                 throw new InvalidOperationException("Unsupported pixel format");
 #endif
@@ -473,7 +484,9 @@ namespace ZXing
 
             if (pixelWidth != 4)
 #if !WindowsCE
+            {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 #else
                 throw new InvalidOperationException("Unsupported pixel format");
 #endif
@@ -522,7 +535,9 @@ namespace ZXing
 
             if (pixelWidth != 4)
 #if !WindowsCE
+            {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);
+            }
 #else
                 throw new InvalidOperationException("Unsupported pixel format");
 #endif

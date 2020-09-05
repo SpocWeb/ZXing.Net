@@ -196,10 +196,11 @@ namespace ZXing.PDF417
                                                       int margin,
                                                       int aspectRatio)
         {
-            if (width >= height)
+            if (width >= height) {
                 encoder.generateBarcodeLogic(contents, errorCorrectionLevel, width, height, ref aspectRatio);
-            else
+            } else {
                 encoder.generateBarcodeLogic(contents, errorCorrectionLevel, height, width, ref aspectRatio);
+            }
 
             sbyte[][] originalScale = encoder.BarcodeMatrix.getScaledMatrix(1, aspectRatio);
             bool rotated = false;

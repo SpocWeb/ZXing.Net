@@ -20,8 +20,9 @@ namespace System.Numerics
    {
       internal static BigInteger Parse(string str)
       {
-         if (string.IsNullOrEmpty(str))
-            return BigInteger.Zero;
+         if (string.IsNullOrEmpty(str)) {
+             return BigInteger.Zero;
+         }
 
          var result = new BigInteger();
          var idx = 0;

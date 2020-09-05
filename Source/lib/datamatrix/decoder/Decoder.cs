@@ -60,13 +60,15 @@ namespace ZXing.Datamatrix.Internal
         {
             // Construct a parser and read version, error-correction level
             BitMatrixParser parser = new BitMatrixParser(bits);
-            if (parser.Version == null)
+            if (parser.Version == null) {
                 return null;
+            }
 
             // Read codewords
             byte[] codewords = parser.readCodewords();
-            if (codewords == null)
+            if (codewords == null) {
                 return null;
+            }
             // Separate into data blocks
             DataBlock[] dataBlocks = DataBlock.getDataBlocks(codewords, parser.Version);
 
@@ -85,8 +87,9 @@ namespace ZXing.Datamatrix.Internal
                 DataBlock dataBlock = dataBlocks[j];
                 byte[] codewordBytes = dataBlock.Codewords;
                 int numDataCodewords = dataBlock.NumDataCodewords;
-                if (!correctErrors(codewordBytes, numDataCodewords))
+                if (!correctErrors(codewordBytes, numDataCodewords)) {
                     return null;
+                }
                 for (int i = 0; i < numDataCodewords; i++)
                 {
                     // De-interlace data blocks.
@@ -115,8 +118,9 @@ namespace ZXing.Datamatrix.Internal
                 codewordsInts[i] = codewordBytes[i];
             }
             int numECCodewords = codewordBytes.Length - numDataCodewords;
-            if (!rsDecoder.decode(codewordsInts, numECCodewords))
+            if (!rsDecoder.decode(codewordsInts, numECCodewords)) {
                 return false;
+            }
 
             // Copy back into array of bytes -- only need to worry about the bytes that were data
             // We don't care about errors in the error-correction codewords

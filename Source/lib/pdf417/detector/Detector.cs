@@ -82,8 +82,9 @@ namespace ZXing.PDF417.Internal
             //boolean tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER);
 
             BitMatrix bitMatrix = image.GetBlackMatrix();
-            if (bitMatrix == null)
+            if (bitMatrix == null) {
                 return null;
+            }
 
             List<ResultPoint[]> barcodeCoordinates = detect(multiple, bitMatrix);
             if (barcodeCoordinates == null ||

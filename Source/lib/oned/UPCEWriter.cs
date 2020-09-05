@@ -49,7 +49,7 @@ namespace ZXing.OneD
             {
                 case 7:
                     // No check digit present, calculate it and add it
-                    var check = UPCEANReader.getStandardUPCEANChecksum(UPCEReader.convertUPCEtoUPCA(contents));
+                    var check = UpcEanReader.getStandardUPCEANChecksum(UPCEReader.convertUPCEtoUPCA(contents));
                     if (check == null)
                     {
                         throw new ArgumentException("Checksum can't be calculated");
@@ -59,7 +59,7 @@ namespace ZXing.OneD
                 case 8:
                     try
                     {
-                        if (!UPCEANReader.checkStandardUPCEANChecksum(UPCEReader.convertUPCEtoUPCA(contents)))
+                        if (!UpcEanReader.checkStandardUPCEANChecksum(UPCEReader.convertUPCEtoUPCA(contents)))
                         {
                             throw new ArgumentException("Contents do not pass checksum");
                         }
@@ -85,7 +85,7 @@ namespace ZXing.OneD
             var parities = UPCEReader.NUMSYS_AND_CHECK_DIGIT_PATTERNS[firstDigit][checkDigit];
             var result = new bool[CODE_WIDTH];
 
-            var pos = appendPattern(result, 0, UPCEANReader.START_END_PATTERN, true);
+            var pos = appendPattern(result, 0, UpcEanReader.START_END_PATTERN, true);
 
             for (var i = 1; i <= 6; i++)
             {
@@ -94,10 +94,10 @@ namespace ZXing.OneD
                 {
                     digit += 10;
                 }
-                pos += appendPattern(result, pos, UPCEANReader.L_AND_G_PATTERNS[digit], false);
+                pos += appendPattern(result, pos, UpcEanReader.L_AND_G_PATTERNS[digit], false);
             }
 
-            appendPattern(result, pos, UPCEANReader.END_PATTERN, false);
+            appendPattern(result, pos, UpcEanReader.END_PATTERN, false);
 
             return result;
         }

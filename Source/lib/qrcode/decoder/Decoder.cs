@@ -65,8 +65,9 @@ namespace ZXing.QrCode.Internal
         {
             // Construct a parser and read version, error-correction level
             var parser = BitMatrixParser.createBitMatrixParser(bits);
-            if (parser == null)
+            if (parser == null) {
                 return null;
+            }
 
             var result = decode(parser, hints);
             if (result == null)
@@ -79,13 +80,15 @@ namespace ZXing.QrCode.Internal
 
                 // Preemptively read the version.
                 var version = parser.readVersion();
-                if (version == null)
+                if (version == null) {
                     return null;
+                }
 
                 // Preemptively read the format information.
                 var formatinfo = parser.readFormatInformation();
-                if (formatinfo == null)
+                if (formatinfo == null) {
                     return null;
+                }
 
                 /*
                  * Since we're here, this means we have successfully detected some kind
@@ -111,17 +114,20 @@ namespace ZXing.QrCode.Internal
         private DecoderResult decode(BitMatrixParser parser, IDictionary<DecodeHintType, object> hints)
         {
             Version version = parser.readVersion();
-            if (version == null)
+            if (version == null) {
                 return null;
+            }
             var formatinfo = parser.readFormatInformation();
-            if (formatinfo == null)
+            if (formatinfo == null) {
                 return null;
+            }
             ErrorCorrectionLevel ecLevel = formatinfo.ErrorCorrectionLevel;
 
             // Read codewords
             byte[] codewords = parser.readCodewords();
-            if (codewords == null)
+            if (codewords == null) {
                 return null;
+            }
             // Separate into data blocks
             DataBlock[] dataBlocks = DataBlock.getDataBlocks(codewords, version, ecLevel);
 
@@ -139,8 +145,9 @@ namespace ZXing.QrCode.Internal
             {
                 byte[] codewordBytes = dataBlock.Codewords;
                 int numDataCodewords = dataBlock.NumDataCodewords;
-                if (!correctErrors(codewordBytes, numDataCodewords))
+                if (!correctErrors(codewordBytes, numDataCodewords)) {
                     return null;
+                }
                 for (int i = 0; i < numDataCodewords; i++)
                 {
                     resultBytes[resultOffset++] = codewordBytes[i];
@@ -165,8 +172,9 @@ namespace ZXing.QrCode.Internal
             }
             int numECCodewords = codewordBytes.Length - numDataCodewords;
 
-            if (!rsDecoder.decode(codewordsInts, numECCodewords))
+            if (!rsDecoder.decode(codewordsInts, numECCodewords)) {
                 return false;
+            }
 
             // Copy back into array of bytes -- only need to worry about the bytes that were data
             // We don't care about errors in the error-correction codewords

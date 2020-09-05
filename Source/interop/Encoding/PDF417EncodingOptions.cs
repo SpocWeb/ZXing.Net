@@ -205,14 +205,16 @@ namespace ZXing.Interop.Encoding
     {
         public static Dimensions ToInterop(this PDF417.Internal.Dimensions other)
         {
-            if (other == null)
+            if (other == null) {
                 return null;
+            }
             return new Dimensions(other.MinCols, other.MaxCols, other.MinRows, other.MaxRows);
         }
         public static PDF417.Internal.Dimensions ToZXing(this Dimensions other)
         {
-            if (other == null)
+            if (other == null) {
                 return null;
+            }
             return new PDF417.Internal.Dimensions(other.MinCols, other.MaxCols, other.MinRows, other.MaxRows);
         }
     }

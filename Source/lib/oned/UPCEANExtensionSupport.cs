@@ -27,12 +27,14 @@ namespace ZXing.OneD
 
         internal BarCodeText decodeRow(int rowNumber, BitArray row, int rowOffset)
         {
-            int[] extensionStartRange = UPCEANReader.findGuardPattern(row, rowOffset, false, EXTENSION_START_PATTERN);
-            if (extensionStartRange == null)
+            int[] extensionStartRange = UpcEanReader.findGuardPattern(row, rowOffset, false, EXTENSION_START_PATTERN);
+            if (extensionStartRange == null) {
                 return null;
+            }
             var result = fiveSupport.decodeRow(rowNumber, row, extensionStartRange);
-            if (result == null)
+            if (result == null) {
                 result = twoSupport.decodeRow(rowNumber, row, extensionStartRange);
+            }
             return result;
         }
     }

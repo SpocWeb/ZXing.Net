@@ -220,8 +220,9 @@ namespace ZXing.OneD
         private static bool decodeCode(BitArray row, int[] counters, int rowOffset, out int code)
         {
             code = -1;
-            if (!recordPattern(row, rowOffset, counters))
+            if (!recordPattern(row, rowOffset, counters)) {
                 return false;
+            }
 
             int bestVariance = MAX_AVG_VARIANCE; // worst variance we'll accept
             for (int d = 0; d < CODE_PATTERNS.Length; d++)
@@ -248,13 +249,14 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             bool convertFNC1 = hints != null && hints.ContainsKey(DecodeHintType.ASSUME_GS1);
 
             int[] startPatternInfo = findStartPattern(row);
-            if (startPatternInfo == null)
+            if (startPatternInfo == null) {
                 return null;
+            }
             int startCode = startPatternInfo[2];
 
             var rawCodes = new List<byte>(20)
@@ -304,8 +306,9 @@ namespace ZXing.OneD
                 lastCode = code;
 
                 // Decode another code from image
-                if (!decodeCode(row, counters, nextStart, out code))
+                if (!decodeCode(row, counters, nextStart, out code)) {
                     return null;
+                }
 
                 rawCodes.Add((byte)code);
 

@@ -152,14 +152,16 @@ namespace BigIntegerLibrary
             {
                 if ((numberString[i] < '0') || (numberString[i] > '9'))
                 {
-                    if ((i == 0) && (numberString[i] == '-'))
+                    if ((i == 0) && (numberString[i] == '-')) {
                         numberSign = Sign.Negative;
-                    else
+                    } else {
                         throw new BigIntegerException("Invalid numeric string.", null);
+                    }
                 }
 
-                else
+                else {
                     number = number * Ten + long.Parse(numberString[i].ToString());
+                }
             }
 
             sign = numberSign;
@@ -178,8 +180,9 @@ namespace BigIntegerLibrary
         /// exception</exception>
         public BigInteger(byte[] byteArray)
         {
-            if (byteArray.Length / 4 > MaxSize)
+            if (byteArray.Length / 4 > MaxSize) {
                 throw new BigIntegerException("The byte array's content exceeds the maximum size of a BigInteger.", null);
+            }
 
             digits = new DigitContainer();
             sign = Sign.Positive;
@@ -199,9 +202,11 @@ namespace BigIntegerLibrary
             bool reducible = true;
             while ((size - 1 > 0) && (reducible == true))
             {
-                if (digits[size - 1] == 0)
+                if (digits[size - 1] == 0) {
                     size--;
-                else reducible = false;
+                } else {
+                    reducible = false;
+                }
             }
         }
 
@@ -212,10 +217,11 @@ namespace BigIntegerLibrary
         private BigInteger(SerializationInfo info, StreamingContext context)
         {
             bool signValue = (bool)info.GetValue("sign", typeof(bool));
-            if (signValue == true)
+            if (signValue == true) {
                 sign = Sign.Positive;
-            else
+            } else {
                 sign = Sign.Negative;
+            }
 
             size = (int)info.GetValue("size", typeof(short));
             digits = new DigitContainer();
@@ -243,10 +249,11 @@ namespace BigIntegerLibrary
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (sign == Sign.Positive)
+            if (sign == Sign.Positive) {
                 info.AddValue("sign", true);
-            else
+            } else {
                 info.AddValue("sign", false);
+            }
 
             info.AddValue("size", (short)size);
 
@@ -263,14 +270,17 @@ namespace BigIntegerLibrary
         /// false otherwise</returns>
         public bool Equals(BigInteger other)
         {
-            if (sign != other.sign)
+            if (sign != other.sign) {
                 return false;
-            if (size != other.size)
+            }
+            if (size != other.size) {
                 return false;
+            }
 
             for (int i = 0; i < size; i++)
-                if (digits[i] != other.digits[i])
+                if (digits[i] != other.digits[i]) {
                     return false;
+                }
 
             return true;
         }
@@ -283,8 +293,9 @@ namespace BigIntegerLibrary
         /// false otherwise</returns>
         public override bool Equals(object o)
         {
-            if ((o is BigInteger) == false)
+            if ((o is BigInteger) == false) {
                 return false;
+            }
 
             return Equals((BigInteger)o);
         }
@@ -341,12 +352,13 @@ namespace BigIntegerLibrary
         /// 0 if the two are equal, 1 otherwise</returns>
         public int CompareTo(BigInteger other)
         {
-            if (Greater(this, other) == true)
+            if (Greater(this, other) == true) {
                 return 1;
-            else if (Equals(this, other) == true)
+            } else if (Equals(this, other) == true) {
                 return 0;
-            else
+            } else {
                 return -1;
+            }
         }
 
         /// <summary>
@@ -358,8 +370,9 @@ namespace BigIntegerLibrary
         /// <exception cref="ArgumentException">obj is not a BigInteger exception</exception>
         public int CompareTo(object obj)
         {
-            if ((obj is BigInteger) == false)
+            if ((obj is BigInteger) == false) {
                 throw new ArgumentException("obj is not a BigInteger.");
+            }
 
             return CompareTo((BigInteger)obj);
         }
@@ -385,10 +398,11 @@ namespace BigIntegerLibrary
 
             if (res != Zero)
             {
-                if (res.sign == Sign.Positive)
+                if (res.sign == Sign.Positive) {
                     res.sign = Sign.Negative;
-                else
+                } else {
                     res.sign = Sign.Positive;
+                }
             }
 
             return res;
@@ -404,39 +418,47 @@ namespace BigIntegerLibrary
         {
             if (a.sign != b.sign)
             {
-                if ((a.sign == Sign.Negative) && (b.sign == Sign.Positive))
+                if ((a.sign == Sign.Negative) && (b.sign == Sign.Positive)) {
                     return false;
+                }
 
-                if ((a.sign == Sign.Positive) && (b.sign == Sign.Negative))
+                if ((a.sign == Sign.Positive) && (b.sign == Sign.Negative)) {
                     return true;
+                }
             }
 
             else
             {
                 if (a.sign == Sign.Positive)
                 {
-                    if (a.size > b.size)
+                    if (a.size > b.size) {
                         return true;
-                    if (a.size < b.size)
+                    }
+                    if (a.size < b.size) {
                         return false;
+                    }
                     for (int i = (a.size) - 1; i >= 0; i--)
-                        if (a.digits[i] > b.digits[i])
+                        if (a.digits[i] > b.digits[i]) {
                             return true;
-                        else if (a.digits[i] < b.digits[i])
+                        } else if (a.digits[i] < b.digits[i]) {
                             return false;
+                        }
                 }
 
                 else
                 {
-                    if (a.size < b.size)
+                    if (a.size < b.size) {
                         return true;
-                    if (a.size > b.size)
+                    }
+                    if (a.size > b.size) {
                         return false;
+                    }
                     for (int i = (a.size) - 1; i >= 0; i--)
-                        if (a.digits[i] < b.digits[i])
+                        if (a.digits[i] < b.digits[i]) {
                             return true;
-                        else if (a.digits[i] > b.digits[i])
+                        } else if (a.digits[i] > b.digits[i]) {
                             return false;
+                        }
                 }
             }
 
@@ -500,20 +522,22 @@ namespace BigIntegerLibrary
 
             if ((a.sign == Sign.Positive) && (b.sign == Sign.Positive))
             {
-                if (a >= b)
+                if (a >= b) {
                     res = Add(a, b);
-                else
+                } else {
                     res = Add(b, a);
+                }
 
                 res.sign = Sign.Positive;
             }
 
             if ((a.sign == Sign.Negative) && (b.sign == Sign.Negative))
             {
-                if (a <= b)
+                if (a <= b) {
                     res = Add(-a, -b);
-                else
+                } else {
                     res = Add(-b, -a);
+                }
 
                 res.sign = Sign.Negative;
             }
@@ -589,20 +613,22 @@ namespace BigIntegerLibrary
 
             if ((a.sign == Sign.Positive) && (b.sign == Sign.Negative))
             {
-                if (a >= (-b))
+                if (a >= (-b)) {
                     res = Add(a, -b);
-                else
+                } else {
                     res = Add(-b, a);
+                }
 
                 res.sign = Sign.Positive;
             }
 
             if ((a.sign == Sign.Negative) && (b.sign == Sign.Positive))
             {
-                if ((-a) >= b)
+                if ((-a) >= b) {
                     res = Add(-a, b);
-                else
+                } else {
                     res = Add(b, -a);
+                }
 
                 res.sign = Sign.Negative;
             }
@@ -618,14 +644,16 @@ namespace BigIntegerLibrary
         /// <returns>The BigInteger result of the multiplication</returns>
         public static BigInteger Multiplication(BigInteger a, BigInteger b)
         {
-            if ((a == Zero) || (b == Zero))
+            if ((a == Zero) || (b == Zero)) {
                 return Zero;
+            }
 
             BigInteger res = Multiply(Abs(a), Abs(b));
-            if (a.sign == b.sign)
+            if (a.sign == b.sign) {
                 res.sign = Sign.Positive;
-            else
+            } else {
                 res.sign = Sign.Negative;
+            }
 
             return res;
         }
@@ -639,24 +667,29 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot divide by zero exception</exception>
         public static BigInteger Division(BigInteger a, BigInteger b)
         {
-            if (b == Zero)
+            if (b == Zero) {
                 throw new BigIntegerException("Cannot divide by zero.", new DivideByZeroException());
+            }
 
-            if (a == Zero)
+            if (a == Zero) {
                 return Zero;
-            if (Abs(a) < Abs(b))
+            }
+            if (Abs(a) < Abs(b)) {
                 return Zero;
+            }
 
             BigInteger res;
-            if (b.size == 1)
+            if (b.size == 1) {
                 res = DivideByOneDigitNumber(Abs(a), b.digits[0]);
-            else
+            } else {
                 res = DivideByBigNumber(Abs(a), Abs(b));
+            }
 
-            if (a.sign == b.sign)
+            if (a.sign == b.sign) {
                 res.sign = Sign.Positive;
-            else
+            } else {
                 res.sign = Sign.Negative;
+            }
 
             return res;
         }
@@ -670,8 +703,9 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot divide by zero exception</exception>
         public static BigInteger Modulo(BigInteger a, BigInteger b)
         {
-            if (b == Zero)
+            if (b == Zero) {
                 throw new BigIntegerException("Cannot divide by zero.", new DivideByZeroException());
+            }
 
             BigInteger res;
 
@@ -680,8 +714,9 @@ namespace BigIntegerLibrary
                 res = new BigInteger(a);
                 return res;
             }
-            else
+            else {
                 res = a - ((a / b) * b);
+            }
 
             return res;
         }
@@ -696,27 +731,32 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot raise a BigInteger to a negative power exception.</exception>
         public static BigInteger Power(BigInteger a, int exponent)
         {
-            if (exponent < 0)
+            if (exponent < 0) {
                 throw new BigIntegerException("Cannot raise an BigInteger to a negative power.", null);
+            }
 
-            if (a == Zero)
+            if (a == Zero) {
                 return new BigInteger();
+            }
 
             BigInteger res = new BigInteger(1);
-            if (exponent == 0)
+            if (exponent == 0) {
                 return res;
+            }
 
             BigInteger factor = new BigInteger(a);
 
             while (exponent > 0)
             {
-                if (exponent % 2 == 1)
+                if (exponent % 2 == 1) {
                     res *= factor;
+                }
 
                 exponent /= 2;
 
-                if (exponent > 0)
+                if (exponent > 0) {
                     factor *= factor;
+                }
             }
 
             return res;
@@ -730,9 +770,10 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot compute the integer square root of a negative number exception</exception>
         public static BigInteger IntegerSqrt(BigInteger n)
         {
-            if (n.sign == Sign.Negative)
+            if (n.sign == Sign.Negative) {
                 throw new BigIntegerException("Cannot compute the integer square root of a negative number.",
-                                              null);
+                    null);
+            }
 
             BigInteger oldValue = new BigInteger(0);
             BigInteger newValue = new BigInteger(n);
@@ -755,8 +796,9 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot compute the Gcd of negative BigIntegers exception</exception>
         public static BigInteger Gcd(BigInteger a, BigInteger b)
         {
-            if ((a.sign == Sign.Negative) || (b.sign == Sign.Negative))
+            if ((a.sign == Sign.Negative) || (b.sign == Sign.Negative)) {
                 throw new BigIntegerException("Cannot compute the Gcd of negative BigIntegers.", null);
+            }
 
             BigInteger r;
 
@@ -783,8 +825,9 @@ namespace BigIntegerLibrary
         public static BigInteger ExtendedEuclidGcd(BigInteger a, BigInteger b,
                                                    out BigInteger u, out BigInteger v)
         {
-            if ((a.sign == Sign.Negative) || (b.sign == Sign.Negative))
+            if ((a.sign == Sign.Negative) || (b.sign == Sign.Negative)) {
                 throw new BigIntegerException("Cannot compute the Gcd of negative BigIntegers.", null);
+            }
 
             BigInteger u1 = new BigInteger();
             BigInteger u2 = new BigInteger(1);
@@ -824,24 +867,29 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Invalid number or modulus exception</exception>
         public static BigInteger ModularInverse(BigInteger a, BigInteger n)
         {
-            if (n < Two)
+            if (n < Two) {
                 throw new BigIntegerException("Cannot perform a modulo operation against a BigInteger less than 2.", null);
+            }
 
-            if (Abs(a) >= n)
+            if (Abs(a) >= n) {
                 a %= n;
-            if (a.sign == Sign.Negative)
+            }
+            if (a.sign == Sign.Negative) {
                 a += n;
+            }
 
-            if (a == Zero)
+            if (a == Zero) {
                 throw new BigIntegerException("Cannot obtain the modular inverse of 0.", null);
+            }
 
-            if (Gcd(a, n) != One)
+            if (Gcd(a, n) != One) {
                 throw new BigIntegerException("Cannot obtain the modular inverse of a number that is not coprime with the modulus.", null);
+            }
 
-            BigInteger u, v;
-            ExtendedEuclidGcd(n, a, out u, out v);
-            if (v.sign == Sign.Negative)
+            ExtendedEuclidGcd(n, a, out var u, out var v);
+            if (v.sign == Sign.Negative) {
                 v += n;
+            }
 
             return v;
         }
@@ -857,27 +905,33 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Invalid exponent or modulus exception</exception>
         public static BigInteger ModularExponentiation(BigInteger a, BigInteger exponent, BigInteger n)
         {
-            if (exponent < 0)
+            if (exponent < 0) {
                 throw new BigIntegerException("Cannot raise a BigInteger to a negative power.", null);
+            }
 
-            if (n < Two)
+            if (n < Two) {
                 throw new BigIntegerException("Cannot perform a modulo operation against a BigInteger less than 2.", null);
+            }
 
-            if (Abs(a) >= n)
+            if (Abs(a) >= n) {
                 a %= n;
-            if (a.sign == Sign.Negative)
+            }
+            if (a.sign == Sign.Negative) {
                 a += n;
+            }
 
-            if (a == Zero)
+            if (a == Zero) {
                 return new BigInteger();
+            }
 
             BigInteger res = new BigInteger(1);
             BigInteger factor = new BigInteger(a);
 
             while (exponent > Zero)
             {
-                if (exponent % Two == One)
+                if (exponent % Two == One) {
                     res = (res * factor) % n;
+                }
                 exponent /= Two;
                 factor = (factor * factor) % n;
             }
@@ -1163,7 +1217,9 @@ namespace BigIntegerLibrary
                     trans = 1;
                     temp += NumberBase;
                 }
-                else trans = 0;
+                else {
+                    trans = 0;
+                }
                 res.digits[i] = temp;
             }
 
@@ -1175,15 +1231,19 @@ namespace BigIntegerLibrary
                     trans = 1;
                     temp += NumberBase;
                 }
-                else trans = 0;
+                else {
+                    trans = 0;
+                }
                 res.digits[i] = temp;
             }
 
             while ((res.size - 1 > 0) && (reducible == true))
             {
-                if (res.digits[res.size - 1] == 0)
+                if (res.digits[res.size - 1] == 0) {
                     res.size--;
-                else reducible = false;
+                } else {
+                    reducible = false;
+                }
             }
 
             return res;
@@ -1203,10 +1263,12 @@ namespace BigIntegerLibrary
                 res.digits[i] = 0;
 
             for (i = 0; i < a.size; i++)
-                if (a.digits[i] != 0)
+                if (a.digits[i] != 0) {
                     for (j = 0; j < b.size; j++)
-                        if (b.digits[j] != 0)
+                        if (b.digits[j] != 0) {
                             res.digits[i + j] += a.digits[i] * b.digits[j];
+                        }
+                }
 
             for (i = 0; i < res.size; i++)
             {
@@ -1243,12 +1305,14 @@ namespace BigIntegerLibrary
                 temp %= b;
                 i--;
 
-                if (i >= 0)
+                if (i >= 0) {
                     temp = temp * NumberBase + a.digits[i];
+                }
             }
 
-            if ((res.digits[res.size - 1] == 0) && (res.size != 1))
+            if ((res.digits[res.size - 1] == 0) && (res.size != 1)) {
                 res.size--;
+            }
 
             return res;
         }
@@ -1283,8 +1347,9 @@ namespace BigIntegerLibrary
             }
 
             q.size = n - m + 1;
-            if ((q.size != 1) && (q.digits[q.size - 1] == 0))
+            if ((q.size != 1) && (q.digits[q.size - 1] == 0)) {
                 q.size--;
+            }
 
             return q;
         }
@@ -1298,15 +1363,18 @@ namespace BigIntegerLibrary
 
             while (i != j)
             {
-                if (r.digits[i + k] != dq.digits[i])
+                if (r.digits[i + k] != dq.digits[i]) {
                     j = i;
-                else i--;
+                } else {
+                    i--;
+                }
             }
 
-            if (r.digits[i + k] < dq.digits[i])
+            if (r.digits[i + k] < dq.digits[i]) {
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
 
         /// <summary>
@@ -1335,10 +1403,11 @@ namespace BigIntegerLibrary
             var r3 = (r.digits[km] * NumberBase + r.digits[km - 1]) * NumberBase + r.digits[km - 2];
             var d2 = d.digits[m - 1] * NumberBase + d.digits[m - 2];
             var res = r3 / d2;
-            if (res < NumberBase - 1)
+            if (res < NumberBase - 1) {
                 return (int)res;
-            else
+            } else {
                 return NumberBase - 1;
+            }
         }
 
 

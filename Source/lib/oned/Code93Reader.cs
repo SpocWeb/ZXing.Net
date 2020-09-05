@@ -66,15 +66,16 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
             decodeRowResult.Length = 0;
 
             int[] start = findAsteriskPattern(row);
-            if (start == null)
+            if (start == null) {
                 return null;
+            }
 
             // Read off white space    
             int nextStart = row.getNextSet(start[1]);
@@ -84,16 +85,18 @@ namespace ZXing.OneD
             int lastStart;
             do
             {
-                if (!recordPattern(row, nextStart, counters))
+                if (!recordPattern(row, nextStart, counters)) {
                     return null;
+                }
 
                 int pattern = toPattern(counters);
                 if (pattern < 0)
                 {
                     return null;
                 }
-                if (!patternToChar(pattern, out decodedChar))
+                if (!patternToChar(pattern, out decodedChar)) {
                     return null;
+                }
                 decodeRowResult.Append(decodedChar);
                 lastStart = nextStart;
                 foreach (int counter in counters)
@@ -123,14 +126,16 @@ namespace ZXing.OneD
                 return null;
             }
 
-            if (!checkChecksums(decodeRowResult))
+            if (!checkChecksums(decodeRowResult)) {
                 return null;
+            }
             // Remove checksum digits
             decodeRowResult.Length = decodeRowResult.Length - 2;
 
             string resultString = decodeExtended(decodeRowResult);
-            if (resultString == null)
+            if (resultString == null) {
                 return null;
+            }
 
             float left = (start[1] + start[0]) / 2.0f;
             float right = lastStart + lastPatternSize / 2.0f;
@@ -364,10 +369,12 @@ namespace ZXing.OneD
         private static bool checkChecksums(StringBuilder result)
         {
             int length = result.Length;
-            if (!checkOneChecksum(result, length - 2, 20))
+            if (!checkOneChecksum(result, length - 2, 20)) {
                 return false;
-            if (!checkOneChecksum(result, length - 1, 15))
+            }
+            if (!checkOneChecksum(result, length - 1, 15)) {
                 return false;
+            }
             return true;
         }
 

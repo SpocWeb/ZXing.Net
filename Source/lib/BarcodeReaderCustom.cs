@@ -105,8 +105,9 @@ namespace ZXing
                 throw new InvalidOperationException("You have to declare a luminance source delegate.");
             }
 
-            if (barcodeBitmap == null)
+            if (barcodeBitmap == null) {
                 throw new ArgumentNullException("barcodeBitmap");
+            }
 
             var luminanceSource = CreateLuminanceSource(barcodeBitmap);
 
@@ -122,8 +123,9 @@ namespace ZXing
                 throw new InvalidOperationException("You have to declare a luminance source delegate.");
             }
 
-            if (barcodeBitmap == null)
+            if (barcodeBitmap == null) {
                 throw new ArgumentNullException("barcodeBitmap");
+            }
 
             var luminanceSource = CreateLuminanceSource(barcodeBitmap);
 

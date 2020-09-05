@@ -190,8 +190,9 @@ namespace ZXing.Rendering
 
         private void Create(SvgImage image, BitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
         {
-            if (matrix == null)
+            if (matrix == null) {
                 return;
+            }
 
             const int spaceBetweenMatrixAndText = 3;
             int width = matrix.Width;
@@ -239,28 +240,37 @@ namespace ZXing.Rendering
             {
                 case BarcodeFormat.UPC_E:
                 case BarcodeFormat.EAN_8:
-                    if (content.Length < 8)
+                    if (content.Length < 8) {
                         content = OneDimensionalCodeWriter.CalculateChecksumDigitModulo10(content);
-                    if (content.Length > 4)
+                    }
+                    if (content.Length > 4) {
                         content = content.Insert(4, "   ");
+                    }
                     break;
                 case BarcodeFormat.EAN_13:
-                    if (content.Length < 13)
+                    if (content.Length < 13) {
                         content = OneDimensionalCodeWriter.CalculateChecksumDigitModulo10(content);
-                    if (content.Length > 7)
+                    }
+                    if (content.Length > 7) {
                         content = content.Insert(7, "   ");
-                    if (content.Length > 1)
+                    }
+                    if (content.Length > 1) {
                         content = content.Insert(1, "   ");
+                    }
                     break;
                 case BarcodeFormat.UPC_A:
-                    if (content.Length < 12)
+                    if (content.Length < 12) {
                         content = OneDimensionalCodeWriter.CalculateChecksumDigitModulo10(content);
-                    if (content.Length > 11)
+                    }
+                    if (content.Length > 11) {
                         content = content.Insert(11, "   ");
-                    if (content.Length > 6)
+                    }
+                    if (content.Length > 6) {
                         content = content.Insert(6, "   ");
-                    if (content.Length > 1)
+                    }
+                    if (content.Length > 1) {
                         content = content.Insert(1, "   ");
+                    }
                     break;
             }
 
@@ -269,8 +279,9 @@ namespace ZXing.Rendering
 
         private static void AppendDarkCell(SvgImage image, BitMatrix matrix, int offsetX, int offSetY)
         {
-            if (matrix == null)
+            if (matrix == null) {
                 return;
+            }
 
             int width = matrix.Width;
             int height = matrix.Height;
@@ -283,8 +294,9 @@ namespace ZXing.Rendering
                 int endPosX;
                 for (int y = 0; y < height; y++)
                 {
-                    if (processed[x, y])
+                    if (processed[x, y]) {
                         continue;
+                    }
 
                     processed[x, y] = true;
 
@@ -353,7 +365,10 @@ namespace ZXing.Rendering
             public string Content
             {
                 get => content.ToString();
-                set { content.Length = 0; if (value != null) content.Append(value); }
+                set { content.Length = 0; if (value != null) {
+                        content.Append(value);
+                    }
+                }
             }
 
             /// <summary>
@@ -416,7 +431,7 @@ namespace ZXing.Rendering
             internal void AddTag(int displaysizeX, int displaysizeY, int viewboxSizeX, int viewboxSizeY, Color background, Color fill)
             {
 
-                if (displaysizeX <= 0 || displaysizeY <= 0)
+                if (displaysizeX <= 0 || displaysizeY <= 0) {
                     content.Append(string.Format("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" shape-rendering=\"crispEdges\" viewBox=\"0 0 {0} {1}\" viewport-fill=\"rgb({2})\" viewport-fill-opacity=\"{3}\" fill=\"rgb({4})\" fill-opacity=\"{5}\" {6}>",
                         viewboxSizeX,
                         viewboxSizeY,
@@ -425,8 +440,8 @@ namespace ZXing.Rendering
                         GetColorRgb(fill),
                         ConvertAlpha(fill),
                         GetBackgroundStyle(background)
-                        ));
-                else
+                    ));
+                } else {
                     content.Append(string.Format("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" shape-rendering=\"crispEdges\" viewBox=\"0 0 {0} {1}\" viewport-fill=\"rgb({2})\" viewport-fill-opacity=\"{3}\" fill=\"rgb({4})\" fill-opacity=\"{5}\" {6} width=\"{7}\" height=\"{8}\">",
                         viewboxSizeX,
                         viewboxSizeY,
@@ -437,6 +452,7 @@ namespace ZXing.Rendering
                         GetBackgroundStyle(background),
                         displaysizeX,
                         displaysizeY));
+                }
             }
 
             internal void AddText(string text, string fontName, int fontSize)

@@ -116,8 +116,9 @@ namespace ZXing.Test
          foreach (var pixelFormat in pixelFormats)
          {
             BitmapSource bitmapImage = new BitmapImage(new Uri(samplePicRelPath, UriKind.RelativeOrAbsolute));
-            if (bitmapImage.Format != pixelFormat)
-               bitmapImage = new FormatConvertedBitmap(bitmapImage, pixelFormat, null, 0);
+            if (bitmapImage.Format != pixelFormat) {
+                bitmapImage = new FormatConvertedBitmap(bitmapImage, pixelFormat, null, 0);
+            }
             var rgbLuminanceSource = new BitmapSourceLuminanceSource(bitmapImage);
             var rgbLuminanceSourceResult = rgbLuminanceSource.ToString();
             Assert.That(samplePicRelResult.Equals(rgbLuminanceSourceResult));

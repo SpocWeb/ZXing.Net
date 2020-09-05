@@ -104,8 +104,9 @@ namespace ZXing.Unity
                 throw new InvalidOperationException("You have to declare a luminance source delegate.");
             }
 
-            if (rawColor32 == null)
+            if (rawColor32 == null) {
                 throw new ArgumentNullException("rawColor32");
+            }
 
             var luminanceSource = CreateLuminanceSource(rawColor32, width, height);
 
@@ -126,8 +127,9 @@ namespace ZXing.Unity
                 throw new InvalidOperationException("You have to declare a luminance source delegate.");
             }
 
-            if (rawColor32 == null)
+            if (rawColor32 == null) {
                 throw new ArgumentNullException("rawColor32");
+            }
 
             var luminanceSource = CreateLuminanceSource(rawColor32, width, height);
 

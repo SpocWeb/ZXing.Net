@@ -49,8 +49,9 @@ namespace WindowsFormsDemo
             foreach (var val in Enum.GetValues(typeof(BarcodeFormat)))
             {
                 var valBarcode = (BarcodeFormat)val;
-                if (valBarcode == BarcodeFormat.PLESSEY)
+                if (valBarcode == BarcodeFormat.PLESSEY) {
                     continue;
+                }
                 var selectedByDefault = valBarcode != BarcodeFormat.MSI &&
                                         valBarcode != BarcodeFormat.IMB;
                 if (reader.Options.PossibleFormats != null)

@@ -74,8 +74,9 @@ namespace EmguCVDemo
 
         protected override void OnClosed(EventArgs e)
         {
-            if (capture != null)
+            if (capture != null) {
                 capture.Dispose();
+            }
         }
 
         private void DoDecoding(object sender, EventArgs args)

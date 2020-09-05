@@ -155,8 +155,7 @@ namespace ZXing.Rendering
 
         private static void AddCoordinate(Coordinate c, Edge e, Dictionary<Coordinate, List<Edge>> edgeMap)
         {
-            List<Edge> list;
-            if (!edgeMap.TryGetValue(c, out list))
+            if (!edgeMap.TryGetValue(c, out var list))
             {
                 edgeMap[c] = list = new List<Edge>();
             }
@@ -181,10 +180,12 @@ namespace ZXing.Rendering
 
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj))
+                if (ReferenceEquals(null, obj)) {
                     return false;
-                if (obj.GetType() != typeof(Coordinate))
+                }
+                if (obj.GetType() != typeof(Coordinate)) {
                     return false;
+                }
                 return Equals((Coordinate)obj);
             }
 
@@ -199,14 +200,18 @@ namespace ZXing.Rendering
             public override string ToString()
             {
                 var s = "";
-                if (this == North)
+                if (this == North) {
                     s = " n";
-                if (this == West)
+                }
+                if (this == West) {
                     s = " w";
-                if (this == South)
+                }
+                if (this == South) {
                     s = " s";
-                if (this == East)
+                }
+                if (this == East) {
                     s = " e";
+                }
                 return string.Format("({0}, {1}{2})", Col, Row, s);
             }
 
@@ -273,10 +278,12 @@ namespace ZXing.Rendering
 
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj))
+                if (ReferenceEquals(null, obj)) {
                     return false;
-                if (obj.GetType() != typeof(Edge))
+                }
+                if (obj.GetType() != typeof(Edge)) {
                     return false;
+                }
                 return Equals((Edge)obj);
             }
 

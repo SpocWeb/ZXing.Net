@@ -51,8 +51,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.TRY_HARDER))
+                if (Hints.ContainsKey(DecodeHintType.TRY_HARDER)) {
                     return (bool)Hints[DecodeHintType.TRY_HARDER];
+                }
                 return false;
             }
             set
@@ -81,8 +82,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.PURE_BARCODE))
+                if (Hints.ContainsKey(DecodeHintType.PURE_BARCODE)) {
                     return (bool)Hints[DecodeHintType.PURE_BARCODE];
+                }
                 return false;
             }
             set
@@ -111,8 +113,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.CHARACTER_SET))
+                if (Hints.ContainsKey(DecodeHintType.CHARACTER_SET)) {
                     return (string)Hints[DecodeHintType.CHARACTER_SET];
+                }
                 return null;
             }
             set
@@ -142,8 +145,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.POSSIBLE_FORMATS))
+                if (Hints.ContainsKey(DecodeHintType.POSSIBLE_FORMATS)) {
                     return (IList<BarcodeFormat>)Hints[DecodeHintType.POSSIBLE_FORMATS];
+                }
                 return null;
             }
             set
@@ -169,8 +173,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.USE_CODE_39_EXTENDED_MODE))
+                if (Hints.ContainsKey(DecodeHintType.USE_CODE_39_EXTENDED_MODE)) {
                     return (bool)Hints[DecodeHintType.USE_CODE_39_EXTENDED_MODE];
+                }
                 return false;
             }
             set =>
@@ -186,8 +191,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE))
+                if (Hints.ContainsKey(DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE)) {
                     return (bool)Hints[DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE];
+                }
                 return false;
             }
             set
@@ -216,8 +222,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT))
+                if (Hints.ContainsKey(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT)) {
                     return (bool)Hints[DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT];
+                }
                 return false;
             }
             set
@@ -245,8 +252,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.RETURN_CODABAR_START_END))
+                if (Hints.ContainsKey(DecodeHintType.RETURN_CODABAR_START_END)) {
                     return (bool)Hints[DecodeHintType.RETURN_CODABAR_START_END];
+                }
                 return false;
             }
             set
@@ -276,8 +284,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.ASSUME_GS1))
+                if (Hints.ContainsKey(DecodeHintType.ASSUME_GS1)) {
                     return (bool)Hints[DecodeHintType.ASSUME_GS1];
+                }
                 return false;
             }
             set
@@ -306,8 +315,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.ASSUME_MSI_CHECK_DIGIT))
+                if (Hints.ContainsKey(DecodeHintType.ASSUME_MSI_CHECK_DIGIT)) {
                     return (bool)Hints[DecodeHintType.ASSUME_MSI_CHECK_DIGIT];
+                }
                 return false;
             }
             set
@@ -333,8 +343,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.ALLOWED_LENGTHS))
+                if (Hints.ContainsKey(DecodeHintType.ALLOWED_LENGTHS)) {
                     return (int[])Hints[DecodeHintType.ALLOWED_LENGTHS];
+                }
                 return null;
             }
             set
@@ -364,8 +375,9 @@ namespace ZXing.Common
         {
             get
             {
-                if (Hints.ContainsKey(DecodeHintType.ALLOWED_EAN_EXTENSIONS))
+                if (Hints.ContainsKey(DecodeHintType.ALLOWED_EAN_EXTENSIONS)) {
                     return (int[])Hints[DecodeHintType.ALLOWED_EAN_EXTENSIONS];
+                }
                 return null;
             }
             set

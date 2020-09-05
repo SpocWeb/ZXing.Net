@@ -56,8 +56,9 @@ namespace ZXing.Interop.Encoding
 
         public void WriteToFile(string contents, string fileName, ImageFileFormat imageFileFormat)
         {
-            if (string.IsNullOrEmpty(fileName))
+            if (string.IsNullOrEmpty(fileName)) {
                 throw new ArgumentNullException(nameof(fileName));
+            }
 
             var writer = new ZXing.BarcodeWriter
             {

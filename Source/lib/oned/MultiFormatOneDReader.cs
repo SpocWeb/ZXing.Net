@@ -123,15 +123,16 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText DecodeRow(int rowNumber,
                                 BitArray row,
                                 IDictionary<DecodeHintType, object> hints)
         {
             foreach (OneDReader reader in readers)
             {
-                var result = reader.decodeRow(rowNumber, row, hints);
-                if (result != null)
+                var result = reader.DecodeRow(rowNumber, row, hints);
+                if (result != null) {
                     return result;
+                }
             }
 
             return null;

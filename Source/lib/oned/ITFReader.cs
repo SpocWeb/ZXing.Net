@@ -104,20 +104,23 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             // Find out where the Middle section (payload) starts & ends
             int[] startRange = DecodeStart(row);
-            if (startRange == null)
+            if (startRange == null) {
                 return null;
+            }
 
             int[] endRange = DecodeEnd(row);
-            if (endRange == null)
+            if (endRange == null) {
                 return null;
+            }
 
             StringBuilder result = new StringBuilder(20);
-            if (!DecodeMiddle(row, startRange[1], endRange[0], result))
+            if (!DecodeMiddle(row, startRange[1], endRange[0], result)) {
                 return null;
+            }
 
             string resultString = result.ToString();
 
@@ -208,8 +211,9 @@ namespace ZXing.OneD
             while (payloadStart < payloadEnd)
             {
                 // Get 10 runs of black/white.
-                if (!recordPattern(row, payloadStart, counterDigitPair))
+                if (!RecordPattern(row, payloadStart, counterDigitPair)) {
                     return false;
+                }
 
                 // Split them into each array
                 for (int k = 0; k < 5; k++)
@@ -219,12 +223,13 @@ namespace ZXing.OneD
                     counterWhite[k] = counterDigitPair[twoK + 1];
                 }
 
-                int bestMatch;
-                if (!DecodeDigit(counterBlack, out bestMatch))
+                if (!DecodeDigit(counterBlack, out var bestMatch)) {
                     return false;
+                }
                 resultString.Append((char)('0' + bestMatch));
-                if (!DecodeDigit(counterWhite, out bestMatch))
+                if (!DecodeDigit(counterWhite, out bestMatch)) {
                     return false;
+                }
                 resultString.Append((char)('0' + bestMatch));
 
                 foreach (int counterDigit in counterDigitPair)
@@ -244,20 +249,23 @@ namespace ZXing.OneD
         private int[] DecodeStart(BitArray row)
         {
             int endStart = SkipWhiteSpace(row);
-            if (endStart < 0)
+            if (endStart < 0) {
                 return null;
+            }
 
             int[] startPattern = FindGuardPattern(row, endStart, START_PATTERN);
-            if (startPattern == null)
+            if (startPattern == null) {
                 return null;
+            }
 
             // Determine the width of a narrow line in pixels. We can do this by
             // getting the width of the start pattern and dividing by 4 because its
             // made up of 4 narrow lines.
             narrowLineWidth = (startPattern[1] - startPattern[0]) >> 2;
 
-            if (!ValidateQuietZone(row, startPattern[0]))
+            if (!ValidateQuietZone(row, startPattern[0])) {
                 return null;
+            }
 
             return startPattern;
         }
@@ -328,11 +336,13 @@ namespace ZXing.OneD
             // search from 'the start' for the end block
             row.reverse();
             int endStart = SkipWhiteSpace(row);
-            if (endStart < 0)
+            if (endStart < 0) {
                 return null;
+            }
             int[] endPattern = FindGuardPattern(row, endStart, END_PATTERN_REVERSED[0]);
-            if (endPattern == null)
+            if (endPattern == null) {
                 endPattern = FindGuardPattern(row, endStart, END_PATTERN_REVERSED[1]);
+            }
             if (endPattern == null)
             {
                 row.reverse();
@@ -386,7 +396,7 @@ namespace ZXing.OneD
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        if (patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
+                        if (PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
                         {
                             return new[] { patternStart, x };
                         }
@@ -424,7 +434,7 @@ namespace ZXing.OneD
             for (int i = 0; i < max; i++)
             {
                 int[] pattern = PATTERNS[i];
-                int variance = patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE);
+                int variance = PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE);
                 if (variance < bestVariance)
                 {
                     bestVariance = variance;

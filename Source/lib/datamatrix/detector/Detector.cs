@@ -50,10 +50,13 @@ namespace ZXing.Datamatrix.Internal
         {
             if (rectangleDetector == null)
                 // can be null, if the image is to small
+            {
                 return null;
+            }
             ResultPoint[] cornerPoints = rectangleDetector.detect();
-            if (cornerPoints == null)
+            if (cornerPoints == null) {
                 return null;
+            }
 
             ResultPoint[] points = detectSolid1(cornerPoints);
             points = detectSolid2(points);

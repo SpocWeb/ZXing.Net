@@ -152,16 +152,20 @@ namespace ZXing.Client.Result
 
         private static bool equalsOrNull(IDictionary<string, string> o1, IDictionary<string, string> o2)
         {
-            if (o1 == null)
+            if (o1 == null) {
                 return o2 == null;
-            if (o1.Count != o2.Count)
+            }
+            if (o1.Count != o2.Count) {
                 return false;
+            }
             foreach (var entry in o1)
             {
-                if (!o2.ContainsKey(entry.Key))
+                if (!o2.ContainsKey(entry.Key)) {
                     return false;
-                if (!entry.Value.Equals(o2[entry.Key]))
+                }
+                if (!entry.Value.Equals(o2[entry.Key])) {
                     return false;
+                }
             }
             return true;
         }

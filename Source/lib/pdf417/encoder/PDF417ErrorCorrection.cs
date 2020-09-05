@@ -167,8 +167,9 @@ namespace ZXing.PDF417.Internal
         /// <param name="sourceCodeWords">The number of codewords for AUTO errorCorrectionLevel</param>
         /// <returns>the number of codewords generated for error correction</returns>
         internal static int getErrorCorrectionLevel(int errorCorrectionLevel, int sourceCodeWords) {
-            if (errorCorrectionLevel == (int)PDF417ErrorCorrectionLevel.AUTO)
+            if (errorCorrectionLevel == (int)PDF417ErrorCorrectionLevel.AUTO) {
                 return getRecommendedMinimumErrorCorrectionLevel(sourceCodeWords);
+            }
             return errorCorrectionLevel;
         }
 
@@ -207,8 +208,9 @@ namespace ZXing.PDF417.Internal
         /// <returns>the String representing the error correction codewords</returns>
         internal static string generateErrorCorrection(string dataCodewords, int errorCorrectionLevel)
         {
-            if (errorCorrectionLevel == (int)PDF417ErrorCorrectionLevel.AUTO)
+            if (errorCorrectionLevel == (int)PDF417ErrorCorrectionLevel.AUTO) {
                 errorCorrectionLevel = getRecommendedMinimumErrorCorrectionLevel(errorCorrectionLevel);
+            }
             int k = getErrorCorrectionCodewordCount(errorCorrectionLevel);
             char[] e = new char[k];
             int sld = dataCodewords.Length;

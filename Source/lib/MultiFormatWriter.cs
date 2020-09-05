@@ -88,8 +88,9 @@ namespace ZXing
         /// <returns></returns>
         public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
         {
-            if (!formatMap.ContainsKey(format))
+            if (!formatMap.ContainsKey(format)) {
                 throw new ArgumentException("No encoder available for format " + format);
+            }
 
             return formatMap[format]().encode(contents, format, width, height, hints);
         }

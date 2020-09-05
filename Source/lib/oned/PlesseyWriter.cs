@@ -71,8 +71,9 @@ namespace ZXing.OneD
             for (var i = 0; i < length; i++)
             {
                 int indexInString = ALPHABET_STRING.IndexOf(contents[i]);
-                if (indexInString < 0)
+                if (indexInString < 0) {
                     throw new ArgumentException("Requested contents contains a not encodable character: '" + contents[i] + "'");
+                }
             }
 
             // quiet zone + start pattern + data + crc + termination bar + end pattern + quiet zone

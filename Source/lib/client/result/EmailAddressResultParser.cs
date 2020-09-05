@@ -65,19 +65,16 @@ namespace ZXing.Client.Result
                 {
                     if (tos == null)
                     {
-                        string tosString;
-                        if (nameValues.TryGetValue("to", out tosString) && tosString != null)
+                        if (nameValues.TryGetValue("to", out var tosString) && tosString != null)
                         {
                             tos = COMMA.Split(tosString);
                         }
                     }
-                    string ccString;
-                    if (nameValues.TryGetValue("cc", out ccString) && ccString != null)
+                    if (nameValues.TryGetValue("cc", out var ccString) && ccString != null)
                     {
                         ccs = COMMA.Split(ccString);
                     }
-                    string bccString;
-                    if (nameValues.TryGetValue("bcc", out bccString) && bccString != null)
+                    if (nameValues.TryGetValue("bcc", out var bccString) && bccString != null)
                     {
                         bccs = COMMA.Split(bccString);
                     }

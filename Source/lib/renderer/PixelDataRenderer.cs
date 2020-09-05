@@ -178,8 +178,9 @@ namespace ZXing.Rendering
                 }
             }
 
-            if (emptyArea < heigth)
+            if (emptyArea < heigth) {
                 emptyArea = 0;
+            }
 
             var pixels = new byte[width * heigth * 4];
             var index = 0;

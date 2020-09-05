@@ -46,8 +46,9 @@ namespace ZXing.Common.Detector
         /// <returns>null, if image is too small, otherwise a WhiteRectangleDetector instance</returns>
         public static WhiteRectangleDetector Create(IRoBitMatrix image)
         {
-            if (image == null)
+            if (image == null) {
                 return null;
+            }
 
             var instance = new WhiteRectangleDetector(image);
 

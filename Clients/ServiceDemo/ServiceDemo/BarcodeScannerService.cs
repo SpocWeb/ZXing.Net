@@ -61,8 +61,9 @@ namespace ServiceDemo
                             {
                                 directory = Path.GetFullPath(args[1]);
                             }
-                            if (!Directory.Exists(directory))
+                            if (!Directory.Exists(directory)) {
                                 throw new ArgumentException(string.Format("The barcode directory {0} doesn't exists.", directory));
+                            }
 
                             var transactedInstaller = new TransactedInstaller();
                             var serviceInstaller = new ServiceInstaller();
@@ -92,8 +93,9 @@ namespace ServiceDemo
                         return;
                     default:
                         if (args[0][0] != '/' &&
-                            args[0][0] != '-')
+                            args[0][0] != '-') {
                             throw new ArgumentException(string.Format("The argument {0} isn't supported.", args[0]));
+                        }
                         break;
                 }
             }
@@ -123,8 +125,9 @@ namespace ServiceDemo
 
         private void fileWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            if (Path.GetExtension(e.FullPath) == ".txt")
+            if (Path.GetExtension(e.FullPath) == ".txt") {
                 return;
+            }
             DecodeBarcode(e.FullPath);
         }
 

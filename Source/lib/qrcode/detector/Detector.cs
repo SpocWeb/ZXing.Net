@@ -80,8 +80,9 @@ namespace ZXing.QrCode.Internal
 
             QrPatternFinder finder = new QrPatternFinder(Image, resultPointCallback);
             QrFinderPatternInfo info = finder.find(hints);
-            if (info == null)
+            if (info == null) {
                 return null;
+            }
 
             return processFinderPatternInfo(info);
         }
@@ -100,14 +101,15 @@ namespace ZXing.QrCode.Internal
             {
                 return null;
             }
-            int dimension;
-            if (!computeDimension(topLeft, topRight, bottomLeft, moduleSize, out dimension))
+            if (!computeDimension(topLeft, topRight, bottomLeft, moduleSize, out var dimension)) {
                 return null;
+            }
 
             // QR Code Dimensions determine the Number of Bits saved in them.
             Version provisionalVersion = Version.getProvisionalVersionForDimension(dimension);
-            if (provisionalVersion == null)
+            if (provisionalVersion == null) {
                 return null;
+            }
             int modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
 
             AlignmentPattern alignmentPattern = null;
@@ -129,8 +131,9 @@ namespace ZXing.QrCode.Internal
                 for (int i = 4; i <= 16; i <<= 1)
                 {
                     alignmentPattern = findAlignmentInRegion(moduleSize, estAlignmentX, estAlignmentY, i);
-                    if (alignmentPattern == null)
+                    if (alignmentPattern == null) {
                         continue;
+                    }
                     break;
                 }
                 // If we didn't find alignment pattern... well try anyway without it
@@ -140,8 +143,9 @@ namespace ZXing.QrCode.Internal
 
             BitMatrix bits = Sampler.sampleGrid(dimension, dimension, transform);
 
-            if (bits == null)
+            if (bits == null) {
                 return null;
+            }
 
             ResultPoint[] points;
             if (alignmentPattern == null)

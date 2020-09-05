@@ -56,8 +56,9 @@ namespace ZXing.OneD
                 {
                     var unencodable = contents[i];
                     contents = tryToConvertToExtendedMode(contents);
-                    if (contents == null)
+                    if (contents == null) {
                         throw new ArgumentException("Requested content contains a non-encodable character: '" + unencodable + "'");
+                    }
                     length = contents.Length;
                     if (length > 80)
                     {

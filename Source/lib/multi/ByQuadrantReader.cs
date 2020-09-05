@@ -72,8 +72,9 @@ namespace ZXing.Multi
 
             // No need to call makeAbsolute as results will be relative to original top left here
             var result = @delegate.Decode(image.crop(0, 0, halfWidth, halfHeight), hints);
-            if (result != null)
+            if (result != null) {
                 return result;
+            }
 
             result = @delegate.Decode(image.crop(halfWidth, 0, halfWidth, halfHeight), hints);
             if (result != null)

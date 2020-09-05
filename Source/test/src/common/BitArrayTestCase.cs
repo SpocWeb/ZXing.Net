@@ -378,8 +378,9 @@ namespace ZXing.Common.Test
       {
          for (var i = 0; i < size; i++)
          {
-            if (left[i] != right[i])
-               return false;
+            if (left[i] != right[i]) {
+                return false;
+            }
          }
          return true;
       }

@@ -99,15 +99,16 @@ namespace ZXing.OneD
         /// <param name="row">the black/white pixel data of the row</param>
         /// <param name="hints">decode hints</param>
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
             decodeRowResult.Length = 0;
 
             int[] start = findAsteriskPattern(row, counters);
-            if (start == null)
+            if (start == null) {
                 return null;
+            }
 
             // Read off white space    
             int nextStart = row.getNextSet(start[1]);
@@ -117,16 +118,18 @@ namespace ZXing.OneD
             int lastStart;
             do
             {
-                if (!recordPattern(row, nextStart, counters))
+                if (!recordPattern(row, nextStart, counters)) {
                     return null;
+                }
 
                 int pattern = toNarrowWidePattern(counters);
                 if (pattern < 0)
                 {
                     return null;
                 }
-                if (!patternToChar(pattern, out decodedChar))
+                if (!patternToChar(pattern, out decodedChar)) {
                     return null;
+                }
                 decodeRowResult.Append(decodedChar);
                 lastStart = nextStart;
                 foreach (int counter in counters)
@@ -195,10 +198,11 @@ namespace ZXing.OneD
                 {
                     if (hints != null &&
                         hints.ContainsKey(DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE) &&
-                        Convert.ToBoolean(hints[DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE]))
+                        Convert.ToBoolean(hints[DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE])) {
                         resultString = decodeRowResult.ToString();
-                    else
+                    } else {
                         return null;
+                    }
                 }
             }
             else

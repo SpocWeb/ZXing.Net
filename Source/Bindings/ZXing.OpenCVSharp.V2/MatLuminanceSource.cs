@@ -61,15 +61,18 @@ namespace ZXing.OpenCV
 
         private void CalculateLuminance(Mat src)
         {
-            if (src == null)
+            if (src == null) {
                 throw new ArgumentNullException("src");
-            if (src.Dims() > 2)
+            }
+            if (src.Dims() > 2) {
                 throw new ArgumentException("Mat dimensions must be 2");
+            }
 
             var pixelFormat = GetOptimumPixelFormats(src.Type());
 
-            if (src.IsSubmatrix())
+            if (src.IsSubmatrix()) {
                 throw new NotSupportedException("Submatrix");
+            }
             //if (src.IsContinuous())
             //   throw new NotSupportedException("Continuous");
 
@@ -95,12 +98,15 @@ namespace ZXing.OpenCV
 
         private static RGBLuminanceSource.BitmapFormat GetOptimumPixelFormats(MatType type)
         {
-            if (type == MatType.CV_8UC1 || type == MatType.CV_8SC1)
+            if (type == MatType.CV_8UC1 || type == MatType.CV_8SC1) {
                 return RGBLuminanceSource.BitmapFormat.Gray8;
-            if (type == MatType.CV_8UC3 || type == MatType.CV_8SC3)
+            }
+            if (type == MatType.CV_8UC3 || type == MatType.CV_8SC3) {
                 return RGBLuminanceSource.BitmapFormat.BGR24;
-            if (type == MatType.CV_8UC4 || type == MatType.CV_8SC4)
+            }
+            if (type == MatType.CV_8UC4 || type == MatType.CV_8SC4) {
                 return RGBLuminanceSource.BitmapFormat.BGRA32;
+            }
 
             //if (type == MatType.CV_16UC1 || type == MatType.CV_16SC1)
             //   return RGBLuminanceSource.BitmapFormat.Gray16;

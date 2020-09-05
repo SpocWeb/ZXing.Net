@@ -170,11 +170,13 @@ namespace ZXing.QrCode.Internal
         internal byte[] readCodewords()
         {
             FormatInformation formatInfo = readFormatInformation();
-            if (formatInfo == null)
+            if (formatInfo == null) {
                 return null;
+            }
             Version version = readVersion();
-            if (version == null)
+            if (version == null) {
                 return null;
+            }
 
             // Get the data mask for the format used in this QR Code.
             // This will exclude some bits from reading as we wind through the bit matrix.

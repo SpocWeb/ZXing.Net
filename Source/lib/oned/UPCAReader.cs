@@ -25,9 +25,9 @@ namespace ZXing.OneD
     ///   <author>dswitkin@google.com (Daniel Switkin)</author>
     ///   <author>Sean Owen</author>
     /// </summary>
-    public sealed class UPCAReader : UPCEANReader
+    public sealed class UPCAReader : UpcEanReader
     {
-        private readonly UPCEANReader ean13Reader = new EAN13Reader();
+        private readonly UpcEanReader ean13Reader = new Ean13Reader();
 
         /// <summary>
         ///   <p>Like decodeRow(int, BitArray, java.util.Map), but
@@ -39,7 +39,7 @@ namespace ZXing.OneD
         /// <param name="startGuardRange"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        public override BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText DecodeRow(int rowNumber,
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
@@ -57,7 +57,7 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             return maybeReturnResult(ean13Reader.decodeRow(rowNumber, row, hints));
         }
@@ -96,8 +96,9 @@ namespace ZXing.OneD
 
         private static BarCodeText maybeReturnResult(BarCodeText result)
         {
-            if (result == null)
+            if (result == null) {
                 return null;
+            }
 
             var text = result.Text;
             if (text[0] == '0')

@@ -26,7 +26,7 @@ namespace ZXing.OneD
     /// UPC-E information.</p>
     ///   <author>Sean Owen</author>
     /// </summary>
-    public sealed class UPCEReader : UPCEANReader
+    public sealed class UPCEReader : UpcEanReader
     {
         /// <summary>
         /// The pattern that marks the middle, and end, of a UPC-E pattern.
@@ -99,9 +99,9 @@ namespace ZXing.OneD
 
             for (int x = 0; x < 6 && rowOffset < end; x++)
             {
-                int bestMatch;
-                if (!decodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out bestMatch))
+                if (!decodeDigit(row, counters, rowOffset, L_AND_G_PATTERNS, out var bestMatch)) {
                     return -1;
+                }
                 result.Append((char)('0' + bestMatch % 10));
                 foreach (int counter in counters)
                 {
@@ -113,8 +113,9 @@ namespace ZXing.OneD
                 }
             }
 
-            if (!determineNumSysAndCheckDigit(result, lgPatternFound))
+            if (!determineNumSysAndCheckDigit(result, lgPatternFound)) {
                 return -1;
+            }
 
             return rowOffset;
         }

@@ -92,10 +92,12 @@ namespace ZXing.Datamatrix.Encoder
             int count = buffer.Length;
             context.Pos -= count;
             if (context.RemainingCharacters > 1 || available > 1 ||
-                context.RemainingCharacters != available)
+                context.RemainingCharacters != available) {
                 context.writeCodeword(HighLevelEncoder.X12_UNLATCH);
-            if (context.NewEncoding < 0)
+            }
+            if (context.NewEncoding < 0) {
                 context.signalEncoderChange(Encodation.ASCII);
+            }
         }
     }
 }

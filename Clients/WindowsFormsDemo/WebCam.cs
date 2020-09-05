@@ -74,8 +74,9 @@ namespace WindowsFormsDemo
                 // Get Driver name and version
                 moreDevices = capGetDriverDescriptionA(index, ref Name, 100, ref Version, 100);
                 // If there was a device add device name to the list
-                if (moreDevices)
+                if (moreDevices) {
                     ListOfDevices.Add(Name.Trim());
+                }
                 index += 1;
             }
             while (moreDevices);

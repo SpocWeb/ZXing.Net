@@ -63,26 +63,31 @@ namespace ZXing.Common.Detector
             int left = 0;
             int right = width;
             ResultPoint pointA = findCornerFromCenter(halfWidth, 0, left, right, halfHeight, -deltaY, top, bottom, halfWidth >> 1);
-            if (pointA == null)
+            if (pointA == null) {
                 return null;
+            }
             top = (int)pointA.Y - 1;
             ResultPoint pointB = findCornerFromCenter(halfWidth, -deltaX, left, right, halfHeight, 0, top, bottom, halfHeight >> 1);
-            if (pointB == null)
+            if (pointB == null) {
                 return null;
+            }
             left = (int)pointB.X - 1;
             ResultPoint pointC = findCornerFromCenter(halfWidth, deltaX, left, right, halfHeight, 0, top, bottom, halfHeight >> 1);
-            if (pointC == null)
+            if (pointC == null) {
                 return null;
+            }
             right = (int)pointC.X + 1;
             ResultPoint pointD = findCornerFromCenter(halfWidth, 0, left, right, halfHeight, deltaY, top, bottom, halfWidth >> 1);
-            if (pointD == null)
+            if (pointD == null) {
                 return null;
+            }
             bottom = (int)pointD.Y + 1;
 
             // Go try to find point A again with better information -- might have been off at first.
             pointA = findCornerFromCenter(halfWidth, 0, left, right, halfHeight, -deltaY, top, bottom, halfWidth >> 2);
-            if (pointA == null)
+            if (pointA == null) {
                 return null;
+            }
 
             return new[] { pointA, pointB, pointC, pointD };
         }

@@ -69,7 +69,7 @@ namespace ZXing.OneD.RSS
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber,
+        public override BarCodeText DecodeRow(int rowNumber,
             BitArray row,
             IDictionary<DecodeHintType, object> hints)
         {
@@ -190,11 +190,13 @@ namespace ZXing.OneD.RSS
         private Pair decodePair(BitArray row, bool right, int rowNumber, IDictionary<DecodeHintType, object> hints)
         {
             int[] startEnd = findFinderPattern(row, right);
-            if (startEnd == null)
+            if (startEnd == null) {
                 return null;
+            }
             FinderPattern pattern = parseFoundFinderPattern(row, rowNumber, right, startEnd);
-            if (pattern == null)
+            if (pattern == null) {
                 return null;
+            }
 
             ResultPointCallback resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback) hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
@@ -211,11 +213,13 @@ namespace ZXing.OneD.RSS
             }
 
             DataCharacter outside = decodeDataCharacter(row, pattern, true);
-            if (outside == null)
+            if (outside == null) {
                 return null;
+            }
             DataCharacter inside = decodeDataCharacter(row, pattern, false);
-            if (inside == null)
+            if (inside == null) {
                 return null;
+            }
             return new Pair(1597 * outside.Value + inside.Value,
                 outside.ChecksumPortion + 4 * inside.ChecksumPortion,
                 pattern);
@@ -228,13 +232,15 @@ namespace ZXing.OneD.RSS
 
             if (outsideChar)
             {
-                if (!recordPatternInReverse(row, pattern.StartEnd[0], counters))
+                if (!recordPatternInReverse(row, pattern.StartEnd[0], counters)) {
                     return null;
+                }
             }
             else
             {
-                if (!recordPattern(row, pattern.StartEnd[1], counters))
+                if (!recordPattern(row, pattern.StartEnd[1], counters)) {
                     return null;
+                }
 
                 // reverse it
                 for (int i = 0, j = counters.Length - 1; i < j; i++, j--)
@@ -278,8 +284,9 @@ namespace ZXing.OneD.RSS
                 }
             }
 
-            if (!adjustOddEvenCounts(outsideChar, numModules))
+            if (!adjustOddEvenCounts(outsideChar, numModules)) {
                 return null;
+            }
 
             int oddSum = 0;
             int oddChecksumPortion = 0;
@@ -404,9 +411,9 @@ namespace ZXing.OneD.RSS
             int[] counters = getDecodeFinderCounters();
             Array.Copy(counters, 0, counters, 1, counters.Length - 1);
             counters[0] = firstCounter;
-            int value;
-            if (!parseFinderValue(counters, FINDER_PATTERNS, out value))
+            if (!parseFinderValue(counters, FINDER_PATTERNS, out var value)) {
                 return null;
+            }
             int start = firstElementStart;
             int end = startEnd[1];
             if (right)

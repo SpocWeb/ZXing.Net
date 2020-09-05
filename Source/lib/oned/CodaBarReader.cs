@@ -84,17 +84,19 @@ namespace ZXing.OneD
         /// <returns>
         ///   <see cref="BarCodeText"/>containing encoded string and start/end of barcode or null, if an error occurs or barcode cannot be found
         /// </returns>
-        public override BarCodeText decodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
+        public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
                 counters[index] = 0;
 
-            if (!setCounters(row))
+            if (!setCounters(row)) {
                 return null;
+            }
 
             int startOffset = findStartPattern();
-            if (startOffset < 0)
+            if (startOffset < 0) {
                 return null;
+            }
 
             int nextStart = startOffset;
 
@@ -135,8 +137,9 @@ namespace ZXing.OneD
                 return null;
             }
 
-            if (!validatePattern(startOffset))
+            if (!validatePattern(startOffset)) {
                 return null;
+            }
 
             // Translate character table offsets to actual characters.
             for (int i = 0; i < decodeRowResult.Length; i++)

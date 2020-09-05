@@ -74,8 +74,9 @@ namespace ZXing.OneD
             }
             for (var i = 0; i < length; i++)
             {
-                if (!char.IsDigit(contents[i]))
+                if (!char.IsDigit(contents[i])) {
                     throw new ArgumentException("Requested contents should only contain digits, but got '" + contents[i] + "'");
+                }
             }
 
             checkNumeric(contents);

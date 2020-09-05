@@ -86,8 +86,9 @@ namespace ZXing
                     builder.Append(value);
                     builder.Append(separator);
                 }
-                if (builder.Length > 0)
+                if (builder.Length > 0) {
                     builder.Length -= separator.Length;
+                }
             }
 
             return builder.ToString();
@@ -174,10 +175,12 @@ namespace ZXing
         {
             // can't use extension method because of .Net 2.0 support
 
-            if (hints == null)
+            if (hints == null) {
                 return @default;
-            if (!hints.ContainsKey(hintType))
+            }
+            if (!hints.ContainsKey(hintType)) {
                 return @default;
+            }
 
             return (T)hints[hintType];
         }

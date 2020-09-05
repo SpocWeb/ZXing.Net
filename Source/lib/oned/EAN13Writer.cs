@@ -53,7 +53,7 @@ namespace ZXing.OneD
             {
                 case 12:
                     // No check digit present, calculate it and add it
-                    var check = UPCEANReader.getStandardUPCEANChecksum(contents);
+                    var check = UpcEanReader.getStandardUPCEANChecksum(contents);
                     if (check == null)
                     {
                         throw new ArgumentException("Checksum can't be calculated");
@@ -63,7 +63,7 @@ namespace ZXing.OneD
                 case 13:
                     try
                     {
-                        if (!UPCEANReader.checkStandardUPCEANChecksum(contents))
+                        if (!UpcEanReader.checkStandardUPCEANChecksum(contents))
                         {
                             throw new ArgumentException("Contents do not pass checksum");
                         }
@@ -80,11 +80,11 @@ namespace ZXing.OneD
             checkNumeric(contents);
 
             int firstDigit = int.Parse(contents.Substring(0, 1));
-            int parities = EAN13Reader.FIRST_DIGIT_ENCODINGS[firstDigit];
+            int parities = Ean13Reader.FIRST_DIGIT_ENCODINGS[firstDigit];
             var result = new bool[CODE_WIDTH];
             int pos = 0;
 
-            pos += appendPattern(result, pos, UPCEANReader.START_END_PATTERN, true);
+            pos += appendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
 
             // See EAN13Reader for a description of how the first digit & left bars are encoded
             for (int i = 1; i <= 6; i++)
@@ -94,17 +94,17 @@ namespace ZXing.OneD
                 {
                     digit += 10;
                 }
-                pos += appendPattern(result, pos, UPCEANReader.L_AND_G_PATTERNS[digit], false);
+                pos += appendPattern(result, pos, UpcEanReader.L_AND_G_PATTERNS[digit], false);
             }
 
-            pos += appendPattern(result, pos, UPCEANReader.MIDDLE_PATTERN, false);
+            pos += appendPattern(result, pos, UpcEanReader.MIDDLE_PATTERN, false);
 
             for (int i = 7; i <= 12; i++)
             {
                 int digit = int.Parse(contents.Substring(i, 1));
-                pos += appendPattern(result, pos, UPCEANReader.L_PATTERNS[digit], true);
+                pos += appendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], true);
             }
-            appendPattern(result, pos, UPCEANReader.START_END_PATTERN, true);
+            appendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
 
             return result;
         }
