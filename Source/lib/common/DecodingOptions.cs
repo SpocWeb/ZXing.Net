@@ -393,7 +393,7 @@ namespace ZXing.Common
             Hints = hints;
             UseCode39ExtendedMode = true;
             UseCode39RelaxedExtendedMode = true;
-            hints.ValueChanged += (o, args) => { if (ValueChanged != null) ValueChanged(this, EventArgs.Empty); };
+            hints.ValueChanged += (o, args) => { ValueChanged?.Invoke(this, EventArgs.Empty); };
         }
 
         [Serializable]
@@ -411,8 +411,7 @@ namespace ZXing.Common
 
             private void OnValueChanged()
             {
-                if (ValueChanged != null)
-                    ValueChanged(this, EventArgs.Empty);
+                ValueChanged?.Invoke(this, EventArgs.Empty);
             }
 
             public void Add(TKey key, TValue value)

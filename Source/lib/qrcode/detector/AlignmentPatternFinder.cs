@@ -312,10 +312,7 @@ namespace ZXing.QrCode.Internal
                 // Hadn't found this before; save it
                 var point = new AlignmentPattern(centerJ.Value, centerI.Value, estimatedModuleSize);
                 possibleCenters.Add(point);
-                if (resultPointCallback != null)
-                {
-                    resultPointCallback(point);
-                }
+                resultPointCallback?.Invoke(point);
             }
             return null;
         }

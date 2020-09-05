@@ -218,8 +218,7 @@ namespace ZXing
                         readers.Insert(0, reader);
                         return result;
                     }
-                    if (rpCallback != null)
-                        rpCallback(null);
+                    rpCallback?.Invoke(null);
                 }
             }
 

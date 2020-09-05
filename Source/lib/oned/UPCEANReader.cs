@@ -163,12 +163,9 @@ namespace ZXing.OneD
             var resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null :
                 (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
-            if (resultPointCallback != null)
-            {
-                resultPointCallback(new ResultPoint(
-                    (startGuardRange[0] + startGuardRange[1]) / 2.0f, rowNumber
-                ));
-            }
+            resultPointCallback?.Invoke(new ResultPoint(
+    (startGuardRange[0] + startGuardRange[1]) / 2.0f, rowNumber
+));
 
             var result = decodeRowStringBuffer;
             result.Length = 0;
@@ -176,23 +173,17 @@ namespace ZXing.OneD
             if (endStart < 0)
                 return null;
 
-            if (resultPointCallback != null)
-            {
-                resultPointCallback(new ResultPoint(
-                    endStart, rowNumber
-                ));
-            }
+            resultPointCallback?.Invoke(new ResultPoint(
+    endStart, rowNumber
+));
 
             var endRange = decodeEnd(row, endStart);
             if (endRange == null)
                 return null;
 
-            if (resultPointCallback != null)
-            {
-                resultPointCallback(new ResultPoint(
-                    (endRange[0] + endRange[1]) / 2.0f, rowNumber
-                ));
-            }
+            resultPointCallback?.Invoke(new ResultPoint(
+    (endRange[0] + endRange[1]) / 2.0f, rowNumber
+));
 
 
             // Make sure there is a quiet zone at least as big as the end pattern after the barcode. The

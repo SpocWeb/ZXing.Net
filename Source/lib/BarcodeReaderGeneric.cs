@@ -367,10 +367,7 @@ namespace ZXing
         /// <param name="result"></param>
         protected void OnResultFound(BarCodeText result)
         {
-            if (ResultFound != null)
-            {
-                ResultFound(result);
-            }
+            ResultFound?.Invoke(result);
         }
 
         /// <summary>
@@ -379,10 +376,7 @@ namespace ZXing
         /// <param name="resultPoint"></param>
         protected void OnResultPointFound(ResultPoint resultPoint)
         {
-            if (explicitResultPointFound != null)
-            {
-                explicitResultPointFound(resultPoint);
-            }
+            explicitResultPointFound?.Invoke(resultPoint);
         }
 
         /// <summary>

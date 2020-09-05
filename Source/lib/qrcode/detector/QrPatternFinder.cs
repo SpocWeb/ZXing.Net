@@ -642,11 +642,8 @@ namespace ZXing.QrCode.Internal
             var point = new FinderPattern(centerJ.Value, centerI.Value, estimatedModuleSize);
 
             _PossibleCenters.Add(point);
-            if (resultPointCallback != null)
-            {
 
-                resultPointCallback(point);
-            }
+            resultPointCallback?.Invoke(point);
             return true;
         }
 
