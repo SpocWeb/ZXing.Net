@@ -62,8 +62,8 @@ namespace ZXing.QrCode.Internal
         internal virtual QrFinderPatternInfo find(IDictionary<DecodeHintType, object> hints)
         {
             bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
-            int maxI = _Image.Height;
-            int maxJ = _Image.Width;
+            int maxRow = _Image.Height;
+            int maxCol = _Image.Width;
             // We are looking for black/white/black/white/black modules in
             // 1:1:3:1:1 ratio; this tracks the number of such modules seen so far
 
@@ -73,112 +73,35 @@ namespace ZXing.QrCode.Internal
             // This gives the smallest number of pixels the center could be,
             // so skip this often.
             // When trying harder, look for all QR versions regardless of how dense they are.
-            int iSkip = (3 * maxI) / (4 * MAX_MODULES);
-            if (iSkip < MIN_SKIP || tryHarder)
+            int rowsToSkip = (3 * maxRow) / (4 * MAX_MODULES);
+            if (rowsToSkip < MIN_SKIP || tryHarder)
             {
-                iSkip = MIN_SKIP;
+                rowsToSkip = MIN_SKIP;
             }
 
             bool done = false;
             int[] stateCount = new int[5];
-            for (int i = iSkip - 1; i < maxI && !done; i += iSkip)
+            for (int row = rowsToSkip - 1
+                ; row < maxRow && !done
+                ; row += rowsToSkip)
             {
                 // Get a row of black/white values
                 doClearCounts(stateCount);
                 int currentState = 0;
-                for (int j = 0; j < maxJ; j++)
-                {
-                    if (_Image[j, i])
-                    {
-                        // Black pixel
-                        if ((currentState & 1) == 1)
-                        {
-                            // Counting white pixels
-                            currentState++;
-                        }
-                        stateCount[currentState]++;
-                    }
-                    else
-                    {
-                        // White pixel
-                        if ((currentState & 1) == 0)
-                        {
-                            // Counting black pixels
-                            if (currentState == 4)
-                            {
-                                // A winner?
-                                if (foundPatternCross(stateCount))
-                                {
-                                    // Yes
-                                    bool confirmed = IsRealCenter(stateCount, i, j);
-                                    if (confirmed)
-                                    {
-                                        // Start examining every other line. Checking each line turned out to be too
-                                        // expensive and didn't improve performance.
-                                        iSkip = 2;
-                                        if (hasSkipped)
-                                        {
-                                            done = haveMultiplyConfirmedCenters();
-                                        }
-                                        else
-                                        {
-                                            int rowSkip = findRowSkip();
-                                            if (rowSkip > stateCount[2])
-                                            {
-                                                // Skip rows between row of lower confirmed center
-                                                // and top of presumed third confirmed center
-                                                // but back up a bit to get a full chance of detecting
-                                                // it, entire width of center of finder pattern
-
-                                                // Skip by rowSkip, but back off by stateCount[2] (size of last center
-                                                // of pattern we saw) to be conservative, and also back off by iSkip which
-                                                // is about to be re-added
-                                                i += rowSkip - stateCount[2] - iSkip;
-                                                j = maxJ - 1;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        doShiftCounts2(stateCount);
-                                        currentState = 3;
-                                        continue;
-                                    }
-                                    // Clear state to start looking again
-                                    currentState = 0;
-                                    doClearCounts(stateCount);
-                                }
-                                else
-                                {
-                                    // No, shift counts back by two
-                                    doShiftCounts2(stateCount);
-                                    currentState = 3;
-                                }
-                            }
-                            else
-                            {
-                                stateCount[++currentState]++;
-                            }
-                        }
-                        else
-                        {
-                            // Counting white pixels
-                            stateCount[currentState]++;
-                        }
-                    }
+                for (int col = 0; col < maxCol; col++) {
+                    ScanRow(ref row, ref col, maxCol, stateCount, ref currentState, ref rowsToSkip, ref done);
                 }
-                if (foundPatternCross(stateCount))
-                {
-                    bool confirmed = IsRealCenter(stateCount, i, maxJ);
-                    if (confirmed)
-                    {
-                        iSkip = stateCount[0];
-                        if (hasSkipped)
-                        {
-                            // Found a third one
-                            done = haveMultiplyConfirmedCenters();
-                        }
-                    }
+                if (!foundPatternCross(stateCount)) {
+                    continue;
+                }
+                bool confirmed = IsRealCenter(stateCount, row, maxCol);
+                if (!confirmed) {
+                    continue;
+                }
+                rowsToSkip = stateCount[0];
+                if (hasSkipped)
+                { // Found a third one
+                    done = haveMultiplyConfirmedCenters();
                 }
             }
 
@@ -192,9 +115,69 @@ namespace ZXing.QrCode.Internal
             return new QrFinderPatternInfo(patternInfo);
         }
 
+        void ScanRow(ref int row, ref int col, int maxCol, int[] stateCount
+            , ref int currentState, ref int rowsToSkip, ref bool done) {
+            if (_Image[col, row])
+            { // Black pixel
+                if (!IsBlack(currentState & 1))
+                {
+                    // Counting white pixels
+                    currentState++;
+                }
+                stateCount[currentState]++;
+                return;
+            } // White pixel
+            if (!IsBlack(currentState)) {
+                // Counting white pixels
+                stateCount[currentState]++;
+                return;
+            } // Counting black pixels
+            if (currentState != 4) {
+                stateCount[++currentState]++;
+                return;
+            } // A winner?
+            if (!foundPatternCross(stateCount)) {
+                // No, shift counts back by two
+                doShiftCounts2(stateCount);
+                currentState = 3;
+                return;
+            } // Yes, a Winner!
+            bool confirmed = IsRealCenter(stateCount, row, col);
+            if (!confirmed) {
+                doShiftCounts2(stateCount);
+                currentState = 3;
+                return;
+            }
+            // Start examining every other line. Checking each line turned out to be too
+            // expensive and didn't improve performance.
+            rowsToSkip = 2;
+            if (hasSkipped) {
+                done = haveMultiplyConfirmedCenters();
+            } else {
+                int rowSkip = findRowSkip();
+                if (rowSkip > stateCount[2]) {
+                    // Skip rows between row of lower confirmed center
+                    // and top of presumed third confirmed center
+                    // but back up a bit to get a full chance of detecting
+                    // it, entire width of center of finder pattern
+
+                    // Skip by rowSkip, but back off by stateCount[2] (size of last center
+                    // of pattern we saw) to be conservative, and also back off by iSkip which
+                    // is about to be re-added
+                    row += rowSkip - stateCount[2] - rowsToSkip;
+                    col = maxCol - 1;
+                }
+            }
+            // Clear state to start looking again
+            currentState = 0;
+            doClearCounts(stateCount);
+        }
+
+        private static bool IsBlack(int currentState) => (currentState & 1) == 0;
+
         /// <summary> Given a count of black/white/black/white/black pixels just seen and an end position,
         /// figures the location of the center of this run. </summary>
-        private static float? centerFromEnd(int[] stateCount, int endCol)
+        private static float? centerFromEnd(IReadOnlyList<int> stateCount, int endCol)
         {
             var result = (endCol - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0f;
             if (float.IsNaN(result)) {
