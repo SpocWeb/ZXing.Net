@@ -18,11 +18,11 @@ using System;
 
 namespace ZXing.QrCode.Internal
 {
-    /// <summary> Center of a finder pattern,
-    /// which are the square patterns found in 3 of the 4 corners of QR Codes. </summary>
+    /// <summary> The square patterns found in 3 of the 4 corners of QR Codes. </summary>
     /// <remarks>
-    /// It also encapsulates a count of similar finder patterns,
-    /// as a convenience to the finder's bookkeeping.</p>
+    /// It also encapsulates a count of close finder patterns,
+    /// as a convenience to the finder's bookkeeping.
+    /// Averages all close Patterns to determine the Center of the finder pattern.
     /// </remarks>
     /// <author>Sean Owen</author>
     public sealed class FinderPattern : ResultPoint
@@ -50,15 +50,15 @@ namespace ZXing.QrCode.Internal
         /// position and size --
         /// meaning, it is at nearly the same center with nearly the same size.</p>
         /// </summary>
-        internal bool aboutEquals(float moduleSize, float i, float j)
+        internal bool aboutEquals(float moduleSize, float row, float col)
         {
-            if (Math.Abs(i - Y) <= moduleSize && Math.Abs(j - X) <= moduleSize)
+            if (Math.Abs(row - Y) > moduleSize ||
+                Math.Abs(col - X) > moduleSize)
             {
-                float moduleSizeDiff = Math.Abs(moduleSize - EstimatedModuleSize);
-                return moduleSizeDiff <= 1.0f || moduleSizeDiff <= EstimatedModuleSize;
-
+                return false;
             }
-            return false;
+            float moduleSizeDiff = Math.Abs(moduleSize - EstimatedModuleSize);
+            return moduleSizeDiff <= 1 || moduleSizeDiff <= EstimatedModuleSize;
         }
 
         /// <summary> Arith. Mean of current with new estimate in position and module size. </summary>

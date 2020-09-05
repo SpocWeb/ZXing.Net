@@ -522,7 +522,7 @@ namespace ZXing.QrCode.Internal
             return foundPatternCross(stateCount) ? centerFromEnd(stateCount, j) : null;
         }
 
-        /// <summary> called when a horizontal scan finds a possible alignment pattern. </summary>
+        /// <summary> called when a horizontal scan finds one possible alignment pattern. </summary>
         /// <remarks>
         /// It will cross check with a vertical scan,
         /// and if successful, will cross-cross-check with another horizontal scan.
@@ -531,61 +531,62 @@ namespace ZXing.QrCode.Internal
         /// And then we cross-cross-cross check with another diagonal scan.
         /// If that succeeds the finder pattern location is added to a list that tracks
         /// the number of times each location has been nearly-matched as a finder pattern.
-        /// Each additional find is more evidence that the location is in fact a finder
-        /// pattern center
+        /// Each additional find is more evidence that the location is in fact a finder pattern center
         /// </remarks>
         /// <param name="stateCount">reading state module counts from horizontal scan</param>
         /// <param name="row">row where finder pattern may be found</param>
-        /// <param name="j">end of possible finder pattern in row</param>
+        /// <param name="endCol">end of possible finder pattern in row</param>
         /// <returns> true if a finder pattern candidate was found this time </returns>
         protected bool IsRealCenter(int[] stateCount, int row, int endCol)
         {
             int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] +
                                   stateCount[4];
-            float? centerJ = centerFromEnd(stateCount, endCol);
-            if (centerJ == null) {
-                return false;
-            }
-            float? centerI = crossCheckVertical(row, (int) centerJ.Value, stateCount[2], stateCountTotal);
-            if (centerI == null)
+            float? centerCol = centerFromEnd(stateCount, endCol);
+            if (centerCol == null)
             {
                 return false;
             }
-
-            // Re-cross check
-            centerJ = crossCheckHorizontal((int) centerJ.Value, (int) centerI.Value, stateCount[2], stateCountTotal);
-            if (centerJ == null || !crossCheckDiagonal((int)centerI, (int)centerJ))
+            float? centerRow = crossCheckVertical(row, (int)centerCol.Value, stateCount[2], stateCountTotal);
+            if (centerRow == null)
+            {
+                return false;
+            } // Re-cross check
+            centerCol = crossCheckHorizontal((int)centerCol.Value, (int)centerRow.Value, stateCount[2], stateCountTotal);
+            if (centerCol == null || !crossCheckDiagonal((int)centerRow, (int)centerCol))
             {
                 return false;
             }
 
             float estimatedModuleSize = stateCountTotal / 7.0f;
-            bool found = false;
-            for (int index = 0; index < _PossibleCenters.Count; index++)
+            var indexCloseTo = IndexCloseTo(centerCol.Value, centerRow.Value, estimatedModuleSize);
+            if (indexCloseTo >= 0)
             {
-                var center = _PossibleCenters[index];
-                // Look for about the same center and module size:
-                if (center.aboutEquals(estimatedModuleSize, centerI.Value, centerJ.Value))
-                {
-                    _PossibleCenters.RemoveAt(index);
-                    _PossibleCenters.Insert(index, center.combineEstimate(centerI.Value, centerJ.Value, estimatedModuleSize));
-
-                    found = true;
-                    break;
-                }
-            }
-
-            if (found)
-            {
+                _PossibleCenters[indexCloseTo] = _PossibleCenters[indexCloseTo]
+                    .combineEstimate(centerRow.Value, centerCol.Value, estimatedModuleSize);
                 return true;
             }
 
-            var point = new FinderPattern(centerJ.Value, centerI.Value, estimatedModuleSize);
+            var point = new FinderPattern(centerCol.Value, centerRow.Value, estimatedModuleSize);
 
             _PossibleCenters.Add(point);
 
             resultPointCallback?.Invoke(point);
             return true;
+        }
+
+        private int IndexCloseTo(float centerCol, float centerRow, float estimatedModuleSize)
+        {
+            for (int index = 0; index < _PossibleCenters.Count; index++)
+            {
+                var center = _PossibleCenters[index];
+                // Look for about the same center and module size:
+                if (center.aboutEquals(estimatedModuleSize, centerRow, centerCol))
+                {
+                    return index;
+                }
+            }
+
+            return int.MinValue;
         }
 
         /// <returns> number of rows we could safely skip during scanning, based on the first
