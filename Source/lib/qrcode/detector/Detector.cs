@@ -320,14 +320,14 @@ namespace ZXing.QrCode.Internal
             int dx = Math.Abs(toX - fromX);
             int dy = Math.Abs(toY - fromY);
             int error = -dx >> 1;
-            int xstep = fromX < toX ? 1 : -1;
-            int ystep = fromY < toY ? 1 : -1;
+            int xStep = fromX < toX ? 1 : -1;
+            int yStep = fromY < toY ? 1 : -1;
 
             // In black pixels, looking for white, first or second time.
             int state = 0;
             // Loop up until x == toX, but not beyond
-            int xLimit = toX + xstep;
-            for (int x = fromX, y = fromY; x != xLimit; x += xstep)
+            int xLimit = toX + xStep;
+            for (int x = fromX, y = fromY; x != xLimit; x += xStep)
             {
                 int realX = steep ? y : x;
                 int realY = steep ? x : y;
@@ -352,7 +352,7 @@ namespace ZXing.QrCode.Internal
 
                         break;
                     }
-                    y += ystep;
+                    y += yStep;
                     error -= dx;
                 }
             }
@@ -361,7 +361,7 @@ namespace ZXing.QrCode.Internal
             // small approximation; (toX+xStep,toY+yStep) might be really correct. Ignore this.
             if (state == 2)
             {
-                return MathUtils.distance(toX + xstep, toY, fromX, fromY);
+                return MathUtils.distance(toX + xStep, toY, fromX, fromY);
             }
             // else we didn't find even black-white-black; no estimate is really possible
             return Single.NaN;

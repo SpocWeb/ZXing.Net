@@ -606,42 +606,48 @@ namespace ZXing.QrCode.Internal
                 return false;
             }
             float? centerI = crossCheckVertical(i, (int) centerJ.Value, stateCount[2], stateCountTotal);
-            if (centerI != null)
+            if (centerI == null)
             {
-                // Re-cross check
-                centerJ = crossCheckHorizontal((int) centerJ.Value, (int) centerI.Value, stateCount[2], stateCountTotal);
-                if (centerJ != null && crossCheckDiagonal((int) centerI, (int) centerJ))
+                return false;
+            }
+
+            // Re-cross check
+            centerJ = crossCheckHorizontal((int) centerJ.Value, (int) centerI.Value, stateCount[2], stateCountTotal);
+            if (centerJ == null || !crossCheckDiagonal((int)centerI, (int)centerJ))
+            {
+                return false;
+            }
+
+            float estimatedModuleSize = stateCountTotal / 7.0f;
+            bool found = false;
+            for (int index = 0; index < _PossibleCenters.Count; index++)
+            {
+                var center = _PossibleCenters[index];
+                // Look for about the same center and module size:
+                if (center.aboutEquals(estimatedModuleSize, centerI.Value, centerJ.Value))
                 {
-                    float estimatedModuleSize = stateCountTotal / 7.0f;
-                    bool found = false;
-                    for (int index = 0; index < _PossibleCenters.Count; index++)
-                    {
-                        var center = _PossibleCenters[index];
-                        // Look for about the same center and module size:
-                        if (center.aboutEquals(estimatedModuleSize, centerI.Value, centerJ.Value))
-                        {
-                            _PossibleCenters.RemoveAt(index);
-                            _PossibleCenters.Insert(index, center.combineEstimate(centerI.Value, centerJ.Value, estimatedModuleSize));
+                    _PossibleCenters.RemoveAt(index);
+                    _PossibleCenters.Insert(index, center.combineEstimate(centerI.Value, centerJ.Value, estimatedModuleSize));
 
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        var point = new FinderPattern(centerJ.Value, centerI.Value, estimatedModuleSize);
-
-                        _PossibleCenters.Add(point);
-                        if (resultPointCallback != null)
-                        {
-
-                            resultPointCallback(point);
-                        }
-                    }
-                    return true;
+                    found = true;
+                    break;
                 }
             }
-            return false;
+
+            if (found)
+            {
+                return true;
+            }
+
+            var point = new FinderPattern(centerJ.Value, centerI.Value, estimatedModuleSize);
+
+            _PossibleCenters.Add(point);
+            if (resultPointCallback != null)
+            {
+
+                resultPointCallback(point);
+            }
+            return true;
         }
 
         /// <returns> number of rows we could safely skip during scanning, based on the first

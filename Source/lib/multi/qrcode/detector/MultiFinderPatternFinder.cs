@@ -120,11 +120,13 @@ namespace ZXing.Multi.QrCode.Internal
              *  - form a triangle with 90° angle (checked by comparing top right/bottom left distance
              *    with pythagoras)
              *
-             * Note: we allow each point to be used for more than one code region: this might seem
-             * counter-intuitive at first, but the performance penalty is not that big. At this point,
-             * we cannot make a good quality decision whether the three finders actually represent
-             * a QR code, or are just by chance layouted so it looks like there might be a QR code there.
-             * So, if the layout seems right, lets have the decoder try to decode.     
+             * Note: we allow each point to be used for more than one code region:
+             * this might seem counter-intuitive at first,
+             * but the performance penalty is not that big.
+             * At this point, we cannot make a good quality decision
+             * whether the three finders actually represent a QR code,
+             * or are just by chance layouted so it looks like there might be a QR code there.
+             * So, if the layout seems right, lets have the decoder try to decode. 
              */
 
             List<FinderPattern[]> results = new List<FinderPattern[]>(); // holder for the results
