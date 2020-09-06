@@ -34,7 +34,7 @@ namespace ZXing.PDF417.Internal
         /// The Bounding Box around the column (in the BitMatrix)
         /// </summary>
         /// <value>The box.</value>
-        public BoundingBox Box { get; private set; }
+        public BoundingBox Box { get; }
 
         /// <summary>
         /// The Codewords the Box encodes for, offset by the Box minY.

@@ -113,22 +113,22 @@ namespace ZXing.Client.Result
         /// <summary>
         /// numbers
         /// </summary>
-        public string[] Numbers { get; private set; }
+        public string[] Numbers { get; }
         /// <summary>
         ///  vias
         /// </summary>
-        public string[] Vias { get; private set; }
+        public string[] Vias { get; }
         /// <summary>
         /// subject
         /// </summary>
-        public string Subject { get; private set; }
+        public string Subject { get; }
         /// <summary>
         /// body
         /// </summary>
-        public string Body { get; private set; }
+        public string Body { get; }
         /// <summary>
         /// sms uri
         /// </summary>
-        public string SMSURI { get; private set; }
+        public string SMSURI { get; }
     }
 }

@@ -27,39 +27,39 @@ namespace ZXing.Client.Result
         /// <summary>
         /// VIN
         /// </summary>
-        public string VIN { get; private set; }
+        public string VIN { get; }
         /// <summary>
         /// manufacturer id
         /// </summary>
-        public string WorldManufacturerID { get; private set; }
+        public string WorldManufacturerID { get; }
         /// <summary>
         /// vehicle descriptor section
         /// </summary>
-        public string VehicleDescriptorSection { get; private set; }
+        public string VehicleDescriptorSection { get; }
         /// <summary>
         /// vehicle identifier section
         /// </summary>
-        public string VehicleIdentifierSection { get; private set; }
+        public string VehicleIdentifierSection { get; }
         /// <summary>
         /// country code
         /// </summary>
-        public string CountryCode { get; private set; }
+        public string CountryCode { get; }
         /// <summary>
         /// vehicle attributes
         /// </summary>
-        public string VehicleAttributes { get; private set; }
+        public string VehicleAttributes { get; }
         /// <summary>
         /// model year
         /// </summary>
-        public int ModelYear { get; private set; }
+        public int ModelYear { get; }
         /// <summary>
         /// plant code
         /// </summary>
-        public char PlantCode { get; private set; }
+        public char PlantCode { get; }
         /// <summary>
         /// sequential number
         /// </summary>
-        public string SequentialNumber { get; private set; }
+        public string SequentialNumber { get; }
 
         /// <summary>
         /// initializing constructor

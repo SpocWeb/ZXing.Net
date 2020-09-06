@@ -32,7 +32,7 @@ namespace ZXing.Common
 #if !UNITY
         [Browsable(false)]
 #endif
-        public IDictionary<EncodeHintType, object> Hints { get; private set; }
+        public IDictionary<EncodeHintType, object> Hints { get; }
 
         /// <summary>
         /// Specifies the height of the barcode image

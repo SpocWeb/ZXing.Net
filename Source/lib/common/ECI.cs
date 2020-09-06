@@ -29,7 +29,7 @@ namespace ZXing.Common
         /// <summary>
         /// the ECI value
         /// </summary>
-        public virtual int Value { get; private set; }
+        public virtual int Value { get; }
 
         internal ECI(int val)
         {

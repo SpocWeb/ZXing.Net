@@ -30,36 +30,36 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// top left corner of the box
         /// </summary>
-        public ResultPoint TopLeft { get; private set; }
+        public ResultPoint TopLeft { get; }
         /// <summary>
         /// top right corner of the box
         /// </summary>
-        public ResultPoint TopRight { get; private set; }
+        public ResultPoint TopRight { get; }
         /// <summary>
         /// bottom left corner of the box
         /// </summary>
-        public ResultPoint BottomLeft { get; private set; }
+        public ResultPoint BottomLeft { get; }
         /// <summary>
         /// bottom right corner of the box
         /// </summary>
-        public ResultPoint BottomRight { get; private set; }
+        public ResultPoint BottomRight { get; }
 
         /// <summary>
         /// min x
         /// </summary>
-        public int MinX { get; private set; }
+        public int MinX { get; }
         /// <summary>
         /// max x
         /// </summary>
-        public int MaxX { get; private set; }
+        public int MaxX { get; }
         /// <summary>
         /// min y
         /// </summary>
-        public int MinY { get; private set; }
+        public int MinY { get; }
         /// <summary>
         /// max y
         /// </summary>
-        public int MaxY { get; private set; }
+        public int MaxY { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZXing.PDF417.Internal.BoundingBox"/> class.

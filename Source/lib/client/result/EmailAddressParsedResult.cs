@@ -33,23 +33,23 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the TOs
         /// </summary>
-        public string[] Tos { get; private set; }
+        public string[] Tos { get; }
         /// <summary>
         /// the CCs
         /// </summary>
-        public string[] CCs { get; private set; }
+        public string[] CCs { get; }
         /// <summary>
         /// the BCCs
         /// </summary>
-        public string[] BCCs { get; private set; }
+        public string[] BCCs { get; }
         /// <summary>
         /// the subject
         /// </summary>
-        public string Subject { get; private set; }
+        public string Subject { get; }
         /// <summary>
         /// the body
         /// </summary>
-        public string Body { get; private set; }
+        public string Body { get; }
         /// <summary>
         /// the mailto: uri
         /// </summary>

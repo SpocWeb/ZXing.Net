@@ -30,7 +30,7 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// metadata which are found
         /// </summary>
-        public BarcodeMetadata Metadata { get; private set; }
+        public BarcodeMetadata Metadata { get; }
         /// <summary>
         /// result columns
         /// </summary>
@@ -42,7 +42,7 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// column count
         /// </summary>
-        public int ColumnCount { get; private set; }
+        public int ColumnCount { get; }
         /// <summary>
         /// row count
         /// </summary>

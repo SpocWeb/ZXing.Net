@@ -39,10 +39,10 @@ namespace ZXing.Client.Result
         /// <summary>
         /// text
         /// </summary>
-        public string Text { get; private set; }
+        public string Text { get; }
         /// <summary>
         /// language
         /// </summary>
-        public string Language { get; private set; }
+        public string Language { get; }
     }
 }

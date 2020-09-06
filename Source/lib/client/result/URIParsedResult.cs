@@ -28,11 +28,11 @@ namespace ZXing.Client.Result
         /// <summary>
         /// URI
         /// </summary>
-        public string URI { get; private set; }
+        public string URI { get; }
         /// <summary>
         /// title
         /// </summary>
-        public string Title { get; private set; }
+        public string Title { get; }
 
         /// <returns> true if the URI contains suspicious patterns that may suggest it intends to
         /// mislead the user about its true nature. At the moment this looks for the presence
@@ -42,7 +42,7 @@ namespace ZXing.Client.Result
         /// to connect to yourbank.com at first glance.
         /// </returns>
         [Obsolete("deprecated, see {@link URIResultParser#isPossiblyMaliciousURI(String)")]
-        public bool PossiblyMaliciousURI { get; private set; }
+        public bool PossiblyMaliciousURI { get; }
 
         /// <summary>
         /// initializing constructor

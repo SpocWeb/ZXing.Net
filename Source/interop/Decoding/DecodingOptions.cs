@@ -120,8 +120,8 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public bool ReturnCodabarStartEnd
         {
-            get { return wrappedDecodingOptions.ReturnCodabarStartEnd; }
-            set { wrappedDecodingOptions.ReturnCodabarStartEnd = value; }
+            get { return wrappedDecodingOptions.ReturnCodaBarStartEnd; }
+            set { wrappedDecodingOptions.ReturnCodaBarStartEnd = value; }
         }
 
         /// <summary>
@@ -133,8 +133,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool AssumeGS1
         {
-            get { return wrappedDecodingOptions.AssumeGS1; }
-            set { wrappedDecodingOptions.AssumeGS1 = value; }
+            get { return wrappedDecodingOptions.AssumeGs1; }
+            set { wrappedDecodingOptions.AssumeGs1 = value; }
         }
 
         /// <summary>
@@ -145,8 +145,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool AssumeMSICheckDigit
         {
-            get { return wrappedDecodingOptions.AssumeMSICheckDigit; }
-            set { wrappedDecodingOptions.AssumeMSICheckDigit = value; }
+            get { return wrappedDecodingOptions.AssumeMsiCheckDigit; }
+            set { wrappedDecodingOptions.AssumeMsiCheckDigit = value; }
 
         }
 
@@ -168,8 +168,8 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public int[] AllowedEANExtensions
         {
-            get { return wrappedDecodingOptions.AllowedEANExtensions; }
-            set { wrappedDecodingOptions.AllowedEANExtensions = value; }
+            get { return wrappedDecodingOptions.AllowedEanExtensions; }
+            set { wrappedDecodingOptions.AllowedEanExtensions = value; }
         }
 
         /// <summary>

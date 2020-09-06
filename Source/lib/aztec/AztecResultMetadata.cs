@@ -27,15 +27,15 @@ namespace ZXing.Aztec
         /// <value>
         ///   <c>true</c> if compact; otherwise, <c>false</c>.
         /// </value>
-        public bool Compact { get; private set; }
+        public bool Compact { get; }
         /// <summary>
         /// Gets the nb datablocks.
         /// </summary>
-        public int Datablocks { get; private set; }
+        public int Datablocks { get; }
         /// <summary>
         /// Gets the nb layers.
         /// </summary>
-        public int Layers { get; private set; }
+        public int Layers { get; }
 
         /// <summary>
         /// 

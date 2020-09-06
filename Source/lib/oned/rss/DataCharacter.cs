@@ -26,11 +26,11 @@ namespace ZXing.OneD.RSS
         /// <summary>
         /// Gets the value.
         /// </summary>
-        public int Value { get; private set; }
+        public int Value { get; }
         /// <summary>
         /// Gets the checksum portion.
         /// </summary>
-        public int ChecksumPortion { get; private set; }
+        public int ChecksumPortion { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataCharacter"/> class.

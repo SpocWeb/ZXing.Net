@@ -28,7 +28,7 @@ namespace ZXing.Common
 #if !UNITY
         [Browsable(false)]
 #endif
-        public IDictionary<DecodeHintType, object> Hints { get; private set; }
+        public IDictionary<DecodeHintType, object> Hints { get; }
 
         /// <summary>
         /// event is raised when a value is changed

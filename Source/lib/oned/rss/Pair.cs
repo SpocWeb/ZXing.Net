@@ -18,7 +18,7 @@ namespace ZXing.OneD.RSS
 {
     internal sealed class Pair : DataCharacter
     {
-        public FinderPattern FinderPattern { get; private set; }
+        public FinderPattern FinderPattern { get; }
         public int Count { get; private set; }
 
         internal Pair(int value, int checksumPortion, FinderPattern finderPattern)

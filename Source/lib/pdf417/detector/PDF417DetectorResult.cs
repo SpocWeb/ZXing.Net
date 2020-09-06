@@ -28,12 +28,12 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// bit matrix of the detected result
         /// </summary>
-        public BitMatrix Bits { get; private set; }
+        public BitMatrix Bits { get; }
 
         /// <summary>
         /// points of the detected result in the image
         /// </summary>
-        public List<ResultPoint[]> Points { get; private set; }
+        public List<ResultPoint[]> Points { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZXing.PDF417.Internal.PDF417DetectorResult"/> class.

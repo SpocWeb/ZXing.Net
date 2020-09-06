@@ -26,15 +26,15 @@ namespace ZXing.OneD.RSS
         /// <summary>
         /// Gets the value.
         /// </summary>
-        public int Value { get; private set; }
+        public int Value { get; }
         /// <summary>
         /// Gets the start end.
         /// </summary>
-        public int[] StartEnd { get; private set; }
+        public int[] StartEnd { get; }
         /// <summary>
         /// Gets the result points.
         /// </summary>
-        public ResultPoint[] ResultPoints { get; private set; }
+        public ResultPoint[] ResultPoints { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FinderPattern"/> class.

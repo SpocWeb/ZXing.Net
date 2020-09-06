@@ -29,8 +29,8 @@ namespace ZXing.PDF417.Internal.EC
 
         private readonly int[] expTable;
         private readonly int[] logTable;
-        public ModulusPoly Zero { get; private set; }
-        public ModulusPoly One { get; private set; }
+        public ModulusPoly Zero { get; }
+        public ModulusPoly One { get; }
 
         public ModulusGF(int modulus, int generator)
         {

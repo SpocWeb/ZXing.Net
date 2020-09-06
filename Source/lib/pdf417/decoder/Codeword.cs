@@ -30,19 +30,19 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// start of x coordinates
         /// </summary>
-        public int StartX { get; private set; }
+        public int StartX { get; }
         /// <summary>
         /// end of x coordinates
         /// </summary>
-        public int EndX { get; private set; }
+        public int EndX { get; }
         /// <summary>
         /// bucket
         /// </summary>
-        public int Bucket { get; private set; }
+        public int Bucket { get; }
         /// <summary>
         /// value
         /// </summary>
-        public int Value { get; private set; }
+        public int Value { get; }
         /// <summary>
         /// row number
         /// </summary>

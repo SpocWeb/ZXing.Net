@@ -40,29 +40,29 @@ namespace ZXing.Client.Result
 
         /// <returns> latitude in degrees
         /// </returns>
-        public double Latitude { get; private set; }
+        public double Latitude { get; }
 
         /// <returns> longitude in degrees
         /// </returns>
-        public double Longitude { get; private set; }
+        public double Longitude { get; }
 
         /// <returns> altitude in meters. If not specified, in the geo URI, returns 0.0
         /// </returns>
-        public double Altitude { get; private set; }
+        public double Altitude { get; }
 
         /// <return> query string associated with geo URI or null if none exists</return>
-        public string Query { get; private set; }
+        public string Query { get; }
 
         /// <summary>
         /// the geo URI
         /// </summary>
-        public string GeoURI { get; private set; }
+        public string GeoURI { get; }
 
         /// <returns> a URI link to Google Maps which display the point on the Earth described
         /// by this instance, and sets the zoom level in a way that roughly reflects the
         /// altitude, if specified
         /// </returns>
-        public string GoogleMapsURI { get; private set; }
+        public string GoogleMapsURI { get; }
 
         private string getDisplayResult()
         {

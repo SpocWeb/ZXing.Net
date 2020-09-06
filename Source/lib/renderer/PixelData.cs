@@ -31,14 +31,14 @@ namespace ZXing.Rendering
         /// <summary>
         /// the generated code as byte array of BGRA pixels
         /// </summary>
-        public byte[] Pixels { get; private set; }
+        public byte[] Pixels { get; }
         /// <summary>
         /// the width of the image
         /// </summary>
-        public int Width { get; private set; }
+        public int Width { get; }
         /// <summary>
         /// the height of the image
         /// </summary>
-        public int Height { get; private set; }
+        public int Height { get; }
     }
 }

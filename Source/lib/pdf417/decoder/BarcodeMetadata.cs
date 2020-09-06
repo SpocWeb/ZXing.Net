@@ -25,23 +25,23 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// column count
         /// </summary>
-        public int ColumnCount { get; private set; }
+        public int ColumnCount { get; }
         /// <summary>
         /// error correction level
         /// </summary>
-        public int ErrorCorrectionLevel { get; private set; }
+        public int ErrorCorrectionLevel { get; }
         /// <summary>
         /// row count upper
         /// </summary>
-        public int RowCountUpper { get; private set; }
+        public int RowCountUpper { get; }
         /// <summary>
         /// row count lower
         /// </summary>
-        public int RowCountLower { get; private set; }
+        public int RowCountLower { get; }
         /// <summary>
         /// row count
         /// </summary>
-        public int RowCount { get; private set; }
+        public int RowCount { get; }
 
         /// <summary>
         /// initializing constructor

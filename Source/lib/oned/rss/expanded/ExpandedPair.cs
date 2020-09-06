@@ -34,9 +34,9 @@ namespace ZXing.OneD.RSS.Expanded
     public sealed class ExpandedPair
     {
         internal bool MayBeLast { get; private set; }
-        internal DataCharacter LeftChar { get; private set; }
-        internal DataCharacter RightChar { get; private set; }
-        public FinderPattern FinderPattern { get; private set; }
+        internal DataCharacter LeftChar { get; }
+        internal DataCharacter RightChar { get; }
+        public FinderPattern FinderPattern { get; }
 
         public ExpandedPair(DataCharacter leftChar,
             DataCharacter rightChar,

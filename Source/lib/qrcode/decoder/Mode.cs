@@ -25,7 +25,7 @@ namespace ZXing.QrCode.Internal
     /// <author>Sean Owen</author>
     public sealed class Mode
     {
-        public Names Name { get; private set; }
+        public Names Name { get; }
 
         /// <summary> enumeration for encoding modes </summary>
         public enum Names
@@ -159,7 +159,7 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Gets the bits.
         /// </summary>
-        public int Bits { get; private set; }
+        public int Bits { get; }
 
         /// <summary>
         /// Returns a <see cref="string"/> that represents this instance.

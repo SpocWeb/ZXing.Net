@@ -38,8 +38,8 @@ namespace ZXing.OneD
                 Length = l;
             }
 
-            public bool Color { get; private set; }
-            public int Length { get; private set; }
+            public bool Color { get; }
+            public int Length { get; }
             public int Similar { get; private set; }
             public int Small { get; private set; }
             public int Large { get; private set; }

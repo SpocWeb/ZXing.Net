@@ -87,35 +87,35 @@ namespace ZXing.Client.Result
         /// <summary>
         /// SSID
         /// </summary>
-        public string Ssid { get; private set; }
+        public string Ssid { get; }
         /// <summary>
         /// network encryption
         /// </summary>
-        public string NetworkEncryption { get; private set; }
+        public string NetworkEncryption { get; }
         /// <summary>
         /// password
         /// </summary>
-        public string Password { get; private set; }
+        public string Password { get; }
         /// <summary>
         /// hidden flag
         /// </summary>
-        public bool Hidden { get; private set; }
+        public bool Hidden { get; }
         /// <summary>
         /// identity
         /// </summary>
-        public string Identity { get; private set; }
+        public string Identity { get; }
 
         /// <summary>
         /// anonymous
         /// </summary>
-        public string AnonymousIdentity { get; private set; }
+        public string AnonymousIdentity { get; }
         /// <summary>
         /// eap
         /// </summary>
-        public string EapMethod { get; private set; }
+        public string EapMethod { get; }
         /// <summary>
         /// phase 2 method
         /// </summary>
-        public string Phase2Method { get; private set; }
+        public string Phase2Method { get; }
     }
 }

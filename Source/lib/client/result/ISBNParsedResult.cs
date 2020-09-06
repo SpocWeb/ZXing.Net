@@ -34,6 +34,6 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the ISBN number
         /// </summary>
-        public string ISBN { get; private set; }
+        public string ISBN { get; }
     }
 }

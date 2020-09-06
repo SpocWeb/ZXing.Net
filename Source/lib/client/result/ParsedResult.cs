@@ -37,7 +37,7 @@ namespace ZXing.Client.Result
         /// <summary>
         /// gets the type of the parsed result
         /// </summary>
-        public virtual ParsedResultType Type { get; private set; }
+        public virtual ParsedResultType Type { get; }
         /// <summary>
         /// user friendly value
         /// </summary>

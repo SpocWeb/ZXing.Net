@@ -33,6 +33,6 @@ namespace ZXing.Multi
 
         /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
         BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints);
-        BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults);
+        //BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults);
     }
 }

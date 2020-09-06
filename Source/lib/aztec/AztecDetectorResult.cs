@@ -30,15 +30,15 @@ namespace ZXing.Aztec.Internal
         /// <value>
         ///   <c>true</c> if compact; otherwise, <c>false</c>.
         /// </value>
-        public bool Compact { get; private set; }
+        public bool Compact { get; }
         /// <summary>
         /// Gets the nb datablocks.
         /// </summary>
-        public int NbDatablocks { get; private set; }
+        public int NbDatablocks { get; }
         /// <summary>
         /// Gets the nb layers.
         /// </summary>
-        public int NbLayers { get; private set; }
+        public int NbLayers { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AztecDetectorResult"/> class.

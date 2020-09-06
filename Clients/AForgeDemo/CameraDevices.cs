@@ -22,7 +22,7 @@ namespace AForgeDemo
 {
     internal class CameraDevices
     {
-        public FilterInfoCollection Devices { get; private set; }
+        public FilterInfoCollection Devices { get; }
         public VideoCaptureDevice Current { get; private set; }
 
         public CameraDevices()

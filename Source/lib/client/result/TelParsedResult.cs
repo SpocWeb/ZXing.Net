@@ -47,14 +47,14 @@ namespace ZXing.Client.Result
         /// <summary>
         /// number
         /// </summary>
-        public string Number { get; private set; }
+        public string Number { get; }
         /// <summary>
         /// URI
         /// </summary>
-        public string TelURI { get; private set; }
+        public string TelURI { get; }
         /// <summary>
         /// title
         /// </summary>
-        public string Title { get; private set; }
+        public string Title { get; }
     }
 }

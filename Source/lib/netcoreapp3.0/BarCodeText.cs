@@ -25,10 +25,10 @@ namespace ZXing
     public sealed class BarCodeText //: IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
-        public string Text { get; private set; }
+        public string Text { get; }
 
         /// <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
-        public byte[] RawBytes { get; private set; }
+        public byte[] RawBytes { get; }
 
         /// <returns>
         /// points related to the barcode in the image. These are typically points
@@ -38,7 +38,7 @@ namespace ZXing
         public ResultPoint[] ResultPoints { get; private set; }
 
         /// <returns>{@link BarcodeFormat} representing the format of the barcode that was decoded</returns>
-        public BarcodeFormat BarcodeFormat { get; private set; }
+        public BarcodeFormat BarcodeFormat { get; }
 
         /// <returns>
         /// {@link Hashtable} mapping {@link ResultMetadataType} keys to values. May be
@@ -50,12 +50,12 @@ namespace ZXing
         /// <summary>
         /// Gets the timestamp.
         /// </summary>
-        public long Timestamp { get; private set; }
+        public long Timestamp { get; }
 
         /// <summary>
         /// how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length
         /// </summary>
-        public int NumBits { get; private set; }
+        public int NumBits { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarCodeText"/> class.

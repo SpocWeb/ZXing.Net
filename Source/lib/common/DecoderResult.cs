@@ -30,27 +30,27 @@ namespace ZXing.Common
         /// <summary>
         /// raw bytes representing the result, or null if not applicable
         /// </summary>
-        public byte[] RawBytes { get; private set; }
+        public byte[] RawBytes { get; }
 
         /// <summary>
         /// how many bits of<see cref="RawBytes"/> are valid; typically 8 times its length
         /// </summary>
-        public int NumBits { get; private set; }
+        public int NumBits { get; }
 
         /// <summary>
         /// text representation of the result
         /// </summary>
-        public string Text { get; private set; }
+        public string Text { get; }
 
         /// <summary>
         /// list of byte segments in the result, or null if not applicable
         /// </summary>
-        public IList<byte[]> ByteSegments { get; private set; }
+        public IList<byte[]> ByteSegments { get; }
 
         /// <summary>
         /// name of error correction level used, or null if not applicable
         /// </summary>
-        public string ECLevel { get; private set; }
+        public string ECLevel { get; }
 
         /// <summary>
         /// gets a value which describe if structure append data was found
@@ -65,7 +65,7 @@ namespace ZXing.Common
         /// <summary>
         /// gives the sequence number of the result if structured append was found
         /// </summary>
-        public int StructuredAppendSequenceNumber { get; private set; }
+        public int StructuredAppendSequenceNumber { get; }
 
         /// <summary>
         /// number of erasures corrected, or null if not applicable
@@ -75,7 +75,7 @@ namespace ZXing.Common
         /// <summary>
         /// gives the parity information if structured append was found
         /// </summary>
-        public int StructuredAppendParity { get; private set; }
+        public int StructuredAppendParity { get; }
 
         /// <summary>
         /// Miscellanseous data value for the various decoders

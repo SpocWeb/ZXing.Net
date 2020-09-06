@@ -33,9 +33,9 @@ namespace ZXing.OneD.RSS.Expanded
             this.wasReversed = wasReversed;
         }
 
-        public IReadOnlyList<ExpandedPair> Pairs { get; private set; }
+        public IReadOnlyList<ExpandedPair> Pairs { get; }
 
-        public int RowNumber { get; private set; }
+        public int RowNumber { get; }
 
         internal bool IsEquivalent(List<ExpandedPair> otherPairs)
         {

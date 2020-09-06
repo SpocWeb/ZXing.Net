@@ -39,10 +39,10 @@ namespace ZXing.Client.Result
         /// <summary>
         /// product id
         /// </summary>
-        public string ProductID { get; private set; }
+        public string ProductID { get; }
         /// <summary>
         /// normalized product id
         /// </summary>
-        public string NormalizedProductID { get; private set; }
+        public string NormalizedProductID { get; }
     }
 }
