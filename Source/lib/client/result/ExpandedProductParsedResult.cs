@@ -45,22 +45,7 @@ namespace ZXing.Client.Result
         /// </summary>
         public static string POUND = "LB";
 
-        private readonly string rawText;
-        private readonly string productID;
-        private readonly string sscc;
-        private readonly string lotNumber;
-        private readonly string productionDate;
-        private readonly string packagingDate;
-        private readonly string bestBeforeDate;
-        private readonly string expirationDate;
-        private readonly string weight;
-        private readonly string weightType;
-        private readonly string weightIncrement;
-        private readonly string price;
-        private readonly string priceIncrement;
-        private readonly string priceCurrency;
         // For AIS that not exist in this object
-        private readonly IDictionary<string, string> uncommonAIs;
 
         /// <summary>
         /// initializing constructor
@@ -97,21 +82,21 @@ namespace ZXing.Client.Result
                                            IDictionary<string, string> uncommonAIs)
            : base(ParsedResultType.PRODUCT)
         {
-            this.rawText = rawText;
-            this.productID = productID;
-            this.sscc = sscc;
-            this.lotNumber = lotNumber;
-            this.productionDate = productionDate;
-            this.packagingDate = packagingDate;
-            this.bestBeforeDate = bestBeforeDate;
-            this.expirationDate = expirationDate;
-            this.weight = weight;
-            this.weightType = weightType;
-            this.weightIncrement = weightIncrement;
-            this.price = price;
-            this.priceIncrement = priceIncrement;
-            this.priceCurrency = priceCurrency;
-            this.uncommonAIs = uncommonAIs;
+            this.RawText = rawText;
+            this.ProductID = productID;
+            this.Sscc = sscc;
+            this.LotNumber = lotNumber;
+            this.ProductionDate = productionDate;
+            this.PackagingDate = packagingDate;
+            this.BestBeforeDate = bestBeforeDate;
+            this.ExpirationDate = expirationDate;
+            this.Weight = weight;
+            this.WeightType = weightType;
+            this.WeightIncrement = weightIncrement;
+            this.Price = price;
+            this.PriceIncrement = priceIncrement;
+            this.PriceCurrency = priceCurrency;
+            this.UncommonAIs = uncommonAIs;
 
             displayResultValue = productID;
         }
@@ -130,19 +115,19 @@ namespace ZXing.Client.Result
 
             var other = (ExpandedProductParsedResult)o;
 
-            return equalsOrNull(productID, other.productID)
-                && equalsOrNull(sscc, other.sscc)
-                && equalsOrNull(lotNumber, other.lotNumber)
-                && equalsOrNull(productionDate, other.productionDate)
-                && equalsOrNull(bestBeforeDate, other.bestBeforeDate)
-                && equalsOrNull(expirationDate, other.expirationDate)
-                && equalsOrNull(weight, other.weight)
-                && equalsOrNull(weightType, other.weightType)
-                && equalsOrNull(weightIncrement, other.weightIncrement)
-                && equalsOrNull(price, other.price)
-                && equalsOrNull(priceIncrement, other.priceIncrement)
-                && equalsOrNull(priceCurrency, other.priceCurrency)
-                && equalsOrNull(uncommonAIs, other.uncommonAIs);
+            return equalsOrNull(ProductID, other.ProductID)
+                && equalsOrNull(Sscc, other.Sscc)
+                && equalsOrNull(LotNumber, other.LotNumber)
+                && equalsOrNull(ProductionDate, other.ProductionDate)
+                && equalsOrNull(BestBeforeDate, other.BestBeforeDate)
+                && equalsOrNull(ExpirationDate, other.ExpirationDate)
+                && equalsOrNull(Weight, other.Weight)
+                && equalsOrNull(WeightType, other.WeightType)
+                && equalsOrNull(WeightIncrement, other.WeightIncrement)
+                && equalsOrNull(Price, other.Price)
+                && equalsOrNull(PriceIncrement, other.PriceIncrement)
+                && equalsOrNull(PriceCurrency, other.PriceCurrency)
+                && equalsOrNull(UncommonAIs, other.UncommonAIs);
         }
 
         private static bool equalsOrNull(object o1, object o2)
@@ -177,19 +162,19 @@ namespace ZXing.Client.Result
         public override int GetHashCode()
         {
             int hash = 0;
-            hash ^= hashNotNull(productID);
-            hash ^= hashNotNull(sscc);
-            hash ^= hashNotNull(lotNumber);
-            hash ^= hashNotNull(productionDate);
-            hash ^= hashNotNull(bestBeforeDate);
-            hash ^= hashNotNull(expirationDate);
-            hash ^= hashNotNull(weight);
-            hash ^= hashNotNull(weightType);
-            hash ^= hashNotNull(weightIncrement);
-            hash ^= hashNotNull(price);
-            hash ^= hashNotNull(priceIncrement);
-            hash ^= hashNotNull(priceCurrency);
-            hash ^= hashNotNull(uncommonAIs);
+            hash ^= hashNotNull(ProductID);
+            hash ^= hashNotNull(Sscc);
+            hash ^= hashNotNull(LotNumber);
+            hash ^= hashNotNull(ProductionDate);
+            hash ^= hashNotNull(BestBeforeDate);
+            hash ^= hashNotNull(ExpirationDate);
+            hash ^= hashNotNull(Weight);
+            hash ^= hashNotNull(WeightType);
+            hash ^= hashNotNull(WeightIncrement);
+            hash ^= hashNotNull(Price);
+            hash ^= hashNotNull(PriceIncrement);
+            hash ^= hashNotNull(PriceCurrency);
+            hash ^= hashNotNull(UncommonAIs);
             return hash;
         }
 
@@ -201,82 +186,82 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the raw text
         /// </summary>
-        public string RawText => rawText;
+        public string RawText { get; }
 
         /// <summary>
         /// the product id
         /// </summary>
-        public string ProductID => productID;
+        public string ProductID { get; }
 
         /// <summary>
         /// the sscc
         /// </summary>
-        public string Sscc => sscc;
+        public string Sscc { get; }
 
         /// <summary>
         /// the lot number
         /// </summary>
-        public string LotNumber => lotNumber;
+        public string LotNumber { get; }
 
         /// <summary>
         /// the production date
         /// </summary>
-        public string ProductionDate => productionDate;
+        public string ProductionDate { get; }
 
         /// <summary>
         /// the packaging date
         /// </summary>
-        public string PackagingDate => packagingDate;
+        public string PackagingDate { get; }
 
         /// <summary>
         /// the best before date
         /// </summary>
-        public string BestBeforeDate => bestBeforeDate;
+        public string BestBeforeDate { get; }
 
         /// <summary>
         /// the expiration date
         /// </summary>
-        public string ExpirationDate => expirationDate;
+        public string ExpirationDate { get; }
 
         /// <summary>
         /// the weight
         /// </summary>
-        public string Weight => weight;
+        public string Weight { get; }
 
         /// <summary>
         /// the weight type
         /// </summary>
-        public string WeightType => weightType;
+        public string WeightType { get; }
 
         /// <summary>
         /// the weight increment
         /// </summary>
-        public string WeightIncrement => weightIncrement;
+        public string WeightIncrement { get; }
 
         /// <summary>
         /// the price
         /// </summary>
-        public string Price => price;
+        public string Price { get; }
 
         /// <summary>
         /// the price increment
         /// </summary>
-        public string PriceIncrement => priceIncrement;
+        public string PriceIncrement { get; }
 
         /// <summary>
         /// the price currency
         /// </summary>
-        public string PriceCurrency => priceCurrency;
+        public string PriceCurrency { get; }
 
         /// <summary>
         /// the uncommon AIs
         /// </summary>
-        public IDictionary<string, string> UncommonAIs => uncommonAIs;
+        public IDictionary<string, string> UncommonAIs { get; }
 
         /// <summary>
         /// the display representation (raw text)
         /// </summary>
-        public override string DisplayResult => rawText;
+        public override string DisplayResult => RawText;
 
     }
 }

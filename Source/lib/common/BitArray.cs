@@ -25,18 +25,16 @@ namespace ZXing.Common
     /// <author>Sean Owen</author>
     public sealed class BitArray
     {
-        private int[] bits;
-        private int size;
 
         /// <summary>
         /// size of the array, number of elements
         /// </summary>
-        public int Size => size;
+        public int Size { get; set; }
 
         /// <summary>
         /// size of the array in bytes
         /// </summary>
-        public int SizeInBytes => (size + 7) >> 3;
+        public int SizeInBytes => (Size + 7) >> 3;
 
         /// <summary>
         /// index accessor
@@ -45,11 +43,11 @@ namespace ZXing.Common
         /// <returns></returns>
         public bool this[int i]
         {
-            get => (bits[i >> 5] & (1 << (i & 0x1F))) != 0;
+            get => (Array[i >> 5] & (1 << (i & 0x1F))) != 0;
             set
             {
                 if (value) {
-                    bits[i >> 5] |= 1 << (i & 0x1F);
+                    Array[i >> 5] |= 1 << (i & 0x1F);
                 }
             }
         }
@@ -59,8 +57,8 @@ namespace ZXing.Common
         /// </summary>
         public BitArray()
         {
-            size = 0;
-            bits = new int[1];
+            Size = 0;
+            Array = new int[1];
         }
 
         /// <summary>
@@ -73,24 +71,24 @@ namespace ZXing.Common
             {
                 throw new ArgumentException("size must be at least 1");
             }
-            this.size = size;
-            bits = makeArray(size);
+            this.Size = size;
+            Array = makeArray(size);
         }
 
         // For testing only
         private BitArray(int[] bits, int size)
         {
-            this.bits = bits;
-            this.size = size;
+            this.Array = bits;
+            this.Size = size;
         }
 
         private void ensureCapacity(int size)
         {
-            if (size > bits.Length << 5)
+            if (size > Array.Length << 5)
             {
                 int[] newBits = makeArray(size);
-                System.Array.Copy(bits, 0, newBits, 0, bits.Length);
-                bits = newBits;
+                System.Array.Copy(Array, 0, newBits, 0, Array.Length);
+                Array = newBits;
             }
         }
 
@@ -101,7 +99,7 @@ namespace ZXing.Common
         /// </param>
         public void flip(int i)
         {
-            bits[i >> 5] ^= 1 << (i & 0x1F);
+            Array[i >> 5] ^= 1 << (i & 0x1F);
         }
 
         private static int numberOfTrailingZeros(int num)
@@ -127,24 +125,24 @@ namespace ZXing.Common
         /// at or beyond this given index</returns>
         public int getNextSet(int from)
         {
-            if (from >= size)
+            if (from >= Size)
             {
-                return size;
+                return Size;
             }
             int bitsOffset = from >> 5;
-            int currentBits = bits[bitsOffset];
+            int currentBits = Array[bitsOffset];
             // mask off lesser bits first
             currentBits &= -(1 << (from & 0x1F));
             while (currentBits == 0)
             {
-                if (++bitsOffset == bits.Length)
+                if (++bitsOffset == Array.Length)
                 {
-                    return size;
+                    return Size;
                 }
-                currentBits = bits[bitsOffset];
+                currentBits = Array[bitsOffset];
             }
             int result = (bitsOffset << 5) + numberOfTrailingZeros(currentBits);
-            return result > size ? size : result;
+            return result > Size ? Size : result;
         }
 
         /// <summary>
@@ -154,24 +152,24 @@ namespace ZXing.Common
         /// <returns>index of next unset bit, or <see cref="Size"/> if none are unset until the end</returns>
         public int getNextUnset(int from)
         {
-            if (from >= size)
+            if (from >= Size)
             {
-                return size;
+                return Size;
             }
             int bitsOffset = from >> 5;
-            int currentBits = ~bits[bitsOffset];
+            int currentBits = ~Array[bitsOffset];
             // mask off lesser bits first
             currentBits &= -(1 << (from & 0x1F));
             while (currentBits == 0)
             {
-                if (++bitsOffset == bits.Length)
+                if (++bitsOffset == Array.Length)
                 {
-                    return size;
+                    return Size;
                 }
-                currentBits = ~bits[bitsOffset];
+                currentBits = ~Array[bitsOffset];
             }
             int result = (bitsOffset << 5) + numberOfTrailingZeros(currentBits);
-            return result > size ? size : result;
+            return result > Size ? Size : result;
         }
 
         /// <summary> Sets a block of 32 bits, starting at bit i.
@@ -184,7 +182,7 @@ namespace ZXing.Common
         /// </param>
         public void setBulk(int i, int newBits)
         {
-            bits[i >> 5] = newBits;
+            Array[i >> 5] = newBits;
         }
 
         /// <summary>
@@ -194,7 +192,7 @@ namespace ZXing.Common
         /// <param name="end">end of range, exclusive</param>
         public void setRange(int start, int end)
         {
-            if (end < start || start < 0 || end > size)
+            if (end < start || start < 0 || end > Size)
             {
                 throw new ArgumentException();
             }
@@ -211,17 +209,17 @@ namespace ZXing.Common
                 int lastBit = i < lastInt ? 31 : end & 0x1F;
                 // Ones from firstBit to lastBit, inclusive
                 int mask = (2 << lastBit) - (1 << firstBit);
-                bits[i] |= mask;
+                Array[i] |= mask;
             }
         }
 
         /// <summary> Clears all bits (sets to false).</summary>
         public void clear()
         {
-            int max = bits.Length;
+            int max = Array.Length;
             for (int i = 0; i < max; i++)
             {
-                bits[i] = 0;
+                Array[i] = 0;
             }
         }
 
@@ -238,7 +236,7 @@ namespace ZXing.Common
         /// <throws><exception cref="ArgumentException" /> if end is less than start or the range is not contained in the array</throws>
         public bool isRange(int start, int end, bool value)
         {
-            if (end < start || start < 0 || end > size)
+            if (end < start || start < 0 || end > Size)
             {
                 throw new ArgumentException();
             }
@@ -258,7 +256,7 @@ namespace ZXing.Common
 
                 // Return false if we're looking for 1s and the masked bits[i] isn't all 1s (that is,
                 // equals the mask, or we're looking for 0s and the masked portion is not all 0s
-                if ((bits[i] & mask) != (value ? mask : 0))
+                if ((Array[i] & mask) != (value ? mask : 0))
                 {
                     return false;
                 }
@@ -272,18 +270,18 @@ namespace ZXing.Common
         /// <param name="bit">The bit.</param>
         public void appendBit(bool bit)
         {
-            ensureCapacity(size + 1);
+            ensureCapacity(Size + 1);
             if (bit)
             {
-                bits[size >> 5] |= 1 << (size & 0x1F);
+                Array[Size >> 5] |= 1 << (Size & 0x1F);
             }
-            size++;
+            Size++;
         }
 
         /// <returns> underlying array of ints. The first element holds the first 32 bits, and the least
         /// significant bit is bit 0.
         /// </returns>
-        public int[] Array => bits;
+        public int[] Array { get; set; }
 
         /// <summary>
         /// Appends the least-significant bits, from value, in order from most-significant to
@@ -298,7 +296,7 @@ namespace ZXing.Common
             {
                 throw new ArgumentException("Num bits must be between 0 and 32");
             }
-            ensureCapacity(size + numBits);
+            ensureCapacity(Size + numBits);
             for (int numBitsLeft = numBits; numBitsLeft > 0; numBitsLeft--)
             {
                 appendBit(((value >> (numBitsLeft - 1)) & 0x01) == 1);
@@ -311,8 +309,8 @@ namespace ZXing.Common
         /// <param name="other"></param>
         public void appendBitArray(BitArray other)
         {
-            int otherSize = other.size;
-            ensureCapacity(size + otherSize);
+            int otherSize = other.Size;
+            ensureCapacity(Size + otherSize);
             for (int i = 0; i < otherSize; i++)
             {
                 appendBit(other[i]);
@@ -325,15 +323,15 @@ namespace ZXing.Common
         /// <param name="other"></param>
         public void xor(BitArray other)
         {
-            if (size != other.size)
+            if (Size != other.Size)
             {
                 throw new ArgumentException("Sizes don't match");
             }
-            for (int i = 0; i < bits.Length; i++)
+            for (int i = 0; i < Array.Length; i++)
             {
                 // The last int could be incomplete (i.e. not have 32 bits in
                 // it) but there is no problem since 0 XOR 0 == 0.
-                bits[i] ^= other.bits[i];
+                Array[i] ^= other.Array[i];
             }
         }
 
@@ -365,13 +363,13 @@ namespace ZXing.Common
         /// <summary> Reverses all bits in the array.</summary>
         public void reverse()
         {
-            var newBits = new int[bits.Length];
+            var newBits = new int[Array.Length];
             // reverse all int's first
-            var len = (size - 1) >> 5;
+            var len = (Size - 1) >> 5;
             var oldBitsLen = len + 1;
             for (var i = 0; i < oldBitsLen; i++)
             {
-                var x = (long)bits[i];
+                var x = (long)Array[i];
                 x = ((x >> 1) & 0x55555555u) | ((x & 0x55555555u) << 1);
                 x = ((x >> 2) & 0x33333333u) | ((x & 0x33333333u) << 2);
                 x = ((x >> 4) & 0x0f0f0f0fu) | ((x & 0x0f0f0f0fu) << 4);
@@ -380,9 +378,9 @@ namespace ZXing.Common
                 newBits[len - i] = (int)x;
             }
             // now correct the int's if the bit size isn't a multiple of 32
-            if (size != oldBitsLen * 32)
+            if (Size != oldBitsLen * 32)
             {
-                var leftOffset = oldBitsLen * 32 - size;
+                var leftOffset = oldBitsLen * 32 - Size;
                 var currentInt = (int)((uint)newBits[0] >> leftOffset); // (newBits[0] >>> leftOffset);
                 for (var i = 1; i < oldBitsLen; i++)
                 {
@@ -393,7 +391,7 @@ namespace ZXing.Common
                 }
                 newBits[oldBitsLen - 1] = currentInt;
             }
-            bits = newBits;
+            Array = newBits;
         }
 
         private static int[] makeArray(int size)
@@ -414,12 +412,12 @@ namespace ZXing.Common
             if (other == null) {
                 return false;
             }
-            if (size != other.size) {
+            if (Size != other.Size) {
                 return false;
             }
-            for (var index = 0; index < bits.Length; index++)
+            for (var index = 0; index < Array.Length; index++)
             {
-                if (bits[index] != other.bits[index]) {
+                if (Array[index] != other.Array[index]) {
                     return false;
                 }
             }
@@ -434,8 +432,8 @@ namespace ZXing.Common
         /// </returns>
         public override int GetHashCode()
         {
-            var hash = size;
-            foreach (var bit in bits)
+            var hash = Size;
+            foreach (var bit in Array)
             {
                 hash = 31 * hash + bit.GetHashCode();
             }
@@ -450,8 +448,8 @@ namespace ZXing.Common
         /// </returns>
         public override string ToString()
         {
-            var result = new StringBuilder(size + size / 8 + 1);
-            for (int i = 0; i < size; i++)
+            var result = new StringBuilder(Size + Size / 8 + 1);
+            for (int i = 0; i < Size; i++)
             {
                 if ((i & 0x07) == 0)
                 {
@@ -470,7 +468,7 @@ namespace ZXing.Common
         /// </returns>
         public object Clone()
         {
-            return new BitArray((int[])bits.Clone(), size);
+            return new BitArray((int[])Array.Clone(), Size);
         }
     }
 }

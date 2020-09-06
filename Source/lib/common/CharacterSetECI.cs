@@ -29,11 +29,10 @@ namespace ZXing.Common
         public static readonly IDictionary<int, CharacterSetECI> VALUE_TO_ECI;
         internal static readonly IDictionary<string, CharacterSetECI> NAME_TO_ECI;
 
-        private readonly string encodingName;
         /// <summary>
         /// encoding name
         /// </summary>
-        public string EncodingName => encodingName;
+        public string EncodingName { get; }
 
         static CharacterSetECI()
         {
@@ -75,7 +74,7 @@ namespace ZXing.Common
         private CharacterSetECI(int value, string encodingName)
            : base(value)
         {
-            this.encodingName = encodingName;
+            this.EncodingName = encodingName;
         }
 
         private static void addCharacterSet(int value, string encodingName)

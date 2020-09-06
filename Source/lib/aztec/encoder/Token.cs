@@ -28,21 +28,19 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         public static Token EMPTY = new SimpleToken(null, 0, 0);
 
-        private readonly Token previous;
-
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="previous"></param>
         protected Token(Token previous)
         {
-            this.previous = previous;
+            this.Previous = previous;
         }
 
         /// <summary>
         /// previous token
         /// </summary>
-        public Token Previous => previous;
+        public Token Previous { get; }
 
         /// <summary>
         /// adds a new simple token

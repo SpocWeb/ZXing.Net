@@ -40,15 +40,12 @@ namespace ZXing.QrCode.Internal
 
         private static readonly Version[] VERSIONS = buildVersions();
 
-        private readonly int versionNumber;
-        private readonly int[] alignmentPatternCenters;
         private readonly ECBlocks[] ecBlocks;
-        private readonly int totalCodewords;
 
         private Version(int versionNumber, int[] alignmentPatternCenters, params ECBlocks[] ecBlocks)
         {
-            this.versionNumber = versionNumber;
-            this.alignmentPatternCenters = alignmentPatternCenters;
+            this.VersionNumber = versionNumber;
+            this.AlignmentPatternCenters = alignmentPatternCenters;
             this.ecBlocks = ecBlocks;
             int total = 0;
             int ecCodewords = ecBlocks[0].ECCodewordsPerBlock;
@@ -57,27 +54,27 @@ namespace ZXing.QrCode.Internal
             {
                 total += ecBlock.Count * (ecBlock.DataCodewords + ecCodewords);
             }
-            totalCodewords = total;
+            TotalCodewords = total;
         }
 
         /// <summary>
         /// Gets the version number.
         /// </summary>
-        public int VersionNumber => versionNumber;
+        public int VersionNumber { get; }
 
         /// <summary>
         /// Gets the alignment pattern centers. </summary>
-        public int[] AlignmentPatternCenters => alignmentPatternCenters;
+        public int[] AlignmentPatternCenters { get; }
 
         /// <summary>
         /// Gets the total codewords.
         /// </summary>
-        public int TotalCodewords => totalCodewords;
+        public int TotalCodewords { get; }
 
         /// <summary>
         /// Gets the dimension for version.
         /// </summary>
-        public int DimensionForVersion => 17 + 4 * versionNumber;
+        public int DimensionForVersion => 17 + 4 * VersionNumber;
 
         /// <summary>
         /// Gets the EC blocks for level.
@@ -170,15 +167,15 @@ namespace ZXing.QrCode.Internal
             bitMatrix.setRegion(0, dimension - 8, 9, 8);
 
             // Alignment patterns
-            int max = alignmentPatternCenters.Length;
+            int max = AlignmentPatternCenters.Length;
             for (int x = 0; x < max; x++)
             {
-                int i = alignmentPatternCenters[x] - 2;
+                int i = AlignmentPatternCenters[x] - 2;
                 for (int y = 0; y < max; y++)
                 {
                     if ((x != 0 || y != 0 && y != max - 1) && (x != max - 1 || y != 0))
                     {
-                        bitMatrix.setRegion(alignmentPatternCenters[y] - 2, i, 5, 5);
+                        bitMatrix.setRegion(AlignmentPatternCenters[y] - 2, i, 5, 5);
                     }
                     // else no o alignment patterns near the three finder patterns
                 }
@@ -189,7 +186,7 @@ namespace ZXing.QrCode.Internal
             // Horizontal timing pattern
             bitMatrix.setRegion(9, 6, dimension - 17, 1);
 
-            if (versionNumber > 6)
+            if (VersionNumber > 6)
             {
                 // Version info, top right
                 bitMatrix.setRegion(dimension - 11, 0, 3, 6);
@@ -207,19 +204,19 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         public sealed class ECBlocks
         {
-            private readonly int ecCodewordsPerBlock;
+
             private readonly ECB[] ecBlocks;
 
             internal ECBlocks(int ecCodewordsPerBlock, params ECB[] ecBlocks)
             {
-                this.ecCodewordsPerBlock = ecCodewordsPerBlock;
+                this.ECCodewordsPerBlock = ecCodewordsPerBlock;
                 this.ecBlocks = ecBlocks;
             }
 
             /// <summary>
             /// Gets the EC codewords per block.
             /// </summary>
-            public int ECCodewordsPerBlock => ecCodewordsPerBlock;
+            public int ECCodewordsPerBlock { get; }
 
             /// <summary>
             /// Gets the num blocks.
@@ -240,7 +237,7 @@ namespace ZXing.QrCode.Internal
             /// <summary>
             /// Gets the total EC codewords.
             /// </summary>
-            public int TotalECCodewords => ecCodewordsPerBlock * NumBlocks;
+            public int TotalECCodewords => ECCodewordsPerBlock * NumBlocks;
 
             /// <summary>
             /// Gets the EC blocks.
@@ -258,24 +255,22 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         public sealed class ECB
         {
-            private readonly int count;
-            private readonly int dataCodewords;
 
             internal ECB(int count, int dataCodewords)
             {
-                this.count = count;
-                this.dataCodewords = dataCodewords;
+                this.Count = count;
+                this.DataCodewords = dataCodewords;
             }
 
             /// <summary>
             /// Gets the count.
             /// </summary>
-            public int Count => count;
+            public int Count { get; }
 
             /// <summary>
             /// Gets the data codewords.
             /// </summary>
-            public int DataCodewords => dataCodewords;
+            public int DataCodewords { get; }
 
         }
 
@@ -287,7 +282,7 @@ namespace ZXing.QrCode.Internal
         /// </returns>
         public override string ToString()
         {
-            return Convert.ToString(versionNumber);
+            return Convert.ToString(VersionNumber);
         }
 
         /// <summary> See ISO 18004:2006 6.5.1 Table 9</summary>

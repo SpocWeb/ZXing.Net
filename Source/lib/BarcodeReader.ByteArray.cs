@@ -25,8 +25,6 @@ namespace ZXing
     {
         private static readonly Func<byte[], LuminanceSource> defaultCreateLuminanceSource = null;
 
-        private readonly Func<byte[], LuminanceSource> createLuminanceSource;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReader"/> class.
         /// </summary>
@@ -69,7 +67,7 @@ namespace ZXing
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
-            this.createLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
+            this.CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace ZXing
         /// <value>
         /// The function to create a luminance source object.
         /// </value>
-        protected Func<byte[], LuminanceSource> CreateLuminanceSource => createLuminanceSource;
+        protected Func<byte[], LuminanceSource> CreateLuminanceSource { get; }
 
         /// <summary>
         /// Decodes the specified barcode bitmap.

@@ -51,17 +51,7 @@ namespace ZXing.Client.Result
 );
 #endif
 
-        private readonly string summary;
-        private readonly DateTime start;
         private readonly bool startAllDay;
-        private readonly DateTime? end;
-        private readonly bool endAllDay;
-        private readonly string location;
-        private readonly string organizer;
-        private readonly string[] attendees;
-        private readonly string description;
-        private readonly double latitude;
-        private readonly double longitude;
 
         /// <summary>
         /// initializing constructor
@@ -88,10 +78,10 @@ namespace ZXing.Client.Result
            double longitude)
            : base(ParsedResultType.CALENDAR)
         {
-            this.summary = summary;
+            this.Summary = summary;
             try
             {
-                start = parseDate(startString);
+                Start = parseDate(startString);
             }
             catch (Exception pe)
             {
@@ -101,13 +91,13 @@ namespace ZXing.Client.Result
             if (endString == null)
             {
                 long durationMS = parseDurationMS(durationString);
-                end = durationMS < 0L ? null : (DateTime?)start + new TimeSpan(0, 0, 0, 0, (int)durationMS);
+                End = durationMS < 0L ? null : (DateTime?)Start + new TimeSpan(0, 0, 0, 0, (int)durationMS);
             }
             else
             {
                 try
                 {
-                    end = parseDate(endString);
+                    End = parseDate(endString);
                 }
                 catch (Exception pe)
                 {
@@ -116,19 +106,19 @@ namespace ZXing.Client.Result
             }
 
             startAllDay = startString.Length == 8;
-            endAllDay = endString != null && endString.Length == 8;
+            isEndAllDay = endString != null && endString.Length == 8;
 
-            this.location = location;
-            this.organizer = organizer;
-            this.attendees = attendees;
-            this.description = description;
-            this.latitude = latitude;
-            this.longitude = longitude;
+            this.Location = location;
+            this.Organizer = organizer;
+            this.Attendees = attendees;
+            this.Description = description;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
 
             var result = new StringBuilder(100);
             maybeAppend(summary, result);
-            maybeAppend(format(startAllDay, start), result);
-            maybeAppend(format(endAllDay, end), result);
+            maybeAppend(format(startAllDay, Start), result);
+            maybeAppend(format(isEndAllDay, End), result);
             maybeAppend(location, result);
             maybeAppend(organizer, result);
             maybeAppend(attendees, result);
@@ -138,12 +128,12 @@ namespace ZXing.Client.Result
         /// <summary>
         /// summary
         /// </summary>
-        public string Summary => summary;
+        public string Summary { get; }
 
         /// <summary>
         /// Gets the start.
         /// </summary>
-        public DateTime Start => start;
+        public DateTime Start { get; }
 
         /// <summary>
         /// Determines whether [is start all day].
@@ -157,43 +147,43 @@ namespace ZXing.Client.Result
         /// <summary>
         /// event end <see cref="DateTime"/>, or null if event has no duration
         /// </summary>
-        public DateTime? End => end;
+        public DateTime? End { get; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is end all day.
         /// </summary>
         /// <value>true if end time was specified as a whole day</value>
-        public bool isEndAllDay => endAllDay;
+        public bool isEndAllDay { get; }
 
         /// <summary>
         /// location
         /// </summary>
-        public string Location => location;
+        public string Location { get; }
 
         /// <summary>
         /// organizer
         /// </summary>
-        public string Organizer => organizer;
+        public string Organizer { get; }
 
         /// <summary>
         /// attendees
         /// </summary>
-        public string[] Attendees => attendees;
+        public string[] Attendees { get; }
 
         /// <summary>
         /// description
         /// </summary>
-        public string Description => description;
+        public string Description { get; }
 
         /// <summary>
         /// latitude
         /// </summary>
-        public double Latitude => latitude;
+        public double Latitude { get; }
 
         /// <summary>
         /// longitude
         /// </summary>
-        public double Longitude => longitude;
+        public double Longitude { get; }
 
         /// <summary>
         /// Parses a string as a date. RFC 2445 allows the start and end fields to be of type DATE (e.g. 20081021)

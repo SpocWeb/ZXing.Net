@@ -25,22 +25,6 @@ namespace ZXing.Client.Result
     /// <author>Sean Owen</author>
     public sealed class AddressBookParsedResult : ParsedResult
     {
-        private readonly string[] names;
-        private readonly string[] nicknames;
-        private readonly string pronunciation;
-        private readonly string[] phoneNumbers;
-        private readonly string[] phoneTypes;
-        private readonly string[] emails;
-        private readonly string[] emailTypes;
-        private readonly string instantMessenger;
-        private readonly string note;
-        private readonly string[] addresses;
-        private readonly string[] addressTypes;
-        private readonly string org;
-        private readonly string birthday;
-        private readonly string title;
-        private readonly string[] urls;
-        private readonly string[] geo;
 
         /// <summary>
         /// initializing constructor
@@ -128,22 +112,22 @@ namespace ZXing.Client.Result
                 throw new ArgumentException("Addresses and types lengths differ");
             }
 
-            this.names = names;
-            this.nicknames = nicknames;
-            this.pronunciation = pronunciation;
-            this.phoneNumbers = phoneNumbers;
-            this.phoneTypes = phoneTypes;
-            this.emails = emails;
-            this.emailTypes = emailTypes;
-            this.instantMessenger = instantMessenger;
-            this.note = note;
-            this.addresses = addresses;
-            this.addressTypes = addressTypes;
-            this.org = org;
-            this.birthday = birthday;
-            this.title = title;
-            this.urls = urls;
-            this.geo = geo;
+            this.Names = names;
+            this.Nicknames = nicknames;
+            this.Pronunciation = pronunciation;
+            this.PhoneNumbers = phoneNumbers;
+            this.PhoneTypes = phoneTypes;
+            this.Emails = emails;
+            this.EmailTypes = emailTypes;
+            this.InstantMessenger = instantMessenger;
+            this.Note = note;
+            this.Addresses = addresses;
+            this.AddressTypes = addressTypes;
+            this.Org = org;
+            this.Birthday = birthday;
+            this.Title = title;
+            this.URLs = urls;
+            this.Geo = geo;
 
             displayResultValue = getDisplayResult();
         }
@@ -151,94 +135,94 @@ namespace ZXing.Client.Result
         /// <summary>
         /// the names
         /// </summary>
-        public string[] Names => names;
+        public string[] Names { get; }
 
         /// <summary>
         /// the nicknames
         /// </summary>
-        public string[] Nicknames => nicknames;
+        public string[] Nicknames { get; }
 
         /// <summary>
         /// In Japanese, the name is written in kanji, which can have multiple readings. Therefore a hint
         /// is often provided, called furigana, which spells the name phonetically.
         /// </summary>
         /// <return>The pronunciation of the getNames() field, often in hiragana or katakana.</return>
-        public string Pronunciation => pronunciation;
+        public string Pronunciation { get; }
 
         /// <summary>
         /// the phone numbers
         /// </summary>
-        public string[] PhoneNumbers => phoneNumbers;
+        public string[] PhoneNumbers { get; }
 
         /// <return>optional descriptions of the type of each phone number. It could be like "HOME", but,
         /// there is no guaranteed or standard format.</return>
-        public string[] PhoneTypes => phoneTypes;
+        public string[] PhoneTypes { get; }
 
         /// <summary>
         /// the e-mail addresses
         /// </summary>
-        public string[] Emails => emails;
+        public string[] Emails { get; }
 
         /// <return>optional descriptions of the type of each e-mail. It could be like "WORK", but,
         /// there is no guaranteed or standard format.</return>
-        public string[] EmailTypes => emailTypes;
+        public string[] EmailTypes { get; }
 
         /// <summary>
         /// the instant messenger addresses
         /// </summary>
-        public string InstantMessenger => instantMessenger;
+        public string InstantMessenger { get; }
 
         /// <summary>
         /// the note field
         /// </summary>
-        public string Note => note;
+        public string Note { get; }
 
         /// <summary>
         /// the addresses
         /// </summary>
-        public string[] Addresses => addresses;
+        public string[] Addresses { get; }
 
         /// <return>optional descriptions of the type of each e-mail. It could be like "WORK", but,
         /// there is no guaranteed or standard format.</return>
-        public string[] AddressTypes => addressTypes;
+        public string[] AddressTypes { get; }
 
         /// <summary>
         /// the title
         /// </summary>
-        public string Title => title;
+        public string Title { get; }
 
         /// <summary>
         /// the organisations
         /// </summary>
-        public string Org => org;
+        public string Org { get; }
 
         /// <summary>
         /// the urls
         /// </summary>
-        public string[] URLs => urls;
+        public string[] URLs { get; }
 
         /// <return>birthday formatted as yyyyMMdd (e.g. 19780917)</return>
-        public string Birthday => birthday;
+        public string Birthday { get; }
 
         /// <return>a location as a latitude/longitude pair</return>
-        public string[] Geo => geo;
+        public string[] Geo { get; }
 
         private string getDisplayResult()
         {
             var result = new StringBuilder(100);
-            maybeAppend(names, result);
-            maybeAppend(nicknames, result);
-            maybeAppend(pronunciation, result);
-            maybeAppend(title, result);
-            maybeAppend(org, result);
-            maybeAppend(addresses, result);
-            maybeAppend(phoneNumbers, result);
-            maybeAppend(emails, result);
-            maybeAppend(instantMessenger, result);
-            maybeAppend(urls, result);
-            maybeAppend(birthday, result);
-            maybeAppend(geo, result);
-            maybeAppend(note, result);
+            maybeAppend(Names, result);
+            maybeAppend(Nicknames, result);
+            maybeAppend(Pronunciation, result);
+            maybeAppend(Title, result);
+            maybeAppend(Org, result);
+            maybeAppend(Addresses, result);
+            maybeAppend(PhoneNumbers, result);
+            maybeAppend(Emails, result);
+            maybeAppend(InstantMessenger, result);
+            maybeAppend(URLs, result);
+            maybeAppend(Birthday, result);
+            maybeAppend(Geo, result);
+            maybeAppend(Note, result);
             return result.ToString();
         }
     }

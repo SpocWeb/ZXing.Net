@@ -536,7 +536,6 @@ namespace ZXing.PDF417.Internal
         private const float DEFAULT_MODULE_WIDTH = 0.357f; //1px in mm
         private const float HEIGHT = 2.0f; //mm
 
-        private BarcodeMatrix barcodeMatrix;
         private bool compact;
         private Compaction compaction;
         private Encoding encoding;
@@ -565,7 +564,7 @@ namespace ZXing.PDF417.Internal
             minRows = 3;
         }
 
-        internal BarcodeMatrix BarcodeMatrix => barcodeMatrix;
+        internal BarcodeMatrix BarcodeMatrix { get; set; }
 
         /// <summary>
         /// Calculates the necessary number of rows as described in annex Q of ISO/IEC 15438:2001(E).
@@ -742,8 +741,8 @@ namespace ZXing.PDF417.Internal
             string fullCodewords = dataCodewords + ec;
 
             //5. step: low-level encoding
-            barcodeMatrix = new BarcodeMatrix(rows, cols, compact);
-            encodeLowLevel(fullCodewords, cols, rows, errorCorrectionLevel, barcodeMatrix);
+            BarcodeMatrix = new BarcodeMatrix(rows, cols, compact);
+            encodeLowLevel(fullCodewords, cols, rows, errorCorrectionLevel, BarcodeMatrix);
         }
 
         /// <summary>

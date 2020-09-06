@@ -63,11 +63,7 @@ namespace ZXing.Common.ReedSolomon
 
         private readonly int[] expTable;
         private readonly int[] logTable;
-        private readonly GenericGFPoly zero;
-        private readonly GenericGFPoly one;
-        private readonly int size;
         private readonly int primitive;
-        private readonly int generatorBase;
 
         /// <summary>
         /// Create a representation of GF(size) using the given primitive polynomial.
@@ -82,8 +78,8 @@ namespace ZXing.Common.ReedSolomon
         public GenericGF(int primitive, int size, int genBase)
         {
             this.primitive = primitive;
-            this.size = size;
-            generatorBase = genBase;
+            this.Size = size;
+            GeneratorBase = genBase;
 
             expTable = new int[size];
             logTable = new int[size];
@@ -103,13 +99,13 @@ namespace ZXing.Common.ReedSolomon
                 logTable[expTable[i]] = i;
             }
             // logTable[0] == 0 but this should never be used
-            zero = new GenericGFPoly(this, new[] { 0 });
-            one = new GenericGFPoly(this, new[] { 1 });
+            Zero = new GenericGFPoly(this, new[] { 0 });
+            One = new GenericGFPoly(this, new[] { 1 });
         }
 
-        public GenericGFPoly Zero => zero;
+        public GenericGFPoly Zero { get; }
 
-        internal GenericGFPoly One => one;
+        internal GenericGFPoly One { get; }
 
         /// <summary>
         /// Builds the monomial.
@@ -125,7 +121,7 @@ namespace ZXing.Common.ReedSolomon
             }
             if (coefficient == 0)
             {
-                return zero;
+                return Zero;
             }
             int[] coefficients = new int[degree + 1];
             coefficients[0] = coefficient;
@@ -174,7 +170,7 @@ namespace ZXing.Common.ReedSolomon
             {
                 throw new ArithmeticException();
             }
-            return expTable[size - logTable[a] - 1];
+            return expTable[Size - logTable[a] - 1];
         }
 
         /// <summary>
@@ -189,18 +185,18 @@ namespace ZXing.Common.ReedSolomon
             {
                 return 0;
             }
-            return expTable[(logTable[a] + logTable[b]) % (size - 1)];
+            return expTable[(logTable[a] + logTable[b]) % (Size - 1)];
         }
 
         /// <summary>
         /// Gets the size.
         /// </summary>
-        public int Size => size;
+        public int Size { get; }
 
         /// <summary>
         /// Gets the generator base.
         /// </summary>
-        public int GeneratorBase => generatorBase;
+        public int GeneratorBase { get; }
 
         /// <summary>
         /// Returns a <see cref="string"/> that represents this instance.
@@ -210,7 +206,7 @@ namespace ZXing.Common.ReedSolomon
         /// </returns>
         public override string ToString()
         {
-            return "GF(0x" + primitive.ToString("X") + ',' + size + ')';
+            return "GF(0x" + primitive.ToString("X") + ',' + Size + ')';
         }
     }
 }

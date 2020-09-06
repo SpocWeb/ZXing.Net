@@ -22,7 +22,6 @@ namespace ZXing.QrCode.Internal
     /// </summary>
     public sealed class QRCodeDecoderMetaData
     {
-        private readonly bool mirrored;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QRCodeDecoderMetaData"/> class.
@@ -30,13 +29,13 @@ namespace ZXing.QrCode.Internal
         /// <param name="mirrored">if set to <c>true</c> [mirrored].</param>
         public QRCodeDecoderMetaData(bool mirrored)
         {
-            this.mirrored = mirrored;
+            this.IsMirrored = mirrored;
         }
 
         /// <summary>
         /// true if the QR Code was mirrored. 
         /// </summary>
-        public bool IsMirrored => mirrored;
+        public bool IsMirrored { get; }
 
         /// <summary>
         /// Apply the result points' order correction due to mirroring.
@@ -44,7 +43,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="points">Array of points to apply mirror correction to.</param>
         public void applyMirroredCorrection(ResultPoint[] points)
         {
-            if (!mirrored || points == null || points.Length < 3)
+            if (!IsMirrored || points == null || points.Length < 3)
             {
                 return;
             }

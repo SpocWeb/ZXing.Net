@@ -24,9 +24,6 @@ namespace ZXing.Datamatrix.Encoder
     public class DefaultPlacement
     {
         private readonly string codewords;
-        private readonly int numrows;
-        private readonly int numcols;
-        private readonly byte[] bits;
 
         /// <summary>
         /// Main constructor
@@ -37,25 +34,25 @@ namespace ZXing.Datamatrix.Encoder
         public DefaultPlacement(string codewords, int numcols, int numrows)
         {
             this.codewords = codewords;
-            this.numcols = numcols;
-            this.numrows = numrows;
-            bits = new byte[numcols * numrows];
-            SupportClass.Fill(bits, (byte)2); //Initialize with "not set" value
+            this.Numcols = numcols;
+            this.Numrows = numrows;
+            Bits = new byte[numcols * numrows];
+            SupportClass.Fill(Bits, (byte)2); //Initialize with "not set" value
         }
         /// <summary>
         /// num rows
         /// </summary>
-        public int Numrows => numrows;
+        public int Numrows { get; }
 
         /// <summary>
         /// num cols
         /// </summary>
-        public int Numcols => numcols;
+        public int Numcols { get; }
 
         /// <summary>
         /// bits
         /// </summary>
-        public byte[] Bits => bits;
+        public byte[] Bits { get; }
 
         /// <summary>
         /// get a specific bit
@@ -65,17 +62,17 @@ namespace ZXing.Datamatrix.Encoder
         /// <returns></returns>
         public bool getBit(int col, int row)
         {
-            return bits[row * numcols + col] == 1;
+            return Bits[row * Numcols + col] == 1;
         }
 
         private void setBit(int col, int row, bool bit)
         {
-            bits[row * numcols + col] = (byte)(bit ? 1 : 0);
+            Bits[row * Numcols + col] = (byte)(bit ? 1 : 0);
         }
 
         private bool noBit(int col, int row)
         {
-            return bits[row * numcols + col] == 2;
+            return Bits[row * Numcols + col] == 2;
         }
         /// <summary>
         /// place
@@ -89,56 +86,56 @@ namespace ZXing.Datamatrix.Encoder
             do
             {
                 // repeatedly first check for one of the special corner cases, then...
-                if ((row == numrows) && (col == 0))
+                if ((row == Numrows) && (col == 0))
                 {
                     corner1(pos++);
                 }
-                if ((row == numrows - 2) && (col == 0) && ((numcols % 4) != 0))
+                if ((row == Numrows - 2) && (col == 0) && ((Numcols % 4) != 0))
                 {
                     corner2(pos++);
                 }
-                if ((row == numrows - 2) && (col == 0) && (numcols % 8 == 4))
+                if ((row == Numrows - 2) && (col == 0) && (Numcols % 8 == 4))
                 {
                     corner3(pos++);
                 }
-                if ((row == numrows + 4) && (col == 2) && ((numcols % 8) == 0))
+                if ((row == Numrows + 4) && (col == 2) && ((Numcols % 8) == 0))
                 {
                     corner4(pos++);
                 }
                 // sweep upward diagonally, inserting successive characters...
                 do
                 {
-                    if ((row < numrows) && (col >= 0) && noBit(col, row))
+                    if ((row < Numrows) && (col >= 0) && noBit(col, row))
                     {
                         utah(row, col, pos++);
                     }
                     row -= 2;
                     col += 2;
-                } while (row >= 0 && (col < numcols));
+                } while (row >= 0 && (col < Numcols));
                 row++;
                 col += 3;
 
                 // and then sweep downward diagonally, inserting successive characters, ...
                 do
                 {
-                    if ((row >= 0) && (col < numcols) && noBit(col, row))
+                    if ((row >= 0) && (col < Numcols) && noBit(col, row))
                     {
                         utah(row, col, pos++);
                     }
                     row += 2;
                     col -= 2;
-                } while ((row < numrows) && (col >= 0));
+                } while ((row < Numrows) && (col >= 0));
                 row += 3;
                 col++;
 
                 // ...until the entire array is scanned
-            } while ((row < numrows) || (col < numcols));
+            } while ((row < Numrows) || (col < Numcols));
 
             // Lastly, if the lower right-hand corner is untouched, fill in fixed pattern
-            if (noBit(numcols - 1, numrows - 1))
+            if (noBit(Numcols - 1, Numrows - 1))
             {
-                setBit(numcols - 1, numrows - 1, true);
-                setBit(numcols - 2, numrows - 2, true);
+                setBit(Numcols - 1, Numrows - 1, true);
+                setBit(Numcols - 2, Numrows - 2, true);
             }
         }
 
@@ -146,13 +143,13 @@ namespace ZXing.Datamatrix.Encoder
         {
             if (row < 0)
             {
-                row += numrows;
-                col += 4 - ((numrows + 4) % 8);
+                row += Numrows;
+                col += 4 - ((Numrows + 4) % 8);
             }
             if (col < 0)
             {
-                col += numcols;
-                row += 4 - ((numcols + 4) % 8);
+                col += Numcols;
+                row += 4 - ((Numcols + 4) % 8);
             }
             // Note the conversion:
             int v = codewords[pos];
@@ -180,50 +177,50 @@ namespace ZXing.Datamatrix.Encoder
 
         private void corner1(int pos)
         {
-            module(numrows - 1, 0, pos, 1);
-            module(numrows - 1, 1, pos, 2);
-            module(numrows - 1, 2, pos, 3);
-            module(0, numcols - 2, pos, 4);
-            module(0, numcols - 1, pos, 5);
-            module(1, numcols - 1, pos, 6);
-            module(2, numcols - 1, pos, 7);
-            module(3, numcols - 1, pos, 8);
+            module(Numrows - 1, 0, pos, 1);
+            module(Numrows - 1, 1, pos, 2);
+            module(Numrows - 1, 2, pos, 3);
+            module(0, Numcols - 2, pos, 4);
+            module(0, Numcols - 1, pos, 5);
+            module(1, Numcols - 1, pos, 6);
+            module(2, Numcols - 1, pos, 7);
+            module(3, Numcols - 1, pos, 8);
         }
 
         private void corner2(int pos)
         {
-            module(numrows - 3, 0, pos, 1);
-            module(numrows - 2, 0, pos, 2);
-            module(numrows - 1, 0, pos, 3);
-            module(0, numcols - 4, pos, 4);
-            module(0, numcols - 3, pos, 5);
-            module(0, numcols - 2, pos, 6);
-            module(0, numcols - 1, pos, 7);
-            module(1, numcols - 1, pos, 8);
+            module(Numrows - 3, 0, pos, 1);
+            module(Numrows - 2, 0, pos, 2);
+            module(Numrows - 1, 0, pos, 3);
+            module(0, Numcols - 4, pos, 4);
+            module(0, Numcols - 3, pos, 5);
+            module(0, Numcols - 2, pos, 6);
+            module(0, Numcols - 1, pos, 7);
+            module(1, Numcols - 1, pos, 8);
         }
 
         private void corner3(int pos)
         {
-            module(numrows - 3, 0, pos, 1);
-            module(numrows - 2, 0, pos, 2);
-            module(numrows - 1, 0, pos, 3);
-            module(0, numcols - 2, pos, 4);
-            module(0, numcols - 1, pos, 5);
-            module(1, numcols - 1, pos, 6);
-            module(2, numcols - 1, pos, 7);
-            module(3, numcols - 1, pos, 8);
+            module(Numrows - 3, 0, pos, 1);
+            module(Numrows - 2, 0, pos, 2);
+            module(Numrows - 1, 0, pos, 3);
+            module(0, Numcols - 2, pos, 4);
+            module(0, Numcols - 1, pos, 5);
+            module(1, Numcols - 1, pos, 6);
+            module(2, Numcols - 1, pos, 7);
+            module(3, Numcols - 1, pos, 8);
         }
 
         private void corner4(int pos)
         {
-            module(numrows - 1, 0, pos, 1);
-            module(numrows - 1, numcols - 1, pos, 2);
-            module(0, numcols - 3, pos, 3);
-            module(0, numcols - 2, pos, 4);
-            module(0, numcols - 1, pos, 5);
-            module(1, numcols - 3, pos, 6);
-            module(1, numcols - 2, pos, 7);
-            module(1, numcols - 1, pos, 8);
+            module(Numrows - 1, 0, pos, 1);
+            module(Numrows - 1, Numcols - 1, pos, 2);
+            module(0, Numcols - 3, pos, 3);
+            module(0, Numcols - 2, pos, 4);
+            module(0, Numcols - 1, pos, 5);
+            module(1, Numcols - 3, pos, 6);
+            module(1, Numcols - 2, pos, 7);
+            module(1, Numcols - 1, pos, 8);
         }
     }
 }

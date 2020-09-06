@@ -32,8 +32,6 @@ namespace ZXing.Common
     public sealed class BitSource
     {
         private readonly byte[] bytes;
-        private int byteOffset;
-        private int bitOffset;
 
         /// <param name="bytes">bytes from which this will read bits. Bits will be read from the first byte first.
         /// Bits are read within a byte from most-significant to least-significant bit.
@@ -46,12 +44,12 @@ namespace ZXing.Common
         /// <summary>
         /// index of next bit in current byte which would be read by the next call to {@link #readBits(int)}.
         /// </summary>
-        public int BitOffset => bitOffset;
+        public int BitOffset { get; set; }
 
         /// <summary>
         /// index of next byte in input byte array which would be read by the next call to {@link #readBits(int)}.
         /// </summary>
-        public int ByteOffset => byteOffset;
+        public int ByteOffset { get; set; }
 
         /// <param name="numBits">number of bits to read
         /// </param>
@@ -69,19 +67,19 @@ namespace ZXing.Common
             int result = 0;
 
             // First, read remainder from current byte
-            if (bitOffset > 0)
+            if (BitOffset > 0)
             {
-                int bitsLeft = 8 - bitOffset;
+                int bitsLeft = 8 - BitOffset;
                 int toRead = numBits < bitsLeft ? numBits : bitsLeft;
                 int bitsToNotRead = bitsLeft - toRead;
                 int mask = (0xFF >> (8 - toRead)) << bitsToNotRead;
-                result = (bytes[byteOffset] & mask) >> bitsToNotRead;
+                result = (bytes[ByteOffset] & mask) >> bitsToNotRead;
                 numBits -= toRead;
-                bitOffset += toRead;
-                if (bitOffset == 8)
+                BitOffset += toRead;
+                if (BitOffset == 8)
                 {
-                    bitOffset = 0;
-                    byteOffset++;
+                    BitOffset = 0;
+                    ByteOffset++;
                 }
             }
 
@@ -90,8 +88,8 @@ namespace ZXing.Common
                 return result;
             }
             while (numBits >= 8) {
-                result = (result << 8) | (bytes[byteOffset] & 0xFF);
-                byteOffset++;
+                result = (result << 8) | (bytes[ByteOffset] & 0xFF);
+                ByteOffset++;
                 numBits -= 8;
             }
 
@@ -99,8 +97,8 @@ namespace ZXing.Common
             if (numBits > 0) {
                 int bitsToNotRead = 8 - numBits;
                 int mask = (0xFF >> bitsToNotRead) << bitsToNotRead;
-                result = (result << numBits) | ((bytes[byteOffset] & mask) >> bitsToNotRead);
-                bitOffset += numBits;
+                result = (result << numBits) | ((bytes[ByteOffset] & mask) >> bitsToNotRead);
+                BitOffset += numBits;
             }
 
             return result;
@@ -110,7 +108,7 @@ namespace ZXing.Common
         /// </returns>
         public int available()
         {
-            return 8 * (bytes.Length - byteOffset) - bitOffset;
+            return 8 * (bytes.Length - ByteOffset) - BitOffset;
         }
     }
 }

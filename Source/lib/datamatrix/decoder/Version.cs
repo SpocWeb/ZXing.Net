@@ -154,24 +154,22 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         internal sealed class ECBlocks
         {
-            private readonly int ecCodewords;
-            private readonly ECB[] _ecBlocksValue;
 
             internal ECBlocks(int ecCodewords, ECB ecBlocks)
             {
-                this.ecCodewords = ecCodewords;
-                _ecBlocksValue = new[] { ecBlocks };
+                this.ECCodewords = ecCodewords;
+                ECBlocksValue = new[] { ecBlocks };
             }
 
             internal ECBlocks(int ecCodewords, ECB ecBlocks1, ECB ecBlocks2)
             {
-                this.ecCodewords = ecCodewords;
-                _ecBlocksValue = new[] { ecBlocks1, ecBlocks2 };
+                this.ECCodewords = ecCodewords;
+                ECBlocksValue = new[] { ecBlocks1, ecBlocks2 };
             }
 
-            internal int ECCodewords => ecCodewords;
+            internal int ECCodewords { get; }
 
-            internal ECB[] ECBlocksValue => _ecBlocksValue;
+            internal ECB[] ECBlocksValue { get; }
 
         }
 
@@ -182,18 +180,16 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         internal sealed class ECB
         {
-            private readonly int count;
-            private readonly int dataCodewords;
 
             internal ECB(int count, int dataCodewords)
             {
-                this.count = count;
-                this.dataCodewords = dataCodewords;
+                this.Count = count;
+                this.DataCodewords = dataCodewords;
             }
 
-            internal int Count => count;
+            internal int Count { get; }
 
-            internal int DataCodewords => dataCodewords;
+            internal int DataCodewords { get; }
 
         }
 

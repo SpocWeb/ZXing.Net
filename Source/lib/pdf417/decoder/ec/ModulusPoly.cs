@@ -26,7 +26,6 @@ namespace ZXing.PDF417.Internal.EC
     internal sealed class ModulusPoly
     {
         private readonly ModulusGF field;
-        private readonly int[] coefficients;
 
         public ModulusPoly(ModulusGF field, int[] coefficients)
         {
@@ -46,21 +45,21 @@ namespace ZXing.PDF417.Internal.EC
                 }
                 if (firstNonZero == coefficientsLength)
                 {
-                    this.coefficients = new[] { 0 };
+                    this.Coefficients = new[] { 0 };
                 }
                 else
                 {
-                    this.coefficients = new int[coefficientsLength - firstNonZero];
+                    this.Coefficients = new int[coefficientsLength - firstNonZero];
                     Array.Copy(coefficients,
                                firstNonZero,
-                               this.coefficients,
+                               this.Coefficients,
                                0,
-                               this.coefficients.Length);
+                               this.Coefficients.Length);
                 }
             }
             else
             {
-                this.coefficients = coefficients;
+                this.Coefficients = coefficients;
             }
         }
 
@@ -68,19 +67,19 @@ namespace ZXing.PDF417.Internal.EC
         /// Gets the coefficients.
         /// </summary>
         /// <value>The coefficients.</value>
-        internal int[] Coefficients => coefficients;
+        internal int[] Coefficients { get; }
 
         /// <summary>
         /// degree of this polynomial
         /// </summary>
-        internal int Degree => coefficients.Length - 1;
+        internal int Degree => Coefficients.Length - 1;
 
         /// <summary>
         /// Gets a value indicating whether this instance is zero.
         /// </summary>
         /// <value>true if this polynomial is the monomial "0"
         /// </value>
-        internal bool isZero => coefficients[0] == 0;
+        internal bool isZero => Coefficients[0] == 0;
 
         /// <summary>
         /// coefficient of x^degree term in this polynomial
@@ -89,7 +88,7 @@ namespace ZXing.PDF417.Internal.EC
         /// <returns>coefficient of x^degree term in this polynomial</returns>
         internal int getCoefficient(int degree)
         {
-            return coefficients[coefficients.Length - 1 - degree];
+            return Coefficients[Coefficients.Length - 1 - degree];
         }
 
         /// <summary>
@@ -108,17 +107,17 @@ namespace ZXing.PDF417.Internal.EC
             if (a == 1)
             {
                 // Just the sum of the coefficients
-                foreach (var coefficient in coefficients)
+                foreach (var coefficient in Coefficients)
                 {
                     result = field.add(result, coefficient);
                 }
                 return result;
             }
-            result = coefficients[0];
-            int size = coefficients.Length;
+            result = Coefficients[0];
+            int size = Coefficients.Length;
             for (int i = 1; i < size; i++)
             {
-                result = field.add(field.multiply(a, result), coefficients[i]);
+                result = field.add(field.multiply(a, result), Coefficients[i]);
             }
             return result;
         }
@@ -142,8 +141,8 @@ namespace ZXing.PDF417.Internal.EC
                 return this;
             }
 
-            int[] smallerCoefficients = coefficients;
-            int[] largerCoefficients = other.coefficients;
+            int[] smallerCoefficients = Coefficients;
+            int[] largerCoefficients = other.Coefficients;
             if (smallerCoefficients.Length > largerCoefficients.Length)
             {
                 int[] temp = smallerCoefficients;
@@ -194,9 +193,9 @@ namespace ZXing.PDF417.Internal.EC
             {
                 return field.Zero;
             }
-            int[] aCoefficients = coefficients;
+            int[] aCoefficients = Coefficients;
             int aLength = aCoefficients.Length;
-            int[] bCoefficients = other.coefficients;
+            int[] bCoefficients = other.Coefficients;
             int bLength = bCoefficients.Length;
             int[] product = new int[aLength + bLength - 1];
             for (int i = 0; i < aLength; i++)
@@ -215,11 +214,11 @@ namespace ZXing.PDF417.Internal.EC
         /// </summary>
         internal ModulusPoly getNegative()
         {
-            int size = coefficients.Length;
+            int size = Coefficients.Length;
             int[] negativeCoefficients = new int[size];
             for (int i = 0; i < size; i++)
             {
-                negativeCoefficients[i] = field.subtract(0, coefficients[i]);
+                negativeCoefficients[i] = field.subtract(0, Coefficients[i]);
             }
             return new ModulusPoly(field, negativeCoefficients);
         }
@@ -238,11 +237,11 @@ namespace ZXing.PDF417.Internal.EC
             {
                 return this;
             }
-            int size = coefficients.Length;
+            int size = Coefficients.Length;
             int[] product = new int[size];
             for (int i = 0; i < size; i++)
             {
-                product[i] = field.multiply(coefficients[i], scalar);
+                product[i] = field.multiply(Coefficients[i], scalar);
             }
             return new ModulusPoly(field, product);
         }
@@ -263,11 +262,11 @@ namespace ZXing.PDF417.Internal.EC
             {
                 return field.Zero;
             }
-            int size = coefficients.Length;
+            int size = Coefficients.Length;
             int[] product = new int[size + degree];
             for (int i = 0; i < size; i++)
             {
-                product[i] = field.multiply(coefficients[i], coefficient);
+                product[i] = field.multiply(Coefficients[i], coefficient);
             }
             return new ModulusPoly(field, product);
         }

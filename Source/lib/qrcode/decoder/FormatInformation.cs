@@ -74,15 +74,12 @@ namespace ZXing.QrCode.Internal
         /// <summary> Offset i holds the number of 1 bits in the binary representation of i</summary>
         private static readonly int[] BITS_SET_IN_HALF_BYTE = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
 
-        private readonly ErrorCorrectionLevel errorCorrectionLevel;
-        private readonly byte dataMask;
-
         private FormatInformation(int formatInfo)
         {
             // Bits 3,4
-            errorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
+            ErrorCorrectionLevel = ErrorCorrectionLevel.forBits((formatInfo >> 3) & 0x03);
             // Bottom 3 bits
-            dataMask = (byte)(formatInfo & 0x07);
+            DataMask = (byte)(formatInfo & 0x07);
         }
 
         public static int numBitsDiffering(int a, int b)
@@ -161,13 +158,13 @@ namespace ZXing.QrCode.Internal
             return null;
         }
 
-        public ErrorCorrectionLevel ErrorCorrectionLevel => errorCorrectionLevel;
+        public ErrorCorrectionLevel ErrorCorrectionLevel { get; }
 
-        public byte DataMask => dataMask;
+        public byte DataMask { get; }
 
         public override int GetHashCode()
         {
-            return (errorCorrectionLevel.ordinal() << 3) | dataMask;
+            return (ErrorCorrectionLevel.ordinal() << 3) | DataMask;
         }
 
         public override bool Equals(object o)
@@ -177,7 +174,7 @@ namespace ZXing.QrCode.Internal
                 return false;
             }
             var other = (FormatInformation)o;
-            return errorCorrectionLevel == other.errorCorrectionLevel && dataMask == other.dataMask;
+            return ErrorCorrectionLevel == other.ErrorCorrectionLevel && DataMask == other.DataMask;
         }
     }
 }

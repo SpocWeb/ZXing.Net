@@ -21,14 +21,10 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class EncoderContext
     {
-        private readonly string msg;
+
         private SymbolShapeHint shape;
         private Dimension minSize;
         private Dimension maxSize;
-        private readonly StringBuilder codewords;
-        private int pos;
-        private int newEncoding;
-        private SymbolInfo symbolInfo;
         private int skipAtEnd;
         private static readonly Encoding encoding;
 
@@ -67,10 +63,10 @@ namespace ZXing.Datamatrix.Encoder
                 }
                 sb.Append(ch);
             }
-            this.msg = sb.ToString(); //Not Unicode here!
+            this.Message = sb.ToString(); //Not Unicode here!
             shape = SymbolShapeHint.FORCE_NONE;
-            codewords = new StringBuilder(msg.Length);
-            newEncoding = -1;
+            Codewords = new StringBuilder(msg.Length);
+            NewEncoding = -1;
         }
 
         public void setSymbolShape(SymbolShapeHint shape)
@@ -89,37 +85,37 @@ namespace ZXing.Datamatrix.Encoder
             skipAtEnd = count;
         }
 
-        public char CurrentChar => msg[pos];
+        public char CurrentChar => Message[Pos];
 
-        public char Current => msg[pos];
+        public char Current => Message[Pos];
 
         public void writeCodewords(string codewords)
         {
-            this.codewords.Append(codewords);
+            this.Codewords.Append(codewords);
         }
 
         public void writeCodeword(char codeword)
         {
-            codewords.Append(codeword);
+            Codewords.Append(codeword);
         }
 
-        public int CodewordCount => codewords.Length;
+        public int CodewordCount => Codewords.Length;
 
         public void signalEncoderChange(int encoding)
         {
-            newEncoding = encoding;
+            NewEncoding = encoding;
         }
 
         public void resetEncoderSignal()
         {
-            newEncoding = -1;
+            NewEncoding = -1;
         }
 
-        public bool HasMoreCharacters => pos < TotalMessageCharCount;
+        public bool HasMoreCharacters => Pos < TotalMessageCharCount;
 
-        private int TotalMessageCharCount => msg.Length - skipAtEnd;
+        private int TotalMessageCharCount => Message.Length - skipAtEnd;
 
-        public int RemainingCharacters => TotalMessageCharCount - pos;
+        public int RemainingCharacters => TotalMessageCharCount - Pos;
 
         public void updateSymbolInfo()
         {
@@ -128,30 +124,26 @@ namespace ZXing.Datamatrix.Encoder
 
         public void updateSymbolInfo(int len)
         {
-            if (symbolInfo == null || len > symbolInfo.dataCapacity)
+            if (SymbolInfo == null || len > SymbolInfo.dataCapacity)
             {
-                symbolInfo = SymbolInfo.lookup(len, shape, minSize, maxSize, true);
+                SymbolInfo = SymbolInfo.lookup(len, shape, minSize, maxSize, true);
             }
         }
 
         public void resetSymbolInfo()
         {
-            symbolInfo = null;
+            SymbolInfo = null;
         }
 
-        public int Pos
-        {
-            get => pos;
-            set => pos = value;
-        }
+        public int Pos { get; set; }
 
-        public StringBuilder Codewords => codewords;
+        public StringBuilder Codewords { get; }
 
-        public SymbolInfo SymbolInfo => symbolInfo;
+        public SymbolInfo SymbolInfo { get; set; }
 
-        public int NewEncoding => newEncoding;
+        public int NewEncoding { get; set; }
 
-        public string Message => msg;
+        public string Message { get; }
 
         public bool Fnc1CodewordIsWritten { get; set; }
     }

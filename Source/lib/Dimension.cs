@@ -23,8 +23,6 @@ namespace ZXing
     /// </summary>
     public sealed class Dimension
     {
-        private readonly int width;
-        private readonly int height;
 
         /// <summary>
         /// initializing constructor
@@ -37,19 +35,19 @@ namespace ZXing
             {
                 throw new ArgumentException();
             }
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
         }
 
         /// <summary>
         /// the width
         /// </summary>
-        public int Width => width;
+        public int Width { get; }
 
         /// <summary>
         /// the height
         /// </summary>
-        public int Height => height;
+        public int Height { get; }
 
         /// <summary>
         /// 
@@ -61,7 +59,7 @@ namespace ZXing
             if (other is Dimension)
             {
                 var d = (Dimension)other;
-                return width == d.width && height == d.height;
+                return Width == d.Width && Height == d.Height;
             }
             return false;
         }
@@ -72,7 +70,7 @@ namespace ZXing
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return width * 32713 + height;
+            return Width * 32713 + Height;
         }
 
         /// <summary>
@@ -81,7 +79,7 @@ namespace ZXing
         /// <returns></returns>
         public override string ToString()
         {
-            return width + "x" + height;
+            return Width + "x" + Height;
         }
     }
 }

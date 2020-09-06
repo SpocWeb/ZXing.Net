@@ -26,9 +26,6 @@ namespace ZXing.QrCode.Internal
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public sealed class ByteMatrix
     {
-        private readonly byte[][] bytes;
-        private readonly int width;
-        private readonly int height;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ByteMatrix"/> class.
@@ -37,36 +34,36 @@ namespace ZXing.QrCode.Internal
         /// <param name="height">The height.</param>
         public ByteMatrix(int width, int height)
         {
-            bytes = new byte[height][];
+            Array = new byte[height][];
             for (var i = 0; i < height; i++)
-                bytes[i] = new byte[width];
-            this.width = width;
-            this.height = height;
+                Array[i] = new byte[width];
+            this.Width = width;
+            this.Height = height;
         }
 
         /// <summary>
         /// Gets the height.
         /// </summary>
-        public int Height => height;
+        public int Height { get; }
 
         /// <summary>
         /// Gets the width.
         /// </summary>
-        public int Width => width;
+        public int Width { get; }
 
         /// <summary>
         /// Gets or sets the <see cref="int"/> with the specified x.
         /// </summary>
         public int this[int x, int y]
         {
-            get => bytes[y][x];
-            set => bytes[y][x] = (byte)value;
+            get => Array[y][x];
+            set => Array[y][x] = (byte)value;
         }
 
         /// <summary>
         /// an internal representation as bytes, in row-major order. array[y][x] represents point (x,y)
         /// </summary>
-        public byte[][] Array => bytes;
+        public byte[][] Array { get; }
 
         /// <summary>
         /// Sets the specified x.
@@ -76,7 +73,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="value">The value.</param>
         public void set(int x, int y, byte value)
         {
-            bytes[y][x] = value;
+            Array[y][x] = value;
         }
 
         /// <summary>
@@ -87,7 +84,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="value">if set to <c>true</c> [value].</param>
         public void set(int x, int y, bool value)
         {
-            bytes[y][x] = (byte)(value ? 1 : 0);
+            Array[y][x] = (byte)(value ? 1 : 0);
         }
 
         /// <summary>
@@ -96,10 +93,10 @@ namespace ZXing.QrCode.Internal
         /// <param name="value">The value.</param>
         public void clear(byte value)
         {
-            for (int y = 0; y < height; ++y)
+            for (int y = 0; y < Height; ++y)
             {
-                var bytesY = bytes[y];
-                for (int x = 0; x < width; ++x)
+                var bytesY = Array[y];
+                for (int x = 0; x < Width; ++x)
                 {
                     bytesY[x] = value;
                 }
@@ -114,11 +111,11 @@ namespace ZXing.QrCode.Internal
         /// </returns>
         public override string ToString()
         {
-            var result = new StringBuilder(2 * width * height + 2);
-            for (int y = 0; y < height; ++y)
+            var result = new StringBuilder(2 * Width * Height + 2);
+            for (int y = 0; y < Height; ++y)
             {
-                var bytesY = bytes[y];
-                for (int x = 0; x < width; ++x)
+                var bytesY = Array[y];
+                for (int x = 0; x < Width; ++x)
                 {
                     switch (bytesY[x])
                     {

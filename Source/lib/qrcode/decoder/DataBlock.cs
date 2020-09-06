@@ -29,13 +29,11 @@ namespace ZXing.QrCode.Internal
     /// </author>
     internal sealed class DataBlock
     {
-        private readonly int numDataCodewords;
-        private readonly byte[] codewords;
 
         private DataBlock(int numDataCodewords, byte[] codewords)
         {
-            this.numDataCodewords = numDataCodewords;
-            this.codewords = codewords;
+            this.NumDataCodewords = numDataCodewords;
+            this.Codewords = codewords;
         }
 
         /// <summary> <p>When QR Codes use multiple data blocks, they are actually interleaved.
@@ -87,11 +85,11 @@ namespace ZXing.QrCode.Internal
 
             // All blocks have the same amount of data, except that the last n
             // (where n may be 0) have 1 more byte. Figure out where these start.
-            int shorterBlocksTotalCodewords = result[0].codewords.Length;
+            int shorterBlocksTotalCodewords = result[0].Codewords.Length;
             int longerBlocksStartAt = result.Length - 1;
             while (longerBlocksStartAt >= 0)
             {
-                int numCodewords = result[longerBlocksStartAt].codewords.Length;
+                int numCodewords = result[longerBlocksStartAt].Codewords.Length;
                 if (numCodewords == shorterBlocksTotalCodewords)
                 {
                     break;
@@ -108,30 +106,30 @@ namespace ZXing.QrCode.Internal
             {
                 for (int j = 0; j < numResultBlocks; j++)
                 {
-                    result[j].codewords[i] = rawCodewords[rawCodewordsOffset++];
+                    result[j].Codewords[i] = rawCodewords[rawCodewordsOffset++];
                 }
             }
             // Fill out the last data block in the longer ones
             for (int j = longerBlocksStartAt; j < numResultBlocks; j++)
             {
-                result[j].codewords[shorterBlocksNumDataCodewords] = rawCodewords[rawCodewordsOffset++];
+                result[j].Codewords[shorterBlocksNumDataCodewords] = rawCodewords[rawCodewordsOffset++];
             }
             // Now add in error correction blocks
-            int max = result[0].codewords.Length;
+            int max = result[0].Codewords.Length;
             for (int i = shorterBlocksNumDataCodewords; i < max; i++)
             {
                 for (int j = 0; j < numResultBlocks; j++)
                 {
                     int iOffset = j < longerBlocksStartAt ? i : i + 1;
-                    result[j].codewords[iOffset] = rawCodewords[rawCodewordsOffset++];
+                    result[j].Codewords[iOffset] = rawCodewords[rawCodewordsOffset++];
                 }
             }
             return result;
         }
 
-        internal int NumDataCodewords => numDataCodewords;
+        internal int NumDataCodewords { get; }
 
-        internal byte[] Codewords => codewords;
+        internal byte[] Codewords { get; }
 
     }
 }

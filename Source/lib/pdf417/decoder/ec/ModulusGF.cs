@@ -31,11 +31,10 @@ namespace ZXing.PDF417.Internal.EC
         private readonly int[] logTable;
         public ModulusPoly Zero { get; private set; }
         public ModulusPoly One { get; private set; }
-        private readonly int modulus;
 
         public ModulusGF(int modulus, int generator)
         {
-            this.modulus = modulus;
+            this.Size = modulus;
             expTable = new int[modulus];
             logTable = new int[modulus];
             int x = 1;
@@ -70,12 +69,12 @@ namespace ZXing.PDF417.Internal.EC
 
         internal int add(int a, int b)
         {
-            return (a + b) % modulus;
+            return (a + b) % Size;
         }
 
         internal int subtract(int a, int b)
         {
-            return (modulus + a - b) % modulus;
+            return (Size + a - b) % Size;
         }
 
         internal int exp(int a)
@@ -98,7 +97,7 @@ namespace ZXing.PDF417.Internal.EC
             {
                 throw new ArithmeticException();
             }
-            return expTable[modulus - logTable[a] - 1];
+            return expTable[Size - logTable[a] - 1];
         }
 
         internal int multiply(int a, int b)
@@ -107,10 +106,10 @@ namespace ZXing.PDF417.Internal.EC
             {
                 return 0;
             }
-            return expTable[(logTable[a] + logTable[b]) % (modulus - 1)];
+            return expTable[(logTable[a] + logTable[b]) % (Size - 1)];
         }
 
-        internal int Size => modulus;
+        internal int Size { get; }
 
     }
 }

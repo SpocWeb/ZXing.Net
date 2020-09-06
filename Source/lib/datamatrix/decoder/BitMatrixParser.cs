@@ -26,7 +26,6 @@ namespace ZXing.Datamatrix.Internal
     {
         private readonly BitMatrix mappingBitMatrix;
         private readonly BitMatrix readMappingMatrix;
-        private readonly Version version;
 
         /// <summary>
         /// <param name="bitMatrix"><see cref="BitMatrix" />to parse</param>
@@ -40,15 +39,15 @@ namespace ZXing.Datamatrix.Internal
                 return;
             }
 
-            version = readVersion(bitMatrix);
-            if (version != null)
+            Version = readVersion(bitMatrix);
+            if (Version != null)
             {
                 mappingBitMatrix = extractDataRegion(bitMatrix);
                 readMappingMatrix = new BitMatrix(mappingBitMatrix.Width, mappingBitMatrix.Height);
             }
         }
 
-        public Version Version => version;
+        public Version Version { get; }
 
         /// <summary>
         /// <p>Creates the version object based on the dimension of the original bit matrix from 
@@ -78,7 +77,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         internal byte[] readCodewords()
         {
-            byte[] result = new byte[version.getTotalCodewords()];
+            byte[] result = new byte[Version.getTotalCodewords()];
             int resultOffset = 0;
 
             int row = 4;
@@ -154,7 +153,7 @@ namespace ZXing.Datamatrix.Internal
                 }
             } while ((row < numRows) || (column < numColumns));
 
-            if (resultOffset != version.getTotalCodewords())
+            if (resultOffset != Version.getTotalCodewords())
             {
                 return null;
             }
@@ -468,16 +467,16 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         private BitMatrix extractDataRegion(IRoBitMatrix bitMatrix)
         {
-            int symbolSizeRows = version.getSymbolSizeRows();
-            int symbolSizeColumns = version.getSymbolSizeColumns();
+            int symbolSizeRows = Version.getSymbolSizeRows();
+            int symbolSizeColumns = Version.getSymbolSizeColumns();
 
             if (bitMatrix.Height != symbolSizeRows)
             {
                 throw new ArgumentException("Dimension of bitMatrix must match the version size");
             }
 
-            int dataRegionSizeRows = version.getDataRegionSizeRows();
-            int dataRegionSizeColumns = version.getDataRegionSizeColumns();
+            int dataRegionSizeRows = Version.getDataRegionSizeRows();
+            int dataRegionSizeColumns = Version.getDataRegionSizeColumns();
 
             int numDataRegionsRow = symbolSizeRows / dataRegionSizeRows;
             int numDataRegionsColumn = symbolSizeColumns / dataRegionSizeColumns;

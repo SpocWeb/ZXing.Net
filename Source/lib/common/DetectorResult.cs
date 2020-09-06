@@ -24,21 +24,12 @@ namespace ZXing.Common
     /// <author>Sean Owen</author>
     public class DetectorResult
     {
-        /// <summary>
-        /// the detected bits
-        /// </summary>
         public IBitMatrix Bits { get; private set; }
-        /// <summary>
-        /// the pixel points where the result is found
-        /// </summary>
+
+        /// <summary> pixel points where the result is found </summary>
         public ResultPoint[] Points { get; private set; }
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="bits"></param>
-        /// <param name="points"></param>
-        public DetectorResult(BitMatrix bits, ResultPoint[] points)
+        public DetectorResult(IBitMatrix bits, ResultPoint[] points)
         {
             Bits = bits;
             Points = points;

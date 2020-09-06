@@ -27,13 +27,11 @@ namespace ZXing.Datamatrix.Internal
     /// </summary>
     internal sealed class DataBlock
     {
-        private readonly int numDataCodewords;
-        private readonly byte[] codewords;
 
         private DataBlock(int numDataCodewords, byte[] codewords)
         {
-            this.numDataCodewords = numDataCodewords;
-            this.codewords = codewords;
+            this.NumDataCodewords = numDataCodewords;
+            this.Codewords = codewords;
         }
 
         /// <summary>
@@ -76,7 +74,7 @@ namespace ZXing.Datamatrix.Internal
             // All blocks have the same amount of data, except that the last n
             // (where n may be 0) have 1 less byte. Figure out where these start.
             // TODO(bbrown): There is only one case where there is a difference for Data Matrix for size 144
-            int longerBlocksTotalCodewords = result[0].codewords.Length;
+            int longerBlocksTotalCodewords = result[0].Codewords.Length;
             //int shorterBlocksTotalCodewords = longerBlocksTotalCodewords - 1;
 
             int longerBlocksNumDataCodewords = longerBlocksTotalCodewords - ecBlocks.ECCodewords;
@@ -88,7 +86,7 @@ namespace ZXing.Datamatrix.Internal
             {
                 for (int j = 0; j < numResultBlocks; j++)
                 {
-                    result[j].codewords[i] = rawCodewords[rawCodewordsOffset++];
+                    result[j].Codewords[i] = rawCodewords[rawCodewordsOffset++];
                 }
             }
 
@@ -97,18 +95,18 @@ namespace ZXing.Datamatrix.Internal
             int numLongerBlocks = specialVersion ? 8 : numResultBlocks;
             for (int j = 0; j < numLongerBlocks; j++)
             {
-                result[j].codewords[longerBlocksNumDataCodewords - 1] = rawCodewords[rawCodewordsOffset++];
+                result[j].Codewords[longerBlocksNumDataCodewords - 1] = rawCodewords[rawCodewordsOffset++];
             }
 
             // Now add in error correction blocks
-            int max = result[0].codewords.Length;
+            int max = result[0].Codewords.Length;
             for (int i = longerBlocksNumDataCodewords; i < max; i++)
             {
                 for (int j = 0; j < numResultBlocks; j++)
                 {
                     int jOffset = specialVersion ? (j + 8) % numResultBlocks : j;
                     int iOffset = specialVersion && jOffset > 7 ? i - 1 : i;
-                    result[jOffset].codewords[iOffset] = rawCodewords[rawCodewordsOffset++];
+                    result[jOffset].Codewords[iOffset] = rawCodewords[rawCodewordsOffset++];
                 }
             }
 
@@ -120,9 +118,9 @@ namespace ZXing.Datamatrix.Internal
             return result;
         }
 
-        internal int NumDataCodewords => numDataCodewords;
+        internal int NumDataCodewords { get; }
 
-        internal byte[] Codewords => codewords;
+        internal byte[] Codewords { get; }
 
     }
 }

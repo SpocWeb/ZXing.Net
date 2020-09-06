@@ -28,8 +28,6 @@ namespace ZXing.Unity
         private static readonly Func<Color32[], int, int, LuminanceSource> defaultCreateLuminanceSource =
            (rawColor32, width, height) => new Color32LuminanceSource(rawColor32, width, height);
 
-        private readonly Func<Color32[], int, int, LuminanceSource> createLuminanceSource;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReader"/> class.
         /// </summary>
@@ -72,7 +70,7 @@ namespace ZXing.Unity
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
-            this.createLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
+            this.CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
         }
 
         /// <summary>
@@ -82,13 +80,7 @@ namespace ZXing.Unity
         /// <value>
         /// The function to create a luminance source object.
         /// </value>
-        protected Func<Color32[], int, int, LuminanceSource> CreateLuminanceSource
-        {
-            get
-            {
-                return createLuminanceSource;
-            }
-        }
+        protected Func<Color32[], int, int, LuminanceSource> CreateLuminanceSource { get; }
 
         /// <summary>
         /// Decodes the specified barcode bitmap.
