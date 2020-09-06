@@ -116,16 +116,7 @@ namespace ZXing
             return new BinaryBitmap(_Binarizer.createBinarizer(newSource));
         }
 
-        /// <summary>
-        /// Returns a <see cref="string"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string"/> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            var blackMatrix = GetBlackMatrix();
-            return blackMatrix != null ? blackMatrix.ToString() : string.Empty;
-        }
+        public override string ToString() => GetBlackMatrix()?.ToString() ?? $"{Width}*{Height}";
+
     }
 }

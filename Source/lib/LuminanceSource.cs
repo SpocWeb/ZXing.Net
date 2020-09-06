@@ -22,7 +22,7 @@ using ZXing.Common;
 namespace ZXing
 {
     /// <summary> Abstracts different bitmap implementations across platforms
-    /// into standard greyscale luminance values. </summary>
+    /// into 8-Bit greyscale luminance values. </summary>
     /// <remarks>
     /// Provides only immutable methods; crop and rotation create copies.
     /// This is to ensure that one Reader does not modify the original luminance source
