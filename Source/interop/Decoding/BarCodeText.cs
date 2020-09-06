@@ -50,10 +50,7 @@ namespace ZXing.Interop.Decoding
         /// </returns>
         public ResultMetadataItem[] ResultMetadata { get; private set; }
 
-        /// <summary>
-        /// Gets the timestamp.
-        /// </summary>
-        public long Timestamp { get; private set; }
+        public DateTime Timestamp { get; private set; }
 
         /// <summary>
         /// how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length

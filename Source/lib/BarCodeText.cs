@@ -28,50 +28,34 @@ namespace ZXing
         /// <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         public byte[] RawBytes { get; }
 
-        /// <returns>
-        /// points related to the barcode in the image. These are typically points
-        /// identifying finder patterns or the corners of the barcode. The exact meaning is
-        /// specific to the type of barcode that was decoded.
-        /// </returns>
+        /// <summary>points related to the barcode in the image. </summary>
+        /// <remarks>
+        /// These are typically points identifying finder patterns or the corners of the barcode.
+        /// The exact meaning is specific to the type of barcode that was decoded.
+        /// </remarks>
         public ResultPoint[] ResultPoints { get; private set; }
 
-        /// <returns>{@link BarcodeFormat} representing the format of the barcode that was decoded</returns>
         public BarcodeFormat BarcodeFormat { get; }
 
-        /// <returns>
-        /// {@link Hashtable} mapping {@link ResultMetadataType} keys to values. May be
-        /// <code>null</code>. This contains optional metadata about what was detected about the barcode,
-        /// like orientation.
-        /// </returns>
+        /// <summary> optional metadata about what was detected about the barcode, like orientation. </summary>
         public IDictionary<ResultMetadataType, object> ResultMetadata { get; private set; }
 
-        /// <summary>
-        /// Gets the timestamp.
-        /// </summary>
-        public long Timestamp { get; }
+        public DateTime Timestamp { get; }
 
-        /// <summary>
-        /// how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length
-        /// </summary>
+        /// <summary> how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length </summary>
         public int NumBits { get; }
 
-        public BarCodeText(string text,
-            byte[] rawBytes,
-            ResultPoint[] resultPoints,
-            BarcodeFormat format)
-            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now.Ticks) { }
+        public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format)
+            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now) { }
 
-        public BarCodeText(string text,
-            byte[] rawBytes,
-            int numBits,
-            ResultPoint[] resultPoints,
-            BarcodeFormat format)
-            : this(text, rawBytes, numBits, resultPoints, format, DateTime.Now.Ticks) { }
+        public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints, BarcodeFormat format)
+            : this(text, rawBytes, numBits, resultPoints, format, DateTime.Now) { }
 
-        public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
+        public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, DateTime timestamp)
             : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp) { }
 
-        public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
+        public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints
+            , BarcodeFormat format, DateTime timestamp)
         {
             if (text == null && rawBytes == null)
             {

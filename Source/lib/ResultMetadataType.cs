@@ -23,18 +23,15 @@ namespace ZXing
     /// <author>Sean Owen</author>
     public enum ResultMetadataType
     {
-        /// <summary>
-        /// Unspecified, application-specific metadata. Maps to an unspecified {@link Object}.
-        /// </summary>
+        /// <summary> Unspecified, application-specific metadata. Maps to an unspecified {@link Object}. </summary>
         OTHER,
 
-        /// <summary>
-        /// Denotes the likely approximate orientation of the barcode in the image. This value
-        /// is given as degrees rotated clockwise from the normal, upright orientation.
+        /// <summary> The likely approximate orientation of the barcode in the image. </summary>
+        /// <remarks>
+        /// Given as degrees rotated clockwise from the normal, upright orientation.
         /// For example a 1D barcode which was found by reading top-to-bottom would be
-        /// said to have orientation "90". This key maps to an {@link Integer} whose
-        /// value is in the range [0,360).
-        /// </summary>
+        /// said to have orientation "90". This key maps to <see cref="int"/> with a range [0,360).
+        /// </remarks>
         ORIENTATION,
 
         /// <summary>
@@ -47,56 +44,42 @@ namespace ZXing
         /// </summary>
         BYTE_SEGMENTS,
 
-        /// <summary>
-        /// Error correction level used, if applicable. The value type depends on the
-        /// format, but is typically a String.
-        /// </summary>
+        /// <summary> Error correction level used, if applicable. </summary>
+        /// <remarks>
+        /// The value type depends on the format, but is typically a String.
+        /// </remarks>
         ERROR_CORRECTION_LEVEL,
 
-        /// <summary>
-        /// For some periodicals, indicates the issue number as an {@link Integer}.
-        /// </summary>
+        /// <summary> For some periodicals, indicates the issue number as an <see cref="int"/>. </summary>
         ISSUE_NUMBER,
 
-        /// <summary>
-        /// For some products, indicates the suggested retail price in the barcode as a
-        /// formatted {@link String}.
-        /// </summary>
+        /// <summary> For some products, indicates the suggested retail price in the barcode as a formatted <see cref="string"/>. </summary>
         SUGGESTED_PRICE,
 
-        /// <summary>
-        /// For some products, the possible country of manufacture as a {@link String} denoting the
-        /// ISO country code. Some map to multiple possible countries, like "US/CA".
-        /// </summary>
+        /// <summary> The possible ISO country code of manufacture as a <see cref="string"/> </summary>
+        /// <remarks>
+        /// Some map to multiple possible countries, like "US/CA".
+        /// </remarks>
         POSSIBLE_COUNTRY,
 
-        /// <summary>
-        /// For some products, the extension text
-        /// </summary>
+        /// <summary> For some products, the extension text </summary>
         UPC_EAN_EXTENSION,
 
-        /// <summary>
-        /// If the code format supports structured append and
+        /// <summary> If the code format supports structured append and
         /// the current scanned code is part of one then the
         /// sequence number is given with it.
         /// </summary>
         STRUCTURED_APPEND_SEQUENCE,
 
-        /// <summary>
-        /// If the code format supports structured append and
-        /// the current scanned code is part of one then the
-        /// parity is given with it.
+        /// <summary> If the code format supports structured append and
+        /// the current scanned code is part of one then the parity is given with it.
         /// </summary>
         STRUCTURED_APPEND_PARITY,
 
-        /// <summary>
-        /// PDF417-specific metadata
-        /// </summary>
+        /// <summary> PDF417-specific metadata </summary>
         PDF417_EXTRA_METADATA,
 
-        /// <summary>
-        /// Aztec-specific metadata
-        /// </summary>
+        /// <summary> Aztec-specific metadata </summary>
         AZTEC_EXTRA_METADATA
     }
 }

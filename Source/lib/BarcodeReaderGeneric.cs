@@ -304,8 +304,9 @@ namespace ZXing
             {
                 var multiQrDetector = new MultiQrDetector(binaryBitmap);
                 var detectorResults = multiQrDetector.DetectMulti(Options.Hints);
-                //results = multiReader.DecodeMultiple(Options.Hints, detectorResults);
-                results = multiReader.DecodeMultiple(binaryBitmap, Options.Hints);
+
+                results = multiReader.DecodeMultiple(detectorResults, Options.Hints);
+                //results = multiReader.DecodeMultiple(binaryBitmap, Options.Hints);
                 //results = multiReader.decodeMultiple(gridSampler, Options.Hints);
 
                 if (results == null)

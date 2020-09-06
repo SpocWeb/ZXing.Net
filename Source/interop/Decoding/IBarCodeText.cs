@@ -41,14 +41,10 @@ namespace ZXing.Interop.Decoding
         /// <returns>{@link BarcodeFormat} representing the format of the barcode that was decoded</returns>
         Common.BarcodeFormat BarcodeFormat { get; }
 
-        /// <returns>
-        /// {@link Hashtable} mapping {@link ResultMetadataType} keys to values. May be
-        /// <code>null</code>. This contains optional metadata about what was detected about the barcode,
-        /// like orientation.
-        /// </returns>
+        /// <returns>optional metadata about what was detected about the barcode, like orientation. </returns>
         ResultMetadataItem[] ResultMetadata { get; }
 
-        long Timestamp { get; }
+        DateTime Timestamp { get; }
 
         /// <summary> how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length </summary>
         int NumBits { get; }
