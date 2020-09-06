@@ -75,7 +75,8 @@ namespace ZXing.PDF417.Internal
         /// <returns>
         ///   <see cref="PDF417DetectorResult"/> encapsulating results of detecting a PDF417 code
         /// </returns>
-        public static PDF417DetectorResult detect(BinaryBitmap image, IDictionary<DecodeHintType, object> hints, bool multiple)
+        public static PDF417DetectorResult Detect(BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints, bool multiple)
         {
             // TODO detection improvement, tryHarder could try several different luminance thresholds/blackpoints or even 
             // different binarizers (SF: or different Skipped Row Counts/Steps?)
@@ -86,13 +87,13 @@ namespace ZXing.PDF417.Internal
                 return null;
             }
 
-            List<ResultPoint[]> barcodeCoordinates = detect(multiple, bitMatrix);
+            List<ResultPoint[]> barcodeCoordinates = Detect(bitMatrix, multiple);
             if (barcodeCoordinates == null ||
                 barcodeCoordinates.Count == 0)
             {
                 bitMatrix = (BitMatrix)bitMatrix.Clone();
                 bitMatrix.rotate180();
-                barcodeCoordinates = detect(multiple, bitMatrix);
+                barcodeCoordinates = Detect(bitMatrix, multiple);
             }
             return new PDF417DetectorResult(bitMatrix, barcodeCoordinates);
         }
@@ -100,10 +101,10 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// Detects PDF417 codes in an image. Only checks 0 degree rotation (so rotate the matrix and check again outside of this method)
         /// </summary>
-        /// <param name="multiple">multiple if true, then the image is searched for multiple codes. If false, then at most one code will be found and returned.</param>
         /// <param name="bitMatrix">bit matrix to detect barcodes in.</param>
+        /// <param name="multiple">multiple if true, then the image is searched for multiple codes. If false, then at most one code will be found and returned.</param>
         /// <returns>List of ResultPoint arrays containing the coordinates of found barcodes</returns>
-        private static List<ResultPoint[]> detect(bool multiple, BitMatrix bitMatrix)
+        private static List<ResultPoint[]> Detect(BitMatrix bitMatrix, bool multiple)
         {
             List<ResultPoint[]> barcodeCoordinates = new List<ResultPoint[]>();
             int row = 0;
@@ -111,7 +112,7 @@ namespace ZXing.PDF417.Internal
             bool foundBarcodeInRow = false;
             while (row < bitMatrix.Height)
             {
-                ResultPoint[] vertices = findVertices(bitMatrix, row, column);
+                ResultPoint[] vertices = FindVertices(bitMatrix, row, column);
 
                 if (vertices[0] == null && vertices[3] == null)
                 {
@@ -176,13 +177,13 @@ namespace ZXing.PDF417.Internal
         ///           vertices[6] x, y top right codeword area
         ///           vertices[7] x, y bottom right codeword area
         /// </returns>
-        private static ResultPoint[] findVertices(BitMatrix matrix, int startRow, int startColumn)
+        private static ResultPoint[] FindVertices(BitMatrix matrix, int startRow, int startColumn)
         {
             int height = matrix.Height;
             int width = matrix.Width;
 
             ResultPoint[] result = new ResultPoint[8];
-            copyToResult(result, findRowsWithPattern(matrix, height, width, startRow, startColumn, START_PATTERN),
+            CopyToResult(result, FindRowsWithPattern(matrix, height, width, startRow, startColumn, START_PATTERN),
                          INDEXES_START_PATTERN);
 
             if (result[4] != null)
@@ -190,7 +191,7 @@ namespace ZXing.PDF417.Internal
                 startColumn = (int)result[4].X;
                 startRow = (int)result[4].Y;
             }
-            copyToResult(result, findRowsWithPattern(matrix, height, width, startRow, startColumn, STOP_PATTERN),
+            CopyToResult(result, FindRowsWithPattern(matrix, height, width, startRow, startColumn, STOP_PATTERN),
                          INDEXES_STOP_PATTERN);
             return result;
         }
@@ -201,7 +202,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="result">Result.</param>
         /// <param name="tmpResult">Temp result.</param>
         /// <param name="destinationIndexes">Destination indexes.</param>
-        private static void copyToResult(ResultPoint[] result, ResultPoint[] tmpResult, int[] destinationIndexes)
+        private static void CopyToResult(ResultPoint[] result, ResultPoint[] tmpResult, int[] destinationIndexes)
         {
             for (int i = 0; i < destinationIndexes.Length; i++)
             {
@@ -219,7 +220,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startRow">Start row.</param>
         /// <param name="startColumn">Start column.</param>
         /// <param name="pattern">Pattern.</param>
-        private static ResultPoint[] findRowsWithPattern(
+        private static ResultPoint[] FindRowsWithPattern(
            BitMatrix matrix,
            int height,
            int width,
@@ -232,12 +233,12 @@ namespace ZXing.PDF417.Internal
             int[] counters = new int[pattern.Length];
             for (; startRow < height; startRow += ROW_STEP)
             {
-                int[] loc = findGuardPattern(matrix, startColumn, startRow, width, false, pattern, counters);
+                int[] loc = FindGuardPattern(matrix, startColumn, startRow, width, false, pattern, counters);
                 if (loc != null)
                 {
                     while (startRow > 0)
                     {
-                        int[] previousRowLoc = findGuardPattern(matrix, startColumn, --startRow, width, false, pattern, counters);
+                        int[] previousRowLoc = FindGuardPattern(matrix, startColumn, --startRow, width, false, pattern, counters);
                         if (previousRowLoc != null)
                         {
                             loc = previousRowLoc;
@@ -262,7 +263,7 @@ namespace ZXing.PDF417.Internal
                 int[] previousRowLoc = { (int)result[0].X, (int)result[1].X };
                 for (; stopRow < height; stopRow++)
                 {
-                    int[] loc = findGuardPattern(matrix, previousRowLoc[0], stopRow, width, false, pattern, counters);
+                    int[] loc = FindGuardPattern(matrix, previousRowLoc[0], stopRow, width, false, pattern, counters);
                     // a found pattern is only considered to belong to the same barcode if the start and end positions
                     // don't differ too much. Pattern drift should be not bigger than two for consecutive rows. With
                     // a higher number of skipped rows drift could be larger. To keep it simple for now, we allow a slightly
@@ -307,7 +308,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="whiteFirst">If set to <c>true</c> search the white patterns first.</param>
         /// <param name="pattern">pattern of counts of number of black and white pixels that are being searched for as a pattern.</param>
         /// <param name="counters">counters array of counters, as long as pattern, to re-use .</param>
-        private static int[] findGuardPattern(
+        private static int[] FindGuardPattern(
            BitMatrix matrix,
            int column,
            int row,
@@ -339,7 +340,7 @@ namespace ZXing.PDF417.Internal
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        if (patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
+                        if (PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
                         {
                             return new[] { patternStart, x };
                         }
@@ -358,7 +359,7 @@ namespace ZXing.PDF417.Internal
                 }
             }
             if (counterPosition == patternLength - 1 &&
-                patternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
+                PatternMatchVariance(counters, pattern, MAX_INDIVIDUAL_VARIANCE) < MAX_AVG_VARIANCE)
             {
                 return new[] { patternStart, x - 1 };
             }
@@ -381,7 +382,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="counters">observed counters.</param>
         /// <param name="pattern">expected pattern.</param>
         /// <param name="maxIndividualVariance">The most any counter can differ before we give up.</param>
-        private static int patternMatchVariance(int[] counters, int[] pattern, int maxIndividualVariance)
+        private static int PatternMatchVariance(int[] counters, int[] pattern, int maxIndividualVariance)
         {
             int numCounters = counters.Length;
             int total = 0;

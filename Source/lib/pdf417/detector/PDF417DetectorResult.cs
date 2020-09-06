@@ -25,22 +25,14 @@ namespace ZXing.PDF417.Internal
     /// </summary>
     public sealed class PDF417DetectorResult
     {
-        /// <summary>
-        /// bit matrix of the detected result
-        /// </summary>
         public BitMatrix Bits { get; }
 
         /// <summary>
         /// points of the detected result in the image
         /// </summary>
-        public List<ResultPoint[]> Points { get; }
+        public IReadOnlyList<ResultPoint[]> Points { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ZXing.PDF417.Internal.PDF417DetectorResult"/> class.
-        /// </summary>
-        /// <param name="bits">Bits.</param>
-        /// <param name="points">Points.</param>
-        public PDF417DetectorResult(BitMatrix bits, List<ResultPoint[]> points)
+        public PDF417DetectorResult(BitMatrix bits, IReadOnlyList<ResultPoint[]> points)
         {
             Bits = bits;
             Points = points;

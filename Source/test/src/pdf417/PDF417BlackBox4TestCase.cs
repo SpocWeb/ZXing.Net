@@ -48,7 +48,7 @@ namespace ZXing.PDF417.Test
       private static readonly Encoding UTF8 = Encoding.UTF8;
       private static readonly Encoding ISO88591 = Encoding.GetEncoding("ISO8859-1");
       private const string TEST_BASE_PATH_SUFFIX = "test/data/blackbox/pdf417-4";
-      private readonly PDF417Reader barcodeReader = new PDF417Reader();
+      private readonly Pdf417Reader barcodeReader = new Pdf417Reader();
 
       private readonly List<TestResult> testResults = new List<TestResult>();
       private string testBase;

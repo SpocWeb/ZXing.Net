@@ -28,70 +28,46 @@ namespace ZXing.PDF417
     /// <author>SITA Lab (kevin.osullivan@sita.aero)</author>
     /// <author>Guenther Grau</author>
     /// </remarks>
-    public sealed class PDF417Reader : IBarCodeDecoder, IMultipleBarcodeReader
-    {
-        /// <summary>
-        /// Locates and decodes a PDF417 code in an image.
-        ///
-        /// <returns>a String representing the content encoded by the PDF417 code</returns>
-        /// <exception cref="FormatException">if a PDF417 cannot be decoded</exception>
-        /// </summary>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            return Decode(image, null);
-        }
+    public sealed class Pdf417Reader : IBarCodeDecoder, IMultipleBarcodeReader {
 
         /// <summary>
-        /// Locates and decodes a barcode in some format within an image. This method also accepts
-        /// hints, each possibly associated to some data, which may help the implementation decode.
-        /// **Note** this will return the FIRST barcode discovered if there are many.
+        /// Resets any internal state the implementation has after a decode, to prepare it
+        /// for reuse.
         /// </summary>
-        /// <param name="image">image of barcode to decode</param>
-        /// <param name="hints">passed as a <see cref="IDictionary{TKey, TValue}"/> from <see cref="DecodeHintType"/>
-        /// to arbitrary data. The
-        /// meaning of the data depends upon the hint type. The implementation may or may not do
-        /// anything with these hints.</param>
-        /// <returns>
-        /// String which the barcode encodes
-        /// </returns>
+        public void Reset() {
+            // do nothing
+        }
+
+        /// <summary> Locates and decodes a PDF417 code in an image. </summary>
+        /// <returns>a String representing the content encoded by the PDF417 code</returns>
+        /// <exception cref="FormatException">if a PDF417 cannot be decoded</exception>
         public BarCodeText Decode(BinaryBitmap image,
-                             IDictionary<DecodeHintType, object> hints)
-        {
-            BarCodeText[] results = decode(image, hints, false);
-            if (results.Length == 0)
-            {
+            IDictionary<DecodeHintType, object> hints = null) {
+            BarCodeText[] results = image.Decode(hints, false);
+            if (results.Length == 0) {
                 return null;
             }
             return results[0]; // First barcode discovered.
         }
 
-        /// <summary>
-        /// Locates and decodes Multiple PDF417 codes in an image.
-        ///
+        /// <summary> Locates and decodes Multiple PDF417 codes in an image. </summary>
         /// <returns>an array of Strings representing the content encoded by the PDF417 codes</returns>
-        /// </summary>
-        public BarCodeText[] DecodeMultiple(BinaryBitmap image)
-        {
-            return DecodeMultiple(image, null);
+        public BarCodeText[] DecodeMultiple(BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints = null)
+            => image.Decode(hints, true);
+
+        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints) {
+            throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Locates and decodes multiple barcodes in some format within an image. This method also accepts
-        /// hints, each possibly associated to some data, which may help the implementation decode.
-        /// </summary>
-        /// <param name="image">image of barcode to decode</param>
-        /// <param name="hints">passed as a <see cref="IDictionary{TKey, TValue}"/> from <see cref="DecodeHintType"/>
-        /// to arbitrary data. The
-        /// meaning of the data depends upon the hint type. The implementation may or may not do
-        /// anything with these hints.</param>
-        /// <returns>
-        /// String which the barcodes encode
-        /// </returns>
-        public BarCodeText[] DecodeMultiple(BinaryBitmap image,
-                                       IDictionary<DecodeHintType, object> hints)
-        {
-            return decode(image, hints, true);
+        /// <inheritdoc />
+        public BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults) {
+            throw new NotImplementedException();
         }
+
+    }
+
+    public static class XPdf417Reader {
 
         /// <summary>
         /// Decode the specified image, with the hints and optionally multiple barcodes.
@@ -101,29 +77,33 @@ namespace ZXing.PDF417
         /// <param name="image">Image.</param>
         /// <param name="hints">Hints.</param>
         /// <param name="multiple">If set to <c>true</c> multiple.</param>
-        private static BarCodeText[] decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints, bool multiple)
+        public static BarCodeText[] Decode(this BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints, bool multiple)
         {
             var results = new List<BarCodeText>();
-            var detectorResult = Detector.detect(image, hints, multiple);
-            if (detectorResult != null)
+            PDF417DetectorResult detectorResult = Detector.Detect(image, hints, multiple);
+            if (detectorResult == null)
             {
-                foreach (var points in detectorResult.Points)
+                return results.ToArray();
+            }
+
+            foreach (var points in detectorResult.Points)
+            {
+                var decoderResult = PDF417ScanningDecoder.decode(detectorResult.Bits
+                    , points[4], points[5],
+                    points[6], points[7], GetMinCodewordWidth(points), GetMaxCodewordWidth(points));
+                if (decoderResult == null)
                 {
-                    var decoderResult = PDF417ScanningDecoder.decode(detectorResult.Bits, points[4], points[5],
-                                                                     points[6], points[7], getMinCodewordWidth(points), getMaxCodewordWidth(points));
-                    if (decoderResult == null)
-                    {
-                        continue;
-                    }
-                    var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
-                    result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
-                    var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
-                    if (pdf417ResultMetadata != null)
-                    {
-                        result.PutMetadata(ResultMetadataType.PDF417_EXTRA_METADATA, pdf417ResultMetadata);
-                    }
-                    results.Add(result);
+                    continue;
                 }
+                var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
+                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
+                var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
+                if (pdf417ResultMetadata != null)
+                {
+                    result.PutMetadata(ResultMetadataType.PDF417_EXTRA_METADATA, pdf417ResultMetadata);
+                }
+                results.Add(result);
             }
             return results.ToArray();
         }
@@ -134,7 +114,7 @@ namespace ZXing.PDF417
         /// <returns>The max width.</returns>
         /// <param name="p1">P1.</param>
         /// <param name="p2">P2.</param>
-        private static int getMaxWidth(ResultPoint p1, ResultPoint p2)
+        private static int GetMaxWidth(this ResultPoint p1, ResultPoint p2)
         {
             if (p1 == null || p2 == null)
             {
@@ -149,7 +129,7 @@ namespace ZXing.PDF417
         /// <returns>The minimum width.</returns>
         /// <param name="p1">P1.</param>
         /// <param name="p2">P2.</param>
-        private static int getMinWidth(ResultPoint p1, ResultPoint p2)
+        private static int GetMinWidth(this ResultPoint p1, ResultPoint p2)
         {
             if (p1 == null || p2 == null)
             {
@@ -163,41 +143,22 @@ namespace ZXing.PDF417
         /// </summary>
         /// <returns>The max codeword width.</returns>
         /// <param name="p">P.</param>
-        private static int getMaxCodewordWidth(ResultPoint[] p)
-        {
-            return Math.Max(
-               Math.Max(getMaxWidth(p[0], p[4]), getMaxWidth(p[6], p[2]) * PDF417Common.MODULES_IN_CODEWORD /
-                                                 PDF417Common.MODULES_IN_STOP_PATTERN),
-               Math.Max(getMaxWidth(p[1], p[5]), getMaxWidth(p[7], p[3]) * PDF417Common.MODULES_IN_CODEWORD /
-                                                 PDF417Common.MODULES_IN_STOP_PATTERN));
-        }
+        private static int GetMaxCodewordWidth(this IReadOnlyList<ResultPoint> p) => Math.Max(
+            Math.Max(GetMaxWidth(p[0], p[4]), GetMaxWidth(p[6], p[2]) * PDF417Common.MODULES_IN_CODEWORD /
+                PDF417Common.MODULES_IN_STOP_PATTERN),
+            Math.Max(GetMaxWidth(p[1], p[5]), GetMaxWidth(p[7], p[3]) * PDF417Common.MODULES_IN_CODEWORD /
+                PDF417Common.MODULES_IN_STOP_PATTERN));
 
         /// <summary>
         /// Gets the minimum width of the codeword.
         /// </summary>
         /// <returns>The minimum codeword width.</returns>
         /// <param name="p">P.</param>
-        private static int getMinCodewordWidth(ResultPoint[] p)
-        {
-            return Math.Min(
-               Math.Min(getMinWidth(p[0], p[4]), getMinWidth(p[6], p[2]) * PDF417Common.MODULES_IN_CODEWORD /
-                                                 PDF417Common.MODULES_IN_STOP_PATTERN),
-               Math.Min(getMinWidth(p[1], p[5]), getMinWidth(p[7], p[3]) * PDF417Common.MODULES_IN_CODEWORD /
-                                                 PDF417Common.MODULES_IN_STOP_PATTERN));
-        }
+        private static int GetMinCodewordWidth(this IReadOnlyList<ResultPoint> p) => Math.Min(
+            Math.Min(GetMinWidth(p[0], p[4]), GetMinWidth(p[6], p[2]) * PDF417Common.MODULES_IN_CODEWORD /
+                PDF417Common.MODULES_IN_STOP_PATTERN),
+            Math.Min(GetMinWidth(p[1], p[5]), GetMinWidth(p[7], p[3]) * PDF417Common.MODULES_IN_CODEWORD /
+                PDF417Common.MODULES_IN_STOP_PATTERN));
 
-        /// <summary>
-        /// Resets any internal state the implementation has after a decode, to prepare it
-        /// for reuse.
-        /// </summary>
-        public void Reset()
-        {
-            // do nothing
-        }
-
-        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

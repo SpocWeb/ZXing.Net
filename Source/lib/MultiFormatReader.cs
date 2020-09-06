@@ -141,7 +141,7 @@ namespace ZXing
                     }
                     if (formats.Contains(BarcodeFormat.PDF_417))
                     {
-                        readers.Add(new PDF417Reader());
+                        readers.Add(new Pdf417Reader());
                     }
                     if (formats.Contains(BarcodeFormat.MAXICODE))
                     {
@@ -170,7 +170,7 @@ namespace ZXing
                     readers.Add(new QrCodeReader());
                     readers.Add(new DataMatrixReader());
                     readers.Add(new AztecReader());
-                    readers.Add(new PDF417Reader());
+                    readers.Add(new Pdf417Reader());
                     readers.Add(new MaxiCodeReader());
 
                     if (tryHarder)
