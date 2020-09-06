@@ -78,16 +78,14 @@ namespace ZXing.OneD
                 }
             }
 
-            var code = encode(contents);
-            return renderResult(code, width, height, sidesMargin);
+            var code = Encode(contents);
+            return RenderResult(code, width, height, sidesMargin);
         }
 
-        /// <summary>
-        /// </summary>
         /// <returns>a byte array of horizontal pixels (0 = white, 1 = black)</returns>
-        static BitMatrix renderResult(bool[] code, int width, int height, int sidesMargin)
+        static BitMatrix RenderResult(IReadOnlyList<bool> code, int width, int height, int sidesMargin)
         {
-            int inputWidth = code.Length;
+            int inputWidth = code.Count;
             // Add quiet zone on both sides.
             int fullWidth = inputWidth + sidesMargin;
             int outputWidth = Math.Max(width, fullWidth);
@@ -112,7 +110,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents">string to check for numeric characters</param>
         /// <exception cref="ArgumentException">if input contains characters other than digits 0-9.</exception>
-        protected static void checkNumeric(string contents)
+        protected static void CheckNumeric(string contents)
         {
             if (!NUMERIC.Match(contents).Success)
             {
@@ -128,7 +126,7 @@ namespace ZXing.OneD
         /// <param name="pattern">lengths of black/white runs to encode</param>
         /// <param name="startColor">starting color - false for white, true for black</param>
         /// <returns>the number of elements added to target.</returns>
-        protected static int appendPattern(bool[] target, int pos, int[] pattern, bool startColor)
+        protected static int AppendPattern(bool[] target, int pos, int[] pattern, bool startColor)
         {
             bool color = startColor;
             int numAdded = 0;
@@ -158,7 +156,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents">barcode contents to encode</param>
         /// <returns>a <c>bool[]</c> of horizontal pixels (false = white, true = black)</returns>
-        public abstract bool[] encode(string contents);
+        public abstract bool[] Encode(string contents);
 
         /// <summary>
         /// Calculates the checksum digit modulo10.
@@ -167,19 +165,19 @@ namespace ZXing.OneD
         /// <returns></returns>
         public static string CalculateChecksumDigitModulo10(string contents)
         {
-            var oddsum = 0;
-            var evensum = 0;
+            var oddSum = 0;
+            var evenSum = 0;
 
             for (var index = contents.Length - 1; index >= 0; index -= 2)
             {
-                oddsum += (contents[index] - '0');
+                oddSum += (contents[index] - '0');
             }
             for (var index = contents.Length - 2; index >= 0; index -= 2)
             {
-                evensum += (contents[index] - '0');
+                evenSum += (contents[index] - '0');
             }
 
-            return contents + ((10 - ((oddsum * 3 + evensum) % 10)) % 10);
+            return contents + ((10 - ((oddSum * 3 + evenSum) % 10)) % 10);
         }
     }
 }

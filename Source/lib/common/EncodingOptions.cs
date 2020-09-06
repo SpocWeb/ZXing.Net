@@ -38,7 +38,7 @@ namespace ZXing.Common
         /// Specifies the height of the barcode image
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output dimensions"), DescriptionAttribute("Height in pixels.")]
+        [Category("Output dimensions")] [Description("Height in pixels.")]
 #endif
         public int Height
         {
@@ -60,7 +60,7 @@ namespace ZXing.Common
         /// Specifies the width of the barcode image
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output dimensions"), DescriptionAttribute("Width in pixels.")]
+        [Category("Output dimensions")] [Description("Width in pixels.")]
 #endif
         public int Width
         {
@@ -82,7 +82,7 @@ namespace ZXing.Common
         /// Don't put the content string into the output image.
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output options"), DescriptionAttribute("Output only barcode, no Human Readable Interpretation.")]
+        [Category("Output options")] [Description("Output only barcode, no Human Readable Interpretation.")]
 #endif
         public bool PureBarcode
         {
@@ -106,7 +106,8 @@ namespace ZXing.Common
         /// most 1D formats.
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output dimensions"), DescriptionAttribute("Specifies margin, in pixels, to use " +
+        [Category("Output dimensions")] [DescriptionAttribute
+        ("Specifies margin, in pixels, to use " +
             "when generating the barcode. The meaning can vary by format; for example it controls margin " +
             "before and after the barcode horizontally for most 1D formats.")]
 #endif
@@ -131,7 +132,8 @@ namespace ZXing.Common
         /// FNC1 character is added in front of the data
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies whether the data should be encoded " +
+        [Category("Standard")] [DescriptionAttribute
+        ("Specifies whether the data should be encoded " +
             "to the GS1 standard; if so a FNC1 character is added in front of the data.")]
 #endif
         public bool Gs1Format

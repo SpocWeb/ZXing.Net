@@ -100,7 +100,7 @@ namespace ZXing.OneD
         /// <summary>
         /// Encode the contents following specified format.
         /// </summary>
-        public override bool[] encode(string contents)
+        public override bool[] Encode(string contents)
         {
             int length = contents.Length;
             // Check content
@@ -245,7 +245,7 @@ namespace ZXing.OneD
             int pos = 0;
             foreach (int[] pattern in patterns)
             {
-                pos += appendPattern(result, pos, pattern, true);
+                pos += AppendPattern(result, pos, pattern, true);
             }
 
             return result;

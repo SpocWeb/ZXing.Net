@@ -54,7 +54,7 @@ namespace ZXing.QrCode.Test
          }
          Assert.IsTrue(File.Exists(file), "Please run from the 'core' directory");
 #if !SILVERLIGHT
-         return (Bitmap)Bitmap.FromFile(file);
+         return (Bitmap)Image.FromFile(file);
 #else
          var wb = new WriteableBitmap(0, 0);
          wb.SetSource(File.OpenRead(file));
@@ -142,7 +142,7 @@ namespace ZXing.QrCode.Test
          int bigEnough = 256;
          QrCodeWriter writer = new QrCodeWriter();
          BitMatrix matrix = writer.Encode("http://www.google.com/", BarcodeFormat.QR_CODE, bigEnough,
-             bigEnough, null);
+             bigEnough);
          Assert.NotNull(matrix);
          Assert.AreEqual(bigEnough, matrix.Width);
          Assert.AreEqual(bigEnough, matrix.Height);
@@ -150,7 +150,7 @@ namespace ZXing.QrCode.Test
          // The QR will not fit in this size, so the matrix should come back bigger
          int tooSmall = 20;
          matrix = writer.Encode("http://www.google.com/", BarcodeFormat.QR_CODE, tooSmall,
-             tooSmall, null);
+             tooSmall);
          Assert.NotNull(matrix);
          Assert.IsTrue(tooSmall < matrix.Width);
          Assert.IsTrue(tooSmall < matrix.Height);
@@ -159,7 +159,7 @@ namespace ZXing.QrCode.Test
          int strangeWidth = 500;
          int strangeHeight = 100;
          matrix = writer.Encode("http://www.google.com/", BarcodeFormat.QR_CODE, strangeWidth,
-             strangeHeight, null);
+             strangeHeight);
          Assert.NotNull(matrix);
          Assert.AreEqual(strangeWidth, matrix.Width);
          Assert.AreEqual(strangeHeight, matrix.Height);

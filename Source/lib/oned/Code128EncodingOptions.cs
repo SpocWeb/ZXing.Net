@@ -30,7 +30,7 @@ namespace ZXing.OneD
         /// if true, don't switch to codeset C for numbers
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("If true, don't switch to codeset C for numbers.")]
+        [Category("Standard")] [Description("If true, don't switch to codeset C for numbers.")]
 #endif
         public bool ForceCodesetB
         {

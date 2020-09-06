@@ -31,7 +31,7 @@ namespace ZXing.Datamatrix
         /// Specifies the matrix shape for Data Matrix
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output options"), DescriptionAttribute("Specifies the matrix shape for Data Matrix.")]
+        [Category("Output options")] [Description("Specifies the matrix shape for Data Matrix.")]
 #endif
         public SymbolShapeHint? SymbolShape
         {
@@ -62,7 +62,7 @@ namespace ZXing.Datamatrix
         /// Specifies a minimum barcode size
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies a minimum barcode size.")]
+        [Category("Standard")] [Description("Specifies a minimum barcode size.")]
 #endif
         public Dimension MinSize
         {
@@ -93,7 +93,7 @@ namespace ZXing.Datamatrix
         /// Specifies a maximum barcode size
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies a maximum barcode size.")]
+        [Category("Standard")] [Description("Specifies a maximum barcode size.")]
 #endif
         public Dimension MaxSize
         {
@@ -126,9 +126,10 @@ namespace ZXing.Datamatrix
         /// standard value: Encodation.ASCII
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies the default encodation." + 
-			" Make sure that the content fits into the encodation value, otherwise there will be an exception thrown." +
-			" Standard value: Encodation.ASCII")]
+        [Category("Standard")] [DescriptionAttribute
+        ("Specifies the default encodation." +
+            " Make sure that the content fits into the encodation value, otherwise there will be an exception thrown." +
+            " Standard value: Encodation.ASCII")]
 #endif
         public int? DefaultEncodation
         {

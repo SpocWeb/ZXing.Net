@@ -35,7 +35,7 @@ namespace ZXing.QrCode
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
         [TypeConverter(typeof(ErrorLevelConverter))]
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies what degree of error correction to use.")]
+        [Category("Standard")] [Description("Specifies what degree of error correction to use.")]
 #endif
         public ErrorCorrectionLevel ErrorCorrection
         {
@@ -66,7 +66,8 @@ namespace ZXing.QrCode
         /// Specifies what character encoding to use where applicable (type <see cref="string"/>)
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies what character encoding to " +
+        [Category("Standard")] [DescriptionAttribute
+        ("Specifies what character encoding to " +
             "use where applicable.")]
 #endif
         public string CharacterSet
@@ -103,7 +104,8 @@ namespace ZXing.QrCode
         /// and the ECI segment is omitted.
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Explicitly disables ECI segment when generating QR Code." +
+        [Category("Standard")] [DescriptionAttribute
+        ("Explicitly disables ECI segment when generating QR Code." +
             "That is against the specification but some readers have problems otherwise when switching charset to UTF-8.")]
 #endif
         public bool DisableECI
@@ -127,7 +129,8 @@ namespace ZXing.QrCode
         /// cannot fit within the required version, a WriterException will be thrown.
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies the exact version of QR code to be encoded. " +
+        [Category("Standard")] [DescriptionAttribute
+        ("Specifies the exact version of QR code to be encoded. " +
             "An integer, range 1 to 40. If the data specified cannot fit within the required version, " +
             "a WriterException will be thrown.")]
 #endif

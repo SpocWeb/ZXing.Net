@@ -32,7 +32,8 @@ namespace ZXing.Interop.Decoding
     [ClassInterface(ClassInterfaceType.AutoDual)]
     public class BarcodeReader : IBarcodeReader
     {
-        private readonly ZXing.BarcodeReader wrappedReader;
+
+        readonly ZXing.BarcodeReader wrappedReader;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReader"/> class.

@@ -15,7 +15,6 @@
  */
 
 using System;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
 using ZXing.Interop.Common;
@@ -27,7 +26,8 @@ namespace ZXing.Interop.Encoding
     [ClassInterface(ClassInterfaceType.AutoDual)]
     public class BarcodeWriter : IBarcodeWriter
     {
-        private EncodingOptions options;
+
+        EncodingOptions _Options;
 
         /// <summary>
         /// Gets or sets the barcode format.
@@ -40,8 +40,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public EncodingOptions Options
         {
-            get { return (options ?? (options = new EncodingOptions())); }
-            set { options = value; }
+            get { return (_Options ?? (_Options = new EncodingOptions())); }
+            set { _Options = value; }
         }
 
         public PixelData Write(string contents)
@@ -49,7 +49,7 @@ namespace ZXing.Interop.Encoding
             var writer = new BarcodeWriterPixelData
             {
                 Format = Format.ToZXing(),
-                Options = options.wrappedEncodingOptions
+                Options = _Options.wrappedEncodingOptions
             };
             return writer.Write(contents).ToInterop();
         }
@@ -63,7 +63,7 @@ namespace ZXing.Interop.Encoding
             var writer = new ZXing.BarcodeWriter
             {
                 Format = Format.ToZXing(),
-                Options = options.wrappedEncodingOptions
+                Options = _Options.wrappedEncodingOptions
             };
             using (var bitmap = writer.Write(contents))
             {
@@ -76,7 +76,7 @@ namespace ZXing.Interop.Encoding
             var writer = new ZXing.BarcodeWriter
             {
                 Format = Format.ToZXing(),
-                Options = options.wrappedEncodingOptions
+                Options = _Options.wrappedEncodingOptions
             };
             using (var bitmap = writer.Write(contents))
             {

@@ -44,7 +44,7 @@ namespace ZXing.OneD
         /// <returns>
         /// a byte array of horizontal pixels (false = white, true = black)
         /// </returns>
-        public override bool[] encode(string contents)
+        public override bool[] Encode(string contents)
         {
             int length = contents.Length;
             switch (length)
@@ -75,27 +75,27 @@ namespace ZXing.OneD
                     throw new ArgumentException("Requested contents should be 7 (without checksum digit) or 8 digits long, but got " + contents.Length);
             }
 
-            checkNumeric(contents);
+            CheckNumeric(contents);
 
             var result = new bool[CODE_WIDTH];
             int pos = 0;
 
-            pos += appendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
+            pos += AppendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
 
             for (int i = 0; i <= 3; i++)
             {
                 int digit = int.Parse(contents.Substring(i, 1));
-                pos += appendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], false);
+                pos += AppendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], false);
             }
 
-            pos += appendPattern(result, pos, UpcEanReader.MIDDLE_PATTERN, false);
+            pos += AppendPattern(result, pos, UpcEanReader.MIDDLE_PATTERN, false);
 
             for (int i = 4; i <= 7; i++)
             {
                 int digit = int.Parse(contents.Substring(i, 1));
-                pos += appendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], true);
+                pos += AppendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], true);
             }
-            appendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
+            AppendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
 
             return result;
         }

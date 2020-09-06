@@ -224,12 +224,12 @@ namespace ZXing.PDF417
         /// <param name="input">a byte array of information with 0 is black, and 1 is white</param>
         /// <param name="margin">border around the barcode</param>
         /// <returns>BitMatrix of the input</returns>
-        static BitMatrix BitMatrixFromBitArray(sbyte[][] input, int margin)
+        static BitMatrix BitMatrixFromBitArray(IReadOnlyList<sbyte[]> input, int margin)
         {
             // Creates the bit matrix with extra space for whitespace
-            var output = new BitMatrix(input[0].Length + 2 * margin, input.Length + 2 * margin);
+            var output = new BitMatrix(input[0].Length + 2 * margin, input.Count + 2 * margin);
             var yOutput = output.Height - margin - 1;
-            for (int y = 0; y < input.Length; y++, yOutput--)
+            for (int y = 0; y < input.Count; y++, yOutput--)
             {
                 var currentInput = input[y];
                 var currentInputLength = currentInput.Length;
@@ -248,22 +248,22 @@ namespace ZXing.PDF417
         /// <summary>
         /// Takes and rotates the it 90 degrees
         /// </summary>
-        static sbyte[][] RotateArray(sbyte[][] bitarray)
+        static sbyte[][] RotateArray(IReadOnlyList<sbyte[]> bitArray)
         {
-            sbyte[][] temp = new sbyte[bitarray[0].Length][];
-            for (int idx = 0; idx < bitarray[0].Length; idx++)
+            sbyte[][] temp = new sbyte[bitArray[0].Length][];
+            for (int idx = 0; idx < bitArray[0].Length; idx++)
             {
-                temp[idx] = new sbyte[bitarray.Length];
+                temp[idx] = new sbyte[bitArray.Count];
             }
 
-            for (int ii = 0; ii < bitarray.Length; ii++)
+            for (int ii = 0; ii < bitArray.Count; ii++)
             {
                 // This makes the direction consistent on screen when rotating the
                 // screen;
-                int inverseii = bitarray.Length - ii - 1;
-                for (int jj = 0; jj < bitarray[0].Length; jj++)
+                int inverse = bitArray.Count - ii - 1;
+                for (int jj = 0; jj < bitArray[0].Length; jj++)
                 {
-                    temp[jj][inverseii] = bitarray[ii][jj];
+                    temp[jj][inverse] = bitArray[ii][jj];
                 }
             }
             return temp;

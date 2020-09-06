@@ -47,7 +47,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents"></param>
         /// <returns></returns>
-        public override bool[] encode(string contents)
+        public override bool[] Encode(string contents)
         {
             int length = contents.Length;
             switch (length)
@@ -78,14 +78,12 @@ namespace ZXing.OneD
                     throw new ArgumentException("Requested contents should be 12 (without checksum digit) or 13 digits long, but got " + contents.Length);
             }
 
-            checkNumeric(contents);
+            CheckNumeric(contents);
 
             int firstDigit = int.Parse(contents.Substring(0, 1));
             int parities = Ean13Reader.FIRST_DIGIT_ENCODINGS[firstDigit];
             var result = new bool[CODE_WIDTH];
-            int pos = 0;
-
-            pos += appendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
+            int pos = AppendPattern(result, 0, UpcEanReader.START_END_PATTERN, true);
 
             // See EAN13Reader for a description of how the first digit & left bars are encoded
             for (int i = 1; i <= 6; i++)
@@ -95,17 +93,17 @@ namespace ZXing.OneD
                 {
                     digit += 10;
                 }
-                pos += appendPattern(result, pos, UpcEanReader.L_AND_G_PATTERNS[digit], false);
+                pos += AppendPattern(result, pos, UpcEanReader.L_AND_G_PATTERNS[digit], false);
             }
 
-            pos += appendPattern(result, pos, UpcEanReader.MIDDLE_PATTERN, false);
+            pos += AppendPattern(result, pos, UpcEanReader.MIDDLE_PATTERN, false);
 
             for (int i = 7; i <= 12; i++)
             {
                 int digit = int.Parse(contents.Substring(i, 1));
-                pos += appendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], true);
+                pos += AppendPattern(result, pos, UpcEanReader.L_PATTERNS[digit], true);
             }
-            appendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
+            AppendPattern(result, pos, UpcEanReader.START_END_PATTERN, true);
 
             return result;
         }

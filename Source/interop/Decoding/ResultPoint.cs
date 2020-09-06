@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace ZXing.Interop.Decoding
@@ -24,28 +23,20 @@ namespace ZXing.Interop.Decoding
     [ClassInterface(ClassInterfaceType.AutoDual)]
     public class ResultPoint
     {
-        private readonly int hashCode;
-        private readonly string toString;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ResultPoint"/> class.
-        /// </summary>
+        readonly int _HashCode;
+        readonly string _ToString;
+
         public ResultPoint(ZXing.ResultPoint other)
         {
             X = other.X;
             Y = other.Y;
-            hashCode = other.GetHashCode();
-            toString = other.ToString();
+            _HashCode = other.GetHashCode();
+            _ToString = other.ToString();
         }
 
-        /// <summary>
-        /// Gets the X.
-        /// </summary>
         public float X { get; private set; }
 
-        /// <summary>
-        /// Gets the Y.
-        /// </summary>
         public float Y { get; private set; }
 
         /// <summary>
@@ -71,7 +62,7 @@ namespace ZXing.Interop.Decoding
         /// </returns>
         public override int GetHashCode()
         {
-            return hashCode;
+            return _HashCode;
         }
 
         /// <summary>
@@ -82,7 +73,7 @@ namespace ZXing.Interop.Decoding
         /// </returns>
         public override string ToString()
         {
-            return toString;
+            return _ToString;
         }
     }
 

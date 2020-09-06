@@ -70,7 +70,7 @@ namespace ZXing.PDF417.Test
         [TestCase("ISO-8859-1")]
         public void Test0To256AsBytesRoundTrip(string encodingStr)
         {
-            var encoding = System.Text.Encoding.GetEncoding(encodingStr);
+            var encoding = Encoding.GetEncoding(encodingStr);
             var writer = new BarcodeWriter
             {
                 Format = BarcodeFormat.PDF_417,
@@ -111,7 +111,7 @@ namespace ZXing.PDF417.Test
             foreach (var error in errors)
             {
                 var bytes = encoding.GetBytes(error.Key);
-                Console.WriteLine(string.Format("Content: {0} ({1}); Error: {2}", error.Key, bytes[0], error.Value.Message));
+                Console.WriteLine("Content: {0} ({1}); Error: {2}", error.Key, bytes[0], error.Value.Message);
             }
 
             if (errors.Count > 0) {
@@ -125,7 +125,7 @@ namespace ZXing.PDF417.Test
       [Ignore("2020-09-03 Fails in BaseLine")]
         public void test0To256AsOneStringRoundTrip(string encodingStr)
         {
-            var encoding = System.Text.Encoding.GetEncoding(encodingStr);
+            var encoding = Encoding.GetEncoding(encodingStr);
             var writer = new BarcodeWriter
             {
                 Format = BarcodeFormat.PDF_417,
@@ -203,7 +203,7 @@ namespace ZXing.PDF417.Test
 
             foreach (var error in errors)
             {
-                Console.WriteLine(string.Format("Content: {0}; Error: {1}", error.Key, error.Value.Message));
+                Console.WriteLine("Content: {0}; Error: {1}", error.Key, error.Value.Message);
             }
 
             if (errors.Count > 0) {

@@ -36,7 +36,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="contents">barcode contents to encode.It should not be encoded for extended characters.</param>
         /// <returns>a { @code bool[]} of horizontal pixels(false = white, true = black)</returns>
-        public override bool[] encode(string contents)
+        public override bool[] Encode(string contents)
         {
             contents = convertToExtended(contents);
             int length = contents.Length;

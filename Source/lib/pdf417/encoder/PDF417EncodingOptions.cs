@@ -31,7 +31,7 @@ namespace ZXing.PDF417
         /// Specifies whether to use compact mode for PDF417 (type <see cref="bool" />).
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output options"), DescriptionAttribute("Specifies whether to use compact mode.")]
+        [Category("Output options")] [Description("Specifies whether to use compact mode.")]
 #endif
         public bool Compact
         {
@@ -51,7 +51,7 @@ namespace ZXing.PDF417
         /// <see cref="Compaction" />).
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies what compaction mode to use.")]
+        [Category("Standard")] [Description("Specifies what compaction mode to use.")]
 #endif
         public Compaction Compaction
         {
@@ -71,7 +71,7 @@ namespace ZXing.PDF417
         /// <see cref="Dimensions" />).
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies the minimum and maximum number of rows and columns.")]
+        [Category("Standard")] [Description("Specifies the minimum and maximum number of rows and columns.")]
 #endif
         public Dimensions Dimensions
         {
@@ -90,7 +90,7 @@ namespace ZXing.PDF417
         /// Specifies what degree of error correction to use
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies what degree of error correction to use.")]
+        [Category("Standard")] [Description("Specifies what degree of error correction to use.")]
 #endif
         public PDF417ErrorCorrectionLevel ErrorCorrection
         {
@@ -99,9 +99,9 @@ namespace ZXing.PDF417
                 if (Hints.ContainsKey(EncodeHintType.ERROR_CORRECTION))
                 {
                     var value = Hints[EncodeHintType.ERROR_CORRECTION];
-                    if (value is PDF417ErrorCorrectionLevel)
+                    if (value is PDF417ErrorCorrectionLevel level)
                     {
-                        return (PDF417ErrorCorrectionLevel)value;
+                        return level;
                     }
                     if (value is int)
                     {
@@ -118,7 +118,8 @@ namespace ZXing.PDF417
         /// (Width of narrowest bar / Row Height)
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output options"), DescriptionAttribute("Specifies the aspect ratio of the " +
+        [Category("Output options")] [Description
+        ("Specifies the aspect ratio of the " +
             "smallest codeword. (Width of narrowest bar / row height).")]
 #endif
         public PDF417AspectRatio AspectRatio
@@ -147,7 +148,8 @@ namespace ZXing.PDF417
         /// The actual aspect ratio is calculated based on the necessary number of codewords.
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Output options"), DescriptionAttribute("Specifies the desired output image aspect ratio (Width / Height)." +
+        [Category("Output options")] [Description
+        ("Specifies the desired output image aspect ratio (Width / Height)." +
             "The actual aspect ratio is calculated based on the necessary number of codewords.")]
 #endif
         public float ImageAspectRatio
@@ -171,7 +173,8 @@ namespace ZXing.PDF417
         /// Specifies what character encoding to use where applicable (type {@link String})
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Specifies what character encoding to " +
+        [Category("Standard")] [DescriptionAttribute
+        ("Specifies what character encoding to " +
             "use where applicable.")]
 #endif
         public string CharacterSet
@@ -208,7 +211,8 @@ namespace ZXing.PDF417
         /// and the ECI segment is omitted.
         /// </summary>
 #if !NETSTANDARD && !NETFX_CORE && !WindowsCE && !SILVERLIGHT && !PORTABLE && !UNITY
-        [CategoryAttribute("Standard"), DescriptionAttribute("Explicitly disables ECI segment when generating PDF417 Code." +
+        [Category("Standard")] [DescriptionAttribute
+        ("Explicitly disables ECI segment when generating PDF417 Code." +
             "That is against the specification but some readers have problems otherwise when switching charset to UTF-8.")]
 #endif
         public bool DisableECI

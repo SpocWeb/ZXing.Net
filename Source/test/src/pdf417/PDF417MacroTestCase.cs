@@ -30,8 +30,7 @@ namespace ZXing.PDF417.Test
         {
             List<BarCodeText> results = new List<BarCodeText>();
 
-            var writer = new BarcodeWriter()
-            {
+            var writer = new BarcodeWriter {
                 Format = BarcodeFormat.PDF_417,
                 Options = new PDF417EncodingOptions
                 {
@@ -43,8 +42,7 @@ namespace ZXing.PDF417.Test
                 }
             };
 
-            writer.Options.Hints.Add(EncodeHintType.PDF417_MACRO_META_DATA, new PDF417MacroMetadata()
-            {
+            writer.Options.Hints.Add(EncodeHintType.PDF417_MACRO_META_DATA, new PDF417MacroMetadata {
                 SegmentIndex = 0,
                 SegmentCount = 2,
                 FileId = "HELLO.WORLD",
@@ -63,7 +61,7 @@ namespace ZXing.PDF417.Test
                     PureBarcode = true,
                     PossibleFormats = new List<BarcodeFormat> {BarcodeFormat.PDF_417},
                     TryHarder = true,
-                    //ReturnCodabarStartEnd = true
+                    //ReturnCodaBarStartEnd = true
                 }
             };
 
@@ -76,8 +74,7 @@ namespace ZXing.PDF417.Test
                 results.Add(result);
             }
 
-            writer.Options.Hints[EncodeHintType.PDF417_MACRO_META_DATA] = new PDF417MacroMetadata()
-            {
+            writer.Options.Hints[EncodeHintType.PDF417_MACRO_META_DATA] = new PDF417MacroMetadata {
                 SegmentIndex = 1,
                 SegmentCount = 2,
                 FileId = "HELLO.WORLD"
@@ -96,7 +93,7 @@ namespace ZXing.PDF417.Test
                 (
                     from r in results
                     where r != null
-                       && r.ResultMetadata.ContainsKey(ResultMetadataType.PDF417_EXTRA_METADATA) == true
+                       && r.ResultMetadata.ContainsKey(ResultMetadataType.PDF417_EXTRA_METADATA)
                        && ((PDF417ResultMetadata)r.ResultMetadata[ResultMetadataType.PDF417_EXTRA_METADATA]).FileId == "HELLO.WORLD"
                     select r
                 ).Count() == 2
