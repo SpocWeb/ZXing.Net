@@ -62,8 +62,8 @@ namespace ZXing.PDF417
             return detectorResult.Decode();
         }
 
-        public BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints
-            , DetectorResult[] detectorResults)
+        public BarCodeText[] DecodeMultiple(DetectorResult[] detectorResults, IDictionary<DecodeHintType, object> hints
+)
             => detectorResults.SelectMany(detectorResult => detectorResult.Decode()).ToArray();
 
         public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints) {

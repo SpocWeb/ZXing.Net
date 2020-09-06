@@ -24,13 +24,19 @@ namespace ZXing.Multi
     /// 	<seealso cref="IBarCodeDecoder"/>
     public interface IMultipleBarcodeReader
     {
+        /// <summary> Decodes a single <paramref name="detectorResult"/> </summary>
+        BarCodeText Decode(DetectorResult detectorResult
+            , IDictionary<DecodeHintType, object> hints = null);
 
         /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
-        BarCodeText[] DecodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null);
+        BarCodeText[] DecodeMultiple(BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints = null);
 
         /// <summary> Decodes multiple QR-Codes in <paramref name="image"/>. </summary>
-        BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints);
+        BarCodeText[] DecodeMultiple(LuminanceGridSampler image
+            , IDictionary<DecodeHintType, object> hints = null);
 
-        BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults);
+        BarCodeText[] DecodeMultiple(DetectorResult[] detectorResults
+            , IDictionary<DecodeHintType, object> hints = null);
     }
 }

@@ -32,6 +32,7 @@ namespace ZXing
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public interface IBarCodeDecoder
     {
+
         /// <summary> Locates AND decodes a barcode in some format within an image. </summary>
         /// <param name="image">image of barcode to decode</param>
         /// <param name="hints">passed as a <see cref="IDictionary{TKey, TValue}" />

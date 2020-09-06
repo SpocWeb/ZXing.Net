@@ -32,66 +32,31 @@ namespace ZXing.Multi.QrCode
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
-        /// <summary>
-        /// Decodes the multiple.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <returns></returns>
-        public BarCodeText[] DecodeMultiple(BinaryBitmap image)
+        /// <summary> Decodes multiple QR Codes </summary>
+        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image
+            , IDictionary<DecodeHintType, object> hints = null)
         {
-            return DecodeMultiple(image, null);
+            var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
+            return DecodeMultiple(detectorResults, hints);
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
-        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] DecodeMultiple(BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints = null)
         {
             var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
-            return DecodeMultiple(hints, detectorResults);
+            return DecodeMultiple(detectorResults, hints);
         }
 
-        /// <summary> Decodes multiple QR Codes </summary>
-        public BarCodeText[] DecodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
-        {
-            var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
-            return DecodeMultiple(hints, detectorResults);
-        }
-
-        public BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults)
+        public BarCodeText[] DecodeMultiple(DetectorResult[] detectorResults, IDictionary<DecodeHintType, object> hints
+)
         {
             var results = new List<BarCodeText>();
             foreach (var detectorResult in detectorResults)
             {
-                var decoderResult = Decoder.decode(detectorResult.Bits, hints);
-
-                if (decoderResult == null) {
+                if (Decode(detectorResult, hints, out var result))
+                {
                     continue;
-                }
-
-                var points = detectorResult.Points.Single();
-
-                // If the code was mirrored: swap the bottom-left and the top-right points.
-                if (decoderResult.Other is QrCodeDecoderMetaData data)
-                {
-                    points = data.ApplyMirroredCorrection(points);
-                }
-
-                var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
-                var byteSegments = decoderResult.ByteSegments;
-                if (byteSegments != null)
-                {
-                    result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
-                }
-
-                var ecLevel = decoderResult.ECLevel;
-                if (ecLevel != null)
-                {
-                    result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
-                }
-
-                if (decoderResult.StructuredAppend)
-                {
-                    result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
-                    result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
                 }
 
                 results.Add(result);
@@ -105,6 +70,46 @@ namespace ZXing.Multi.QrCode
             results = ProcessStructuredAppend(results);
 
             return results.ToArray();
+        }
+
+        public BarCodeText Decode(DetectorResult detectorResult
+            , IDictionary<DecodeHintType, object> hints = null)
+        {
+            var decoderResult = Decoder.decode(detectorResult.Bits, hints);
+
+            if (decoderResult == null)
+            {
+                return null;
+            }
+
+            var points = detectorResult.Points.Single();
+
+            // If the code was mirrored: swap the bottom-left and the top-right points.
+            if (decoderResult.Other is QrCodeDecoderMetaData data)
+            {
+                points = data.ApplyMirroredCorrection(points);
+            }
+
+            var barCodeText = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
+            var byteSegments = decoderResult.ByteSegments;
+            if (byteSegments != null)
+            {
+                barCodeText.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
+            }
+
+            var ecLevel = decoderResult.ECLevel;
+            if (ecLevel != null)
+            {
+                barCodeText.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+            }
+
+            if (decoderResult.StructuredAppend)
+            {
+                barCodeText.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
+                barCodeText.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
+            }
+
+            return barCodeText;
         }
 
         public static List<BarCodeText> ProcessStructuredAppend(List<BarCodeText> results)

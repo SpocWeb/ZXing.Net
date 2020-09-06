@@ -52,5 +52,6 @@ namespace ZXing
         /// and the decoding call can be made in a background thread.
         /// </remarks>
         BarCodeText Decode(LuminanceSource luminanceSource);
+
     }
 }
