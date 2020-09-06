@@ -247,7 +247,7 @@ namespace ZXing
             {
                 if (result.ResultMetadata == null)
                 {
-                    result.putMetadata(ResultMetadataType.ORIENTATION, rotationCount * 90);
+                    result.PutMetadata(ResultMetadataType.ORIENTATION, rotationCount * 90);
                 }
                 else if (!result.ResultMetadata.ContainsKey(ResultMetadataType.ORIENTATION))
                 {
@@ -334,7 +334,7 @@ namespace ZXing
                 {
                     if (result.ResultMetadata == null)
                     {
-                        result.putMetadata(ResultMetadataType.ORIENTATION, rotationCount * 90);
+                        result.PutMetadata(ResultMetadataType.ORIENTATION, rotationCount * 90);
                     }
                     else if (!result.ResultMetadata.ContainsKey(ResultMetadataType.ORIENTATION))
                     {

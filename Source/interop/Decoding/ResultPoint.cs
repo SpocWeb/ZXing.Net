@@ -57,8 +57,7 @@ namespace ZXing.Interop.Decoding
         /// </returns>
         public override bool Equals(object other)
         {
-            var otherPoint = other as ResultPoint;
-            if (otherPoint == null) {
+            if (!(other is ResultPoint otherPoint)) {
                 return false;
             }
             return X == otherPoint.X && Y == otherPoint.Y;

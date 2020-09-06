@@ -70,7 +70,7 @@ namespace ZXing.OneD
                 orientation = (orientation +
                     (int)metadata[ResultMetadataType.ORIENTATION]) % 360;
             }
-            result.putMetadata(ResultMetadataType.ORIENTATION, orientation);
+            result.PutMetadata(ResultMetadataType.ORIENTATION, orientation);
             // Update result points
             ResultPoint[] points = result.ResultPoints;
             if (points == null) {
@@ -177,7 +177,7 @@ namespace ZXing.OneD
                     if (attempt == 1)
                     {
                         // But it was upside down, so note that
-                        result.putMetadata(ResultMetadataType.ORIENTATION, 180);
+                        result.PutMetadata(ResultMetadataType.ORIENTATION, 180);
                         // And remember to flip the result points horizontally.
                         ResultPoint[] points = result.ResultPoints;
                         if (points != null)

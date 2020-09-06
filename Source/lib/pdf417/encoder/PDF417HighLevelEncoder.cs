@@ -137,7 +137,10 @@ namespace ZXing.PDF417.Internal
         {
             //Construct inverse lookups
             for (int idx = 0; idx < MIXED.Length; idx++)
+            {
                 MIXED[idx] = -1;
+            }
+
             for (int i = 0; i < TEXT_MIXED_RAW.Length; i++)
             {
                 sbyte b = TEXT_MIXED_RAW[i];
@@ -147,7 +150,10 @@ namespace ZXing.PDF417.Internal
                 }
             }
             for (int idx = 0; idx < PUNCTUATION.Length; idx++)
+            {
                 PUNCTUATION[idx] = -1;
+            }
+
             for (int i = 0; i < TEXT_PUNCTUATION_RAW.Length; i++)
             {
                 sbyte b = TEXT_PUNCTUATION_RAW[i];

@@ -15,12 +15,13 @@
 */
 
 using System.Collections.Generic;
+using ZXing.QrCode;
 
 namespace ZXing
 {
     /// <summary> Decodes an image of a barcode in some format into a String. </summary>
     /// <remarks>
-    /// For example, <see cref="QrCode.QRCodeReader" /> can
+    /// For example, <see cref="QrCodeReader" /> can
     /// decode a QR code. The decoder may optionally receive hints from the caller which may help
     /// it decode more quickly or accurately.
     /// 

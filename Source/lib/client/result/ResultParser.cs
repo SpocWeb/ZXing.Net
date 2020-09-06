@@ -324,7 +324,7 @@ namespace ZXing.Client.Result
         internal static string matchSinglePrefixedField(string prefix, string rawText, char endChar, bool trim)
         {
             string[] matches = matchPrefixedField(prefix, rawText, endChar, trim);
-            return matches == null ? null : matches[0];
+            return matches?[0];
         }
         /// <summary>
         /// decodes url

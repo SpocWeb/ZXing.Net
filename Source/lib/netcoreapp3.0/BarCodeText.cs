@@ -19,9 +19,7 @@ using System.Collections.Generic;
 
 namespace ZXing
 {
-    /// <summary>
-    /// Encapsulates the result of decoding a barcode within an image.
-    /// </summary>
+    /// <summary> Encapsulates the result of decoding a barcode within an image. </summary>
     public sealed class BarCodeText //: IBarCodeText
     {
         /// <returns>raw text encoded by the barcode, if applicable, otherwise <code>null</code></returns>
@@ -68,7 +66,7 @@ namespace ZXing
                       byte[] rawBytes,
                       ResultPoint[] resultPoints,
                       BarcodeFormat format)
-           : this(text, rawBytes, rawBytes == null ? 0 : 8 * rawBytes.Length, resultPoints, format, DateTime.Now.Ticks)
+           : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now.Ticks)
         {
         }
 
@@ -98,7 +96,7 @@ namespace ZXing
         /// <param name="format">The format.</param>
         /// <param name="timestamp">The timestamp.</param>
         public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
-           : this(text, rawBytes, rawBytes == null ? 0 : 8 * rawBytes.Length, resultPoints, format, timestamp)
+           : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp)
         {
         }
 
@@ -129,44 +127,32 @@ namespace ZXing
         /// <summary>
         /// Adds one metadata to the result
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="value">The value.</param>
-        public void putMetadata(ResultMetadataType type, object value)
-        {
-            if (ResultMetadata == null)
-            {
-                ResultMetadata = new Dictionary<ResultMetadataType, object>();
-            }
-            ResultMetadata[type] = value;
-        }
+        public void PutMetadata(ResultMetadataType type, object value)
+            => (ResultMetadata ??= new Dictionary<ResultMetadataType, object>())[type] = value;
 
         /// <summary>
         /// Adds a list of metadata to the result
         /// </summary>
-        /// <param name="metadata">The metadata.</param>
-        public void putAllMetadata(IDictionary<ResultMetadataType, object> metadata)
-        {
-            if (metadata != null)
+        public void PutAllMetadata(IDictionary<ResultMetadataType, object> metadata) {
+            if (metadata == null) {
+                return;
+            }
+            if (ResultMetadata == null)
             {
-                if (ResultMetadata == null)
+                ResultMetadata = metadata;
+            }
+            else
+            {
+                foreach (var entry in metadata)
                 {
-                    ResultMetadata = metadata;
-                }
-                else
-                {
-                    foreach (var entry in metadata)
-                        ResultMetadata[entry.Key] = entry.Value;
+                    ResultMetadata[entry.Key] = entry.Value;
                 }
             }
         }
 
-        /// <summary>
-        /// Adds the result points.
-        /// </summary>
-        /// <param name="newPoints">The new points.</param>
-        public void addResultPoints(ResultPoint[] newPoints)
-        {
-            var oldPoints = ResultPoints;
+        public void AddResultPoints(IReadOnlyList<ResultPoint> resultPoints) {
+            var newPoints = (ResultPoint[]) resultPoints;
+            var oldPoints = (ResultPoint[]) ResultPoints;
             if (oldPoints == null)
             {
                 ResultPoints = newPoints;
@@ -180,12 +166,6 @@ namespace ZXing
             }
         }
 
-        /// <summary>
-        /// Returns a <see cref="string"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string"/> that represents this instance.
-        /// </returns>
         public override string ToString()
         {
             if (Text == null)

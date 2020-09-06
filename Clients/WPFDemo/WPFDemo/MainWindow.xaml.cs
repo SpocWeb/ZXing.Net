@@ -41,7 +41,10 @@ namespace WPFDemo
             InitializeComponent();
 
             foreach (var format in MultiFormatWriter.SupportedWriters)
+            {
                 cmbEncoderType.Items.Add(format);
+            }
+
             cmbEncoderType.SelectedItem = BarcodeFormat.QR_CODE;
 
             cmbRendererType.Items.Add("WriteableBitmap");

@@ -75,9 +75,14 @@ namespace ZXing.IMB
             table1Check = new Dictionary<int, int>(2000);
             table2Check = new Dictionary<int, int>(200);
             for (int k = 0; k < table1.Length; k++)
+            {
                 table1Check.Add(table1[k], k);
+            }
+
             for (int k = 0; k < table2.Length; k++)
+            {
                 table2Check.Add(table2[k], k);
+            }
         }
         protected override BarCodeText DoDecode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
@@ -129,7 +134,9 @@ namespace ZXing.IMB
             // initialize the binaryFcsChars to 0 (has 13 bits)
             StringBuilder[] binaryFcsChars = new StringBuilder[10];
             for (int c = 0; c < 10; c++)
+            {
                 binaryFcsChars[c] = new StringBuilder("0000000000000");
+            }
 
             // fill in the binaryFcsChars
             for (int pos = 0; pos < 65; pos++)
@@ -157,7 +164,9 @@ namespace ZXing.IMB
             // convert each binaryFcsChar into decimal format
             ushort[] decFcsChars = new ushort[10];
             for (int k = 0; k < 10; k++)
+            {
                 decFcsChars[k] = binaryStringToDec(binaryFcsChars[k].ToString());
+            }
 
             // change decFcsChars according to whether FCS rules (whether it is the decFcsChars value is contained in one of the tables)
             for (int k = 0; k < decFcsChars.Length; k++)
@@ -222,7 +231,10 @@ namespace ZXing.IMB
             // codewords to binaryData
             BigInteger binaryData = codeWord[A];
             for (int k = 1; k <= 8; k++)
+            {
                 binaryData = binaryData * 1365 + codeWord[k];
+            }
+
             binaryData = binaryData * 636 + codeWord[J];
 
             // get tracking code
@@ -240,7 +252,10 @@ namespace ZXing.IMB
             // get routing code and imb number
             string imbTrackingNumber = "";
             foreach (int t in tCode)
+            {
                 imbTrackingNumber += t.ToString();
+            }
+
             ulong rCode;
             if (binaryData > 1000000000)
             {

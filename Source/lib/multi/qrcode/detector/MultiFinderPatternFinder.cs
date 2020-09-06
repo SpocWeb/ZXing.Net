@@ -178,13 +178,13 @@ namespace ZXing.Multi.QrCode.Internal
                         }
 
                         FinderPattern[] test = {p1, p2, p3};
-                        ResultPoint.orderBestPatterns(test);
+                        ResultPoint.OrderBestPatterns(test);
 
                         // Calculate the distances: a = topleft-bottomleft, b=topleft-topright, c = diagonal
                         QrFinderPatternInfo info = new QrFinderPatternInfo(test);
-                        float dA = ResultPoint.distance(info.TopLeft, info.BottomLeft);
-                        float dC = ResultPoint.distance(info.TopRight, info.BottomLeft);
-                        float dB = ResultPoint.distance(info.TopLeft, info.TopRight);
+                        float dA = ResultPoint.Distance(info.TopLeft, info.BottomLeft);
+                        float dC = ResultPoint.Distance(info.TopRight, info.BottomLeft);
+                        float dB = ResultPoint.Distance(info.TopLeft, info.TopRight);
 
                         // Check the sizes
                         float estimatedModuleCount = (dA + dB) / (p1.EstimatedModuleSize * 2.0f);
@@ -311,7 +311,7 @@ namespace ZXing.Multi.QrCode.Internal
             List<QrFinderPatternInfo> result = new List<QrFinderPatternInfo>();
             foreach (FinderPattern[] pattern in patternInfo)
             {
-                ResultPoint.orderBestPatterns(pattern);
+                ResultPoint.OrderBestPatterns(pattern);
                 result.Add(new QrFinderPatternInfo(pattern));
             }
 

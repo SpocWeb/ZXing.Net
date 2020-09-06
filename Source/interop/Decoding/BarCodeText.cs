@@ -21,9 +21,7 @@ using ZXing.Interop.Common;
 
 namespace ZXing.Interop.Decoding
 {
-    /// <summary>
-    /// Encapsulates the result of decoding a barcode within an image.
-    /// </summary>
+    /// <summary> Encapsulates the result of decoding a barcode within an image. </summary>
     [ComVisible(true)]
     [Guid("6A7AC019-6108-474E-9806-E36F5409EE66")]
     [ClassInterface(ClassInterfaceType.AutoDual)]

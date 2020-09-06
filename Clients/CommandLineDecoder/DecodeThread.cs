@@ -204,7 +204,10 @@ namespace CommandLineDecoder
             }
             var reader = new BarcodeReader { AutoRotate = config.AutoRotate };
             foreach (var entry in hints)
+            {
                 reader.Options.Hints.Add(entry.Key, entry.Value);
+            }
+
             BarCodeText result = reader.Decode(source);
             if (result != null)
             {
@@ -269,7 +272,10 @@ namespace CommandLineDecoder
 
                 var reader = new BarcodeReader { AutoRotate = config.AutoRotate };
                 foreach (var entry in hints)
+                {
                     reader.Options.Hints.Add(entry.Key, entry.Value);
+                }
+
                 BarCodeText[] results = reader.DecodeMultiple(source);
                 if (results != null && results.Length > 0)
                 {

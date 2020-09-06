@@ -116,11 +116,11 @@ namespace ZXing.PDF417
                         continue;
                     }
                     var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
-                    result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
+                    result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
                     var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
                     if (pdf417ResultMetadata != null)
                     {
-                        result.putMetadata(ResultMetadataType.PDF417_EXTRA_METADATA, pdf417ResultMetadata);
+                        result.PutMetadata(ResultMetadataType.PDF417_EXTRA_METADATA, pdf417ResultMetadata);
                     }
                     results.Add(result);
                 }

@@ -239,7 +239,7 @@ namespace ZXing.Client.Result.Test
          Assert.AreEqual(summary, calResult.Summary);
          Assert.AreEqual(location, calResult.Location);
          Assert.AreEqual(startString, calResult.Start.ToString(DATE_TIME_FORMAT));
-         Assert.AreEqual(endString, calResult.End == null ? null : calResult.End.Value.ToString(DATE_TIME_FORMAT));
+         Assert.AreEqual(endString, calResult.End?.ToString(DATE_TIME_FORMAT));
          Assert.AreEqual(organizer, calResult.Organizer);
          Assert.IsTrue(AddressBookParsedResultTestCase.AreEqual(attendees, calResult.Attendees));
          assertEqualOrNaN(latitude, calResult.Latitude);

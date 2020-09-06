@@ -23,30 +23,17 @@ namespace ZXing.QrCode
 {
     /// <summary> can detect and decode QR Codes in an image. </summary>
     /// <author>Sean Owen</author>
-    public class QRCodeReader : IBarCodeDecoder
+    public class QrCodeReader : IBarCodeDecoder
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
         private readonly Decoder decoder = new Decoder();
 
-        /// <summary>
-        /// Gets the decoder.
-        /// </summary>
-        /// <returns></returns>
-        protected Decoder getDecoder()
-        {
-            return decoder;
-        }
+        protected Decoder Decoder => decoder;
 
-        /// <summary>
-        /// Locates and decodes a QR code in an image.
-        ///
+        /// <summary> Locates and decodes a QR code in an image. </summary>
         /// <returns>a String representing the content encoded by the QR code</returns>
-        /// </summary>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            return Decode(image, null);
-        }
+        public BarCodeText Decode(BinaryBitmap image) => Decode(image, null);
 
         /// <summary>
         /// Locates and decodes a barcode in some format within an image. This method also accepts
@@ -71,7 +58,7 @@ namespace ZXing.QrCode
             }
             if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
             {
-                var bits = extractPureBits(image.GetBlackMatrix());
+                var bits = ExtractPureBits(image.GetBlackMatrix());
                 if (bits == null) {
                     return null;
                 }
@@ -93,27 +80,26 @@ namespace ZXing.QrCode
             }
 
             // If the code was mirrored: swap the bottom-left and the top-right points.
-            var data = decoderResult.Other as QRCodeDecoderMetaData;
-            if (data != null)
+            if (decoderResult.Other is QrCodeDecoderMetaData data)
             {
-                data.applyMirroredCorrection(points);
+                points = data.ApplyMirroredCorrection(points);
             }
 
             var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
             var byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)
             {
-                result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
+                result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
             }
             var ecLevel = decoderResult.ECLevel;
             if (ecLevel != null)
             {
-                result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
             }
             if (decoderResult.StructuredAppend)
             {
-                result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
-                result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
+                result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
+                result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
             }
             return result;
         }
@@ -135,7 +121,7 @@ namespace ZXing.QrCode
         /// 
         /// <seealso cref="ZXing.Datamatrix.DataMatrixReader.extractPureBits(BitMatrix)" />
         /// </summary>
-        private static BitMatrix extractPureBits(BitMatrix image)
+        private static BitMatrix ExtractPureBits(BitMatrix image)
         {
             int[] leftTopBlack = image.getTopLeftOnBit();
             int[] rightBottomBlack = image.getBottomRightOnBit();
@@ -144,7 +130,7 @@ namespace ZXing.QrCode
                 return null;
             }
 
-            if (!QRCodeReader.moduleSize(leftTopBlack, image, out var moduleSize)) {
+            if (!QrCodeReader.ModuleSize(leftTopBlack, image, out var moduleSize)) {
                 return null;
             }
 
@@ -231,7 +217,7 @@ namespace ZXing.QrCode
             return bits;
         }
 
-        private static bool moduleSize(int[] leftTopBlack, BitMatrix image, out float msize)
+        private static bool ModuleSize(int[] leftTopBlack, BitMatrix image, out float msize)
         {
             int height = image.Height;
             int width = image.Width;

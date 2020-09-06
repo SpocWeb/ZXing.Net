@@ -110,7 +110,7 @@ namespace ZXing.QrCode.Internal
                 return null;
             }
 
-            ResultPoint.orderBestPatterns(patternInfo);
+            ResultPoint.OrderBestPatterns(patternInfo);
 
             return new QrFinderPatternInfo(patternInfo);
         }

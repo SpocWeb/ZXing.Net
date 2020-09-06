@@ -51,9 +51,14 @@ namespace ZXing
         public static void SetCapacity<T>(IList<T> vector, int newCapacity) where T : new()
         {
             while (newCapacity > vector.Count)
+            {
                 vector.Add(new T());
+            }
+
             while (newCapacity < vector.Count)
+            {
                 vector.RemoveAt(vector.Count - 1);
+            }
         }
 
         /// <summary>

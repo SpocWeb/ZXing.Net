@@ -204,8 +204,8 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         private static bool computeDimension(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, float moduleSize, out int dimension)
         {
-            int tltrCentersDimension = MathUtils.round(ResultPoint.distance(topLeft, topRight) / moduleSize);
-            int tlblCentersDimension = MathUtils.round(ResultPoint.distance(topLeft, bottomLeft) / moduleSize);
+            int tltrCentersDimension = MathUtils.round(ResultPoint.Distance(topLeft, topRight) / moduleSize);
+            int tlblCentersDimension = MathUtils.round(ResultPoint.Distance(topLeft, bottomLeft) / moduleSize);
             dimension = ((tltrCentersDimension + tlblCentersDimension) >> 1) + 7;
             switch (dimension & 0x03)
             {

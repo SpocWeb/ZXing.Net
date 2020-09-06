@@ -97,7 +97,9 @@ namespace WindowsFormsDemo
             base.OnLoad(e);
 
             foreach (var format in MultiFormatWriter.SupportedWriters)
+            {
                 cmbEncoderType.Items.Add(format);
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)

@@ -14,7 +14,6 @@
 * limitations under the License.
 */
 
-using System;
 using ZXing.Common.Detector;
 
 namespace ZXing
@@ -24,6 +23,8 @@ namespace ZXing
     /// <remarks>
     /// Typically, this would be the location of a finder pattern
     /// or the corner of the barcode.
+    /// <see cref="Vector2"/> in System.Numerics
+    /// <see cref="Vector2D"/> in PresentationFramework
     /// </remarks>
     public class ResultPoint
     {
@@ -59,12 +60,12 @@ namespace ZXing
         /// BC is less than AC and the angle between BC and BA is less than 180 degrees.
         /// </summary>
         /// <param name="patterns">array of three <see cref="ResultPoint" /> to order</param>
-        public static void orderBestPatterns(ResultPoint[] patterns)
+        public static void OrderBestPatterns(ResultPoint[] patterns)
         {
             // Find distances between pattern centers
-            float zeroOneDistance = distance(patterns[0], patterns[1]);
-            float oneTwoDistance = distance(patterns[1], patterns[2]);
-            float zeroTwoDistance = distance(patterns[0], patterns[2]);
+            float zeroOneDistance = Distance(patterns[0], patterns[1]);
+            float oneTwoDistance = Distance(patterns[1], patterns[2]);
+            float zeroTwoDistance = Distance(patterns[0], patterns[2]);
 
             ResultPoint pointA, pointB, pointC;
             // Assume one closest to other two is B; A and C will just be guesses at first
@@ -91,7 +92,7 @@ namespace ZXing
             // This asks whether BC x BA has a positive z component, which is the arrangement
             // we want for A, B, C. If it's negative, then we've got it flipped around and
             // should swap A and C.
-            if (crossProductZ(pointA, pointB, pointC) < 0.0f)
+            if (CrossProductZ(pointA, pointB, pointC) < 0.0f)
             {
                 ResultPoint temp = pointA;
                 pointA = pointC;
@@ -103,13 +104,13 @@ namespace ZXing
             patterns[2] = pointC;
         }
 
-        public static float distance(ResultPoint pattern1, ResultPoint pattern2)
+        public static float Distance(ResultPoint pattern1, ResultPoint pattern2)
             => MathUtils.distance(pattern1.X, pattern1.Y, pattern2.X, pattern2.Y);
 
         /// <summary>
         /// Returns the z component of the cross product between vectors BC and BA.
         /// </summary>
-        private static float crossProductZ(ResultPoint pointA, ResultPoint pointB, ResultPoint pointC)
+        private static float CrossProductZ(ResultPoint pointA, ResultPoint pointB, ResultPoint pointC)
         {
             float bX = pointB.X;
             float bY = pointB.Y;

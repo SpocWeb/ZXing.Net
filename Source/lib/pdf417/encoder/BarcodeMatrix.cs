@@ -87,7 +87,10 @@ namespace ZXing.PDF417.Internal
         {
             sbyte[][] matrixOut = new sbyte[height * yScale][];
             for (int idx = 0; idx < height * yScale; idx++)
+            {
                 matrixOut[idx] = new sbyte[width * xScale];
+            }
+
             int yMax = height * yScale;
             for (int ii = 0; ii < yMax; ii++)
             {

@@ -25,7 +25,8 @@ namespace ZXing.Multi.QrCode.Test
    public sealed class GenericMultipleBarcodeReaderTestCase : AbstractBlackBoxTestCase
    {
       public GenericMultipleBarcodeReaderTestCase()
-         : base("test/data/blackbox/multi-qrcode-1", new GenericMultipleBarcodeReader(new QRCodeReader()), BarcodeFormat.QR_CODE)
+         : base("test/data/blackbox/multi-qrcode-1", new GenericMultipleBarcodeReader(
+             new QrCodeReader()), BarcodeFormat.QR_CODE)
       {
          addTest(1, 1, 0.0f);
          addTest(1, 1, 90.0f);

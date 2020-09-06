@@ -166,8 +166,10 @@ namespace ZXing.Common.Test
             if (File.Exists(expectedMetadataFile))
             {
                foreach (var row in File.ReadLines(expectedMetadataFile))
-                  expectedMetadata.Add(row.Split('=')[0], string.Join("=", row.Split('=').Skip(1).ToArray()));
-            }
+                    {
+                        expectedMetadata.Add(row.Split('=')[0], string.Join("=", row.Split('=').Skip(1).ToArray()));
+                    }
+                }
 
             for (int x = 0; x < testCount; x++)
             {

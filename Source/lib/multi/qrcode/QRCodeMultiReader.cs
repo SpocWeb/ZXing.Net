@@ -27,7 +27,7 @@ namespace ZXing.Multi.QrCode
     /// <summary>
     /// This implementation can detect and decode multiple QR Codes in an image.
     /// </summary>
-    public sealed class QRCodeMultiReader : QRCodeReader, IMultipleBarcodeReader
+    public sealed class QRCodeMultiReader : QrCodeReader, IMultipleBarcodeReader
     {
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
@@ -60,7 +60,7 @@ namespace ZXing.Multi.QrCode
             var results = new List<BarCodeText>();
             foreach (var detectorResult in detectorResults)
             {
-                var decoderResult = getDecoder().decode(detectorResult.Bits, hints);
+                var decoderResult = Decoder.decode(detectorResult.Bits, hints);
 
                 if (decoderResult == null) {
                     continue;
@@ -69,28 +69,28 @@ namespace ZXing.Multi.QrCode
                 var points = detectorResult.Points;
 
                 // If the code was mirrored: swap the bottom-left and the top-right points.
-                if (decoderResult.Other is QRCodeDecoderMetaData data)
+                if (decoderResult.Other is QrCodeDecoderMetaData data)
                 {
-                    data.applyMirroredCorrection(points);
+                    points = data.ApplyMirroredCorrection(points);
                 }
 
                 var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
                 var byteSegments = decoderResult.ByteSegments;
                 if (byteSegments != null)
                 {
-                    result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
+                    result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
                 }
 
                 var ecLevel = decoderResult.ECLevel;
                 if (ecLevel != null)
                 {
-                    result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+                    result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
                 }
 
                 if (decoderResult.StructuredAppend)
                 {
-                    result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
-                    result.putMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
+                    result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, decoderResult.StructuredAppendSequenceNumber);
+                    result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
                 }
 
                 results.Add(result);
@@ -156,7 +156,7 @@ namespace ZXing.Multi.QrCode
                     {
                         newByteSegment.ToArray()
                     };
-                    newResult.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegmentList);
+                    newResult.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegmentList);
                 }
                 newResults.Add(newResult);
             }

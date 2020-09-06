@@ -51,7 +51,7 @@ namespace ZXing.OneD
                            BarcodeFormat.UPC_EAN_EXTENSION);
             if (extensionData != null)
             {
-                extensionResult.putAllMetadata(extensionData);
+                extensionResult.PutAllMetadata(extensionData);
             }
             return extensionResult;
         }

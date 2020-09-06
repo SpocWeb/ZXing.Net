@@ -190,7 +190,7 @@ namespace ZXing.PDF417.Test
 
       private static PDF417ResultMetadata getMeta(BarCodeText result)
       {
-         return result.ResultMetadata == null ? null : (PDF417ResultMetadata) result.ResultMetadata[ResultMetadataType.PDF417_EXTRA_METADATA];
+         return (PDF417ResultMetadata) result.ResultMetadata?[ResultMetadataType.PDF417_EXTRA_METADATA];
       }
 
       private BarCodeText[] decode(BinaryBitmap source, bool tryHarder)

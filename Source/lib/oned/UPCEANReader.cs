@@ -106,7 +106,10 @@ namespace ZXing.OneD
             while (!foundStart)
             {
                 for (int idx = 0; idx < START_END_PATTERN.Length; idx++)
+                {
                     counters[idx] = 0;
+                }
+
                 startRange = FindGuardPattern(row, nextStart, false, START_END_PATTERN, counters);
                 if (startRange == null) {
                     return null;
@@ -218,9 +221,9 @@ namespace ZXing.OneD
             var extensionResult = extensionReader.decodeRow(rowNumber, row, endRange[1]);
             if (extensionResult != null)
             {
-                decodeResult.putMetadata(ResultMetadataType.UPC_EAN_EXTENSION, extensionResult.Text);
-                decodeResult.putAllMetadata(extensionResult.ResultMetadata);
-                decodeResult.addResultPoints(extensionResult.ResultPoints);
+                decodeResult.PutMetadata(ResultMetadataType.UPC_EAN_EXTENSION, extensionResult.Text);
+                decodeResult.PutAllMetadata(extensionResult.ResultMetadata);
+                decodeResult.AddResultPoints(extensionResult.ResultPoints);
                 int extensionLength = extensionResult.Text.Length;
                 int[] allowedExtensions = hints != null && hints.ContainsKey(DecodeHintType.ALLOWED_EAN_EXTENSIONS) ?
                    (int[])hints[DecodeHintType.ALLOWED_EAN_EXTENSIONS] : null;
@@ -247,7 +250,7 @@ namespace ZXing.OneD
                 string countryId = eanManSupport.lookupCountryIdentifier(resultString);
                 if (countryId != null)
                 {
-                    decodeResult.putMetadata(ResultMetadataType.POSSIBLE_COUNTRY, countryId);
+                    decodeResult.PutMetadata(ResultMetadataType.POSSIBLE_COUNTRY, countryId);
                 }
             }
 

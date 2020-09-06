@@ -152,7 +152,7 @@ namespace ZXing.QrCode.Internal
             return new DecoderResult(bytes,
                                      result.ToString(),
                                      byteSegments.Count == 0 ? null : byteSegments,
-                                     ecLevel == null ? null : ecLevel.ToString(),
+                                     ecLevel?.ToString(),
                                      symbolSequence, parityData);
         }
 

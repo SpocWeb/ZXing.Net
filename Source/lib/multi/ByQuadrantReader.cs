@@ -117,17 +117,16 @@ namespace ZXing.Multi
             @delegate.Reset();
         }
 
-        private static void makeAbsolute(ResultPoint[] points, int leftOffset, int topOffset)
-        {
-            if (points != null)
+        private static void makeAbsolute(IList<ResultPoint> points, int leftOffset, int topOffset) {
+            if (points == null) {
+                return;
+            }
+            for (int i = 0; i < points.Count; i++)
             {
-                for (int i = 0; i < points.Length; i++)
+                ResultPoint relative = points[i];
+                if (relative != null)
                 {
-                    ResultPoint relative = points[i];
-                    if (relative != null)
-                    {
-                        points[i] = new ResultPoint(relative.X + leftOffset, relative.Y + topOffset);
-                    }
+                    points[i] = new ResultPoint(relative.X + leftOffset, relative.Y + topOffset);
                 }
             }
         }

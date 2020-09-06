@@ -87,7 +87,9 @@ namespace ZXing.OneD
         public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
             for (var index = 0; index < counters.Length; index++)
+            {
                 counters[index] = 0;
+            }
 
             if (!setCounters(row)) {
                 return null;

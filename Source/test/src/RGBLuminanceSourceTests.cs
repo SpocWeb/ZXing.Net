@@ -41,13 +41,17 @@ namespace ZXing.Test
          using (var stream = File.OpenRead(samplePicRelResultPath))
          using (var deflateStream = new GZipStream(stream, CompressionMode.Decompress, true))
          using (var reader = new StreamReader(deflateStream))
-            samplePicRelResult = reader.ReadToEnd();
+            {
+                samplePicRelResult = reader.ReadToEnd();
+            }
 
-         using (var stream = File.OpenRead(cropSamplePicRelResultPath))
+            using (var stream = File.OpenRead(cropSamplePicRelResultPath))
          using (var deflateStream = new GZipStream(stream, CompressionMode.Decompress, true))
          using (var reader = new StreamReader(deflateStream))
-            cropSamplePicRelResult = reader.ReadToEnd();
-      }
+            {
+                cropSamplePicRelResult = reader.ReadToEnd();
+            }
+        }
 
       private static readonly RGBLuminanceSource SOURCE = new RGBLuminanceSource(new byte[]
       {

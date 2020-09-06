@@ -66,8 +66,7 @@ namespace ZXing.Client.Result
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            var other = obj as ParsedResult;
-            if (other == null) {
+            if (!(obj is ParsedResult other)) {
                 return false;
             }
             return other.Type.Equals(Type) && other.DisplayResult.Equals(DisplayResult);

@@ -105,7 +105,7 @@ namespace ZXing.Common
         /// <param name="saSequence"></param>
         /// <param name="saParity"></param>
         public DecoderResult(byte[] rawBytes, string text, IList<byte[]> byteSegments, string ecLevel, int saSequence, int saParity)
-           : this(rawBytes, rawBytes == null ? 0 : 8 * rawBytes.Length, text, byteSegments, ecLevel, saSequence, saParity)
+           : this(rawBytes, 8 * rawBytes?.Length ?? 0, text, byteSegments, ecLevel, saSequence, saParity)
         {
         }
 

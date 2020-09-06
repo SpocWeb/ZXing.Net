@@ -134,7 +134,9 @@ namespace BigIntegerLibrary
             sign = n.sign;
 
             for (int i = 0; i < n.size; i++)
+            {
                 digits[i] = n.digits[i];
+            }
         }
 
         /// <summary>
@@ -169,7 +171,9 @@ namespace BigIntegerLibrary
             digits = new DigitContainer();
             size = number.size;
             for (i = 0; i < number.size; i++)
+            {
                 digits[i] = number.digits[i];
+            }
         }
 
         /// <summary>
@@ -228,8 +232,10 @@ namespace BigIntegerLibrary
 
             int i;
             for (i = 0; i < size; i++)
+            {
                 digits[i] = (long)(info.GetValue(string.Format("{0}{1}", "d_", i.ToString()),
                                                  typeof(ushort)));
+            }
         }
 #endif
 
@@ -258,7 +264,9 @@ namespace BigIntegerLibrary
             info.AddValue("size", (short)size);
 
             for (int i = 0; i < size; i++)
+            {
                 info.AddValue(string.Format("{0}{1}", "d_", i.ToString()), (ushort)digits[i]);
+            }
         }
 #endif
 
@@ -278,9 +286,11 @@ namespace BigIntegerLibrary
             }
 
             for (int i = 0; i < size; i++)
+            {
                 if (digits[i] != other.digits[i]) {
                     return false;
                 }
+            }
 
             return true;
         }
@@ -309,7 +319,9 @@ namespace BigIntegerLibrary
             int result = 0;
 
             for (int i = 0; i < size; i++)
+            {
                 result = result + (int)digits[i];
+            }
 
             return result;
         }
@@ -438,11 +450,13 @@ namespace BigIntegerLibrary
                         return false;
                     }
                     for (int i = (a.size) - 1; i >= 0; i--)
+                    {
                         if (a.digits[i] > b.digits[i]) {
                             return true;
                         } else if (a.digits[i] < b.digits[i]) {
                             return false;
                         }
+                    }
                 }
 
                 else
@@ -454,11 +468,13 @@ namespace BigIntegerLibrary
                         return false;
                     }
                     for (int i = (a.size) - 1; i >= 0; i--)
+                    {
                         if (a.digits[i] < b.digits[i]) {
                             return true;
                         } else if (a.digits[i] > b.digits[i]) {
                             return false;
                         }
+                    }
                 }
             }
 
@@ -1260,15 +1276,21 @@ namespace BigIntegerLibrary
             BigInteger res = new BigInteger();
             res.size = a.size + b.size - 1;
             for (i = 0; i < res.size + 1; i++)
+            {
                 res.digits[i] = 0;
+            }
 
             for (i = 0; i < a.size; i++)
+            {
                 if (a.digits[i] != 0) {
                     for (j = 0; j < b.size; j++)
+                    {
                         if (b.digits[j] != 0) {
                             res.digits[i + j] += a.digits[i] * b.digits[j];
                         }
+                    }
                 }
+            }
 
             for (i = 0; i < res.size; i++)
             {
@@ -1432,7 +1454,7 @@ namespace BigIntegerLibrary
                 {
                     var chunkIndex = index >> ChunkSizeDivisionShift;
                     var chunk = digits[chunkIndex];
-                    return chunk == null ? 0 : chunk[index % ChunkSize];
+                    return chunk?[index % ChunkSize] ?? 0;
                 }
                 set
                 {

@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Maxicode.Internal;
+using ZXing.QrCode;
 
 namespace ZXing.Maxicode
 {
@@ -72,7 +73,7 @@ namespace ZXing.Maxicode
             var ecLevel = decoderResult.ECLevel;
             if (ecLevel != null)
             {
-                result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
             }
             return result;
         }
@@ -91,7 +92,7 @@ namespace ZXing.Maxicode
         /// case.
         ///
         /// <seealso cref="ZXing.Datamatrix.DataMatrixReader.extractPureBits(BitMatrix)" />
-        /// <seealso cref="ZXing.QrCode.QRCodeReader.extractPureBits(BitMatrix)" />
+        /// <sQrCodeReader.ExtractPureBitsts(BitMatrix)" />
         /// </summary>
         private static BitMatrix extractPureBits(BitMatrix image)
         {

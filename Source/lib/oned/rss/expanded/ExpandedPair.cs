@@ -71,7 +71,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         private static bool EqualsOrNull(object o1, object o2)
         {
-            return o1 == null ? o2 == null : o1.Equals(o2);
+            return o1?.Equals(o2) ?? o2 == null;
         }
 
         public override int GetHashCode()
@@ -81,7 +81,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         private static int hashNotNull(object o)
         {
-            return o == null ? 0 : o.GetHashCode();
+            return o?.GetHashCode() ?? 0;
         }
     }
 }

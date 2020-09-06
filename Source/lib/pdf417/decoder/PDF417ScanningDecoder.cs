@@ -242,7 +242,7 @@ namespace ZXing.PDF417.Internal
             if (leftRowIndicatorColumn == null ||
                 (leftBarcodeMetadata = leftRowIndicatorColumn.getBarcodeMetadata()) == null)
             {
-                return rightRowIndicatorColumn == null ? null : rightRowIndicatorColumn.getBarcodeMetadata();
+                return rightRowIndicatorColumn?.getBarcodeMetadata();
             }
             BarcodeMetadata rightBarcodeMetadata;
             if (rightRowIndicatorColumn == null ||

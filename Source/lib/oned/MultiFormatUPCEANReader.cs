@@ -120,7 +120,7 @@ namespace ZXing.OneD
                                                    result.RawBytes,
                                                    result.ResultPoints,
                                                    BarcodeFormat.UPC_A);
-                    resultUPCA.putAllMetadata(result.ResultMetadata);
+                    resultUPCA.PutAllMetadata(result.ResultMetadata);
                     return resultUPCA;
                 }
                 return result;

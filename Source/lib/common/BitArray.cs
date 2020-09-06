@@ -408,8 +408,7 @@ namespace ZXing.Common
         /// </returns>
         public override bool Equals(object o)
         {
-            var other = o as BitArray;
-            if (other == null) {
+            if (!(o is BitArray other)) {
                 return false;
             }
             if (Size != other.Size) {

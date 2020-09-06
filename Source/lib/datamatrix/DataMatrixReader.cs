@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Datamatrix.Internal;
+using ZXing.QrCode;
 
 namespace ZXing.Datamatrix
 {
@@ -79,12 +80,12 @@ namespace ZXing.Datamatrix
             IList<byte[]> byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)
             {
-                result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
+                result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
             }
             var ecLevel = decoderResult.ECLevel;
             if (ecLevel != null)
             {
-                result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
             }
             return result;
         }
@@ -103,7 +104,7 @@ namespace ZXing.Datamatrix
         /// around it. This is a specialized method that works exceptionally fast in this special
         /// case.
         ///
-        /// <seealso cref="ZXing.QrCode.QRCodeReader.extractPureBits(BitMatrix)" />
+        /// <sQrCodeReader.ExtractPureBitsts(BitMatrix)" />
         /// </summary>
         private static BitMatrix extractPureBits(BitMatrix image)
         {

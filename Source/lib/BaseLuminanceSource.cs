@@ -93,7 +93,10 @@ namespace ZXing
                 row = new byte[width];
             }
             for (int i = 0; i < width; i++)
+            {
                 row[i] = luminances[y * width + i];
+            }
+
             return row;
         }
 

@@ -98,7 +98,7 @@ namespace ZXing.OneD
                 var upcaResult = new BarCodeText(text.Substring(1), null, result.ResultPoints, BarcodeFormat.UPC_A);
                 if (result.ResultMetadata != null)
                 {
-                    upcaResult.putAllMetadata(result.ResultMetadata);
+                    upcaResult.PutAllMetadata(result.ResultMetadata);
                 }
                 return upcaResult;
             }

@@ -104,7 +104,7 @@ namespace ZXing.QrCode.Internal
                 if (result != null)
                 {
                     // Success! Notify the caller that the code was mirrored.
-                    result.Other = new QRCodeDecoderMetaData(true);
+                    result.Other = new QrCodeDecoderMetaData(true);
                 }
             }
 

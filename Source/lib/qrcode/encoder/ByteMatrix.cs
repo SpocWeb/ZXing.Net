@@ -36,7 +36,10 @@ namespace ZXing.QrCode.Internal
         {
             Array = new byte[height][];
             for (var i = 0; i < height; i++)
+            {
                 Array[i] = new byte[width];
+            }
+
             this.Width = width;
             this.Height = height;
         }

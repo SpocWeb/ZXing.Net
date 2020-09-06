@@ -100,15 +100,15 @@ namespace ZXing.Aztec
             IList<byte[]> byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)
             {
-                result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
+                result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
             }
             var ecLevel = decoderResult.ECLevel;
             if (ecLevel != null)
             {
-                result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
             }
 
-            result.putMetadata(ResultMetadataType.AZTEC_EXTRA_METADATA,
+            result.PutMetadata(ResultMetadataType.AZTEC_EXTRA_METADATA,
                                new AztecResultMetadata(detectorResult.Compact, detectorResult.NbDatablocks, detectorResult.NbLayers));
 
             return result;

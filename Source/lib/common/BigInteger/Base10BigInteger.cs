@@ -124,7 +124,9 @@ namespace BigIntegerLibrary
             sign = n.sign;
 
             for (int i = 0; i < n.size; i++)
+            {
                 digits[i] = n.digits[i];
+            }
         }
 
 
@@ -150,9 +152,11 @@ namespace BigIntegerLibrary
             }
 
             for (int i = 0; i < size; i++)
+            {
                 if (digits[i] != other.digits[i]) {
                     return false;
                 }
+            }
 
             return true;
         }
@@ -181,7 +185,9 @@ namespace BigIntegerLibrary
             int result = 0;
 
             for (int i = 0; i < size; i++)
+            {
                 result = result + (int)digits[i];
+            }
 
             return result;
         }
@@ -205,7 +211,9 @@ namespace BigIntegerLibrary
             }
 
             for (int i = size - 1; i >= 0; i--)
+            {
                 output.Append(digits[i]);
+            }
 
             return output.ToString();
         }
@@ -261,11 +269,13 @@ namespace BigIntegerLibrary
                         return false;
                     }
                     for (int i = (a.size) - 1; i >= 0; i--)
+                    {
                         if (a.digits[i] > b.digits[i]) {
                             return true;
                         } else if (a.digits[i] < b.digits[i]) {
                             return false;
                         }
+                    }
                 }
 
                 else
@@ -277,11 +287,13 @@ namespace BigIntegerLibrary
                         return false;
                     }
                     for (int i = (a.size) - 1; i >= 0; i--)
+                    {
                         if (a.digits[i] < b.digits[i]) {
                             return true;
                         } else if (a.digits[i] > b.digits[i]) {
                             return false;
                         }
+                    }
                 }
             }
 
@@ -730,15 +742,21 @@ namespace BigIntegerLibrary
             Base10BigInteger res = new Base10BigInteger();
             res.size = a.size + b.size - 1;
             for (i = 0; i < res.size + 1; i++)
+            {
                 res.digits[i] = 0;
+            }
 
             for (i = 0; i < a.size; i++)
+            {
                 if (a.digits[i] != 0) {
                     for (j = 0; j < b.size; j++)
+                    {
                         if (b.digits[j] != 0) {
                             res.digits[i + j] += a.digits[i] * b.digits[j];
                         }
+                    }
                 }
+            }
 
             for (i = 0; i < res.size; i++)
             {
@@ -780,7 +798,7 @@ namespace BigIntegerLibrary
                 {
                     var chunkIndex = index >> ChunkSizeDivisionShift;
                     var chunk = digits[chunkIndex];
-                    return chunk == null ? 0 : chunk[index % ChunkSize];
+                    return chunk?[index % ChunkSize] ?? 0;
                 }
                 set
                 {

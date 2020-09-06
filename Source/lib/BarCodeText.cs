@@ -127,7 +127,7 @@ namespace ZXing
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="value">The value.</param>
-        public void putMetadata(ResultMetadataType type, object value)
+        public void PutMetadata(ResultMetadataType type, object value)
         {
             if (ResultMetadata == null)
             {
@@ -138,7 +138,7 @@ namespace ZXing
 
         /// <summary> Adds a list of metadata to the result </summary>
         /// <param name="metadata">The metadata.</param>
-        public void putAllMetadata(IDictionary<ResultMetadataType, object> metadata)
+        public void PutAllMetadata(IDictionary<ResultMetadataType, object> metadata)
         {
             if (metadata != null)
             {
@@ -149,13 +149,15 @@ namespace ZXing
                 else
                 {
                     foreach (var entry in metadata)
+                    {
                         ResultMetadata[entry.Key] = entry.Value;
+                    }
                 }
             }
         }
 
         /// <summary> Adds the result points. </summary>
-        public void addResultPoints(params ResultPoint[] newPoints)
+        public void AddResultPoints(params ResultPoint[] newPoints)
         {
             var oldPoints = ResultPoints;
             if (oldPoints == null)

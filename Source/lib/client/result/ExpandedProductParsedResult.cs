@@ -132,7 +132,7 @@ namespace ZXing.Client.Result
 
         private static bool equalsOrNull(object o1, object o2)
         {
-            return o1 == null ? o2 == null : o1.Equals(o2);
+            return o1?.Equals(o2) ?? o2 == null;
         }
 
         private static bool equalsOrNull(IDictionary<string, string> o1, IDictionary<string, string> o2)
@@ -180,7 +180,7 @@ namespace ZXing.Client.Result
 
         private static int hashNotNull(object o)
         {
-            return o == null ? 0 : o.GetHashCode();
+            return o?.GetHashCode() ?? 0;
         }
 
         /// <summary>

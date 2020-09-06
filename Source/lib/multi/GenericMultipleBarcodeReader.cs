@@ -184,7 +184,7 @@ namespace ZXing.Multi
                 }
             }
             var newResult = new BarCodeText(result.Text, result.RawBytes, result.NumBits, newResultPoints, result.BarcodeFormat);
-            newResult.putAllMetadata(result.ResultMetadata);
+            newResult.PutAllMetadata(result.ResultMetadata);
             return newResult;
         }
 

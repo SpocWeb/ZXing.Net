@@ -181,8 +181,7 @@ namespace ZXing.QrCode
 
       public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
       {
-         var level = value as ErrorCorrectionLevel;
-         if (level != null)
+          if (value is ErrorCorrectionLevel level)
          {
             return level.Name;
          }
@@ -210,8 +209,7 @@ namespace ZXing.QrCode
          if (value == null) {
              return null;
          }
-         var level = value as ErrorCorrectionLevel;
-         if (level != null)
+         if (value is ErrorCorrectionLevel level)
          {
             return level.Name;
          } 

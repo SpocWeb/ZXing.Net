@@ -270,7 +270,10 @@ namespace ZXing.PDF417
         {
             sbyte[][] temp = new sbyte[bitarray[0].Length][];
             for (int idx = 0; idx < bitarray[0].Length; idx++)
+            {
                 temp[idx] = new sbyte[bitarray.Length];
+            }
+
             for (int ii = 0; ii < bitarray.Length; ii++)
             {
                 // This makes the direction consistent on screen when rotating the

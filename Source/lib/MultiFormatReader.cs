@@ -129,7 +129,7 @@ namespace ZXing
                     }
                     if (formats.Contains(BarcodeFormat.QR_CODE))
                     {
-                        readers.Add(new QRCodeReader());
+                        readers.Add(new QrCodeReader());
                     }
                     if (formats.Contains(BarcodeFormat.DATA_MATRIX))
                     {
@@ -167,7 +167,7 @@ namespace ZXing
                     {
                         readers.Add(new MultiFormatOneDReader(value));
                     }
-                    readers.Add(new QRCodeReader());
+                    readers.Add(new QrCodeReader());
                     readers.Add(new DataMatrixReader());
                     readers.Add(new AztecReader());
                     readers.Add(new PDF417Reader());
