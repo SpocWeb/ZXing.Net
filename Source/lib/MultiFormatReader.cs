@@ -36,8 +36,9 @@ namespace ZXing
     /// </remarks>
     public sealed class MultiFormatReader : IBarCodeDecoder
     {
-        private IDictionary<DecodeHintType, object> hints;
-        private IList<IBarCodeDecoder> readers;
+
+        IDictionary<DecodeHintType, object> hints;
+        IList<IBarCodeDecoder> readers;
 
         /// <summary> This version of decode honors the intent of Reader.decode(BinaryBitmap) in that it
         /// passes null as a hint to the decoders. However, that makes it inefficient to call repeatedly.
@@ -195,7 +196,7 @@ namespace ZXing
             }
         }
 
-        private BarCodeText decodeInternal(BinaryBitmap image)
+        BarCodeText decodeInternal(BinaryBitmap image)
         {
             if (readers != null)
             {

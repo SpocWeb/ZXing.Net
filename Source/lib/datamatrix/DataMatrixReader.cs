@@ -29,9 +29,10 @@ namespace ZXing.Datamatrix
     /// </summary>
     public sealed class DataMatrixReader : IBarCodeDecoder
     {
-        private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
-        private readonly Decoder decoder = new Decoder();
+        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
+
+        readonly Decoder decoder = new Decoder();
 
         /// <summary>
         /// Locates and decodes a Data Matrix code in an image.
@@ -107,7 +108,7 @@ namespace ZXing.Datamatrix
         ///
         /// <sQrCodeReader.ExtractPureBitsts(BitMatrix)" />
         /// </summary>
-        private static BitMatrix extractPureBits(BitMatrix image)
+        static BitMatrix extractPureBits(BitMatrix image)
         {
             int[] leftTopBlack = image.getTopLeftOnBit();
             int[] rightBottomBlack = image.getBottomRightOnBit();
@@ -155,7 +156,7 @@ namespace ZXing.Datamatrix
             return bits;
         }
 
-        private static bool moduleSize(int[] leftTopBlack, BitMatrix image, out int modulesize)
+        static bool moduleSize(int[] leftTopBlack, BitMatrix image, out int modulesize)
         {
             int width = image.Width;
             int x = leftTopBlack[0];

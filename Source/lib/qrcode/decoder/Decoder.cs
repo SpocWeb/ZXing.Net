@@ -29,7 +29,8 @@ namespace ZXing.QrCode.Internal
     /// </author>
     public sealed class Decoder
     {
-        private readonly ReedSolomonDecoder rsDecoder;
+
+        readonly ReedSolomonDecoder rsDecoder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Decoder"/> class.
@@ -111,7 +112,7 @@ namespace ZXing.QrCode.Internal
             return result;
         }
 
-        private DecoderResult decode(BitMatrixParser parser, IDictionary<DecodeHintType, object> hints)
+        DecoderResult decode(BitMatrixParser parser, IDictionary<DecodeHintType, object> hints)
         {
             Version version = parser.ReadVersion();
             if (version == null) {
@@ -161,7 +162,7 @@ namespace ZXing.QrCode.Internal
         /// <summary> attempts to correct the errors in-place using Reed-Solomon error correction. </summary>
         /// <param name="codewordBytes">data and error correction codewords</param>
         /// <param name="numDataCodewords">number of codewords that are data bytes</param>
-        private bool correctErrors(byte[] codewordBytes, int numDataCodewords)
+        bool correctErrors(byte[] codewordBytes, int numDataCodewords)
         {
             int numCodewords = codewordBytes.Length;
             // First read into an array of ints

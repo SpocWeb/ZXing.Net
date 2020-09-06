@@ -117,7 +117,7 @@ namespace ZXing.PDF417
         /// <returns>The max width.</returns>
         /// <param name="p1">P1.</param>
         /// <param name="p2">P2.</param>
-        private static int GetMaxWidth(this ResultPoint p1, ResultPoint p2)
+        static int GetMaxWidth(this ResultPoint p1, ResultPoint p2)
         {
             if (p1 == null || p2 == null)
             {
@@ -132,7 +132,7 @@ namespace ZXing.PDF417
         /// <returns>The minimum width.</returns>
         /// <param name="p1">P1.</param>
         /// <param name="p2">P2.</param>
-        private static int GetMinWidth(this ResultPoint p1, ResultPoint p2)
+        static int GetMinWidth(this ResultPoint p1, ResultPoint p2)
         {
             if (p1 == null || p2 == null)
             {
@@ -146,7 +146,7 @@ namespace ZXing.PDF417
         /// </summary>
         /// <returns>The max codeword width.</returns>
         /// <param name="p">P.</param>
-        private static int GetMaxCodewordWidth(this IReadOnlyList<ResultPoint> p) => Math.Max(
+        static int GetMaxCodewordWidth(this IReadOnlyList<ResultPoint> p) => Math.Max(
             Math.Max(GetMaxWidth(p[0], p[4]), GetMaxWidth(p[6], p[2]) * PDF417Common.MODULES_IN_CODEWORD /
                 PDF417Common.MODULES_IN_STOP_PATTERN),
             Math.Max(GetMaxWidth(p[1], p[5]), GetMaxWidth(p[7], p[3]) * PDF417Common.MODULES_IN_CODEWORD /
@@ -157,7 +157,7 @@ namespace ZXing.PDF417
         /// </summary>
         /// <returns>The minimum codeword width.</returns>
         /// <param name="p">P.</param>
-        private static int GetMinCodewordWidth(this IReadOnlyList<ResultPoint> p) => Math.Min(
+        static int GetMinCodewordWidth(this IReadOnlyList<ResultPoint> p) => Math.Min(
             Math.Min(GetMinWidth(p[0], p[4]), GetMinWidth(p[6], p[2]) * PDF417Common.MODULES_IN_CODEWORD /
                 PDF417Common.MODULES_IN_STOP_PATTERN),
             Math.Min(GetMinWidth(p[1], p[5]), GetMinWidth(p[7], p[3]) * PDF417Common.MODULES_IN_CODEWORD /

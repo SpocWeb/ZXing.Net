@@ -38,8 +38,9 @@ namespace ZXing.Multi
     /// </remarks>
     public sealed class GenericMultipleBarcodeReader : IMultipleBarcodeReader, IBarCodeDecoder
     {
-        private const int MIN_DIMENSION_TO_RECUR = 30;
-        private const int MAX_DEPTH = 4;
+
+        const int MIN_DIMENSION_TO_RECUR = 30;
+        const int MAX_DEPTH = 4;
 
         public readonly IBarCodeDecoder Decoder;
 
@@ -81,7 +82,7 @@ namespace ZXing.Multi
             return resultArray;
         }
 
-        private void DoDecodeRecursively(BinaryBitmap image
+        void DoDecodeRecursively(BinaryBitmap image
             , IDictionary<DecodeHintType, object> hints
             , IList<BarCodeText> results
             , int xOffset, int yOffset, int currentDepth)
@@ -171,7 +172,7 @@ namespace ZXing.Multi
             }
         }
 
-        private static BarCodeText TranslateResultPoints(BarCodeText result, int xOffset, int yOffset)
+        static BarCodeText TranslateResultPoints(BarCodeText result, int xOffset, int yOffset)
         {
             var oldResultPoints = result.ResultPoints;
             var newResultPoints = new ResultPoint[oldResultPoints.Length];

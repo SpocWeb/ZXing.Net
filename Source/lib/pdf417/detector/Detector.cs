@@ -30,41 +30,42 @@ namespace ZXing.PDF417.Internal
     /// </summary>
     public sealed class Detector
     {
-        private static readonly int[] INDEXES_START_PATTERN = { 0, 4, 1, 5 };
-        private static readonly int[] INDEXES_STOP_PATTERN = { 6, 2, 7, 3 };
-        private const int INTEGER_MATH_SHIFT = 8;
-        private const int PATTERN_MATCH_RESULT_SCALE_FACTOR = 1 << INTEGER_MATH_SHIFT;
-        private const int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.42f);
-        private const int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.8f);
+
+        static readonly int[] INDEXES_START_PATTERN = { 0, 4, 1, 5 };
+        static readonly int[] INDEXES_STOP_PATTERN = { 6, 2, 7, 3 };
+        const int INTEGER_MATH_SHIFT = 8;
+        const int PATTERN_MATCH_RESULT_SCALE_FACTOR = 1 << INTEGER_MATH_SHIFT;
+        const int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.42f);
+        const int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.8f);
 
 
         /// <summary>
         /// B S B S B S B S Bar/Space pattern
         /// 11111111 0 1 0 1 0 1 000.
         /// </summary>
-        private static readonly int[] START_PATTERN = { 8, 1, 1, 1, 1, 1, 1, 3 };
+        static readonly int[] START_PATTERN = { 8, 1, 1, 1, 1, 1, 1, 3 };
 
         /// <summary>
         /// 1111111 0 1 000 1 0 1 00 1
         /// </summary>
-        private static readonly int[] STOP_PATTERN = { 7, 1, 1, 3, 1, 1, 1, 2, 1 };
+        static readonly int[] STOP_PATTERN = { 7, 1, 1, 3, 1, 1, 1, 2, 1 };
 
-        private const int MAX_PIXEL_DRIFT = 3;
-        private const int MAX_PATTERN_DRIFT = 5;
+        const int MAX_PIXEL_DRIFT = 3;
+        const int MAX_PATTERN_DRIFT = 5;
 
         /// <summary>
         /// if we set the value too low, then we don't detect the correct height of the bar if the start patterns are damaged.
         /// if we set the value too high, then we might detect the start pattern from a neighbor barcode.
         /// </summary>
-        private const int SKIPPED_ROW_COUNT_MAX = 25;
+        const int SKIPPED_ROW_COUNT_MAX = 25;
 
         /// <summary>
         /// A PDF471 barcode should have at least 3 rows, with each row being >= 3 times the module width. Therefore it should be at least
         /// 9 pixels tall. To be conservative, we use about half the size to ensure we don't miss it.
         /// </summary>
-        private const int ROW_STEP = 5;
+        const int ROW_STEP = 5;
 
-        private const int BARCODE_MIN_HEIGHT = 10;
+        const int BARCODE_MIN_HEIGHT = 10;
 
         /// <summary>
         ///   <p>Detects a PDF417 Code in an image. Only checks 0 and 180 degree rotations.</p>
@@ -104,7 +105,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="bitMatrix">bit matrix to detect barcodes in.</param>
         /// <param name="multiple">multiple if true, then the image is searched for multiple codes. If false, then at most one code will be found and returned.</param>
         /// <returns>List of ResultPoint arrays containing the coordinates of found barcodes</returns>
-        private static List<ResultPoint[]> Detect(BitMatrix bitMatrix, bool multiple)
+        static List<ResultPoint[]> Detect(BitMatrix bitMatrix, bool multiple)
         {
             List<ResultPoint[]> barcodeCoordinates = new List<ResultPoint[]>();
             int row = 0;
@@ -177,7 +178,7 @@ namespace ZXing.PDF417.Internal
         ///           vertices[6] x, y top right codeword area
         ///           vertices[7] x, y bottom right codeword area
         /// </returns>
-        private static ResultPoint[] FindVertices(BitMatrix matrix, int startRow, int startColumn)
+        static ResultPoint[] FindVertices(BitMatrix matrix, int startRow, int startColumn)
         {
             int height = matrix.Height;
             int width = matrix.Width;
@@ -202,7 +203,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="result">Result.</param>
         /// <param name="tmpResult">Temp result.</param>
         /// <param name="destinationIndexes">Destination indexes.</param>
-        private static void CopyToResult(ResultPoint[] result, ResultPoint[] tmpResult, int[] destinationIndexes)
+        static void CopyToResult(ResultPoint[] result, ResultPoint[] tmpResult, int[] destinationIndexes)
         {
             for (int i = 0; i < destinationIndexes.Length; i++)
             {
@@ -220,7 +221,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startRow">Start row.</param>
         /// <param name="startColumn">Start column.</param>
         /// <param name="pattern">Pattern.</param>
-        private static ResultPoint[] FindRowsWithPattern(
+        static ResultPoint[] FindRowsWithPattern(
            BitMatrix matrix,
            int height,
            int width,
@@ -308,7 +309,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="whiteFirst">If set to <c>true</c> search the white patterns first.</param>
         /// <param name="pattern">pattern of counts of number of black and white pixels that are being searched for as a pattern.</param>
         /// <param name="counters">counters array of counters, as long as pattern, to re-use .</param>
-        private static int[] FindGuardPattern(
+        static int[] FindGuardPattern(
            BitMatrix matrix,
            int column,
            int row,
@@ -382,7 +383,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="counters">observed counters.</param>
         /// <param name="pattern">expected pattern.</param>
         /// <param name="maxIndividualVariance">The most any counter can differ before we give up.</param>
-        private static int PatternMatchVariance(int[] counters, int[] pattern, int maxIndividualVariance)
+        static int PatternMatchVariance(int[] counters, int[] pattern, int maxIndividualVariance)
         {
             int numCounters = counters.Length;
             int total = 0;

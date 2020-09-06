@@ -26,9 +26,10 @@ namespace ZXing.QrCode
     /// <author>Sean Owen</author>
     public class QrCodeReader : IBarCodeDecoder
     {
-        private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
-        private readonly Decoder decoder = new Decoder();
+        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
+
+        readonly Decoder decoder = new Decoder();
 
         protected Decoder Decoder => decoder;
 
@@ -122,7 +123,7 @@ namespace ZXing.QrCode
         /// 
         /// <seealso cref="ZXing.Datamatrix.DataMatrixReader.extractPureBits(BitMatrix)" />
         /// </summary>
-        private static BitMatrix ExtractPureBits(BitMatrix image)
+        static BitMatrix ExtractPureBits(BitMatrix image)
         {
             int[] leftTopBlack = image.getTopLeftOnBit();
             int[] rightBottomBlack = image.getBottomRightOnBit();
@@ -218,7 +219,7 @@ namespace ZXing.QrCode
             return bits;
         }
 
-        private static bool ModuleSize(int[] leftTopBlack, BitMatrix image, out float msize)
+        static bool ModuleSize(int[] leftTopBlack, BitMatrix image, out float msize)
         {
             int height = image.Height;
             int width = image.Width;

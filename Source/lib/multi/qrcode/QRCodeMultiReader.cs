@@ -30,7 +30,8 @@ namespace ZXing.Multi.QrCode
     /// </summary>
     public sealed class QRCodeMultiReader : QrCodeReader, IMultipleBarcodeReader
     {
-        private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
+
+        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
         /// <summary> Decodes multiple QR Codes </summary>
         public BarCodeText[] DecodeMultiple(LuminanceGridSampler image
@@ -169,7 +170,7 @@ namespace ZXing.Multi.QrCode
             return newResults;
         }
 
-        private static int SaSequenceSort(BarCodeText a, BarCodeText b)
+        static int SaSequenceSort(BarCodeText a, BarCodeText b)
         {
             var aNumber = (int) a.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE];
             var bNumber = (int) b.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE];
