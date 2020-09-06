@@ -48,12 +48,7 @@ namespace ZXing.Datamatrix.Internal
         /// <returns><see cref="DetectorResult" />encapsulating results of detecting a Data Matrix Code or null</returns>
         public DetectorResult detect()
         {
-            if (rectangleDetector == null)
-                // can be null, if the image is to small
-            {
-                return null;
-            }
-            ResultPoint[] cornerPoints = rectangleDetector.detect();
+            ResultPoint[] cornerPoints = rectangleDetector?.detect();
             if (cornerPoints == null) {
                 return null;
             }

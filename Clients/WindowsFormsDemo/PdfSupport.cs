@@ -19,26 +19,23 @@ namespace WindowsFormsDemo
             {
                 // Get resources dictionary
                 PdfDictionary resources = page.Elements.GetDictionary("/Resources");
-                if (resources != null)
+                // Get external objects dictionary
+                PdfDictionary xObjects = resources?.Elements.GetDictionary("/XObject");
+                if (xObjects != null)
                 {
-                    // Get external objects dictionary
-                    PdfDictionary xObjects = resources.Elements.GetDictionary("/XObject");
-                    if (xObjects != null)
+                    var items = xObjects.Elements.Values;
+                    // Iterate references to external objects
+                    foreach (PdfItem item in items)
                     {
-                        var items = xObjects.Elements.Values;
-                        // Iterate references to external objects
-                        foreach (PdfItem item in items)
+                        if (item is PdfReference reference)
                         {
-                            if (item is PdfReference reference)
+                            // Is external object an image?
+                            if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
                             {
-                                // Is external object an image?
-                                if (reference.Value is PdfDictionary xObject && xObject.Elements.GetString("/Subtype") == "/Image")
+                                var bitmap = ExportImage(xObject);
+                                if (bitmap != null)
                                 {
-                                    var bitmap = ExportImage(xObject);
-                                    if (bitmap != null)
-                                    {
-                                        yield return bitmap;
-                                    }
+                                    yield return bitmap;
                                 }
                             }
                         }

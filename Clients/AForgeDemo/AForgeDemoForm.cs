@@ -55,35 +55,30 @@ namespace AForgeDemo
             resultRectPen = new Pen(Color.Green, 10);
         }
 
-        void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            if (currentResult == null) {
+        void pictureBox1_Paint(object sender, PaintEventArgs e) {
+            if (currentResult?.ResultPoints == null || currentResult.ResultPoints.Length <= 0) {
                 return;
             }
-
-            if (currentResult.ResultPoints != null && currentResult.ResultPoints.Length > 0)
+            var resultPoints = currentResult.ResultPoints;
+            var rect = new Rectangle((int)resultPoints[0].X, (int)resultPoints[0].Y, 1, 1);
+            foreach (var point in resultPoints)
             {
-                var resultPoints = currentResult.ResultPoints;
-                var rect = new Rectangle((int)resultPoints[0].X, (int)resultPoints[0].Y, 1, 1);
-                foreach (var point in resultPoints)
-                {
-                    if (point.X < rect.Left) {
-                        rect = new Rectangle((int)point.X, rect.Y, rect.Width + rect.X - (int)point.X, rect.Height);
-                    }
-                    if (point.X > rect.Right) {
-                        rect = new Rectangle(rect.X, rect.Y, rect.Width + (int)point.X - rect.X, rect.Height);
-                    }
-                    if (point.Y < rect.Top) {
-                        rect = new Rectangle(rect.X, (int)point.Y, rect.Width, rect.Height + rect.Y - (int)point.Y);
-                    }
-                    if (point.Y > rect.Bottom) {
-                        rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height + (int)point.Y - rect.Y);
-                    }
+                if (point.X < rect.Left) {
+                    rect = new Rectangle((int)point.X, rect.Y, rect.Width + rect.X - (int)point.X, rect.Height);
                 }
-                using (var g = pictureBox1.CreateGraphics())
-                {
-                    g.DrawRectangle(resultRectPen, rect);
+                if (point.X > rect.Right) {
+                    rect = new Rectangle(rect.X, rect.Y, rect.Width + (int)point.X - rect.X, rect.Height);
                 }
+                if (point.Y < rect.Top) {
+                    rect = new Rectangle(rect.X, (int)point.Y, rect.Width, rect.Height + rect.Y - (int)point.Y);
+                }
+                if (point.Y > rect.Bottom) {
+                    rect = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height + (int)point.Y - rect.Y);
+                }
+            }
+            using (var g = pictureBox1.CreateGraphics())
+            {
+                g.DrawRectangle(resultRectPen, rect);
             }
         }
 
