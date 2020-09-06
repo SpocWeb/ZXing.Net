@@ -26,11 +26,12 @@ namespace ZXing.Maxicode
     /// </summary>
     public sealed class MaxiCodeReader : IBarCodeDecoder
     {
-        private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
-        private const int MATRIX_WIDTH = 30;
-        private const int MATRIX_HEIGHT = 33;
 
-        private readonly Decoder _Decoder = new Decoder();
+        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
+        const int MATRIX_WIDTH = 30;
+        const int MATRIX_HEIGHT = 33;
+
+        readonly Decoder _Decoder = new Decoder();
 
         /// <summary>
         /// Locates and decodes a MaxiCode within an image. This method also accepts
@@ -89,7 +90,7 @@ namespace ZXing.Maxicode
         /// <seealso cref="ZXing.Datamatrix.DataMatrixReader.extractPureBits(BitMatrix)" />
         /// <sQrCodeReader.ExtractPureBitsts(BitMatrix)" />
         /// </summary>
-        private static BitMatrix ExtractPureBits(BitMatrix image)
+        static BitMatrix ExtractPureBits(BitMatrix image)
         {
 
             int[] enclosingRectangle = image.GetEnclosingRectangle();

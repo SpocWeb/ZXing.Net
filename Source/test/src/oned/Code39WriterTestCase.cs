@@ -83,7 +83,7 @@ namespace ZXing.OneD.Test
             "011011001010010110110100000");
       }
 
-      private static void DoTest(string input, string expected)
+      static void DoTest(string input, string expected)
       {
          var result = new Code39Writer().encode(input, BarcodeFormat.CODE_39, 0, 0);
          Assert.AreEqual(expected, BitMatrixTestCase.MatrixToString(result));

@@ -69,7 +69,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          AssertCorrectImage2Binary(imageFileName, expectedResult);
       }
 
-      private static void AssertCorrectImage2Binary(string imageFileName, string expected)
+      static void AssertCorrectImage2Binary(string imageFileName, string expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 

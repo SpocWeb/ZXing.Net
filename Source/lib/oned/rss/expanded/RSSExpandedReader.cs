@@ -38,11 +38,12 @@ namespace ZXing.OneD.RSS.Expanded
     /// </summary>
     public sealed class RSSExpandedReader : AbstractRSSReader
     {
-        private static readonly int[] SYMBOL_WIDEST = {7, 5, 4, 3, 1};
-        private static readonly int[] EVEN_TOTAL_SUBSET = {4, 20, 52, 104, 204};
-        private static readonly int[] GSUM = {0, 348, 1388, 2948, 3988};
 
-        private static readonly int[][] FINDER_PATTERNS =
+        static readonly int[] SYMBOL_WIDEST = {7, 5, 4, 3, 1};
+        static readonly int[] EVEN_TOTAL_SUBSET = {4, 20, 52, 104, 204};
+        static readonly int[] GSUM = {0, 348, 1388, 2948, 3988};
+
+        static readonly int[][] FINDER_PATTERNS =
         {
             new[] {1, 8, 4, 1}, // A
             new[] {3, 6, 4, 1}, // B
@@ -52,7 +53,7 @@ namespace ZXing.OneD.RSS.Expanded
             new[] {2, 2, 9, 1} // F
         };
 
-        private static readonly int[][] WEIGHTS =
+        static readonly int[][] WEIGHTS =
         {
             new[] {1, 3, 9, 27, 81, 32, 96, 77},
             new[] {20, 60, 180, 118, 143, 7, 21, 63},
@@ -79,14 +80,14 @@ namespace ZXing.OneD.RSS.Expanded
             new[] {45, 135, 194, 160, 58, 174, 100, 89}
         };
 
-        private const int FINDER_PAT_A = 0;
-        private const int FINDER_PAT_B = 1;
-        private const int FINDER_PAT_C = 2;
-        private const int FINDER_PAT_D = 3;
-        private const int FINDER_PAT_E = 4;
-        private const int FINDER_PAT_F = 5;
+        const int FINDER_PAT_A = 0;
+        const int FINDER_PAT_B = 1;
+        const int FINDER_PAT_C = 2;
+        const int FINDER_PAT_D = 3;
+        const int FINDER_PAT_E = 4;
+        const int FINDER_PAT_F = 5;
 
-        private static readonly int[][] FINDER_PATTERN_SEQUENCES =
+        static readonly int[][] FINDER_PATTERN_SEQUENCES =
         {
             new[] {FINDER_PAT_A, FINDER_PAT_A},
             new[] {FINDER_PAT_A, FINDER_PAT_B, FINDER_PAT_B},
@@ -100,12 +101,12 @@ namespace ZXing.OneD.RSS.Expanded
             new[] {FINDER_PAT_A, FINDER_PAT_A, FINDER_PAT_B, FINDER_PAT_B, FINDER_PAT_C, FINDER_PAT_D, FINDER_PAT_D, FINDER_PAT_E, FINDER_PAT_E, FINDER_PAT_F, FINDER_PAT_F},
         };
 
-        private const int MAX_PAIRS = 11;
+        const int MAX_PAIRS = 11;
 
-        private readonly List<ExpandedPair> pairs = new List<ExpandedPair>(MAX_PAIRS);
-        private readonly List<ExpandedRow> rows = new List<ExpandedRow>();
-        private readonly int[] startEnd = new int[2];
-        private bool startFromEven;
+        readonly List<ExpandedPair> pairs = new List<ExpandedPair>(MAX_PAIRS);
+        readonly List<ExpandedRow> rows = new List<ExpandedRow>();
+        readonly int[] startEnd = new int[2];
+        bool startFromEven;
 
         public IReadOnlyList<ExpandedPair> Pairs => pairs;
 
@@ -191,7 +192,7 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        private List<ExpandedPair> checkRows(bool reverse)
+        List<ExpandedPair> checkRows(bool reverse)
         {
             // Limit number of rows we are checking
             // We use recursive algorithm with pure complexity and don't want it to take forever
@@ -220,7 +221,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         // Try to construct a valid rows sequence
         // Recursion is used to implement backtracking
-        private List<ExpandedPair> checkRows(List<ExpandedRow> collectedRows, int currentRow)
+        List<ExpandedPair> checkRows(List<ExpandedRow> collectedRows, int currentRow)
         {
             for (int i = currentRow; i < rows.Count; i++)
             {
@@ -262,7 +263,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         // Whether the pairs form a valid find pattern sequence,
         // either complete or a prefix
-        private static bool isValidSequence(List<ExpandedPair> pairs)
+        static bool isValidSequence(List<ExpandedPair> pairs)
         {
             foreach (int[] sequence in FINDER_PATTERN_SEQUENCES)
             {
@@ -290,7 +291,7 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        private void storeRow(int rowNumber, bool wasReversed)
+        void storeRow(int rowNumber, bool wasReversed)
         {
             // Discard if duplicate above or below; otherwise insert in order by row number.
             int insertPos = 0;
@@ -328,7 +329,7 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // Remove all the rows that contains only specified pairs 
-        private static void removePartialRows(List<ExpandedPair> pairs, List<ExpandedRow> rows)
+        static void removePartialRows(List<ExpandedPair> pairs, List<ExpandedRow> rows)
         {
             for (var index = 0; index < rows.Count; index++)
             {
@@ -354,7 +355,7 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // Returns true when one of the rows already contains all the pairs
-        private static bool isPartialRow(IEnumerable<ExpandedPair> pairs, IEnumerable<ExpandedRow> rows)
+        static bool isPartialRow(IEnumerable<ExpandedPair> pairs, IEnumerable<ExpandedRow> rows)
         {
             foreach (ExpandedRow r in rows)
             {
@@ -409,7 +410,7 @@ namespace ZXing.OneD.RSS.Expanded
             );
         }
 
-        private bool checkChecksum()
+        bool checkChecksum()
         {
             ExpandedPair firstPair = pairs[0];
             DataCharacter checkCharacter = firstPair.LeftChar;
@@ -443,7 +444,7 @@ namespace ZXing.OneD.RSS.Expanded
             return checkCharacterValue == checkCharacter.Value;
         }
 
-        private static int getNextSecondBar(BitArray row, int initialPos)
+        static int getNextSecondBar(BitArray row, int initialPos)
         {
             int currentPos;
             if (row[initialPos])
@@ -509,7 +510,7 @@ namespace ZXing.OneD.RSS.Expanded
             return new ExpandedPair(leftChar, rightChar, pattern);
         }
 
-        private bool findNextPair(BitArray row, List<ExpandedPair> previousPairs, int forcedOffset)
+        bool findNextPair(BitArray row, List<ExpandedPair> previousPairs, int forcedOffset)
         {
             int[] counters = getDecodeFinderCounters();
             counters[0] = 0;
@@ -597,7 +598,7 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        private static void reverseCounters(int[] counters)
+        static void reverseCounters(int[] counters)
         {
             int length = counters.Length;
             for (int i = 0; i < length / 2; ++i)
@@ -608,7 +609,7 @@ namespace ZXing.OneD.RSS.Expanded
             }
         }
 
-        private FinderPattern parseFoundFinderPattern(BitArray row, int rowNumber, bool oddPattern)
+        FinderPattern parseFoundFinderPattern(BitArray row, int rowNumber, bool oddPattern)
         {
             // Actually we found elements 2-5.
             int firstCounter;
@@ -773,13 +774,13 @@ namespace ZXing.OneD.RSS.Expanded
             return new DataCharacter(value, checksumPortion);
         }
 
-        private static bool isNotA1left(FinderPattern pattern, bool isOddPattern, bool leftChar)
+        static bool isNotA1left(FinderPattern pattern, bool isOddPattern, bool leftChar)
         {
             // A1: pattern.getValue is 0 (A), and it's an oddPattern, and it is a left char
             return !(pattern.Value == 0 && isOddPattern && leftChar);
         }
 
-        private bool adjustOddEvenCounts(int numModules)
+        bool adjustOddEvenCounts(int numModules)
         {
             int oddSum = MathUtils.Sum(getOddCounts());
             int evenSum = MathUtils.Sum(getEvenCounts());

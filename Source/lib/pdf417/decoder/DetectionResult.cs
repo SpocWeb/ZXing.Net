@@ -25,7 +25,8 @@ namespace ZXing.PDF417.Internal
     /// <author>Guenther Grau</author>
     public class DetectionResult
     {
-        private const int ADJUST_ROW_NUMBER_SKIP = 2;
+
+        const int ADJUST_ROW_NUMBER_SKIP = 2;
 
         /// <summary>
         /// metadata which are found
@@ -88,7 +89,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the indicator column row numbers.
         /// </summary>
         /// <param name="detectionResultColumn">Detection result column.</param>
-        private void adjustIndicatorColumnRowNumbers(DetectionResultColumn detectionResultColumn)
+        void adjustIndicatorColumnRowNumbers(DetectionResultColumn detectionResultColumn)
         {
             if (detectionResultColumn != null)
             {
@@ -102,7 +103,7 @@ namespace ZXing.PDF417.Internal
         /// will be counted several times. It just serves as an indicator to see when we can stop adjusting row numbers
         /// </summary>
         /// <returns>The row numbers.</returns>
-        private int adjustRowNumbers()
+        int adjustRowNumbers()
         {
             // TODO ensure that no detected codewords with unknown row number are left
             // we should be able to estimate the row height and use it as a hint for the row number
@@ -134,7 +135,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers by row.
         /// </summary>
         /// <returns>The row numbers by row.</returns>
-        private int adjustRowNumbersByRow()
+        int adjustRowNumbersByRow()
         {
             adjustRowNumbersFromBothRI(); // RI = RowIndicators
                                           // TODO we should only do full row adjustments if row numbers of left and right row indicator column match.
@@ -149,7 +150,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers from both Row Indicators
         /// </summary>
         /// <returns> zero </returns>
-        private void adjustRowNumbersFromBothRI()
+        void adjustRowNumbersFromBothRI()
         {
             if (DetectionResultColumns[0] == null || DetectionResultColumns[ColumnCount + 1] == null)
             {
@@ -185,7 +186,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers from Right Row Indicator.
         /// </summary>
         /// <returns>The unadjusted row count.</returns>
-        private int adjustRowNumbersFromRRI()
+        int adjustRowNumbersFromRRI()
         {
             if (DetectionResultColumns[ColumnCount + 1] == null)
             {
@@ -221,7 +222,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers from Left Row Indicator.
         /// </summary>
         /// <returns> Unadjusted row Count.</returns>
-        private int adjustRowNumbersFromLRI()
+        int adjustRowNumbersFromLRI()
         {
             if (DetectionResultColumns[0] == null)
             {
@@ -260,7 +261,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="rowIndicatorRowNumber">Row indicator row number.</param>
         /// <param name="invalidRowCounts">Invalid row counts.</param>
         /// <param name="codeword">Codeword.</param>
-        private static int adjustRowNumberIfValid(int rowIndicatorRowNumber, int invalidRowCounts, Codeword codeword)
+        static int adjustRowNumberIfValid(int rowIndicatorRowNumber, int invalidRowCounts, Codeword codeword)
         {
 
             if (codeword == null)
@@ -288,7 +289,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="barcodeColumn">Barcode column.</param>
         /// <param name="codewordsRow">Codewords row.</param>
         /// <param name="codewords">Codewords.</param>
-        private void adjustRowNumbers(int barcodeColumn, int codewordsRow, Codeword[] codewords)
+        void adjustRowNumbers(int barcodeColumn, int codewordsRow, Codeword[] codewords)
         {
             Codeword codeword = codewords[codewordsRow];
             Codeword[] previousColumnCodewords = DetectionResultColumns[barcodeColumn - 1].Codewords;
@@ -342,7 +343,7 @@ namespace ZXing.PDF417.Internal
         /// <returns><c>true</c>, if row number was adjusted, <c>false</c> otherwise.</returns>
         /// <param name="codeword">Codeword.</param>
         /// <param name="otherCodeword">Other codeword.</param>
-        private static bool adjustRowNumber(Codeword codeword, Codeword otherCodeword)
+        static bool adjustRowNumber(Codeword codeword, Codeword otherCodeword)
         {
             if (otherCodeword == null)
             {

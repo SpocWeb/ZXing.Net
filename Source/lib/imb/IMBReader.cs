@@ -33,38 +33,39 @@ namespace ZXing.IMB
     /// </summary>
     public sealed class IMBReader : OneDReader
     {
-        private const int NUM_BARS_IMB = 65;
 
-        private static readonly int[] barPosA = { 2, 6, 13, 16, 21, 30, 34, 40, 45, 48, 52, 56, 62 };
-        private static readonly int[] barPosB = { 22, 18, 39, 41, 11, 57, 54, 50, 7, 32, 2, 62, 26 };
-        private static readonly int[] barPosC = { 40, 35, 57, 52, 49, 7, 24, 17, 3, 63, 29, 44, 12 };
-        private static readonly int[] barPosD = { 47, 5, 35, 39, 30, 42, 15, 60, 20, 10, 65, 54, 23 };
-        private static readonly int[] barPosE = { 20, 41, 46, 1, 8, 51, 29, 61, 34, 15, 25, 37, 58 };
-        private static readonly int[] barPosF = { 51, 25, 19, 64, 56, 4, 44, 31, 28, 36, 47, 11, 6 };
-        private static readonly int[] barPosG = { 33, 37, 21, 9, 17, 49, 59, 14, 64, 26, 42, 4, 53 };
-        private static readonly int[] barPosH = { 60, 14, 1, 27, 38, 61, 10, 24, 50, 55, 19, 32, 45 };
-        private static readonly int[] barPosI = { 27, 46, 65, 59, 31, 12, 16, 43, 55, 5, 9, 22, 36 };
-        private static readonly int[] barPosJ = { 63, 58, 53, 48, 43, 38, 33, 28, 23, 18, 13, 8, 3 };
-        private static readonly int[][] barPos = { barPosA, barPosB, barPosC, barPosD, barPosE, barPosF, barPosG, barPosH, barPosI, barPosJ };
+        const int NUM_BARS_IMB = 65;
 
-        private static readonly char[] barTypeA = { 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A', 'A', 'A', 'D' };
-        private static readonly char[] barTypeB = { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D' };
-        private static readonly char[] barTypeC = { 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A' };
-        private static readonly char[] barTypeD = { 'A', 'A', 'A', 'D', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A' };
-        private static readonly char[] barTypeE = { 'D', 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'A', 'D', 'A' };
-        private static readonly char[] barTypeF = { 'D', 'D', 'A', 'A', 'D', 'D', 'A', 'A', 'D', 'D', 'D', 'D', 'A' };
-        private static readonly char[] barTypeG = { 'D', 'A', 'D', 'D', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
-        private static readonly char[] barTypeH = { 'D', 'D', 'D', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D', 'D', 'A' };
-        private static readonly char[] barTypeI = { 'A', 'A', 'A', 'D', 'D', 'D', 'A', 'D', 'D', 'D', 'A', 'D', 'A' };
-        private static readonly char[] barTypeJ = { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
-        private static readonly char[][] barType = { barTypeA, barTypeB, barTypeC, barTypeD, barTypeE, barTypeF, barTypeG, barTypeH, barTypeI, barTypeJ };
+        static readonly int[] barPosA = { 2, 6, 13, 16, 21, 30, 34, 40, 45, 48, 52, 56, 62 };
+        static readonly int[] barPosB = { 22, 18, 39, 41, 11, 57, 54, 50, 7, 32, 2, 62, 26 };
+        static readonly int[] barPosC = { 40, 35, 57, 52, 49, 7, 24, 17, 3, 63, 29, 44, 12 };
+        static readonly int[] barPosD = { 47, 5, 35, 39, 30, 42, 15, 60, 20, 10, 65, 54, 23 };
+        static readonly int[] barPosE = { 20, 41, 46, 1, 8, 51, 29, 61, 34, 15, 25, 37, 58 };
+        static readonly int[] barPosF = { 51, 25, 19, 64, 56, 4, 44, 31, 28, 36, 47, 11, 6 };
+        static readonly int[] barPosG = { 33, 37, 21, 9, 17, 49, 59, 14, 64, 26, 42, 4, 53 };
+        static readonly int[] barPosH = { 60, 14, 1, 27, 38, 61, 10, 24, 50, 55, 19, 32, 45 };
+        static readonly int[] barPosI = { 27, 46, 65, 59, 31, 12, 16, 43, 55, 5, 9, 22, 36 };
+        static readonly int[] barPosJ = { 63, 58, 53, 48, 43, 38, 33, 28, 23, 18, 13, 8, 3 };
+        static readonly int[][] barPos = { barPosA, barPosB, barPosC, barPosD, barPosE, barPosF, barPosG, barPosH, barPosI, barPosJ };
 
-        private const int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
+        static readonly char[] barTypeA = { 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A', 'A', 'A', 'D' };
+        static readonly char[] barTypeB = { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D' };
+        static readonly char[] barTypeC = { 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A' };
+        static readonly char[] barTypeD = { 'A', 'A', 'A', 'D', 'D', 'A', 'D', 'A', 'A', 'D', 'D', 'D', 'A' };
+        static readonly char[] barTypeE = { 'D', 'A', 'D', 'A', 'D', 'A', 'D', 'D', 'A', 'A', 'A', 'D', 'A' };
+        static readonly char[] barTypeF = { 'D', 'D', 'A', 'A', 'D', 'D', 'A', 'A', 'D', 'D', 'D', 'D', 'A' };
+        static readonly char[] barTypeG = { 'D', 'A', 'D', 'D', 'D', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
+        static readonly char[] barTypeH = { 'D', 'D', 'D', 'D', 'A', 'A', 'A', 'A', 'D', 'A', 'D', 'D', 'A' };
+        static readonly char[] barTypeI = { 'A', 'A', 'A', 'D', 'D', 'D', 'A', 'D', 'D', 'D', 'A', 'D', 'A' };
+        static readonly char[] barTypeJ = { 'A', 'D', 'A', 'D', 'A', 'D', 'A', 'A', 'D', 'A', 'D', 'A', 'D' };
+        static readonly char[][] barType = { barTypeA, barTypeB, barTypeC, barTypeD, barTypeE, barTypeF, barTypeG, barTypeH, barTypeI, barTypeJ };
 
-        private static readonly IDictionary<int, int> table1Check;
-        private static readonly IDictionary<int, int> table2Check;
+        const int A = 0, B = 1, C = 2, D = 3, E = 4, F = 5, G = 6, H = 7, I = 8, J = 9;
 
-        private BinaryBitmap currentBitmap;
+        static readonly IDictionary<int, int> table1Check;
+        static readonly IDictionary<int, int> table2Check;
+
+        BinaryBitmap currentBitmap;
 
         static IMBReader()
         {
@@ -96,7 +97,7 @@ namespace ZXing.IMB
             currentBitmap = null;
         }
 
-        private ushort binaryStringToDec(string binary)
+        ushort binaryStringToDec(string binary)
         {
             ushort factor = (ushort)Math.Pow(2, binary.Length - 1);
             ushort result = 0;
@@ -113,7 +114,7 @@ namespace ZXing.IMB
             return result;
         }
 
-        private string invertedBinaryString(string binary)
+        string invertedBinaryString(string binary)
         {
             string result = "";
 
@@ -129,7 +130,7 @@ namespace ZXing.IMB
             return result;
         }
 
-        private bool getCodeWords(out int[] codeWord, string imb, IDictionary<int, int> table1Check, IDictionary<int, int> table2Check, int[][] barPos, char[][] barType)
+        bool getCodeWords(out int[] codeWord, string imb, IDictionary<int, int> table1Check, IDictionary<int, int> table2Check, int[][] barPos, char[][] barType)
         {
             // initialize the binaryFcsChars to 0 (has 13 bits)
             StringBuilder[] binaryFcsChars = new StringBuilder[10];
@@ -198,7 +199,7 @@ namespace ZXing.IMB
             return true;
         }
 
-        private string getTrackingNumber(string imb)
+        string getTrackingNumber(string imb)
         {
 
             // get codewords A-J
@@ -276,7 +277,7 @@ namespace ZXing.IMB
             return imbTrackingNumber;
         }
 
-        private void fillLists(BitArray row, BitArray topRow, BitArray botRow, ref List<int> listRow, ref List<int> listTop, ref List<int> listBot, int start, int stop) // list: 1=black  0=white
+        void fillLists(BitArray row, BitArray topRow, BitArray botRow, ref List<int> listRow, ref List<int> listTop, ref List<int> listBot, int start, int stop) // list: 1=black  0=white
         {
             const bool isWhite = false;
             bool insideBar = false;
@@ -328,7 +329,7 @@ namespace ZXing.IMB
             }
         }
 
-        private int isIMB(BitArray row, ref int pixelStartOffset, ref int pixelStopOffset, ref int pixelBarLength)
+        int isIMB(BitArray row, ref int pixelStartOffset, ref int pixelStopOffset, ref int pixelBarLength)
         {
             int width = row.Size;
             int rowOffset = row.GetNextSet(0);
@@ -423,7 +424,7 @@ namespace ZXing.IMB
             return countBars;
         }
 
-        private int getNumberBars(BitArray row, int start, int stop, int barWidth)
+        int getNumberBars(BitArray row, int start, int stop, int barWidth)
         {
             const bool isWhite = false;
             bool insideBar = false;

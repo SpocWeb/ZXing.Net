@@ -25,15 +25,15 @@ namespace ZXing.OneD
     /**
      * @see UPCEANExtension2Support
      */
-    sealed class UPCEANExtension5Support
+    internal sealed class UPCEANExtension5Support
     {
 
-        private static readonly int[] CHECK_DIGIT_ENCODINGS = {
+        static readonly int[] CHECK_DIGIT_ENCODINGS = {
          0x18, 0x14, 0x12, 0x11, 0x0C, 0x06, 0x03, 0x0A, 0x09, 0x05
       };
 
-        private readonly int[] decodeMiddleCounters = new int[4];
-        private readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
+        readonly int[] decodeMiddleCounters = new int[4];
+        readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
 
         internal BarCodeText decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
         {
@@ -62,7 +62,7 @@ namespace ZXing.OneD
             return extensionResult;
         }
 
-        private int decodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
+        int decodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
         {
             int[] counters = decodeMiddleCounters;
             counters[0] = 0;
@@ -113,7 +113,7 @@ namespace ZXing.OneD
             return rowOffset;
         }
 
-        private static int extensionChecksum(string s)
+        static int extensionChecksum(string s)
         {
             int length = s.Length;
             int sum = 0;
@@ -130,7 +130,7 @@ namespace ZXing.OneD
             return sum % 10;
         }
 
-        private static bool determineCheckDigit(int lgPatternFound, out int checkDigit)
+        static bool determineCheckDigit(int lgPatternFound, out int checkDigit)
         {
             for (checkDigit = 0; checkDigit < 10; checkDigit++)
             {
@@ -148,7 +148,7 @@ namespace ZXing.OneD
         /// <param name="raw">raw content of extension</param>
         /// <returns>formatted interpretation of raw content as a {@link Map} mapping
         /// one {@link ResultMetadataType} to appropriate value, or {@code null} if not known</returns>
-        private static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
+        static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
         {
             if (raw.Length != 5)
             {
@@ -166,7 +166,7 @@ namespace ZXing.OneD
             return result;
         }
 
-        private static string parseExtension5String(string raw)
+        static string parseExtension5String(string raw)
         {
             string currency;
             switch (raw[0])

@@ -29,7 +29,8 @@ namespace ZXing.Multi.QrCode.Internal
     /// </summary>
     public sealed class MultiQrDetector : QrDetector
     {
-        private static readonly DetectorResult[] _emptyDetectorResults = new DetectorResult[0];
+
+        static readonly DetectorResult[] _emptyDetectorResults = new DetectorResult[0];
 
         public MultiQrDetector(IGridSampler sampler) : base(sampler) { }
 

@@ -39,7 +39,8 @@ namespace ZXing.Common.ReedSolomon
     /// <author>sanfordsquires</author>
     public sealed class ReedSolomonDecoder
     {
-        private readonly GenericGf _Field;
+
+        readonly GenericGf _Field;
 
         /// <summary>
         /// constructor
@@ -169,7 +170,7 @@ namespace ZXing.Common.ReedSolomon
             return new[] { sigma, omega };
         }
 
-        private int[] FindErrorLocations(GenericGfPoly errorLocator)
+        int[] FindErrorLocations(GenericGfPoly errorLocator)
         {
             // This is a direct application of Chien's search
             int numErrors = errorLocator.Degree;
@@ -196,7 +197,7 @@ namespace ZXing.Common.ReedSolomon
             return result;
         }
 
-        private int[] FindErrorMagnitudes(GenericGfPoly errorEvaluator, int[] errorLocations)
+        int[] FindErrorMagnitudes(GenericGfPoly errorEvaluator, int[] errorLocations)
         {
             // This is directly applying Forney's Formula
             int s = errorLocations.Length;

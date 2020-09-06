@@ -31,10 +31,10 @@ namespace ZXing.OneD
         // These values are critical for determining how permissive the decoding
         // will be. All stripe sizes must be within the window these define, as
         // compared to the average stripe size.
-        private static readonly int MAX_ACCEPTABLE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 2.0f);
-        private static readonly int PADDING = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 1.5f);
+        static readonly int MAX_ACCEPTABLE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 2.0f);
+        static readonly int PADDING = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 1.5f);
 
-        private const string ALPHABET_STRING = "0123456789-$:/.+ABCD";
+        const string ALPHABET_STRING = "0123456789-$:/.+ABCD";
         internal static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
 
         /**
@@ -50,10 +50,10 @@ namespace ZXing.OneD
         // minimal number of characters that should be present (including start and stop characters)
         // under normal circumstances this should be set to 3, but can be set higher
         // as a last-ditch attempt to reduce false positives.
-        private const int MIN_CHARACTER_LENGTH = 3;
+        const int MIN_CHARACTER_LENGTH = 3;
 
         // official start and end patterns
-        private static readonly char[] STARTEND_ENCODING = { 'A', 'B', 'C', 'D' };
+        static readonly char[] STARTEND_ENCODING = { 'A', 'B', 'C', 'D' };
         // some Codabar generator allow the Codabar string to be closed by every
         // character. This will cause lots of false positives!
 
@@ -61,9 +61,9 @@ namespace ZXing.OneD
         // for more information see : http://www.mecsw.com/specs/codabar.html
 
         // Keep some instance variables to avoid reallocations
-        private readonly StringBuilder decodeRowResult;
-        private int[] counters;
-        private int counterLength;
+        readonly StringBuilder decodeRowResult;
+        int[] counters;
+        int counterLength;
 
         /// <summary>
         /// 
@@ -203,7 +203,7 @@ namespace ZXing.OneD
                BarcodeFormat.CODABAR);
         }
 
-        private bool validatePattern(int start)
+        bool validatePattern(int start)
         {
             // First, sum up the total size of our four categories of stripe sizes;
             int[] sizes = { 0, 0, 0, 0 };
@@ -281,7 +281,7 @@ namespace ZXing.OneD
         /// uses our builtin "counters" member for storage.
         /// </summary>
         /// <param name="row">row to count from</param>
-        private bool setCounters(BitArray row)
+        bool setCounters(BitArray row)
         {
             counterLength = 0;
             // Start from the first white bit.
@@ -311,7 +311,7 @@ namespace ZXing.OneD
             return true;
         }
 
-        private void counterAppend(int e)
+        void counterAppend(int e)
         {
             counters[counterLength] = e;
             counterLength++;
@@ -323,7 +323,7 @@ namespace ZXing.OneD
             }
         }
 
-        private int findStartPattern()
+        int findStartPattern()
         {
             for (int i = 1; i < counterLength; i += 2)
             {
@@ -362,7 +362,7 @@ namespace ZXing.OneD
         }
 
         // Assumes that counters[position] is a bar.
-        private int toNarrowWidePattern(int position)
+        int toNarrowWidePattern(int position)
         {
             int end = position + 7;
             if (end >= counterLength)

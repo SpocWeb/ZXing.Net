@@ -23,7 +23,8 @@ namespace ZXing.Aztec.Test
 {
     public sealed class DecoderTest
     {
-        private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
+
+        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
         [Test]
         public void TestAztecResult()
@@ -139,7 +140,7 @@ namespace ZXing.Aztec.Test
             Assert.That(new Decoder().decode(r), Is.Null);
         }
 
-        private static void AssertEqualByteArrays(byte[] b1, byte[] b2)
+        static void AssertEqualByteArrays(byte[] b1, byte[] b2)
         {
             Assert.That(b1.Length, Is.EqualTo(b2.Length));
             for (int i = 0; i < b1.Length; i++)

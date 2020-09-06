@@ -27,7 +27,8 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class MultiFormatUPCEANReader : OneDReader
     {
-        private readonly UpcEanReader[] readers;
+
+        readonly UpcEanReader[] readers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MultiFormatUPCEANReader"/> class.

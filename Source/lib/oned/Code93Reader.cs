@@ -30,7 +30,7 @@ namespace ZXing.OneD
     {
         // Note that 'abcd' are dummy characters in place of control characters.
         internal const string ALPHABET_STRING = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%abcd*";
-        private static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
+        static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
 
         /// <summary>
         /// These represent the encodings of characters, as patterns of wide and narrow bars.
@@ -46,8 +46,8 @@ namespace ZXing.OneD
                                                  };
         internal static readonly int ASTERISK_ENCODING = CHARACTER_ENCODINGS[47];
 
-        private readonly StringBuilder decodeRowResult;
-        private readonly int[] counters;
+        readonly StringBuilder decodeRowResult;
+        readonly int[] counters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Code93Reader"/> class.
@@ -163,7 +163,7 @@ namespace ZXing.OneD
                BarcodeFormat.CODE_93);
         }
 
-        private int[] findAsteriskPattern(BitArray row)
+        int[] findAsteriskPattern(BitArray row)
         {
             int width = row.Size;
             int rowOffset = row.GetNextSet(0);
@@ -209,7 +209,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        private static int toPattern(int[] counters)
+        static int toPattern(int[] counters)
         {
             int max = counters.Length;
             int sum = 0;
@@ -245,7 +245,7 @@ namespace ZXing.OneD
             return pattern;
         }
 
-        private static bool patternToChar(int pattern, out char c)
+        static bool patternToChar(int pattern, out char c)
         {
             for (int i = 0; i < CHARACTER_ENCODINGS.Length; i++)
             {
@@ -259,7 +259,7 @@ namespace ZXing.OneD
             return false;
         }
 
-        private static string decodeExtended(StringBuilder encoded)
+        static string decodeExtended(StringBuilder encoded)
         {
             int length = encoded.Length;
             StringBuilder decoded = new StringBuilder(length);
@@ -372,7 +372,7 @@ namespace ZXing.OneD
             return decoded.ToString();
         }
 
-        private static bool checkChecksums(StringBuilder result)
+        static bool checkChecksums(StringBuilder result)
         {
             int length = result.Length;
             if (!checkOneChecksum(result, length - 2, 20)) {
@@ -384,7 +384,7 @@ namespace ZXing.OneD
             return true;
         }
 
-        private static bool checkOneChecksum(StringBuilder result, int checkPosition, int weightMax)
+        static bool checkOneChecksum(StringBuilder result, int checkPosition, int weightMax)
         {
             int weight = 1;
             int total = 0;

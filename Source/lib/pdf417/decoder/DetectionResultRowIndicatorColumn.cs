@@ -44,7 +44,7 @@ namespace ZXing.PDF417.Internal
         /// <summary>
         /// Sets the Row Numbers as Inidicator Columns
         /// </summary>
-        private void setRowNumbers()
+        void setRowNumbers()
         {
             foreach (var cw in Codewords)
             {
@@ -187,7 +187,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the in omplete indicator column row numbers.
         /// </summary>
         /// <param name="metadata">Metadata.</param>
-        private void adjustIncompleteIndicatorColumnRowNumbers(BarcodeMetadata metadata)
+        void adjustIncompleteIndicatorColumnRowNumbers(BarcodeMetadata metadata)
         {
             // TODO maybe we should add missing codewords to store the correct row number to make
             // finding row numbers for other columns easier
@@ -314,7 +314,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <param name="codewords">Codewords.</param>
         /// <param name="metadata">Metadata.</param>
-        private void removeIncorrectCodewords(Codeword[] codewords, BarcodeMetadata metadata)
+        void removeIncorrectCodewords(Codeword[] codewords, BarcodeMetadata metadata)
         {
             for (int row = 0; row < codewords.Length; row++)
             {

@@ -50,10 +50,10 @@ namespace ZXing.OneD
 
         internal static readonly int ASTERISK_ENCODING = 0x094;
 
-        private readonly bool usingCheckDigit;
-        private readonly bool extendedMode;
-        private readonly StringBuilder decodeRowResult;
-        private readonly int[] counters;
+        readonly bool usingCheckDigit;
+        readonly bool extendedMode;
+        readonly StringBuilder decodeRowResult;
+        readonly int[] counters;
 
         /// <summary>
         /// Creates a reader that assumes all encoded data is data, and does not treat the final
@@ -236,7 +236,7 @@ namespace ZXing.OneD
                BarcodeFormat.CODE_39);
         }
 
-        private static int[] findAsteriskPattern(BitArray row, int[] counters)
+        static int[] findAsteriskPattern(BitArray row, int[] counters)
         {
             int width = row.Size;
             int rowOffset = row.GetNextSet(0);
@@ -283,7 +283,7 @@ namespace ZXing.OneD
 
         // For efficiency, returns -1 on failure. Not throwing here saved as many as 700 exceptions
         // per image when using some of our blackbox images.
-        private static int toNarrowWidePattern(int[] counters)
+        static int toNarrowWidePattern(int[] counters)
         {
             int numCounters = counters.Length;
             int maxNarrowCounter = 0;
@@ -336,7 +336,7 @@ namespace ZXing.OneD
             return -1;
         }
 
-        private static bool patternToChar(int pattern, out char c)
+        static bool patternToChar(int pattern, out char c)
         {
             for (int i = 0; i < CHARACTER_ENCODINGS.Length; i++)
             {
@@ -350,7 +350,7 @@ namespace ZXing.OneD
             return pattern == ASTERISK_ENCODING;
         }
 
-        private static string decodeExtended(string encoded)
+        static string decodeExtended(string encoded)
         {
             int length = encoded.Length;
             StringBuilder decoded = new StringBuilder(length);

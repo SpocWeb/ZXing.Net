@@ -67,20 +67,20 @@ namespace ZXing.Common
             AddCharacterSet(30, new[] { "EUC-KR", "EUC_KR" });
         }
 
-        private CharacterSetEci(int value, string encodingName)
+        CharacterSetEci(int value, string encodingName)
            : base(value)
         {
             this.EncodingName = encodingName;
         }
 
-        private static void AddCharacterSet(int value, string encodingName)
+        static void AddCharacterSet(int value, string encodingName)
         {
             var eci = new CharacterSetEci(value, encodingName);
             VALUE_TO_ECI[value] = eci; // can't use valueOf
             NAME_TO_ECI[encodingName] = eci;
         }
 
-        private static void AddCharacterSet(int value, string[] encodingNames)
+        static void AddCharacterSet(int value, string[] encodingNames)
         {
             var eci = new CharacterSetEci(value, encodingNames[0]);
             VALUE_TO_ECI[value] = eci; // can't use valueOf

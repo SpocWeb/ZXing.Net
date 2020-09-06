@@ -32,7 +32,8 @@ namespace ZXing.Datamatrix.Internal
     /// </summary>
     public static class DecodedBitStreamParser
     {
-        private enum Mode
+
+        enum Mode
         {
             PAD_ENCODE, // Not really a mode
             ASCII_ENCODE,
@@ -47,14 +48,14 @@ namespace ZXing.Datamatrix.Internal
         /// See ISO 16022:2006, Annex C Table C.1
         /// The C40 Basic Character Set (*'s used for placeholders for the shift values)
         /// </summary>
-        private static readonly char[] C40_BASIC_SET_CHARS =
+        static readonly char[] C40_BASIC_SET_CHARS =
            {
             '*', '*', '*', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
          };
 
-        private static readonly char[] C40_SHIFT2_SET_CHARS =
+        static readonly char[] C40_SHIFT2_SET_CHARS =
            {
             '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.',
             '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_'
@@ -64,7 +65,7 @@ namespace ZXing.Datamatrix.Internal
         /// See ISO 16022:2006, Annex C Table C.2
         /// The Text Basic Character Set (*'s used for placeholders for the shift values)
         /// </summary>
-        private static readonly char[] TEXT_BASIC_SET_CHARS =
+        static readonly char[] TEXT_BASIC_SET_CHARS =
            {
             '*', '*', '*', ' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
@@ -72,9 +73,9 @@ namespace ZXing.Datamatrix.Internal
          };
 
         // Shift 2 for Text is the same encoding as C40
-        private static readonly char[] TEXT_SHIFT2_SET_CHARS = C40_SHIFT2_SET_CHARS;
+        static readonly char[] TEXT_SHIFT2_SET_CHARS = C40_SHIFT2_SET_CHARS;
 
-        private static readonly char[] TEXT_SHIFT3_SET_CHARS =
+        static readonly char[] TEXT_SHIFT3_SET_CHARS =
            {
             '`', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '{',
@@ -141,7 +142,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, 5.2.3 and Annex C, Table C.2
         /// </summary>
-        private static bool decodeAsciiSegment(BitSource bits,
+        static bool decodeAsciiSegment(BitSource bits,
                                                StringBuilder result,
                                                StringBuilder resultTrailer,
                                                out Mode mode)
@@ -245,7 +246,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, 5.2.5 and Annex C, Table C.1
         /// </summary>
-        private static bool decodeC40Segment(BitSource bits, StringBuilder result)
+        static bool decodeC40Segment(BitSource bits, StringBuilder result)
         {
             // Three C40 values are encoded in a 16-bit value as
             // (1600 * C1) + (40 * C2) + C3 + 1
@@ -365,7 +366,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, 5.2.6 and Annex C, Table C.2
         /// </summary>
-        private static bool decodeTextSegment(BitSource bits, StringBuilder result)
+        static bool decodeTextSegment(BitSource bits, StringBuilder result)
         {
             // Three Text values are encoded in a 16-bit value as
             // (1600 * C1) + (40 * C2) + C3 + 1
@@ -493,7 +494,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, 5.2.7
         /// </summary>
-        private static bool decodeAnsiX12Segment(BitSource bits,
+        static bool decodeAnsiX12Segment(BitSource bits,
                                                  StringBuilder result)
         {
             // Three ANSI X12 values are encoded in a 16-bit value as
@@ -556,7 +557,7 @@ namespace ZXing.Datamatrix.Internal
             return true;
         }
 
-        private static void parseTwoBytes(int firstByte, int secondByte, int[] result)
+        static void parseTwoBytes(int firstByte, int secondByte, int[] result)
         {
             int fullBitValue = (firstByte << 8) + secondByte - 1;
             int temp = fullBitValue / 1600;
@@ -570,7 +571,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, 5.2.8 and Annex C Table C.3
         /// </summary>
-        private static bool decodeEdifactSegment(BitSource bits, StringBuilder result)
+        static bool decodeEdifactSegment(BitSource bits, StringBuilder result)
         {
             do
             {
@@ -612,7 +613,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, 5.2.9 and Annex B, B.2
         /// </summary>
-        private static bool decodeBase256Segment(BitSource bits,
+        static bool decodeBase256Segment(BitSource bits,
                                                  StringBuilder result,
                                                  IList<byte[]> byteSegments)
         {
@@ -675,7 +676,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006, Annex B, B.2
         /// </summary>
-        private static int unrandomize255State(int randomizedBase256Codeword,
+        static int unrandomize255State(int randomizedBase256Codeword,
                                                int base256CodewordPosition)
         {
             int pseudoRandomNumber = 149 * base256CodewordPosition % 255 + 1;

@@ -101,7 +101,7 @@ namespace ZXing.Client.Result.Test
          DoTest("smtp:srowen@example.org:foo:bar", "srowen@example.org", "foo", "bar");
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string to,
                                  string subject,
                                  string body)
@@ -109,7 +109,7 @@ namespace ZXing.Client.Result.Test
          DoTest(contents, new string[] {to}, null, null, subject, body);
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string[] tos,
                                  string[] ccs,
                                  string[] bccs,

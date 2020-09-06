@@ -147,7 +147,7 @@ namespace ZXing.Client.Result.Test
             new string[] {"WORK", "", "CELL"}, null, null, null, null);
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string title,
                                  string[] names,
                                  string pronunciation,

@@ -27,7 +27,7 @@ namespace ZXing.OneD
     public sealed class MSIReader : OneDReader
     {
         internal static string ALPHABET_STRING = "0123456789";
-        private static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
+        static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
 
         /// <summary>
         /// These represent the encodings of characters, as patterns of wide and narrow bars.
@@ -38,13 +38,13 @@ namespace ZXing.OneD
                                                      0x924, 0x926, 0x934, 0x936, 0x9A4, 0x9A6, 0x9B4, 0x9B6, 0xD24, 0xD26 // 0-9
                                                   };
 
-        private const int START_ENCODING = 0x06;
-        private const int END_ENCODING = 0x09;
+        const int START_ENCODING = 0x06;
+        const int END_ENCODING = 0x09;
 
-        private readonly bool usingCheckDigit;
-        private readonly StringBuilder decodeRowResult;
-        private readonly int[] counters;
-        private int averageCounterWidth;
+        readonly bool usingCheckDigit;
+        readonly StringBuilder decodeRowResult;
+        readonly int[] counters;
+        int averageCounterWidth;
 
         /// <summary>
         /// Creates a reader that assumes all encoded data is data, and does not treat the final
@@ -173,7 +173,7 @@ namespace ZXing.OneD
                BarcodeFormat.MSI);
         }
 
-        private int[] findStartPattern(BitArray row, int[] counters)
+        int[] findStartPattern(BitArray row, int[] counters)
         {
             const int patternLength = 2;
 
@@ -228,7 +228,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        private int[] findEndPattern(BitArray row, int rowOffset, int[] counters)
+        int[] findEndPattern(BitArray row, int rowOffset, int[] counters)
         {
             const int patternLength = 3;
 
@@ -274,7 +274,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        private void calculateAverageCounterWidth(int[] counters, int patternLength)
+        void calculateAverageCounterWidth(int[] counters, int patternLength)
         {
             // look for the minimum and the maximum width of the bars
             // there are only two sizes for MSI barcodes
@@ -299,7 +299,7 @@ namespace ZXing.OneD
             averageCounterWidth = ((maxCounter << 8) + (minCounter << 8)) / 2;
         }
 
-        private int toPattern(int[] counters, int patternLength)
+        int toPattern(int[] counters, int patternLength)
         {
             // calculating the encoded value from the pattern
             int pattern = 0;
@@ -323,7 +323,7 @@ namespace ZXing.OneD
             return pattern;
         }
 
-        private static bool patternToChar(int pattern, out char c)
+        static bool patternToChar(int pattern, out char c)
         {
             for (int i = 0; i < CHARACTER_ENCODINGS.Length; i++)
             {
@@ -337,9 +337,9 @@ namespace ZXing.OneD
             return false;
         }
 
-        private static readonly int[] doubleAndCrossSum = { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
+        static readonly int[] doubleAndCrossSum = { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
 
-        private static int CalculateChecksumLuhn(string number)
+        static int CalculateChecksumLuhn(string number)
         {
             var checksum = 0;
 

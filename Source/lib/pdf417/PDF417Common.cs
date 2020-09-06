@@ -49,7 +49,7 @@ namespace ZXing.PDF417
         public static readonly int MODULES_IN_STOP_PATTERN = 18;
         public static readonly int BARS_IN_MODULE = 8;
 
-        private static readonly int[] EMPTY_INT_ARRAY = { };
+        static readonly int[] EMPTY_INT_ARRAY = { };
 
         /// <summary>
         /// Gets the bit count sum.
@@ -344,7 +344,7 @@ namespace ZXing.PDF417
         /// <summary>
         /// This table contains to codewords for all symbols.
         /// </summary>
-        private static readonly int[] CODEWORD_TABLE =
+        static readonly int[] CODEWORD_TABLE =
            {
             2627, 1819, 2622, 2621, 1813, 1812, 2729, 2724, 2723, 2779, 2774, 2773, 902, 896, 908, 868, 865, 861, 859, 2511,
             873, 871, 1780, 835, 2493, 825, 2491, 842, 837, 844, 1764, 1762, 811, 810, 809, 2483, 807, 2482, 806, 2480, 815,

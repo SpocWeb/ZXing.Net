@@ -29,9 +29,10 @@ namespace ZXing.Client.Result.Test
    [TestFixture]
    public sealed class CalendarParsedResultTestCase
    {
-      private const double EPSILON = 1.0E-10;
 
-      private const string DATE_TIME_FORMAT = "yyyyMMdd'T'HHmmss'Z'";
+       const double EPSILON = 1.0E-10;
+
+       const string DATE_TIME_FORMAT = "yyyyMMdd'T'HHmmss'Z'";
 
       [SetUp]
       public void SetUp()
@@ -210,7 +211,7 @@ namespace ZXing.Client.Result.Test
                 null, null, null, "20111110T000000Z", "20111110T000000Z");
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string description,
                                  string summary,
                                  string location,
@@ -220,7 +221,7 @@ namespace ZXing.Client.Result.Test
          DoTest(contents, description, summary, location, startString, endString, null, null, double.NaN, double.NaN);
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string description,
                                  string summary,
                                  string location,
@@ -246,7 +247,7 @@ namespace ZXing.Client.Result.Test
          AssertEqualOrNaN(longitude, calResult.Longitude);
       }
 
-      private static void AssertEqualOrNaN(double expected, double actual)
+      static void AssertEqualOrNaN(double expected, double actual)
       {
          if (double.IsNaN(expected))
          {

@@ -138,27 +138,27 @@ namespace ZXing.OneD
                                                 new[] {2, 3, 3, 1, 1, 1, 2}
                                              };
 
-        private static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.25f);
-        private static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.7f);
+        static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.25f);
+        static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.7f);
 
-        private const int CODE_SHIFT = 98;
+        const int CODE_SHIFT = 98;
 
-        private const int CODE_CODE_C = 99;
-        private const int CODE_CODE_B = 100;
-        private const int CODE_CODE_A = 101;
+        const int CODE_CODE_C = 99;
+        const int CODE_CODE_B = 100;
+        const int CODE_CODE_A = 101;
 
-        private const int CODE_FNC_1 = 102;
-        private const int CODE_FNC_2 = 97;
-        private const int CODE_FNC_3 = 96;
-        private const int CODE_FNC_4_A = 101;
-        private const int CODE_FNC_4_B = 100;
+        const int CODE_FNC_1 = 102;
+        const int CODE_FNC_2 = 97;
+        const int CODE_FNC_3 = 96;
+        const int CODE_FNC_4_A = 101;
+        const int CODE_FNC_4_B = 100;
 
-        private const int CODE_START_A = 103;
-        private const int CODE_START_B = 104;
-        private const int CODE_START_C = 105;
-        private const int CODE_STOP = 106;
+        const int CODE_START_A = 103;
+        const int CODE_START_B = 104;
+        const int CODE_START_C = 105;
+        const int CODE_STOP = 106;
 
-        private static int[] findStartPattern(BitArray row)
+        static int[] findStartPattern(BitArray row)
         {
             int width = row.Size;
             int rowOffset = row.GetNextSet(0);
@@ -217,7 +217,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        private static bool decodeCode(BitArray row, int[] counters, int rowOffset, out int code)
+        static bool decodeCode(BitArray row, int[] counters, int rowOffset, out int code)
         {
             code = -1;
             if (!RecordPattern(row, rowOffset, counters)) {

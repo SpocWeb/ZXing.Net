@@ -38,21 +38,23 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class ItfReader : OneDReader
     {
-        private static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.38f);
-        private static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.5f);
 
-        private const int W = 3; // Pixel width of a wide line
-        private const int M = 2; // Pixel width of a medium line
-        private const int N = 1; // Pixel width of a narrow line
+        static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.38f);
+        static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.5f);
+
+        const int W = 3; // Pixel width of a wide line
+        const int M = 2; // Pixel width of a medium line
+        const int N = 1; // Pixel width of a narrow line
 
         /// <summary>
         /// Valid ITF lengths. Anything longer than the largest value is also allowed.
         /// </summary>
-        private static readonly int[] DEFAULT_ALLOWED_LENGTHS = { 6, 8, 10, 12, 14 };
-        private const int LARGEST_DEFAULT_ALLOWED_LENGTH = 14;
+        static readonly int[] DEFAULT_ALLOWED_LENGTHS = { 6, 8, 10, 12, 14 };
+
+        const int LARGEST_DEFAULT_ALLOWED_LENGTH = 14;
 
         // Stores the actual narrow line width of the image being decoded.
-        private int narrowLineWidth = -1;
+        int narrowLineWidth = -1;
 
         /// <summary>
         /// Start/end guard pattern.
@@ -60,8 +62,9 @@ namespace ZXing.OneD
         /// Note: The end pattern is reversed because the row is reversed before
         /// searching for the END_PATTERN
         /// </summary>
-        private static readonly int[] START_PATTERN = { N, N, N, N };
-        private static readonly int[][] END_PATTERN_REVERSED =
+        static readonly int[] START_PATTERN = { N, N, N, N };
+
+        static readonly int[][] END_PATTERN_REVERSED =
         {
          new[] {N, N, M},
          new[] {N, N, W}
@@ -194,7 +197,7 @@ namespace ZXing.OneD
         /// <returns>
         /// false, if decoding could not complete successfully
         /// </returns>
-        private static bool DecodeMiddle(BitArray row,
+        static bool DecodeMiddle(BitArray row,
                                          int payloadStart,
                                          int payloadEnd,
                                          StringBuilder resultString)
@@ -246,7 +249,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="row">row of black/white values to search</param>
         /// <returns>Array, containing index of start of 'start block' and end of 'start block'</returns>
-        private int[] DecodeStart(BitArray row)
+        int[] DecodeStart(BitArray row)
         {
             int endStart = SkipWhiteSpace(row);
             if (endStart < 0) {
@@ -284,7 +287,7 @@ namespace ZXing.OneD
         /// <param name="row">bit array representing the scanned barcode.</param>
         /// <param name="startPattern">index into row of the start or end pattern.</param>
         /// <returns>false, if the quiet zone cannot be found</returns>
-        private bool ValidateQuietZone(BitArray row, int startPattern)
+        bool ValidateQuietZone(BitArray row, int startPattern)
         {
             int quietCount = narrowLineWidth * 10;  // expect to find this many pixels of quiet zone
 
@@ -312,7 +315,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="row">row of black/white values to search</param>
         /// <returns>index of the first black line or -1 if no black lines are found in the row.</returns>
-        private static int SkipWhiteSpace(BitArray row)
+        static int SkipWhiteSpace(BitArray row)
         {
             int width = row.Size;
             int endStart = row.GetNextSet(0);
@@ -330,7 +333,7 @@ namespace ZXing.OneD
         /// <param name="row">row of black/white values to search</param>
         /// <returns>Array, containing index of start of 'end block' and end of 'end
         /// block' or null, if nothing found</returns>
-        private int[] DecodeEnd(BitArray row)
+        int[] DecodeEnd(BitArray row)
         {
             // For convenience, reverse the row and then
             // search from 'the start' for the end block
@@ -375,7 +378,7 @@ namespace ZXing.OneD
         /// <param name="rowOffset">position to start search</param>
         /// <param name="pattern">pattern of counts of number of black and white pixels that are being searched for as a pattern</param>
         /// <returns>start/end horizontal offset of guard pattern, as an array of two ints</returns>
-        private static int[] FindGuardPattern(BitArray row,
+        static int[] FindGuardPattern(BitArray row,
                                               int rowOffset,
                                               int[] pattern)
         {
@@ -426,7 +429,7 @@ namespace ZXing.OneD
         /// <returns>
         /// false, if digit cannot be decoded
         /// </returns>
-        private static bool DecodeDigit(int[] counters, out int bestMatch)
+        static bool DecodeDigit(int[] counters, out int bestMatch)
         {
             int bestVariance = MAX_AVG_VARIANCE; // worst variance we'll accept
             bestMatch = -1;

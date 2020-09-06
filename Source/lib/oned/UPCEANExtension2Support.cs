@@ -24,10 +24,11 @@ namespace ZXing.OneD
     /// <summary>
     /// @see UPCEANExtension5Support
     /// </summary>
-    sealed class UPCEANExtension2Support
+    internal sealed class UPCEANExtension2Support
     {
-        private readonly int[] decodeMiddleCounters = new int[4];
-        private readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
+
+        readonly int[] decodeMiddleCounters = new int[4];
+        readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
 
         internal BarCodeText decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
         {
@@ -56,7 +57,7 @@ namespace ZXing.OneD
             return extensionResult;
         }
 
-        private int decodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
+        int decodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
         {
             int[] counters = decodeMiddleCounters;
             counters[0] = 0;
@@ -108,7 +109,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="raw">raw content of extension</param>
         /// <returns>formatted interpretation of raw content as a {@link Map} mapping</returns>
-        private static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
+        static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
         {
             if (raw.Length != 2)
             {

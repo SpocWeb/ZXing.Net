@@ -28,7 +28,7 @@ namespace EmguCVDemo
     {
         Capture capture;
         bool Capturing;
-        private readonly IBarcodeReaderImage reader;
+        readonly IBarcodeReaderImage reader;
 
         public EmguCVDemoForm()
         {
@@ -36,7 +36,7 @@ namespace EmguCVDemo
             reader = new BarcodeReaderImage();
         }
 
-        private void captureButton_Click(object sender, EventArgs e)
+        void captureButton_Click(object sender, EventArgs e)
         {
             if (capture == null)
             {
@@ -79,7 +79,7 @@ namespace EmguCVDemo
             }
         }
 
-        private void DoDecoding(object sender, EventArgs args)
+        void DoDecoding(object sender, EventArgs args)
         {
             var timerStart = DateTime.Now.Ticks;
 
@@ -104,7 +104,7 @@ namespace EmguCVDemo
             labDuration.Text = new TimeSpan(timerStop - timerStart).Milliseconds.ToString("0 ms");
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        void btnClose_Click(object sender, EventArgs e)
         {
             Close();
         }

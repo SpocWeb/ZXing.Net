@@ -24,9 +24,10 @@ namespace OpenCVDemo
 {
     public partial class OpenCVDemoForm : Form
     {
-        private VideoCapture capture;
+
+        VideoCapture capture;
         bool Capturing;
-        private readonly IBarcodeReaderImage reader;
+        readonly IBarcodeReaderImage reader;
 
         public OpenCVDemoForm()
         {
@@ -34,7 +35,7 @@ namespace OpenCVDemo
             reader = new BarcodeReaderImage();
         }
 
-        private void btnOpenFile_Click(object sender, EventArgs e)
+        void btnOpenFile_Click(object sender, EventArgs e)
         {
             using (var openFileDialog = new OpenFileDialog())
             {
@@ -60,7 +61,7 @@ namespace OpenCVDemo
             }
         }
 
-        private void captureButton_Click(object sender, EventArgs e)
+        void captureButton_Click(object sender, EventArgs e)
         {
             if (capture == null)
             {
@@ -101,7 +102,7 @@ namespace OpenCVDemo
         }
 
 
-        private void DoDecoding(object sender, EventArgs args)
+        void DoDecoding(object sender, EventArgs args)
         {
             var timerStart = DateTime.Now.Ticks;
 
@@ -127,7 +128,7 @@ namespace OpenCVDemo
             labDuration.Text = new TimeSpan(timerStop - timerStart).Milliseconds.ToString("0 ms");
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }

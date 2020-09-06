@@ -29,26 +29,27 @@ namespace ZXing.Maxicode.Internal
     /// </summary>
     public static class DecodedBitStreamParser
     {
-        private const char SHIFTA = '\uFFF0';
-        private const char SHIFTB = '\uFFF1';
-        private const char SHIFTC = '\uFFF2';
-        private const char SHIFTD = '\uFFF3';
-        private const char SHIFTE = '\uFFF4';
-        private const char TWOSHIFTA = '\uFFF5';
-        private const char THREESHIFTA = '\uFFF6';
-        private const char LATCHA = '\uFFF7';
-        private const char LATCHB = '\uFFF8';
-        private const char LOCK = '\uFFF9';
-        private const char ECI = '\uFFFA';
-        private const char NS = '\uFFFB';
-        private const char PAD = '\uFFFC';
-        private const char FS = '\u001C';
-        private const char GS = '\u001D';
-        private const char RS = '\u001E';
-        private const string NINE_DIGITS = "000000000";
-        private const string THREE_DIGITS = "000";
 
-        private static string[] _SETS = {
+        const char SHIFTA = '\uFFF0';
+        const char SHIFTB = '\uFFF1';
+        const char SHIFTC = '\uFFF2';
+        const char SHIFTD = '\uFFF3';
+        const char SHIFTE = '\uFFF4';
+        const char TWOSHIFTA = '\uFFF5';
+        const char THREESHIFTA = '\uFFF6';
+        const char LATCHA = '\uFFF7';
+        const char LATCHB = '\uFFF8';
+        const char LOCK = '\uFFF9';
+        const char ECI = '\uFFFA';
+        const char NS = '\uFFFB';
+        const char PAD = '\uFFFC';
+        const char FS = '\u001C';
+        const char GS = '\u001D';
+        const char RS = '\u001E';
+        const string NINE_DIGITS = "000000000";
+        const string THREE_DIGITS = "000";
+
+        static string[] _SETS = {
                                  "\nABCDEFGHIJKLMNOPQRSTUVWXYZ"+ECI+FS+GS+RS+NS+' '+PAD+"\"#$%&'()*+,-./0123456789:"+SHIFTB+SHIFTC+SHIFTD+SHIFTE+LATCHB,
                                  "`abcdefghijklmnopqrstuvwxyz"+ECI+FS+GS+RS+NS+'{'+PAD+"}~\u007F;<=>?[\\]^_ ,./:@!|"+PAD+TWOSHIFTA+THREESHIFTA+PAD+SHIFTA+SHIFTC+SHIFTD+SHIFTE+LATCHA,
                                  "\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C6\u00C7\u00C8\u00C9\u00CA\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4\u00D5\u00D6\u00D7\u00D8\u00D9\u00DA"+ECI+FS+GS+RS+"\u00DB\u00DC\u00DD\u00DE\u00DF\u00AA\u00AC\u00B1\u00B2\u00B3\u00B5\u00B9\u00BA\u00BC\u00BD\u00BE\u0080\u0081\u0082\u0083\u0084\u0085\u0086\u0087\u0088\u0089"+LATCHA+' '+LOCK+SHIFTD+SHIFTE+LATCHB,
@@ -98,13 +99,13 @@ namespace ZXing.Maxicode.Internal
             return new DecoderResult(bytes, result.ToString(), null, mode.ToString());
         }
 
-        private static int GetBit(int bit, byte[] bytes)
+        static int GetBit(int bit, byte[] bytes)
         {
             bit--;
             return (bytes[bit / 6] & (1 << (5 - (bit % 6)))) == 0 ? 0 : 1;
         }
 
-        private static int GetInt(byte[] bytes, byte[] x)
+        static int GetInt(byte[] bytes, byte[] x)
         {
             if (x.Length == 0) {
                 throw new ArgumentException("x");
@@ -118,28 +119,28 @@ namespace ZXing.Maxicode.Internal
             return val;
         }
 
-        private static int GetCountry(byte[] bytes)
+        static int GetCountry(byte[] bytes)
         {
             return GetInt(bytes, new byte[] { 53, 54, 43, 44, 45, 46, 47, 48, 37, 38 });
         }
 
-        private static int GetServiceClass(byte[] bytes)
+        static int GetServiceClass(byte[] bytes)
         {
             return GetInt(bytes, new byte[] { 55, 56, 57, 58, 59, 60, 49, 50, 51, 52 });
         }
 
-        private static int GetPostCode2Length(byte[] bytes)
+        static int GetPostCode2Length(byte[] bytes)
         {
             return GetInt(bytes, new byte[] { 39, 40, 41, 42, 31, 32 });
         }
 
-        private static int GetPostCode2(byte[] bytes)
+        static int GetPostCode2(byte[] bytes)
         {
             return GetInt(bytes, new byte[] {33, 34, 35, 36, 25, 26, 27, 28, 29, 30, 19,
         20, 21, 22, 23, 24, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 1, 2});
         }
 
-        private static string GetPostCode3(byte[] bytes)
+        static string GetPostCode3(byte[] bytes)
         {
             return new string(
                new[]
@@ -154,7 +155,7 @@ namespace ZXing.Maxicode.Internal
                );
         }
 
-        private static string GetMessage(byte[] bytes, int start, int len)
+        static string GetMessage(byte[] bytes, int start, int len)
         {
             StringBuilder sb = new StringBuilder();
             int shift = -1;

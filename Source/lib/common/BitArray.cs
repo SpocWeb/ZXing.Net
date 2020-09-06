@@ -19,28 +19,17 @@ using System.Text;
 
 namespace ZXing.Common
 {
-    /// <summary>
-    /// A simple, fast array of bits, represented compactly by an array of ints internally.
-    /// </summary>
+    /// <summary>fast array of bits, represented compactly by an array of ints internally. </summary>
     /// <author>Sean Owen</author>
     public sealed class BitArray
     {
 
-        /// <summary>
-        /// size of the array, number of elements
-        /// </summary>
+        /// <summary> size of the array in Bits </summary>
         public int Size { get; set; }
 
-        /// <summary>
-        /// size of the array in bytes
-        /// </summary>
+        /// <summary> size of the array in bytes </summary>
         public int SizeInBytes => (Size + 7) >> 3;
 
-        /// <summary>
-        /// index accessor
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
         public bool this[int i]
         {
             get => (Array[i >> 5] & (1 << (i & 0x1F))) != 0;
@@ -52,37 +41,30 @@ namespace ZXing.Common
             }
         }
 
-        /// <summary>
-        /// default constructor
-        /// </summary>
         public BitArray()
         {
             Size = 0;
             Array = new int[1];
         }
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="size">desired size of the array</param>
         public BitArray(int size)
         {
             if (size < 1)
             {
                 throw new ArgumentException("size must be at least 1");
             }
-            this.Size = size;
+            Size = size;
             Array = MakeArray(size);
         }
 
         // For testing only
-        private BitArray(int[] bits, int size)
+        BitArray(int[] bits, int size)
         {
-            this.Array = bits;
-            this.Size = size;
+            Array = bits;
+            Size = size;
         }
 
-        private void EnsureCapacity(int size)
+        void EnsureCapacity(int size)
         {
             if (size > Array.Length << 5)
             {
@@ -102,7 +84,7 @@ namespace ZXing.Common
             Array[i >> 5] ^= 1 << (i & 0x1F);
         }
 
-        private static int NumberOfTrailingZeros(int num)
+        static int NumberOfTrailingZeros(int num)
         {
             var index = (-num & num) % 37;
             if (index < 0) {
@@ -111,7 +93,7 @@ namespace ZXing.Common
             return _lookup[index];
         }
 
-        private static readonly int[] _lookup =
+        static readonly int[] _lookup =
            {
             32, 0, 1, 26, 2, 23, 27, 0, 3, 16, 24, 30, 28, 11, 0, 13, 4, 7, 17,
             0, 25, 22, 31, 15, 29, 10, 12, 6, 0, 21, 14, 9, 5, 20, 8, 19, 18
@@ -394,7 +376,7 @@ namespace ZXing.Common
             Array = newBits;
         }
 
-        private static int[] MakeArray(int size)
+        static int[] MakeArray(int size)
         {
             return new int[(size + 31) >> 5];
         }

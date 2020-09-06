@@ -27,7 +27,8 @@ namespace ZXing.Common.Test
    [TestFixture]
    public sealed class BitMatrixTestCase
    {
-      private static readonly int[] BIT_MATRIX_POINTS = {1, 2, 2, 0, 3, 1};
+
+       static readonly int[] BIT_MATRIX_POINTS = {1, 2, 2, 0, 3, 1};
 
       [Test]
       public void TestGetSet()
@@ -308,14 +309,14 @@ namespace ZXing.Common.Test
          return builder.ToString();
       }
 
-      private static void TestXor(BitMatrix dataMatrix, BitMatrix flipMatrix, BitMatrix expectedMatrix)
+      static void TestXor(BitMatrix dataMatrix, BitMatrix flipMatrix, BitMatrix expectedMatrix)
       {
          var matrix = (BitMatrix) dataMatrix.Clone();
          matrix.Xor(flipMatrix);
          Assert.AreEqual(expectedMatrix, matrix);
       }
 
-      private static void TestRotate180(int width, int height)
+      static void TestRotate180(int width, int height)
       {
          var input = GetInput(width, height);
          input.Rotate180();
@@ -330,7 +331,7 @@ namespace ZXing.Common.Test
          }
       }
 
-      private static BitMatrix GetExpected(int width, int height)
+      static BitMatrix GetExpected(int width, int height)
       {
          var result = new BitMatrix(width, height);
          for (int i = 0; i < BIT_MATRIX_POINTS.Length; i += 2)
@@ -340,7 +341,7 @@ namespace ZXing.Common.Test
          return result;
       }
 
-      private static BitMatrix GetInput(int width, int height)
+      static BitMatrix GetInput(int width, int height)
       {
          var result = new BitMatrix(width, height);
          for (int i = 0; i < BIT_MATRIX_POINTS.Length; i += 2)

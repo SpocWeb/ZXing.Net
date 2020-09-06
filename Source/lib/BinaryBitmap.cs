@@ -26,8 +26,9 @@ namespace ZXing
     /// </remarks>
     public sealed class BinaryBitmap
     {
-        private readonly Binarizer _Binarizer;
-        private BitMatrix _Matrix;
+
+        readonly Binarizer _Binarizer;
+        BitMatrix _Matrix;
 
         public BinaryBitmap(Binarizer binarizer)
         {

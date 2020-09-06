@@ -34,8 +34,8 @@ namespace ZXing.OneD
         // These two values are critical for determining how permissive the decoding will be.
         // We've arrived at these values through a lot of trial and error. Setting them any higher
         // lets false positives creep in quickly.
-        private static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.48f);
-        private static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.7f);
+        static readonly int MAX_AVG_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.48f);
+        static readonly int MAX_INDIVIDUAL_VARIANCE = (int)(PATTERN_MATCH_RESULT_SCALE_FACTOR * 0.7f);
 
         /// <summary> Start/end guard pattern. </summary>
         internal static int[] START_END_PATTERN = { 1, 1, 1, };
@@ -83,9 +83,9 @@ namespace ZXing.OneD
             }
         }
 
-        private readonly StringBuilder decodeRowStringBuffer;
-        private readonly UPCEANExtensionSupport extensionReader;
-        private readonly EANManufacturerOrgSupport eanManSupport;
+        readonly StringBuilder decodeRowStringBuffer;
+        readonly UPCEANExtensionSupport extensionReader;
+        readonly EANManufacturerOrgSupport eanManSupport;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpcEanReader"/> class.

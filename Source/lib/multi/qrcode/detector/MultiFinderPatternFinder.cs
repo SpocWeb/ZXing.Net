@@ -37,36 +37,37 @@ namespace ZXing.Multi.QrCode.Internal
     /// <author>Sean Owen</author>
     /// <author>Hannes Erven</author>
     /// </remarks>
-    sealed class MultiQrPatternFinder : QrPatternFinder
+    internal sealed class MultiQrPatternFinder : QrPatternFinder
     {
-        private static readonly QrFinderPatternInfo[] _emptyResultArray = new QrFinderPatternInfo[0];
+
+        static readonly QrFinderPatternInfo[] _emptyResultArray = new QrFinderPatternInfo[0];
 
         // TODO MIN_MODULE_COUNT and MAX_MODULE_COUNT would be great hints to ask the user for
         // since it limits the number of regions to decode
 
         // max. legal count of modules per QR code edge (177)
-        private static float _maxModuleCountPerEdge = 180;
+        static float _maxModuleCountPerEdge = 180;
 
         // min. legal count per modules per QR code edge (11)
-        private static float _minModuleCountPerEdge = 9;
+        static float _minModuleCountPerEdge = 9;
 
         /// <summary>
         /// More or less arbitrary cutoff point for determining if two finder patterns might belong
         /// to the same code if they differ less than DIFF_MODSIZE_CUTOFF_PERCENT percent in their
         /// estimated modules sizes.
         /// </summary>
-        private static float _diffModsizeCutoffPercent = 0.05f;
+        static float _diffModsizeCutoffPercent = 0.05f;
 
         /// <summary>
         /// More or less arbitrary cutoff point for determining if two finder patterns might belong
         /// to the same code if they differ less than DIFF_MODSIZE_CUTOFF pixels/module in their
         /// estimated modules sizes.
         /// </summary>
-        private const float DIFF_MODSIZE_CUTOFF = 0.5f;
+        const float DIFF_MODSIZE_CUTOFF = 0.5f;
 
 
         /// <summary> orders FinderPatterns by their estimated module size. </summary>
-        private sealed class ModuleSizeComparer : IComparer<FinderPattern>
+        sealed class ModuleSizeComparer : IComparer<FinderPattern>
         {
             public int Compare(FinderPattern center1, FinderPattern center2)
             {
@@ -86,7 +87,7 @@ namespace ZXing.Multi.QrCode.Internal
         /// The "best" are those that have been detected at least CENTER_QUORUM times,
         /// and whose module size differs the least from the average among those patterns.
         /// </remarks>
-        private FinderPattern[][] SelectMultipleBestPatterns()
+        FinderPattern[][] SelectMultipleBestPatterns()
         {
             List<FinderPattern> possibleCenters = PossibleCenters;
             int size = possibleCenters.Count;

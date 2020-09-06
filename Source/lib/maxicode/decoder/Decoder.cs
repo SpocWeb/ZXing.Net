@@ -29,11 +29,12 @@ namespace ZXing.Maxicode.Internal
     /// </summary>
     public sealed class Decoder
     {
-        private const int ALL = 0;
-        private const int EVEN = 1;
-        private const int ODD = 2;
 
-        private readonly ReedSolomonDecoder _RsDecoder;
+        const int ALL = 0;
+        const int EVEN = 1;
+        const int ODD = 2;
+
+        readonly ReedSolomonDecoder _RsDecoder;
 
         /// <summary>
         /// constructor
@@ -93,7 +94,7 @@ namespace ZXing.Maxicode.Internal
             return DecodedBitStreamParser.Decode(datawords, mode);
         }
 
-        private bool CorrectErrors(byte[] codewordBytes,
+        bool CorrectErrors(byte[] codewordBytes,
                                    int start,
                                    int dataCodewords,
                                    int ecCodewords,

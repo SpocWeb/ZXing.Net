@@ -27,14 +27,15 @@ namespace ZXing.OneD.RSS
     /// </summary>
     public sealed class RSS14Reader : AbstractRSSReader
     {
-        private static readonly int[] OUTSIDE_EVEN_TOTAL_SUBSET = {1, 10, 34, 70, 126};
-        private static readonly int[] INSIDE_ODD_TOTAL_SUBSET = {4, 20, 48, 81};
-        private static readonly int[] OUTSIDE_GSUM = {0, 161, 961, 2015, 2715};
-        private static readonly int[] INSIDE_GSUM = {0, 336, 1036, 1516};
-        private static readonly int[] OUTSIDE_ODD_WIDEST = {8, 6, 4, 3, 1};
-        private static readonly int[] INSIDE_ODD_WIDEST = {2, 4, 6, 8};
 
-        private static readonly int[][] FINDER_PATTERNS =
+        static readonly int[] OUTSIDE_EVEN_TOTAL_SUBSET = {1, 10, 34, 70, 126};
+        static readonly int[] INSIDE_ODD_TOTAL_SUBSET = {4, 20, 48, 81};
+        static readonly int[] OUTSIDE_GSUM = {0, 161, 961, 2015, 2715};
+        static readonly int[] INSIDE_GSUM = {0, 336, 1036, 1516};
+        static readonly int[] OUTSIDE_ODD_WIDEST = {8, 6, 4, 3, 1};
+        static readonly int[] INSIDE_ODD_WIDEST = {2, 4, 6, 8};
+
+        static readonly int[][] FINDER_PATTERNS =
         {
             new[] {3, 8, 2, 1},
             new[] {3, 5, 5, 1},
@@ -47,8 +48,8 @@ namespace ZXing.OneD.RSS
             new[] {1, 3, 9, 1},
         };
 
-        private readonly List<Pair> possibleLeftPairs;
-        private readonly List<Pair> possibleRightPairs;
+        readonly List<Pair> possibleLeftPairs;
+        readonly List<Pair> possibleRightPairs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RSS14Reader"/> class.
@@ -100,7 +101,7 @@ namespace ZXing.OneD.RSS
             return null;
         }
 
-        private static void addOrTally(IList<Pair> possiblePairs, Pair pair)
+        static void addOrTally(IList<Pair> possiblePairs, Pair pair)
         {
             if (pair == null)
             {
@@ -131,7 +132,7 @@ namespace ZXing.OneD.RSS
             possibleRightPairs.Clear();
         }
 
-        private static BarCodeText constructResult(Pair leftPair, Pair rightPair)
+        static BarCodeText constructResult(Pair leftPair, Pair rightPair)
         {
             long symbolValue = 4537077L * leftPair.Value + rightPair.Value;
             string text = symbolValue.ToString();
@@ -165,7 +166,7 @@ namespace ZXing.OneD.RSS
                 BarcodeFormat.RSS_14);
         }
 
-        private static bool checkChecksum(Pair leftPair, Pair rightPair)
+        static bool checkChecksum(Pair leftPair, Pair rightPair)
         {
             //int leftFPValue = leftPair.FinderPattern.Value;
             //int rightFPValue = rightPair.FinderPattern.Value;
@@ -187,7 +188,7 @@ namespace ZXing.OneD.RSS
             return checkValue == targetCheckValue;
         }
 
-        private Pair decodePair(BitArray row, bool right, int rowNumber, IDictionary<DecodeHintType, object> hints)
+        Pair decodePair(BitArray row, bool right, int rowNumber, IDictionary<DecodeHintType, object> hints)
         {
             int[] startEnd = findFinderPattern(row, right);
             if (startEnd == null) {
@@ -225,7 +226,7 @@ namespace ZXing.OneD.RSS
                 pattern);
         }
 
-        private DataCharacter decodeDataCharacter(BitArray row, FinderPattern pattern, bool outsideChar)
+        DataCharacter decodeDataCharacter(BitArray row, FinderPattern pattern, bool outsideChar)
         {
             int[] counters = getDataCharacterCounters();
             SupportClass.Fill(counters, 0);
@@ -338,7 +339,7 @@ namespace ZXing.OneD.RSS
             }
         }
 
-        private int[] findFinderPattern(BitArray row, bool rightFinderPattern)
+        int[] findFinderPattern(BitArray row, bool rightFinderPattern)
         {
 
             int[] counters = getDecodeFinderCounters();
@@ -395,7 +396,7 @@ namespace ZXing.OneD.RSS
             return null;
         }
 
-        private FinderPattern parseFoundFinderPattern(BitArray row, int rowNumber, bool right, int[] startEnd)
+        FinderPattern parseFoundFinderPattern(BitArray row, int rowNumber, bool right, int[] startEnd)
         {
             // Actually we found elements 2-5
             bool firstIsBlack = row[startEnd[0]];
@@ -425,7 +426,7 @@ namespace ZXing.OneD.RSS
             return new FinderPattern(value, new[] {firstElementStart, startEnd[1]}, start, end, rowNumber);
         }
 
-        private bool adjustOddEvenCounts(bool outsideChar, int numModules)
+        bool adjustOddEvenCounts(bool outsideChar, int numModules)
         {
             int oddSum = MathUtils.Sum(getOddCounts());
             int evenSum = MathUtils.Sum(getEvenCounts());

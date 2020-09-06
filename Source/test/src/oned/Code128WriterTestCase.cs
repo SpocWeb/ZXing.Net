@@ -24,22 +24,23 @@ namespace ZXing.OneD.Test
 {
     public class Code128WriterTestCase
     {
-        private const string FNC1 = "11110101110";
-        private const string FNC2 = "11110101000";
-        private const string FNC3 = "10111100010";
-        private const string Fnc4A = "11101011110";
-        private const string Fnc4B = "10111101110";
-        private const string START_CODE_A = "11010000100";
-        private const string START_CODE_B = "11010010000";
-        private const string START_CODE_C = "11010011100";
-        private const string SWITCH_CODE_A = "11101011110";
-        private const string SWITCH_CODE_B = "10111101110";
-        private const string QUIET_SPACE = "00000";
-        private const string STOP = "1100011101011";
-        private const string LF = "10000110010";
 
-        private IBarCodeWriter _Writer;
-        private Code128Reader _Reader;
+        const string FNC1 = "11110101110";
+        const string FNC2 = "11110101000";
+        const string FNC3 = "10111100010";
+        const string Fnc4A = "11101011110";
+        const string Fnc4B = "10111101110";
+        const string START_CODE_A = "11010000100";
+        const string START_CODE_B = "11010010000";
+        const string START_CODE_C = "11010011100";
+        const string SWITCH_CODE_A = "11101011110";
+        const string SWITCH_CODE_B = "10111101110";
+        const string QUIET_SPACE = "00000";
+        const string STOP = "1100011101011";
+        const string LF = "10000110010";
+
+        IBarCodeWriter _Writer;
+        Code128Reader _Reader;
 
         [SetUp]
         public void SetUp()
@@ -185,7 +186,7 @@ namespace ZXing.OneD.Test
                 QUIET_SPACE + START_CODE_B + "10010110000" + "10010000110" + SWITCH_CODE_A + "10100001100" + SWITCH_CODE_B + "10010110000" + "10010000110" + "11010001110" + STOP + QUIET_SPACE);
         }
 
-        private void TestEncode(string toEncode, string expected)
+        void TestEncode(string toEncode, string expected)
         {
             var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 

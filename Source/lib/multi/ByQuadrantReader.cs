@@ -29,7 +29,7 @@ namespace ZXing.Multi
     /// <seealso cref="GenericMultipleBarcodeReader" />
     public sealed class ByQuadrantReader : IBarCodeDecoder {
 
-        private readonly IBarCodeDecoder Decoder;
+        readonly IBarCodeDecoder Decoder;
 
         public ByQuadrantReader(IBarCodeDecoder decoder) {
             this.Decoder = decoder;

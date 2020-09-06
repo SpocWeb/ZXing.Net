@@ -21,10 +21,11 @@ namespace ZXing.QrCode.Internal
     /// <author>Sean Owen</author>
     internal sealed class BitMatrixParser
     {
-        private readonly IBitMatrix bitMatrix;
-        private Version parsedVersion;
-        private FormatInformation parsedFormatInfo;
-        private bool mirrored;
+
+        readonly IBitMatrix bitMatrix;
+        Version parsedVersion;
+        FormatInformation parsedFormatInfo;
+        bool mirrored;
 
         /// <param name="bitMatrix">{@link BitMatrix} to parse</param>
         /// <throws>ReaderException if dimension is not >= 21 and 1 mod 4</throws>
@@ -38,7 +39,7 @@ namespace ZXing.QrCode.Internal
             return new BitMatrixParser(bitMatrix);
         }
 
-        private BitMatrixParser(IBitMatrix bitMatrix)
+        BitMatrixParser(IBitMatrix bitMatrix)
         {
             // Should only be called from createBitMatrixParser with the important checks before
             this.bitMatrix = bitMatrix;
@@ -153,7 +154,7 @@ namespace ZXing.QrCode.Internal
             return null;
         }
 
-        private int CopyBit(int i, int j, int versionBits)
+        int CopyBit(int i, int j, int versionBits)
         {
             bool bit = mirrored ? bitMatrix[j, i] : bitMatrix[i, j];
             return bit ? (versionBits << 1) | 0x1 : versionBits << 1;

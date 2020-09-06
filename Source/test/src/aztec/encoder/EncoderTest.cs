@@ -36,21 +36,22 @@ namespace ZXing.Aztec.Test
     [TestFixture]
     public sealed class EncoderTest
     {
-        private static readonly Encoding LATIN_1 = Encoding.GetEncoding("ISO-8859-1");
 
-        private static readonly Regex SPACES = new Regex("\\s+"
+        static readonly Encoding LATIN_1 = Encoding.GetEncoding("ISO-8859-1");
+
+        static readonly Regex SPACES = new Regex("\\s+"
 #if !SILVERLIGHT
             , RegexOptions.Compiled
 #endif
         );
 
-        private static readonly Regex DOTX = new Regex("[^.X]"
+        static readonly Regex DOTX = new Regex("[^.X]"
 #if !SILVERLIGHT
             , RegexOptions.Compiled
 #endif
         );
 
-        private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
+        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
         // real life tests
 
@@ -522,7 +523,7 @@ namespace ZXing.Aztec.Test
 
         // Helper routines
 
-        private static void TestEncode(string data, bool compact, int layers, string expected)
+        static void TestEncode(string data, bool compact, int layers, string expected)
         {
             AztecCode aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 33, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
@@ -531,7 +532,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(expected, matrix.ToString(), "encode() failed");
         }
 
-        private static void TestEncodeDecode(string data, bool compact, int layers)
+        static void TestEncodeDecode(string data, bool compact, int layers)
         {
             AztecCode aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 25, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
@@ -553,7 +554,7 @@ namespace ZXing.Aztec.Test
         }
 
 
-        private static void TestWriter(string data,
+        static void TestWriter(string data,
             string charset,
             int eccPercent,
             bool compact,
@@ -597,25 +598,25 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(expectedData, res.Text);
         }
 
-        private static Random GetPseudoRandom()
+        static Random GetPseudoRandom()
         {
             return new Random(0x0EADBEEF);
         }
 
-        private static void TestModeMessage(bool compact, int layers, int words, string expected)
+        static void TestModeMessage(bool compact, int layers, int words, string expected)
         {
             BitArray @in = Internal.Encoder.generateModeMessage(compact, layers, words);
             Assert.AreEqual(StripSpace(expected), StripSpace(@in.ToString()), "generateModeMessage() failed");
         }
 
-        private static void TestStuffBits(int wordSize, string bits, string expected)
+        static void TestStuffBits(int wordSize, string bits, string expected)
         {
             BitArray @in = ToBitArray(bits);
             BitArray stuffed = Internal.Encoder.stuffBits(@in, wordSize);
             Assert.AreEqual(StripSpace(expected), StripSpace(stuffed.ToString()), "stuffBits() failed for input string: " + bits);
         }
 
-        private static BitArray ToBitArray(string bits)
+        static BitArray ToBitArray(string bits)
         {
             var @in = new BitArray();
             var str = DOTX.Replace(bits, "");
@@ -626,7 +627,7 @@ namespace ZXing.Aztec.Test
             return @in;
         }
 
-        private static bool[] ToBooleanArray(BitArray bitArray)
+        static bool[] ToBooleanArray(BitArray bitArray)
         {
             bool[] result = new bool[bitArray.Size];
             for (int i = 0; i < result.Length; i++)
@@ -636,7 +637,7 @@ namespace ZXing.Aztec.Test
             return result;
         }
 
-        private static void TestHighLevelEncodeString(string s, string expectedBits)
+        static void TestHighLevelEncodeString(string s, string expectedBits)
         {
             BitArray bits = new HighLevelEncoder(LATIN_1.GetBytes(s)).encode();
             string receivedBits = StripSpace(bits.ToString());
@@ -644,7 +645,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(s, Internal.Decoder.highLevelDecode(ToBooleanArray(bits)));
         }
 
-        private static void TestHighLevelEncodeString(string s, int expectedReceivedBits)
+        static void TestHighLevelEncodeString(string s, int expectedReceivedBits)
         {
             BitArray bits = new HighLevelEncoder(LATIN_1.GetBytes(s)).encode();
             int receivedBitCount = StripSpace(bits.ToString()).Length;
@@ -652,7 +653,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(s, Internal.Decoder.highLevelDecode(ToBooleanArray(bits)));
         }
 
-        private static string StripSpace(string s)
+        static string StripSpace(string s)
         {
             return SPACES.Replace(s, "");
         }

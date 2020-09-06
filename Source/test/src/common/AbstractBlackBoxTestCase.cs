@@ -38,7 +38,7 @@ namespace ZXing.Common.Test
    public abstract class AbstractBlackBoxTestCase
    {
 #if !SILVERLIGHT
-      private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+       static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #else
       private static readonly DanielVaughan.Logging.ILog Log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
@@ -50,10 +50,10 @@ namespace ZXing.Common.Test
                 lowerCase.EndsWith(".gif") || lowerCase.EndsWith(".png");
       }
 
-      private readonly string _TestBase;
-      private readonly IBarCodeDecoder _BarcodeReader;
-      private readonly BarcodeFormat? _ExpectedFormat;
-      private readonly List<TestResult> _TestResults;
+      readonly string _TestBase;
+      readonly IBarCodeDecoder _BarcodeReader;
+      readonly BarcodeFormat? _ExpectedFormat;
+      readonly List<TestResult> _TestResults;
 
       public static string BuildTestBase(string testBasePathSuffix)
       {
@@ -277,7 +277,7 @@ namespace ZXing.Common.Test
          }
       }
 
-      private bool Decode(BinaryBitmap source,
+      bool Decode(BinaryBitmap source,
                              float rotation,
                              string expectedText,
                              IDictionary<string, string> expectedMetadata,

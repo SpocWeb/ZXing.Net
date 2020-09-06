@@ -27,8 +27,9 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class PharmaCodeReader : OneDReader
     {
-        private static bool isBlack = true;
-        private static bool isWhite = false;
+
+        static bool isBlack = true;
+        static bool isWhite = false;
 
         internal class PixelInterval
         {
@@ -238,7 +239,7 @@ namespace ZXing.OneD
         }
 
 
-        private int? finalProcessing(List<PixelInterval> gaps)
+        int? finalProcessing(List<PixelInterval> gaps)
         {
             int l = gaps.Count;
             double[]

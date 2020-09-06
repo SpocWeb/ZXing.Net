@@ -67,7 +67,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          AssertCorrectImage2Result(path, expected);
       }
 
-      private static void AssertCorrectImage2Result(string imageFileName, ExpandedProductParsedResult expected)
+      static void AssertCorrectImage2Result(string imageFileName, ExpandedProductParsedResult expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 

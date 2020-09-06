@@ -32,7 +32,7 @@ namespace ZXing.QrCode.Internal
     public static class DataMask
     {
         /// <summary> See ISO 18004:2006 6.8.1</summary>
-        private static readonly Func<int, int, bool>[] DATA_MASKS = {
+        static readonly Func<int, int, bool>[] DATA_MASKS = {
                                                             // 000: mask bits for which (x + y) mod 2 == 0
                                                             (i, j) => ((i + j) & 0x01) == 0,
                                                             // 001: mask bits for which x mod 2 == 0

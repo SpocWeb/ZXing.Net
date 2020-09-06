@@ -27,7 +27,8 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class UpcAReader : UpcEanReader
     {
-        private readonly UpcEanReader ean13Reader = new Ean13Reader();
+
+        readonly UpcEanReader ean13Reader = new Ean13Reader();
 
         /// <summary>
         ///   <p>Like decodeRow(int, BitArray, java.util.Map), but
@@ -86,7 +87,7 @@ namespace ZXing.OneD
             return ean13Reader.DecodeMiddle(row, startRange, resultString);
         }
 
-        private static BarCodeText maybeReturnResult(BarCodeText result)
+        static BarCodeText maybeReturnResult(BarCodeText result)
         {
             if (result == null) {
                 return null;

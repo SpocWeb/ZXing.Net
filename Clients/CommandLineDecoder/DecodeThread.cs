@@ -33,9 +33,10 @@ namespace CommandLineDecoder
     /// </summary>
     internal sealed class DecodeThread
     {
-        private int successful;
-        private readonly Config config;
-        private readonly Inputs inputs;
+
+        int successful;
+        readonly Config config;
+        readonly Inputs inputs;
         public string ResultString { get; private set; }
 
         public DecodeThread(Config config, Inputs inputs)
@@ -127,7 +128,7 @@ namespace CommandLineDecoder
             return successful;
         }
 
-        private static void dumpResult(string input, BarCodeText result)
+        static void dumpResult(string input, BarCodeText result)
         {
             int pos = input.LastIndexOf('.');
             if (pos > 0)
@@ -140,7 +141,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private static void dumpResultMulti(string input, BarCodeText[] results)
+        static void dumpResultMulti(string input, BarCodeText[] results)
         {
             int pos = input.LastIndexOf('.');
             if (pos > 0)
@@ -156,7 +157,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private BarCodeText decode(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
+        BarCodeText decode(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
         {
             Bitmap image = null;
             try
@@ -185,7 +186,7 @@ namespace CommandLineDecoder
             }
         }
 
-        private BarCodeText decode(Uri uri, Bitmap image, string originalInput, IDictionary<DecodeHintType, object> hints)
+        BarCodeText decode(Uri uri, Bitmap image, string originalInput, IDictionary<DecodeHintType, object> hints)
         {
             LuminanceSource source;
             if (config.Crop == null)
@@ -240,7 +241,7 @@ namespace CommandLineDecoder
             return result;
         }
 
-        private BarCodeText[] decodeMulti(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
+        BarCodeText[] decodeMulti(Uri uri, string originalInput, IDictionary<DecodeHintType, object> hints)
         {
             Bitmap image;
             try
@@ -318,7 +319,7 @@ namespace CommandLineDecoder
          * to right: the original image, the row sampling monochrome version, and the 2D sampling
          * monochrome version.
          */
-        private static void dumpBlackPoint(Uri uri, Bitmap image, BinaryBitmap bitmap, LuminanceSource luminanceSource)
+        static void dumpBlackPoint(Uri uri, Bitmap image, BinaryBitmap bitmap, LuminanceSource luminanceSource)
         {
             // TODO: Update to compare different Binarizer implementations.
             string inputName = uri.LocalPath;
