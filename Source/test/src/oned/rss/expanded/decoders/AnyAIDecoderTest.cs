@@ -33,62 +33,62 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    /// <summary>
    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
    /// </summary>
-   public class AnyAIDecoderTest : AbstractDecoderTest
+   public class AnyAiDecoderTest : AbstractDecoderTest
    {
-      private static string header = ".....";
+      private static string _HEADER = ".....";
 
       [Test]
       public void testAnyAIDecoder_1()
       {
-            string data = header + numeric_10 + numeric_12 + numeric2alpha + alpha_A + alpha2numeric + numeric_12;
+            string data = _HEADER + Numeric10 + Numeric12 + Numeric2Alpha + AlphaA + Alpha2Numeric + Numeric12;
             string expected = "(10)12A12";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void testAnyAIDecoder_2()
       {
-            string data = header + numeric_10 + numeric_12 + numeric2alpha + alpha_A + alpha2isoiec646 + i646_B;
+            string data = _HEADER + Numeric10 + Numeric12 + Numeric2Alpha + AlphaA + Alpha2Isoiec646 + I646B;
             string expected = "(10)12AB";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void testAnyAIDecoder_3()
       {
-            string data = header + numeric_10 + numeric2alpha + alpha2isoiec646 + i646_B + i646_C + isoiec646_2alpha + alpha_A + alpha2numeric + numeric_10;
+            string data = _HEADER + Numeric10 + Numeric2Alpha + Alpha2Isoiec646 + I646B + I646C + Isoiec6462Alpha + AlphaA + Alpha2Numeric + Numeric10;
             string expected = "(10)BCA10";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void testAnyAIDecoder_numericFNC1_secondDigit()
       {
-            string data = header + numeric_10 + numeric_1FNC1;
+            string data = _HEADER + Numeric10 + Numeric1Fnc1;
             string expected = "(10)1";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void testAnyAIDecoder_alphaFNC1()
       {
-            string data = header + numeric_10 + numeric2alpha + alpha_A + alpha_FNC1;
+            string data = _HEADER + Numeric10 + Numeric2Alpha + AlphaA + AlphaFnc1;
             string expected = "(10)A";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void testAnyAIDecoder_646FNC1()
       {
-            string data = header + numeric_10 + numeric2alpha + alpha_A + isoiec646_2alpha + i646_B + i646_FNC1;
+            string data = _HEADER + Numeric10 + Numeric2Alpha + AlphaA + Isoiec6462Alpha + I646B + I646Fnc1;
             string expected = "(10)AB";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
    }
 }

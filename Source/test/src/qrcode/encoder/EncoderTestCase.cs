@@ -32,7 +32,7 @@ namespace ZXing.QrCode.Internal.Test
    public sealed class EncoderTestCase
    {
       [Test]
-      public void testGetAlphanumericCode()
+      public void TestGetAlphanumericCode()
       {
          // The first ten code points are numbers.
          for (int i = 0; i < 10; ++i)
@@ -64,7 +64,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testChooseMode()
+      public void TestChooseMode()
       {
          // Numeric mode.
          Assert.AreEqual(Mode.NUMERIC, Encoder.chooseMode("0"));
@@ -83,17 +83,17 @@ namespace ZXing.QrCode.Internal.Test
 
          // AIUE in Hiragana in Shift_JIS
          Assert.AreEqual(Mode.BYTE,
-            Encoder.chooseMode(shiftJISString(new byte[] {0x8, 0xa, 0x8, 0xa, 0x8, 0xa, 0x8, 0xa6})));
+            Encoder.chooseMode(ShiftJisString(new byte[] {0x8, 0xa, 0x8, 0xa, 0x8, 0xa, 0x8, 0xa6})));
 
          // Nihon in Kanji in Shift_JIS.
-         Assert.AreEqual(Mode.BYTE, Encoder.chooseMode(shiftJISString(new byte[] {0x9, 0xf, 0x9, 0x7b})));
+         Assert.AreEqual(Mode.BYTE, Encoder.chooseMode(ShiftJisString(new byte[] {0x9, 0xf, 0x9, 0x7b})));
 
          // Sou-Utsu-Byou in Kanji in Shift_JIS.
-         Assert.AreEqual(Mode.BYTE, Encoder.chooseMode(shiftJISString(new byte[] {0xe, 0x4, 0x9, 0x5, 0x9, 0x61})));
+         Assert.AreEqual(Mode.BYTE, Encoder.chooseMode(ShiftJisString(new byte[] {0xe, 0x4, 0x9, 0x5, 0x9, 0x61})));
       }
 
       [Test]
-      public void testEncode()
+      public void TestEncode()
       {
          var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H);
          const string expected = "<<\n" +
@@ -128,7 +128,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEncodeWithVersion()
+      public void TestEncodeWithVersion()
       {
          var hints = new QrCodeEncodingOptions {QrVersion = 7};
          QRCode qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints.Hints);
@@ -136,7 +136,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEncodeWithVersionString()
+      public void TestEncodeWithVersionString()
       {
          var hints = new QrCodeEncodingOptions();
          hints.Hints[EncodeHintType.QR_VERSION] = "7";
@@ -146,14 +146,14 @@ namespace ZXing.QrCode.Internal.Test
 
       [Test]
       [ExpectedException(typeof(WriterException))]
-      public void testEncodeWithVersionTooSmall()
+      public void TestEncodeWithVersionTooSmall()
       {
          var hints = new QrCodeEncodingOptions {QrVersion = 3};
          Encoder.encode("THISMESSAGEISTOOLONGFORAQRCODEVERSION3", ErrorCorrectionLevel.H, hints.Hints);
       }
 
       [Test]
-      public void testSimpleUTF8ECI()
+      public void TestSimpleUtf8Eci()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
@@ -192,7 +192,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEncodeKanjiMode()
+      public void TestEncodeKanjiMode()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
@@ -233,7 +233,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEncodeShiftjisNumeric()
+      public void TestEncodeShiftjisNumeric()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
@@ -273,51 +273,51 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEncodeGS1WithStringTypeHint()
+      public void TestEncodeGs1WithStringTypeHint()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.GS1_FORMAT] = "true"
             };
             QRCode qrCode = Encoder.encode("100001%11171218", ErrorCorrectionLevel.H, hints);
-         verifyGS1EncodedData(qrCode);
+         VerifyGs1EncodedData(qrCode);
       }
 
       [Test]
-      public void testEncodeGS1WithBooleanTypeHint()
+      public void TestEncodeGs1WithBooleanTypeHint()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.GS1_FORMAT] = true
             };
             var qrCode = Encoder.encode("100001%11171218", ErrorCorrectionLevel.H, hints);
-         verifyGS1EncodedData(qrCode);
+         VerifyGs1EncodedData(qrCode);
       }
 
       [Test]
-      public void testDoesNotEncodeGS1WhenBooleanTypeHintExplicitlyFalse()
+      public void TestDoesNotEncodeGs1WhenBooleanTypeHintExplicitlyFalse()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.GS1_FORMAT] = false
             };
             var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints);
-         verifyNotGS1EncodedData(qrCode);
+         VerifyNotGs1EncodedData(qrCode);
       }
 
       [Test]
-      public void testDoesNotEncodeGS1WhenStringTypeHintExplicitlyFalse()
+      public void TestDoesNotEncodeGs1WhenStringTypeHintExplicitlyFalse()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.GS1_FORMAT] = "false"
             };
             var qrCode = Encoder.encode("ABCDEF", ErrorCorrectionLevel.H, hints);
-         verifyNotGS1EncodedData(qrCode);
+         VerifyNotGs1EncodedData(qrCode);
       }
 
       [Test]
-      public void testGS1ModeHeaderWithECI()
+      public void TestGs1ModeHeaderWithEci()
       {
             var hints = new Dictionary<EncodeHintType, object>
             {
@@ -359,7 +359,7 @@ namespace ZXing.QrCode.Internal.Test
 
 
       [Test]
-      public void testAppendModeInfo()
+      public void TestAppendModeInfo()
       {
          BitArray bits = new BitArray();
          Encoder.appendModeInfo(Mode.NUMERIC, bits);
@@ -367,7 +367,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testAppendLengthInfo()
+      public void TestAppendLengthInfo()
       {
          var bits = new BitArray();
          Encoder.appendLengthInfo(1, // 1 letter (1/1).
@@ -396,7 +396,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testAppendBytes()
+      public void TestAppendBytes()
       {
          // Should use appendNumericBytes.
          // 1 = 01 = 0001 in 4 bits.
@@ -427,12 +427,12 @@ namespace ZXing.QrCode.Internal.Test
          // Should use appendKanjiBytes.
          // 0x93, 0x5f
          bits = new BitArray();
-         Encoder.appendBytes(shiftJISString(new byte[] {0x93, 0x5f}), Mode.KANJI, bits, Encoder.DEFAULT_BYTE_MODE_ENCODING);
+         Encoder.appendBytes(ShiftJisString(new byte[] {0x93, 0x5f}), Mode.KANJI, bits, Encoder.DEFAULT_BYTE_MODE_ENCODING);
          Assert.AreEqual(" .XX.XX.. XXXXX", bits.ToString());
       }
 
       [Test]
-      public void testTerminateBits()
+      public void TestTerminateBits()
       {
          var v = new BitArray();
          Encoder.terminateBits(0, v);
@@ -462,7 +462,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testGetNumDataBytesAndNumECBytesForBlockID()
+      public void TestGetNumDataBytesAndNumEcBytesForBlockId()
       {
          int[] numDataBytes = new int[1];
          int[] numEcBytes = new int[1];
@@ -500,7 +500,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testInterleaveWithECBytes()
+      public void TestInterleaveWithEcBytes()
       {
          byte[] dataBytes = {32, 65, 205, 69, 41, 220, 46, 128, 236};
          var @in = new BitArray();
@@ -569,7 +569,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testAppendNumericBytes()
+      public void TestAppendNumericBytes()
       {
          // 1 = 01 = 0001 in 4 bits.
          var bits = new BitArray();
@@ -594,7 +594,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testAppendAlphanumericBytes()
+      public void TestAppendAlphanumericBytes()
       {
          // A = 10 = 0xa = 001010 in 6 bits
          var bits = new BitArray();
@@ -624,7 +624,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testAppend8BitBytes()
+      public void TestAppend8BitBytes()
       {
          // 0x61, 0x62, 0x63
          var bits = new BitArray();
@@ -638,19 +638,19 @@ namespace ZXing.QrCode.Internal.Test
 
       // Numbers are from page 21 of JISX0510:2004
       [Test]
-      public void testAppendKanjiBytes()
+      public void TestAppendKanjiBytes()
       {
          BitArray bits = new BitArray();
-         Encoder.appendKanjiBytes(shiftJISString(new byte[] { (byte)0x93, 0x5f }), bits);
+         Encoder.appendKanjiBytes(ShiftJisString(new byte[] { (byte)0x93, 0x5f }), bits);
          Assert.AreEqual(" .XX.XX.. XXXXX", bits.ToString());
-         Encoder.appendKanjiBytes(shiftJISString(new byte[] { (byte)0xe4, (byte)0xaa }), bits);
+         Encoder.appendKanjiBytes(ShiftJisString(new byte[] { (byte)0xe4, (byte)0xaa }), bits);
          Assert.AreEqual(" .XX.XX.. XXXXXXX. X.X.X.X. X.", bits.ToString());
       }
 
       // Numbers are from http://www.swetake.com/qr/qr3.html and
       // http://www.swetake.com/qr/qr9.html
       [Test]
-      public void testGenerateECBytes()
+      public void TestGenerateEcBytes()
       {
          byte[] dataBytes = {32, 65, 205, 69, 41, 220, 46, 128, 236};
          byte[] ecBytes = Encoder.generateECBytes(dataBytes, 17);
@@ -693,7 +693,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testBugInBitVectorNumBytes()
+      public void TestBugInBitVectorNumBytes()
       {
          // There was a bug in BitVector.sizeInBytes() that caused it to return a
          // smaller-by-one value (ex. 1465 instead of 1466) if the number of bits
@@ -731,7 +731,7 @@ namespace ZXing.QrCode.Internal.Test
          Encoder.encode(builder.ToString(), ErrorCorrectionLevel.L);
       }
 
-      private void verifyGS1EncodedData(QRCode qrCode)
+      private void VerifyGs1EncodedData(QRCode qrCode)
       {
             string expected =
            "<<\n" +
@@ -769,7 +769,7 @@ namespace ZXing.QrCode.Internal.Test
          Assert.AreEqual(expected, qrCode.ToString());
       }
 
-      private void verifyNotGS1EncodedData(QRCode qrCode)
+      private void VerifyNotGs1EncodedData(QRCode qrCode)
       {
             string expected =
            "<<\n" +
@@ -803,7 +803,7 @@ namespace ZXing.QrCode.Internal.Test
          Assert.AreEqual(expected, qrCode.ToString());
       }
 
-      private static string shiftJISString(byte[] bytes)
+      private static string ShiftJisString(byte[] bytes)
       {
          try
          {

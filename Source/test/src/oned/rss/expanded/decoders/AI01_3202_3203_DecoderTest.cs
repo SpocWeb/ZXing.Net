@@ -33,27 +33,27 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    /// <summary>
    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
    /// </summary>
-   public class AI01_3202_3203_DecoderTest : AbstractDecoderTest
+   public class Ai0132023203DecoderTest : AbstractDecoderTest
    {
 
-      private static string header = "..X.X";
+      private static string _HEADER = "..X.X";
 
       [Test]
       public void test01_3202_1()
       {
-            string data = header + compressedGtin_900123456798908 + compressed15bitWeight_1750;
+            string data = _HEADER + CompressedGtin900123456798908 + Compressed15BitWeight1750;
             string expected = "(01)90012345678908(3202)001750";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_3203_1()
       {
-            string data = header + compressedGtin_900123456798908 + compressed15bitWeight_11750;
+            string data = _HEADER + CompressedGtin900123456798908 + Compressed15BitWeight11750;
             string expected = "(01)90012345678908(3203)001750";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
    }
 }

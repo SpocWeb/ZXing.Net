@@ -15,6 +15,7 @@
 */
 
 using System.Collections.Generic;
+using ZXing.Common;
 using ZXing.QrCode;
 
 namespace ZXing
@@ -44,7 +45,15 @@ namespace ZXing
         /// <remarks>
         /// This should be split into 2 Steps to be able to manage Problems! 
         /// </remarks>
-        BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null);
+        BarCodeText Decode(BinaryBitmap image
+            , IDictionary<DecodeHintType, object> hints = null);
+
+        //DetectorResult Find(BinaryBitmap image
+        //    , IDictionary<DecodeHintType, object> hints = null);
+
+        /// <summary> Decodes a single <paramref name="detectorResult"/> </summary>
+        BarCodeText Decode(DetectorResult detectorResult
+            , IDictionary<DecodeHintType, object> hints = null);
 
         /// <summary> Resets any internal state the implementation has after a decode </summary>
         /// <remarks>

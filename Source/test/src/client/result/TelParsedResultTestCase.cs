@@ -29,13 +29,13 @@ namespace ZXing.Client.Result.Test
    public sealed class TelParsedResultTestCase
    {
       [Test]
-      public void testTel()
+      public void TestTel()
       {
-         doTest("tel:+15551212", "+15551212", null);
-         doTest("tel:2125551212", "2125551212", null);
+         DoTest("tel:+15551212", "+15551212", null);
+         DoTest("tel:2125551212", "2125551212", null);
       }
 
-      private static void doTest(string contents, string number, string title)
+      private static void DoTest(string contents, string number, string title)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);

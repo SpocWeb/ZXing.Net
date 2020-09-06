@@ -21,15 +21,15 @@ namespace ZXing.QrCode.Test
    /// <summary>
    /// <author>Sean Owen</author>
    /// </summary>
-   public sealed class QRCodeBlackBox2TestCase : AbstractBlackBoxTestCase
+   public sealed class QrCodeBlackBox2TestCase : AbstractBlackBoxTestCase
    {
-      public QRCodeBlackBox2TestCase()
+      public QrCodeBlackBox2TestCase()
          : base("test/data/blackbox/qrcode-2", new MultiFormatReader(), BarcodeFormat.QR_CODE)
       {
-         addTest(31, 31, 0.0f);
-         addTest(31, 31, 90.0f);    // Java: addTest(29, 29, 90.0f);
-         addTest(30, 30, 180.0f);
-         addTest(30, 30, 270.0f);
+         AddTest(31, 31, 0.0f);
+         AddTest(31, 31, 90.0f);    // Java: addTest(29, 29, 90.0f);
+         AddTest(30, 30, 180.0f);
+         AddTest(30, 30, 270.0f);
       }
    }
 }

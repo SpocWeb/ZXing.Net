@@ -44,7 +44,7 @@ namespace ZXing.Multi.QrCode.Internal
         {
             var image = Image;
             var resultPointCallback =
-                hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK)
+                hints?.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) != true
                     ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
             var finder = new MultiQrPatternFinder(image, resultPointCallback);
             var infos = finder.FindMulti(hints);

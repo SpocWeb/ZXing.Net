@@ -44,7 +44,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
    /// </summary>
    [TestFixture]
-   public sealed class RSSExpandedImage2binaryTestCase
+   public sealed class RssExpandedImage2BinaryTestCase
    {
       [TestCase("1.png", " ...X...X .X....X. .XX...X. X..X...X ...XX.X. ..X.X... ..X.X..X ...X..X. X.X....X .X....X. .....X.. X...X...", TestName = "(11)100224(17)110224(3102)000100")]
       [TestCase("2.png", " ..X..... ......X. .XXX.X.X .X...XX. XXXXX.XX XX.X.... .XX.XX.X .XX.", TestName = "(01)90012345678908(3103)001750")]
@@ -64,16 +64,16 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [TestCase("20.png", " ..XXXX.X ........ .X..XXX. X.X.X... XX.XXXXX .XXXX.X. ..XX...X .X.....X .XX..... XXXX.X.. XX..", TestName = "(01)90012345678908(3202)001750(15)100312")]
       [TestCase("21.png", " ..XXXXX. ........ .X..XXX. X.X.X... XX.XXXXX .XXXX.X. ..XX...X .X.....X .XX..... XXXX.X.. XX..", TestName = "(01)90012345678908(3102)001750(17)100312")]
       [TestCase("22.png", " ..XXXXXX ........ .X..XXX. X.X.X... XX.XXXXX .XXXX.X. ..XX...X .X.....X .XX..... XXXX.X.. XX..", TestName = "(01)90012345678908(3202)001750(17)100312")]
-      public void testDecodeRow2binary(string imageFileName, string expectedResult)
+      public void TestDecodeRow2Binary(string imageFileName, string expectedResult)
       {
-         assertCorrectImage2binary(imageFileName, expectedResult);
+         AssertCorrectImage2Binary(imageFileName, expectedResult);
       }
 
-      private static void assertCorrectImage2binary(string imageFileName, string expected)
+      private static void AssertCorrectImage2Binary(string imageFileName, string expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var binaryMap = TestCaseUtil.getBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
+         var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.getBlackRow(rowNumber, null);
 

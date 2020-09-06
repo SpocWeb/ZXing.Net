@@ -22,13 +22,13 @@ namespace ZXing.OneD.Test
    /// A set of blurry images taken with a fixed-focus device.
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class EAN13BlackBox5BlurryTestCase : AbstractBlackBoxTestCase
+   public sealed class Ean13BlackBox5BlurryTestCase : AbstractBlackBoxTestCase
    {
-      public EAN13BlackBox5BlurryTestCase()
+      public Ean13BlackBox5BlurryTestCase()
          : base("test/data/blackbox/ean13-5", new MultiFormatReader(), BarcodeFormat.EAN_13)
       {
-         addTest(0, 0, 0.0f);
-         addTest(0, 0, 180.0f);
+         AddTest(0, 0, 0.0f);
+         AddTest(0, 0, 180.0f);
       }
    }
 }

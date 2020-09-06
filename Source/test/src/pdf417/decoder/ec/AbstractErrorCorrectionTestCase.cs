@@ -26,12 +26,12 @@ namespace ZXing.PDF417.Internal.Test
    /// </summary>
    public abstract class AbstractErrorCorrectionTestCase
    {
-      public static void corrupt(int[] received, int howMany, Random random)
+      public static void Corrupt(int[] received, int howMany, Random random)
       {
-         ReedSolomonTestCase.corrupt(received, howMany, random, 929);
+         ReedSolomonTestCase.Corrupt(received, howMany, random, 929);
       }
 
-      public static int[] erase(int[] received, int howMany, Random random)
+      public static int[] Erase(int[] received, int howMany, Random random)
       {
          var erased = new System.Collections.BitArray(received.Length);
          // BitSet erased = new BitSet(received.Length);
@@ -54,7 +54,7 @@ namespace ZXing.PDF417.Internal.Test
          return erasures;
       }
 
-      public static Random getRandom()
+      public static Random GetRandom()
       {
          return new Random(0x0EADBEEF);
       }

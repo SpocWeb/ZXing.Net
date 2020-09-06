@@ -26,8 +26,8 @@ namespace ZXing.OneD.Test
       public Code39BlackBox1TestCase()
          : base("test/data/blackbox/code39-1", new MultiFormatReader(), BarcodeFormat.CODE_39)
       {
-         addTest(4, 4, 0.0f);
-         addTest(4, 4, 180.0f);
+         AddTest(4, 4, 0.0f);
+         AddTest(4, 4, 180.0f);
       }
    }
 }

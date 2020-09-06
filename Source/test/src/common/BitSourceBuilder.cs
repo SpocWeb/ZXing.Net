@@ -25,49 +25,49 @@ namespace ZXing.Common.Test
    /// </summary>
    public sealed class BitSourceBuilder
    {
-      private MemoryStream output;
-      private int nextByte;
-      private int bitsLeftInNextByte;
+      private MemoryStream _Output;
+      private int _NextByte;
+      private int _BitsLeftInNextByte;
 
       public BitSourceBuilder()
       {
-         output = new MemoryStream();
-         nextByte = 0;
-         bitsLeftInNextByte = 8;
+         _Output = new MemoryStream();
+         _NextByte = 0;
+         _BitsLeftInNextByte = 8;
       }
 
-      public void write(int value, int numBits)
+      public void Write(int value, int numBits)
       {
-         if (numBits <= bitsLeftInNextByte)
+         if (numBits <= _BitsLeftInNextByte)
          {
-            nextByte <<= numBits;
-            nextByte |= value;
-            bitsLeftInNextByte -= numBits;
-            if (bitsLeftInNextByte == 0)
+            _NextByte <<= numBits;
+            _NextByte |= value;
+            _BitsLeftInNextByte -= numBits;
+            if (_BitsLeftInNextByte == 0)
             {
-               output.WriteByte((byte) nextByte);
-               nextByte = 0;
-               bitsLeftInNextByte = 8;
+               _Output.WriteByte((byte) _NextByte);
+               _NextByte = 0;
+               _BitsLeftInNextByte = 8;
             }
          }
          else
          {
-            int bitsToWriteNow = bitsLeftInNextByte;
+            int bitsToWriteNow = _BitsLeftInNextByte;
             int numRestOfBits = numBits - bitsToWriteNow;
             int mask = 0xFF >> (8 - bitsToWriteNow);
             int valueToWriteNow = ((int)((uint)value >> numRestOfBits)) & mask;
-            write(valueToWriteNow, bitsToWriteNow);
-            write(value, numRestOfBits);
+            Write(valueToWriteNow, bitsToWriteNow);
+            Write(value, numRestOfBits);
          }
       }
 
-      public byte[] toByteArray()
+      public byte[] ToByteArray()
       {
-         if (bitsLeftInNextByte < 8)
+         if (_BitsLeftInNextByte < 8)
          {
-            write(0, bitsLeftInNextByte);
+            Write(0, _BitsLeftInNextByte);
          }
-         return output.ToArray();
+         return _Output.ToArray();
       }
    }
 }

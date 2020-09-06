@@ -27,111 +27,55 @@ namespace ZXing.Common
     /// </summary>
     public sealed class DecoderResult
     {
-        /// <summary>
-        /// raw bytes representing the result, or null if not applicable
-        /// </summary>
+        /// <summary> raw bytes representing the result, or null if not applicable </summary>
         public byte[] RawBytes { get; }
 
-        /// <summary>
-        /// how many bits of<see cref="RawBytes"/> are valid; typically 8 times its length
-        /// </summary>
+        /// <summary> how many bits of<see cref="RawBytes"/> are valid; typically 8 times its length </summary>
         public int NumBits { get; }
 
-        /// <summary>
-        /// text representation of the result
-        /// </summary>
+        /// <summary> text representation of the result </summary>
         public string Text { get; }
 
-        /// <summary>
-        /// list of byte segments in the result, or null if not applicable
-        /// </summary>
+        /// <summary> list of byte segments in the result, or null if not applicable </summary>
         public IList<byte[]> ByteSegments { get; }
 
-        /// <summary>
-        /// name of error correction level used, or null if not applicable
-        /// </summary>
+        /// <summary> name of error correction level used, or null if not applicable </summary>
         public string ECLevel { get; }
 
-        /// <summary>
-        /// gets a value which describe if structure append data was found
-        /// </summary>
+        /// <summary> gets a value which describe if structure append data was found </summary>
         public bool StructuredAppend => StructuredAppendParity >= 0 && StructuredAppendSequenceNumber >= 0;
 
-        /// <summary>
-        /// number of errors corrected, or null if not applicable
-        /// </summary>
+        /// <summary> number of errors corrected, or null if not applicable </summary>
         public int ErrorsCorrected { get; set; }
 
         /// <summary>
-        /// gives the sequence number of the result if structured append was found
-        /// </summary>
+        /// gives the sequence number of the result if structured append was found </summary>
         public int StructuredAppendSequenceNumber { get; }
 
         /// <summary>
-        /// number of erasures corrected, or null if not applicable
-        /// </summary>
+        /// number of erasures corrected, or null if not applicable </summary>
         public int Erasures { get; set; }
 
         /// <summary>
-        /// gives the parity information if structured append was found
-        /// </summary>
+        /// gives the parity information if structured append was found </summary>
         public int StructuredAppendParity { get; }
 
         /// <summary>
-        /// Miscellanseous data value for the various decoders
-        /// </summary>
+        /// Miscellanseous data value for the various decoders </summary>
         /// <value>The other.</value>
         public object Other { get; set; }
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="rawBytes"></param>
-        /// <param name="text"></param>
-        /// <param name="byteSegments"></param>
-        /// <param name="ecLevel"></param>
         public DecoderResult(byte[] rawBytes, string text, IList<byte[]> byteSegments, string ecLevel)
-           : this(rawBytes, text, byteSegments, ecLevel, -1, -1)
-        {
-        }
+           : this(rawBytes, text, byteSegments, ecLevel, -1, -1) { }
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="rawBytes"></param>
-        /// <param name="text"></param>
-        /// <param name="byteSegments"></param>
-        /// <param name="ecLevel"></param>
-        /// <param name="saSequence"></param>
-        /// <param name="saParity"></param>
         public DecoderResult(byte[] rawBytes, string text, IList<byte[]> byteSegments, string ecLevel, int saSequence, int saParity)
            : this(rawBytes, 8 * rawBytes?.Length ?? 0, text, byteSegments, ecLevel, saSequence, saParity)
         {
         }
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="rawBytes"></param>
-        /// <param name="numBits"></param>
-        /// <param name="text"></param>
-        /// <param name="byteSegments"></param>
-        /// <param name="ecLevel"></param>
         public DecoderResult(byte[] rawBytes, int numBits, string text, IList<byte[]> byteSegments, string ecLevel)
-           : this(rawBytes, numBits, text, byteSegments, ecLevel, -1, -1)
-        {
-        }
+           : this(rawBytes, numBits, text, byteSegments, ecLevel, -1, -1) { }
 
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="rawBytes"></param>
-        /// <param name="numBits"></param>
-        /// <param name="text"></param>
-        /// <param name="byteSegments"></param>
-        /// <param name="ecLevel"></param>
-        /// <param name="saSequence"></param>
-        /// <param name="saParity"></param>
         public DecoderResult(byte[] rawBytes, int numBits, string text, IList<byte[]> byteSegments, string ecLevel, int saSequence, int saParity)
         {
             if (rawBytes == null && text == null)

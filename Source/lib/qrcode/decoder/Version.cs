@@ -160,11 +160,11 @@ namespace ZXing.QrCode.Internal
             BitMatrix bitMatrix = new BitMatrix(dimension);
 
             // Top left finder pattern + separator + format
-            bitMatrix.setRegion(0, 0, 9, 9);
+            bitMatrix.SetRegion(0, 0, 9, 9);
             // Top right finder pattern + separator + format
-            bitMatrix.setRegion(dimension - 8, 0, 8, 9);
+            bitMatrix.SetRegion(dimension - 8, 0, 8, 9);
             // Bottom left finder pattern + separator + format
-            bitMatrix.setRegion(0, dimension - 8, 9, 8);
+            bitMatrix.SetRegion(0, dimension - 8, 9, 8);
 
             // Alignment patterns
             int max = AlignmentPatternCenters.Length;
@@ -175,23 +175,23 @@ namespace ZXing.QrCode.Internal
                 {
                     if ((x != 0 || y != 0 && y != max - 1) && (x != max - 1 || y != 0))
                     {
-                        bitMatrix.setRegion(AlignmentPatternCenters[y] - 2, i, 5, 5);
+                        bitMatrix.SetRegion(AlignmentPatternCenters[y] - 2, i, 5, 5);
                     }
                     // else no o alignment patterns near the three finder patterns
                 }
             }
 
             // Vertical timing pattern
-            bitMatrix.setRegion(6, 9, 1, dimension - 17);
+            bitMatrix.SetRegion(6, 9, 1, dimension - 17);
             // Horizontal timing pattern
-            bitMatrix.setRegion(9, 6, dimension - 17, 1);
+            bitMatrix.SetRegion(9, 6, dimension - 17, 1);
 
             if (VersionNumber > 6)
             {
                 // Version info, top right
-                bitMatrix.setRegion(dimension - 11, 0, 3, 6);
+                bitMatrix.SetRegion(dimension - 11, 0, 3, 6);
                 // Version info, bottom left
-                bitMatrix.setRegion(0, dimension - 11, 6, 3);
+                bitMatrix.SetRegion(0, dimension - 11, 6, 3);
             }
 
             return bitMatrix;

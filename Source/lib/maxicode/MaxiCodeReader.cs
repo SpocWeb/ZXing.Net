@@ -77,6 +77,12 @@ namespace ZXing.Maxicode
             }
             return result;
         }
+
+        /// <inheritdoc />
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// does nothing here
         /// </summary>
@@ -97,7 +103,7 @@ namespace ZXing.Maxicode
         private static BitMatrix extractPureBits(BitMatrix image)
         {
 
-            int[] enclosingRectangle = image.getEnclosingRectangle();
+            int[] enclosingRectangle = image.GetEnclosingRectangle();
             if (enclosingRectangle == null)
             {
                 return null;

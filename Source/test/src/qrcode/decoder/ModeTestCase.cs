@@ -27,7 +27,7 @@ namespace ZXing.QrCode.Internal.Test
     public sealed class ModeTestCase
     {
         [Test]
-        public void testForBits()
+        public void TestForBits()
         {
             Assert.AreEqual(Mode.TERMINATOR, Mode.forBits(0x00));
             Assert.AreEqual(Mode.NUMERIC, Mode.forBits(0x01));
@@ -38,13 +38,13 @@ namespace ZXing.QrCode.Internal.Test
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void testBadeMode()
+        public void TestBadeMode()
         {
             Mode.forBits(0x10);
         }
 
         [Test]
-        public void testCharacterCount()
+        public void TestCharacterCount()
         {
             // Spot check a few values
             Assert.AreEqual(10, Mode.NUMERIC.getCharacterCountBits(Version.getVersionForNumber(5)));

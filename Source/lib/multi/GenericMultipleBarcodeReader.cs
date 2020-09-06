@@ -50,12 +50,11 @@ namespace ZXing.Multi
         /// <param name="decoder">The @delegate.</param>
         public GenericMultipleBarcodeReader(IBarCodeDecoder decoder)
         {
-            this.Decoder = decoder;
+            Decoder = decoder;
         }
 
-        /// <inheritdoc />
         public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
-            
+            throw new System.NotImplementedException();
         }
 
         /// <inheritdoc />

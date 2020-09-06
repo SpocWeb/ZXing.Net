@@ -23,13 +23,13 @@ namespace ZXing.PDF417.Test
    ///
    /// <author>SITA Lab (kevin.osullivan@sita.aero)</author>
    /// </summary>
-   public sealed class PDF417BlackBox1TestCase : AbstractBlackBoxTestCase
+   public sealed class Pdf417BlackBox1TestCase : AbstractBlackBoxTestCase
    {
-      public PDF417BlackBox1TestCase()
+      public Pdf417BlackBox1TestCase()
          : base("test/data/blackbox/pdf417-1", new MultiFormatReader(), BarcodeFormat.PDF_417)
       {
-         addTest(10, 10, 0.0f);
-         addTest(10, 10, 180.0f);
+         AddTest(10, 10, 0.0f);
+         AddTest(10, 10, 180.0f);
       }
    }
 }

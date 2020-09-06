@@ -28,63 +28,63 @@ namespace ZXing.QrCode.Internal.Test
    public sealed class DataMaskTestCase
    {
       [Test]
-      public void testMask0()
+      public void TestMask0()
       {
-         testMaskAcrossDimensions(0, (i, j) => (i + j) % 2 == 0);
+         TestMaskAcrossDimensions(0, (i, j) => (i + j) % 2 == 0);
       }
 
       [Test]
-      public void testMask1()
+      public void TestMask1()
       {
-         testMaskAcrossDimensions(1, (i, j) => i % 2 == 0);
+         TestMaskAcrossDimensions(1, (i, j) => i % 2 == 0);
       }
 
       [Test]
-      public void testMask2()
+      public void TestMask2()
       {
-         testMaskAcrossDimensions(2, (i, j) => j % 3 == 0);
+         TestMaskAcrossDimensions(2, (i, j) => j % 3 == 0);
       }
 
       [Test]
-      public void testMask3()
+      public void TestMask3()
       {
-         testMaskAcrossDimensions(3, (i, j) => (i + j) % 3 == 0);
+         TestMaskAcrossDimensions(3, (i, j) => (i + j) % 3 == 0);
       }
 
       [Test]
-      public void testMask4()
+      public void TestMask4()
       {
-         testMaskAcrossDimensions(4, (i, j) => (i / 2 + j / 3) % 2 == 0);
+         TestMaskAcrossDimensions(4, (i, j) => (i / 2 + j / 3) % 2 == 0);
       }
 
       [Test]
-      public void testMask5()
+      public void TestMask5()
       {
-         testMaskAcrossDimensions(5, (i, j) => i * j % 2 + i * j % 3 == 0);
+         TestMaskAcrossDimensions(5, (i, j) => i * j % 2 + i * j % 3 == 0);
       }
 
       [Test]
-      public void testMask6()
+      public void TestMask6()
       {
-         testMaskAcrossDimensions(6, (i, j) => (i * j % 2 + i * j % 3) % 2 == 0);
+         TestMaskAcrossDimensions(6, (i, j) => (i * j % 2 + i * j % 3) % 2 == 0);
       }
 
       [Test]
-      public void testMask7()
+      public void TestMask7()
       {
-         testMaskAcrossDimensions(7, (i, j) => ((i + j) % 2 + i * j % 3) % 2 == 0);
+         TestMaskAcrossDimensions(7, (i, j) => ((i + j) % 2 + i * j % 3) % 2 == 0);
       }
 
-      private static void testMaskAcrossDimensions(int reference, Func<int, int, bool> condition)
+      private static void TestMaskAcrossDimensions(int reference, Func<int, int, bool> condition)
       {
          for (int version = 1; version <= 40; version++)
          {
             int dimension = 17 + 4 * version;
-            testMask(reference, dimension, condition);
+            TestMask(reference, dimension, condition);
          }
       }
 
-      private static void testMask(int reference, int dimension, Func<int, int, bool> condition)
+      private static void TestMask(int reference, int dimension, Func<int, int, bool> condition)
       {
          BitMatrix bits = new BitMatrix(dimension);
          DataMask.unmaskBitMatrix(reference, bits, dimension);

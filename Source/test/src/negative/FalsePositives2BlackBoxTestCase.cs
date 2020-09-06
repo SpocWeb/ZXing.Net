@@ -28,10 +28,10 @@ namespace ZXing.Negative.Test
       public FalsePositives2BlackBoxTestCase()
          : base("test/data/blackbox/falsepositives-2")
       {
-         addTest(4, 0.0f);
-         addTest(4, 90.0f);
-         addTest(4, 180.0f);
-         addTest(4, 270.0f);
+         AddTest(4, 0.0f);
+         AddTest(4, 90.0f);
+         AddTest(4, 180.0f);
+         AddTest(4, 270.0f);
       }
    }
 }

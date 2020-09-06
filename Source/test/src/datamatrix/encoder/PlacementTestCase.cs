@@ -35,9 +35,9 @@ namespace ZXing.Datamatrix.Test
 #endif
 
       [Test]
-      public void testPlacement()
+      public void TestPlacement()
       {
-            string codewords = unvisualize("66 74 78 66 74 78 129 56 35 102 192 96 226 100 156 1 107 221"); //"AIMAIM" encoded
+            string codewords = Unvisualize("66 74 78 66 74 78 129 56 35 102 192 96 226 100 156 1 107 221"); //"AIMAIM" encoded
          DebugPlacement placement = new DebugPlacement(codewords, 12, 12);
          placement.place();
             string[] expected = {
@@ -54,14 +54,14 @@ namespace ZXing.Datamatrix.Test
                                 "011101011010",
                                 "001011001010"
                              };
-            string[] actual = placement.toBitFieldStringArray();
+            string[] actual = placement.ToBitFieldStringArray();
          for (int i = 0; i < actual.Length; i++)
          {
             Assert.AreEqual(expected[i], actual[i], "Row " + i);
          }
       }
 
-      private static string unvisualize(string visualized)
+      private static string Unvisualize(string visualized)
       {
          var sb = new StringBuilder();
          foreach (var token in SPACE.Split(visualized))

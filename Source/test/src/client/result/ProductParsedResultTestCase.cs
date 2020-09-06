@@ -29,15 +29,15 @@ namespace ZXing.Client.Result.Test
    public sealed class ProductParsedResultTestCase
    {
       [Test]
-      public void testProduct()
+      public void TestProduct()
       {
-         doTest("123456789012", "123456789012", BarcodeFormat.UPC_A);
-         doTest("00393157", "00393157", BarcodeFormat.EAN_8);
-         doTest("5051140178499", "5051140178499", BarcodeFormat.EAN_13);
-         doTest("01234565", "012345000065", BarcodeFormat.UPC_E);
+         DoTest("123456789012", "123456789012", BarcodeFormat.UPC_A);
+         DoTest("00393157", "00393157", BarcodeFormat.EAN_8);
+         DoTest("5051140178499", "5051140178499", BarcodeFormat.EAN_13);
+         DoTest("01234565", "012345000065", BarcodeFormat.UPC_E);
       }
 
-      private static void doTest(string contents, string normalized, BarcodeFormat format)
+      private static void DoTest(string contents, string normalized, BarcodeFormat format)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, format);
          ParsedResult result = ResultParser.parseResult(fakeResult);

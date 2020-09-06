@@ -37,7 +37,7 @@ namespace ZXing.Common
     public sealed partial class BitMatrix : IBitMatrix//, IGridSampler
     {
 
-        private readonly int[] bits;
+        private readonly int[] _Bits;
 
         /// <returns> The width of the matrix
         /// </returns>
@@ -66,25 +66,15 @@ namespace ZXing.Common
 
         }
 
-        /// <returns>
-        /// The rowsize of the matrix
-        /// </returns>
         public int RowSize { get; }
 
-        /// <summary>
-        /// Creates an empty square <see cref="BitMatrix"/>.
-        /// </summary>
-        /// <param name="dimension">height and width</param>
+        /// <summary> Creates an empty square <see cref="BitMatrix"/>. </summary>
         public BitMatrix(int dimension)
            : this(dimension, dimension)
         {
         }
 
-        /// <summary>
-        /// Creates an empty square <see cref="BitMatrix"/>.
-        /// </summary>
-        /// <param name="width">bit matrix width</param>
-        /// <param name="height">bit matrix height</param>
+        /// <summary> Creates an empty square <see cref="BitMatrix"/>. </summary>
         public BitMatrix(int width, int height)
         {
             if (width < 1 || height < 1)
@@ -94,7 +84,7 @@ namespace ZXing.Common
             this.Width = width;
             this.Height = height;
             RowSize = (width + 31) >> 5;
-            bits = new int[RowSize * height];
+            _Bits = new int[RowSize * height];
         }
 
         internal BitMatrix(int width, int height, int rowSize, int[] bits)
@@ -102,7 +92,7 @@ namespace ZXing.Common
             this.Width = width;
             this.Height = height;
             this.RowSize = rowSize;
-            this.bits = bits;
+            this._Bits = bits;
         }
 
         internal BitMatrix(int width, int height, int[] bits)
@@ -110,7 +100,7 @@ namespace ZXing.Common
             this.Width = width;
             this.Height = height;
             RowSize = (width + 31) >> 5;
-            this.bits = bits;
+            this._Bits = bits;
         }
 
         /// <summary>
@@ -118,7 +108,7 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="image">bits of the image, as a row-major 2D array. Elements are arrays representing rows</param>
         /// <returns><see cref="BitMatrix"/> representation of image</returns>
-        public static BitMatrix parse(bool[][] image)
+        public static BitMatrix Parse(bool[][] image)
         {
             var height = image.Length;
             var width = image[0].Length;
@@ -135,13 +125,12 @@ namespace ZXing.Common
         }
 
         /// <summary>
-        /// parse the string representation to a bitmatrix
-        /// </summary>
+        /// parse the string representation to a <see cref="BitMatrix"/> </summary>
         /// <param name="stringRepresentation"></param>
         /// <param name="setString"></param>
         /// <param name="unsetString"></param>
         /// <returns></returns>
-        public static BitMatrix parse(string stringRepresentation, string setString, string unsetString)
+        public static BitMatrix Parse(string stringRepresentation, string setString, string unsetString)
         {
             if (stringRepresentation == null)
             {
@@ -216,34 +205,29 @@ namespace ZXing.Common
             }
             return matrix;
         }
-
-        /// <summary> <p>Gets the requested bit, where true means black.</p>
-        /// 
-        /// </summary>
-        /// <param name="x">The horizontal component (i.e. which column)
-        /// </param>
-        /// <param name="y">The vertical component (i.e. which row)
-        /// </param>
-        /// <returns> value of given bit in matrix
-        /// </returns>
+        
+        /// <summary> <p>Gets the requested bit, where true means black.</p> </summary>
+        /// <param name="x">The horizontal component (i.e. which column) </param>
+        /// <param name="y">The vertical component (i.e. which row) </param>
+        /// <returns> value of given bit in matrix </returns>
         public bool this[int x, int y]
         {
             get
             {
                 int offset = y * RowSize + (x >> 5);
-                return ((int)((uint)bits[offset] >> (x & 0x1f)) & 1) != 0;
+                return ((int)((uint)_Bits[offset] >> (x & 0x1f)) & 1) != 0;
             }
             set
             {
                 if (value)
                 {
                     int offset = y * RowSize + (x >> 5);
-                    bits[offset] |= 1 << (x & 0x1f);
+                    _Bits[offset] |= 1 << (x & 0x1f);
                 }
                 else
                 {
                     int offset = y * RowSize + x / 32;
-                    bits[offset] &= ~(1 << (x & 0x1f));
+                    _Bits[offset] &= ~(1 << (x & 0x1f));
                 }
             }
         }
@@ -253,17 +237,17 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="x">The horizontal component (i.e. which column)</param>
         /// <param name="y">The vertical component (i.e. which row)</param>
-        public void flip(int x, int y)
+        public void Flip(int x, int y)
         {
             int offset = y * RowSize + (x >> 5);
-            bits[offset] ^= 1 << (x & 0x1f);
+            _Bits[offset] ^= 1 << (x & 0x1f);
         }
 
         /// <summary>
         /// flip all of the bits, if shouldBeFlipped is true for the coordinates
         /// </summary>
         /// <param name="shouldBeFlipped">should return true, if the bit at a given coordinate should be flipped</param>
-        public void flipWhen(Func<int, int, bool> shouldBeFlipped)
+        public void FlipWhen(Func<int, int, bool> shouldBeFlipped)
         {
             for (var y = 0; y < Height; y++)
             {
@@ -272,7 +256,7 @@ namespace ZXing.Common
                     if (shouldBeFlipped(y, x))
                     {
                         int offset = y * RowSize + (x >> 5);
-                        bits[offset] ^= 1 << (x & 0x1f);
+                        _Bits[offset] ^= 1 << (x & 0x1f);
                     }
                 }
             }
@@ -283,7 +267,7 @@ namespace ZXing.Common
         /// mask bit is set.
         /// </summary>
         /// <param name="mask">The mask.</param>
-        public void xor(BitMatrix mask)
+        public void Xor(BitMatrix mask)
         {
             if (Width != mask.Width || Height != mask.Height || RowSize != mask.RowSize)
             {
@@ -293,21 +277,21 @@ namespace ZXing.Common
             for (int y = 0; y < Height; y++)
             {
                 int offset = y * RowSize;
-                int[] row = mask.getRow(y, rowArray).Array;
+                int[] row = mask.GetRow(y, rowArray).Array;
                 for (int x = 0; x < RowSize; x++)
                 {
-                    bits[offset + x] ^= row[x];
+                    _Bits[offset + x] ^= row[x];
                 }
             }
         }
 
         /// <summary> Clears all bits (sets to false).</summary>
-        public void clear()
+        public void Clear()
         {
-            int max = bits.Length;
+            int max = _Bits.Length;
             for (int i = 0; i < max; i++)
             {
-                bits[i] = 0;
+                _Bits[i] = 0;
             }
         }
 
@@ -322,7 +306,7 @@ namespace ZXing.Common
         /// </param>
         /// <param name="height">The height of the region
         /// </param>
-        public void setRegion(int left, int top, int width, int height)
+        public void SetRegion(int left, int top, int width, int height)
         {
             if (top < 0 || left < 0)
             {
@@ -343,7 +327,7 @@ namespace ZXing.Common
                 int offset = y * RowSize;
                 for (int x = left; x < right; x++)
                 {
-                    bits[offset + (x >> 5)] |= 1 << (x & 0x1f);
+                    _Bits[offset + (x >> 5)] |= 1 << (x & 0x1f);
                 }
             }
         }
@@ -358,7 +342,7 @@ namespace ZXing.Common
         /// <returns> The resulting BitArray - this reference should always be used even when passing
         /// your own row
         /// </returns>
-        public BitArray getRow(int y, BitArray row)
+        public BitArray GetRow(int y, BitArray row)
         {
             if (row == null || row.Size < Width)
             {
@@ -371,7 +355,7 @@ namespace ZXing.Common
             int offset = y * RowSize;
             for (int x = 0; x < RowSize; x++)
             {
-                row.setBulk(x << 5, bits[offset + x]);
+                row.setBulk(x << 5, _Bits[offset + x]);
             }
             return row;
         }
@@ -381,28 +365,28 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="y">row to set</param>
         /// <param name="row">{@link BitArray} to copy from</param>
-        public void setRow(int y, BitArray row)
+        public void SetRow(int y, BitArray row)
         {
-            Array.Copy(row.Array, 0, bits, y * RowSize, RowSize);
+            Array.Copy(row.Array, 0, _Bits, y * RowSize, RowSize);
         }
 
         /// <summary>
         /// Modifies this {@code BitMatrix} to represent the same but rotated 180 degrees
         /// </summary>
-        public void rotate180()
+        public void Rotate180()
         {
             var topRow = new BitArray(Width);
             var bottomRow = new BitArray(Width);
             int maxHeight = (Height + 1) / 2;
             for (int i = 0; i < maxHeight; i++)
             {
-                topRow = getRow(i, topRow);
+                topRow = GetRow(i, topRow);
                 int bottomRowIndex = Height - 1 - i;
-                bottomRow = getRow(bottomRowIndex, bottomRow);
+                bottomRow = GetRow(bottomRowIndex, bottomRow);
                 topRow.reverse();
                 bottomRow.reverse();
-                setRow(i, bottomRow);
-                setRow(bottomRowIndex, topRow);
+                SetRow(i, bottomRow);
+                SetRow(bottomRowIndex, topRow);
             }
         }
 
@@ -410,7 +394,7 @@ namespace ZXing.Common
         /// This is useful in detecting the enclosing rectangle of a 'pure' barcode.
         /// </summary>
         /// <returns>{left,top,width,height} enclosing rectangle of all 1 bits, or null if it is all white</returns>
-        public int[] getEnclosingRectangle()
+        public int[] GetEnclosingRectangle()
         {
             int left = Width;
             int top = Height;
@@ -421,7 +405,7 @@ namespace ZXing.Common
             {
                 for (int x32 = 0; x32 < RowSize; x32++)
                 {
-                    int theBits = bits[y * RowSize + x32];
+                    int theBits = _Bits[y * RowSize + x32];
                     if (theBits != 0)
                     {
                         if (y < top)
@@ -475,18 +459,18 @@ namespace ZXing.Common
         public int[] getTopLeftOnBit()
         {
             int bitsOffset = 0;
-            while (bitsOffset < bits.Length && bits[bitsOffset] == 0)
+            while (bitsOffset < _Bits.Length && _Bits[bitsOffset] == 0)
             {
                 bitsOffset++;
             }
-            if (bitsOffset == bits.Length)
+            if (bitsOffset == _Bits.Length)
             {
                 return null;
             }
             int y = bitsOffset / RowSize;
             int x = (bitsOffset % RowSize) << 5;
 
-            int theBits = bits[bitsOffset];
+            int theBits = _Bits[bitsOffset];
             int bit = 0;
             while (theBits << (31 - bit) == 0)
             {
@@ -502,8 +486,8 @@ namespace ZXing.Common
         /// <returns></returns>
         public int[] getBottomRightOnBit()
         {
-            int bitsOffset = bits.Length - 1;
-            while (bitsOffset >= 0 && bits[bitsOffset] == 0)
+            int bitsOffset = _Bits.Length - 1;
+            while (bitsOffset >= 0 && _Bits[bitsOffset] == 0)
             {
                 bitsOffset--;
             }
@@ -515,7 +499,7 @@ namespace ZXing.Common
             int y = bitsOffset / RowSize;
             int x = (bitsOffset % RowSize) << 5;
 
-            int theBits = bits[bitsOffset];
+            int theBits = _Bits[bitsOffset];
             int bit = 31;
 
             while ((int)((uint)theBits >> bit) == 0) // (theBits >>> bit)
@@ -542,13 +526,13 @@ namespace ZXing.Common
             }
             var other = (BitMatrix)obj;
             if (Width != other.Width || Height != other.Height ||
-                RowSize != other.RowSize || bits.Length != other.bits.Length)
+                RowSize != other.RowSize || _Bits.Length != other._Bits.Length)
             {
                 return false;
             }
-            for (int i = 0; i < bits.Length; i++)
+            for (int i = 0; i < _Bits.Length; i++)
             {
-                if (bits[i] != other.bits[i])
+                if (_Bits[i] != other._Bits[i])
                 {
                     return false;
                 }
@@ -568,7 +552,7 @@ namespace ZXing.Common
             hash = 31 * hash + Width;
             hash = 31 * hash + Height;
             hash = 31 * hash + RowSize;
-            foreach (var bit in bits)
+            foreach (var bit in _Bits)
             {
                 hash = 31 * hash + bit.GetHashCode();
             }
@@ -603,7 +587,7 @@ namespace ZXing.Common
 #if WindowsCE
          return buildToString(setString, unsetString, "\r\n");
 #else
-            return buildToString(setString, unsetString, Environment.NewLine);
+            return BuildToString(setString, unsetString, Environment.NewLine);
 #endif
         }
 
@@ -618,10 +602,10 @@ namespace ZXing.Common
         /// </returns>
         public string ToString(string setString, string unsetString, string lineSeparator)
         {
-            return buildToString(setString, unsetString, lineSeparator);
+            return BuildToString(setString, unsetString, lineSeparator);
         }
 
-        private string buildToString(string setString, string unsetString, string lineSeparator)
+        private string BuildToString(string setString, string unsetString, string lineSeparator)
         {
             var result = new StringBuilder(Height * (Width + 1));
             for (int y = 0; y < Height; y++)
@@ -641,7 +625,7 @@ namespace ZXing.Common
         /// <returns></returns>
         public object Clone()
         {
-            return new BitMatrix(Width, Height, RowSize, (int[])bits.Clone());
+            return new BitMatrix(Width, Height, RowSize, (int[])_Bits.Clone());
         }
     }
 
@@ -657,8 +641,8 @@ namespace ZXing.Common
 
     public interface IBitMatrix : IRoBitMatrix
     {
-        void flip(int col, int row);
+        void Flip(int col, int row);
 
-        void flipWhen(Func<int, int, bool> isMasked);
+        void FlipWhen(Func<int, int, bool> isMasked);
     }
 }

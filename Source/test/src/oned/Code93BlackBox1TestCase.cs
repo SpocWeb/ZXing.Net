@@ -26,8 +26,8 @@ namespace ZXing.OneD.Test
       public Code93BlackBox1TestCase()
          : base("test/data/blackbox/code93-1", new MultiFormatReader(), BarcodeFormat.CODE_93)
       {
-         addTest(3, 3, 0.0f);
-         addTest(3, 3, 180.0f);
+         AddTest(3, 3, 0.0f);
+         AddTest(3, 3, 180.0f);
       }
    }
 }

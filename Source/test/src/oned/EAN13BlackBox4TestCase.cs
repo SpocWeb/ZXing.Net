@@ -22,13 +22,13 @@ namespace ZXing.OneD.Test
    /// A very difficult set of images taken with extreme shadows and highlights.
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class EAN13BlackBox4TestCase : AbstractBlackBoxTestCase
+   public sealed class Ean13BlackBox4TestCase : AbstractBlackBoxTestCase
    {
-      public EAN13BlackBox4TestCase()
+      public Ean13BlackBox4TestCase()
          : base("test/data/blackbox/ean13-4", new MultiFormatReader(), BarcodeFormat.EAN_13)
       {
-         addTest(6, 13, 1, 1, 0.0f);
-         addTest(7, 13, 1, 1, 180.0f);
+         AddTest(6, 13, 1, 1, 0.0f);
+         AddTest(7, 13, 1, 1, 180.0f);
       }
    }
 }

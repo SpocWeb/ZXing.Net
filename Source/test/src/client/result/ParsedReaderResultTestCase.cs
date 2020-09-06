@@ -40,187 +40,187 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testTextType()
+      public void TestTextType()
       {
-         doTestResult("", "", ParsedResultType.TEXT);
-         doTestResult("foo", "foo", ParsedResultType.TEXT);
-         doTestResult("Hi.", "Hi.", ParsedResultType.TEXT);
-         doTestResult("This is a test", "This is a test", ParsedResultType.TEXT);
-         doTestResult("This is a test\nwith newlines", "This is a test\nwith newlines",
+         DoTestResult("", "", ParsedResultType.TEXT);
+         DoTestResult("foo", "foo", ParsedResultType.TEXT);
+         DoTestResult("Hi.", "Hi.", ParsedResultType.TEXT);
+         DoTestResult("This is a test", "This is a test", ParsedResultType.TEXT);
+         DoTestResult("This is a test\nwith newlines", "This is a test\nwith newlines",
              ParsedResultType.TEXT);
-         doTestResult("This: a test with lots of @ nearly-random punctuation! No? OK then.",
+         DoTestResult("This: a test with lots of @ nearly-random punctuation! No? OK then.",
              "This: a test with lots of @ nearly-random punctuation! No? OK then.",
              ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testBookmarkType()
+      public void TestBookmarkType()
       {
-         doTestResult("MEBKM:URL:google.com;;", "http://google.com", ParsedResultType.URI);
-         doTestResult("MEBKM:URL:google.com;TITLE:Google;;", "Google\nhttp://google.com",
+         DoTestResult("MEBKM:URL:google.com;;", "http://google.com", ParsedResultType.URI);
+         DoTestResult("MEBKM:URL:google.com;TITLE:Google;;", "Google\nhttp://google.com",
              ParsedResultType.URI);
-         doTestResult("MEBKM:TITLE:Google;URL:google.com;;", "Google\nhttp://google.com",
+         DoTestResult("MEBKM:TITLE:Google;URL:google.com;;", "Google\nhttp://google.com",
              ParsedResultType.URI);
-         doTestResult("MEBKM:URL:http://google.com;;", "http://google.com", ParsedResultType.URI);
-         doTestResult("MEBKM:URL:HTTPS://google.com;;", "HTTPS://google.com", ParsedResultType.URI);
+         DoTestResult("MEBKM:URL:http://google.com;;", "http://google.com", ParsedResultType.URI);
+         DoTestResult("MEBKM:URL:HTTPS://google.com;;", "HTTPS://google.com", ParsedResultType.URI);
       }
 
       [Test]
-      public void testURLTOType()
+      public void TestUrltoType()
       {
-         doTestResult("urlto:foo:bar.com", "foo\nhttp://bar.com", ParsedResultType.URI);
-         doTestResult("URLTO:foo:bar.com", "foo\nhttp://bar.com", ParsedResultType.URI);
-         doTestResult("URLTO::bar.com", "http://bar.com", ParsedResultType.URI);
-         doTestResult("URLTO::http://bar.com", "http://bar.com", ParsedResultType.URI);
+         DoTestResult("urlto:foo:bar.com", "foo\nhttp://bar.com", ParsedResultType.URI);
+         DoTestResult("URLTO:foo:bar.com", "foo\nhttp://bar.com", ParsedResultType.URI);
+         DoTestResult("URLTO::bar.com", "http://bar.com", ParsedResultType.URI);
+         DoTestResult("URLTO::http://bar.com", "http://bar.com", ParsedResultType.URI);
       }
 
       [Test]
-      public void testEmailType()
+      public void TestEmailType()
       {
-         doTestResult("MATMSG:TO:srowen@example.org;;",
+         DoTestResult("MATMSG:TO:srowen@example.org;;",
                       "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("MATMSG:TO:srowen@example.org;SUB:Stuff;;", "srowen@example.org\nStuff",
+         DoTestResult("MATMSG:TO:srowen@example.org;SUB:Stuff;;", "srowen@example.org\nStuff",
                       ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("MATMSG:TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;",
+         DoTestResult("MATMSG:TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;",
                       "srowen@example.org\nStuff\nThis is some text", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("MATMSG:SUB:Stuff;BODY:This is some text;TO:srowen@example.org;;",
+         DoTestResult("MATMSG:SUB:Stuff;BODY:This is some text;TO:srowen@example.org;;",
                       "srowen@example.org\nStuff\nThis is some text", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;",
+         DoTestResult("TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;",
                       "TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testEmailAddressType()
+      public void TestEmailAddressType()
       {
-         doTestResult("srowen@example.org", "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("mailto:srowen@example.org", "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("MAILTO:srowen@example.org", "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("srowen@example", "srowen@example", ParsedResultType.EMAIL_ADDRESS);
-         doTestResult("srowen", "srowen", ParsedResultType.TEXT);
-         doTestResult("Let's meet @ 2", "Let's meet @ 2", ParsedResultType.TEXT);
+         DoTestResult("srowen@example.org", "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
+         DoTestResult("mailto:srowen@example.org", "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
+         DoTestResult("MAILTO:srowen@example.org", "srowen@example.org", ParsedResultType.EMAIL_ADDRESS);
+         DoTestResult("srowen@example", "srowen@example", ParsedResultType.EMAIL_ADDRESS);
+         DoTestResult("srowen", "srowen", ParsedResultType.TEXT);
+         DoTestResult("Let's meet @ 2", "Let's meet @ 2", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testAddressBookType()
+      public void TestAddressBookType()
       {
-         doTestResult("MECARD:N:Sean Owen;;", "Sean Owen", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:TEL:+12125551212;N:Sean Owen;;", "Sean Owen\n+12125551212",
+         DoTestResult("MECARD:N:Sean Owen;;", "Sean Owen", ParsedResultType.ADDRESSBOOK);
+         DoTestResult("MECARD:TEL:+12125551212;N:Sean Owen;;", "Sean Owen\n+12125551212",
              ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:TEL:+12125551212;N:Sean Owen;URL:google.com;;",
+         DoTestResult("MECARD:TEL:+12125551212;N:Sean Owen;URL:google.com;;",
              "Sean Owen\n+12125551212\ngoogle.com", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:TEL:+12125551212;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
+         DoTestResult("MECARD:TEL:+12125551212;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
              "Sean Owen\n+12125551212\nsrowen@example.org\ngoogle.com", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:ADR:76 9th Ave;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
+         DoTestResult("MECARD:ADR:76 9th Ave;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
              "Sean Owen\n76 9th Ave\nsrowen@example.org\ngoogle.com", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:BDAY:19760520;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
+         DoTestResult("MECARD:BDAY:19760520;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
              "Sean Owen\nsrowen@example.org\ngoogle.com\n19760520", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:ORG:Google;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
+         DoTestResult("MECARD:ORG:Google;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
              "Sean Owen\nGoogle\nsrowen@example.org\ngoogle.com", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MECARD:NOTE:ZXing Team;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
+         DoTestResult("MECARD:NOTE:ZXing Team;N:Sean Owen;URL:google.com;EMAIL:srowen@example.org;",
              "Sean Owen\nsrowen@example.org\ngoogle.com\nZXing Team", ParsedResultType.ADDRESSBOOK);
-         doTestResult("N:Sean Owen;TEL:+12125551212;;", "N:Sean Owen;TEL:+12125551212;;",
+         DoTestResult("N:Sean Owen;TEL:+12125551212;;", "N:Sean Owen;TEL:+12125551212;;",
              ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testAddressBookAUType()
+      public void TestAddressBookAuType()
       {
-         doTestResult("MEMORY:\r\n", "", ParsedResultType.ADDRESSBOOK);
-         doTestResult("MEMORY:foo\r\nNAME1:Sean\r\n", "Sean\nfoo", ParsedResultType.ADDRESSBOOK);
-         doTestResult("TEL1:+12125551212\r\nMEMORY:\r\n", "+12125551212", ParsedResultType.ADDRESSBOOK);
+         DoTestResult("MEMORY:\r\n", "", ParsedResultType.ADDRESSBOOK);
+         DoTestResult("MEMORY:foo\r\nNAME1:Sean\r\n", "Sean\nfoo", ParsedResultType.ADDRESSBOOK);
+         DoTestResult("TEL1:+12125551212\r\nMEMORY:\r\n", "+12125551212", ParsedResultType.ADDRESSBOOK);
       }
 
       [Test]
-      public void testBizcard()
+      public void TestBizcard()
       {
-         doTestResult("BIZCARD:N:Sean;X:Owen;C:Google;A:123 Main St;M:+12225551212;E:srowen@example.org;",
+         DoTestResult("BIZCARD:N:Sean;X:Owen;C:Google;A:123 Main St;M:+12225551212;E:srowen@example.org;",
              "Sean Owen\nGoogle\n123 Main St\n+12225551212\nsrowen@example.org", ParsedResultType.ADDRESSBOOK);
       }
 
       [Test]
-      public void testUPCA()
+      public void TestUpca()
       {
-         doTestResult("123456789012", "123456789012", ParsedResultType.PRODUCT, BarcodeFormat.UPC_A);
-         doTestResult("1234567890123", "1234567890123", ParsedResultType.PRODUCT, BarcodeFormat.UPC_A);
-         doTestResult("12345678901", "12345678901", ParsedResultType.TEXT);
+         DoTestResult("123456789012", "123456789012", ParsedResultType.PRODUCT, BarcodeFormat.UPC_A);
+         DoTestResult("1234567890123", "1234567890123", ParsedResultType.PRODUCT, BarcodeFormat.UPC_A);
+         DoTestResult("12345678901", "12345678901", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testUPCE()
+      public void TestUpce()
       {
-         doTestResult("01234565", "01234565", ParsedResultType.PRODUCT, BarcodeFormat.UPC_E);
+         DoTestResult("01234565", "01234565", ParsedResultType.PRODUCT, BarcodeFormat.UPC_E);
       }
 
       [Test]
-      public void testEAN()
+      public void TestEan()
       {
-         doTestResult("00393157", "00393157", ParsedResultType.PRODUCT, BarcodeFormat.EAN_8);
-         doTestResult("00393158", "00393158", ParsedResultType.TEXT);
-         doTestResult("5051140178499", "5051140178499", ParsedResultType.PRODUCT, BarcodeFormat.EAN_13);
-         doTestResult("5051140178490", "5051140178490", ParsedResultType.TEXT);
+         DoTestResult("00393157", "00393157", ParsedResultType.PRODUCT, BarcodeFormat.EAN_8);
+         DoTestResult("00393158", "00393158", ParsedResultType.TEXT);
+         DoTestResult("5051140178499", "5051140178499", ParsedResultType.PRODUCT, BarcodeFormat.EAN_13);
+         DoTestResult("5051140178490", "5051140178490", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testISBN()
+      public void TestIsbn()
       {
-         doTestResult("9784567890123", "9784567890123", ParsedResultType.ISBN, BarcodeFormat.EAN_13);
-         doTestResult("9794567890123", "9794567890123", ParsedResultType.ISBN, BarcodeFormat.EAN_13);
-         doTestResult("97845678901", "97845678901", ParsedResultType.TEXT);
-         doTestResult("97945678901", "97945678901", ParsedResultType.TEXT);
+         DoTestResult("9784567890123", "9784567890123", ParsedResultType.ISBN, BarcodeFormat.EAN_13);
+         DoTestResult("9794567890123", "9794567890123", ParsedResultType.ISBN, BarcodeFormat.EAN_13);
+         DoTestResult("97845678901", "97845678901", ParsedResultType.TEXT);
+         DoTestResult("97945678901", "97945678901", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testURI()
+      public void TestUri()
       {
-         doTestResult("http://google.com", "http://google.com", ParsedResultType.URI);
-         doTestResult("google.com", "http://google.com", ParsedResultType.URI);
-         doTestResult("https://google.com", "https://google.com", ParsedResultType.URI);
-         doTestResult("HTTP://google.com", "HTTP://google.com", ParsedResultType.URI);
-         doTestResult("http://google.com/foobar", "http://google.com/foobar", ParsedResultType.URI);
-         doTestResult("https://google.com:443/foobar", "https://google.com:443/foobar", ParsedResultType.URI);
-         doTestResult("google.com:443", "http://google.com:443", ParsedResultType.URI);
-         doTestResult("google.com:443/", "http://google.com:443/", ParsedResultType.URI);
-         doTestResult("google.com:443/foobar", "http://google.com:443/foobar", ParsedResultType.URI);
-         doTestResult("http://google.com:443/foobar", "http://google.com:443/foobar", ParsedResultType.URI);
-         doTestResult("https://google.com:443/foobar", "https://google.com:443/foobar", ParsedResultType.URI);
-         doTestResult("ftp://google.com/fake", "ftp://google.com/fake", ParsedResultType.URI);
-         doTestResult("gopher://google.com/obsolete", "gopher://google.com/obsolete", ParsedResultType.URI);
+         DoTestResult("http://google.com", "http://google.com", ParsedResultType.URI);
+         DoTestResult("google.com", "http://google.com", ParsedResultType.URI);
+         DoTestResult("https://google.com", "https://google.com", ParsedResultType.URI);
+         DoTestResult("HTTP://google.com", "HTTP://google.com", ParsedResultType.URI);
+         DoTestResult("http://google.com/foobar", "http://google.com/foobar", ParsedResultType.URI);
+         DoTestResult("https://google.com:443/foobar", "https://google.com:443/foobar", ParsedResultType.URI);
+         DoTestResult("google.com:443", "http://google.com:443", ParsedResultType.URI);
+         DoTestResult("google.com:443/", "http://google.com:443/", ParsedResultType.URI);
+         DoTestResult("google.com:443/foobar", "http://google.com:443/foobar", ParsedResultType.URI);
+         DoTestResult("http://google.com:443/foobar", "http://google.com:443/foobar", ParsedResultType.URI);
+         DoTestResult("https://google.com:443/foobar", "https://google.com:443/foobar", ParsedResultType.URI);
+         DoTestResult("ftp://google.com/fake", "ftp://google.com/fake", ParsedResultType.URI);
+         DoTestResult("gopher://google.com/obsolete", "gopher://google.com/obsolete", ParsedResultType.URI);
       }
 
       [Test]
-      public void testGeo()
+      public void TestGeo()
       {
-         doTestResult("geo:1,2", "1.0, 2.0", ParsedResultType.GEO);
-         doTestResult("GEO:1,2", "1.0, 2.0", ParsedResultType.GEO);
-         doTestResult("geo:1,2,3", "1.0, 2.0, 3.0m", ParsedResultType.GEO);
-         doTestResult("geo:80.33,-32.3344,3.35", "80.33, -32.3344, 3.35m", ParsedResultType.GEO);
-         doTestResult("geo", "geo", ParsedResultType.TEXT);
-         doTestResult("geography", "geography", ParsedResultType.TEXT);
+         DoTestResult("geo:1,2", "1.0, 2.0", ParsedResultType.GEO);
+         DoTestResult("GEO:1,2", "1.0, 2.0", ParsedResultType.GEO);
+         DoTestResult("geo:1,2,3", "1.0, 2.0, 3.0m", ParsedResultType.GEO);
+         DoTestResult("geo:80.33,-32.3344,3.35", "80.33, -32.3344, 3.35m", ParsedResultType.GEO);
+         DoTestResult("geo", "geo", ParsedResultType.TEXT);
+         DoTestResult("geography", "geography", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testTel()
+      public void TestTel()
       {
-         doTestResult("tel:+15551212", "+15551212", ParsedResultType.TEL);
-         doTestResult("TEL:+15551212", "+15551212", ParsedResultType.TEL);
-         doTestResult("tel:212 555 1212", "212 555 1212", ParsedResultType.TEL);
-         doTestResult("tel:2125551212", "2125551212", ParsedResultType.TEL);
-         doTestResult("tel:212-555-1212", "212-555-1212", ParsedResultType.TEL);
-         doTestResult("tel", "tel", ParsedResultType.TEXT);
-         doTestResult("telephone", "telephone", ParsedResultType.TEXT);
+         DoTestResult("tel:+15551212", "+15551212", ParsedResultType.TEL);
+         DoTestResult("TEL:+15551212", "+15551212", ParsedResultType.TEL);
+         DoTestResult("tel:212 555 1212", "212 555 1212", ParsedResultType.TEL);
+         DoTestResult("tel:2125551212", "2125551212", ParsedResultType.TEL);
+         DoTestResult("tel:212-555-1212", "212-555-1212", ParsedResultType.TEL);
+         DoTestResult("tel", "tel", ParsedResultType.TEXT);
+         DoTestResult("telephone", "telephone", ParsedResultType.TEXT);
       }
 
       [Test]
-      public void testVCard()
+      public void TestVCard()
       {
-         doTestResult("BEGIN:VCARD\r\nEND:VCARD", "", ParsedResultType.ADDRESSBOOK);
-         doTestResult("BEGIN:VCARD\r\nN:Owen;Sean\r\nEND:VCARD", "Sean Owen",
+         DoTestResult("BEGIN:VCARD\r\nEND:VCARD", "", ParsedResultType.ADDRESSBOOK);
+         DoTestResult("BEGIN:VCARD\r\nN:Owen;Sean\r\nEND:VCARD", "Sean Owen",
              ParsedResultType.ADDRESSBOOK);
-         doTestResult("BEGIN:VCARD\r\nVERSION:2.1\r\nN:Owen;Sean\r\nEND:VCARD", "Sean Owen",
+         DoTestResult("BEGIN:VCARD\r\nVERSION:2.1\r\nN:Owen;Sean\r\nEND:VCARD", "Sean Owen",
              ParsedResultType.ADDRESSBOOK);
-         doTestResult("BEGIN:VCARD\r\nADR;HOME:123 Main St\r\nVERSION:2.1\r\nN:Owen;Sean\r\nEND:VCARD",
+         DoTestResult("BEGIN:VCARD\r\nADR;HOME:123 Main St\r\nVERSION:2.1\r\nN:Owen;Sean\r\nEND:VCARD",
              "Sean Owen\n123 Main St", ParsedResultType.ADDRESSBOOK);
-         doTestResult("BEGIN:VCARD", "", ParsedResultType.ADDRESSBOOK);
+         DoTestResult("BEGIN:VCARD", "", ParsedResultType.ADDRESSBOOK);
       }
 
       [TestCase("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nSUMMARY:foo\r\nDTSTART:20080504T123456Z\r\nDTEND:20080505T234555Z\r\nEND:VEVENT\r\nEND:VCALENDAR", "foo\nSunday, May 4, 2008 12:34:56 PM\nMonday, May 5, 2008 11:45:55 PM", ParsedResultType.CALENDAR, TestName = "VEvent: UTC times - 1")]
@@ -234,59 +234,59 @@ namespace ZXing.Client.Result.Test
          // Yeah, it's OK that this is thought of as maybe a URI as long as it's not CALENDAR
          // Make sure illegal entries without newlines don't crash
       [TestCase("BEGIN:VEVENTSUMMARY:EventDTSTART:20081030T122030ZDTEND:20081030T132030ZEND:VEVENT", "BEGIN:VEVENTSUMMARY:EventDTSTART:20081030T122030ZDTEND:20081030T132030ZEND:VEVENT", ParsedResultType.URI, TestName = "VEvent: Illegal entries shouldn't crash")]
-      public void testVEvent(string content, string goldenresult, ParsedResultType type)
+      public void TestVEvent(string content, string goldenresult, ParsedResultType type)
       {
-         doTestResult(content, goldenresult, type);
+         DoTestResult(content, goldenresult, type);
       }
 
       [Test]
-      public void testSMS()
+      public void TestSms()
       {
-         doTestResult("sms:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("SMS:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("sms:+15551212;via=999333", "+15551212", ParsedResultType.SMS);
-         doTestResult("sms:+15551212?subject=foo&body=bar", "+15551212\nfoo\nbar", ParsedResultType.SMS);
-         doTestResult("sms:+15551212,+12124440101", "+15551212\n+12124440101", ParsedResultType.SMS);
+         DoTestResult("sms:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("SMS:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("sms:+15551212;via=999333", "+15551212", ParsedResultType.SMS);
+         DoTestResult("sms:+15551212?subject=foo&body=bar", "+15551212\nfoo\nbar", ParsedResultType.SMS);
+         DoTestResult("sms:+15551212,+12124440101", "+15551212\n+12124440101", ParsedResultType.SMS);
       }
 
       [Test]
-      public void testSMSTO()
+      public void TestSmsto()
       {
-         doTestResult("SMSTO:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("smsto:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("smsto:+15551212:subject", "+15551212\nsubject", ParsedResultType.SMS);
-         doTestResult("smsto:+15551212:My message", "+15551212\nMy message", ParsedResultType.SMS);
+         DoTestResult("SMSTO:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("smsto:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("smsto:+15551212:subject", "+15551212\nsubject", ParsedResultType.SMS);
+         DoTestResult("smsto:+15551212:My message", "+15551212\nMy message", ParsedResultType.SMS);
          // Need to handle question mark in the subject
-         doTestResult("smsto:+15551212:What's up?", "+15551212\nWhat's up?", ParsedResultType.SMS);
+         DoTestResult("smsto:+15551212:What's up?", "+15551212\nWhat's up?", ParsedResultType.SMS);
          // Need to handle colon in the subject
-         doTestResult("smsto:+15551212:Directions: Do this", "+15551212\nDirections: Do this",
+         DoTestResult("smsto:+15551212:Directions: Do this", "+15551212\nDirections: Do this",
              ParsedResultType.SMS);
-         doTestResult("smsto:212-555-1212:Here's a longer message. Should be fine.",
+         DoTestResult("smsto:212-555-1212:Here's a longer message. Should be fine.",
              "212-555-1212\nHere's a longer message. Should be fine.",
              ParsedResultType.SMS);
       }
 
       [Test]
-      public void testMMS()
+      public void TestMms()
       {
-         doTestResult("mms:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("MMS:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("mms:+15551212;via=999333", "+15551212", ParsedResultType.SMS);
-         doTestResult("mms:+15551212?subject=foo&body=bar", "+15551212\nfoo\nbar", ParsedResultType.SMS);
-         doTestResult("mms:+15551212,+12124440101", "+15551212\n+12124440101", ParsedResultType.SMS);
+         DoTestResult("mms:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("MMS:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("mms:+15551212;via=999333", "+15551212", ParsedResultType.SMS);
+         DoTestResult("mms:+15551212?subject=foo&body=bar", "+15551212\nfoo\nbar", ParsedResultType.SMS);
+         DoTestResult("mms:+15551212,+12124440101", "+15551212\n+12124440101", ParsedResultType.SMS);
       }
 
       [Test]
-      public void testMMSTO()
+      public void TestMmsto()
       {
-         doTestResult("MMSTO:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("mmsto:+15551212", "+15551212", ParsedResultType.SMS);
-         doTestResult("mmsto:+15551212:subject", "+15551212\nsubject", ParsedResultType.SMS);
-         doTestResult("mmsto:+15551212:My message", "+15551212\nMy message", ParsedResultType.SMS);
-         doTestResult("mmsto:+15551212:What's up?", "+15551212\nWhat's up?", ParsedResultType.SMS);
-         doTestResult("mmsto:+15551212:Directions: Do this", "+15551212\nDirections: Do this",
+         DoTestResult("MMSTO:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("mmsto:+15551212", "+15551212", ParsedResultType.SMS);
+         DoTestResult("mmsto:+15551212:subject", "+15551212\nsubject", ParsedResultType.SMS);
+         DoTestResult("mmsto:+15551212:My message", "+15551212\nMy message", ParsedResultType.SMS);
+         DoTestResult("mmsto:+15551212:What's up?", "+15551212\nWhat's up?", ParsedResultType.SMS);
+         DoTestResult("mmsto:+15551212:Directions: Do this", "+15551212\nDirections: Do this",
              ParsedResultType.SMS);
-         doTestResult("mmsto:212-555-1212:Here's a longer message. Should be fine.",
+         DoTestResult("mmsto:212-555-1212:Here's a longer message. Should be fine.",
              "212-555-1212\nHere's a longer message. Should be fine.", ParsedResultType.SMS);
       }
 
@@ -326,14 +326,14 @@ namespace ZXing.Client.Result.Test
       }
       */
 
-      private static void doTestResult(string contents,
+      private static void DoTestResult(string contents,
                                        string goldenResult,
                                        ParsedResultType type)
       {
-         doTestResult(contents, goldenResult, type, BarcodeFormat.QR_CODE); // QR code is arbitrary
+         DoTestResult(contents, goldenResult, type, BarcodeFormat.QR_CODE); // QR code is arbitrary
       }
 
-      private static void doTestResult(string contents,
+      private static void DoTestResult(string contents,
                                        string goldenResult,
                                        ParsedResultType type,
                                        BarcodeFormat format)

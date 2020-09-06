@@ -228,7 +228,7 @@ namespace ZXing.Multi.QrCode.Internal
 
         public QrFinderPatternInfo[] FindMulti(IDictionary<DecodeHintType, object> hints)
         {
-            bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
+            bool tryHarder = hints?.ContainsKey(DecodeHintType.TRY_HARDER) == true;
             BitMatrix image = Image;
             int maxI = image.Height;
             int maxJ = image.Width;

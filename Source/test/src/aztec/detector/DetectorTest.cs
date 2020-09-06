@@ -34,52 +34,52 @@ namespace ZXing.Aztec.Test
       private static readonly Encoding LATIN_1 = Encoding.GetEncoding("ISO-8859-1");
 
       [Test]
-      public void testErrorInParameterLocatorZeroZero()
+      public void TestErrorInParameterLocatorZeroZero()
       {
          // Layers=1, CodeWords=1.  So the parameter info and its Reed-Solomon info
          // will be completely zero!
-         testErrorInParameterLocator("X");
+         TestErrorInParameterLocator("X");
       }
 
       [Test]
-      public void testErrorInParameterLocatorCompact()
+      public void TestErrorInParameterLocatorCompact()
       {
-         testErrorInParameterLocator("This is an example Aztec symbol for Wikipedia.");
+         TestErrorInParameterLocator("This is an example Aztec symbol for Wikipedia.");
       }
 
       [Test]
-      public void testErrorInParameterLocatorNotCompact()
+      public void TestErrorInParameterLocatorNotCompact()
       {
          const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyz";
-         testErrorInParameterLocator(alphabet + alphabet + alphabet);
+         TestErrorInParameterLocator(alphabet + alphabet + alphabet);
       }
 
       // Test that we can tolerate errors in the parameter locator bits
-      private static void testErrorInParameterLocator(string data)
+      private static void TestErrorInParameterLocator(string data)
       {
          var aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 25, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
          var random = new Random(aztec.Matrix.GetHashCode()); // pseudo-random, but deterministic
          var layers = aztec.Layers;
          var compact = aztec.isCompact;
-         var orientationPoints = getOrientationPoints(aztec);
+         var orientationPoints = GetOrientationPoints(aztec);
          foreach (bool isMirror in new[] {false, true})
          {
-            foreach (BitMatrix matrix in getRotations(aztec.Matrix))
+            foreach (BitMatrix matrix in GetRotations(aztec.Matrix))
             {
                // Systematically try every possible 1- and 2-bit error.
                for (int error1 = 0; error1 < orientationPoints.Count; error1++)
                {
                   for (int error2 = error1; error2 < orientationPoints.Count; error2++)
                   {
-                     BitMatrix copy = isMirror ? transpose(matrix) : clone(matrix);
-                     copy.flip(orientationPoints[error1].X, orientationPoints[error1].Y);
+                     BitMatrix copy = isMirror ? Transpose(matrix) : Clone(matrix);
+                     copy.Flip(orientationPoints[error1].X, orientationPoints[error1].Y);
                      if (error2 > error1)
                      {
                         // if error2 == error1, we only test a single error
-                        copy.flip(orientationPoints[error2].X, orientationPoints[error2].Y);
+                        copy.Flip(orientationPoints[error2].X, orientationPoints[error2].Y);
                      }
                      // The detector doesn't seem to work when matrix bits are only 1x1.  So magnify.
-                     AztecDetectorResult r = new Detector(makeLarger(copy, 3)).detect(isMirror);
+                     AztecDetectorResult r = new Detector(MakeLarger(copy, 3)).detect(isMirror);
                      Assert.IsNotNull(r);
                      Assert.AreEqual(r.NbLayers, layers);
                      Assert.AreEqual(r.Compact, compact);
@@ -90,7 +90,7 @@ namespace ZXing.Aztec.Test
                // Try a few random three-bit errors;
                for (int i = 0; i < 5; i++)
                {
-                  BitMatrix copy = clone(matrix);
+                  BitMatrix copy = Clone(matrix);
 #if !SILVERLIGHT
                   ISet<int> errors = new SortedSet<int>();
 #else
@@ -103,9 +103,9 @@ namespace ZXing.Aztec.Test
                   }
                   foreach (int error in errors)
                   {
-                     copy.flip(orientationPoints[error].X, orientationPoints[error].Y);
+                     copy.Flip(orientationPoints[error].X, orientationPoints[error].Y);
                   }
-                  var larger = makeLarger(copy, 3);
+                  var larger = MakeLarger(copy, 3);
                   var result = new Detector(larger).detect(false);
                   if (result != null)
                   {
@@ -117,7 +117,7 @@ namespace ZXing.Aztec.Test
       }
 
       // Zooms a bit matrix so that each bit is factor x factor
-      private static BitMatrix makeLarger(IRoBitMatrix input, int factor)
+      private static BitMatrix MakeLarger(IRoBitMatrix input, int factor)
       {
          var width = input.Width;
          var output = new BitMatrix(width*factor);
@@ -127,7 +127,7 @@ namespace ZXing.Aztec.Test
             {
                if (input[inputX, inputY])
                {
-                  output.setRegion(inputX*factor, inputY*factor, factor, factor);
+                  output.SetRegion(inputX*factor, inputY*factor, factor, factor);
                }
             }
          }
@@ -135,16 +135,16 @@ namespace ZXing.Aztec.Test
       }
 
       // Returns a list of the four rotations of the BitMatrix.
-      private static List<BitMatrix> getRotations(BitMatrix matrix0)
+      private static List<BitMatrix> GetRotations(BitMatrix matrix0)
       {
-         BitMatrix matrix90 = rotateRight(matrix0);
-         BitMatrix matrix180 = rotateRight(matrix90);
-         BitMatrix matrix270 = rotateRight(matrix180);
+         BitMatrix matrix90 = RotateRight(matrix0);
+         BitMatrix matrix180 = RotateRight(matrix90);
+         BitMatrix matrix270 = RotateRight(matrix180);
          return new List<BitMatrix> {matrix0, matrix90, matrix180, matrix270};
       }
 
       // Rotates a square BitMatrix to the right by 90 degrees
-      private static BitMatrix rotateRight(BitMatrix input)
+      private static BitMatrix RotateRight(BitMatrix input)
       {
          var width = input.Width;
          var result = new BitMatrix(width);
@@ -163,7 +163,7 @@ namespace ZXing.Aztec.Test
 
       // Returns the transpose of a bit matrix, which is equivalent to rotating the
       // matrix to the right, and then flipping it left-to-right
-      private static BitMatrix transpose(BitMatrix input)
+      private static BitMatrix Transpose(BitMatrix input)
       {
          var width = input.Width;
          var result = new BitMatrix(width);
@@ -180,7 +180,7 @@ namespace ZXing.Aztec.Test
          return result;
       }
 
-      private static BitMatrix clone(BitMatrix input)
+      private static BitMatrix Clone(BitMatrix input)
       {
          var width = input.Width;
          var result = new BitMatrix(width);
@@ -197,7 +197,7 @@ namespace ZXing.Aztec.Test
          return result;
       }
 
-      private static List<Detector.Point> getOrientationPoints(AztecCode code)
+      private static List<Detector.Point> GetOrientationPoints(AztecCode code)
       {
          var center = code.Matrix.Width/2;
          var offset = code.isCompact ? 5 : 7;

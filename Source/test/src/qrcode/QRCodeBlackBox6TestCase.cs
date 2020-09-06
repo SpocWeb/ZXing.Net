@@ -22,15 +22,15 @@ namespace ZXing.QrCode.Test
    /// These tests are supplied by Tim Gernat and test finder pattern detection at small size and under
    /// rotation, which was a weak spot.
    /// </summary>
-   public sealed class QRCodeBlackBox6TestCase : AbstractBlackBoxTestCase
+   public sealed class QrCodeBlackBox6TestCase : AbstractBlackBoxTestCase
    {
-      public QRCodeBlackBox6TestCase()
+      public QrCodeBlackBox6TestCase()
          : base("test/data/blackbox/qrcode-6", new MultiFormatReader(), BarcodeFormat.QR_CODE)
       {
-         addTest(15, 15, 0.0f);
-         addTest(14, 14, 90.0f);
-         addTest(13, 13, 180.0f);
-         addTest(14, 14, 270.0f);
+         AddTest(15, 15, 0.0f);
+         AddTest(14, 14, 90.0f);
+         AddTest(13, 13, 180.0f);
+         AddTest(14, 14, 270.0f);
       }
    }
 }

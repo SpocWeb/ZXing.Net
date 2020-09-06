@@ -29,53 +29,53 @@ namespace ZXing.Client.Result.Test
    public sealed class EmailAddressParsedResultTestCase
    {
       [Test]
-      public void testEmailAddress()
+      public void TestEmailAddress()
       {
-         doTest("srowen@example.org", "srowen@example.org", null, null);
-         doTest("mailto:srowen@example.org", "srowen@example.org", null, null);
+         DoTest("srowen@example.org", "srowen@example.org", null, null);
+         DoTest("mailto:srowen@example.org", "srowen@example.org", null, null);
       }
 
       [Test]
-      public void testTos()
+      public void TestTos()
       {
-         doTest("mailto:srowen@example.org,bob@example.org",
+         DoTest("mailto:srowen@example.org,bob@example.org",
                 new string[] {"srowen@example.org", "bob@example.org"},
                 null, null, null, null);
-         doTest("mailto:?to=srowen@example.org,bob@example.org",
+         DoTest("mailto:?to=srowen@example.org,bob@example.org",
                 new string[] {"srowen@example.org", "bob@example.org"},
                 null, null, null, null);
       }
 
       [Test]
-      public void testCCs()
+      public void TestCCs()
       {
-         doTest("mailto:?cc=srowen@example.org",
+         DoTest("mailto:?cc=srowen@example.org",
                 null,
                 new string[] {"srowen@example.org"},
                 null, null, null);
-         doTest("mailto:?cc=srowen@example.org,bob@example.org",
+         DoTest("mailto:?cc=srowen@example.org,bob@example.org",
                 null,
                 new string[] {"srowen@example.org", "bob@example.org"},
                 null, null, null);
       }
 
       [Test]
-      public void testBCCs()
+      public void TestBcCs()
       {
-         doTest("mailto:?bcc=srowen@example.org",
+         DoTest("mailto:?bcc=srowen@example.org",
                 null, null,
                 new string[] {"srowen@example.org"},
                 null, null);
-         doTest("mailto:?bcc=srowen@example.org,bob@example.org",
+         DoTest("mailto:?bcc=srowen@example.org,bob@example.org",
                 null, null,
                 new string[] {"srowen@example.org", "bob@example.org"},
                 null, null);
       }
 
       [Test]
-      public void testAll()
+      public void TestAll()
       {
-         doTest("mailto:bob@example.org?cc=foo@example.org&bcc=srowen@example.org&subject=baz&body=buzz",
+         DoTest("mailto:bob@example.org?cc=foo@example.org&bcc=srowen@example.org&subject=baz&body=buzz",
                 new string[] {"bob@example.org"},
                 new string[] {"foo@example.org"},
                 new string[] {"srowen@example.org"},
@@ -84,32 +84,32 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testEmailDocomo()
+      public void TestEmailDocomo()
       {
-         doTest("MATMSG:TO:srowen@example.org;;", "srowen@example.org", null, null);
-         doTest("MATMSG:TO:srowen@example.org;SUB:Stuff;;", "srowen@example.org", "Stuff", null);
-         doTest("MATMSG:TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;", "srowen@example.org",
+         DoTest("MATMSG:TO:srowen@example.org;;", "srowen@example.org", null, null);
+         DoTest("MATMSG:TO:srowen@example.org;SUB:Stuff;;", "srowen@example.org", "Stuff", null);
+         DoTest("MATMSG:TO:srowen@example.org;SUB:Stuff;BODY:This is some text;;", "srowen@example.org",
                 "Stuff", "This is some text");
       }
 
       [Test]
-      public void testSMTP()
+      public void TestSmtp()
       {
-         doTest("smtp:srowen@example.org", "srowen@example.org", null, null);
-         doTest("SMTP:srowen@example.org", "srowen@example.org", null, null);
-         doTest("smtp:srowen@example.org:foo", "srowen@example.org", "foo", null);
-         doTest("smtp:srowen@example.org:foo:bar", "srowen@example.org", "foo", "bar");
+         DoTest("smtp:srowen@example.org", "srowen@example.org", null, null);
+         DoTest("SMTP:srowen@example.org", "srowen@example.org", null, null);
+         DoTest("smtp:srowen@example.org:foo", "srowen@example.org", "foo", null);
+         DoTest("smtp:srowen@example.org:foo:bar", "srowen@example.org", "foo", "bar");
       }
 
-      private static void doTest(string contents,
+      private static void DoTest(string contents,
                                  string to,
                                  string subject,
                                  string body)
       {
-         doTest(contents, new string[] {to}, null, null, subject, body);
+         DoTest(contents, new string[] {to}, null, null, subject, body);
       }
 
-      private static void doTest(string contents,
+      private static void DoTest(string contents,
                                  string[] tos,
                                  string[] ccs,
                                  string[] bccs,

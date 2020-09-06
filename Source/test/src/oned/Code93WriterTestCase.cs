@@ -25,16 +25,16 @@ namespace ZXing.OneD.Test
     public class Code93WriterTestCase
     {
         [Test]
-        public void testEncode()
+        public void TestEncode()
         {
-            doTest("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            DoTest("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
                 "000001010111101101010001101001001101000101100101001100100101100010101011010001011001" +
                 "001011000101001101001000110101010110001010011001010001101001011001000101101101101001" +
                 "101100101101011001101001101100101101100110101011011001011001101001101101001110101000" +
                 "101001010010001010001001010000101001010001001001001001000101010100001000100101000010" +
                 "10100111010101000010101011110100000");
 
-            doTest("\u0000\u0001\u001a\u001b\u001f $%+!,09:;@AZ[_`az{\u007f",
+            DoTest("\u0000\u0001\u001a\u001b\u001f $%+!,09:;@AZ[_`az{\u007f",
                 "00000" + "101011110" +
                 "111011010" + "110010110" + "100100110" + "110101000" + // bU aA
                 "100100110" + "100111010" + "111011010" + "110101000" + // aZ bA
@@ -52,7 +52,7 @@ namespace ZXing.OneD.Test
         }
 
         [Test]
-        public void testConvertToExtended()
+        public void TestConvertToExtended()
         {
             // non-extended chars are not changed.
             var src = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
@@ -60,10 +60,10 @@ namespace ZXing.OneD.Test
             Assert.That(dst, Is.EqualTo(src));
         }
 
-        private static void doTest(string input, string expected)
+        private static void DoTest(string input, string expected)
         {
             var result = new Code93Writer().encode(input, BarcodeFormat.CODE_93, 0, 0);
-            Assert.AreEqual(expected, BitMatrixTestCase.matrixToString(result));
+            Assert.AreEqual(expected, BitMatrixTestCase.MatrixToString(result));
         }
     }
 }

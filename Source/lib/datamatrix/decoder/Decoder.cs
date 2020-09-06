@@ -47,7 +47,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         public DecoderResult decode(bool[][] image)
         {
-            return decode(BitMatrix.parse(image));
+            return decode(BitMatrix.Parse(image));
         }
 
         /// <summary>

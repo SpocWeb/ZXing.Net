@@ -25,10 +25,10 @@ namespace ZXing.Datamatrix.Test
       public RegressionDataMatrixTestCase()
          : base("test/data/regression/datamatrix", new MultiFormatReader(), BarcodeFormat.DATA_MATRIX)
       {
-         addTest(1, 1, 0.0f);
-         addTest(1, 1, 90.0f);
-         addTest(1, 1, 180.0f);
-         addTest(1, 1, 270.0f);
+         AddTest(1, 1, 0.0f);
+         AddTest(1, 1, 90.0f);
+         AddTest(1, 1, 180.0f);
+         AddTest(1, 1, 270.0f);
       }
    }
 }

@@ -29,27 +29,27 @@ using ZXing.PDF417;
 namespace ZXing.Test
 {
    [TestFixture]
-   public class RGBLuminanceSourceTests
+   public class RgbLuminanceSourceTests
    {
-      private const string samplePicRelPath = @"../../../Source/test/data/luminance/01.jpg";
-      private const string samplePicRelResultPath = @"../../../Source/test/data/luminance/01Result.txt.gz";
-      private string samplePicRelResult;
+      private const string SamplePicRelPath = @"../../../Source/test/data/luminance/01.jpg";
+      private const string SamplePicRelResultPath = @"../../../Source/test/data/luminance/01Result.txt.gz";
+      private string _SamplePicRelResult;
 
       [SetUp]
       public void Setup()
       {
-         using (var stream = File.OpenRead(samplePicRelResultPath))
+         using (var stream = File.OpenRead(SamplePicRelResultPath))
          using (var deflateStream = new GZipStream(stream, CompressionMode.Decompress, true))
          using (var reader = new StreamReader(deflateStream))
             {
-                samplePicRelResult = reader.ReadToEnd();
+                _SamplePicRelResult = reader.ReadToEnd();
             }
 
-            using (var stream = File.OpenRead(cropSamplePicRelResultPath))
+            using (var stream = File.OpenRead(CropSamplePicRelResultPath))
          using (var deflateStream = new GZipStream(stream, CompressionMode.Decompress, true))
          using (var reader = new StreamReader(deflateStream))
             {
-                cropSamplePicRelResult = reader.ReadToEnd();
+                _CropSamplePicRelResult = reader.ReadToEnd();
             }
         }
 
@@ -61,7 +61,7 @@ namespace ZXing.Test
       }, 3, 3);
 
       [Test]
-      public void testCrop()
+      public void TestCrop()
       {
          Assert.IsTrue(SOURCE.CropSupported);
          LuminanceSource cropped = SOURCE.crop(1, 1, 1, 1);
@@ -74,7 +74,7 @@ namespace ZXing.Test
       }
 
       [Test]
-      public void testMatrix()
+      public void TestMatrix()
       {
          // java and .Net differs, not sure, why
          //var expectedInJava = new byte[] {0x00, 0x7F, 0xFF, 0x3F, 0x7F, 0x3F, 0x3F, 0x7F, 0x3F};
@@ -87,7 +87,7 @@ namespace ZXing.Test
       }
 
       [Test]
-      public void testGetRow()
+      public void TestGetRow()
       {
          // java and .Net differs, not sure, why
          //var expectedInJava = new byte[] {0x3F, 0x7F, 0x3F};
@@ -96,7 +96,7 @@ namespace ZXing.Test
       }
 
       [Test]
-      public void testToString()
+      public void TestToString()
       {
          // java and .Net differs, not sure, why
          //var expectedInJava = "#+ \n#+#\n#+#\n";
@@ -119,28 +119,28 @@ namespace ZXing.Test
                                };
          foreach (var pixelFormat in pixelFormats)
          {
-            BitmapSource bitmapImage = new BitmapImage(new Uri(samplePicRelPath, UriKind.RelativeOrAbsolute));
+            BitmapSource bitmapImage = new BitmapImage(new Uri(SamplePicRelPath, UriKind.RelativeOrAbsolute));
             if (bitmapImage.Format != pixelFormat) {
                 bitmapImage = new FormatConvertedBitmap(bitmapImage, pixelFormat, null, 0);
             }
             var rgbLuminanceSource = new BitmapSourceLuminanceSource(bitmapImage);
             var rgbLuminanceSourceResult = rgbLuminanceSource.ToString();
-            Assert.That(samplePicRelResult.Equals(rgbLuminanceSourceResult));
+            Assert.That(_SamplePicRelResult.Equals(rgbLuminanceSourceResult));
          }
       }
 
-      private const string cropSamplePicRelPath = @"../../../Source/test/data/luminance/crop_sample.png";
-      private const string cropSamplePicRelResultPath = @"../../../Source/test/data/luminance/crop_sample.txt.gz";
-      private string cropSamplePicRelResult;
+      private const string CropSamplePicRelPath = @"../../../Source/test/data/luminance/crop_sample.png";
+      private const string CropSamplePicRelResultPath = @"../../../Source/test/data/luminance/crop_sample.txt.gz";
+      private string _CropSamplePicRelResult;
 
       [Test]
       public void Should_Support_Cropping()
       {
-         BitmapSource bitmapImage = new BitmapImage(new Uri(cropSamplePicRelPath, UriKind.RelativeOrAbsolute));
+         BitmapSource bitmapImage = new BitmapImage(new Uri(CropSamplePicRelPath, UriKind.RelativeOrAbsolute));
          var rgbLuminanceSource = new BitmapSourceLuminanceSource(bitmapImage);
          var croppedImage = rgbLuminanceSource.crop(0, 0, rgbLuminanceSource.Width / 2, rgbLuminanceSource.Height/5);
          var result = croppedImage.ToString();
-         Assert.AreEqual(cropSamplePicRelResult, result);
+         Assert.AreEqual(_CropSamplePicRelResult, result);
       }
 
       [Test]

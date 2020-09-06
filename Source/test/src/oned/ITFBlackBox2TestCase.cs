@@ -21,13 +21,13 @@ namespace ZXing.OneD.Test
    /// <summary>
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class ITFBlackBox2TestCase : AbstractBlackBoxTestCase
+   public sealed class ItfBlackBox2TestCase : AbstractBlackBoxTestCase
    {
-      public ITFBlackBox2TestCase()
+      public ItfBlackBox2TestCase()
          : base("test/data/blackbox/itf-2", new MultiFormatReader(), BarcodeFormat.ITF)
       {
-         addTest(13, 13, 0.0f);
-         addTest(13, 13, 180.0f);
+         AddTest(13, 13, 0.0f);
+         AddTest(13, 13, 180.0f);
       }
    }
 }

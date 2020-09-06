@@ -27,7 +27,7 @@ namespace ZXing.QrCode.Internal.Test
     public sealed class ErrorCorrectionLevelTestCase
     {
         [Test]
-        public void testForBits()
+        public void TestForBits()
         {
             Assert.AreEqual(ErrorCorrectionLevel.M, ErrorCorrectionLevel.forBits(0));
             Assert.AreEqual(ErrorCorrectionLevel.L, ErrorCorrectionLevel.forBits(1));
@@ -37,7 +37,7 @@ namespace ZXing.QrCode.Internal.Test
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void testBadECLevel()
+        public void TestBadEcLevel()
         {
             ErrorCorrectionLevel.forBits(4);
             throw new AssertionException("Should have thrown an exception");

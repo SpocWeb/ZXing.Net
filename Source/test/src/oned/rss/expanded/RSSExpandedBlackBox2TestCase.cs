@@ -28,13 +28,13 @@ using ZXing.Common.Test;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {
-   public class RSSExpandedBlackBox2TestCase : AbstractBlackBoxTestCase
+   public class RssExpandedBlackBox2TestCase : AbstractBlackBoxTestCase
    {
-      public RSSExpandedBlackBox2TestCase()
+      public RssExpandedBlackBox2TestCase()
          : base("test/data/blackbox/rssexpanded-2", new MultiFormatReader(), BarcodeFormat.RSS_EXPANDED)
       {
-         addTest(21, 23, 0.0f);
-         addTest(21, 23, 180.0f);
+         AddTest(21, 23, 0.0f);
+         AddTest(21, 23, 180.0f);
       }
    }
 }

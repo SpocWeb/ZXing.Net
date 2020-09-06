@@ -22,7 +22,7 @@ using NUnit.Framework;
 namespace ZXing.Common.Test
 {
    [TestFixture]
-   public sealed class CharacterSetECITestCase
+   public sealed class CharacterSetEciTestCase
    {
       [Test]
       public void CharacterSetECI_Should_Return_Usable_Charactersets()

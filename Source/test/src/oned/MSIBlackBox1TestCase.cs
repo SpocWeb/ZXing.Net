@@ -21,13 +21,13 @@ namespace ZXing.OneD.Test
    /// <summary>
    /// <author>Sean Owen</author>
    /// </summary>
-   public sealed class MSIBlackBox1TestCase : AbstractBlackBoxTestCase
+   public sealed class MsiBlackBox1TestCase : AbstractBlackBoxTestCase
    {
-      public MSIBlackBox1TestCase()
+      public MsiBlackBox1TestCase()
          : base("test/data/blackbox/msi-1", new MSIReader(), BarcodeFormat.MSI)
       {
-         addTest(5, 5, 0.0f);
-         addTest(5, 5, 180.0f);
+         AddTest(5, 5, 0.0f);
+         AddTest(5, 5, 180.0f);
       }
    }
 }

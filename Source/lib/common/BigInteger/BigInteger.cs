@@ -43,7 +43,7 @@ namespace BigIntegerLibrary
         /// The maximum size is, in fact, double the previously specified amount, in order to accommodate operations's
         /// overflow.
         /// </summary>
-        internal const int MaxSize = 2 * 640;
+        internal const int MAX_SIZE = 2 * 640;
 
         /// <summary>
         /// Ratio for the convertion of a BigInteger's size to a binary digits size.
@@ -61,17 +61,17 @@ namespace BigIntegerLibrary
         /// <summary>
         /// The array of digits of the number.
         /// </summary>
-        private DigitContainer digits;
+        private DigitContainer _Digits;
 
         /// <summary>
         /// The actual number of digits of the number.
         /// </summary>
-        private int size;
+        private int _Size;
 
         /// <summary>
         /// The number sign.
         /// </summary>
-        private Sign sign;
+        private Sign _Sign;
 
         #endregion
 
@@ -84,10 +84,10 @@ namespace BigIntegerLibrary
         /// </summary>
         public BigInteger()
         {
-            digits = new DigitContainer();
-            size = 1;
-            digits[size] = 0;
-            sign = Sign.Positive;
+            _Digits = new DigitContainer();
+            _Size = 1;
+            _Digits[_Size] = 0;
+            _Sign = Sign.POSITIVE;
         }
 
         /// <summary>
@@ -96,13 +96,13 @@ namespace BigIntegerLibrary
         /// <param name="n">The base-10 long to be converted</param>
         public BigInteger(long n)
         {
-            digits = new DigitContainer();
-            sign = Sign.Positive;
+            _Digits = new DigitContainer();
+            _Sign = Sign.POSITIVE;
 
             if (n == 0)
             {
-                size = 1;
-                digits[size] = 0;
+                _Size = 1;
+                _Digits[_Size] = 0;
             }
 
             else
@@ -110,15 +110,15 @@ namespace BigIntegerLibrary
                 if (n < 0)
                 {
                     n = -n;
-                    sign = Sign.Negative;
+                    _Sign = Sign.NEGATIVE;
                 }
 
-                size = 0;
+                _Size = 0;
                 while (n > 0)
                 {
-                    digits[size] = n % NumberBase;
+                    _Digits[_Size] = n % NumberBase;
                     n /= NumberBase;
-                    size++;
+                    _Size++;
                 }
             }
         }
@@ -129,13 +129,13 @@ namespace BigIntegerLibrary
         /// <param name="n">The BigInteger to be copied</param>
         public BigInteger(BigInteger n)
         {
-            digits = new DigitContainer();
-            size = n.size;
-            sign = n.sign;
+            _Digits = new DigitContainer();
+            _Size = n._Size;
+            _Sign = n._Sign;
 
-            for (int i = 0; i < n.size; i++)
+            for (int i = 0; i < n._Size; i++)
             {
-                digits[i] = n.digits[i];
+                _Digits[i] = n._Digits[i];
             }
         }
 
@@ -147,7 +147,7 @@ namespace BigIntegerLibrary
         public BigInteger(string numberString)
         {
             BigInteger number = new BigInteger();
-            Sign numberSign = Sign.Positive;
+            Sign numberSign = Sign.POSITIVE;
             int i;
 
             for (i = 0; i < numberString.Length; i++)
@@ -155,7 +155,7 @@ namespace BigIntegerLibrary
                 if ((numberString[i] < '0') || (numberString[i] > '9'))
                 {
                     if ((i == 0) && (numberString[i] == '-')) {
-                        numberSign = Sign.Negative;
+                        numberSign = Sign.NEGATIVE;
                     } else {
                         throw new BigIntegerException("Invalid numeric string.", null);
                     }
@@ -166,13 +166,13 @@ namespace BigIntegerLibrary
                 }
             }
 
-            sign = numberSign;
+            _Sign = numberSign;
 
-            digits = new DigitContainer();
-            size = number.size;
-            for (i = 0; i < number.size; i++)
+            _Digits = new DigitContainer();
+            _Size = number._Size;
+            for (i = 0; i < number._Size; i++)
             {
-                digits[i] = number.digits[i];
+                _Digits[i] = number._Digits[i];
             }
         }
 
@@ -184,12 +184,12 @@ namespace BigIntegerLibrary
         /// exception</exception>
         public BigInteger(byte[] byteArray)
         {
-            if (byteArray.Length / 4 > MaxSize) {
+            if (byteArray.Length / 4 > MAX_SIZE) {
                 throw new BigIntegerException("The byte array's content exceeds the maximum size of a BigInteger.", null);
             }
 
-            digits = new DigitContainer();
-            sign = Sign.Positive;
+            _Digits = new DigitContainer();
+            _Sign = Sign.POSITIVE;
 
             for (int i = 0; i < byteArray.Length; i += 2)
             {
@@ -200,14 +200,14 @@ namespace BigIntegerLibrary
                     currentDigit += (int)byteArray[i + 1];
                 }
 
-                digits[size++] = (long)currentDigit;
+                _Digits[_Size++] = (long)currentDigit;
             }
 
             bool reducible = true;
-            while ((size - 1 > 0) && (reducible == true))
+            while ((_Size - 1 > 0) && (reducible == true))
             {
-                if (digits[size - 1] == 0) {
-                    size--;
+                if (_Digits[_Size - 1] == 0) {
+                    _Size--;
                 } else {
                     reducible = false;
                 }
@@ -222,18 +222,18 @@ namespace BigIntegerLibrary
         {
             bool signValue = (bool)info.GetValue("sign", typeof(bool));
             if (signValue == true) {
-                sign = Sign.Positive;
+                _Sign = Sign.POSITIVE;
             } else {
-                sign = Sign.Negative;
+                _Sign = Sign.NEGATIVE;
             }
 
-            size = (int)info.GetValue("size", typeof(short));
-            digits = new DigitContainer();
+            _Size = (int)info.GetValue("size", typeof(short));
+            _Digits = new DigitContainer();
 
             int i;
-            for (i = 0; i < size; i++)
+            for (i = 0; i < _Size; i++)
             {
-                digits[i] = (long)(info.GetValue(string.Format("{0}{1}", "d_", i.ToString()),
+                _Digits[i] = (long)(info.GetValue(string.Format("{0}{1}", "d_", i.ToString()),
                                                  typeof(ushort)));
             }
         }
@@ -255,17 +255,17 @@ namespace BigIntegerLibrary
         [SecurityPermissionAttribute(SecurityAction.Demand, SerializationFormatter = true)]
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (sign == Sign.Positive) {
+            if (_Sign == Sign.POSITIVE) {
                 info.AddValue("sign", true);
             } else {
                 info.AddValue("sign", false);
             }
 
-            info.AddValue("size", (short)size);
+            info.AddValue("size", (short)_Size);
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < _Size; i++)
             {
-                info.AddValue(string.Format("{0}{1}", "d_", i.ToString()), (ushort)digits[i]);
+                info.AddValue(string.Format("{0}{1}", "d_", i.ToString()), (ushort)_Digits[i]);
             }
         }
 #endif
@@ -278,16 +278,16 @@ namespace BigIntegerLibrary
         /// false otherwise</returns>
         public bool Equals(BigInteger other)
         {
-            if (sign != other.sign) {
+            if (_Sign != other._Sign) {
                 return false;
             }
-            if (size != other.size) {
+            if (_Size != other._Size) {
                 return false;
             }
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < _Size; i++)
             {
-                if (digits[i] != other.digits[i]) {
+                if (_Digits[i] != other._Digits[i]) {
                     return false;
                 }
             }
@@ -318,9 +318,9 @@ namespace BigIntegerLibrary
         {
             int result = 0;
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < _Size; i++)
             {
-                result = result + (int)digits[i];
+                result = result + (int)_Digits[i];
             }
 
             return result;
@@ -335,13 +335,13 @@ namespace BigIntegerLibrary
             Base10BigInteger res = new Base10BigInteger();
             Base10BigInteger currentPower = new Base10BigInteger(1);
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < _Size; i++)
             {
-                res += digits[i] * currentPower;
+                res += _Digits[i] * currentPower;
                 currentPower *= NumberBase;
             }
 
-            res.NumberSign = sign;
+            res.NumberSign = _Sign;
 
             return res.ToString();
         }
@@ -396,7 +396,7 @@ namespace BigIntegerLibrary
         /// <returns>The BigInteger's size in binary digits</returns>
         public static int SizeInBinaryDigits(BigInteger n)
         {
-            return n.size * RatioToBinaryDigits;
+            return n._Size * RatioToBinaryDigits;
         }
 
         /// <summary>
@@ -410,10 +410,10 @@ namespace BigIntegerLibrary
 
             if (res != Zero)
             {
-                if (res.sign == Sign.Positive) {
-                    res.sign = Sign.Negative;
+                if (res._Sign == Sign.POSITIVE) {
+                    res._Sign = Sign.NEGATIVE;
                 } else {
-                    res.sign = Sign.Positive;
+                    res._Sign = Sign.POSITIVE;
                 }
             }
 
@@ -428,32 +428,32 @@ namespace BigIntegerLibrary
         /// <returns>True if a &gt; b, false otherwise</returns>
         public static bool Greater(BigInteger a, BigInteger b)
         {
-            if (a.sign != b.sign)
+            if (a._Sign != b._Sign)
             {
-                if ((a.sign == Sign.Negative) && (b.sign == Sign.Positive)) {
+                if ((a._Sign == Sign.NEGATIVE) && (b._Sign == Sign.POSITIVE)) {
                     return false;
                 }
 
-                if ((a.sign == Sign.Positive) && (b.sign == Sign.Negative)) {
+                if ((a._Sign == Sign.POSITIVE) && (b._Sign == Sign.NEGATIVE)) {
                     return true;
                 }
             }
 
             else
             {
-                if (a.sign == Sign.Positive)
+                if (a._Sign == Sign.POSITIVE)
                 {
-                    if (a.size > b.size) {
+                    if (a._Size > b._Size) {
                         return true;
                     }
-                    if (a.size < b.size) {
+                    if (a._Size < b._Size) {
                         return false;
                     }
-                    for (int i = (a.size) - 1; i >= 0; i--)
+                    for (int i = (a._Size) - 1; i >= 0; i--)
                     {
-                        if (a.digits[i] > b.digits[i]) {
+                        if (a._Digits[i] > b._Digits[i]) {
                             return true;
-                        } else if (a.digits[i] < b.digits[i]) {
+                        } else if (a._Digits[i] < b._Digits[i]) {
                             return false;
                         }
                     }
@@ -461,17 +461,17 @@ namespace BigIntegerLibrary
 
                 else
                 {
-                    if (a.size < b.size) {
+                    if (a._Size < b._Size) {
                         return true;
                     }
-                    if (a.size > b.size) {
+                    if (a._Size > b._Size) {
                         return false;
                     }
-                    for (int i = (a.size) - 1; i >= 0; i--)
+                    for (int i = (a._Size) - 1; i >= 0; i--)
                     {
-                        if (a.digits[i] < b.digits[i]) {
+                        if (a._Digits[i] < b._Digits[i]) {
                             return true;
-                        } else if (a.digits[i] > b.digits[i]) {
+                        } else if (a._Digits[i] > b._Digits[i]) {
                             return false;
                         }
                     }
@@ -522,7 +522,7 @@ namespace BigIntegerLibrary
         public static BigInteger Abs(BigInteger n)
         {
             BigInteger res = new BigInteger(n);
-            res.sign = Sign.Positive;
+            res._Sign = Sign.POSITIVE;
             return res;
         }
 
@@ -536,7 +536,7 @@ namespace BigIntegerLibrary
         {
             BigInteger res = null;
 
-            if ((a.sign == Sign.Positive) && (b.sign == Sign.Positive))
+            if ((a._Sign == Sign.POSITIVE) && (b._Sign == Sign.POSITIVE))
             {
                 if (a >= b) {
                     res = Add(a, b);
@@ -544,10 +544,10 @@ namespace BigIntegerLibrary
                     res = Add(b, a);
                 }
 
-                res.sign = Sign.Positive;
+                res._Sign = Sign.POSITIVE;
             }
 
-            if ((a.sign == Sign.Negative) && (b.sign == Sign.Negative))
+            if ((a._Sign == Sign.NEGATIVE) && (b._Sign == Sign.NEGATIVE))
             {
                 if (a <= b) {
                     res = Add(-a, -b);
@@ -555,34 +555,34 @@ namespace BigIntegerLibrary
                     res = Add(-b, -a);
                 }
 
-                res.sign = Sign.Negative;
+                res._Sign = Sign.NEGATIVE;
             }
 
-            if ((a.sign == Sign.Positive) && (b.sign == Sign.Negative))
+            if ((a._Sign == Sign.POSITIVE) && (b._Sign == Sign.NEGATIVE))
             {
                 if (a >= (-b))
                 {
                     res = Subtract(a, -b);
-                    res.sign = Sign.Positive;
+                    res._Sign = Sign.POSITIVE;
                 }
                 else
                 {
                     res = Subtract(-b, a);
-                    res.sign = Sign.Negative;
+                    res._Sign = Sign.NEGATIVE;
                 }
             }
 
-            if ((a.sign == Sign.Negative) && (b.sign == Sign.Positive))
+            if ((a._Sign == Sign.NEGATIVE) && (b._Sign == Sign.POSITIVE))
             {
                 if ((-a) <= b)
                 {
                     res = Subtract(b, -a);
-                    res.sign = Sign.Positive;
+                    res._Sign = Sign.POSITIVE;
                 }
                 else
                 {
                     res = Subtract(-a, b);
-                    res.sign = Sign.Negative;
+                    res._Sign = Sign.NEGATIVE;
                 }
             }
 
@@ -599,35 +599,35 @@ namespace BigIntegerLibrary
         {
             BigInteger res = null;
 
-            if ((a.sign == Sign.Positive) && (b.sign == Sign.Positive))
+            if ((a._Sign == Sign.POSITIVE) && (b._Sign == Sign.POSITIVE))
             {
                 if (a >= b)
                 {
                     res = Subtract(a, b);
-                    res.sign = Sign.Positive;
+                    res._Sign = Sign.POSITIVE;
                 }
                 else
                 {
                     res = Subtract(b, a);
-                    res.sign = Sign.Negative;
+                    res._Sign = Sign.NEGATIVE;
                 }
             }
 
-            if ((a.sign == Sign.Negative) && (b.sign == Sign.Negative))
+            if ((a._Sign == Sign.NEGATIVE) && (b._Sign == Sign.NEGATIVE))
             {
                 if (a <= b)
                 {
                     res = Subtract(-a, -b);
-                    res.sign = Sign.Negative;
+                    res._Sign = Sign.NEGATIVE;
                 }
                 else
                 {
                     res = Subtract(-b, -a);
-                    res.sign = Sign.Positive;
+                    res._Sign = Sign.POSITIVE;
                 }
             }
 
-            if ((a.sign == Sign.Positive) && (b.sign == Sign.Negative))
+            if ((a._Sign == Sign.POSITIVE) && (b._Sign == Sign.NEGATIVE))
             {
                 if (a >= (-b)) {
                     res = Add(a, -b);
@@ -635,10 +635,10 @@ namespace BigIntegerLibrary
                     res = Add(-b, a);
                 }
 
-                res.sign = Sign.Positive;
+                res._Sign = Sign.POSITIVE;
             }
 
-            if ((a.sign == Sign.Negative) && (b.sign == Sign.Positive))
+            if ((a._Sign == Sign.NEGATIVE) && (b._Sign == Sign.POSITIVE))
             {
                 if ((-a) >= b) {
                     res = Add(-a, b);
@@ -646,7 +646,7 @@ namespace BigIntegerLibrary
                     res = Add(b, -a);
                 }
 
-                res.sign = Sign.Negative;
+                res._Sign = Sign.NEGATIVE;
             }
 
             return res;
@@ -665,10 +665,10 @@ namespace BigIntegerLibrary
             }
 
             BigInteger res = Multiply(Abs(a), Abs(b));
-            if (a.sign == b.sign) {
-                res.sign = Sign.Positive;
+            if (a._Sign == b._Sign) {
+                res._Sign = Sign.POSITIVE;
             } else {
-                res.sign = Sign.Negative;
+                res._Sign = Sign.NEGATIVE;
             }
 
             return res;
@@ -695,16 +695,16 @@ namespace BigIntegerLibrary
             }
 
             BigInteger res;
-            if (b.size == 1) {
-                res = DivideByOneDigitNumber(Abs(a), b.digits[0]);
+            if (b._Size == 1) {
+                res = DivideByOneDigitNumber(Abs(a), b._Digits[0]);
             } else {
                 res = DivideByBigNumber(Abs(a), Abs(b));
             }
 
-            if (a.sign == b.sign) {
-                res.sign = Sign.Positive;
+            if (a._Sign == b._Sign) {
+                res._Sign = Sign.POSITIVE;
             } else {
-                res.sign = Sign.Negative;
+                res._Sign = Sign.NEGATIVE;
             }
 
             return res;
@@ -786,7 +786,7 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot compute the integer square root of a negative number exception</exception>
         public static BigInteger IntegerSqrt(BigInteger n)
         {
-            if (n.sign == Sign.Negative) {
+            if (n._Sign == Sign.NEGATIVE) {
                 throw new BigIntegerException("Cannot compute the integer square root of a negative number.",
                     null);
             }
@@ -812,7 +812,7 @@ namespace BigIntegerLibrary
         /// <exception cref="BigIntegerException">Cannot compute the Gcd of negative BigIntegers exception</exception>
         public static BigInteger Gcd(BigInteger a, BigInteger b)
         {
-            if ((a.sign == Sign.Negative) || (b.sign == Sign.Negative)) {
+            if ((a._Sign == Sign.NEGATIVE) || (b._Sign == Sign.NEGATIVE)) {
                 throw new BigIntegerException("Cannot compute the Gcd of negative BigIntegers.", null);
             }
 
@@ -841,7 +841,7 @@ namespace BigIntegerLibrary
         public static BigInteger ExtendedEuclidGcd(BigInteger a, BigInteger b,
                                                    out BigInteger u, out BigInteger v)
         {
-            if ((a.sign == Sign.Negative) || (b.sign == Sign.Negative)) {
+            if ((a._Sign == Sign.NEGATIVE) || (b._Sign == Sign.NEGATIVE)) {
                 throw new BigIntegerException("Cannot compute the Gcd of negative BigIntegers.", null);
             }
 
@@ -890,7 +890,7 @@ namespace BigIntegerLibrary
             if (Abs(a) >= n) {
                 a %= n;
             }
-            if (a.sign == Sign.Negative) {
+            if (a._Sign == Sign.NEGATIVE) {
                 a += n;
             }
 
@@ -903,7 +903,7 @@ namespace BigIntegerLibrary
             }
 
             ExtendedEuclidGcd(n, a, out var u, out var v);
-            if (v.sign == Sign.Negative) {
+            if (v._Sign == Sign.NEGATIVE) {
                 v += n;
             }
 
@@ -932,7 +932,7 @@ namespace BigIntegerLibrary
             if (Abs(a) >= n) {
                 a %= n;
             }
-            if (a.sign == Sign.Negative) {
+            if (a._Sign == Sign.NEGATIVE) {
                 a += n;
             }
 
@@ -999,22 +999,22 @@ namespace BigIntegerLibrary
         public static explicit operator int(BigInteger value)
         {
             long result = 0;
-            for (var index = value.size - 1; index >= 0; index--)
+            for (var index = value._Size - 1; index >= 0; index--)
             {
                 result *= NumberBase;
-                result += value.digits[index];
+                result += value._Digits[index];
             }
 
-            return value.sign == Sign.Negative ? -1 * (int)result : (int)result;
+            return value._Sign == Sign.NEGATIVE ? -1 * (int)result : (int)result;
         }
 
         public static explicit operator ulong(BigInteger value)
         {
             ulong result = 0;
-            for (var index = value.size - 1; index >= 0; index--)
+            for (var index = value._Size - 1; index >= 0; index--)
             {
                 result *= NumberBase;
-                result += (ulong)value.digits[index];
+                result += (ulong)value._Digits[index];
             }
 
             return result;
@@ -1191,24 +1191,24 @@ namespace BigIntegerLibrary
             long trans = 0, temp;
             int i;
 
-            for (i = 0; i < b.size; i++)
+            for (i = 0; i < b._Size; i++)
             {
-                temp = res.digits[i] + b.digits[i] + trans;
-                res.digits[i] = temp % NumberBase;
+                temp = res._Digits[i] + b._Digits[i] + trans;
+                res._Digits[i] = temp % NumberBase;
                 trans = temp / NumberBase;
             }
 
-            for (i = b.size; ((i < a.size) && (trans > 0)); i++)
+            for (i = b._Size; ((i < a._Size) && (trans > 0)); i++)
             {
-                temp = res.digits[i] + trans;
-                res.digits[i] = temp % NumberBase;
+                temp = res._Digits[i] + trans;
+                res._Digits[i] = temp % NumberBase;
                 trans = temp / NumberBase;
             }
 
             if (trans > 0)
             {
-                res.digits[res.size] = trans % NumberBase;
-                res.size++;
+                res._Digits[res._Size] = trans % NumberBase;
+                res._Size++;
                 trans /= NumberBase;
             }
 
@@ -1225,9 +1225,9 @@ namespace BigIntegerLibrary
             long temp, trans = 0;
             bool reducible = true;
 
-            for (i = 0; i < b.size; i++)
+            for (i = 0; i < b._Size; i++)
             {
-                temp = res.digits[i] - b.digits[i] - trans;
+                temp = res._Digits[i] - b._Digits[i] - trans;
                 if (temp < 0)
                 {
                     trans = 1;
@@ -1236,12 +1236,12 @@ namespace BigIntegerLibrary
                 else {
                     trans = 0;
                 }
-                res.digits[i] = temp;
+                res._Digits[i] = temp;
             }
 
-            for (i = b.size; ((i < a.size) && (trans > 0)); i++)
+            for (i = b._Size; ((i < a._Size) && (trans > 0)); i++)
             {
-                temp = res.digits[i] - trans;
+                temp = res._Digits[i] - trans;
                 if (temp < 0)
                 {
                     trans = 1;
@@ -1250,13 +1250,13 @@ namespace BigIntegerLibrary
                 else {
                     trans = 0;
                 }
-                res.digits[i] = temp;
+                res._Digits[i] = temp;
             }
 
-            while ((res.size - 1 > 0) && (reducible == true))
+            while ((res._Size - 1 > 0) && (reducible == true))
             {
-                if (res.digits[res.size - 1] == 0) {
-                    res.size--;
+                if (res._Digits[res._Size - 1] == 0) {
+                    res._Size--;
                 } else {
                     reducible = false;
                 }
@@ -1274,35 +1274,35 @@ namespace BigIntegerLibrary
             long temp, trans = 0;
 
             BigInteger res = new BigInteger();
-            res.size = a.size + b.size - 1;
-            for (i = 0; i < res.size + 1; i++)
+            res._Size = a._Size + b._Size - 1;
+            for (i = 0; i < res._Size + 1; i++)
             {
-                res.digits[i] = 0;
+                res._Digits[i] = 0;
             }
 
-            for (i = 0; i < a.size; i++)
+            for (i = 0; i < a._Size; i++)
             {
-                if (a.digits[i] != 0) {
-                    for (j = 0; j < b.size; j++)
+                if (a._Digits[i] != 0) {
+                    for (j = 0; j < b._Size; j++)
                     {
-                        if (b.digits[j] != 0) {
-                            res.digits[i + j] += a.digits[i] * b.digits[j];
+                        if (b._Digits[j] != 0) {
+                            res._Digits[i + j] += a._Digits[i] * b._Digits[j];
                         }
                     }
                 }
             }
 
-            for (i = 0; i < res.size; i++)
+            for (i = 0; i < res._Size; i++)
             {
-                temp = res.digits[i] + trans;
-                res.digits[i] = temp % NumberBase;
+                temp = res._Digits[i] + trans;
+                res._Digits[i] = temp % NumberBase;
                 trans = temp / NumberBase;
             }
 
             if (trans > 0)
             {
-                res.digits[res.size] = trans % NumberBase;
-                res.size++;
+                res._Digits[res._Size] = trans % NumberBase;
+                res._Size++;
                 trans /= NumberBase;
             }
 
@@ -1315,25 +1315,25 @@ namespace BigIntegerLibrary
         private static BigInteger DivideByOneDigitNumber(BigInteger a, long b)
         {
             BigInteger res = new BigInteger();
-            int i = a.size - 1;
+            int i = a._Size - 1;
             long temp;
 
-            res.size = a.size;
-            temp = a.digits[i];
+            res._Size = a._Size;
+            temp = a._Digits[i];
 
             while (i >= 0)
             {
-                res.digits[i] = temp / b;
+                res._Digits[i] = temp / b;
                 temp %= b;
                 i--;
 
                 if (i >= 0) {
-                    temp = temp * NumberBase + a.digits[i];
+                    temp = temp * NumberBase + a._Digits[i];
                 }
             }
 
-            if ((res.digits[res.size - 1] == 0) && (res.size != 1)) {
-                res.size--;
+            if ((res._Digits[res._Size - 1] == 0) && (res._Size != 1)) {
+                res._Size--;
             }
 
             return res;
@@ -1344,11 +1344,11 @@ namespace BigIntegerLibrary
         /// </summary>
         private static BigInteger DivideByBigNumber(BigInteger a, BigInteger b)
         {
-            int k, n = a.size, m = b.size;
+            int k, n = a._Size, m = b._Size;
             long f, qt;
             BigInteger d, dq, q, r;
 
-            f = NumberBase / (b.digits[m - 1] + 1);
+            f = NumberBase / (b._Digits[m - 1] + 1);
             q = new BigInteger();
             r = a * f;
             d = b * f;
@@ -1364,13 +1364,13 @@ namespace BigIntegerLibrary
                     dq = d * qt;
                 }
 
-                q.digits[k] = qt;
+                q._Digits[k] = qt;
                 Difference(r, dq, k, m);
             }
 
-            q.size = n - m + 1;
-            if ((q.size != 1) && (q.digits[q.size - 1] == 0)) {
-                q.size--;
+            q._Size = n - m + 1;
+            if ((q._Size != 1) && (q._Digits[q._Size - 1] == 0)) {
+                q._Size--;
             }
 
             return q;
@@ -1385,14 +1385,14 @@ namespace BigIntegerLibrary
 
             while (i != j)
             {
-                if (r.digits[i + k] != dq.digits[i]) {
+                if (r._Digits[i + k] != dq._Digits[i]) {
                     j = i;
                 } else {
                     i--;
                 }
             }
 
-            if (r.digits[i + k] < dq.digits[i]) {
+            if (r._Digits[i + k] < dq._Digits[i]) {
                 return true;
             } else {
                 return false;
@@ -1409,8 +1409,8 @@ namespace BigIntegerLibrary
 
             for (i = 0; i <= m; i++)
             {
-                diff = r.digits[i + k] - dq.digits[i] - borrow + NumberBase;
-                r.digits[i + k] = diff % NumberBase;
+                diff = r._Digits[i + k] - dq._Digits[i] - borrow + NumberBase;
+                r._Digits[i + k] = diff % NumberBase;
                 borrow = 1 - diff / NumberBase;
             }
         }
@@ -1422,8 +1422,8 @@ namespace BigIntegerLibrary
         {
             int km = k + m;
 
-            var r3 = (r.digits[km] * NumberBase + r.digits[km - 1]) * NumberBase + r.digits[km - 2];
-            var d2 = d.digits[m - 1] * NumberBase + d.digits[m - 2];
+            var r3 = (r._Digits[km] * NumberBase + r._Digits[km - 1]) * NumberBase + r._Digits[km - 2];
+            var d2 = d._Digits[m - 1] * NumberBase + d._Digits[m - 2];
             var res = r3 / d2;
             if (res < NumberBase - 1) {
                 return (int)res;
@@ -1438,14 +1438,14 @@ namespace BigIntegerLibrary
 
         private class DigitContainer
         {
-            private readonly long[][] digits;
+            private readonly long[][] _Digits;
             private const int ChunkSize = 16;
             private const int ChunkSizeDivisionShift = 4;
-            private const int ChunkCount = BigInteger.MaxSize >> ChunkSizeDivisionShift;
+            private const int ChunkCount = BigInteger.MAX_SIZE >> ChunkSizeDivisionShift;
 
             public DigitContainer()
             {
-                digits = new long[ChunkCount][];
+                _Digits = new long[ChunkCount][];
             }
 
             public long this[int index]
@@ -1453,13 +1453,13 @@ namespace BigIntegerLibrary
                 get
                 {
                     var chunkIndex = index >> ChunkSizeDivisionShift;
-                    var chunk = digits[chunkIndex];
+                    var chunk = _Digits[chunkIndex];
                     return chunk?[index % ChunkSize] ?? 0;
                 }
                 set
                 {
                     var chunkIndex = index >> ChunkSizeDivisionShift;
-                    var chunk = digits[chunkIndex] ?? (digits[chunkIndex] = new long[ChunkSize]);
+                    var chunk = _Digits[chunkIndex] ?? (_Digits[chunkIndex] = new long[ChunkSize]);
                     chunk[index % ChunkSize] = value;
                 }
             }

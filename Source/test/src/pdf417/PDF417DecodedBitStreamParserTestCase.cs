@@ -7,7 +7,7 @@ using ZXing.PDF417.Internal;
 namespace ZXing.PDF417.Test
 {
    [TestFixture]
-   public sealed class PDF417DecodedBitStreamParserTestCase
+   public sealed class Pdf417DecodedBitStreamParserTestCase
    {
       [Test]
       public void test_issue_599()

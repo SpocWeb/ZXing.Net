@@ -21,13 +21,13 @@ namespace ZXing.PDF417.Test
    /// <summary>
    /// test class for additional pictures which only exist in ZXing.Net 
    /// </summary>
-   public sealed class PDF417BlackBoxZTestCase : AbstractBlackBoxTestCase
+   public sealed class Pdf417BlackBoxZTestCase : AbstractBlackBoxTestCase
    {
-      public PDF417BlackBoxZTestCase()
+      public Pdf417BlackBoxZTestCase()
          : base("test/data/blackbox/pdf417-z", new MultiFormatReader(), BarcodeFormat.PDF_417)
       {
-         addTest(3, 3, 0, 0, 0.0f);
-         addTest(3, 3, 0, 0, 180.0f);
+         AddTest(3, 3, 0, 0, 0.0f);
+         AddTest(3, 3, 0, 0, 180.0f);
       }
    }
 }

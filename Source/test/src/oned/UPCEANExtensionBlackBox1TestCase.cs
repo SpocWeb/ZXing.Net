@@ -21,12 +21,12 @@ namespace ZXing.OneD.Test
    /// <summary>
    /// <author>Sean Owen</author>
    /// </summary>
-   public sealed class UPCEANExtensionBlackBox1TestCase : AbstractBlackBoxTestCase
+   public sealed class UpceanExtensionBlackBox1TestCase : AbstractBlackBoxTestCase
    {
-      public UPCEANExtensionBlackBox1TestCase()
+      public UpceanExtensionBlackBox1TestCase()
          : base("test/data/blackbox/upcean-extension-1", new MultiFormatReader(), BarcodeFormat.EAN_13)
       {
-         addTest(2, 2, 0.0f);
+         AddTest(2, 2, 0.0f);
       }
    }
 }

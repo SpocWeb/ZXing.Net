@@ -21,13 +21,13 @@ namespace ZXing.OneD.Test
    /// <summary>
    /// <author>Sean Owen</author>
    /// </summary>
-   public sealed class EAN8BlackBox1TestCase : AbstractBlackBoxTestCase
+   public sealed class Ean8BlackBox1TestCase : AbstractBlackBoxTestCase
    {
-      public EAN8BlackBox1TestCase()
+      public Ean8BlackBox1TestCase()
          : base("test/data/blackbox/ean8-1", new MultiFormatReader(), BarcodeFormat.EAN_8)
       {
-         addTest(8, 8, 0.0f);
-         addTest(8, 8, 180.0f);
+         AddTest(8, 8, 0.0f);
+         AddTest(8, 8, 180.0f);
       }
    }
 }

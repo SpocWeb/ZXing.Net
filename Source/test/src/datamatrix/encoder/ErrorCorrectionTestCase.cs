@@ -29,18 +29,18 @@ namespace ZXing.Datamatrix.Test
    public sealed class ErrorCorrectionTestCase
    {
       [Test]
-      public void testRS()
+      public void TestRs()
       {
          //Sample from Annexe R in ISO/IEC 16022:2000(E)
          char[] cw = { (char)142, (char)164, (char)186 };
          SymbolInfo symbolInfo = SymbolInfo.lookup(3);
             string s = ErrorCorrection.encodeECC200(string.Join("", cw), symbolInfo);
-         Assert.AreEqual("142 164 186 114 25 5 88 102", HighLevelEncodeTestCase.visualize(s));
+         Assert.AreEqual("142 164 186 114 25 5 88 102", HighLevelEncodeTestCase.Visualize(s));
 
          //"A" encoded (ASCII encoding + 2 padding characters)
          cw = new char[] { (char)66, (char)129, (char)70 };
          s = ErrorCorrection.encodeECC200(string.Join("", cw), symbolInfo);
-         Assert.AreEqual("66 129 70 138 234 82 82 95", HighLevelEncodeTestCase.visualize(s));
+         Assert.AreEqual("66 129 70 138 234 82 82 95", HighLevelEncodeTestCase.Visualize(s));
       }
    }
 }

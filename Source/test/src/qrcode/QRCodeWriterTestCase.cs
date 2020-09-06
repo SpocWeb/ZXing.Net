@@ -36,21 +36,21 @@ namespace ZXing.QrCode.Test
    /// <author>dswitkin@google.com (Daniel Switkin) - ported and expanded from C++</author>
    /// </summary>
    [TestFixture]
-   public sealed class QRCodeWriterTestCase
+   public sealed class QrCodeWriterTestCase
    {
 
-      private static string BASE_IMAGE_PATH = "test/data/golden/qrcode/";
+      private static string _BASE_IMAGE_PATH = "test/data/golden/qrcode/";
 #if !SILVERLIGHT
-      private static Bitmap loadImage(string fileName)
+      private static Bitmap LoadImage(string fileName)
 #else
       private static WriteableBitmap loadImage(String fileName)
 #endif
       {
-            string file = BASE_IMAGE_PATH + fileName;
+            string file = _BASE_IMAGE_PATH + fileName;
          if (!File.Exists(file))
          {
             // try starting with 'core' since the test base is often given as the project root
-            file = "..\\..\\..\\Source\\" + BASE_IMAGE_PATH + fileName;
+            file = "..\\..\\..\\Source\\" + _BASE_IMAGE_PATH + fileName;
          }
          Assert.IsTrue(File.Exists(file), "Please run from the 'core' directory");
 #if !SILVERLIGHT
@@ -64,7 +64,7 @@ namespace ZXing.QrCode.Test
 
 #if !SILVERLIGHT
       // In case the golden images are not monochromatic, convert the RGB values to greyscale.
-      private static BitMatrix createMatrixFromImage(Bitmap image)
+      private static BitMatrix CreateMatrixFromImage(Bitmap image)
       {
          int width = image.Width;
          int height = image.Height;
@@ -136,7 +136,7 @@ namespace ZXing.QrCode.Test
 #endif
 
       [Test]
-      public void testQRCodeWriter()
+      public void TestQrCodeWriter()
       {
          // The QR should be multiplied up to fit, with extra padding if necessary
          int bigEnough = 256;
@@ -165,14 +165,14 @@ namespace ZXing.QrCode.Test
          Assert.AreEqual(strangeHeight, matrix.Height);
       }
 
-      private static void compareToGoldenFile(string contents,
+      private static void CompareToGoldenFile(string contents,
                                               ErrorCorrectionLevel ecLevel,
                                               int resolution,
                                               string fileName)
       {
-         var image = loadImage(fileName);
+         var image = LoadImage(fileName);
          Assert.NotNull(image);
-         BitMatrix goldenResult = createMatrixFromImage(image);
+         BitMatrix goldenResult = CreateMatrixFromImage(image);
          Assert.NotNull(goldenResult);
 
          QRCodeWriter writer = new QRCodeWriter();
@@ -192,9 +192,9 @@ namespace ZXing.QrCode.Test
       // and cell phones. We expect pixel-perfect results, because the error correction level is known,
       // and the pixel dimensions matches exactly. 
       [Test]
-      public void testRegressionTest()
+      public void TestRegressionTest()
       {
-         compareToGoldenFile("http://www.google.com/", ErrorCorrectionLevel.M, 99,
+         CompareToGoldenFile("http://www.google.com/", ErrorCorrectionLevel.M, 99,
              "renderer-test-01.png");
       }
 

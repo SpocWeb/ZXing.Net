@@ -40,9 +40,9 @@ namespace ZXing.OneD.RSS.Expanded.Test
    public sealed class ExpandedInformationDecoderTest
    {
       [Test]
-      public void testNoAi()
+      public void TestNoAi()
       {
-         BitArray information = BinaryUtil.buildBitArrayFromString(" .......X ..XX..X. X.X....X .......X ....");
+         BitArray information = BinaryUtil.BuildBitArrayFromString(" .......X ..XX..X. X.X....X .......X ....");
 
          AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(information);
             string decoded = decoder.parseInformation();

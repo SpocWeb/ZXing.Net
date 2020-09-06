@@ -24,10 +24,10 @@ namespace ZXing.OneD.Test
    /// <author>Sean Owen</author>
    /// </summary>
    [TestFixture]
-   public sealed class EANManufacturerOrgSupportTest
+   public sealed class EanManufacturerOrgSupportTest
    {
       [Test]
-      public void testLookup()
+      public void TestLookup()
       {
          EANManufacturerOrgSupport support = new EANManufacturerOrgSupport();
          Assert.IsNull(support.lookupCountryIdentifier("472000"));

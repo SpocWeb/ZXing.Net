@@ -37,10 +37,10 @@ namespace ZXing.PDF417.Test
    /// @author Guenther Grau
    /// </summary>
    [TestFixture]
-   public sealed class PDF417BlackBox4TestCase : AbstractBlackBoxTestCase
+   public sealed class Pdf417BlackBox4TestCase : AbstractBlackBoxTestCase
    {
 #if !SILVERLIGHT
-      private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+      private static readonly log4net.ILog LOG = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #else
       private static readonly DanielVaughan.Logging.ILog log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
@@ -48,41 +48,41 @@ namespace ZXing.PDF417.Test
       private static readonly Encoding UTF8 = Encoding.UTF8;
       private static readonly Encoding ISO88591 = Encoding.GetEncoding("ISO8859-1");
       private const string TEST_BASE_PATH_SUFFIX = "test/data/blackbox/pdf417-4";
-      private readonly Pdf417Reader barcodeReader = new Pdf417Reader();
+      private readonly Pdf417Reader _BarcodeReader = new Pdf417Reader();
 
-      private readonly List<TestResult> testResults = new List<TestResult>();
-      private string testBase;
+      private readonly List<TestResult> _TestResults = new List<TestResult>();
+      private string _TestBase;
 
-      public PDF417BlackBox4TestCase()
+      public Pdf417BlackBox4TestCase()
          : base(TEST_BASE_PATH_SUFFIX, null, BarcodeFormat.PDF_417)
       {
          // A little workaround to prevent aggravation in my IDE
          if (!Directory.Exists(TEST_BASE_PATH_SUFFIX))
          {
             // try starting with 'core' since the test base is often given as the project root
-            testBase = Path.Combine("..\\..\\..\\Source", TEST_BASE_PATH_SUFFIX);
+            _TestBase = Path.Combine("..\\..\\..\\Source", TEST_BASE_PATH_SUFFIX);
          }
          else
          {
-            testBase = TEST_BASE_PATH_SUFFIX;
+            _TestBase = TEST_BASE_PATH_SUFFIX;
          }
-         testResults.Add(new TestResult(3, 3, 0, 0, 0.0f));
+         _TestResults.Add(new TestResult(3, 3, 0, 0, 0.0f));
       }
 
       [Test]
-      public override void testBlackBox()
+      public override void TestBlackBox()
       {
-         Assert.IsFalse(testResults.Count == 0);
+         Assert.IsFalse(_TestResults.Count == 0);
 
-         IDictionary<string, List<string>> imageFiles = getImageFileLists();
-         int testCount = testResults.Count;
+         IDictionary<string, List<string>> imageFiles = GetImageFileLists();
+         int testCount = _TestResults.Count;
 
          int[] passedCounts = new int[testCount];
          int[] tryHarderCounts = new int[testCount];
 
          foreach (KeyValuePair<string, List<string>> testImageGroup in imageFiles)
          {
-            log.InfoFormat("Starting Image Group {0}", testImageGroup.Key);
+            LOG.InfoFormat("Starting Image Group {0}", testImageGroup.Key);
 
                 string fileBaseName = testImageGroup.Key;
                 string expectedText;
@@ -109,14 +109,14 @@ namespace ZXing.PDF417.Test
                   var image = new WriteableBitmap(0, 0);
                   image.SetSource(File.OpenRead(imageFile));
 #endif
-                  var rotation = testResults[x].Rotation;
-                  var rotatedImage = rotateImage(image, rotation);
+                  var rotation = _TestResults[x].Rotation;
+                  var rotatedImage = RotateImage(image, rotation);
                   var source = new BitmapLuminanceSource(rotatedImage);
                   var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
                   try
                   {
-                     results.AddRange(decode(bitmap, false));
+                     results.AddRange(Decode(bitmap, false));
                   }
                   catch (ReaderException )
                   {
@@ -125,15 +125,15 @@ namespace ZXing.PDF417.Test
                }
                results.Sort((arg0, arg1) =>
                   {
-                     PDF417ResultMetadata resultMetadata = getMeta(arg0);
-                     PDF417ResultMetadata otherResultMetadata = getMeta(arg1);
+                     PDF417ResultMetadata resultMetadata = GetMeta(arg0);
+                     PDF417ResultMetadata otherResultMetadata = GetMeta(arg1);
                      return resultMetadata.SegmentIndex - otherResultMetadata.SegmentIndex;
                   });
                var resultText = new StringBuilder();
                     string fileId = null;
                foreach (BarCodeText result in results)
                {
-                  PDF417ResultMetadata resultMetadata = getMeta(result);
+                  PDF417ResultMetadata resultMetadata = GetMeta(result);
                   Assert.NotNull(resultMetadata, "resultMetadata");
                   if (fileId == null)
                   {
@@ -153,47 +153,47 @@ namespace ZXing.PDF417.Test
          int totalMustPass = 0;
 
          int numberOfTests = imageFiles.Count;
-         for (int x = 0; x < testResults.Count; x++)
+         for (int x = 0; x < _TestResults.Count; x++)
          {
-            TestResult testResult = testResults[x];
-            log.InfoFormat("Rotation {0} degrees:", (int) testResult.Rotation);
-            log.InfoFormat(" {0} of {1} images passed ({2} required)", passedCounts[x], numberOfTests,
+            TestResult testResult = _TestResults[x];
+            LOG.InfoFormat("Rotation {0} degrees:", (int) testResult.Rotation);
+            LOG.InfoFormat(" {0} of {1} images passed ({2} required)", passedCounts[x], numberOfTests,
                            testResult.MustPassCount);
-            log.InfoFormat(" {0} of {1} images passed with try harder ({2} required)", tryHarderCounts[x],
+            LOG.InfoFormat(" {0} of {1} images passed with try harder ({2} required)", tryHarderCounts[x],
                            numberOfTests, testResult.TryHarderCount);
             totalFound += passedCounts[x] + tryHarderCounts[x];
             totalMustPass += testResult.MustPassCount + testResult.TryHarderCount;
          }
 
          int totalTests = numberOfTests*testCount*2;
-         log.InfoFormat("Decoded {0} images out of {1} ({2}%, {3} required)", totalFound, totalTests, totalFound*
+         LOG.InfoFormat("Decoded {0} images out of {1} ({2}%, {3} required)", totalFound, totalTests, totalFound*
                                                                                                       100/
                                                                                                       totalTests, totalMustPass);
          if (totalFound > totalMustPass)
          {
-            log.WarnFormat("+++ Test too lax by {0} images", totalFound - totalMustPass);
+            LOG.WarnFormat("+++ Test too lax by {0} images", totalFound - totalMustPass);
          }
          else if (totalFound < totalMustPass)
          {
-            log.WarnFormat("--- Test failed by {0} images", totalMustPass - totalFound);
+            LOG.WarnFormat("--- Test failed by {0} images", totalMustPass - totalFound);
          }
 
          // Then run through again and assert if any failed
          for (int x = 0; x < testCount; x++)
          {
-            TestResult testResult = testResults[x];
+            TestResult testResult = _TestResults[x];
                 string label = "Rotation " + testResult.Rotation + " degrees: Too many images failed";
             Assert.IsTrue(passedCounts[x] >= testResult.MustPassCount, label);
             Assert.IsTrue(tryHarderCounts[x] >= testResult.TryHarderCount, "Try harder, " + label);
          }
       }
 
-      private static PDF417ResultMetadata getMeta(BarCodeText result)
+      private static PDF417ResultMetadata GetMeta(BarCodeText result)
       {
          return (PDF417ResultMetadata) result.ResultMetadata?[ResultMetadataType.PDF417_EXTRA_METADATA];
       }
 
-      private BarCodeText[] decode(BinaryBitmap source, bool tryHarder)
+      private BarCodeText[] Decode(BinaryBitmap source, bool tryHarder)
       {
          IDictionary<DecodeHintType, object> hints = new Dictionary<DecodeHintType, object>();
          if (tryHarder)
@@ -201,13 +201,13 @@ namespace ZXing.PDF417.Test
             hints[DecodeHintType.TRY_HARDER] = true;
          }
 
-         return barcodeReader.DecodeMultiple(source, hints);
+         return _BarcodeReader.DecodeMultiple(source, hints);
       }
 
-      private IDictionary<string, List<string>> getImageFileLists()
+      private IDictionary<string, List<string>> GetImageFileLists()
       {
          IDictionary<string, List<string>> result = new Dictionary<string, List<string>>();
-         foreach (string fileName in getImageFiles())
+         foreach (string fileName in GetImageFiles())
          {
                 string testImageFileName = fileName;
                 string fileBaseName = testImageFileName.Substring(0, testImageFileName.LastIndexOf('-'));

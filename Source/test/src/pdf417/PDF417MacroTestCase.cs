@@ -24,7 +24,7 @@ using ZXing.PDF417.Internal;
 
 namespace ZXing.PDF417.Test
 {
-    public class PDF417MacroTestCase
+    public class Pdf417MacroTestCase
     {
         [Test]
         public void TestMacroPdfCreation()

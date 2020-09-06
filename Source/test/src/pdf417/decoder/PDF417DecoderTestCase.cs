@@ -19,13 +19,13 @@ using NUnit.Framework;
 namespace ZXing.PDF417.Internal.Test
 {
    [TestFixture]
-   public class PDF417DecoderTestCase
+   public class Pdf417DecoderTestCase
    {
       /// <summary>
       /// Tests the first sample given in ISO/IEC 15438:2015(E) - Annex H.4
       /// </summary>
       [Test]
-      public void testStandardSample1()
+      public void TestStandardSample1()
       {
          PDF417ResultMetadata resultMetadata = new PDF417ResultMetadata();
          int[] sampleCodes = {20, 928, 111, 100, 17, 53, 923, 1, 111, 104, 923, 3, 64, 416, 34, 923, 4, 258, 446, 67,
@@ -50,7 +50,7 @@ namespace ZXing.PDF417.Internal.Test
       /// Tests the second given in ISO/IEC 15438:2015(E) - Annex H.4
       /// </summary>
       [Test]
-      public void testStandardSample2()
+      public void TestStandardSample2()
       {
          PDF417ResultMetadata resultMetadata = new PDF417ResultMetadata();
          int[] sampleCodes = {11, 928, 111, 103, 17, 53, 923, 1, 111, 104, 922,
@@ -72,7 +72,7 @@ namespace ZXing.PDF417.Internal.Test
       }
 
       [Test]
-      public void testSampleWithFilename()
+      public void TestSampleWithFilename()
       {
          int[] sampleCodes = {23, 477, 928, 111, 100, 0, 252, 21, 86, 923, 0, 815, 251, 133, 12, 148, 537, 593,
             599, 923, 1, 111, 102, 98, 311, 355, 522, 920, 779, 40, 628, 33, 749, 267, 506, 213, 928, 465, 248,
@@ -91,7 +91,7 @@ namespace ZXing.PDF417.Internal.Test
       }
 
       [Test]
-      public void testSampleWithNumericValues()
+      public void TestSampleWithNumericValues()
       {
          int[] sampleCodes = {25, 477, 928, 111, 100, 0, 252, 21, 86, 923, 2, 2, 0, 1, 0, 0, 0, 923, 5, 130, 923,
         6, 1, 500, 13, 0};

@@ -21,13 +21,13 @@ namespace ZXing.OneD.Test
    /// <summary>
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class UPCABlackBox2TestCase : AbstractBlackBoxTestCase
+   public sealed class UpcaBlackBox2TestCase : AbstractBlackBoxTestCase
    {
-      public UPCABlackBox2TestCase()
+      public UpcaBlackBox2TestCase()
          : base("test/data/blackbox/upca-2", new MultiFormatReader(), BarcodeFormat.UPC_A)
       {
-         addTest(30, 36, 0, 2, 0.0f);
-         addTest(31, 36, 0, 2, 180.0f);
+         AddTest(30, 36, 0, 2, 0.0f);
+         AddTest(31, 36, 0, 2, 180.0f);
       }
    }
 }

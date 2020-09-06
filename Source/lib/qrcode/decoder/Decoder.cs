@@ -50,9 +50,7 @@ namespace ZXing.QrCode.Internal
         /// text and bytes encoded within the QR Code
         /// </returns>
         public DecoderResult decode(bool[][] image, IDictionary<DecodeHintType, object> hints)
-        {
-            return decode(BitMatrix.parse(image), hints);
-        }
+            => decode(BitMatrix.Parse(image), hints);
 
         /// <summary>
         ///   <p>Decodes a QR Code represented as a {@link BitMatrix}. A 1 or "true" is taken to mean a black module.</p>
@@ -71,42 +69,42 @@ namespace ZXing.QrCode.Internal
             }
 
             var result = decode(parser, hints);
-            if (result == null)
-            {
-                // Revert the bit matrix
-                parser.Remask();
+            if (result != null) {
+                return result;
+            }
+            // Revert the bit matrix
+            parser.Remask();
 
-                // Will be attempting a mirrored reading of the version and format info.
-                parser.SetMirror(true);
+            // Will be attempting a mirrored reading of the version and format info.
+            parser.SetMirror(true);
 
-                // Preemptively read the version.
-                var version = parser.ReadVersion();
-                if (version == null) {
-                    return null;
-                }
+            // Preemptively read the version.
+            var version = parser.ReadVersion();
+            if (version == null) {
+                return null;
+            }
 
-                // Preemptively read the format information.
-                var formatinfo = parser.ReadFormatInformation();
-                if (formatinfo == null) {
-                    return null;
-                }
+            // Preemptively read the format information.
+            var formatInfo = parser.ReadFormatInformation();
+            if (formatInfo == null) {
+                return null;
+            }
 
-                /*
+            /*
                  * Since we're here, this means we have successfully detected some kind
                  * of version and format information when mirrored. This is a good sign,
                  * that the QR code may be mirrored, and we should try once more with a
                  * mirrored content.
                  */
-                // Prepare for a mirrored reading.
-                parser.Mirror();
+            // Prepare for a mirrored reading.
+            parser.Mirror();
 
-                result = decode(parser, hints);
+            result = decode(parser, hints);
 
-                if (result != null)
-                {
-                    // Success! Notify the caller that the code was mirrored.
-                    result.Other = new QrCodeDecoderMetaData(true);
-                }
+            if (result != null)
+            {
+                // Success! Notify the caller that the code was mirrored.
+                result.Other = new QrCodeDecoderMetaData(true);
             }
 
             return result;

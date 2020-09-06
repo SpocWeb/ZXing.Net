@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using ZXing.Aztec;
+using ZXing.Common;
 using ZXing.Datamatrix;
 using ZXing.IMB;
 using ZXing.Maxicode;
@@ -37,39 +38,22 @@ namespace ZXing
     public sealed class MultiFormatReader : IBarCodeDecoder
     {
 
-        IDictionary<DecodeHintType, object> hints;
-        IList<IBarCodeDecoder> readers;
+        IDictionary<DecodeHintType, object> _Hints;
+        IList<IBarCodeDecoder> _Readers;
 
-        /// <summary> This version of decode honors the intent of Reader.decode(BinaryBitmap) in that it
-        /// passes null as a hint to the decoders. However, that makes it inefficient to call repeatedly.
+        /// <summary> Decode an image using the hints provided. Does not honor existing state. </summary>
+        /// <param name="image">The pixel data to decode </param>
+        /// <param name="hints">The hints to use, clearing the previous state. </param>
+        /// <returns> The contents of the image </returns>
+        /// <throws>  ReaderException Any errors which occurred </throws>
+        /// <remarks>
+        /// Passing null as a hint to the decoders makes it inefficient to call repeatedly.
         /// Use setHints() followed by decodeWithState() for continuous scan applications.
-        /// 
-        /// </summary>
-        /// <param name="image">The pixel data to decode
-        /// </param>
-        /// <returns> The contents of the image
-        /// </returns>
-        /// <throws>  ReaderException Any errors which occurred </throws>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            Hints = null;
-            return decodeInternal(image);
-        }
-
-        /// <summary> Decode an image using the hints provided. Does not honor existing state.
-        /// 
-        /// </summary>
-        /// <param name="image">The pixel data to decode
-        /// </param>
-        /// <param name="hints">The hints to use, clearing the previous state.
-        /// </param>
-        /// <returns> The contents of the image
-        /// </returns>
-        /// <throws>  ReaderException Any errors which occurred </throws>
-        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        /// </remarks>
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null)
         {
             Hints = hints;
-            return decodeInternal(image);
+            return DecodeInternal(image);
         }
 
         /// <summary> Decode an image using the state set up by calling setHints() previously. Continuous scan
@@ -81,29 +65,31 @@ namespace ZXing
         /// <returns> The contents of the image
         /// </returns>
         /// <throws>  ReaderException Any errors which occurred </throws>
-        public BarCodeText decodeWithState(BinaryBitmap image)
+        public BarCodeText DecodeWithState(BinaryBitmap image)
         {
             // Make sure to set up the default state so we don't crash
-            if (readers == null)
+            if (_Readers == null)
             {
                 Hints = null;
             }
-            return decodeInternal(image);
+            return DecodeInternal(image);
         }
 
-        /// <summary> This method adds state to the MultiFormatReader. By setting the hints once, subsequent calls
-        /// to decodeWithState(image) can reuse the same set of readers without reallocating memory. This
-        /// is important for performance in continuous scan clients.
-        /// 
-        /// </summary>
+        /// <summary> This method adds state to the MultiFormatReader. </summary>
+        /// <remarks>
+        /// By setting the hints once,
+        /// subsequent calls to decodeWithState(image) can reuse the same set of readers
+        /// without reallocating memory.
+        /// This is important for performance in continuous scan clients.
+        /// </remarks>
         public IDictionary<DecodeHintType, object> Hints
         {
             set
             {
-                hints = value;
+                _Hints = value;
 
-                var tryHarder = value != null && value.ContainsKey(DecodeHintType.TRY_HARDER);
-                var formats = value == null || !value.ContainsKey(DecodeHintType.POSSIBLE_FORMATS) ? null : (IList<BarcodeFormat>)value[DecodeHintType.POSSIBLE_FORMATS];
+                var tryHarder = value?.ContainsKey(DecodeHintType.TRY_HARDER) == true;
+                var formats = value?.ContainsKey(DecodeHintType.POSSIBLE_FORMATS) != true ? null : (IList<BarcodeFormat>)value[DecodeHintType.POSSIBLE_FORMATS];
 
                 if (formats != null)
                 {
@@ -121,106 +107,113 @@ namespace ZXing
                        formats.Contains(BarcodeFormat.RSS_14) ||
                        formats.Contains(BarcodeFormat.RSS_EXPANDED);
 
-                    readers = new List<IBarCodeDecoder>();
+                    _Readers = new List<IBarCodeDecoder>();
 
                     // Put 1D readers upfront in "normal" mode
                     if (addOneDReader && !tryHarder)
                     {
-                        readers.Add(new MultiFormatOneDReader(value));
+                        _Readers.Add(new MultiFormatOneDReader(value));
                     }
                     if (formats.Contains(BarcodeFormat.QR_CODE))
                     {
-                        readers.Add(new QrCodeReader());
+                        _Readers.Add(new QrCodeReader());
                     }
                     if (formats.Contains(BarcodeFormat.DATA_MATRIX))
                     {
-                        readers.Add(new DataMatrixReader());
+                        _Readers.Add(new DataMatrixReader());
                     }
                     if (formats.Contains(BarcodeFormat.AZTEC))
                     {
-                        readers.Add(new AztecReader());
+                        _Readers.Add(new AztecReader());
                     }
                     if (formats.Contains(BarcodeFormat.PDF_417))
                     {
-                        readers.Add(new Pdf417Reader());
+                        _Readers.Add(new Pdf417Reader());
                     }
                     if (formats.Contains(BarcodeFormat.MAXICODE))
                     {
-                        readers.Add(new MaxiCodeReader());
+                        _Readers.Add(new MaxiCodeReader());
                     }
                     if (formats.Contains(BarcodeFormat.IMB))
                     {
-                        readers.Add(new IMBReader());
+                        _Readers.Add(new IMBReader());
                     }
                     // At end in "try harder" mode
                     if (addOneDReader && tryHarder)
                     {
-                        readers.Add(new MultiFormatOneDReader(value));
+                        _Readers.Add(new MultiFormatOneDReader(value));
                     }
                 }
 
-                if (readers == null ||
-                    readers.Count == 0)
+                if (_Readers == null ||
+                    _Readers.Count == 0)
                 {
-                    readers = readers ?? new List<IBarCodeDecoder>();
+                    _Readers = _Readers ?? new List<IBarCodeDecoder>();
 
                     if (!tryHarder)
                     {
-                        readers.Add(new MultiFormatOneDReader(value));
+                        _Readers.Add(new MultiFormatOneDReader(value));
                     }
-                    readers.Add(new QrCodeReader());
-                    readers.Add(new DataMatrixReader());
-                    readers.Add(new AztecReader());
-                    readers.Add(new Pdf417Reader());
-                    readers.Add(new MaxiCodeReader());
+                    _Readers.Add(new QrCodeReader());
+                    _Readers.Add(new DataMatrixReader());
+                    _Readers.Add(new AztecReader());
+                    _Readers.Add(new Pdf417Reader());
+                    _Readers.Add(new MaxiCodeReader());
 
                     if (tryHarder)
                     {
-                        readers.Add(new MultiFormatOneDReader(value));
+                        _Readers.Add(new MultiFormatOneDReader(value));
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// resets all specific readers
-        /// </summary>
-        public void Reset()
-        {
-            if (readers != null)
+        public void Reset() {
+            if (_Readers == null) {
+                return;
+            }
+            foreach (var reader in _Readers)
             {
-                foreach (var reader in readers)
-                {
-                    reader.Reset();
-                }
+                reader.Reset();
             }
         }
 
-        BarCodeText decodeInternal(BinaryBitmap image)
-        {
-            if (readers != null)
-            {
-                var rpCallback = hints != null && hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK)
-                                    ? (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK]
-                                    : null;
-
-                for (var index = 0; index < readers.Count; index++)
-                {
-                    var reader = readers[index];
-                    reader.Reset();
-                    var result = reader.Decode(image, hints);
-                    if (result != null)
-                    {
-                        // found a barcode, pushing the successful reader up front
-                        // I assume that the same type of barcode is read multiple times
-                        // so the reordering of the readers list should speed up the next reading
-                        // a little bit
-                        readers.RemoveAt(index);
-                        readers.Insert(0, reader);
-                        return result;
-                    }
-                    rpCallback?.Invoke(null);
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            for (var index = 0; index < _Readers.Count; index++) {
+                var reader = _Readers[index];
+                var text = reader.Decode(detectorResult, hints);
+                if (text != null) {
+                    return text;
                 }
+            }
+            return null;
+        }
+
+        BarCodeText DecodeInternal(BinaryBitmap image)
+        {
+            if (_Readers == null) {
+                return null;
+            }
+            var rpCallback = true == _Hints?.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK)
+                ? (ResultPointCallback)_Hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK]
+                : null;
+
+            for (var index = 0; index < _Readers.Count; index++)
+            {
+                var reader = _Readers[index];
+                reader.Reset();
+                var result = reader.Decode(image, _Hints);
+                if (result != null)
+                {
+                    // found a barcode, pushing the successful reader up front
+                    // I assume that the same type of barcode is read multiple times
+                    // so the reordering of the readers list should speed up the next reading
+                    // a little bit
+                    _Readers.RemoveAt(index);
+                    _Readers.Insert(0, reader);
+                    return result;
+                }
+                rpCallback?.Invoke(null);
             }
 
             return null;

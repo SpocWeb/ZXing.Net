@@ -24,14 +24,14 @@ namespace ZXing.OneD.Test
    /// <author>qwandor@google.com (Andrew Walbran)</author>
    /// </summary>
    [TestFixture]
-   public sealed class UPCAWriterTestCase
+   public sealed class UpcaWriterTestCase
    {
       [TestCase("485963095124", "00001010100011011011101100010001011010111101111010101011100101110100100111011001101101100101110010100000", TestName = "UPCAtestEncode")]
       [TestCase("12345678901", "00001010011001001001101111010100011011000101011110101010001001001000111010011100101100110110110010100000", TestName = "UPCAtestAddChecksumAndEncode")]
-      public void testEncode(string content, string encoding)
+      public void TestEncode(string content, string encoding)
       {
          var result = new UPCAWriter().encode(content, BarcodeFormat.UPC_A, encoding.Length, 0);
-         Assert.AreEqual(encoding, BitMatrixTestCase.matrixToString(result));
+         Assert.AreEqual(encoding, BitMatrixTestCase.MatrixToString(result));
       }
    }
 }

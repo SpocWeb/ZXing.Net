@@ -31,7 +31,7 @@ namespace ZXing.Datamatrix.Test
    public sealed class DataMatrixWriterTestCase
    {
       [Test]
-      public void testDataMatrixImageWriter()
+      public void TestDataMatrixImageWriter()
       {
          var writer = new DataMatrixWriter();
 
@@ -47,7 +47,7 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void testDataMatrixWriter()
+      public void TestDataMatrixWriter()
       {
          var writer = new DataMatrixWriter();
 
@@ -63,7 +63,7 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void testDataMatrixTooSmall()
+      public void TestDataMatrixTooSmall()
       {
          // The DataMatrix will not fit in this size, so the matrix should come back bigger
          const int tooSmall = 8;

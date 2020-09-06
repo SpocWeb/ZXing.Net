@@ -28,7 +28,7 @@ namespace ZXing.Datamatrix.Test
       {
       }
 
-      internal string[] toBitFieldStringArray()
+      internal string[] ToBitFieldStringArray()
       {
          var bits = Bits;
          var numrows = Numrows;

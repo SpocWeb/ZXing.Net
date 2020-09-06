@@ -21,13 +21,13 @@ namespace ZXing.PDF417.Test
    /// <summary>
    /// Regression tests
    /// </summary>
-   public sealed class PDF417BlackBox3TestCase : AbstractBlackBoxTestCase
+   public sealed class Pdf417BlackBox3TestCase : AbstractBlackBoxTestCase
    {
-      public PDF417BlackBox3TestCase()
+      public Pdf417BlackBox3TestCase()
          : base("test/data/blackbox/pdf417-3", new MultiFormatReader(), BarcodeFormat.PDF_417)
       {
-         addTest(19, 19, 0, 0, 0.0f);
-         addTest(19, 19, 0, 0, 180.0f);
+         AddTest(19, 19, 0, 0, 0.0f);
+         AddTest(19, 19, 0, 0, 180.0f);
       }
    }
 }

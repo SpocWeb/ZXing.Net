@@ -43,19 +43,19 @@ namespace ZXing.Common.Test
       private static readonly DanielVaughan.Logging.ILog Log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-      public bool accept(string dir, string name)
+      public bool Accept(string dir, string name)
       {
             string lowerCase = name.ToLower(CultureInfo.InvariantCulture);
          return lowerCase.EndsWith(".jpg") || lowerCase.EndsWith(".jpeg") ||
                 lowerCase.EndsWith(".gif") || lowerCase.EndsWith(".png");
       }
 
-      private readonly string testBase;
-      private readonly IBarCodeDecoder barcodeReader;
-      private readonly BarcodeFormat? expectedFormat;
-      private readonly List<TestResult> testResults;
+      private readonly string _TestBase;
+      private readonly IBarCodeDecoder _BarcodeReader;
+      private readonly BarcodeFormat? _ExpectedFormat;
+      private readonly List<TestResult> _TestResults;
 
-      public static string buildTestBase(string testBasePathSuffix)
+      public static string BuildTestBase(string testBasePathSuffix)
       {
          // A little workaround to prevent aggravation in my IDE
          if (!Directory.Exists(testBasePathSuffix))
@@ -70,15 +70,15 @@ namespace ZXing.Common.Test
                                          IBarCodeDecoder barcodeReader,
                                          BarcodeFormat? expectedFormat)
       {
-         this.testBase = buildTestBase(testBasePathSuffix);
-         this.barcodeReader = barcodeReader;
-         this.expectedFormat = expectedFormat;
-         testResults = new List<TestResult>();
+         this._TestBase = BuildTestBase(testBasePathSuffix);
+         this._BarcodeReader = barcodeReader;
+         this._ExpectedFormat = expectedFormat;
+         _TestResults = new List<TestResult>();
       }
 
-      protected void addTest(int mustPassCount, int tryHarderCount, float rotation)
+      protected void AddTest(int mustPassCount, int tryHarderCount, float rotation)
       {
-         addTest(mustPassCount, tryHarderCount, 0, 0, rotation);
+         AddTest(mustPassCount, tryHarderCount, 0, 0, rotation);
       }
 
       /// <summary>
@@ -91,38 +91,38 @@ namespace ZXing.Common.Test
       ///                             reading the wrong contents using the try harder flag
       /// <param name="rotation">The rotation in degrees clockwise to use for this test.</param>
       /// </summary>
-      protected void addTest(int mustPassCount,
+      protected void AddTest(int mustPassCount,
                              int tryHarderCount,
                              int maxMisreads,
                              int maxTryHarderMisreads,
                              float rotation)
       {
-         testResults.Add(new TestResult(mustPassCount, tryHarderCount, maxMisreads, maxTryHarderMisreads, rotation));
+         _TestResults.Add(new TestResult(mustPassCount, tryHarderCount, maxMisreads, maxTryHarderMisreads, rotation));
       }
 
-      protected IEnumerable<string> getImageFiles()
+      protected IEnumerable<string> GetImageFiles()
       {
-         Log.Info(testBase);
+         Log.Info(_TestBase);
          Log.Info(Environment.CurrentDirectory);
-         Assert.IsTrue(Directory.Exists(testBase), "Please run from the 'core' directory");
-         return Directory.EnumerateFiles(testBase).Where(p => accept(testBase, p));
+         Assert.IsTrue(Directory.Exists(_TestBase), "Please run from the 'core' directory");
+         return Directory.EnumerateFiles(_TestBase).Where(p => Accept(_TestBase, p));
       }
 
-      protected IBarCodeDecoder getReader()
+      protected IBarCodeDecoder GetReader()
       {
-         return barcodeReader;
+         return _BarcodeReader;
       }
 
       // This workaround is used because AbstractNegativeBlackBoxTestCase overrides this method but does
       // not return SummaryResults.
       [Test]
       [Ignore("2020-09-03 Fails in BaseLine")]
-      public virtual void testBlackBox()
+      public virtual void TestBlackBox()
       {
-         Assert.IsFalse(testResults.Count == 0);
+         Assert.IsFalse(_TestResults.Count == 0);
 
-         IEnumerable<string> imageFiles = getImageFiles();
-         int testCount = testResults.Count;
+         IEnumerable<string> imageFiles = GetImageFiles();
+         int testCount = _TestResults.Count;
 
          int[] passedCounts = new int[testCount];
          int[] misreadCounts = new int[testCount];
@@ -173,14 +173,14 @@ namespace ZXing.Common.Test
 
             for (int x = 0; x < testCount; x++)
             {
-               var testResult = testResults[x];
+               var testResult = _TestResults[x];
                float rotation = testResult.Rotation;
-               var rotatedImage = rotateImage(image, rotation);
+               var rotatedImage = RotateImage(image, rotation);
                LuminanceSource source = new BitmapLuminanceSource(rotatedImage);
                BinaryBitmap bitmap = new BinaryBitmap(new TwoDBinarizer(source));
                try
                {
-                  if (decode(bitmap, rotation, expectedText, expectedMetadata, false))
+                  if (Decode(bitmap, rotation, expectedText, expectedMetadata, false))
                   {
                      passedCounts[x]++;
                      Log.Info("   without try-hard ... ok.");
@@ -198,7 +198,7 @@ namespace ZXing.Common.Test
                }
                try
                {
-                  if (decode(bitmap, rotation, expectedText, expectedMetadata, true))
+                  if (Decode(bitmap, rotation, expectedText, expectedMetadata, true))
                   {
                      tryHarderCounts[x]++;
                      Log.Info("   with try-hard ... ok.");
@@ -223,9 +223,9 @@ namespace ZXing.Common.Test
          int totalMisread = 0;
          int totalMaxMisread = 0;
          var imageFilesCount = imageFiles.Count();
-         for (int x = 0; x < testResults.Count; x++)
+         for (int x = 0; x < _TestResults.Count; x++)
          {
-            TestResult testResult = testResults[x];
+            TestResult testResult = _TestResults[x];
             Log.InfoFormat("Rotation {0} degrees:", (int)testResult.Rotation);
             Log.InfoFormat(" {0} of {1} images passed ({2} required)",
                               passedCounts[x], imageFilesCount, testResult.MustPassCount);
@@ -267,7 +267,7 @@ namespace ZXing.Common.Test
          // Then run through again and assert if any failed
          for (int x = 0; x < testCount; x++)
          {
-            TestResult testResult = testResults[x];
+            TestResult testResult = _TestResults[x];
                 string label = "Rotation " + testResult.Rotation + " degrees: Too many images failed";
             Assert.IsTrue(passedCounts[x] >= testResult.MustPassCount, label);
             Assert.IsTrue(tryHarderCounts[x] >= testResult.TryHarderCount, "Try harder, " + label);
@@ -277,7 +277,7 @@ namespace ZXing.Common.Test
          }
       }
 
-      private bool decode(BinaryBitmap source,
+      private bool Decode(BinaryBitmap source,
                              float rotation,
                              string expectedText,
                              IDictionary<string, string> expectedMetadata,
@@ -301,14 +301,14 @@ namespace ZXing.Common.Test
                 {
                     [DecodeHintType.PURE_BARCODE] = true
                 };
-                result = barcodeReader.Decode(source, pureHints);
+                result = _BarcodeReader.Decode(source, pureHints);
          }
          catch (ReaderException )
          {
             // continue
          }
 
-         if (barcodeReader is IMultipleBarcodeReader multiReader)
+         if (_BarcodeReader is IMultipleBarcodeReader multiReader)
          {
             var expectedResults = expectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             var results = multiReader.DecodeMultiple(source, hints);
@@ -324,10 +324,10 @@ namespace ZXing.Common.Test
             }
             foreach (var oneResult in results)
             {
-               if (expectedFormat != oneResult.BarcodeFormat)
+               if (_ExpectedFormat != oneResult.BarcodeFormat)
                {
                   Log.InfoFormat("Format mismatch: expected '{0}' but got '{1}'{2}",
-                     expectedFormat, oneResult.BarcodeFormat, suffix);
+                     _ExpectedFormat, oneResult.BarcodeFormat, suffix);
                   return false;
                }
                     string resultText = oneResult.Text;
@@ -368,16 +368,16 @@ namespace ZXing.Common.Test
          else
          {
             if (result == null) {
-                result = barcodeReader.Decode(source, hints);
+                result = _BarcodeReader.Decode(source, hints);
             }
             if (result == null) {
                 throw new ReaderException();
             }
 
-            if (expectedFormat != result.BarcodeFormat)
+            if (_ExpectedFormat != result.BarcodeFormat)
             {
                Log.InfoFormat("Format mismatch: expected '{0}' but got '{1}'{2}",
-                  expectedFormat, result.BarcodeFormat, suffix);
+                  _ExpectedFormat, result.BarcodeFormat, suffix);
                return false;
             }
 
@@ -408,7 +408,7 @@ namespace ZXing.Common.Test
       }
 
 #if !SILVERLIGHT
-      protected static Bitmap rotateImage(Bitmap original, float degrees)
+      protected static Bitmap RotateImage(Bitmap original, float degrees)
       {
          if (degrees == 0.0f)
          {

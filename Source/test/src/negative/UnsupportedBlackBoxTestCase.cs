@@ -28,10 +28,10 @@ namespace ZXing.Negative.Test
       public UnsupportedBlackBoxTestCase()
          : base("test/data/blackbox/unsupported")
       {
-         addTest(0, 0.0f);
-         addTest(0, 90.0f);
-         addTest(0, 180.0f);
-         addTest(0, 270.0f);
+         AddTest(0, 0.0f);
+         AddTest(0, 90.0f);
+         AddTest(0, 180.0f);
+         AddTest(0, 270.0f);
       }
    }
 }

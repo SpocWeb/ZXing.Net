@@ -22,13 +22,13 @@ namespace ZXing.OneD.Test
    /// A set of blurry images taken with a fixed-focus device.
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class UPCABlackBox6BlurryTestCase : AbstractBlackBoxTestCase
+   public sealed class UpcaBlackBox6BlurryTestCase : AbstractBlackBoxTestCase
    {
-      public UPCABlackBox6BlurryTestCase()
+      public UpcaBlackBox6BlurryTestCase()
          : base("test/data/blackbox/upca-6", new MultiFormatReader(), BarcodeFormat.UPC_A)
       {
-         addTest(0, 0, 0.0f);
-         addTest(0, 0, 180.0f);
+         AddTest(0, 0, 0.0f);
+         AddTest(0, 0, 180.0f);
       }
    }
 }

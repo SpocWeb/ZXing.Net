@@ -33,96 +33,96 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
    /// <summary>
    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
    /// </summary>
-   public class AI01_3X0X_1X_DecoderTest : AbstractDecoderTest
+   public class Ai013X0X1XDecoderTest : AbstractDecoderTest
    {
-      private static string header_310x_11 = "..XXX...";
-      private static string header_320x_11 = "..XXX..X";
-      private static string header_310x_13 = "..XXX.X.";
-      private static string header_320x_13 = "..XXX.XX";
-      private static string header_310x_15 = "..XXXX..";
-      private static string header_320x_15 = "..XXXX.X";
-      private static string header_310x_17 = "..XXXXX.";
-      private static string header_320x_17 = "..XXXXXX";
+      private static string _HEADER_310_X_11 = "..XXX...";
+      private static string _HEADER_320_X_11 = "..XXX..X";
+      private static string _HEADER_310_X_13 = "..XXX.X.";
+      private static string _HEADER_320_X_13 = "..XXX.XX";
+      private static string _HEADER_310_X_15 = "..XXXX..";
+      private static string _HEADER_320_X_15 = "..XXXX.X";
+      private static string _HEADER_310_X_17 = "..XXXXX.";
+      private static string _HEADER_320_X_17 = "..XXXXXX";
 
       [Test]
       public void test01_310X_1X_endDate()
       {
-            string data = header_310x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_End;
+            string data = _HEADER_310_X_11 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateEnd;
             string expected = "(01)90012345678908(3100)001750";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_310X_11_1()
       {
-            string data = header_310x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_310_X_11 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3100)001750(11)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_320X_11_1()
       {
-            string data = header_320x_11 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_320_X_11 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3200)001750(11)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_310X_13_1()
       {
-            string data = header_310x_13 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_310_X_13 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3100)001750(13)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_320X_13_1()
       {
-            string data = header_320x_13 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_320_X_13 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3200)001750(13)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_310X_15_1()
       {
-            string data = header_310x_15 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_310_X_15 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3100)001750(15)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_320X_15_1()
       {
-            string data = header_320x_15 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_320_X_15 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3200)001750(15)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_310X_17_1()
       {
-            string data = header_310x_17 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_310_X_17 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3100)001750(17)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
 
       [Test]
       public void test01_320X_17_1()
       {
-            string data = header_320x_17 + compressedGtin_900123456798908 + compressed20bitWeight_1750 + compressedDate_March_12th_2010;
+            string data = _HEADER_320_X_17 + CompressedGtin900123456798908 + Compressed20BitWeight1750 + CompressedDateMarch12Th2010;
             string expected = "(01)90012345678908(3200)001750(17)100312";
 
-         assertCorrectBinaryString(data, expected);
+         AssertCorrectBinaryString(data, expected);
       }
    }
 }

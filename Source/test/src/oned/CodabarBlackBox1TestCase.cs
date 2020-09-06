@@ -27,8 +27,8 @@ namespace ZXing.OneD.Test
       public CodaBarBlackBox1TestCase()
          : base("test/data/blackbox/codabar-1", new MultiFormatReader(), BarcodeFormat.CODABAR)
       {
-         addTest(11, 11, 0.0f);
-         addTest(11, 11, 180.0f);
+         AddTest(11, 11, 0.0f);
+         AddTest(11, 11, 180.0f);
       }
    }
 }

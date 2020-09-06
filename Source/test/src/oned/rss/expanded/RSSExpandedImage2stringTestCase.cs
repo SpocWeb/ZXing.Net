@@ -43,7 +43,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
    /// </summary>
    [TestFixture]
-   public sealed class RSSExpandedImage2stringTestCase
+   public sealed class RssExpandedImage2StringTestCase
    {
       [TestCase("1.png", "(11)100224(17)110224(3102)000100", TestName = "(11)100224(17)110224(3102)000100")]
       [TestCase("2.png", "(01)90012345678908(3103)001750", TestName = "(01)90012345678908(3103)001750")]
@@ -72,16 +72,16 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [TestCase("30.png", "(10)1098*1234", TestName = "(10)1098*1234")]
       [TestCase("31.png", "(10)1098,1234", TestName = "(10)1098,1234")]
       [TestCase("32.png", "(15)991231(3103)001750(10)12A(422)123(21)123456(423)0123456789012", TestName = "(15)991231(3103)001750(10)12A(422)123(21)123456(423)0123456789012")]
-      public void testDecodeRow2string(string imageFileName, string expected)
+      public void TestDecodeRow2String(string imageFileName, string expected)
       {
-         assertCorrectImage2string(imageFileName, expected);
+         AssertCorrectImage2String(imageFileName, expected);
       }
       
-      private static void assertCorrectImage2string(string imageFileName, string expected)
+      private static void AssertCorrectImage2String(string imageFileName, string expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var binaryMap = TestCaseUtil.getBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
+         var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.getBlackRow(rowNumber, null);
 

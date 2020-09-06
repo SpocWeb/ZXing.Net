@@ -23,11 +23,11 @@ namespace ZXing.QrCode.Internal.Test
    /// <author>mysen@google.com (Chris Mysen) - ported from C++</author>
    /// </summary>
    [TestFixture]
-   public sealed class QRCodeTestCase
+   public sealed class QrCodeTestCase
    {
 
       [Test]
-      public void test()
+      public void Test()
       {
          var qrCode = new QRCode();
 
@@ -60,7 +60,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testToString1()
+      public void TestToString1()
       {
          {
             var qrCode = new QRCode();
@@ -76,7 +76,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testToString2()
+      public void TestToString2()
       {
          var qrCode = new QRCode
                          {
@@ -126,7 +126,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testIsValidMaskPattern()
+      public void TestIsValidMaskPattern()
       {
          Assert.IsFalse(QRCode.isValidMaskPattern(-1));
          Assert.IsTrue(QRCode.isValidMaskPattern(0));

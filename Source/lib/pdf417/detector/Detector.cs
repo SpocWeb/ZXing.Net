@@ -93,7 +93,7 @@ namespace ZXing.PDF417.Internal
                 barcodeCoordinates.Count == 0)
             {
                 bitMatrix = (BitMatrix)bitMatrix.Clone();
-                bitMatrix.rotate180();
+                bitMatrix.Rotate180();
                 barcodeCoordinates = Detect(bitMatrix, multiple);
             }
             return new DetectorResult(bitMatrix, barcodeCoordinates);

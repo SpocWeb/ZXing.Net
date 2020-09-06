@@ -31,7 +31,7 @@ namespace ZXing.QrCode.Internal.Test
    {
 
       [Test]
-      public void testToString()
+      public void TestToString()
       {
          ByteMatrix array = new ByteMatrix(3, 3);
          array.set(0, 0, 0);
@@ -48,7 +48,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testClearMatrix()
+      public void TestClearMatrix()
       {
          ByteMatrix matrix = new ByteMatrix(2, 2);
          MatrixUtil.clearMatrix(matrix);
@@ -59,7 +59,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEmbedBasicPatterns()
+      public void TestEmbedBasicPatterns()
       {
          {
                 // Version 1.
@@ -127,7 +127,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEmbedTypeInfo()
+      public void TestEmbedTypeInfo()
       {
             // Type info bits = 100000011001110.
             string expected =
@@ -159,7 +159,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEmbedVersionInfo()
+      public void TestEmbedVersionInfo()
       {
             // Version info bits = 000111 110010 010100
             string expected =
@@ -193,7 +193,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testEmbedDataBits()
+      public void TestEmbedDataBits()
       {
             // Cells other than basic patterns should be filled with zero.
             string expected =
@@ -227,7 +227,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testBuildMatrix()
+      public void TestBuildMatrix()
       {
             // From http://www.swetake.com/qr/qr7.html
             string expected =
@@ -270,7 +270,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testFindMSBSet()
+      public void TestFindMsbSet()
       {
          Assert.AreEqual(0, MatrixUtil.findMSBSet(0));
          Assert.AreEqual(1, MatrixUtil.findMSBSet(1));
@@ -279,7 +279,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testCalculateBCHCode()
+      public void TestCalculateBchCode()
       {
          // Encoding of type information.
          // From Appendix C in JISX0510:2004 (p 65)
@@ -303,7 +303,7 @@ namespace ZXing.QrCode.Internal.Test
       // We don't test a lot of cases in this function since we've already
       // tested them in TEST(calculateBCHCode).
       [Test]
-      public void testMakeVersionInfoBits()
+      public void TestMakeVersionInfoBits()
       {
          // From Appendix D in JISX0510:2004 (p 68)
          BitArray bits = new BitArray();
@@ -314,7 +314,7 @@ namespace ZXing.QrCode.Internal.Test
       // We don't test a lot of cases in this function since we've already
       // tested them in TEST(calculateBCHCode).
       [Test]
-      public void testMakeTypeInfoInfoBits()
+      public void TestMakeTypeInfoInfoBits()
       {
          // From Appendix C in JISX0510:2004 (p 65)
          BitArray bits = new BitArray();

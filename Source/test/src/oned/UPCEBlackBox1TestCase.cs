@@ -21,13 +21,13 @@ namespace ZXing.OneD.Test
    /// <summary>
    /// <author>Sean Owen</author>
    /// </summary>
-   public sealed class UPCEBlackBox1TestCase : AbstractBlackBoxTestCase
+   public sealed class UpceBlackBox1TestCase : AbstractBlackBoxTestCase
    {
-      public UPCEBlackBox1TestCase()
+      public UpceBlackBox1TestCase()
          : base("test/data/blackbox/upce-1", new MultiFormatReader(), BarcodeFormat.UPC_E)
       {
-         addTest(3, 3, 0.0f);
-         addTest(3, 3, 180.0f);
+         AddTest(3, 3, 0.0f);
+         AddTest(3, 3, 180.0f);
       }
    }
 }

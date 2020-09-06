@@ -21,11 +21,11 @@ using NUnit.Framework;
 namespace ZXing.Client.Result.Test
 {
    [TestFixture]
-   public class VINParsedResultTestCase
+   public class VinParsedResultTestCase
    {
 
       [Test]
-      public void testNotVIN()
+      public void TestNotVin()
       {
          var fakeResult = new ZXing.BarCodeText("1M8GDM9A1KP042788", null, null, BarcodeFormat.CODE_39);
          var result = ResultParser.parseResult(fakeResult);
@@ -36,14 +36,14 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testVIN()
+      public void TestVin()
       {
-         doTest("1M8GDM9AXKP042788", "1M8", "GDM9AX", "KP042788", "US", "GDM9A", 1989, 'P', "042788");
-         doTest("I1M8GDM9AXKP042788", "1M8", "GDM9AX", "KP042788", "US", "GDM9A", 1989, 'P', "042788");
-         doTest("LJCPCBLCX11000237", "LJC", "PCBLCX", "11000237", "CN", "PCBLC", 2001, '1', "000237");
+         DoTest("1M8GDM9AXKP042788", "1M8", "GDM9AX", "KP042788", "US", "GDM9A", 1989, 'P', "042788");
+         DoTest("I1M8GDM9AXKP042788", "1M8", "GDM9AX", "KP042788", "US", "GDM9A", 1989, 'P', "042788");
+         DoTest("LJCPCBLCX11000237", "LJC", "PCBLCX", "11000237", "CN", "PCBLC", 2001, '1', "000237");
       }
 
-      private static void doTest(string contents,
+      private static void DoTest(string contents,
                                  string wmi,
                                  string vds,
                                  string vis,

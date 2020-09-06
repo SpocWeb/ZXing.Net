@@ -30,9 +30,9 @@ namespace ZXing.OneD.Test
    public sealed class CodaBarWriterTestCase
    {
       [Test]
-      public void testEncode()
+      public void TestEncode()
       {
-         doTest("B515-3/B",
+         DoTest("B515-3/B",
                 "00000" +
                 "1001001011" + "0110101001" + "0101011001" + "0110101001" + "0101001101" +
                 "0110010101" + "01101101011" + "01001001011" +
@@ -40,27 +40,27 @@ namespace ZXing.OneD.Test
       }
 
       [Test]
-      public void testEncode2()
+      public void TestEncode2()
       {
-         doTest("T123T",
+         DoTest("T123T",
                 "00000" +
                 "1011001001" + "0101011001" + "0101001011" + "0110010101" + "01011001001" +
                 "00000");
       }
 
       [Test]
-      public void testAltStartEnd()
+      public void TestAltStartEnd()
       {
-         Assert.AreEqual(encode("T123456789-$T"), encode("A123456789-$A"));
+         Assert.AreEqual(Encode("T123456789-$T"), Encode("A123456789-$A"));
       }
 
-      private static void doTest(string input, string expected)
+      private static void DoTest(string input, string expected)
       {
-         var result = encode(input);
-         Assert.AreEqual(expected, BitMatrixTestCase.matrixToString(result));
+         var result = Encode(input);
+         Assert.AreEqual(expected, BitMatrixTestCase.MatrixToString(result));
       }
 
-      private static BitMatrix encode(string input)
+      private static BitMatrix Encode(string input)
       {
          return new CodaBarWriter().encode(input, BarcodeFormat.CODABAR, 0, 0);
       }

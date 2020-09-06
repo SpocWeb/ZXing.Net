@@ -153,7 +153,7 @@ namespace ZXing.Aztec
                 {
                     if (input[inputX, inputY])
                     {
-                        output.setRegion(outputX, outputY, multiple, multiple);
+                        output.SetRegion(outputX, outputY, multiple, multiple);
                     }
                 }
             }

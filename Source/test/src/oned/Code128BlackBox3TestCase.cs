@@ -26,8 +26,8 @@ namespace ZXing.OneD.Test
       public Code128BlackBox3TestCase()
          : base("test/data/blackbox/code128-3", new MultiFormatReader(), BarcodeFormat.CODE_128)
       {
-         addTest(2, 2, 0.0f);
-         addTest(2, 2, 180.0f);
+         AddTest(2, 2, 0.0f);
+         AddTest(2, 2, 180.0f);
       }
    }
 }

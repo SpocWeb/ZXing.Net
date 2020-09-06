@@ -27,21 +27,21 @@ namespace ZXing.Common.Test
       public void testShortShiftJIS_1()
       {
          // ÈáëÈ≠ö
-         doTest(new byte[] {0x8b, 0xe0, 0x8b, 0x9b,}, "SJIS");
+         DoTest(new byte[] {0x8b, 0xe0, 0x8b, 0x9b,}, "SJIS");
       }
 
       [Test]
       public void testShortISO88591_1()
       {
          // b√•d
-         doTest(new byte[] {0x62, 0xe5, 0x64,}, "ISO-8859-1");
+         DoTest(new byte[] {0x62, 0xe5, 0x64,}, "ISO-8859-1");
       }
 
       [Test]
       public void testMixedShiftJIS_1()
       {
          // Hello Èáë!
-         doTest(new byte[]
+         DoTest(new byte[]
                    {
                       0x48, 0x65, 0x6c, 0x6c, 0x6f,
                       0x20, 0x8b, 0xe0, 0x21,
@@ -49,7 +49,7 @@ namespace ZXing.Common.Test
                 "SJIS");
       }
 
-      private static void doTest(byte[] bytes, string charsetName)
+      private static void DoTest(byte[] bytes, string charsetName)
       {
          var charset = Encoding.GetEncoding(charsetName);
             string guessedName = StringUtils.guessEncoding(bytes, null);
@@ -62,7 +62,7 @@ namespace ZXing.Common.Test
        * to write that into the Java source file rather than risk character encoding issues in the 
        * source file itself
        */
-      public static void main(string[] args)
+      public static void Main(string[] args)
       {
          var text = args[0];
          var charset = Encoding.GetEncoding(args[1]);

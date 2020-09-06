@@ -49,7 +49,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
    /// </summary>
    [TestFixture]
-   public sealed class RSSExpandedImage2resultTestCase
+   public sealed class RssExpandedImage2ResultTestCase
    {
       [Test]
       public void testDecodeRow2result_2()
@@ -64,14 +64,14 @@ namespace ZXing.OneD.RSS.Expanded.Test
                ExpandedProductParsedResult.KILOGRAM,
                "3", null, null, null, new Dictionary<string, string>());
 
-         assertCorrectImage2result(path, expected);
+         AssertCorrectImage2Result(path, expected);
       }
 
-      private static void assertCorrectImage2result(string imageFileName, ExpandedProductParsedResult expected)
+      private static void AssertCorrectImage2Result(string imageFileName, ExpandedProductParsedResult expected)
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var binaryMap = TestCaseUtil.getBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
+         var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.getBlackRow(rowNumber, null);
 

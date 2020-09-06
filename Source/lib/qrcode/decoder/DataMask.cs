@@ -66,7 +66,7 @@ namespace ZXing.QrCode.Internal
 
             var isMasked = DATA_MASKS[reference];
 
-            bits.flipWhen(isMasked);
+            bits.FlipWhen(isMasked);
         }
     }
 }

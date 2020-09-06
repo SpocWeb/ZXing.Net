@@ -31,6 +31,9 @@ namespace ZXing.PDF417
     /// </remarks>
     public sealed class Pdf417Reader : IBarCodeDecoder, IMultipleBarcodeReader {
 
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null)
+            => detectorResult.Decode().SingleOrDefault();
+
         /// <summary>
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
@@ -45,11 +48,7 @@ namespace ZXing.PDF417
         public BarCodeText Decode(BinaryBitmap image,
             IDictionary<DecodeHintType, object> hints = null) {
             DetectorResult detectorResult = Detector.Detect(image, hints, false);
-            BarCodeText[] results = detectorResult.Decode();
-            if (results.Length == 0) {
-                return null;
-            }
-            return results[0]; // First barcode discovered.
+            return Decode(detectorResult, hints);
         }
 
         /// <summary> Locates and decodes Multiple PDF417 codes in an image. </summary>

@@ -26,7 +26,7 @@ namespace ZXing.QrCode.Internal.Test
    public sealed class MaskUtilTestCase
    {
       [Test]
-      public void testApplyMaskPenaltyRule1()
+      public void TestApplyMaskPenaltyRule1()
       {
          var matrix = new ByteMatrix(4, 1);
          matrix.set(0, 0, 0);
@@ -59,7 +59,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testApplyMaskPenaltyRule2()
+      public void TestApplyMaskPenaltyRule2()
       {
          var matrix = new ByteMatrix(1, 1);
          matrix.set(0, 0, 0);
@@ -91,7 +91,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testApplyMaskPenaltyRule3()
+      public void TestApplyMaskPenaltyRule3()
       {
          // Horizontal 00001011101.
          var matrix = new ByteMatrix(11, 1);
@@ -152,7 +152,7 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testApplyMaskPenaltyRule4()
+      public void TestApplyMaskPenaltyRule4()
       {
          // Dark cell ratio = 0%
          var matrix = new ByteMatrix(1, 1);
@@ -193,7 +193,7 @@ namespace ZXing.QrCode.Internal.Test
 
       // See mask patterns on the page 43 of JISX0510:2004.
       [Test]
-      public void testGetDataMaskBit()
+      public void TestGetDataMaskBit()
       {
          int[][] mask0 = {
                             new[] {1, 0, 1, 0, 1, 0},

@@ -32,7 +32,7 @@ namespace ZXing.Test
       private static readonly DanielVaughan.Logging.ILog Log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-        private const string samplePicRelPath = @"../../../Source/test/data/luminance/01.jpg";
+        private const string SamplePicRelPath = @"../../../Source/test/data/luminance/01.jpg";
 
         [Test]
         [Explicit]
@@ -40,7 +40,7 @@ namespace ZXing.Test
         {
             const int roundTripsPerAlgo = 1000;
 
-            var bitmap = (Bitmap)Bitmap.FromFile(samplePicRelPath);
+            var bitmap = (Bitmap)Bitmap.FromFile(SamplePicRelPath);
 
             var startAlgo1 = DateTime.Now;
             for (var count = 0; count < roundTripsPerAlgo; count++)

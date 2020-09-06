@@ -41,54 +41,54 @@ namespace ZXing.OneD.RSS.Expanded.Test
       private const string SPACE = " ";
 
       [Test]
-      public void testBuildBitArrayFromString()
+      public void TestBuildBitArrayFromString()
       {
 
             string data = " ..X..X.. ..XXX... XXXXXXXX ........";
-         check(data);
+         Check(data);
 
          data = " XXX..X..";
-         check(data);
+         Check(data);
 
          data = " XX";
-         check(data);
+         Check(data);
 
          data = " ....XX.. ..XX";
-         check(data);
+         Check(data);
 
          data = " ....XX.. ..XX..XX ....X.X. ........";
-         check(data);
+         Check(data);
       }
 
-      private static void check(string data)
+      private static void Check(string data)
       {
-         BitArray binary = BinaryUtil.buildBitArrayFromString(data);
+         BitArray binary = BinaryUtil.BuildBitArrayFromString(data);
          Assert.AreEqual(data, binary.ToString());
       }
 
       [Test]
-      public void testBuildBitArrayFromStringWithoutSpaces()
+      public void TestBuildBitArrayFromStringWithoutSpaces()
       {
             string data = " ..X..X.. ..XXX... XXXXXXXX ........";
-         checkWithoutSpaces(data);
+         CheckWithoutSpaces(data);
 
          data = " XXX..X..";
-         checkWithoutSpaces(data);
+         CheckWithoutSpaces(data);
 
          data = " XX";
-         checkWithoutSpaces(data);
+         CheckWithoutSpaces(data);
 
          data = " ....XX.. ..XX";
-         checkWithoutSpaces(data);
+         CheckWithoutSpaces(data);
 
          data = " ....XX.. ..XX..XX ....X.X. ........";
-         checkWithoutSpaces(data);
+         CheckWithoutSpaces(data);
       }
 
-      private static void checkWithoutSpaces(string data)
+      private static void CheckWithoutSpaces(string data)
       {
             string dataWithoutSpaces = Regex.Replace(data, SPACE, "");
-         BitArray binary = BinaryUtil.buildBitArrayFromStringWithoutSpaces(dataWithoutSpaces);
+         BitArray binary = BinaryUtil.BuildBitArrayFromStringWithoutSpaces(dataWithoutSpaces);
          Assert.AreEqual(data, binary.ToString());
       }
    }

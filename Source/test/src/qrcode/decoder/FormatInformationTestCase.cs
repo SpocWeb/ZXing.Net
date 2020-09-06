@@ -24,11 +24,11 @@ namespace ZXing.QrCode.Internal.Test
    [TestFixture]
    public sealed class FormatInformationTestCase
    {
-      private static int MASKED_TEST_FORMAT_INFO = 0x2BED;
-      private static int UNMASKED_TEST_FORMAT_INFO = MASKED_TEST_FORMAT_INFO ^ 0x5412;
+      private static int _MASKED_TEST_FORMAT_INFO = 0x2BED;
+      private static int _UNMASKED_TEST_FORMAT_INFO = _MASKED_TEST_FORMAT_INFO ^ 0x5412;
 
       [Test]
-      public void testBitsDiffering()
+      public void TestBitsDiffering()
       {
          Assert.AreEqual(0, FormatInformation.numBitsDiffering(1, 1));
          Assert.AreEqual(1, FormatInformation.numBitsDiffering(0, 2));
@@ -37,42 +37,42 @@ namespace ZXing.QrCode.Internal.Test
       }
 
       [Test]
-      public void testDecode()
+      public void TestDecode()
       {
          // Normal case
          FormatInformation expected =
-             FormatInformation.decodeFormatInformation(MASKED_TEST_FORMAT_INFO, MASKED_TEST_FORMAT_INFO);
+             FormatInformation.decodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
          Assert.IsNotNull(expected);
          Assert.AreEqual((byte)0x07, expected.DataMask);
          Assert.AreEqual(ErrorCorrectionLevel.Q, expected.ErrorCorrectionLevel);
          // where the code forgot the mask!
          Assert.AreEqual(expected,
-                      FormatInformation.decodeFormatInformation(UNMASKED_TEST_FORMAT_INFO, MASKED_TEST_FORMAT_INFO));
+                      FormatInformation.decodeFormatInformation(_UNMASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO));
       }
 
       [Test]
-      public void testDecodeWithBitDifference()
+      public void TestDecodeWithBitDifference()
       {
          FormatInformation expected =
-             FormatInformation.decodeFormatInformation(MASKED_TEST_FORMAT_INFO, MASKED_TEST_FORMAT_INFO);
+             FormatInformation.decodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
          // 1,2,3,4 bits difference
          Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
-             MASKED_TEST_FORMAT_INFO ^ 0x01, MASKED_TEST_FORMAT_INFO ^ 0x01));
+             _MASKED_TEST_FORMAT_INFO ^ 0x01, _MASKED_TEST_FORMAT_INFO ^ 0x01));
          Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
-             MASKED_TEST_FORMAT_INFO ^ 0x03, MASKED_TEST_FORMAT_INFO ^ 0x03));
+             _MASKED_TEST_FORMAT_INFO ^ 0x03, _MASKED_TEST_FORMAT_INFO ^ 0x03));
          Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
-             MASKED_TEST_FORMAT_INFO ^ 0x07, MASKED_TEST_FORMAT_INFO ^ 0x07));
+             _MASKED_TEST_FORMAT_INFO ^ 0x07, _MASKED_TEST_FORMAT_INFO ^ 0x07));
          Assert.IsNull(FormatInformation.decodeFormatInformation(
-             MASKED_TEST_FORMAT_INFO ^ 0x0F, MASKED_TEST_FORMAT_INFO ^ 0x0F));
+             _MASKED_TEST_FORMAT_INFO ^ 0x0F, _MASKED_TEST_FORMAT_INFO ^ 0x0F));
       }
 
       [Test]
-      public void testDecodeWithMisread()
+      public void TestDecodeWithMisread()
       {
          FormatInformation expected =
-             FormatInformation.decodeFormatInformation(MASKED_TEST_FORMAT_INFO, MASKED_TEST_FORMAT_INFO);
+             FormatInformation.decodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
          Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
-             MASKED_TEST_FORMAT_INFO ^ 0x03, MASKED_TEST_FORMAT_INFO ^ 0x0F));
+             _MASKED_TEST_FORMAT_INFO ^ 0x03, _MASKED_TEST_FORMAT_INFO ^ 0x0F));
       }
    }
 }

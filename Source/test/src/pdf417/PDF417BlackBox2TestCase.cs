@@ -23,13 +23,13 @@ namespace ZXing.PDF417.Test
    ///
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class PDF417BlackBox2TestCase : AbstractBlackBoxTestCase
+   public sealed class Pdf417BlackBox2TestCase : AbstractBlackBoxTestCase
    {
-      public PDF417BlackBox2TestCase()
+      public Pdf417BlackBox2TestCase()
          : base("test/data/blackbox/pdf417-2", new MultiFormatReader(), BarcodeFormat.PDF_417)
       {
-         addTest(25, 25, 0, 0, 0.0f);
-         addTest(25, 25, 0, 0, 180.0f);
+         AddTest(25, 25, 0, 0, 0.0f);
+         AddTest(25, 25, 0, 0, 180.0f);
       }
    }
 }

@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ZXing.Common;
 using ZXing.Datamatrix.Internal;
-using ZXing.QrCode;
 
 namespace ZXing.Datamatrix
 {
@@ -27,76 +26,49 @@ namespace ZXing.Datamatrix
     ///
     /// <author>bbrown@google.com (Brian Brown)</author>
     /// </summary>
-    public sealed class DataMatrixReader : IBarCodeDecoder
-    {
+    public sealed class DataMatrixReader : IBarCodeDecoder {
 
         static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
-        readonly Decoder decoder = new Decoder();
+        readonly Decoder _Decoder = new Decoder();
 
-        /// <summary>
-        /// Locates and decodes a Data Matrix code in an image.
-        /// </summary>
-        /// <param name="image"></param>
+        /// <summary> Locates and decodes a Data Matrix code in an <paramref name="image"/>. </summary>
         /// <returns>a String representing the content encoded by the Data Matrix code</returns>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            return Decode(image, null);
-        }
-
-        /// <summary>
-        /// Locates and decodes a Data Matrix code in an image.
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="hints"></param>
-        /// <returns>a String representing the content encoded by the Data Matrix code</returns>
-        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
-        {
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints) {
             DecoderResult decoderResult;
             ResultPoint[] points;
-            if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
-            {
-                BitMatrix bits = extractPureBits(image.GetBlackMatrix());
+            if (hints?.ContainsKey(DecodeHintType.PURE_BARCODE) == true) {
+                BitMatrix bits = ExtractPureBits(image.GetBlackMatrix());
                 if (bits == null) {
                     return null;
                 }
-                decoderResult = decoder.decode(bits);
+                decoderResult = _Decoder.decode(bits);
                 points = NO_POINTS;
-            }
-            else
-            {
+            } else {
                 IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
                 DetectorResult detectorResult = new Detector(sampler).detect();
-                if (detectorResult == null || detectorResult.Bits == null) {
+                if (detectorResult?.Bits == null) {
                     return null;
                 }
-                decoderResult = decoder.decode(detectorResult.Bits);
+                decoderResult = _Decoder.decode(detectorResult.Bits);
                 points = detectorResult.Points.Single();
             }
             if (decoderResult == null) {
                 return null;
             }
 
-            BarCodeText result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points,
-                BarcodeFormat.DATA_MATRIX);
-            IList<byte[]> byteSegments = decoderResult.ByteSegments;
-            if (byteSegments != null)
-            {
-                result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
-            }
-            var ecLevel = decoderResult.ECLevel;
-            if (ecLevel != null)
-            {
-                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
-            }
-            return result;
+            return decoderResult.AsBarCodeText(points);
+        }
+
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            DecoderResult result = _Decoder.decode(detectorResult.Bits);
+            return result.AsBarCodeText(detectorResult.Points.Single());
         }
 
         /// <summary>
         /// does nothing here
         /// </summary>
-        public void Reset()
-        {
+        public void Reset() {
             // do nothing
         }
 
@@ -108,16 +80,14 @@ namespace ZXing.Datamatrix
         ///
         /// <sQrCodeReader.ExtractPureBitsts(BitMatrix)" />
         /// </summary>
-        static BitMatrix extractPureBits(BitMatrix image)
-        {
+        static BitMatrix ExtractPureBits(BitMatrix image) {
             int[] leftTopBlack = image.getTopLeftOnBit();
             int[] rightBottomBlack = image.getBottomRightOnBit();
-            if (leftTopBlack == null || rightBottomBlack == null)
-            {
+            if (leftTopBlack == null || rightBottomBlack == null) {
                 return null;
             }
 
-            if (!DataMatrixReader.moduleSize(leftTopBlack, image, out var moduleSize)) {
+            if (!image.TryGetModuleSize(leftTopBlack, out var moduleSize)) {
                 return null;
             }
 
@@ -128,8 +98,7 @@ namespace ZXing.Datamatrix
 
             int matrixWidth = (right - left + 1) / moduleSize;
             int matrixHeight = (bottom - top + 1) / moduleSize;
-            if (matrixWidth <= 0 || matrixHeight <= 0)
-            {
+            if (matrixWidth <= 0 || matrixHeight <= 0) {
                 return null;
             }
 
@@ -142,13 +111,10 @@ namespace ZXing.Datamatrix
 
             // Now just read off the bits
             BitMatrix bits = new BitMatrix(matrixWidth, matrixHeight);
-            for (int y = 0; y < matrixHeight; y++)
-            {
+            for (int y = 0; y < matrixHeight; y++) {
                 int iOffset = top + y * moduleSize;
-                for (int x = 0; x < matrixWidth; x++)
-                {
-                    if (image[left + x * moduleSize, iOffset])
-                    {
+                for (int x = 0; x < matrixWidth; x++) {
+                    if (image[left + x * moduleSize, iOffset]) {
                         bits[x, y] = true;
                     }
                 }
@@ -156,7 +122,27 @@ namespace ZXing.Datamatrix
             return bits;
         }
 
-        static bool moduleSize(int[] leftTopBlack, BitMatrix image, out int modulesize)
+    }
+
+    public static class XDataMatrixReader {
+
+        public static BarCodeText AsBarCodeText(this DecoderResult decoderResult
+            , params ResultPoint[] points) {
+            BarCodeText result = new BarCodeText(decoderResult.Text
+                , decoderResult.RawBytes, points, BarcodeFormat.DATA_MATRIX);
+            IList<byte[]> byteSegments = decoderResult.ByteSegments;
+            if (byteSegments != null) {
+                result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
+            }
+            var ecLevel = decoderResult.ECLevel;
+            if (ecLevel != null) {
+                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
+            }
+            return result;
+        }
+
+        public static bool TryGetModuleSize(this BitMatrix image
+            , IReadOnlyList<int> leftTopBlack, out int moduleSize)
         {
             int width = image.Width;
             int x = leftTopBlack[0];
@@ -167,12 +153,12 @@ namespace ZXing.Datamatrix
             }
             if (x == width)
             {
-                modulesize = 0;
+                moduleSize = 0;
                 return false;
             }
 
-            modulesize = x - leftTopBlack[0];
-            if (modulesize == 0)
+            moduleSize = x - leftTopBlack[0];
+            if (moduleSize == 0)
             {
                 return false;
             }

@@ -26,15 +26,15 @@ namespace ZXing.Client.Result.Test
    /// <author>Sean Owen</author>
    /// </summary>
    [TestFixture]
-   public sealed class ISBNParsedResultTestCase
+   public sealed class IsbnParsedResultTestCase
    {
       [Test]
-      public void testISBN()
+      public void TestIsbn()
       {
-         doTest("9784567890123");
+         DoTest("9784567890123");
       }
 
-      private static void doTest(string contents)
+      private static void DoTest(string contents)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.EAN_13);
          ParsedResult result = ResultParser.parseResult(fakeResult);

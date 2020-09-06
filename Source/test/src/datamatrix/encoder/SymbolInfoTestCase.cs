@@ -29,7 +29,7 @@ namespace ZXing.Datamatrix.Test
    public sealed class SymbolInfoTestCase
    {
       [Test]
-      public void testSymbolInfo()
+      public void TestSymbolInfo()
       {
          SymbolInfo info = SymbolInfo.lookup(3);
          Assert.AreEqual(5, info.errorCodewords);

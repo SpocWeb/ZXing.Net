@@ -49,13 +49,13 @@ namespace ZXing.Multi.QrCode
             return DecodeMultiple(detectorResults, hints);
         }
 
-        public BarCodeText[] DecodeMultiple(DetectorResult[] detectorResults, IDictionary<DecodeHintType, object> hints
-)
+        public BarCodeText[] DecodeMultiple(DetectorResult[] detectorResults
+            , IDictionary<DecodeHintType, object> hints = null)
         {
             var results = new List<BarCodeText>();
-            foreach (var detectorResult in detectorResults)
-            {
-                if (Decode(detectorResult, hints, out var result))
+            foreach (var detectorResult in detectorResults) {
+                var result = Decode(detectorResult, hints);
+                if (result == null)
                 {
                     continue;
                 }

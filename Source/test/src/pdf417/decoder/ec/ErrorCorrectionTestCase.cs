@@ -56,80 +56,80 @@ namespace ZXing.PDF417.Internal.Test
       private static readonly int MAX_ERRORS = ERROR_LIMIT/2;
       private static readonly int MAX_ERASURES = ERROR_LIMIT;
 
-      private readonly ErrorCorrection ec = new ErrorCorrection();
+      private readonly ErrorCorrection _Ec = new ErrorCorrection();
 
       [Test]
-      public void testNoError()
+      public void TestNoError()
       {
          int[] received = (int[]) PDF417_TEST_WITH_EC.Clone();
          // no errors
-         checkDecode(received);
+         CheckDecode(received);
       }
 
       [Test]
       public void testOneError()
       {
-         Random random = getRandom();
+         Random random = GetRandom();
          for (int i = 0; i < PDF417_TEST_WITH_EC.Length; i++)
          {
             int[] received = (int[]) PDF417_TEST_WITH_EC.Clone();
             received[i] = random.Next(256);
-            checkDecode(received);
+            CheckDecode(received);
          }
       }
 
       [Test]
-      public void testMaxErrors()
+      public void TestMaxErrors()
       {
-         Random random = getRandom();
+         Random random = GetRandom();
          foreach (int test in PDF417_TEST)
          {
             // # iterations is kind of arbitrary
             int[] received = (int[]) PDF417_TEST_WITH_EC.Clone();
-            corrupt(received, MAX_ERRORS, random);
-            checkDecode(received);
+            Corrupt(received, MAX_ERRORS, random);
+            CheckDecode(received);
          }
       }
 
       [Test]
-      public void testTooManyErrors()
+      public void TestTooManyErrors()
       {
          int[] received = (int[]) PDF417_TEST_WITH_EC.Clone();
-         Random random = getRandom();
-         corrupt(received, MAX_ERRORS + 1, random);
-         Assert.IsFalse(checkDecode(received));
+         Random random = GetRandom();
+         Corrupt(received, MAX_ERRORS + 1, random);
+         Assert.IsFalse(CheckDecode(received));
       }
 
       [Test]
-      public void testMaxErasures()
+      public void TestMaxErasures()
       {
-         Random random = getRandom();
+         Random random = GetRandom();
          foreach (int test in PDF417_TEST)
          {
             // # iterations is kind of arbitrary
             int[] received = (int[]) PDF417_TEST_WITH_EC.Clone();
-            int[] erasures = erase(received, MAX_ERASURES, random);
-            checkDecode(received, erasures);
+            int[] erasures = Erase(received, MAX_ERASURES, random);
+            CheckDecode(received, erasures);
          }
       }
 
       [Test]
-      public void testTooManyErasures()
+      public void TestTooManyErasures()
       {
-         Random random = getRandom();
+         Random random = GetRandom();
          int[] received = (int[]) PDF417_TEST_WITH_EC.Clone();
-         int[] erasures = erase(received, MAX_ERASURES + 1, random);
-         Assert.That(checkDecode(received, erasures), Is.Not.True, "Should not have decoded");
+         int[] erasures = Erase(received, MAX_ERASURES + 1, random);
+         Assert.That(CheckDecode(received, erasures), Is.Not.True, "Should not have decoded");
       }
 
-      private bool checkDecode(int[] received)
+      private bool CheckDecode(int[] received)
       {
-         return checkDecode(received, new int[0]);
+         return CheckDecode(received, new int[0]);
       }
 
-      private bool checkDecode(int[] received, int[] erasures)
+      private bool CheckDecode(int[] received, int[] erasures)
       {
-          if (!ec.decode(received, ECC_BYTES, erasures, out var errorCount)) {
+          if (!_Ec.decode(received, ECC_BYTES, erasures, out var errorCount)) {
               return false;
           }
 

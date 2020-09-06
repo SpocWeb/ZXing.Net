@@ -207,7 +207,7 @@ namespace ZXing
             {
                 if (usePreviousState && multiformatReader != null)
                 {
-                    result = multiformatReader.decodeWithState(binaryBitmap);
+                    result = multiformatReader.DecodeWithState(binaryBitmap);
                 }
                 else
                 {
@@ -222,7 +222,7 @@ namespace ZXing
                         binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.invert()));
                         if (usePreviousState && multiformatReader != null)
                         {
-                            result = multiformatReader.decodeWithState(binaryBitmap);
+                            result = multiformatReader.DecodeWithState(binaryBitmap);
                         }
                         else
                         {
@@ -290,9 +290,7 @@ namespace ZXing
             }
 
             var formats = Options.PossibleFormats;
-            if (formats != null &&
-                formats.Count == 1 &&
-                formats.Contains(BarcodeFormat.QR_CODE))
+            if (formats?.Count == 1 && formats.Contains(BarcodeFormat.QR_CODE))
             {
                 multiReader = new QRCodeMultiReader();
             }

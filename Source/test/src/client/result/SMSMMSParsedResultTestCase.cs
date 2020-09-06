@@ -26,7 +26,7 @@ namespace ZXing.Client.Result.Test
    /// <author>Sean Owen</author>
    /// </summary>
    [TestFixture]
-   public sealed class SMSMMSParsedResultTestCase
+   public sealed class SmsmmsParsedResultTestCase
    {
       [TestCase("sms:+15551212", "+15551212", null, null, null, "sms:+15551212")]
       [TestCase("sms:+15551212?subject=foo&body=bar", "+15551212", "foo", "bar", null, "sms:+15551212?body=bar&subject=foo")]
@@ -34,22 +34,22 @@ namespace ZXing.Client.Result.Test
       [TestCase("mms:+15551212", "+15551212", null, null, null, "sms:+15551212")]
       [TestCase("mms:+15551212?subject=foo&body=bar", "+15551212", "foo", "bar", null, "sms:+15551212?body=bar&subject=foo")]
       [TestCase("mms:+15551212;via=999333", "+15551212", null, null, "999333", "sms:+15551212;via=999333")]
-      public void testSMSMMS(string contents,
+      public void TestSmsmms(string contents,
                                  string number,
                                  string subject,
                                  string body,
                                  string via,
-                                 string parsedURI)
+                                 string parsedUri)
       {
-         doTest(contents, new string[] { number }, subject, body, new string[] { via }, parsedURI);
+         DoTest(contents, new string[] { number }, subject, body, new string[] { via }, parsedUri);
       }
 
-      private static void doTest(string contents,
+      private static void DoTest(string contents,
                                  string[] numbers,
                                  string subject,
                                  string body,
                                  string[] vias,
-                                 string parsedURI)
+                                 string parsedUri)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);
@@ -59,7 +59,7 @@ namespace ZXing.Client.Result.Test
          Assert.AreEqual(subject, smsResult.Subject);
          Assert.AreEqual(body, smsResult.Body);
          Assert.IsTrue(AddressBookParsedResultTestCase.AreEqual(vias, smsResult.Vias));
-         Assert.AreEqual(parsedURI, smsResult.SMSURI);
+         Assert.AreEqual(parsedUri, smsResult.SMSURI);
       }
    }
 }

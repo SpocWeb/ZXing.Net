@@ -27,7 +27,7 @@ namespace ZXing.Datamatrix.Internal.Test
    public sealed class DecodedBitStreamParserTestCase
    {
       [Test]
-      public void testAsciiStandardDecode()
+      public void TestAsciiStandardDecode()
       {
          // ASCII characters 0-127 are encoded as the value + 1
          byte[] bytes = {
@@ -39,7 +39,7 @@ namespace ZXing.Datamatrix.Internal.Test
       }
 
       [Test]
-      public void testAsciiDoubleDigitDecode()
+      public void TestAsciiDoubleDigitDecode()
       {
          // ASCII double digit (00 - 99) Numeric Value + 130
          byte[] bytes = {

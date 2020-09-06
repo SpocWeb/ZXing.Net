@@ -39,7 +39,7 @@ namespace ZXing.Client.Result.Test
    public sealed class ExpandedProductParsedResultTestCase
    {
       [Test]
-      public void testRSSExpanded()
+      public void TestRssExpanded()
       {
             IDictionary<string, string> uncommonAIs = new Dictionary<string, string>
             {

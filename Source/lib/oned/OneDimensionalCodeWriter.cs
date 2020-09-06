@@ -118,7 +118,7 @@ namespace ZXing.OneD
             {
                 if (code[inputX])
                 {
-                    output.setRegion(outputX, 0, multiple, outputHeight);
+                    output.SetRegion(outputX, 0, multiple, outputHeight);
                 }
             }
             return output;

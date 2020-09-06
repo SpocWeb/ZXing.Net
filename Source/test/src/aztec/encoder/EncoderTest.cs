@@ -55,9 +55,9 @@ namespace ZXing.Aztec.Test
         // real life tests
 
         [Test]
-        public void testEncode1()
+        public void TestEncode1()
         {
-            testEncode("This is an example Aztec symbol for Wikipedia.", true, 3,
+            TestEncode("This is an example Aztec symbol for Wikipedia.", true, 3,
                 "X     X X       X     X X     X     X         \r\n" +
                 "X         X     X X     X   X X   X X       X \r\n" +
                 "X X   X X X X X   X X X                 X     \r\n" +
@@ -84,9 +84,9 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testEncode2()
+        public void TestEncode2()
         {
-            testEncode("Aztec Code is a public domain 2D matrix barcode symbology" +
+            TestEncode("Aztec Code is a public domain 2D matrix barcode symbology" +
                        " of nominally square symbols built on a square grid with a " +
                        "distinctive square bullseye pattern at their center.", false, 6,
                 "        X X     X X     X     X     X   X X X         X   X         X   X X       \r\n" +
@@ -133,14 +133,14 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testAztecWriter()
+        public void TestAztecWriter()
         {
-            testWriter("\u20AC 1 sample data.", "ISO-8859-1", 25, true, 2);
-            testWriter("\u20AC 1 sample data.", "ISO-8859-15", 25, true, 2);
-            testWriter("\u20AC 1 sample data.", "UTF-8", 25, true, 2);
-            testWriter("\u20AC 1 sample data.", "UTF-8", 100, true, 3);
-            testWriter("\u20AC 1 sample data.", "UTF-8", 300, true, 4);
-            testWriter("\u20AC 1 sample data.", "UTF-8", 500, false, 5);
+            TestWriter("\u20AC 1 sample data.", "ISO-8859-1", 25, true, 2);
+            TestWriter("\u20AC 1 sample data.", "ISO-8859-15", 25, true, 2);
+            TestWriter("\u20AC 1 sample data.", "UTF-8", 25, true, 2);
+            TestWriter("\u20AC 1 sample data.", "UTF-8", 100, true, 3);
+            TestWriter("\u20AC 1 sample data.", "UTF-8", 300, true, 4);
+            TestWriter("\u20AC 1 sample data.", "UTF-8", 500, false, 5);
             // Test AztecWriter defaults
             const string data = "In ut magna vel mauris malesuada";
             var writer = new AztecWriter();
@@ -154,41 +154,41 @@ namespace ZXing.Aztec.Test
         // synthetic tests (encode-decode round-trip)
 
         [Test]
-        public void testEncodeDecode1()
+        public void TestEncodeDecode1()
         {
-            testEncodeDecode("Abc123!", true, 1);
+            TestEncodeDecode("Abc123!", true, 1);
         }
 
         [Test]
-        public void testEncodeDecode2()
+        public void TestEncodeDecode2()
         {
-            testEncodeDecode("Lorem ipsum. http://test/", true, 2);
+            TestEncodeDecode("Lorem ipsum. http://test/", true, 2);
         }
 
         [Test]
-        public void testEncodeDecode3()
+        public void TestEncodeDecode3()
         {
-            testEncodeDecode("AAAANAAAANAAAANAAAANAAAANAAAANAAAANAAAANAAAANAAAAN", true, 3);
+            TestEncodeDecode("AAAANAAAANAAAANAAAANAAAANAAAANAAAANAAAANAAAANAAAAN", true, 3);
         }
 
         [Test]
-        public void testEncodeDecode4()
+        public void TestEncodeDecode4()
         {
-            testEncodeDecode("http://test/~!@#*^%&)__ ;:'\"[]{}\\|-+-=`1029384", true, 4);
+            TestEncodeDecode("http://test/~!@#*^%&)__ ;:'\"[]{}\\|-+-=`1029384", true, 4);
         }
 
         [Test]
-        public void testEncodeDecode5()
+        public void TestEncodeDecode5()
         {
-            testEncodeDecode("http://test/~!@#*^%&)__ ;:'\"[]{}\\|-+-=`1029384756<>/?abc"
+            TestEncodeDecode("http://test/~!@#*^%&)__ ;:'\"[]{}\\|-+-=`1029384756<>/?abc"
                              + "Four score and seven our forefathers brought forth", false, 5);
 
         }
 
         [Test]
-        public void testEncodeDecode10()
+        public void TestEncodeDecode10()
         {
-            testEncodeDecode("In ut magna vel mauris malesuada dictum. Nulla ullamcorper metus quis diam" +
+            TestEncodeDecode("In ut magna vel mauris malesuada dictum. Nulla ullamcorper metus quis diam" +
                              " cursus facilisis. Sed mollis quam id justo rutrum sagittis. Donec laoreet rutrum" +
                              " est, nec convallis mauris condimentum sit amet. Phasellus gravida, justo et congue" +
                              " auctor, nisi ipsum viverra erat, eget hendrerit felis turpis nec lorem. Nulla" +
@@ -197,9 +197,9 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testEncodeDecode23()
+        public void TestEncodeDecode23()
         {
-            testEncodeDecode("In ut magna vel mauris malesuada dictum. Nulla ullamcorper metus quis diam" +
+            TestEncodeDecode("In ut magna vel mauris malesuada dictum. Nulla ullamcorper metus quis diam" +
                              " cursus facilisis. Sed mollis quam id justo rutrum sagittis. Donec laoreet rutrum" +
                              " est, nec convallis mauris condimentum sit amet. Phasellus gravida, justo et congue" +
                              " auctor, nisi ipsum viverra erat, eget hendrerit felis turpis nec lorem. Nulla" +
@@ -224,9 +224,9 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testEncodeDecode31()
+        public void TestEncodeDecode31()
         {
-            testEncodeDecode("In ut magna vel mauris malesuada dictum. Nulla ullamcorper metus quis diam" +
+            TestEncodeDecode("In ut magna vel mauris malesuada dictum. Nulla ullamcorper metus quis diam" +
                              " cursus facilisis. Sed mollis quam id justo rutrum sagittis. Donec laoreet rutrum" +
                              " est, nec convallis mauris condimentum sit amet. Phasellus gravida, justo et congue" +
                              " auctor, nisi ipsum viverra erat, eget hendrerit felis turpis nec lorem. Nulla" +
@@ -266,58 +266,58 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testGenerateModeMessage()
+        public void TestGenerateModeMessage()
         {
-            testModeMessage(true, 2, 29, ".X .XXX.. ...X XX.. ..X .XX. .XX.X");
-            testModeMessage(true, 4, 64, "XX XXXXXX .X.. ...X ..XX .X.. XX..");
-            testModeMessage(false, 21, 660, "X.X.. .X.X..X..XX .XXX ..X.. .XXX. .X... ..XXX");
-            testModeMessage(false, 32, 4096, "XXXXX XXXXXXXXXXX X.X. ..... XXX.X ..X.. X.XXX");
+            TestModeMessage(true, 2, 29, ".X .XXX.. ...X XX.. ..X .XX. .XX.X");
+            TestModeMessage(true, 4, 64, "XX XXXXXX .X.. ...X ..XX .X.. XX..");
+            TestModeMessage(false, 21, 660, "X.X.. .X.X..X..XX .XXX ..X.. .XXX. .X... ..XXX");
+            TestModeMessage(false, 32, 4096, "XXXXX XXXXXXXXXXX X.X. ..... XXX.X ..X.. X.XXX");
         }
 
         [Test]
-        public void testStuffBits()
+        public void TestStuffBits()
         {
-            testStuffBits(5, ".X.X. X.X.X .X.X.",
+            TestStuffBits(5, ".X.X. X.X.X .X.X.",
                 ".X.X. X.X.X .X.X.");
-            testStuffBits(5, ".X.X. ..... .X.X",
+            TestStuffBits(5, ".X.X. ..... .X.X",
                 ".X.X. ....X ..X.X");
-            testStuffBits(3, "XX. ... ... ..X XXX .X. ..",
+            TestStuffBits(3, "XX. ... ... ..X XXX .X. ..",
                 "XX. ..X ..X ..X ..X .XX XX. .X. ..X");
-            testStuffBits(6, ".X.X.. ...... ..X.XX",
+            TestStuffBits(6, ".X.X.. ...... ..X.XX",
                 ".X.X.. .....X. ..X.XX XXXX.");
-            testStuffBits(6, ".X.X.. ...... ...... ..X.X.",
+            TestStuffBits(6, ".X.X.. ...... ...... ..X.X.",
                 ".X.X.. .....X .....X ....X. X.XXXX");
-            testStuffBits(6, ".X.X.. XXXXXX ...... ..X.XX",
+            TestStuffBits(6, ".X.X.. XXXXXX ...... ..X.XX",
                 ".X.X.. XXXXX. X..... ...X.X XXXXX.");
-            testStuffBits(6,
+            TestStuffBits(6,
                 "...... ..XXXX X..XX. .X.... .X.X.X .....X .X.... ...X.X .....X ....XX ..X... ....X. X..XXX X.XX.X",
                 ".....X ...XXX XX..XX ..X... ..X.X. X..... X.X... ....X. X..... X....X X..X.. .....X X.X..X XXX.XX .XXXXX");
         }
 
         [Test]
-        public void testHighLevelEncode()
+        public void TestHighLevelEncode()
         {
-            testHighLevelEncodeString("A. b.",
+            TestHighLevelEncodeString("A. b.",
                 // 'A'  P/S   '. ' L/L    b    D/L    '.'
                 "...X. ..... ...XX XXX.. ...XX XXXX. XX.X");
-            testHighLevelEncodeString("Lorem ipsum.",
+            TestHighLevelEncodeString("Lorem ipsum.",
                 // 'L'  L/L   'o'   'r'   'e'   'm'   ' '   'i'   'p'   's'   'u'   'm'   D/L   '.'
                 ".XX.X XXX.. X.... X..XX ..XX. .XXX. ....X .X.X. X...X X.X.. X.XX. .XXX. XXXX. XX.X");
-            testHighLevelEncodeString("Lo. Test 123.",
+            TestHighLevelEncodeString("Lo. Test 123.",
                 // 'L'  L/L   'o'   P/S   '. '  U/S   'T'   'e'   's'   't'    D/L   ' '  '1'  '2'  '3'  '.'
                 ".XX.X XXX.. X.... ..... ...XX XXX.. X.X.X ..XX. X.X.. X.X.X  XXXX. ...X ..XX .X.. .X.X XX.X");
-            testHighLevelEncodeString("Lo...x",
+            TestHighLevelEncodeString("Lo...x",
                 // 'L'  L/L   'o'   D/L   '.'  '.'  '.'  U/L  L/L   'x'
                 ".XX.X XXX.. X.... XXXX. XX.X XX.X XX.X XXX. XXX.. XX..X");
-            testHighLevelEncodeString(". x://abc/.",
+            TestHighLevelEncodeString(". x://abc/.",
                 //P/S   '. '  L/L   'x'   P/S   ':'   P/S   '/'   P/S   '/'   'a'   'b'   'c'   P/S   '/'   D/L   '.'
                 "..... ...XX XXX.. XX..X ..... X.X.X ..... X.X.. ..... X.X.. ...X. ...XX ..X.. ..... X.X.. XXXX. XX.X");
             // Uses Binary/Shift rather than Lower/Shift to save two bits.
-            testHighLevelEncodeString("ABCdEFG",
+            TestHighLevelEncodeString("ABCdEFG",
                 //'A'   'B'   'C'   B/S    =1    'd'     'E'   'F'   'G'
                 "...X. ...XX ..X.. XXXXX ....X .XX..X.. ..XX. ..XXX .X...");
 
-            testHighLevelEncodeString(
+            TestHighLevelEncodeString(
                 // Found on an airline boarding pass.  Several stretches of Binary shift are
                 // necessary to keep the bitcount so low.
                 "09  UAG    ^160MEUCIQC0sYS/HpKxnBELR1uB85R20OoqqwFGa0q2uEi"
@@ -327,29 +327,29 @@ namespace ZXing.Aztec.Test
 
 #if !SILVERLIGHT
         [Test]
-        public void testHighLevelEncodeBinary()
+        public void TestHighLevelEncodeBinary()
         {
             // binary short form single byte
-            testHighLevelEncodeString("N\0N",
+            TestHighLevelEncodeString("N\0N",
                 // 'N'  B/S    =1   '\0'      N
                 ".XXXX XXXXX ....X ........ .XXXX"); // Encode "N" in UPPER
 
-            testHighLevelEncodeString("N\0n",
+            TestHighLevelEncodeString("N\0n",
                 // 'N'  B/S    =2   '\0'       'n'
                 ".XXXX XXXXX ...X. ........ .XX.XXX."); // Encode "n" in BINARY
 
             // binary short form consecutive bytes
-            testHighLevelEncodeString("N\0\u0080 A",
+            TestHighLevelEncodeString("N\0\u0080 A",
                 // 'N'  B/S    =2    '\0'    \u0080   ' '  'A'
                 ".XXXX XXXXX ...X. ........ X....... ....X ...X.");
 
             // binary skipping over single character
-            testHighLevelEncodeString("\0a\u00FF\u0080 A",
+            TestHighLevelEncodeString("\0a\u00FF\u0080 A",
                 // B/S  =4    '\0'      'a'     '\3ff'   '\200'   ' '   'A'
                 "XXXXX ..X.. ........ .XX....X XXXXXXXX X....... ....X ...X.");
 
             // getting into binary mode from digit mode
-            testHighLevelEncodeString("1234\0",
+            TestHighLevelEncodeString("1234\0",
                 //D/L   '1'  '2'  '3'  '4'  U/L  B/S    =1    \0
                 "XXXX. ..XX .X.. .X.X .XX. XXX. XXXXX ....X ........"
             );
@@ -374,20 +374,20 @@ namespace ZXing.Aztec.Test
                 int expectedLength = 8 * i +
                                      (i <= 31 ? 10 : i <= 62 ? 20 : i <= 2078 ? 21 : 31);
                 // Verify that we are correct about the length.
-                testHighLevelEncodeString(sb.Substring(0, i), expectedLength);
+                TestHighLevelEncodeString(sb.Substring(0, i), expectedLength);
                 if (i != 1 && i != 32 && i != 2079)
                 {
                     // The addition of an 'a' at the beginning or end gets merged into the binary code
                     // in those cases where adding another binary character only adds 8 or 9 bits to the result.
                     // So we exclude the border cases i=1,32,2079
                     // A lower case letter at the beginning will be merged into binary mode
-                    testHighLevelEncodeString('a' + sb.Substring(0, i - 1), expectedLength);
+                    TestHighLevelEncodeString('a' + sb.Substring(0, i - 1), expectedLength);
                     // A lower case letter at the end will also be merged into binary mode
-                    testHighLevelEncodeString(sb.Substring(0, i - 1) + 'a', expectedLength);
+                    TestHighLevelEncodeString(sb.Substring(0, i - 1) + 'a', expectedLength);
                 }
 
                 // A lower case letter at both ends will enough to latch us into LOWER.
-                testHighLevelEncodeString('a' + sb.Substring(0, i) + 'b', expectedLength + 15);
+                TestHighLevelEncodeString('a' + sb.Substring(0, i) + 'b', expectedLength + 15);
             }
 
             sbBuild = new StringBuilder();
@@ -398,7 +398,7 @@ namespace ZXing.Aztec.Test
             sbBuild.Remove(1, 1);
             sbBuild.Insert(1, 'A');
             // expect B/S(1) A B/S(30)
-            testHighLevelEncodeString(sbBuild.ToString(), 5 + 20 + 31 * 8);
+            TestHighLevelEncodeString(sbBuild.ToString(), 5 + 20 + 31 * 8);
 
             sbBuild = new StringBuilder();
             for (int i = 0; i < 31; i++)
@@ -408,7 +408,7 @@ namespace ZXing.Aztec.Test
             sbBuild.Remove(1, 1);
             sbBuild.Insert(1, 'A');
             // expect B/S(31)
-            testHighLevelEncodeString(sbBuild.ToString(), 10 + 31 * 8);
+            TestHighLevelEncodeString(sbBuild.ToString(), 10 + 31 * 8);
 
             sbBuild = new StringBuilder();
             for (int i = 0; i < 34; i++)
@@ -418,7 +418,7 @@ namespace ZXing.Aztec.Test
             sbBuild.Remove(1, 1);
             sbBuild.Insert(1, 'A');
             // expect B/S(31) B/S(3)
-            testHighLevelEncodeString(sbBuild.ToString(), 20 + 34 * 8);
+            TestHighLevelEncodeString(sbBuild.ToString(), 20 + 34 * 8);
 
             sbBuild = new StringBuilder();
             for (int i = 0; i < 64; i++)
@@ -428,25 +428,25 @@ namespace ZXing.Aztec.Test
             sbBuild.Remove(1, 1);
             sbBuild.Insert(1, 'A');
             // expect B/S(64)
-            testHighLevelEncodeString(sbBuild.ToString(), 21 + 64 * 8);
+            TestHighLevelEncodeString(sbBuild.ToString(), 21 + 64 * 8);
         }
 #endif
 
         [Test]
-        public void testHighLevelEncodePairs()
+        public void TestHighLevelEncodePairs()
         {
             // Typical usage
-            testHighLevelEncodeString("ABC. DEF\r\n",
+            TestHighLevelEncodeString("ABC. DEF\r\n",
                 //  A     B    C    P/S   .<sp>   D    E     F    P/S   \r\n
                 "...X. ...XX ..X.. ..... ...XX ..X.X ..XX. ..XXX ..... ...X.");
 
             // We should latch to PUNCT mode, rather than shift.  Also check all pairs
-            testHighLevelEncodeString("A. : , \r\n",
+            TestHighLevelEncodeString("A. : , \r\n",
                 // 'A'    M/L   P/L   ". "  ": "   ", " "\r\n"
                 "...X. XXX.X XXXX. ...XX ..X.X  ..X.. ...X.");
 
             // Latch to DIGIT rather than shift to PUNCT
-            testHighLevelEncodeString("A. 1234",
+            TestHighLevelEncodeString("A. 1234",
                 // 'A'  D/L   '.'  ' '  '1' '2'   '3'  '4'
                 "...X. XXXX. XX.X ...X ..XX .X.. .X.X .X X."
             );
@@ -460,7 +460,7 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testUserSpecifiedLayers()
+        public void TestUserSpecifiedLayers()
         {
             byte[] alphabet = LATIN_1.GetBytes("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             AztecCode aztec = Internal.Encoder.encode(alphabet, 25, -2);
@@ -491,7 +491,7 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testBorderCompact4Case()
+        public void TestBorderCompact4Case()
         {
             // Compact(4) con hold 608 bits of information, but at most 504 can be data.  Rest must
             // be error correction
@@ -522,7 +522,7 @@ namespace ZXing.Aztec.Test
 
         // Helper routines
 
-        private static void testEncode(string data, bool compact, int layers, string expected)
+        private static void TestEncode(string data, bool compact, int layers, string expected)
         {
             AztecCode aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 33, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
@@ -531,7 +531,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(expected, matrix.ToString(), "encode() failed");
         }
 
-        private static void testEncodeDecode(string data, bool compact, int layers)
+        private static void TestEncodeDecode(string data, bool compact, int layers)
         {
             AztecCode aztec = Internal.Encoder.encode(LATIN_1.GetBytes(data), 25, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
@@ -542,18 +542,18 @@ namespace ZXing.Aztec.Test
             DecoderResult res = new Internal.Decoder().decode(r);
             Assert.AreEqual(data, res.Text);
             // Check error correction by introducing a few minor errors
-            Random random = getPseudoRandom();
-            matrix.flip(random.Next(matrix.Width), random.Next(2));
-            matrix.flip(random.Next(matrix.Width), matrix.Height - 2 + random.Next(2));
-            matrix.flip(random.Next(2), random.Next(matrix.Height));
-            matrix.flip(matrix.Width - 2 + random.Next(2), random.Next(matrix.Height));
+            Random random = GetPseudoRandom();
+            matrix.Flip(random.Next(matrix.Width), random.Next(2));
+            matrix.Flip(random.Next(matrix.Width), matrix.Height - 2 + random.Next(2));
+            matrix.Flip(random.Next(2), random.Next(matrix.Height));
+            matrix.Flip(matrix.Width - 2 + random.Next(2), random.Next(matrix.Height));
             r = new AztecDetectorResult(matrix, NO_POINTS, aztec.isCompact, aztec.CodeWords, aztec.Layers);
             res = new Internal.Decoder().decode(r);
             Assert.AreEqual(data, res.Text);
         }
 
 
-        private static void testWriter(string data,
+        private static void TestWriter(string data,
             string charset,
             int eccPercent,
             bool compact,
@@ -580,7 +580,7 @@ namespace ZXing.Aztec.Test
             Assert.AreEqual(expectedData, res.Text);
             // Check error correction by introducing up to eccPercent/2 errors
             int ecWords = aztec.CodeWords * eccPercent / 100 / 2;
-            var random = getPseudoRandom();
+            var random = GetPseudoRandom();
             for (int i = 0; i < ecWords; i++)
             {
                 // don't touch the core
@@ -590,32 +590,32 @@ namespace ZXing.Aztec.Test
                 int y = random.Next(1) > 0
                     ? random.Next(aztec.Layers * 2)
                     : matrix.Height - 1 - random.Next(aztec.Layers * 2);
-                matrix.flip(x, y);
+                matrix.Flip(x, y);
             }
             r = new AztecDetectorResult(matrix, NO_POINTS, aztec.isCompact, aztec.CodeWords, aztec.Layers);
             res = new Internal.Decoder().decode(r);
             Assert.AreEqual(expectedData, res.Text);
         }
 
-        private static Random getPseudoRandom()
+        private static Random GetPseudoRandom()
         {
             return new Random(0x0EADBEEF);
         }
 
-        private static void testModeMessage(bool compact, int layers, int words, string expected)
+        private static void TestModeMessage(bool compact, int layers, int words, string expected)
         {
             BitArray @in = Internal.Encoder.generateModeMessage(compact, layers, words);
-            Assert.AreEqual(stripSpace(expected), stripSpace(@in.ToString()), "generateModeMessage() failed");
+            Assert.AreEqual(StripSpace(expected), StripSpace(@in.ToString()), "generateModeMessage() failed");
         }
 
-        private static void testStuffBits(int wordSize, string bits, string expected)
+        private static void TestStuffBits(int wordSize, string bits, string expected)
         {
-            BitArray @in = toBitArray(bits);
+            BitArray @in = ToBitArray(bits);
             BitArray stuffed = Internal.Encoder.stuffBits(@in, wordSize);
-            Assert.AreEqual(stripSpace(expected), stripSpace(stuffed.ToString()), "stuffBits() failed for input string: " + bits);
+            Assert.AreEqual(StripSpace(expected), StripSpace(stuffed.ToString()), "stuffBits() failed for input string: " + bits);
         }
 
-        private static BitArray toBitArray(string bits)
+        private static BitArray ToBitArray(string bits)
         {
             var @in = new BitArray();
             var str = DOTX.Replace(bits, "");
@@ -626,7 +626,7 @@ namespace ZXing.Aztec.Test
             return @in;
         }
 
-        private static bool[] toBooleanArray(BitArray bitArray)
+        private static bool[] ToBooleanArray(BitArray bitArray)
         {
             bool[] result = new bool[bitArray.Size];
             for (int i = 0; i < result.Length; i++)
@@ -636,23 +636,23 @@ namespace ZXing.Aztec.Test
             return result;
         }
 
-        private static void testHighLevelEncodeString(string s, string expectedBits)
+        private static void TestHighLevelEncodeString(string s, string expectedBits)
         {
             BitArray bits = new HighLevelEncoder(LATIN_1.GetBytes(s)).encode();
-            string receivedBits = stripSpace(bits.ToString());
-            Assert.AreEqual(stripSpace(expectedBits), receivedBits, "highLevelEncode() failed for input string: " + s);
-            Assert.AreEqual(s, Internal.Decoder.highLevelDecode(toBooleanArray(bits)));
+            string receivedBits = StripSpace(bits.ToString());
+            Assert.AreEqual(StripSpace(expectedBits), receivedBits, "highLevelEncode() failed for input string: " + s);
+            Assert.AreEqual(s, Internal.Decoder.highLevelDecode(ToBooleanArray(bits)));
         }
 
-        private static void testHighLevelEncodeString(string s, int expectedReceivedBits)
+        private static void TestHighLevelEncodeString(string s, int expectedReceivedBits)
         {
             BitArray bits = new HighLevelEncoder(LATIN_1.GetBytes(s)).encode();
-            int receivedBitCount = stripSpace(bits.ToString()).Length;
+            int receivedBitCount = StripSpace(bits.ToString()).Length;
             Assert.AreEqual(expectedReceivedBits, receivedBitCount, "highLevelEncode() failed for input string: " + s);
-            Assert.AreEqual(s, Internal.Decoder.highLevelDecode(toBooleanArray(bits)));
+            Assert.AreEqual(s, Internal.Decoder.highLevelDecode(ToBooleanArray(bits)));
         }
 
-        private static string stripSpace(string s)
+        private static string StripSpace(string s)
         {
             return SPACES.Replace(s, "");
         }

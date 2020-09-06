@@ -27,21 +27,21 @@ namespace ZXing.Multi.QrCode.Test
     /// <summary>
     /// <author>Sean Owen</author>
     /// </summary>
-    public sealed class MultiQRCodeBlackBox1TestCase : AbstractBlackBoxTestCase
+    public sealed class MultiQrCodeBlackBox1TestCase : AbstractBlackBoxTestCase
     {
-        public MultiQRCodeBlackBox1TestCase()
+        public MultiQrCodeBlackBox1TestCase()
             : base("test/data/blackbox/multi-qrcode-1", new QRCodeMultiReader(), BarcodeFormat.QR_CODE)
         {
-            addTest(2, 2, 0.0f);
-            addTest(2, 2, 90.0f);
-            addTest(2, 2, 180.0f);
-            addTest(2, 2, 270.0f);
+            AddTest(2, 2, 0.0f);
+            AddTest(2, 2, 90.0f);
+            AddTest(2, 2, 180.0f);
+            AddTest(2, 2, 270.0f);
         }
 
         [Test]
-        public void testMultiQRCodes()
+        public void TestMultiQrCodes()
         {
-            var path = buildTestBase("test/data/blackbox/multi-qrcode-1");
+            var path = BuildTestBase("test/data/blackbox/multi-qrcode-1");
             var source = new BitmapLuminanceSource((Bitmap) Bitmap.FromFile(Path.Combine(path, "1.png")));
             var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
@@ -74,7 +74,7 @@ namespace ZXing.Multi.QrCode.Test
         }
 
         [Test]
-        public void testProcessStructuredAppend()
+        public void TestProcessStructuredAppend()
         {
             var sa1 = new BarCodeText("SA1", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
             var sa2 = new BarCodeText("SA2", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);

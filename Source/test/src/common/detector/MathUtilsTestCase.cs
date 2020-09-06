@@ -21,10 +21,10 @@ namespace ZXing.Common.Detector.Test
    [TestFixture]
    public class MathUtilsTestCase
    {
-      private static float EPSILON = 1.0E-8f;
+      private static float _EPSILON = 1.0E-8f;
 
       [Test]
-      public void testRound()
+      public void TestRound()
       {
          Assert.That(MathUtils.round(-1.0f), Is.EqualTo(-1));
          Assert.That(MathUtils.round(0.0f), Is.EqualTo(0));
@@ -51,17 +51,17 @@ namespace ZXing.Common.Detector.Test
       }
 
       [Test]
-      public void testDistance()
+      public void TestDistance()
       {
-         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.distance(1.0f, 2.0f, 3.0f, 4.0f), EPSILON);
-         Assert.AreEqual(0.0f, MathUtils.distance(1.0f, 2.0f, 1.0f, 2.0f), EPSILON);
+         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.distance(1.0f, 2.0f, 3.0f, 4.0f), _EPSILON);
+         Assert.AreEqual(0.0f, MathUtils.distance(1.0f, 2.0f, 1.0f, 2.0f), _EPSILON);
 
-         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.distance(1, 2, 3, 4), EPSILON);
-         Assert.AreEqual(0.0f, MathUtils.distance(1, 2, 1, 2), EPSILON);
+         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.distance(1, 2, 3, 4), _EPSILON);
+         Assert.AreEqual(0.0f, MathUtils.distance(1, 2, 1, 2), _EPSILON);
       }
 
       [Test]
-      public void testSum()
+      public void TestSum()
       {
          Assert.That(MathUtils.sum(new int[] { }), Is.EqualTo(0));
          Assert.That(MathUtils.sum(new int[] { 1 }), Is.EqualTo(1));

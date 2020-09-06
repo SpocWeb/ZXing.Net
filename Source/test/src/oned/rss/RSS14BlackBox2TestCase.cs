@@ -21,13 +21,13 @@ namespace ZXing.OneD.RSS.Test
    /// <summary>
    /// <author>Sean Owen</author>
    /// </summary>
-   public sealed class RSS14BlackBox2TestCase : AbstractBlackBoxTestCase
+   public sealed class Rss14BlackBox2TestCase : AbstractBlackBoxTestCase
    {
-      public RSS14BlackBox2TestCase()
+      public Rss14BlackBox2TestCase()
          : base("test/data/blackbox/rss14-2", new MultiFormatReader(), BarcodeFormat.RSS_14)
       {
-         addTest(4, 8, 1, 1, 0.0f);
-         addTest(3, 8, 0, 1, 180.0f);
+         AddTest(4, 8, 1, 1, 0.0f);
+         AddTest(3, 8, 0, 1, 180.0f);
       }
    }
 }

@@ -21,9 +21,7 @@ using ZXing.Common;
 
 namespace ZXing.Aztec
 {
-    /// <summary>
-    /// This implementation can detect and decode Aztec codes in an image.
-    /// </summary>
+    /// <summary> detect and decode Aztec codes in an image. </summary>
     /// <author>David Olivier</author>
     public class AztecReader : IBarCodeDecoder
     {
@@ -113,6 +111,10 @@ namespace ZXing.Aztec
                                new AztecResultMetadata(detectorResult.Compact, detectorResult.NbDatablocks, detectorResult.NbLayers));
 
             return result;
+        }
+
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            throw new System.NotImplementedException();
         }
 
         /// <summary>

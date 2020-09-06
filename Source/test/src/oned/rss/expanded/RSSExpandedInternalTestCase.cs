@@ -43,15 +43,15 @@ namespace ZXing.OneD.RSS.Expanded.Test
    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
    /// </summary>
    [TestFixture]
-   public sealed class RSSExpandedInternalTestCase
+   public sealed class RssExpandedInternalTestCase
    {
 
       [Test]
-      public void testFindFinderPatterns()
+      public void TestFindFinderPatterns()
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var image = TestCaseUtil.readImage("test/data/blackbox/rssexpanded-1", "2.png");
+         var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "2.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.getBlackRow(rowNumber, null);
@@ -80,11 +80,11 @@ namespace ZXing.OneD.RSS.Expanded.Test
       }
 
       [Test]
-      public void testRetrieveNextPairPatterns()
+      public void TestRetrieveNextPairPatterns()
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var image = TestCaseUtil.readImage("test/data/blackbox/rssexpanded-1", "3.png");
+         var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.getBlackRow(rowNumber, null);
@@ -104,11 +104,11 @@ namespace ZXing.OneD.RSS.Expanded.Test
       }
 
       [Test]
-      public void testDecodeCheckCharacter()
+      public void TestDecodeCheckCharacter()
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var image = TestCaseUtil.readImage("test/data/blackbox/rssexpanded-1", "3.png");
+         var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
          var row = binaryMap.getBlackRow(binaryMap.Height / 2, null);
 
@@ -126,11 +126,11 @@ namespace ZXing.OneD.RSS.Expanded.Test
       }
 
       [Test]
-      public void testDecodeDataCharacter()
+      public void TestDecodeDataCharacter()
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var image = TestCaseUtil.readImage("test/data/blackbox/rssexpanded-1", "3.png");
+         var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
          var row = binaryMap.getBlackRow(binaryMap.Height / 2, null);
 

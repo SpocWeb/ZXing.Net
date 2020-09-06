@@ -28,7 +28,7 @@ namespace ZXing.Common.Test
    {
 
       [Test]
-      public void testGetSet()
+      public void TestGetSet()
       {
          BitArray array = new BitArray(33);
          for (int i = 0; i < 33; i++)
@@ -40,7 +40,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testGetNextSet1()
+      public void TestGetNextSet1()
       {
          BitArray array = new BitArray(32);
          for (int i = 0; i < array.Size; i++)
@@ -55,7 +55,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testGetNextSet2()
+      public void TestGetNextSet2()
       {
          BitArray array = new BitArray(33);
          array[31] = true;
@@ -72,7 +72,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testGetNextSet3()
+      public void TestGetNextSet3()
       {
          BitArray array = new BitArray(63);
          array[31] = true;
@@ -97,7 +97,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testGetNextSet4()
+      public void TestGetNextSet4()
       {
          BitArray array = new BitArray(63);
          array[33] = true;
@@ -122,7 +122,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testGetNextSet5()
+      public void TestGetNextSet5()
       {
          Random r = new Random(0x0EADBEEF);
          for (int i = 0; i < 10; i++)
@@ -150,7 +150,7 @@ namespace ZXing.Common.Test
 
 
       [Test]
-      public void testSetBulk()
+      public void TestSetBulk()
       {
          BitArray array = new BitArray(64);
          array.setBulk(32, -65536);
@@ -165,7 +165,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testSetRange()
+      public void TestSetRange()
       {
          BitArray array = new BitArray(64);
          array.setRange(28, 36);
@@ -178,7 +178,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testClear()
+      public void TestClear()
       {
          BitArray array = new BitArray(32);
          for (int i = 0; i < 32; i++)
@@ -193,7 +193,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testFlip()
+      public void TestFlip()
       {
          BitArray array = new BitArray(32);
          Assert.IsFalse(array[5]);
@@ -204,7 +204,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testGetArray()
+      public void TestGetArray()
       {
          BitArray array = new BitArray(64);
          array[0] = true;
@@ -215,7 +215,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testIsRange()
+      public void TestIsRange()
       {
          BitArray array = new BitArray(64);
          Assert.IsTrue(array.isRange(0, 64, false));
@@ -240,7 +240,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testClone()
+      public void TestClone()
       {
          BitArray array = new BitArray(32);
          var clone = (BitArray) array.Clone();
@@ -249,7 +249,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testEquals()
+      public void TestEquals()
       {
          BitArray a = new BitArray(32);
          BitArray b = new BitArray(32);
@@ -272,8 +272,8 @@ namespace ZXing.Common.Test
 
          for (var size = 1; size < 160; size++)
          {
-            var newBitsOriginal = reverseOriginal(oldBits, size);
-            var newBitsNew = reverseNew(oldBits, size);
+            var newBitsOriginal = ReverseOriginal(oldBits, size);
+            var newBitsNew = ReverseNew(oldBits, size);
 
             if (!arrays_are_equal(newBitsOriginal, newBitsNew, size / 32 + 1))
             {
@@ -291,8 +291,8 @@ namespace ZXing.Common.Test
       {
          var size = 140;
          var oldBits = new[] {128, 256, 512, 6453324, 50934953};
-         var newBitsOriginal = reverseOriginal(oldBits, size);
-         var newBitsNew = reverseNew(oldBits, size);
+         var newBitsOriginal = ReverseOriginal(oldBits, size);
+         var newBitsNew = ReverseNew(oldBits, size);
 
          System.Diagnostics.Trace.WriteLine(BitsToString(oldBits, size));
          System.Diagnostics.Trace.WriteLine(BitsToString(newBitsOriginal, size));
@@ -303,14 +303,14 @@ namespace ZXing.Common.Test
          var startOld = DateTime.Now;
          for (int runs = 0; runs < 1000000; runs++)
          {
-            reverseOriginal(oldBits, 140);
+            ReverseOriginal(oldBits, 140);
          }
          var endOld = DateTime.Now;
 
          var startNew = DateTime.Now;
          for (int runs = 0; runs < 1000000; runs++)
          {
-            reverseNew(oldBits, 140);
+            ReverseNew(oldBits, 140);
          }
          var endNew = DateTime.Now;
 
@@ -319,7 +319,7 @@ namespace ZXing.Common.Test
       }
 
       /// <summary> Reverses all bits in the array.</summary>
-      private int[] reverseOriginal(int[] oldBits, int oldSize)
+      private int[] ReverseOriginal(int[] oldBits, int oldSize)
       {
          int[] newBits = new int[oldBits.Length];
          int size = oldSize;
@@ -339,7 +339,7 @@ namespace ZXing.Common.Test
       }
 
       /// <summary> Reverses all bits in the array.</summary>
-      private int[] reverseNew(int[] oldBits, int oldSize)
+      private int[] ReverseNew(int[] oldBits, int oldSize)
       {
          // doesn't work if more ints are used as necessary
          int[] newBits = new int[oldBits.Length];
@@ -403,7 +403,7 @@ namespace ZXing.Common.Test
       }
 
       [Test]
-      public void testBitArrayNet()
+      public void TestBitArrayNet()
       {
          var netArray = new System.Collections.BitArray(140, false);
          var zxingArray = new BitArray(140);

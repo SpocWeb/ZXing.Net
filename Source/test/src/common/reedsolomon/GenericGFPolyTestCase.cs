@@ -25,12 +25,12 @@ namespace ZXing.Common.ReedSolomon.Test
    /// </summary>
    /// <author>Rustam Abdullaev</author>
    [TestFixture]
-   public sealed class GenericGFPolyTestCase
+   public sealed class GenericGfPolyTestCase
    {
        private static readonly GenericGF FIELD = GenericGF.QR_CODE_FIELD_256;
 
        [Test]
-        public void testPolynomialString()
+        public void TestPolynomialString()
        {
            Assert.That(FIELD.Zero.ToString(), Is.EqualTo("0"));
            Assert.That(FIELD.buildMonomial(0, -1).ToString(), Is.EqualTo("-1"));
@@ -41,7 +41,7 @@ namespace ZXing.Common.ReedSolomon.Test
         }
 
        [Test]
-        public void testZero()
+        public void TestZero()
        {
            Assert.That(FIELD.Zero, Is.EqualTo(FIELD.buildMonomial(1, 0)));
            Assert.That(FIELD.Zero, Is.EqualTo(FIELD.buildMonomial(1, 2).multiply(0)));

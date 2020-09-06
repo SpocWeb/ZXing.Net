@@ -27,8 +27,8 @@ namespace ZXing.OneD.Test
         private const string FNC1 = "11110101110";
         private const string FNC2 = "11110101000";
         private const string FNC3 = "10111100010";
-        private const string FNC4A = "11101011110";
-        private const string FNC4B = "10111101110";
+        private const string Fnc4A = "11101011110";
+        private const string Fnc4B = "10111101110";
         private const string START_CODE_A = "11010000100";
         private const string START_CODE_B = "11010010000";
         private const string START_CODE_C = "11010011100";
@@ -38,99 +38,99 @@ namespace ZXing.OneD.Test
         private const string STOP = "1100011101011";
         private const string LF = "10000110010";
 
-        private IBarCodeWriter writer;
-        private Code128Reader reader;
+        private IBarCodeWriter _Writer;
+        private Code128Reader _Reader;
 
         [SetUp]
-        public void setUp()
+        public void SetUp()
         {
-            writer = new Code128Writer();
-            reader = new Code128Reader();
+            _Writer = new Code128Writer();
+            _Reader = new Code128Reader();
         }
 
         [Test]
-        public void testEncodeWithFunc3()
+        public void TestEncodeWithFunc3()
         {
             const string toEncode = "\u00f3" + "123";
             //                                                       "1"            "2"             "3"          check digit 51
             var expected = QUIET_SPACE + START_CODE_B + FNC3 + "10011100110" + "11001110010" + "11001011100" +
                            "11101000110" + STOP + QUIET_SPACE;
 
-            var result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            var actual = BitMatrixTestCase.matrixToString(result);
+            var actual = BitMatrixTestCase.MatrixToString(result);
 
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void testEncodeWithFunc2()
+        public void TestEncodeWithFunc2()
         {
             const string toEncode = "\u00f2" + "123";
             //                                                       "1"            "2"             "3"          check digit 56
             var expected = QUIET_SPACE + START_CODE_B + FNC2 + "10011100110" + "11001110010" + "11001011100" +
                            "11100010110" + STOP + QUIET_SPACE;
 
-            var result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            var actual = BitMatrixTestCase.matrixToString(result);
+            var actual = BitMatrixTestCase.MatrixToString(result);
 
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void testEncodeWithFunc1()
+        public void TestEncodeWithFunc1()
         {
             const string toEncode = "\u00f1" + "123";
             //                                                       "12"                           "3"          check digit 92
             var expected = QUIET_SPACE + START_CODE_C + FNC1 + "10110011100" + SWITCH_CODE_B + "11001011100" +
                            "10101111000" + STOP + QUIET_SPACE;
 
-            var result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            var actual = BitMatrixTestCase.matrixToString(result);
+            var actual = BitMatrixTestCase.MatrixToString(result);
 
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void testRoundtrip()
+        public void TestRoundtrip()
         {
             var toEncode = "\u00f1" + "10958" + "\u00f1" + "17160526";
             var expected = "1095817160526";
 
-            var encResult = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
-            var row = encResult.getRow(0, null);
-            var rtResult = reader.DecodeRow(0, row, null);
+            var encResult = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var row = encResult.GetRow(0, null);
+            var rtResult = _Reader.DecodeRow(0, row, null);
             var actual = rtResult.Text;
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void testEncodeWithFunc4()
+        public void TestEncodeWithFunc4()
         {
             var toEncode = "\u00f4" + "123";
             //                                                       "1"            "2"             "3"          check digit 59
-            var expected = QUIET_SPACE + START_CODE_B + FNC4B + "10011100110" + "11001110010" + "11001011100" +
+            var expected = QUIET_SPACE + START_CODE_B + Fnc4B + "10011100110" + "11001110010" + "11001011100" +
                            "11100011010" + STOP + QUIET_SPACE;
 
-            var result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            var actual = BitMatrixTestCase.matrixToString(result);
+            var actual = BitMatrixTestCase.MatrixToString(result);
 
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
-        public void testEncodeWithFncsAndNumberInCodesetA()
+        public void TestEncodeWithFncsAndNumberInCodesetA()
         {
             string toEncode = "\n" + "\u00f1" + "\u00f4" + "1" + "\n";
 
-            string expected = QUIET_SPACE + START_CODE_A + LF + FNC1 + FNC4A + "10011100110" + LF + "10101111000" + STOP + QUIET_SPACE;
+            string expected = QUIET_SPACE + START_CODE_A + LF + FNC1 + Fnc4A + "10011100110" + LF + "10101111000" + STOP + QUIET_SPACE;
 
-            BitMatrix result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            BitMatrix result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            string actual = BitMatrixTestCase.matrixToString(result);
+            string actual = BitMatrixTestCase.MatrixToString(result);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -159,41 +159,41 @@ namespace ZXing.OneD.Test
             var sutDecode = new Code128Reader();
 
             var result = sut.encode(contents, BarcodeFormat.CODE_128, 0, 0);
-            var resultString = BitMatrixTestCase.matrixToString(result);
+            var resultString = BitMatrixTestCase.MatrixToString(result);
             Console.WriteLine(contents);
             Console.WriteLine(resultString);
             Console.WriteLine("");
-            var matrix = BitMatrix.parse(resultString, "1", "0");
+            var matrix = BitMatrix.Parse(resultString, "1", "0");
             var row = new BitArray(matrix.Width);
-            matrix.getRow(0, row);
+            matrix.GetRow(0, row);
             var decodingResult = sutDecode.DecodeRow(0, row, null);
             Assert.That(decodingResult, Is.Not.Null);
             Assert.That(decodingResult.Text, Is.EqualTo(contents));
         }
 
         [Test]
-        public void testEncodeSwitchBetweenCodesetsAAndB()
+        public void TestEncodeSwitchBetweenCodesetsAAndB()
         {
             // start with A switch to B and back to A
             //                                                      "\0"            "A"             "B"             Switch to B     "a"             "b"             Switch to A     "\u0010"        check digit
-            testEncode("\0ABab\u0010",
+            TestEncode("\0ABab\u0010",
                 QUIET_SPACE + START_CODE_A + "10100001100" + "10100011000" + "10001011000" + SWITCH_CODE_B + "10010110000" + "10010000110" + SWITCH_CODE_A + "10100111100" + "11001110100" + STOP + QUIET_SPACE);
 
             // start with B switch to A and back to B
             //                                                "a"             "b"             Switch to A     "\0             "Switch to B"   "a"             "b"             check digit
-            testEncode("ab\0ab",
+            TestEncode("ab\0ab",
                 QUIET_SPACE + START_CODE_B + "10010110000" + "10010000110" + SWITCH_CODE_A + "10100001100" + SWITCH_CODE_B + "10010110000" + "10010000110" + "11010001110" + STOP + QUIET_SPACE);
         }
 
-        private void testEncode(string toEncode, string expected)
+        private void TestEncode(string toEncode, string expected)
         {
-            var result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-            var actual = BitMatrixTestCase.matrixToString(result);
+            var actual = BitMatrixTestCase.MatrixToString(result);
             Assert.AreEqual(expected, actual, toEncode);
 
-            var row = result.getRow(0, null);
-            var rtResult = reader.DecodeRow(0, row, null);
+            var row = result.GetRow(0, null);
+            var rtResult = _Reader.DecodeRow(0, row, null);
             var actualRoundtripResultText = rtResult.Text;
             Assert.AreEqual(toEncode, actualRoundtripResultText);
         }

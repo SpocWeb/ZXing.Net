@@ -29,9 +29,7 @@ namespace ZXing.QrCode
 
         static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
-        readonly Decoder decoder = new Decoder();
-
-        protected Decoder Decoder => decoder;
+        protected Decoder Decoder { get; } = new Decoder();
 
         /// <summary> Locates and decodes a QR code in an image. </summary>
         /// <returns>a String representing the content encoded by the QR code</returns>
@@ -53,18 +51,18 @@ namespace ZXing.QrCode
         {
             DecoderResult decoderResult;
             ResultPoint[] points;
-            if (image == null || image.GetBlackMatrix() == null)
+            if (image?.GetBlackMatrix() == null)
             {
                 // something is wrong with the image
                 return null;
             }
-            if (hints != null && hints.ContainsKey(DecodeHintType.PURE_BARCODE))
+            if (hints?.ContainsKey(DecodeHintType.PURE_BARCODE) == true)
             {
                 var bits = ExtractPureBits(image.GetBlackMatrix());
                 if (bits == null) {
                     return null;
                 }
-                decoderResult = decoder.decode(bits, hints);
+                decoderResult = Decoder.decode(bits, hints);
                 points = NO_POINTS;
             }
             else
@@ -74,7 +72,7 @@ namespace ZXing.QrCode
                 if (detectorResult == null) {
                     return null;
                 }
-                decoderResult = decoder.decode(detectorResult.Bits, hints);
+                decoderResult = Decoder.decode(detectorResult.Bits, hints);
                 points = detectorResult.Points.Single();
             }
             if (decoderResult == null) {
@@ -104,6 +102,12 @@ namespace ZXing.QrCode
                 result.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_PARITY, decoderResult.StructuredAppendParity);
             }
             return result;
+        }
+
+        /// <inheritdoc />
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            //Decoder.decode()
+            throw new NotSupportedException();
         }
 
         /// <summary>

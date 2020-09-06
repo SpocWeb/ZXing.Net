@@ -28,21 +28,21 @@ namespace ZXing.QrCode.Internal.Test
     {
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void testBadVersion()
+        public void TestBadVersion()
         {
             Version.getVersionForNumber(0);
         }
 
         [Test]
-        public void testVersionForNumber()
+        public void TestVersionForNumber()
         {
             for (int i = 1; i <= 40; i++)
             {
-                checkVersion(Version.getVersionForNumber(i), i, 4 * i + 17);
+                CheckVersion(Version.getVersionForNumber(i), i, 4 * i + 17);
             }
         }
 
-        private static void checkVersion(Version version, int number, int dimension)
+        private static void CheckVersion(Version version, int number, int dimension)
         {
             Assert.IsNotNull(version);
             Assert.AreEqual(number, version.VersionNumber);
@@ -60,7 +60,7 @@ namespace ZXing.QrCode.Internal.Test
         }
 
         [Test]
-        public void testGetProvisionalVersionForDimension()
+        public void TestGetProvisionalVersionForDimension()
         {
             for (int i = 1; i <= 40; i++)
             {
@@ -69,18 +69,18 @@ namespace ZXing.QrCode.Internal.Test
         }
 
         [Test]
-        public void testDecodeVersionInformation()
+        public void TestDecodeVersionInformation()
         {
             // Spot check
-            doTestVersion(7, 0x07C94);
-            doTestVersion(12, 0x0C762);
-            doTestVersion(17, 0x1145D);
-            doTestVersion(22, 0x168C9);
-            doTestVersion(27, 0x1B08E);
-            doTestVersion(32, 0x209D5);
+            DoTestVersion(7, 0x07C94);
+            DoTestVersion(12, 0x0C762);
+            DoTestVersion(17, 0x1145D);
+            DoTestVersion(22, 0x168C9);
+            DoTestVersion(27, 0x1B08E);
+            DoTestVersion(32, 0x209D5);
         }
 
-        private static void doTestVersion(int expectedVersion, int mask)
+        private static void DoTestVersion(int expectedVersion, int mask)
         {
             Version version = Version.decodeVersionInformation(mask);
             Assert.IsNotNull(version);

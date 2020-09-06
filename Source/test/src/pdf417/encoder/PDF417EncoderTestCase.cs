@@ -20,10 +20,10 @@ using NUnit.Framework;
 
 namespace ZXing.PDF417.Internal.Test
 {
-   public sealed class PDF417EncoderTestCase
+   public sealed class Pdf417EncoderTestCase
    {
       [Test]
-      public void testEncodeAuto()
+      public void TestEncodeAuto()
       {
          var encoded = PDF417HighLevelEncoder.encodeHighLevel(
             "ABCD", Compaction.AUTO, Encoding.UTF8, false);
@@ -31,7 +31,7 @@ namespace ZXing.PDF417.Internal.Test
       }
 
       [Test]
-      public void testEncodeAutoWithSpecialChars()
+      public void TestEncodeAutoWithSpecialChars()
       {
          //Just check if this does not throw an exception
          PDF417HighLevelEncoder.encodeHighLevel(
@@ -39,14 +39,14 @@ namespace ZXing.PDF417.Internal.Test
       }
  
       [Test]
-      public void testEncodeIso88591WithSpecialChars()
+      public void TestEncodeIso88591WithSpecialChars()
       {
 	      // Just check if this does not throw an exception
          PDF417HighLevelEncoder.encodeHighLevel("asdfg§asd", Compaction.AUTO, Encoding.GetEncoding("ISO8859-1"), false);
       }
 
       [Test]
-      public void testEncodeText()
+      public void TestEncodeText()
       {
          var encoded = PDF417HighLevelEncoder.encodeHighLevel(
             "ABCD", Compaction.TEXT, Encoding.UTF8, false);
@@ -54,7 +54,7 @@ namespace ZXing.PDF417.Internal.Test
       }
 
       [Test]
-      public void testEncodeNumeric()
+      public void TestEncodeNumeric()
       {
          var encoded = PDF417HighLevelEncoder.encodeHighLevel(
             "1234", Compaction.NUMERIC, Encoding.UTF8, false);
@@ -62,7 +62,7 @@ namespace ZXing.PDF417.Internal.Test
       }
 
       [Test]
-      public void testEncodeByte()
+      public void TestEncodeByte()
       {
          var encoded = PDF417HighLevelEncoder.encodeHighLevel(
             "abcd", Compaction.BYTE, Encoding.UTF8, false);

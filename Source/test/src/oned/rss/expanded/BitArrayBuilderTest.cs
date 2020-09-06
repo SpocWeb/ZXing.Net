@@ -40,7 +40,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
    public sealed class BitArrayBuilderTest
    {
       [Test]
-      public void testBuildBitArray1()
+      public void TestBuildBitArray1()
       {
          int[][] pairValues = {
                                  new int[] { 19 },
@@ -49,16 +49,16 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
             string expected = " .......X ..XX..X. X.X....X .......X ....";
 
-         checkBinary(pairValues, expected);
+         CheckBinary(pairValues, expected);
       }
 
-      private static void checkBinary(int[][] pairValues, string expected)
+      private static void CheckBinary(int[][] pairValues, string expected)
       {
-         BitArray binary = buildBitArray(pairValues);
+         BitArray binary = BuildBitArray(pairValues);
          Assert.AreEqual(expected, binary.ToString());
       }
 
-      private static BitArray buildBitArray(int[][] pairValues)
+      private static BitArray BuildBitArray(int[][] pairValues)
       {
          List<ExpandedPair> pairs = new List<ExpandedPair>();
          for (int i = 0; i < pairValues.Length; ++i)

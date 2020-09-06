@@ -15,28 +15,24 @@
 */
 
 using System.Collections.Generic;
+using ZXing.Common;
 
 namespace ZXing.Multi
 {
-    /// <summary>
-    /// This class attempts to decode a barcode from an image, not by scanning the whole image,
-    /// but by scanning subsets of the image. This is important when there may be multiple barcodes in
+    /// <summary> Attempts to decode a barcode from an image by scanning subsets of the image.
+    ///
+    /// It is important not by scanning the whole image when there may be multiple barcodes in
     /// an image, and detecting a barcode may find parts of multiple barcode and fail to decode
     /// (e.g. QR Codes). Instead this scans the four quadrants of the image -- and also the center
     /// 'quadrant' to cover the case where a barcode is found in the center.
     /// </summary>
     /// <seealso cref="GenericMultipleBarcodeReader" />
-    public sealed class ByQuadrantReader : IBarCodeDecoder
-    {
-        private readonly IBarCodeDecoder @delegate;
+    public sealed class ByQuadrantReader : IBarCodeDecoder {
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ByQuadrantReader"/> class.
-        /// </summary>
-        /// <param name="delegate">The @delegate.</param>
-        public ByQuadrantReader(IBarCodeDecoder @delegate)
-        {
-            this.@delegate = @delegate;
+        private readonly IBarCodeDecoder Decoder;
+
+        public ByQuadrantReader(IBarCodeDecoder decoder) {
+            this.Decoder = decoder;
         }
 
         /// <summary>
@@ -46,8 +42,7 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText decode(BinaryBitmap image)
-        {
+        public BarCodeText Decode(BinaryBitmap image) {
             return Decode(image, null);
         }
 
@@ -63,61 +58,62 @@ namespace ZXing.Multi
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
-        {
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints) {
             int width = image.Width;
             int height = image.Height;
             int halfWidth = width / 2;
             int halfHeight = height / 2;
 
             // No need to call makeAbsolute as results will be relative to original top left here
-            var result = @delegate.Decode(image.crop(0, 0, halfWidth, halfHeight), hints);
+            var result = Decoder.Decode(image.crop(0, 0, halfWidth, halfHeight), hints);
             if (result != null) {
                 return result;
             }
 
-            result = @delegate.Decode(image.crop(halfWidth, 0, halfWidth, halfHeight), hints);
-            if (result != null)
-            {
-                makeAbsolute(result.ResultPoints, halfWidth, 0);
+            result = Decoder.Decode(image.crop(halfWidth, 0, halfWidth, halfHeight), hints);
+            if (result != null) {
+                result.ResultPoints.MakeAbsolute(halfWidth, 0);
                 return result;
             }
 
-            result = @delegate.Decode(image.crop(0, halfHeight, halfWidth, halfHeight), hints);
-            if (result != null)
-            {
-                makeAbsolute(result.ResultPoints, 0, halfHeight);
+            result = Decoder.Decode(image.crop(0, halfHeight, halfWidth, halfHeight), hints);
+            if (result != null) {
+                result.ResultPoints.MakeAbsolute(0, halfHeight);
                 return result;
             }
 
-            result = @delegate.Decode(image.crop(halfWidth, halfHeight, halfWidth, halfHeight), hints);
-            if (result != null)
-            {
-                makeAbsolute(result.ResultPoints, halfWidth, halfHeight);
+            result = Decoder.Decode(image.crop(halfWidth, halfHeight, halfWidth, halfHeight), hints);
+            if (result != null) {
+                result.ResultPoints.MakeAbsolute(halfWidth, halfHeight);
                 return result;
             }
 
             int quarterWidth = halfWidth / 2;
             int quarterHeight = halfHeight / 2;
             var center = image.crop(quarterWidth, quarterHeight, halfWidth, halfHeight);
-            result = @delegate.Decode(center, hints);
-            if (result != null)
-            {
-                makeAbsolute(result.ResultPoints, quarterWidth, quarterHeight);
-            }
+            result = Decoder.Decode(center, hints);
+            result?.ResultPoints.MakeAbsolute(quarterWidth, quarterHeight);
             return result;
+        }
+
+        /// <inheritdoc />
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.
         /// </summary>
-        public void Reset()
-        {
-            @delegate.Reset();
+        public void Reset() {
+            Decoder.Reset();
         }
 
-        private static void makeAbsolute(IList<ResultPoint> points, int leftOffset, int topOffset) {
+    }
+
+    public static class X {
+
+        public static void MakeAbsolute(this IList<ResultPoint> points, int leftOffset, int topOffset) {
             if (points == null) {
                 return;
             }

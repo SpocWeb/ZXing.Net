@@ -27,10 +27,10 @@ namespace ZXing.Multi.Test
    public class MultiTestCase
    {
       [Test]
-      public void testMulti()
+      public void TestMulti()
       {
          // Very basic test for now
-         var testBase = AbstractBlackBoxTestCase.buildTestBase("test/data/blackbox/multi-1");
+         var testBase = AbstractBlackBoxTestCase.BuildTestBase("test/data/blackbox/multi-1");
 
          var source = new BitmapLuminanceSource((Bitmap)Bitmap.FromFile(Path.Combine(testBase, "1.png")));
          var bitmap = new BinaryBitmap(new TwoDBinarizer(source));

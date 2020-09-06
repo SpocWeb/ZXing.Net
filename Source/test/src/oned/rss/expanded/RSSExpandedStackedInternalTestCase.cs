@@ -28,14 +28,14 @@ using NUnit.Framework;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {
-   public sealed class RSSExpandedStackedInternalTestCase
+   public sealed class RssExpandedStackedInternalTestCase
    {
       [Test]
-      public void testDecodingRowByRow()
+      public void TestDecodingRowByRow()
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var binaryMap = TestCaseUtil.getBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
+         var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
 
          var firstRowNumber = binaryMap.Height / 3;
          var firstRow = binaryMap.getBlackRow(firstRowNumber, null);
@@ -61,11 +61,11 @@ namespace ZXing.OneD.RSS.Expanded.Test
       }
 
       [Test]
-      public void testCompleteDecode()
+      public void TestCompleteDecode()
       {
          var rssExpandedReader = new RSSExpandedReader();
 
-         var binaryMap = TestCaseUtil.getBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
+         var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
 
          var result = rssExpandedReader.Decode(binaryMap);
          Assert.AreEqual("(01)98898765432106(3202)012345(15)991231", result.Text);

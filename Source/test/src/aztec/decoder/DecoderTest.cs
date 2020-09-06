@@ -26,9 +26,9 @@ namespace ZXing.Aztec.Test
         private static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
         [Test]
-        public void testAztecResult()
+        public void TestAztecResult()
         {
-            BitMatrix matrix = BitMatrix.parse(
+            BitMatrix matrix = BitMatrix.Parse(
                 "X X X X X     X X X       X X X     X X X     \n" +
                 "X X X     X X X     X X X X     X X X     X X \n" +
                 "  X   X X       X   X   X X X X     X     X X \n" +
@@ -68,9 +68,9 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testDecodeTooManyErrors()
+        public void TestDecodeTooManyErrors()
         {
-            var matrix = BitMatrix.parse(""
+            var matrix = BitMatrix.Parse(""
                                          + "X X . X . . . X X . . . X . . X X X . X . X X X X X . \n"
                                          + "X X . . X X . . . . . X X . . . X X . . . X . X . . X \n"
                                          + "X . . . X X . . X X X . X X . X X X X . X X . . X . . \n"
@@ -104,9 +104,9 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testDecodeTooManyErrors2()
+        public void TestDecodeTooManyErrors2()
         {
-            var matrix = BitMatrix.parse(""
+            var matrix = BitMatrix.Parse(""
                                          + ". X X . . X . X X . . . X . . X X X . . . X X . X X . \n"
                                          + "X X . X X . . X . . . X X . . . X X . X X X . X . X X \n"
                                          + ". . . . X . . . X X X . X X . X X X X . X X . . X . . \n"
@@ -139,7 +139,7 @@ namespace ZXing.Aztec.Test
             Assert.That(new Decoder().decode(r), Is.Null);
         }
 
-        private static void assertEqualByteArrays(byte[] b1, byte[] b2)
+        private static void AssertEqualByteArrays(byte[] b1, byte[] b2)
         {
             Assert.That(b1.Length, Is.EqualTo(b2.Length));
             for (int i = 0; i < b1.Length; i++)
@@ -149,7 +149,7 @@ namespace ZXing.Aztec.Test
         }
 
         [Test]
-        public void testRawBytes()
+        public void TestRawBytes()
         {
             var bool0 = new bool[0];
             var bool1 = new bool[] {true};
@@ -172,17 +172,17 @@ namespace ZXing.Aztec.Test
             var byte9 = new byte[] {170, 128};
             var byte16 = new byte[] {99, 193};
 
-            assertEqualByteArrays(byte0, Decoder.convertBoolArrayToByteArray(bool0));
-            assertEqualByteArrays(byte1, Decoder.convertBoolArrayToByteArray(bool1));
-            assertEqualByteArrays(byte7, Decoder.convertBoolArrayToByteArray(bool7));
-            assertEqualByteArrays(byte8, Decoder.convertBoolArrayToByteArray(bool8));
-            assertEqualByteArrays(byte9, Decoder.convertBoolArrayToByteArray(bool9));
-            assertEqualByteArrays(byte16, Decoder.convertBoolArrayToByteArray(bool16));
+            AssertEqualByteArrays(byte0, Decoder.convertBoolArrayToByteArray(bool0));
+            AssertEqualByteArrays(byte1, Decoder.convertBoolArrayToByteArray(bool1));
+            AssertEqualByteArrays(byte7, Decoder.convertBoolArrayToByteArray(bool7));
+            AssertEqualByteArrays(byte8, Decoder.convertBoolArrayToByteArray(bool8));
+            AssertEqualByteArrays(byte9, Decoder.convertBoolArrayToByteArray(bool9));
+            AssertEqualByteArrays(byte16, Decoder.convertBoolArrayToByteArray(bool16));
         }
 
 #if !SILVERLIGHT
         [Test]
-        public void roundTripTestMixedMode()
+        public void RoundTripTestMixedMode()
         {
             var base64Content = "QAECAwQFBgcLGxwdHh9/QA==";
             var byteContent = System.Convert.FromBase64String(base64Content);

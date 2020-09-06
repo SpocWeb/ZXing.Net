@@ -226,7 +226,7 @@ namespace ZXing.Datamatrix
                 output = new BitMatrix(reqWidth, reqHeight);
             }
 
-            output.clear();
+            output.Clear();
             for (int inputY = 0, outputY = topPadding; inputY < matrixHeight; inputY++, outputY += multiple)
             {
                 // Write the contents of this row of the bytematrix
@@ -234,7 +234,7 @@ namespace ZXing.Datamatrix
                 {
                     if (matrix[inputX, inputY] == 1)
                     {
-                        output.setRegion(outputX, outputY, multiple, multiple);
+                        output.SetRegion(outputX, outputY, multiple, multiple);
                     }
                 }
             }

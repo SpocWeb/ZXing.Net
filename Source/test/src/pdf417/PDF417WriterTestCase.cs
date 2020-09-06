@@ -24,10 +24,10 @@ using NUnit.Framework;
 
 namespace ZXing.PDF417.Test
 {
-    public class PDF417WriterTestCase
+    public class Pdf417WriterTestCase
     {
         [Test]
-        public void testDataMatrixImageWriter()
+        public void TestDataMatrixImageWriter()
         {
             var hints = new PDF417EncodingOptions
             {
@@ -68,7 +68,7 @@ namespace ZXing.PDF417.Test
         [TestCase("UTF-8")]
         [TestCase("ISO-8859-15")]
         [TestCase("ISO-8859-1")]
-        public void test0To256AsBytesRoundTrip(string encodingStr)
+        public void Test0To256AsBytesRoundTrip(string encodingStr)
         {
             var encoding = System.Text.Encoding.GetEncoding(encodingStr);
             var writer = new BarcodeWriter
@@ -163,7 +163,7 @@ namespace ZXing.PDF417.Test
         [TestCase('a')]
         [TestCase('A')]
         [TestCase('€')]
-        public void testCharactersForLengthUntil256RoundTrip(char character)
+        public void TestCharactersForLengthUntil256RoundTrip(char character)
         {
             var writer = new BarcodeWriter
             {

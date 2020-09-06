@@ -28,10 +28,10 @@ namespace ZXing.Multi.QrCode.Test
          : base("test/data/blackbox/multi-qrcode-1", new GenericMultipleBarcodeReader(
              new QrCodeReader()), BarcodeFormat.QR_CODE)
       {
-         addTest(1, 1, 0.0f);
-         addTest(1, 1, 90.0f);
-         addTest(1, 1, 180.0f);
-         addTest(1, 1, 270.0f);
+         AddTest(1, 1, 0.0f);
+         AddTest(1, 1, 90.0f);
+         AddTest(1, 1, 180.0f);
+         AddTest(1, 1, 270.0f);
       }
    }
 }

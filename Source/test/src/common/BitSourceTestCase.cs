@@ -25,7 +25,7 @@ namespace ZXing.Common.Test
    public sealed class BitSourceTestCase
    {
       [Test]
-      public void testSource()
+      public void TestSource()
       {
          byte[] bytes = {1, 2, 3, 4, 5};
          BitSource source = new BitSource(bytes);

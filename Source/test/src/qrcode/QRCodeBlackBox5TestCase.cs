@@ -25,15 +25,15 @@ namespace ZXing.QrCode.Test
    ///
    /// <author>dswitkin@google.com (Daniel Switkin)</author>
    /// </summary>
-   public sealed class QRCodeBlackBox5TestCase : AbstractBlackBoxTestCase
+   public sealed class QrCodeBlackBox5TestCase : AbstractBlackBoxTestCase
    {
-      public QRCodeBlackBox5TestCase()
+      public QrCodeBlackBox5TestCase()
          : base("test/data/blackbox/qrcode-5", new MultiFormatReader(), BarcodeFormat.QR_CODE)
       {
-         addTest(19, 19, 0.0f);
-         addTest(19, 19, 90.0f);
-         addTest(19, 19, 180.0f);
-         addTest(19, 19, 270.0f);
+         AddTest(19, 19, 0.0f);
+         AddTest(19, 19, 90.0f);
+         AddTest(19, 19, 180.0f);
+         AddTest(19, 19, 270.0f);
       }
    }
 }

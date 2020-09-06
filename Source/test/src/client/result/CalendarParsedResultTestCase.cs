@@ -42,9 +42,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testStartEnd()
+      public void TestStartEnd()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "DTEND:20080505T234555Z\r\n" +
@@ -53,9 +53,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testNoVCalendar()
+      public void TestNoVCalendar()
       {
-         doTest(
+         DoTest(
              "BEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "DTEND:20080505T234555Z\r\n" +
@@ -64,9 +64,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testStart()
+      public void TestStart()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "END:VEVENT\r\nEND:VCALENDAR",
@@ -74,15 +74,15 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testDuration()
+      public void TestDuration()
       {
-         doTest(
+         DoTest(
             "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
             "DTSTART:20080504T123456Z\r\n" +
             "DURATION:P1D\r\n" +
             "END:VEVENT\r\nEND:VCALENDAR",
             null, null, null, "20080504T123456Z", "20080505T123456Z");
-         doTest(
+         DoTest(
             "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
             "DTSTART:20080504T123456Z\r\n" +
             "DURATION:P1DT2H3M4S\r\n" +
@@ -91,9 +91,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testSummary()
+      public void TestSummary()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "SUMMARY:foo\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
@@ -102,9 +102,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testLocation()
+      public void TestLocation()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "LOCATION:Miami\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
@@ -113,15 +113,15 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testDescription()
+      public void TestDescription()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "DESCRIPTION:This is a test\r\n" +
              "END:VEVENT\r\nEND:VCALENDAR",
              "This is a test", null, null, "20080504T123456Z", null);
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "DESCRIPTION:This is a test\r\n\t with a continuation\r\n" +
@@ -130,9 +130,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testGeo()
+      public void TestGeo()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "GEO:-12.345;-45.678\r\n" +
@@ -141,7 +141,7 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testBadGeo()
+      public void TestBadGeo()
       {
          // Not parsed as VEVENT
          var fakeResult = new ZXing.BarCodeText("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
@@ -152,9 +152,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testOrganizer()
+      public void TestOrganizer()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "ORGANIZER:mailto:bob@example.org\r\n" +
@@ -163,9 +163,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testAttendees()
+      public void TestAttendees()
       {
-         doTest(
+         DoTest(
              "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
              "DTSTART:20080504T123456Z\r\n" +
              "ATTENDEE:mailto:bob@example.org\r\n" +
@@ -176,9 +176,9 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testVEventEscapes()
+      public void TestVEventEscapes()
       {
-         doTest("BEGIN:VEVENT\n" +
+         DoTest("BEGIN:VEVENT\n" +
                 "CREATED:20111109T110351Z\n" +
                 "LAST-MODIFIED:20111109T170034Z\n" +
                 "DTSTAMP:20111109T170034Z\n" +
@@ -201,26 +201,26 @@ namespace ZXing.Client.Result.Test
       }
 
       [Test]
-      public void testAllDayValueDate()
+      public void TestAllDayValueDate()
       {
-         doTest("BEGIN:VEVENT\n" +
+         DoTest("BEGIN:VEVENT\n" +
                 "DTSTART;VALUE=DATE:20111110\n" +
                 "DTEND;VALUE=DATE:20111110\n" +
                 "END:VEVENT",
                 null, null, null, "20111110T000000Z", "20111110T000000Z");
       }
 
-      private static void doTest(string contents,
+      private static void DoTest(string contents,
                                  string description,
                                  string summary,
                                  string location,
                                  string startString,
                                  string endString)
       {
-         doTest(contents, description, summary, location, startString, endString, null, null, double.NaN, double.NaN);
+         DoTest(contents, description, summary, location, startString, endString, null, null, double.NaN, double.NaN);
       }
 
-      private static void doTest(string contents,
+      private static void DoTest(string contents,
                                  string description,
                                  string summary,
                                  string location,
@@ -242,11 +242,11 @@ namespace ZXing.Client.Result.Test
          Assert.AreEqual(endString, calResult.End?.ToString(DATE_TIME_FORMAT));
          Assert.AreEqual(organizer, calResult.Organizer);
          Assert.IsTrue(AddressBookParsedResultTestCase.AreEqual(attendees, calResult.Attendees));
-         assertEqualOrNaN(latitude, calResult.Latitude);
-         assertEqualOrNaN(longitude, calResult.Longitude);
+         AssertEqualOrNaN(latitude, calResult.Latitude);
+         AssertEqualOrNaN(longitude, calResult.Longitude);
       }
 
-      private static void assertEqualOrNaN(double expected, double actual)
+      private static void AssertEqualOrNaN(double expected, double actual)
       {
          if (double.IsNaN(expected))
          {

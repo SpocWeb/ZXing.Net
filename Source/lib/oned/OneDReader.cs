@@ -84,6 +84,11 @@ namespace ZXing.OneD
             return result;
         }
 
+        /// <inheritdoc />
+        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Resets any internal state the implementation has after a decode, to prepare it
         /// for reuse.

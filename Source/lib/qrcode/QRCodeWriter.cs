@@ -156,7 +156,7 @@ namespace ZXing.QrCode
                 {
                     if (input[inputX, inputY] == 1)
                     {
-                        output.setRegion(outputX, outputY, multiple, multiple);
+                        output.SetRegion(outputX, outputY, multiple, multiple);
                     }
                 }
             }

@@ -20,7 +20,7 @@ using NUnit.Framework;
 
 namespace ZXing.Test
 {
-   public sealed class PlanarYUVLuminanceSourceTestCase
+   public sealed class PlanarYuvLuminanceSourceTestCase
    {
       private static readonly byte[] YUV =
          {
@@ -36,25 +36,25 @@ namespace ZXing.Test
       private const int ROWS = 4;
       private static readonly byte[] Y = new byte[COLS*ROWS];
 
-      static PlanarYUVLuminanceSourceTestCase()
+      static PlanarYuvLuminanceSourceTestCase()
       {
          Array.Copy(YUV, 0, Y, 0, Y.Length);
       }
 
       [Test]
-      public void testNoCrop()
+      public void TestNoCrop()
       {
          var source =
             new PlanarYUVLuminanceSource(YUV, COLS, ROWS, 0, 0, COLS, ROWS, false);
-         assertEquals(Y, 0, source.Matrix, 0, Y.Length);
+         AssertEquals(Y, 0, source.Matrix, 0, Y.Length);
          for (int r = 0; r < ROWS; r++)
          {
-            assertEquals(Y, r*COLS, source.getRow(r, null), 0, COLS);
+            AssertEquals(Y, r*COLS, source.getRow(r, null), 0, COLS);
          }
       }
 
       [Test]
-      public void testCrop()
+      public void TestCrop()
       {
          var source =
             new PlanarYUVLuminanceSource(YUV, COLS, ROWS, 1, 1, COLS - 2, ROWS - 2, false);
@@ -62,16 +62,16 @@ namespace ZXing.Test
          byte[] cropMatrix = source.Matrix;
          for (int r = 0; r < ROWS - 2; r++)
          {
-            assertEquals(Y, (r + 1) * COLS + 1, cropMatrix, r * (COLS - 2), COLS - 2);
+            AssertEquals(Y, (r + 1) * COLS + 1, cropMatrix, r * (COLS - 2), COLS - 2);
          }
          for (int r = 0; r < ROWS - 2; r++)
          {
-            assertEquals(Y, (r + 1) * COLS + 1, source.getRow(r, null), 0, COLS - 2);
+            AssertEquals(Y, (r + 1) * COLS + 1, source.getRow(r, null), 0, COLS - 2);
          }
       }
 
       [Test]
-      public void testThumbnail()
+      public void TestThumbnail()
       {
          var source =
             new PlanarYUVLuminanceSource(YUV, COLS, ROWS, 0, 0, COLS, ROWS, false);
@@ -88,7 +88,7 @@ namespace ZXing.Test
             source.renderThumbnail());
       }
 
-      private static void assertEquals(byte[] expected, int expectedFrom,
+      private static void AssertEquals(byte[] expected, int expectedFrom,
                                        byte[] actual, int actualFrom,
                                        int length)
       {
