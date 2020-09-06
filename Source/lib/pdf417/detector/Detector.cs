@@ -75,7 +75,7 @@ namespace ZXing.PDF417.Internal
         /// <returns>
         ///   <see cref="PDF417DetectorResult"/> encapsulating results of detecting a PDF417 code
         /// </returns>
-        public static PDF417DetectorResult Detect(BinaryBitmap image
+        public static DetectorResult Detect(BinaryBitmap image
             , IDictionary<DecodeHintType, object> hints, bool multiple)
         {
             // TODO detection improvement, tryHarder could try several different luminance thresholds/blackpoints or even 
@@ -95,7 +95,7 @@ namespace ZXing.PDF417.Internal
                 bitMatrix.rotate180();
                 barcodeCoordinates = Detect(bitMatrix, multiple);
             }
-            return new PDF417DetectorResult(bitMatrix, barcodeCoordinates);
+            return new DetectorResult(bitMatrix, barcodeCoordinates);
         }
 
         /// <summary>

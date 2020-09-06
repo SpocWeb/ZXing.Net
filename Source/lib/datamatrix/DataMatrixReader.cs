@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using ZXing.Common;
 using ZXing.Datamatrix.Internal;
 using ZXing.QrCode;
@@ -69,7 +70,7 @@ namespace ZXing.Datamatrix
                     return null;
                 }
                 decoderResult = decoder.decode(detectorResult.Bits);
-                points = detectorResult.Points;
+                points = detectorResult.Points.Single();
             }
             if (decoderResult == null) {
                 return null;

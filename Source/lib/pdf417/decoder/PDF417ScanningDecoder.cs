@@ -28,13 +28,13 @@ namespace ZXing.PDF417.Internal
     /// 
     /// </summary>
     /// <author>Guenther Grau</author>
-    public static class PDF417ScanningDecoder
+    public static class Pdf417ScanningDecoder
     {
         private const int CODEWORD_SKEW_SIZE = 2;
 
         private const int MAX_ERRORS = 3;
         private const int MAX_EC_CODEWORDS = 512;
-        private static readonly ErrorCorrection errorCorrection = new ErrorCorrection();
+        private static readonly ErrorCorrection ERROR_CORRECTION = new ErrorCorrection();
 
         /// <summary>
         /// Decode the specified image, imageTopLeft, imageBottomLeft, imageTopRight, imageBottomRight, minCodewordWidth
@@ -51,7 +51,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="imageBottomRight">Image bottom right.</param>
         /// <param name="minCodewordWidth">Minimum codeword width.</param>
         /// <param name="maxCodewordWidth">Max codeword width.</param>
-        public static DecoderResult decode(BitMatrix image,
+        public static DecoderResult Decode(IRoBitMatrix image,
                                            ResultPoint imageTopLeft,
                                            ResultPoint imageBottomLeft,
                                            ResultPoint imageTopRight,
@@ -71,13 +71,13 @@ namespace ZXing.PDF417.Internal
             {
                 if (imageTopLeft != null)
                 {
-                    leftRowIndicatorColumn = getRowIndicatorColumn(image, boundingBox, imageTopLeft, true, minCodewordWidth, maxCodewordWidth);
+                    leftRowIndicatorColumn = GetRowIndicatorColumn(image, boundingBox, imageTopLeft, true, minCodewordWidth, maxCodewordWidth);
                 }
                 if (imageTopRight != null)
                 {
-                    rightRowIndicatorColumn = getRowIndicatorColumn(image, boundingBox, imageTopRight, false, minCodewordWidth, maxCodewordWidth);
+                    rightRowIndicatorColumn = GetRowIndicatorColumn(image, boundingBox, imageTopRight, false, minCodewordWidth, maxCodewordWidth);
                 }
-                detectionResult = merge(leftRowIndicatorColumn, rightRowIndicatorColumn);
+                detectionResult = Merge(leftRowIndicatorColumn, rightRowIndicatorColumn);
                 if (detectionResult == null)
                 {
                     // TODO Based on Owen's Comments in <see cref="ZXing.ReaderException"/>, this method has been modified to continue silently
@@ -125,7 +125,7 @@ namespace ZXing.PDF417.Internal
                 // TODO start at a row for which we know the start position, then detect upwards and downwards from there.
                 for (int imageRow = boundingBox.MinY; imageRow <= boundingBox.MaxY; imageRow++)
                 {
-                    startColumn = getStartColumn(detectionResult, barcodeColumn, imageRow, leftToRight);
+                    startColumn = GetStartColumn(detectionResult, barcodeColumn, imageRow, leftToRight);
                     if (startColumn < 0 || startColumn > boundingBox.MaxX)
                     {
                         if (previousStartColumn == -1)
@@ -134,7 +134,7 @@ namespace ZXing.PDF417.Internal
                         }
                         startColumn = previousStartColumn;
                     }
-                    Codeword codeword = detectCodeword(image, boundingBox.MinX, boundingBox.MaxX, leftToRight,
+                    Codeword codeword = DetectCodeword(image, boundingBox.MinX, boundingBox.MaxX, leftToRight,
                                                        startColumn, imageRow, minCodewordWidth, maxCodewordWidth);
                     if (codeword != null)
                     {
@@ -145,7 +145,7 @@ namespace ZXing.PDF417.Internal
                     }
                 }
             }
-            return createDecoderResult(detectionResult);
+            return CreateDecoderResult(detectionResult);
         }
 
         /// <summary>
@@ -153,20 +153,20 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <param name="leftRowIndicatorColumn">Left row indicator column.</param>
         /// <param name="rightRowIndicatorColumn">Right row indicator column.</param>
-        private static DetectionResult merge(DetectionResultRowIndicatorColumn leftRowIndicatorColumn,
+        private static DetectionResult Merge(DetectionResultRowIndicatorColumn leftRowIndicatorColumn,
                                              DetectionResultRowIndicatorColumn rightRowIndicatorColumn)
         {
             if (leftRowIndicatorColumn == null && rightRowIndicatorColumn == null)
             {
                 return null;
             }
-            BarcodeMetadata barcodeMetadata = getBarcodeMetadata(leftRowIndicatorColumn, rightRowIndicatorColumn);
+            BarcodeMetadata barcodeMetadata = GetBarcodeMetadata(leftRowIndicatorColumn, rightRowIndicatorColumn);
             if (barcodeMetadata == null)
             {
                 return null;
             }
-            BoundingBox boundingBox = BoundingBox.merge(adjustBoundingBox(leftRowIndicatorColumn),
-                                                        adjustBoundingBox(rightRowIndicatorColumn));
+            BoundingBox boundingBox = BoundingBox.merge(AdjustBoundingBox(leftRowIndicatorColumn),
+                                                        AdjustBoundingBox(rightRowIndicatorColumn));
 
             return new DetectionResult(barcodeMetadata, boundingBox);
         }
@@ -176,7 +176,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The bounding box.</returns>
         /// <param name="rowIndicatorColumn">Row indicator column.</param>
-        private static BoundingBox adjustBoundingBox(DetectionResultRowIndicatorColumn rowIndicatorColumn)
+        private static BoundingBox AdjustBoundingBox(DetectionResultRowIndicatorColumn rowIndicatorColumn)
         {
             if (rowIndicatorColumn == null)
             {
@@ -187,7 +187,7 @@ namespace ZXing.PDF417.Internal
             {
                 return null;
             }
-            int maxRowHeight = getMax(rowHeights);
+            int maxRowHeight = GetMax(rowHeights);
             int missingStartRows = 0;
             foreach (int rowHeight in rowHeights)
             {
@@ -218,7 +218,7 @@ namespace ZXing.PDF417.Internal
             return rowIndicatorColumn.Box.addMissingRows(missingStartRows, missingEndRows, rowIndicatorColumn.IsLeft);
         }
 
-        private static int getMax(int[] values)
+        private static int GetMax(int[] values)
         {
             int maxValue = -1;
             for (var index = values.Length - 1; index >= 0; index--)
@@ -234,7 +234,7 @@ namespace ZXing.PDF417.Internal
         /// <returns>The barcode metadata.</returns>
         /// <param name="leftRowIndicatorColumn">Left row indicator column.</param>
         /// <param name="rightRowIndicatorColumn">Right row indicator column.</param>
-        private static BarcodeMetadata getBarcodeMetadata(DetectionResultRowIndicatorColumn leftRowIndicatorColumn,
+        private static BarcodeMetadata GetBarcodeMetadata(DetectionResultRowIndicatorColumn leftRowIndicatorColumn,
                                                           DetectionResultRowIndicatorColumn rightRowIndicatorColumn)
         {
 
@@ -260,17 +260,7 @@ namespace ZXing.PDF417.Internal
             return leftBarcodeMetadata;
         }
 
-        /// <summary>
-        /// Gets the row indicator column.
-        /// </summary>
-        /// <returns>The row indicator column.</returns>
-        /// <param name="image">Image.</param>
-        /// <param name="boundingBox">Bounding box.</param>
-        /// <param name="startPoint">Start point.</param>
-        /// <param name="leftToRight">If set to <c>true</c> left to right.</param>
-        /// <param name="minCodewordWidth">Minimum codeword width.</param>
-        /// <param name="maxCodewordWidth">Max codeword width.</param>
-        private static DetectionResultRowIndicatorColumn getRowIndicatorColumn(BitMatrix image,
+        private static DetectionResultRowIndicatorColumn GetRowIndicatorColumn(IRoBitMatrix image,
                                                                                BoundingBox boundingBox,
                                                                                ResultPoint startPoint,
                                                                                bool leftToRight,
@@ -285,7 +275,7 @@ namespace ZXing.PDF417.Internal
                 for (int imageRow = (int)startPoint.Y; imageRow <= boundingBox.MaxY &&
                                                         imageRow >= boundingBox.MinY; imageRow += increment)
                 {
-                    Codeword codeword = detectCodeword(image, 0, image.Width, leftToRight, startColumn, imageRow,
+                    Codeword codeword = DetectCodeword(image, 0, image.Width, leftToRight, startColumn, imageRow,
                                                        minCodewordWidth, maxCodewordWidth);
                     if (codeword != null)
                     {
@@ -309,13 +299,13 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <param name="detectionResult">Detection result.</param>
         /// <param name="barcodeMatrix">Barcode matrix.</param>
-        private static bool adjustCodewordCount(DetectionResult detectionResult, BarcodeValue[][] barcodeMatrix)
+        private static bool AdjustCodewordCount(DetectionResult detectionResult, BarcodeValue[][] barcodeMatrix)
         {
             var barcodeMatrix01 = barcodeMatrix[0][1];
             int[] numberOfCodewords = barcodeMatrix01.getValue();
             int calculatedNumberOfCodewords = detectionResult.ColumnCount *
                                               detectionResult.RowCount -
-                                              getNumberOfECCodeWords(detectionResult.ErrorCorrectionLevel);
+                                              GetNumberOfEcCodeWords(detectionResult.ErrorCorrectionLevel);
             if (numberOfCodewords.Length == 0)
             {
                 if (calculatedNumberOfCodewords < 1 || calculatedNumberOfCodewords > PDF417Common.MAX_CODEWORDS_IN_BARCODE)
@@ -341,14 +331,14 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The decoder result.</returns>
         /// <param name="detectionResult">Detection result.</param>
-        private static DecoderResult createDecoderResult(DetectionResult detectionResult)
+        private static DecoderResult CreateDecoderResult(DetectionResult detectionResult)
         {
-            BarcodeValue[][] barcodeMatrix = createBarcodeMatrix(detectionResult);
+            BarcodeValue[][] barcodeMatrix = CreateBarcodeMatrix(detectionResult);
             if (barcodeMatrix == null) {
                 return null;
             }
 
-            if (!adjustCodewordCount(detectionResult, barcodeMatrix))
+            if (!AdjustCodewordCount(detectionResult, barcodeMatrix))
             {
                 return null;
             }
@@ -382,7 +372,7 @@ namespace ZXing.PDF417.Internal
             {
                 ambiguousIndexValues[i] = ambiguousIndexValuesList[i];
             }
-            return createDecoderResultFromAmbiguousValues(detectionResult.ErrorCorrectionLevel, codewords,
+            return CreateDecoderResultFromAmbiguousValues(detectionResult.ErrorCorrectionLevel, codewords,
                                                           erasures.ToArray(), ambiguousIndexesList.ToArray(), ambiguousIndexValues);
         }
 
@@ -401,7 +391,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="ambiguousIndexes">array with the indexes that have more than one most likely value.</param>
         /// <param name="ambiguousIndexValues">two dimensional array that contains the ambiguous values. The first dimension must
         /// be the same Length as the ambiguousIndexes array.</param>
-        private static DecoderResult createDecoderResultFromAmbiguousValues(int ecLevel,
+        private static DecoderResult CreateDecoderResultFromAmbiguousValues(int ecLevel,
                                                                             int[] codewords,
                                                                             int[] erasureArray,
                                                                             int[] ambiguousIndexes,
@@ -418,7 +408,7 @@ namespace ZXing.PDF417.Internal
                 }
                 try
                 {
-                    var result = decodeCodewords(codewords, ecLevel, erasureArray);
+                    var result = DecodeCodewords(codewords, ecLevel, erasureArray);
                     if (result != null) {
                         return result;
                     }
@@ -452,7 +442,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The barcode matrix.</returns>
         /// <param name="detectionResult">Detection result.</param>
-        private static BarcodeValue[][] createBarcodeMatrix(DetectionResult detectionResult)
+        private static BarcodeValue[][] CreateBarcodeMatrix(DetectionResult detectionResult)
         {
             // Manually setup Jagged Array in C#
             var barcodeMatrix = new BarcodeValue[detectionResult.RowCount][];
@@ -499,7 +489,7 @@ namespace ZXing.PDF417.Internal
         /// <returns><c>true</c>, if barcode column is valid, <c>false</c> otherwise.</returns>
         /// <param name="detectionResult">Detection result.</param>
         /// <param name="barcodeColumn">Barcode column.</param>
-        private static bool isValidBarcodeColumn(DetectionResult detectionResult, int barcodeColumn)
+        private static bool IsValidBarcodeColumn(DetectionResult detectionResult, int barcodeColumn)
         {
             return (barcodeColumn >= 0) && (barcodeColumn < detectionResult.DetectionResultColumns.Length);
         }
@@ -512,14 +502,14 @@ namespace ZXing.PDF417.Internal
         /// <param name="barcodeColumn">Barcode column.</param>
         /// <param name="imageRow">Image row.</param>
         /// <param name="leftToRight">If set to <c>true</c> left to right.</param>
-        private static int getStartColumn(DetectionResult detectionResult,
+        private static int GetStartColumn(DetectionResult detectionResult,
                                           int barcodeColumn,
                                           int imageRow,
                                           bool leftToRight)
         {
             int offset = leftToRight ? 1 : -1;
             Codeword codeword = null;
-            if (isValidBarcodeColumn(detectionResult, barcodeColumn - offset))
+            if (IsValidBarcodeColumn(detectionResult, barcodeColumn - offset))
             {
                 codeword = detectionResult.DetectionResultColumns[barcodeColumn - offset].getCodeword(imageRow);
             }
@@ -532,7 +522,7 @@ namespace ZXing.PDF417.Internal
             {
                 return leftToRight ? codeword.StartX : codeword.EndX;
             }
-            if (isValidBarcodeColumn(detectionResult, barcodeColumn - offset))
+            if (IsValidBarcodeColumn(detectionResult, barcodeColumn - offset))
             {
                 codeword = detectionResult.DetectionResultColumns[barcodeColumn - offset].getCodewordNearby(imageRow);
             }
@@ -542,7 +532,7 @@ namespace ZXing.PDF417.Internal
             }
             int skippedColumns = 0;
 
-            while (isValidBarcodeColumn(detectionResult, barcodeColumn - offset))
+            while (IsValidBarcodeColumn(detectionResult, barcodeColumn - offset))
             {
                 barcodeColumn -= offset;
                 foreach (Codeword previousRowCodeword in detectionResult.DetectionResultColumns[barcodeColumn].Codewords)
@@ -572,7 +562,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="imageRow">Image row.</param>
         /// <param name="minCodewordWidth">Minimum codeword width.</param>
         /// <param name="maxCodewordWidth">Max codeword width.</param>
-        private static Codeword detectCodeword(BitMatrix image,
+        private static Codeword DetectCodeword(IRoBitMatrix image,
                                                int minColumn,
                                                int maxColumn,
                                                bool leftToRight,
@@ -581,12 +571,12 @@ namespace ZXing.PDF417.Internal
                                                int minCodewordWidth,
                                                int maxCodewordWidth)
         {
-            startColumn = adjustCodewordStartColumn(image, minColumn, maxColumn, leftToRight, startColumn, imageRow);
+            startColumn = AdjustCodewordStartColumn(image, minColumn, maxColumn, leftToRight, startColumn, imageRow);
             // we usually know fairly exact now how long a codeword is. We should provide minimum and maximum expected length
             // and try to adjust the read pixels, e.g. remove single pixel errors or try to cut off exceeding pixels.
             // min and maxCodewordWidth should not be used as they are calculated for the whole barcode an can be inaccurate
             // for the current position
-            int[] moduleBitCount = getModuleBitCount(image, minColumn, maxColumn, leftToRight, startColumn, imageRow);
+            int[] moduleBitCount = GetModuleBitCount(image, minColumn, maxColumn, leftToRight, startColumn, imageRow);
             if (moduleBitCount == null)
             {
                 return null;
@@ -622,7 +612,7 @@ namespace ZXing.PDF417.Internal
 
             // We could also use the width of surrounding codewords for more accurate results, but this seems
             // sufficient for now
-            if (!checkCodewordSkew(codewordBitCount, minCodewordWidth, maxCodewordWidth))
+            if (!CheckCodewordSkew(codewordBitCount, minCodewordWidth, maxCodewordWidth))
             {
                 // We could try to use the startX and endX position of the codeword in the same column in the previous row,
                 // create the bit count from it and normalize it to 8. This would help with single pixel errors.
@@ -635,7 +625,7 @@ namespace ZXing.PDF417.Internal
             {
                 return null;
             }
-            return new Codeword(startColumn, endColumn, getCodewordBucketNumber(decodedValue), codeword);
+            return new Codeword(startColumn, endColumn, GetCodewordBucketNumber(decodedValue), codeword);
         }
 
         /// <summary>
@@ -648,7 +638,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="leftToRight">If set to <c>true</c> left to right.</param>
         /// <param name="startColumn">Start column.</param>
         /// <param name="imageRow">Image row.</param>
-        private static int[] getModuleBitCount(BitMatrix image,
+        private static int[] GetModuleBitCount(IRoBitMatrix image,
                                                int minColumn,
                                                int maxColumn,
                                                bool leftToRight,
@@ -687,10 +677,10 @@ namespace ZXing.PDF417.Internal
         /// Gets the number of EC code words.
         /// </summary>
         /// <returns>The number of EC code words.</returns>
-        /// <param name="barcodeECLevel">Barcode EC level.</param>
-        private static int getNumberOfECCodeWords(int barcodeECLevel)
+        /// <param name="barcodeEcLevel">Barcode EC level.</param>
+        private static int GetNumberOfEcCodeWords(int barcodeEcLevel)
         {
-            return 2 << barcodeECLevel;
+            return 2 << barcodeEcLevel;
         }
 
         /// <summary>
@@ -703,7 +693,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="leftToRight">If set to <c>true</c> left to right.</param>
         /// <param name="codewordStartColumn">Codeword start column.</param>
         /// <param name="imageRow">Image row.</param>
-        private static int adjustCodewordStartColumn(BitMatrix image,
+        private static int AdjustCodewordStartColumn(IRoBitMatrix image,
                                                      int minColumn,
                                                      int maxColumn,
                                                      bool leftToRight,
@@ -737,7 +727,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="codewordSize">Codeword size.</param>
         /// <param name="minCodewordWidth">Minimum codeword width.</param>
         /// <param name="maxCodewordWidth">Max codeword width.</param>
-        private static bool checkCodewordSkew(int codewordSize, int minCodewordWidth, int maxCodewordWidth)
+        private static bool CheckCodewordSkew(int codewordSize, int minCodewordWidth, int maxCodewordWidth)
         {
             return minCodewordWidth - CODEWORD_SKEW_SIZE <= codewordSize &&
                    codewordSize <= maxCodewordWidth + CODEWORD_SKEW_SIZE;
@@ -750,21 +740,21 @@ namespace ZXing.PDF417.Internal
         /// <param name="codewords">Codewords.</param>
         /// <param name="ecLevel">Ec level.</param>
         /// <param name="erasures">Erasures.</param>
-        private static DecoderResult decodeCodewords(int[] codewords, int ecLevel, int[] erasures)
+        private static DecoderResult DecodeCodewords(int[] codewords, int ecLevel, int[] erasures)
         {
             if (codewords.Length == 0)
             {
                 return null;
             }
 
-            int numECCodewords = 1 << (ecLevel + 1);
+            int numEcCodewords = 1 << (ecLevel + 1);
 
-            int correctedErrorsCount = correctErrors(codewords, erasures, numECCodewords);
+            int correctedErrorsCount = CorrectErrors(codewords, erasures, numEcCodewords);
             if (correctedErrorsCount < 0)
             {
                 return null;
             }
-            if (!verifyCodewordCount(codewords, numECCodewords))
+            if (!VerifyCodewordCount(codewords, numEcCodewords))
             {
                 return null;
             }
@@ -786,19 +776,19 @@ namespace ZXing.PDF417.Internal
         /// <returns>The errors.</returns>
         /// <param name="codewords">data and error correction codewords.</param>
         /// <param name="erasures">positions of any known erasures.</param>
-        /// <param name="numECCodewords">number of error correction codewords that are available in codewords.</param>
-        private static int correctErrors(int[] codewords, int[] erasures, int numECCodewords)
+        /// <param name="numEcCodewords">number of error correction codewords that are available in codewords.</param>
+        private static int CorrectErrors(int[] codewords, int[] erasures, int numEcCodewords)
         {
             if (erasures != null &&
-                erasures.Length > numECCodewords / 2 + MAX_ERRORS ||
-                numECCodewords < 0 ||
-                numECCodewords > MAX_EC_CODEWORDS)
+                erasures.Length > numEcCodewords / 2 + MAX_ERRORS ||
+                numEcCodewords < 0 ||
+                numEcCodewords > MAX_EC_CODEWORDS)
             {
                 // Too many errors or EC Codewords is corrupted
                 return -1;
 
             }
-            if (!errorCorrection.decode(codewords, numECCodewords, erasures, out var errorCount))
+            if (!ERROR_CORRECTION.decode(codewords, numEcCodewords, erasures, out var errorCount))
             {
                 return -1;
             }
@@ -809,8 +799,8 @@ namespace ZXing.PDF417.Internal
         /// Verifies that all is well with the the codeword array.
         /// </summary>
         /// <param name="codewords">Codewords.</param>
-        /// <param name="numECCodewords">Number EC codewords.</param>
-        private static bool verifyCodewordCount(int[] codewords, int numECCodewords)
+        /// <param name="numEcCodewords">Number EC codewords.</param>
+        private static bool VerifyCodewordCount(int[] codewords, int numEcCodewords)
         {
             if (codewords.Length < 4)
             {
@@ -829,9 +819,9 @@ namespace ZXing.PDF417.Internal
             if (numberOfCodewords == 0)
             {
                 // Reset to the Length of the array - 8 (Allow for at least level 3 Error Correction (8 Error Codewords)
-                if (numECCodewords < codewords.Length)
+                if (numEcCodewords < codewords.Length)
                 {
-                    codewords[0] = codewords.Length - numECCodewords;
+                    codewords[0] = codewords.Length - numEcCodewords;
                 }
                 else
                 {
@@ -847,7 +837,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The bit count for codeword.</returns>
         /// <param name="codeword">Codeword.</param>
-        private static int[] getBitCountForCodeword(int codeword)
+        private static int[] GetBitCountForCodeword(int codeword)
         {
             int[] result = new int[8];
             int previousValue = 0;
@@ -874,9 +864,9 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The codeword bucket number.</returns>
         /// <param name="codeword">Codeword.</param>
-        private static int getCodewordBucketNumber(int codeword)
+        private static int GetCodewordBucketNumber(int codeword)
         {
-            return getCodewordBucketNumber(getBitCountForCodeword(codeword));
+            return GetCodewordBucketNumber(GetBitCountForCodeword(codeword));
         }
 
         /// <summary>
@@ -884,7 +874,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The codeword bucket number.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        private static int getCodewordBucketNumber(int[] moduleBitCount)
+        private static int GetCodewordBucketNumber(int[] moduleBitCount)
         {
             return (moduleBitCount[0] - moduleBitCount[2] + moduleBitCount[4] - moduleBitCount[6] + 9) % 9;
         }

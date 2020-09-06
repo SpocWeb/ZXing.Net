@@ -25,7 +25,7 @@ namespace ZXing.PDF417.Internal
     /// <author>Guenther Grau</author>
     public sealed class BoundingBox
     {
-        private readonly BitMatrix image;
+        private readonly IRoBitMatrix image;
 
         /// <summary>
         /// top left corner of the box
@@ -71,7 +71,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="topRight">The top right.</param>
         /// <param name="bottomRight">The bottom right.</param>
         /// <returns></returns>
-        public static BoundingBox Create(BitMatrix image,
+        public static BoundingBox Create(IRoBitMatrix image,
                                          ResultPoint topLeft,
                                          ResultPoint bottomLeft,
                                          ResultPoint topRight,
@@ -87,15 +87,7 @@ namespace ZXing.PDF417.Internal
             return new BoundingBox(image, topLeft, bottomLeft, topRight, bottomRight);
         }
 
-        /// <summary>
-        /// Creates the specified box.
-        /// </summary>
-        /// <param name="box">The box.</param>
-        /// <returns></returns>
-        public static BoundingBox Create(BoundingBox box)
-        {
-            return new BoundingBox(box);
-        }
+        public static BoundingBox Create(BoundingBox box) => new BoundingBox(box);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ZXing.PDF417.Internal.BoundingBox"/> class.
@@ -106,7 +98,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="topRight">Top right.</param>
         /// <param name="bottomLeft">Bottom left.</param>
         /// <param name="bottomRight">Bottom right.</param>
-        private BoundingBox(BitMatrix image,
+        private BoundingBox(IRoBitMatrix image,
                             ResultPoint topLeft,
                             ResultPoint bottomLeft,
                             ResultPoint topRight,

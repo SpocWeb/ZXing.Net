@@ -81,7 +81,7 @@ namespace ZXing.PDF417
             , IDictionary<DecodeHintType, object> hints, bool multiple)
         {
             var results = new List<BarCodeText>();
-            PDF417DetectorResult detectorResult = Detector.Detect(image, hints, multiple);
+            DetectorResult detectorResult = Detector.Detect(image, hints, multiple);
             if (detectorResult == null)
             {
                 return results.ToArray();
@@ -89,7 +89,7 @@ namespace ZXing.PDF417
 
             foreach (var points in detectorResult.Points)
             {
-                var decoderResult = PDF417ScanningDecoder.decode(detectorResult.Bits
+                var decoderResult = Pdf417ScanningDecoder.Decode(detectorResult.Bits
                     , points[4], points[5],
                     points[6], points[7], GetMinCodewordWidth(points), GetMaxCodewordWidth(points));
                 if (decoderResult == null)

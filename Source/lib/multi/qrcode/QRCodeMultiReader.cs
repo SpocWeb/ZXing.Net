@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using ZXing.Common;
 using ZXing.Multi.QrCode.Internal;
@@ -66,7 +67,7 @@ namespace ZXing.Multi.QrCode
                     continue;
                 }
 
-                var points = detectorResult.Points;
+                var points = detectorResult.Points.Single();
 
                 // If the code was mirrored: swap the bottom-left and the top-right points.
                 if (decoderResult.Other is QrCodeDecoderMetaData data)

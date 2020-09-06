@@ -15,6 +15,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using ZXing.Aztec.Internal;
 using ZXing.Common;
 
@@ -64,7 +65,7 @@ namespace ZXing.Aztec
             var detectorResult = detector.detect();
             if (detectorResult != null)
             {
-                points = detectorResult.Points;
+                points = detectorResult.Points.Single();
 
                 decoderResult = new Decoder().decode(detectorResult);
             }
@@ -75,7 +76,7 @@ namespace ZXing.Aztec
                     return null;
                 }
 
-                points = detectorResult.Points;
+                points = detectorResult.Points.Single();
                 decoderResult = new Decoder().decode(detectorResult);
                 if (decoderResult == null) {
                     return null;

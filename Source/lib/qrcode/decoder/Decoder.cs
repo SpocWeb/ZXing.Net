@@ -64,7 +64,7 @@ namespace ZXing.QrCode.Internal
         public DecoderResult decode(IBitMatrix bits, IDictionary<DecodeHintType, object> hints)
         {
             // Construct a parser and read version, error-correction level
-            var parser = BitMatrixParser.createBitMatrixParser(bits);
+            var parser = BitMatrixParser.CreateBitMatrixParser(bits);
             if (parser == null) {
                 return null;
             }
@@ -73,19 +73,19 @@ namespace ZXing.QrCode.Internal
             if (result == null)
             {
                 // Revert the bit matrix
-                parser.remask();
+                parser.Remask();
 
                 // Will be attempting a mirrored reading of the version and format info.
-                parser.setMirror(true);
+                parser.SetMirror(true);
 
                 // Preemptively read the version.
-                var version = parser.readVersion();
+                var version = parser.ReadVersion();
                 if (version == null) {
                     return null;
                 }
 
                 // Preemptively read the format information.
-                var formatinfo = parser.readFormatInformation();
+                var formatinfo = parser.ReadFormatInformation();
                 if (formatinfo == null) {
                     return null;
                 }
@@ -97,7 +97,7 @@ namespace ZXing.QrCode.Internal
                  * mirrored content.
                  */
                 // Prepare for a mirrored reading.
-                parser.mirror();
+                parser.Mirror();
 
                 result = decode(parser, hints);
 
@@ -113,18 +113,18 @@ namespace ZXing.QrCode.Internal
 
         private DecoderResult decode(BitMatrixParser parser, IDictionary<DecodeHintType, object> hints)
         {
-            Version version = parser.readVersion();
+            Version version = parser.ReadVersion();
             if (version == null) {
                 return null;
             }
-            var formatinfo = parser.readFormatInformation();
+            var formatinfo = parser.ReadFormatInformation();
             if (formatinfo == null) {
                 return null;
             }
             ErrorCorrectionLevel ecLevel = formatinfo.ErrorCorrectionLevel;
 
             // Read codewords
-            byte[] codewords = parser.readCodewords();
+            byte[] codewords = parser.ReadCodewords();
             if (codewords == null) {
                 return null;
             }

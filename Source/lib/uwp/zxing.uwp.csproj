@@ -794,9 +794,6 @@
     <Compile Include="..\pdf417\detector\Detector.cs">
       <Link>pdf417\detector\Detector.cs</Link>
     </Compile>
-    <Compile Include="..\pdf417\detector\PDF417DetectorResult.cs">
-      <Link>pdf417\detector\PDF417DetectorResult.cs</Link>
-    </Compile>
     <Compile Include="..\pdf417\encoder\PDF417AspectRatio.cs">
       <Link>pdf417\encoder\PDF417AspectRatio.cs</Link>
     </Compile>

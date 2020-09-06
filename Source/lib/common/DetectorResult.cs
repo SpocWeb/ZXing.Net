@@ -30,9 +30,15 @@ namespace ZXing.Common
         public IBitMatrix Bits { get; }
 
         /// <summary> pixel points where the result is found </summary>
-        public ResultPoint[] Points { get; }
+        public IReadOnlyList<ResultPoint[]> Points { get; }
 
-        public DetectorResult(IBitMatrix bits, ResultPoint[] points)
+        public DetectorResult(IBitMatrix bits, IReadOnlyList<ResultPoint[]> points)
+        {
+            Bits = bits;
+            Points = points;
+        }
+
+        public DetectorResult(IBitMatrix bits, params ResultPoint[][] points)
         {
             Bits = bits;
             Points = points;
