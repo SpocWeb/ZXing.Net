@@ -39,9 +39,9 @@ namespace ZXing.QrCode.Test
    public sealed class QrCodeWriterTestCase
    {
 
-      private static string _BASE_IMAGE_PATH = "test/data/golden/qrcode/";
+       static string _BASE_IMAGE_PATH = "test/data/golden/qrcode/";
 #if !SILVERLIGHT
-      private static Bitmap LoadImage(string fileName)
+       static Bitmap LoadImage(string fileName)
 #else
       private static WriteableBitmap loadImage(String fileName)
 #endif
@@ -64,7 +64,7 @@ namespace ZXing.QrCode.Test
 
 #if !SILVERLIGHT
       // In case the golden images are not monochromatic, convert the RGB values to greyscale.
-      private static BitMatrix CreateMatrixFromImage(Bitmap image)
+      static BitMatrix CreateMatrixFromImage(Bitmap image)
       {
          int width = image.Width;
          int height = image.Height;
@@ -165,7 +165,7 @@ namespace ZXing.QrCode.Test
          Assert.AreEqual(strangeHeight, matrix.Height);
       }
 
-      private static void CompareToGoldenFile(string contents,
+      static void CompareToGoldenFile(string contents,
                                               ErrorCorrectionLevel ecLevel,
                                               int resolution,
                                               string fileName)

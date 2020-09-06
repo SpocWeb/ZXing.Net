@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
-using ZXing.Common;
 using ZXing.Datamatrix.Encoder;
 
 namespace ZXing.Datamatrix.Test

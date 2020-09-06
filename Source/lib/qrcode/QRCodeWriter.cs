@@ -28,7 +28,8 @@ namespace ZXing.QrCode
     /// </summary>
     public sealed class QrCodeWriter : IBarCodeWriter
     {
-        private const int QUIET_ZONE_SIZE = 4;
+
+        const int QUIET_ZONE_SIZE = 4;
 
 
         /// <summary>
@@ -111,7 +112,7 @@ namespace ZXing.QrCode
 
         // Note that the input matrix uses 0 == white, 1 == black, while the output matrix uses
         // 0 == black, 255 == white (i.e. an 8 bit greyscale bitmap).
-        private static BitMatrix RenderResult(QRCode code, int width, int height, int quietZone)
+        static BitMatrix RenderResult(QRCode code, int width, int height, int quietZone)
         {
             var input = code.Matrix;
             if (input == null)

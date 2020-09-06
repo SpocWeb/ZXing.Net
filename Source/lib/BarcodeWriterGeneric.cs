@@ -23,7 +23,8 @@ namespace ZXing
     /// </summary>
     public class BarcodeWriterGeneric : IBarcodeWriterGeneric
     {
-        private EncodingOptions options;
+
+        EncodingOptions options;
 
         /// <summary>
         /// Gets or sets the barcode format.

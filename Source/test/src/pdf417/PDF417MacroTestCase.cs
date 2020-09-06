@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using NUnit.Framework;
 using ZXing.PDF417.Internal;

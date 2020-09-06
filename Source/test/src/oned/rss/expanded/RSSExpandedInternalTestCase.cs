@@ -24,10 +24,8 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
 using System.Collections.Generic;
 #if !SILVERLIGHT
-using System.Drawing;
 #else
 using System.Windows.Media.Imaging;
 #endif

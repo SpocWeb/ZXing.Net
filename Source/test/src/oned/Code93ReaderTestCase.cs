@@ -16,8 +16,6 @@
 
 namespace ZXing.OneD.Test
 {
-    using System;
-
     using Common;
 
     using NUnit.Framework;

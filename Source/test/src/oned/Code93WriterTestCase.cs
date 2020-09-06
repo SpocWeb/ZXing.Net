@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 
 using ZXing.Common.Test;
@@ -60,7 +58,7 @@ namespace ZXing.OneD.Test
             Assert.That(dst, Is.EqualTo(src));
         }
 
-        private static void DoTest(string input, string expected)
+        static void DoTest(string input, string expected)
         {
             var result = new Code93Writer().Encode(input, BarcodeFormat.CODE_93, 0, 0);
             Assert.AreEqual(expected, BitMatrixTestCase.MatrixToString(result));

@@ -26,13 +26,14 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class Ean13Writer : UpcEanWriter
     {
-        private const int CODE_WIDTH = 3 + // start guard
+
+        const int CODE_WIDTH = 3 + // start guard
             7 * 6 + // left bars
             5 + // middle guard
             7 * 6 + // right bars
             3; // end guard
 
-        private static readonly IList<BarcodeFormat> SUPPORTED_WRITE_FORMATS = new List<BarcodeFormat> { BarcodeFormat.EAN_13 };
+        static readonly IList<BarcodeFormat> SUPPORTED_WRITE_FORMATS = new List<BarcodeFormat> { BarcodeFormat.EAN_13 };
 
         /// <summary>
         /// returns supported formats

@@ -30,16 +30,16 @@ namespace ZXing.PDF417
         /// <summary>
         /// default white space (margin) around the code
         /// </summary>
-        private const int WHITE_SPACE = 30;
+        const int WHITE_SPACE = 30;
 
         /// <summary>
         /// default error correction level
         /// </summary>
-        private const int DEFAULT_ERROR_CORRECTION_LEVEL = 2;
+        const int DEFAULT_ERROR_CORRECTION_LEVEL = 2;
         /// <summary>
         /// default aspect ratio
         /// </summary>
-        private const int DEFAULT_ASPECT_RATIO = 4;
+        const int DEFAULT_ASPECT_RATIO = 4;
 
         /// <summary>
         /// </summary>
@@ -170,7 +170,7 @@ namespace ZXing.PDF417
         /// <summary>
         /// Takes encoder, accounts for width/height, and retrieves bit matrix
         /// </summary>
-        private static BitMatrix BitMatrixFromEncoder(Internal.PDF417 encoder,
+        static BitMatrix BitMatrixFromEncoder(Internal.PDF417 encoder,
                                                       string contents,
                                                       int errorCorrectionLevel,
                                                       int width,
@@ -224,7 +224,7 @@ namespace ZXing.PDF417
         /// <param name="input">a byte array of information with 0 is black, and 1 is white</param>
         /// <param name="margin">border around the barcode</param>
         /// <returns>BitMatrix of the input</returns>
-        private static BitMatrix BitMatrixFromBitArray(sbyte[][] input, int margin)
+        static BitMatrix BitMatrixFromBitArray(sbyte[][] input, int margin)
         {
             // Creates the bit matrix with extra space for whitespace
             var output = new BitMatrix(input[0].Length + 2 * margin, input.Length + 2 * margin);
@@ -248,7 +248,7 @@ namespace ZXing.PDF417
         /// <summary>
         /// Takes and rotates the it 90 degrees
         /// </summary>
-        private static sbyte[][] RotateArray(sbyte[][] bitarray)
+        static sbyte[][] RotateArray(sbyte[][] bitarray)
         {
             sbyte[][] temp = new sbyte[bitarray[0].Length][];
             for (int idx = 0; idx < bitarray[0].Length; idx++)

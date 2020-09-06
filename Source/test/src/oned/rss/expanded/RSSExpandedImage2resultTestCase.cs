@@ -29,18 +29,13 @@
  *
  */
 
-using System;
 using System.Collections.Generic;
 #if !SILVERLIGHT
-using System.Drawing;
 #else
 using System.Windows.Media.Imaging;
 #endif
-using System.IO;
 using NUnit.Framework;
 using ZXing.Client.Result;
-using ZXing.Common;
-using ZXing.Common.Test;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {

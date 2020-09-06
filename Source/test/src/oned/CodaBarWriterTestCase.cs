@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-using System;
-using System.Text;
 using NUnit.Framework;
 using ZXing.Common;
 using ZXing.Common.Test;
@@ -54,15 +52,13 @@ namespace ZXing.OneD.Test
          Assert.AreEqual(Encode("T123456789-$T"), Encode("A123456789-$A"));
       }
 
-      private static void DoTest(string input, string expected)
+      static void DoTest(string input, string expected)
       {
          var result = Encode(input);
          Assert.AreEqual(expected, BitMatrixTestCase.MatrixToString(result));
       }
 
-      private static BitMatrix Encode(string input)
-      {
-         return new CodaBarWriter().Encode(input, BarcodeFormat.CODABAR, 0, 0);
-      }
+      static BitMatrix Encode(string input) => new CodaBarWriter().Encode(input, BarcodeFormat.CODABAR, 0, 0);
+
    }
 }
