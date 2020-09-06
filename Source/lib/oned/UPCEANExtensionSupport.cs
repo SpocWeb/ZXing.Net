@@ -18,22 +18,22 @@ using ZXing.Common;
 
 namespace ZXing.OneD
 {
-    sealed class UPCEANExtensionSupport
+    sealed class UpcEanExtensionSupport
     {
         private static readonly int[] EXTENSION_START_PATTERN = { 1, 1, 2 };
 
-        private readonly UPCEANExtension2Support twoSupport = new UPCEANExtension2Support();
-        private readonly UPCEANExtension5Support fiveSupport = new UPCEANExtension5Support();
+        private readonly UpcEanExtension2Support _TwoSupport = new UpcEanExtension2Support();
+        private readonly UpcEanExtension5Support _FiveSupport = new UpcEanExtension5Support();
 
-        internal BarCodeText decodeRow(int rowNumber, BitArray row, int rowOffset)
+        internal BarCodeText DecodeRow(int rowNumber, BitArray row, int rowOffset)
         {
             int[] extensionStartRange = UpcEanReader.FindGuardPattern(row, rowOffset, false, EXTENSION_START_PATTERN);
             if (extensionStartRange == null) {
                 return null;
             }
-            var result = fiveSupport.decodeRow(rowNumber, row, extensionStartRange);
+            var result = _FiveSupport.DecodeRow(rowNumber, row, extensionStartRange);
             if (result == null) {
-                result = twoSupport.decodeRow(rowNumber, row, extensionStartRange);
+                result = _TwoSupport.DecodeRow(rowNumber, row, extensionStartRange);
             }
             return result;
         }

@@ -31,7 +31,7 @@ namespace ZXing.OneD.Test
         [TestCase("590123412345", "00001010001011010011101100110010011011110100111010101011001101101100100001010111001001110100010010100000", TestName = "EAN13testAddChecksumAndEncode")]
         public void TestEncode(string content, string encoding)
         {
-            var result = new EAN13Writer().encode(content, BarcodeFormat.EAN_13, encoding.Length, 0);
+            var result = new Ean13Writer().Encode(content, BarcodeFormat.EAN_13, encoding.Length, 0);
             Assert.AreEqual(encoding, BitMatrixTestCase.MatrixToString(result));
         }
 
@@ -39,7 +39,7 @@ namespace ZXing.OneD.Test
         [ExpectedException(typeof(ArgumentException))]
         public void TestEncodeIllegalCharacters()
         {
-           new EAN13Writer().encode("5901234123abc", BarcodeFormat.EAN_13, 0, 0);
+           new Ean13Writer().Encode("5901234123abc", BarcodeFormat.EAN_13, 0, 0);
         }
     }
 }

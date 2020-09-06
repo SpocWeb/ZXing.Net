@@ -34,8 +34,8 @@ namespace ZXing.PDF417.Test
                 Margin = 0
             };
             const int size = 64;
-            var writer = new PDF417Writer();
-            var matrix = writer.encode("Hello Google", BarcodeFormat.PDF_417, size, size, hints.Hints);
+            var writer = new Pdf417Writer();
+            var matrix = writer.Encode("Hello Google", BarcodeFormat.PDF_417, size, size, hints.Hints);
             Assert.IsNotNull(matrix);
             var expected =
                 "X X X X X X X X   X   X   X       X X X X   X   X   X X X X         X X   X   X           X X         X X X X   X X     X     X X X     X X   X           X       X X     X X X X X   X   X   X X X X X     X X X X X X X   X       X   X     X \r\n" +

@@ -26,24 +26,10 @@ namespace ZXing.QrCode
     ///
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     /// </summary>
-    public sealed class QRCodeWriter : IBarCodeWriter
+    public sealed class QrCodeWriter : IBarCodeWriter
     {
         private const int QUIET_ZONE_SIZE = 4;
 
-        /// <summary>
-        /// Encode a barcode using the default settings.
-        /// </summary>
-        /// <param name="contents">The contents to encode in the barcode</param>
-        /// <param name="format">The barcode format to generate</param>
-        /// <param name="width">The preferred width in pixels</param>
-        /// <param name="height">The preferred height in pixels</param>
-        /// <returns>
-        /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
-        /// </returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
-        {
-            return encode(contents, format, width, height, null);
-        }
 
         /// <summary>
         /// </summary>
@@ -55,11 +41,11 @@ namespace ZXing.QrCode
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(string contents,
+        public BitMatrix Encode(string contents,
                                 BarcodeFormat format,
                                 int width,
                                 int height,
-                                IDictionary<EncodeHintType, object> hints)
+                                IDictionary<EncodeHintType, object> hints = null)
         {
             if (string.IsNullOrEmpty(contents))
             {
@@ -82,13 +68,13 @@ namespace ZXing.QrCode
             {
                 if (hints.ContainsKey(EncodeHintType.ERROR_CORRECTION))
                 {
-                    var requestedECLevel = hints[EncodeHintType.ERROR_CORRECTION];
-                    if (requestedECLevel != null)
+                    var requestedEcLevel = hints[EncodeHintType.ERROR_CORRECTION];
+                    if (requestedEcLevel != null)
                     {
-                        errorCorrectionLevel = requestedECLevel as ErrorCorrectionLevel;
+                        errorCorrectionLevel = requestedEcLevel as ErrorCorrectionLevel;
                         if (errorCorrectionLevel == null)
                         {
-                            switch (requestedECLevel.ToString().ToUpper())
+                            switch (requestedEcLevel.ToString().ToUpper())
                             {
                                 case "L":
                                     errorCorrectionLevel = ErrorCorrectionLevel.L;
@@ -120,12 +106,12 @@ namespace ZXing.QrCode
             }
 
             var code = Encoder.encode(contents, errorCorrectionLevel, hints);
-            return renderResult(code, width, height, quietZone);
+            return RenderResult(code, width, height, quietZone);
         }
 
         // Note that the input matrix uses 0 == white, 1 == black, while the output matrix uses
         // 0 == black, 255 == white (i.e. an 8 bit greyscale bitmap).
-        private static BitMatrix renderResult(QRCode code, int width, int height, int quietZone)
+        private static BitMatrix RenderResult(QRCode code, int width, int height, int quietZone)
         {
             var input = code.Matrix;
             if (input == null)

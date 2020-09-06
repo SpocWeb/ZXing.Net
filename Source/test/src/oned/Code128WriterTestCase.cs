@@ -57,7 +57,7 @@ namespace ZXing.OneD.Test
             var expected = QUIET_SPACE + START_CODE_B + FNC3 + "10011100110" + "11001110010" + "11001011100" +
                            "11101000110" + STOP + QUIET_SPACE;
 
-            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
             var actual = BitMatrixTestCase.MatrixToString(result);
 
@@ -72,7 +72,7 @@ namespace ZXing.OneD.Test
             var expected = QUIET_SPACE + START_CODE_B + FNC2 + "10011100110" + "11001110010" + "11001011100" +
                            "11100010110" + STOP + QUIET_SPACE;
 
-            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
             var actual = BitMatrixTestCase.MatrixToString(result);
 
@@ -87,7 +87,7 @@ namespace ZXing.OneD.Test
             var expected = QUIET_SPACE + START_CODE_C + FNC1 + "10110011100" + SWITCH_CODE_B + "11001011100" +
                            "10101111000" + STOP + QUIET_SPACE;
 
-            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
             var actual = BitMatrixTestCase.MatrixToString(result);
 
@@ -100,7 +100,7 @@ namespace ZXing.OneD.Test
             var toEncode = "\u00f1" + "10958" + "\u00f1" + "17160526";
             var expected = "1095817160526";
 
-            var encResult = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var encResult = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
             var row = encResult.GetRow(0, null);
             var rtResult = _Reader.DecodeRow(0, row, null);
             var actual = rtResult.Text;
@@ -115,7 +115,7 @@ namespace ZXing.OneD.Test
             var expected = QUIET_SPACE + START_CODE_B + Fnc4B + "10011100110" + "11001110010" + "11001011100" +
                            "11100011010" + STOP + QUIET_SPACE;
 
-            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
             var actual = BitMatrixTestCase.MatrixToString(result);
 
@@ -129,7 +129,7 @@ namespace ZXing.OneD.Test
 
             string expected = QUIET_SPACE + START_CODE_A + LF + FNC1 + Fnc4A + "10011100110" + LF + "10101111000" + STOP + QUIET_SPACE;
 
-            BitMatrix result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            BitMatrix result = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
             string actual = BitMatrixTestCase.MatrixToString(result);
 
@@ -159,7 +159,7 @@ namespace ZXing.OneD.Test
             var sut = new Code128Writer();
             var sutDecode = new Code128Reader();
 
-            var result = sut.encode(contents, BarcodeFormat.CODE_128, 0, 0);
+            var result = sut.Encode(contents, BarcodeFormat.CODE_128, 0, 0);
             var resultString = BitMatrixTestCase.MatrixToString(result);
             Console.WriteLine(contents);
             Console.WriteLine(resultString);
@@ -188,7 +188,7 @@ namespace ZXing.OneD.Test
 
         void TestEncode(string toEncode, string expected)
         {
-            var result = _Writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
+            var result = _Writer.Encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
             var actual = BitMatrixTestCase.MatrixToString(result);
             Assert.AreEqual(expected, actual, toEncode);

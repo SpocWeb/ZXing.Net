@@ -28,7 +28,8 @@ namespace ZXing.Aztec
     /// </summary>
     public sealed class AztecWriter : IBarCodeWriter
     {
-        private static readonly Encoding DEFAULT_CHARSET;
+
+        static readonly Encoding DEFAULT_CHARSET;
 
         static AztecWriter()
         {
@@ -50,21 +51,6 @@ namespace ZXing.Aztec
         }
 
         /// <summary>
-        /// Encode a barcode using the default settings.
-        /// </summary>
-        /// <param name="contents">The contents to encode in the barcode</param>
-        /// <param name="format">The barcode format to generate</param>
-        /// <param name="width">The preferred width in pixels</param>
-        /// <param name="height">The preferred height in pixels</param>
-        /// <returns>
-        /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
-        /// </returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
-        {
-            return encode(contents, format, width, height, null);
-        }
-
-        /// <summary>
         /// </summary>
         /// <param name="contents">The contents to encode in the barcode</param>
         /// <param name="format">The barcode format to generate</param>
@@ -74,7 +60,8 @@ namespace ZXing.Aztec
         /// <returns>
         /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
         /// </returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
+        public BitMatrix Encode(string contents, BarcodeFormat format, int width, int height
+            , IDictionary<EncodeHintType, object> hints = null)
         {
             var charset = DEFAULT_CHARSET;
             int eccPercent = Encoder.DEFAULT_EC_PERCENT;
@@ -108,7 +95,7 @@ namespace ZXing.Aztec
                 }
             }
 
-            return encode(contents,
+            return Encode(contents,
                           format,
                           width,
                           height,
@@ -117,17 +104,17 @@ namespace ZXing.Aztec
                           layers);
         }
 
-        private static BitMatrix encode(string contents, BarcodeFormat format, int width, int height, Encoding charset, int eccPercent, int layers)
+        static BitMatrix Encode(string contents, BarcodeFormat format, int width, int height, Encoding charset, int eccPercent, int layers)
         {
             if (format != BarcodeFormat.AZTEC)
             {
                 throw new ArgumentException("Can only encode AZTEC code, but got " + format);
             }
             var aztec = Encoder.encode(charset.GetBytes(contents), eccPercent, layers);
-            return renderResult(aztec, width, height);
+            return RenderResult(aztec, width, height);
         }
 
-        private static BitMatrix renderResult(AztecCode code, int width, int height)
+        static BitMatrix RenderResult(AztecCode code, int width, int height)
         {
             var input = code.Matrix;
             if (input == null)

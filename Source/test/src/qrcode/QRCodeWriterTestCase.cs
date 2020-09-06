@@ -140,8 +140,8 @@ namespace ZXing.QrCode.Test
       {
          // The QR should be multiplied up to fit, with extra padding if necessary
          int bigEnough = 256;
-         QRCodeWriter writer = new QRCodeWriter();
-         BitMatrix matrix = writer.encode("http://www.google.com/", BarcodeFormat.QR_CODE, bigEnough,
+         QrCodeWriter writer = new QrCodeWriter();
+         BitMatrix matrix = writer.Encode("http://www.google.com/", BarcodeFormat.QR_CODE, bigEnough,
              bigEnough, null);
          Assert.NotNull(matrix);
          Assert.AreEqual(bigEnough, matrix.Width);
@@ -149,7 +149,7 @@ namespace ZXing.QrCode.Test
 
          // The QR will not fit in this size, so the matrix should come back bigger
          int tooSmall = 20;
-         matrix = writer.encode("http://www.google.com/", BarcodeFormat.QR_CODE, tooSmall,
+         matrix = writer.Encode("http://www.google.com/", BarcodeFormat.QR_CODE, tooSmall,
              tooSmall, null);
          Assert.NotNull(matrix);
          Assert.IsTrue(tooSmall < matrix.Width);
@@ -158,7 +158,7 @@ namespace ZXing.QrCode.Test
          // We should also be able to handle non-square requests by padding them
          int strangeWidth = 500;
          int strangeHeight = 100;
-         matrix = writer.encode("http://www.google.com/", BarcodeFormat.QR_CODE, strangeWidth,
+         matrix = writer.Encode("http://www.google.com/", BarcodeFormat.QR_CODE, strangeWidth,
              strangeHeight, null);
          Assert.NotNull(matrix);
          Assert.AreEqual(strangeWidth, matrix.Width);
@@ -175,12 +175,12 @@ namespace ZXing.QrCode.Test
          BitMatrix goldenResult = CreateMatrixFromImage(image);
          Assert.NotNull(goldenResult);
 
-         QRCodeWriter writer = new QRCodeWriter();
+         QrCodeWriter writer = new QrCodeWriter();
             IDictionary<EncodeHintType, object> hints = new Dictionary<EncodeHintType, object>
             {
                 [EncodeHintType.ERROR_CORRECTION] = ecLevel
             };
-            BitMatrix generatedResult = writer.encode(contents, BarcodeFormat.QR_CODE, resolution,
+            BitMatrix generatedResult = writer.Encode(contents, BarcodeFormat.QR_CODE, resolution,
              resolution, hints);
 
          Assert.AreEqual(resolution, generatedResult.Width);

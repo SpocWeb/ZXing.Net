@@ -21,26 +21,23 @@ using ZXing.Common;
 
 namespace ZXing.OneD
 {
-    /// <summary>
-    /// @see UPCEANExtension5Support
-    /// </summary>
-    internal sealed class UPCEANExtension2Support
+    internal sealed class UpcEanExtension2Support
     {
 
-        readonly int[] decodeMiddleCounters = new int[4];
-        readonly StringBuilder decodeRowStringBuffer = new StringBuilder();
+        readonly int[] _DecodeMiddleCounters = new int[4];
+        readonly StringBuilder _DecodeRowStringBuffer = new StringBuilder();
 
-        internal BarCodeText decodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
+        internal BarCodeText DecodeRow(int rowNumber, BitArray row, int[] extensionStartRange)
         {
-            StringBuilder result = decodeRowStringBuffer;
+            StringBuilder result = _DecodeRowStringBuffer;
             result.Length = 0;
-            int end = decodeMiddle(row, extensionStartRange, result);
+            int end = DecodeMiddle(row, extensionStartRange, result);
             if (end < 0) {
                 return null;
             }
 
             string resultString = result.ToString();
-            IDictionary<ResultMetadataType, object> extensionData = parseExtensionString(resultString);
+            IDictionary<ResultMetadataType, object> extensionData = ParseExtensionString(resultString);
 
             BarCodeText extensionResult =
                 new BarCodeText(resultString, null, row, new[] {
@@ -55,9 +52,9 @@ namespace ZXing.OneD
             return extensionResult;
         }
 
-        int decodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
+        int DecodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
         {
-            int[] counters = decodeMiddleCounters;
+            int[] counters = _DecodeMiddleCounters;
             counters[0] = 0;
             counters[1] = 0;
             counters[2] = 0;
@@ -107,7 +104,7 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="raw">raw content of extension</param>
         /// <returns>formatted interpretation of raw content as a {@link Map} mapping</returns>
-        static IDictionary<ResultMetadataType, object> parseExtensionString(string raw)
+        static IDictionary<ResultMetadataType, object> ParseExtensionString(string raw)
         {
             if (raw.Length != 2)
             {

@@ -25,7 +25,7 @@ namespace ZXing.OneD.RSS
     /// <summary>
     /// Decodes RSS-14, including truncated and stacked variants. See ISO/IEC 24724:2006.
     /// </summary>
-    public sealed class RSS14Reader : AbstractRSSReader
+    public sealed class Rss14Reader : AbstractRSSReader
     {
 
         static readonly int[] OUTSIDE_EVEN_TOTAL_SUBSET = {1, 10, 34, 70, 126};
@@ -48,16 +48,16 @@ namespace ZXing.OneD.RSS
             new[] {1, 3, 9, 1},
         };
 
-        readonly List<Pair> possibleLeftPairs;
-        readonly List<Pair> possibleRightPairs;
+        readonly List<Pair> _PossibleLeftPairs;
+        readonly List<Pair> _PossibleRightPairs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RSS14Reader"/> class.
+        /// Initializes a new instance of the <see cref="Rss14Reader"/> class.
         /// </summary>
-        public RSS14Reader()
+        public Rss14Reader()
         {
-            possibleLeftPairs = new List<Pair>();
-            possibleRightPairs = new List<Pair>();
+            _PossibleLeftPairs = new List<Pair>();
+            _PossibleRightPairs = new List<Pair>();
         }
 
         /// <summary>
@@ -74,26 +74,26 @@ namespace ZXing.OneD.RSS
             BitArray row,
             IDictionary<DecodeHintType, object> hints)
         {
-            Pair leftPair = decodePair(row, false, rowNumber, hints);
-            addOrTally(possibleLeftPairs, leftPair);
+            Pair leftPair = DecodePair(row, false, rowNumber, hints);
+            AddOrTally(_PossibleLeftPairs, leftPair);
             row.Reverse();
-            Pair rightPair = decodePair(row, true, rowNumber, hints);
-            addOrTally(possibleRightPairs, rightPair);
+            Pair rightPair = DecodePair(row, true, rowNumber, hints);
+            AddOrTally(_PossibleRightPairs, rightPair);
             row.Reverse();
-            int lefSize = possibleLeftPairs.Count;
+            int lefSize = _PossibleLeftPairs.Count;
             for (int i = 0; i < lefSize; i++)
             {
-                Pair left = possibleLeftPairs[i];
+                Pair left = _PossibleLeftPairs[i];
                 if (left.Count > 1)
                 {
-                    int rightSize = possibleRightPairs.Count;
+                    int rightSize = _PossibleRightPairs.Count;
                     for (int j = 0; j < rightSize; j++)
                     {
-                        Pair right = possibleRightPairs[j];
+                        Pair right = _PossibleRightPairs[j];
                         if (right.Count > 1 &&
-                            checkChecksum(left, right))
+                            CheckChecksum(left, right))
                         {
-                            return constructResult(left, right);
+                            return ConstructResult(left, right);
                         }
                     }
                 }
@@ -101,7 +101,7 @@ namespace ZXing.OneD.RSS
             return null;
         }
 
-        static void addOrTally(IList<Pair> possiblePairs, Pair pair)
+        static void AddOrTally(IList<Pair> possiblePairs, Pair pair)
         {
             if (pair == null)
             {
@@ -128,11 +128,11 @@ namespace ZXing.OneD.RSS
         /// </summary>
         public override void Reset()
         {
-            possibleLeftPairs.Clear();
-            possibleRightPairs.Clear();
+            _PossibleLeftPairs.Clear();
+            _PossibleRightPairs.Clear();
         }
 
-        static BarCodeText constructResult(Pair leftPair, Pair rightPair)
+        static BarCodeText ConstructResult(Pair leftPair, Pair rightPair)
         {
             long symbolValue = 4537077L * leftPair.Value + rightPair.Value;
             string text = symbolValue.ToString();
@@ -164,7 +164,7 @@ namespace ZXing.OneD.RSS
                 BarcodeFormat.RSS_14);
         }
 
-        static bool checkChecksum(Pair leftPair, Pair rightPair)
+        static bool CheckChecksum(Pair leftPair, Pair rightPair)
         {
             //int leftFPValue = leftPair.FinderPattern.Value;
             //int rightFPValue = rightPair.FinderPattern.Value;
@@ -186,13 +186,13 @@ namespace ZXing.OneD.RSS
             return checkValue == targetCheckValue;
         }
 
-        Pair decodePair(BitArray row, bool right, int rowNumber, IDictionary<DecodeHintType, object> hints)
+        Pair DecodePair(BitArray row, bool right, int rowNumber, IDictionary<DecodeHintType, object> hints)
         {
-            int[] startEnd = findFinderPattern(row, right);
+            int[] startEnd = FindFinderPattern(row, right);
             if (startEnd == null) {
                 return null;
             }
-            FinderPattern pattern = parseFoundFinderPattern(row, rowNumber, right, startEnd);
+            FinderPattern pattern = ParseFoundFinderPattern(row, rowNumber, right, startEnd);
             if (pattern == null) {
                 return null;
             }
@@ -211,11 +211,11 @@ namespace ZXing.OneD.RSS
                 resultPointCallback(new ResultPoint(center, rowNumber));
             }
 
-            DataCharacter outside = decodeDataCharacter(row, pattern, true);
+            DataCharacter outside = DecodeDataCharacter(row, pattern, true);
             if (outside == null) {
                 return null;
             }
-            DataCharacter inside = decodeDataCharacter(row, pattern, false);
+            DataCharacter inside = DecodeDataCharacter(row, pattern, false);
             if (inside == null) {
                 return null;
             }
@@ -224,7 +224,7 @@ namespace ZXing.OneD.RSS
                 pattern);
         }
 
-        DataCharacter decodeDataCharacter(BitArray row, FinderPattern pattern, bool outsideChar)
+        DataCharacter DecodeDataCharacter(BitArray row, FinderPattern pattern, bool outsideChar)
         {
             int[] counters = getDataCharacterCounters();
             SupportClass.Fill(counters, 0);
@@ -283,7 +283,7 @@ namespace ZXing.OneD.RSS
                 }
             }
 
-            if (!adjustOddEvenCounts(outsideChar, numModules)) {
+            if (!AdjustOddEvenCounts(outsideChar, numModules)) {
                 return null;
             }
 
@@ -337,7 +337,7 @@ namespace ZXing.OneD.RSS
             }
         }
 
-        int[] findFinderPattern(BitArray row, bool rightFinderPattern)
+        int[] FindFinderPattern(BitArray row, bool rightFinderPattern)
         {
 
             int[] counters = getDecodeFinderCounters();
@@ -394,7 +394,7 @@ namespace ZXing.OneD.RSS
             return null;
         }
 
-        FinderPattern parseFoundFinderPattern(BitArray row, int rowNumber, bool right, int[] startEnd)
+        FinderPattern ParseFoundFinderPattern(BitArray row, int rowNumber, bool right, int[] startEnd)
         {
             // Actually we found elements 2-5
             bool firstIsBlack = row[startEnd[0]];
@@ -424,7 +424,7 @@ namespace ZXing.OneD.RSS
             return new FinderPattern(value, new[] {firstElementStart, startEnd[1]}, start, end, rowNumber);
         }
 
-        bool adjustOddEvenCounts(bool outsideChar, int numModules)
+        bool AdjustOddEvenCounts(bool outsideChar, int numModules)
         {
             int oddSum = MathUtils.Sum(getOddCounts());
             int evenSum = MathUtils.Sum(getEvenCounts());

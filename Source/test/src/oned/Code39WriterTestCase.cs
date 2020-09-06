@@ -85,7 +85,7 @@ namespace ZXing.OneD.Test
 
       static void DoTest(string input, string expected)
       {
-         var result = new Code39Writer().encode(input, BarcodeFormat.CODE_39, 0, 0);
+         var result = new Code39Writer().Encode(input, BarcodeFormat.CODE_39, 0, 0);
          Assert.AreEqual(expected, BitMatrixTestCase.MatrixToString(result));
       }
 
@@ -102,7 +102,7 @@ namespace ZXing.OneD.Test
             contents += (char) i;
             if ((i+1)%32 == 0)
             {
-               var result = sut.encode(contents, BarcodeFormat.CODE_39, 0, 0);
+               var result = sut.Encode(contents, BarcodeFormat.CODE_39, 0, 0);
 
                var row = result.GetRow(0, null);
                var rtResult = sutReader.DecodeRow(0, row, null);

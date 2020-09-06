@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ZXing.Aztec.Internal;
 using ZXing.Common;
-using ZXing.PDF417;
 
 namespace ZXing.Aztec
 {
@@ -39,12 +38,12 @@ namespace ZXing.Aztec
         /// </returns>
         public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null)
         {
-            var blackmatrix = image.GetBlackMatrix();
-            if (blackmatrix == null) {
+            var blackMatrix = image.GetBlackMatrix();
+            if (blackMatrix == null) {
                 return null;
             }
 
-            IGridSampler gridSampler = new DefaultGridSampler(blackmatrix);
+            IGridSampler gridSampler = new DefaultGridSampler(blackMatrix);
             Detector detector = new Detector(gridSampler);
             ResultPoint[] points = null;
             DecoderResult decoderResult = null;

@@ -145,7 +145,7 @@ namespace ZXing.Aztec.Test
             // Test AztecWriter defaults
             const string data = "In ut magna vel mauris malesuada";
             var writer = new AztecWriter();
-            var matrix = writer.encode(data, BarcodeFormat.AZTEC, 0, 0);
+            var matrix = writer.Encode(data, BarcodeFormat.AZTEC, 0, 0);
             var aztec = Internal.Encoder.encode(Encoding.GetEncoding("ISO8859-1").GetBytes(data),
                 Internal.Encoder.DEFAULT_EC_PERCENT, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             var expectedMatrix = aztec.Matrix;
@@ -570,7 +570,7 @@ namespace ZXing.Aztec.Test
                 [EncodeHintType.ERROR_CORRECTION] = eccPercent
             };
             var writer = new AztecWriter();
-            var matrix = writer.encode(data, BarcodeFormat.AZTEC, 0, 0, hints);
+            var matrix = writer.Encode(data, BarcodeFormat.AZTEC, 0, 0, hints);
             var aztec = Internal.Encoder.encode(Encoding.GetEncoding(charset).GetBytes(data), eccPercent, Internal.Encoder.DEFAULT_AZTEC_LAYERS);
             Assert.AreEqual(compact, aztec.isCompact, "Unexpected symbol format (compact)");
             Assert.AreEqual(layers, aztec.Layers, "Unexpected nr. of layers");

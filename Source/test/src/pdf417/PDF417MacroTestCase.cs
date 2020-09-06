@@ -68,7 +68,7 @@ namespace ZXing.PDF417.Test
                 }
             };
 
-            var matrix1 = new PDF417Writer().encode("Hello", BarcodeFormat.PDF_417, writer.Options.Width, writer.Options.Height, writer.Options.Hints);
+            var matrix1 = new Pdf417Writer().Encode("Hello", BarcodeFormat.PDF_417, writer.Options.Width, writer.Options.Height, writer.Options.Hints);
 
             // Barcode 1 of 2
             using (Bitmap barcodeImg = writer.Write(matrix1))
@@ -84,7 +84,7 @@ namespace ZXing.PDF417.Test
                 FileId = "HELLO.WORLD"
             };
 
-            var matrix2 = new PDF417Writer().encode(" World", BarcodeFormat.PDF_417, writer.Options.Width, writer.Options.Height, writer.Options.Hints);
+            var matrix2 = new Pdf417Writer().Encode(" World", BarcodeFormat.PDF_417, writer.Options.Width, writer.Options.Height, writer.Options.Hints);
 
             // Barcode 2 of 2
             using (Bitmap barcodeImg = writer.Write(matrix2))

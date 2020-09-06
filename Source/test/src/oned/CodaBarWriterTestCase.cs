@@ -62,7 +62,7 @@ namespace ZXing.OneD.Test
 
       private static BitMatrix Encode(string input)
       {
-         return new CodaBarWriter().encode(input, BarcodeFormat.CODABAR, 0, 0);
+         return new CodaBarWriter().Encode(input, BarcodeFormat.CODABAR, 0, 0);
       }
    }
 }

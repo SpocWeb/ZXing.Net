@@ -29,29 +29,8 @@ namespace ZXing.Datamatrix
     /// <author>Guillaume Le Biller Added to zxing lib.</author>
     public sealed class DataMatrixWriter : IBarCodeWriter
     {
-        /// <summary>
-        /// encodes the content to a BitMatrix
-        /// </summary>
-        /// <param name="contents"></param>
-        /// <param name="format"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
-        {
-            return encode(contents, format, width, height, null);
-        }
-
-        /// <summary>
-        /// encodes the content to a BitMatrix
-        /// </summary>
-        /// <param name="contents"></param>
-        /// <param name="format"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="hints"></param>
-        /// <returns></returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
+        public BitMatrix Encode(string contents, BarcodeFormat format, int width, int height
+            , IDictionary<EncodeHintType, object> hints = null)
         {
             if (string.IsNullOrEmpty(contents))
             {
@@ -124,7 +103,7 @@ namespace ZXing.Datamatrix
             placement.place();
 
             //4. step: low-level encoding
-            return encodeLowLevel(placement, symbolInfo, width, height);
+            return EncodeLowLevel(placement, symbolInfo, width, height);
         }
 
         /// <summary>
@@ -135,7 +114,7 @@ namespace ZXing.Datamatrix
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns>The bit matrix generated.</returns>
-        private static BitMatrix encodeLowLevel(DefaultPlacement placement, SymbolInfo symbolInfo, int width, int height)
+        static BitMatrix EncodeLowLevel(DefaultPlacement placement, SymbolInfo symbolInfo, int width, int height)
         {
             int symbolWidth = symbolInfo.getSymbolDataWidth();
             int symbolHeight = symbolInfo.getSymbolDataHeight();
@@ -190,7 +169,7 @@ namespace ZXing.Datamatrix
                 }
             }
 
-            return convertByteMatrixToBitMatrix(matrix, width, height);
+            return ConvertByteMatrixToBitMatrix(matrix, width, height);
         }
 
         /// <summary>
@@ -200,7 +179,7 @@ namespace ZXing.Datamatrix
         /// <param name="reqWidth">The requested width of the image (in pixels) with the Datamatrix code</param>
         /// <param name="reqHeight">The requested height of the image (in pixels) with the Datamatrix code</param>
         /// <returns>The output matrix.</returns>
-        private static BitMatrix convertByteMatrixToBitMatrix(ByteMatrix matrix, int reqWidth, int reqHeight)
+        static BitMatrix ConvertByteMatrixToBitMatrix(ByteMatrix matrix, int reqWidth, int reqHeight)
         {
             var matrixWidth = matrix.Width;
             var matrixHeight = matrix.Height;

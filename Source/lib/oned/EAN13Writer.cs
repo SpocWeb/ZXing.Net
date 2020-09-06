@@ -24,7 +24,7 @@ namespace ZXing.OneD
     /// This object renders an EAN13 code as a <see cref="BitMatrix"/>.
     /// <author>aripollak@gmail.com (Ari Pollak)</author>
     /// </summary>
-    public sealed class EAN13Writer : UPCEANWriter
+    public sealed class Ean13Writer : UpcEanWriter
     {
         private const int CODE_WIDTH = 3 + // start guard
             7 * 6 + // left bars
@@ -32,12 +32,12 @@ namespace ZXing.OneD
             7 * 6 + // right bars
             3; // end guard
 
-        private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.EAN_13 };
+        private static readonly IList<BarcodeFormat> SUPPORTED_WRITE_FORMATS = new List<BarcodeFormat> { BarcodeFormat.EAN_13 };
 
         /// <summary>
         /// returns supported formats
         /// </summary>
-        protected override IList<BarcodeFormat> SupportedWriteFormats => supportedWriteFormats;
+        protected override IList<BarcodeFormat> SupportedWriteFormats => SUPPORTED_WRITE_FORMATS;
 
         /// <summary>
         /// Encode the contents to byte array expression of one-dimensional barcode.

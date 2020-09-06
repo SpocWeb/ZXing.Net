@@ -22,7 +22,7 @@ using ZXing.PDF417.Internal;
 namespace ZXing.PDF417
 {
     /// <summary>
-    /// The class holds the available options for the <see cref="PDF417Writer" />
+    /// The class holds the available options for the <see cref="Pdf417Writer" />
     /// </summary>
     [Serializable]
     public class PDF417EncodingOptions : EncodingOptions

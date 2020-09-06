@@ -39,7 +39,7 @@ namespace ZXing.Datamatrix.Test
                         {{EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE}};
 
          const int bigEnough = 64;
-         var matrix = writer.encode("Hello Google", BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
+         var matrix = writer.Encode("Hello Google", BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
 
          Assert.IsNotNull(matrix);
          Assert.IsTrue(bigEnough >= matrix.Width);
@@ -55,7 +55,7 @@ namespace ZXing.Datamatrix.Test
                         {{EncodeHintType.DATA_MATRIX_SHAPE, SymbolShapeHint.FORCE_SQUARE}};
 
          const int bigEnough = 14;
-         var matrix = writer.encode("Hello Me", BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
+         var matrix = writer.Encode("Hello Me", BarcodeFormat.DATA_MATRIX, bigEnough, bigEnough, hints);
 
          Assert.IsNotNull(matrix);
          Assert.AreEqual(bigEnough, matrix.Width);
@@ -68,7 +68,7 @@ namespace ZXing.Datamatrix.Test
          // The DataMatrix will not fit in this size, so the matrix should come back bigger
          const int tooSmall = 8;
          var writer = new DataMatrixWriter();
-         var matrix = writer.encode("http://www.google.com/", BarcodeFormat.DATA_MATRIX, tooSmall, tooSmall, null);
+         var matrix = writer.Encode("http://www.google.com/", BarcodeFormat.DATA_MATRIX, tooSmall, tooSmall, null);
 
          Assert.IsNotNull(matrix);
          Assert.IsTrue(tooSmall < matrix.Width);
@@ -84,7 +84,7 @@ namespace ZXing.Datamatrix.Test
 
          var hints = new Dictionary<EncodeHintType, object>();
 
-         var matrix = writer.encode(content, BarcodeFormat.DATA_MATRIX, 1, 1, hints);
+         var matrix = writer.Encode(content, BarcodeFormat.DATA_MATRIX, 1, 1, hints);
 
          Assert.IsNotNull(matrix);
 
@@ -156,7 +156,7 @@ Four score and seven our forefathers brought forth", SymbolShapeHint.FORCE_SQUAR
       {
          var writer = new DataMatrixWriter();
          var options = new DatamatrixEncodingOptions {SymbolShape = shape};
-         var matrix = writer.encode(data, BarcodeFormat.DATA_MATRIX, 0, 0, options.Hints);
+         var matrix = writer.Encode(data, BarcodeFormat.DATA_MATRIX, 0, 0, options.Hints);
 
          Assert.That(matrix, Is.Not.Null);
 

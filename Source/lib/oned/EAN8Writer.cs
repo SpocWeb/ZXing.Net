@@ -24,7 +24,7 @@ namespace ZXing.OneD
     /// This object renders an EAN8 code as a <see cref="BitMatrix"/>.
     /// <author>aripollak@gmail.com (Ari Pollak)</author>
     /// </summary>
-    public sealed class EAN8Writer : UPCEANWriter
+    public sealed class EAN8Writer : UpcEanWriter
     {
         private const int CODE_WIDTH = 3 + // start guard
             7 * 4 + // left bars

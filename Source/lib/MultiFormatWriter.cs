@@ -35,24 +35,25 @@ namespace ZXing
     /// </author>
     public sealed class MultiFormatWriter : IBarCodeWriter
     {
-        private static readonly IDictionary<BarcodeFormat, Func<IBarCodeWriter>> formatMap;
+
+        static readonly IDictionary<BarcodeFormat, Func<IBarCodeWriter>> FORMAT_MAP;
 
         static MultiFormatWriter()
         {
-            formatMap = new Dictionary<BarcodeFormat, Func<IBarCodeWriter>>
+            FORMAT_MAP = new Dictionary<BarcodeFormat, Func<IBarCodeWriter>>
                         {
                            {BarcodeFormat.EAN_8, () => new EAN8Writer()},
                            {BarcodeFormat.UPC_E, () => new UPCEWriter()},
-                           {BarcodeFormat.EAN_13, () => new EAN13Writer()},
-                           {BarcodeFormat.UPC_A, () => new UPCAWriter()},
-                           {BarcodeFormat.QR_CODE, () => new QRCodeWriter()},
+                           {BarcodeFormat.EAN_13, () => new Ean13Writer()},
+                           {BarcodeFormat.UPC_A, () => new UpcaWriter()},
+                           {BarcodeFormat.QR_CODE, () => new QrCodeWriter()},
                            {BarcodeFormat.CODE_39, () => new Code39Writer()},
                            {BarcodeFormat.CODE_93, () => new Code93Writer()},
                            {BarcodeFormat.CODE_128, () => new Code128Writer()},
                            {BarcodeFormat.ITF, () => new ITFWriter()},
-                           {BarcodeFormat.PDF_417, () => new PDF417Writer()},
+                           {BarcodeFormat.PDF_417, () => new Pdf417Writer()},
                            {BarcodeFormat.CODABAR, () => new CodaBarWriter()},
-                           {BarcodeFormat.MSI, () => new MSIWriter()},
+                           {BarcodeFormat.MSI, () => new MsiWriter()},
                            {BarcodeFormat.PLESSEY, () => new PlesseyWriter()},
                            {BarcodeFormat.DATA_MATRIX, () => new DataMatrixWriter()},
                            {BarcodeFormat.AZTEC, () => new AztecWriter()},
@@ -62,37 +63,16 @@ namespace ZXing
         /// <summary>
         /// Gets the collection of supported writers.
         /// </summary>
-        public static ICollection<BarcodeFormat> SupportedWriters => formatMap.Keys;
+        public static ICollection<BarcodeFormat> SupportedWriters => FORMAT_MAP.Keys;
 
-        /// <summary>
-        /// encode the given data
-        /// </summary>
-        /// <param name="contents"></param>
-        /// <param name="format"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <returns></returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
+        public BitMatrix Encode(string contents, BarcodeFormat format, int width, int height
+            , IDictionary<EncodeHintType, object> hints = null)
         {
-            return encode(contents, format, width, height, null);
-        }
-
-        /// <summary>
-        /// encode the given data
-        /// </summary>
-        /// <param name="contents"></param>
-        /// <param name="format"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="hints"></param>
-        /// <returns></returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height, IDictionary<EncodeHintType, object> hints)
-        {
-            if (!formatMap.ContainsKey(format)) {
+            if (!FORMAT_MAP.ContainsKey(format)) {
                 throw new ArgumentException("No encoder available for format " + format);
             }
 
-            return formatMap[format]().encode(contents, format, width, height, hints);
+            return FORMAT_MAP[format]().Encode(contents, format, width, height, hints);
         }
     }
 }

@@ -72,7 +72,7 @@ namespace ZXing
         {
             var encoder = Encoder ?? new MultiFormatWriter();
             var currentOptions = Options;
-            return encoder.encode(contents, Format, currentOptions.Width, currentOptions.Height, currentOptions.Hints);
+            return encoder.Encode(contents, Format, currentOptions.Width, currentOptions.Height, currentOptions.Hints);
         }
     }
 }

@@ -84,7 +84,7 @@ namespace ZXing.OneD
         }
 
         readonly StringBuilder decodeRowStringBuffer;
-        readonly UPCEANExtensionSupport extensionReader;
+        readonly UpcEanExtensionSupport extensionReader;
         readonly EANManufacturerOrgSupport eanManSupport;
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace ZXing.OneD
         protected UpcEanReader()
         {
             decodeRowStringBuffer = new StringBuilder(20);
-            extensionReader = new UPCEANExtensionSupport();
+            extensionReader = new UpcEanExtensionSupport();
             eanManSupport = new EANManufacturerOrgSupport();
         }
 
@@ -216,7 +216,7 @@ namespace ZXing.OneD
                 },
                 format);
 
-            var extensionResult = extensionReader.decodeRow(rowNumber, row, endRange[1]);
+            var extensionResult = extensionReader.DecodeRow(rowNumber, row, endRange[1]);
             if (extensionResult != null)
             {
                 decodeResult.PutMetadata(ResultMetadataType.UPC_EAN_EXTENSION, extensionResult.Text);

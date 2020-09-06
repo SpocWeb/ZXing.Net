@@ -27,28 +27,29 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class Code128Writer : OneDimensionalCodeWriter
     {
-        private const int CODE_START_A = 103;
-        private const int CODE_START_B = 104;
-        private const int CODE_START_C = 105;
-        private const int CODE_CODE_A = 101;
-        private const int CODE_CODE_B = 100;
-        private const int CODE_CODE_C = 99;
-        private const int CODE_STOP = 106;
+
+        const int CODE_START_A = 103;
+        const int CODE_START_B = 104;
+        const int CODE_START_C = 105;
+        const int CODE_CODE_A = 101;
+        const int CODE_CODE_B = 100;
+        const int CODE_CODE_C = 99;
+        const int CODE_STOP = 106;
 
         // Dummy characters used to specify control characters in input
-        private const char ESCAPE_FNC_1 = '\u00f1';
-        private const char ESCAPE_FNC_2 = '\u00f2';
-        private const char ESCAPE_FNC_3 = '\u00f3';
-        private const char ESCAPE_FNC_4 = '\u00f4';
+        const char ESCAPE_FNC_1 = '\u00f1';
+        const char ESCAPE_FNC_2 = '\u00f2';
+        const char ESCAPE_FNC_3 = '\u00f3';
+        const char ESCAPE_FNC_4 = '\u00f4';
 
-        private const int CODE_FNC_1 = 102; // Code A, Code B, Code C
-        private const int CODE_FNC_2 = 97; // Code A, Code B
-        private const int CODE_FNC_3 = 96; // Code A, Code B
-        private const int CODE_FNC_4_A = 101; // Code A
-        private const int CODE_FNC_4_B = 100; // Code B
+        const int CODE_FNC_1 = 102; // Code A, Code B, Code C
+        const int CODE_FNC_2 = 97; // Code A, Code B
+        const int CODE_FNC_3 = 96; // Code A, Code B
+        const int CODE_FNC_4_A = 101; // Code A
+        const int CODE_FNC_4_B = 100; // Code B
 
         // Results of minimal lookahead for code C
-        private enum CType
+        enum CType
         {
             UNCODABLE,
             ONE_DIGIT,
@@ -56,9 +57,9 @@ namespace ZXing.OneD
             FNC_1
         }
 
-        private bool forceCodesetB;
+        bool forceCodesetB;
 
-        private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.CODE_128 };
+        static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.CODE_128 };
 
         /// <summary>
         /// returns supported formats
@@ -72,11 +73,11 @@ namespace ZXing.OneD
         /// {@code height} to zero to get minimum size barcode. If negative value is set to {@code width}
         /// or {@code height}, {@code IllegalArgumentException} is thrown.
         /// </summary>
-        public override BitMatrix encode(string contents,
+        public override BitMatrix Encode(string contents,
             BarcodeFormat format,
             int width,
             int height,
-            IDictionary<EncodeHintType, object> hints)
+            IDictionary<EncodeHintType, object> hints = null)
         {
             forceCodesetB = (hints != null &&
                              hints.ContainsKey(EncodeHintType.CODE128_FORCE_CODESET_B) &&
@@ -94,7 +95,7 @@ namespace ZXing.OneD
                 }
             }
 
-            return base.encode(contents, format, width, height, hints);
+            return base.Encode(contents, format, width, height, hints);
         }
         /// <summary>
         /// Encode the contents following specified format.
@@ -251,7 +252,7 @@ namespace ZXing.OneD
         }
 
 
-        private static CType findCType(string value, int start)
+        static CType findCType(string value, int start)
         {
             int last = value.Length;
             if (start >= last)
@@ -279,7 +280,7 @@ namespace ZXing.OneD
             return CType.TWO_DIGITS;
         }
 
-        private int chooseCode(string value, int start, int oldCode)
+        int chooseCode(string value, int start, int oldCode)
         {
             CType lookahead = findCType(value, start);
             if (lookahead == CType.ONE_DIGIT)

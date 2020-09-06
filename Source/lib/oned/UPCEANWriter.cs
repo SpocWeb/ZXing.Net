@@ -22,7 +22,7 @@ namespace ZXing.OneD
     ///   <author>aripollak@gmail.com (Ari Pollak)</author>
     ///   <author>dsbnatut@gmail.com (Kazuki Nishiura)</author>
     /// </summary>
-    public abstract class UPCEANWriter : OneDimensionalCodeWriter
+    public abstract class UpcEanWriter : OneDimensionalCodeWriter
     {
         /// <summary>
         /// Gets the default margin.

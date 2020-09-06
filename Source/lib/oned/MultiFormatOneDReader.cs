@@ -82,7 +82,7 @@ namespace ZXing.OneD
                 }
                 if (possibleFormats.Contains(BarcodeFormat.RSS_14) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
-                    readers.Add(new RSS14Reader());
+                    readers.Add(new Rss14Reader());
                 }
                 if (possibleFormats.Contains(BarcodeFormat.RSS_EXPANDED) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
@@ -108,7 +108,7 @@ namespace ZXing.OneD
                 readers.Add(new Code93Reader());
                 readers.Add(new Code128Reader());
                 readers.Add(new ItfReader());
-                readers.Add(new RSS14Reader());
+                readers.Add(new Rss14Reader());
                 readers.Add(new RssExpandedReader());
             }
         }

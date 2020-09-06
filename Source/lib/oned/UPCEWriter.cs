@@ -23,7 +23,7 @@ namespace ZXing.OneD
     /// This object renders an UPC-E code as a {@link BitMatrix}.
     /// @author 0979097955s@gmail.com (RX)
     /// </summary>
-    public class UPCEWriter : UPCEANWriter
+    public class UPCEWriter : UpcEanWriter
     {
 
         private const int CODE_WIDTH = 3 + // start guard

@@ -27,27 +27,10 @@ namespace ZXing.OneD
     /// </summary>
     public abstract class OneDimensionalCodeWriter : IBarCodeWriter
     {
-        private static readonly Regex NUMERIC = new Regex("[0-9]+");
 
-        /// <summary>
-        /// returns supported formats
-        /// </summary>
+        static readonly Regex NUMERIC = new Regex("[0-9]+");
+
         protected abstract IList<BarcodeFormat> SupportedWriteFormats { get; }
-
-        /// <summary>
-        /// Encode a barcode using the default settings.
-        /// </summary>
-        /// <param name="contents">The contents to encode in the barcode</param>
-        /// <param name="format">The barcode format to generate</param>
-        /// <param name="width">The preferred width in pixels</param>
-        /// <param name="height">The preferred height in pixels</param>
-        /// <returns>
-        /// The generated barcode as a Matrix of unsigned bytes (0 == black, 255 == white)
-        /// </returns>
-        public BitMatrix encode(string contents, BarcodeFormat format, int width, int height)
-        {
-            return encode(contents, format, width, height, null);
-        }
 
         /// <summary>
         /// Encode the contents following specified format.
@@ -56,11 +39,11 @@ namespace ZXing.OneD
         /// {@code height} to zero to get minimum size barcode. If negative value is set to {@code width}
         /// or {@code height}, {@code IllegalArgumentException} is thrown.
         /// </summary>
-        public virtual BitMatrix encode(string contents,
+        public virtual BitMatrix Encode(string contents,
             BarcodeFormat format,
             int width,
             int height,
-            IDictionary<EncodeHintType, object> hints)
+            IDictionary<EncodeHintType, object> hints = null)
         {
             if (string.IsNullOrEmpty(contents))
             {
@@ -102,7 +85,7 @@ namespace ZXing.OneD
         /// <summary>
         /// </summary>
         /// <returns>a byte array of horizontal pixels (0 = white, 1 = black)</returns>
-        private static BitMatrix renderResult(bool[] code, int width, int height, int sidesMargin)
+        static BitMatrix renderResult(bool[] code, int width, int height, int sidesMargin)
         {
             int inputWidth = code.Length;
             // Add quiet zone on both sides.

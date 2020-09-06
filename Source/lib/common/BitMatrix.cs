@@ -37,7 +37,7 @@ namespace ZXing.Common
     public sealed partial class BitMatrix : IBitMatrix//, IGridSampler
     {
 
-        private readonly int[] _Bits;
+        readonly int[] _Bits;
 
         public int Width { get; }
 
@@ -601,7 +601,7 @@ namespace ZXing.Common
             return BuildToString(setString, unsetString, lineSeparator);
         }
 
-        private string BuildToString(string setString, string unsetString, string lineSeparator)
+        string BuildToString(string setString, string unsetString, string lineSeparator)
         {
             var result = new StringBuilder(Height * (Width + 1));
             for (int y = 0; y < Height; y++)

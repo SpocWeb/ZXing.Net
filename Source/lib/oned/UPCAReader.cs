@@ -55,21 +55,9 @@ namespace ZXing.OneD
             , IDictionary<DecodeHintType, object> hints)
             => MaybeReturnResult(_Ean13Reader.DecodeRow(rowNumber, row, hints));
 
-        /// <summary>
-        /// Decodes the specified image.
-        /// </summary>
-        /// <param name="image">The image.</param>
-        /// <param name="hints">The hints.</param>
-        /// <returns></returns>
         public override BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
-        {
-            return MaybeReturnResult(_Ean13Reader.Decode(image, hints));
-        }
+            => MaybeReturnResult(_Ean13Reader.Decode(image, hints));
 
-        /// <summary>
-        /// Get the format of this decoder.
-        /// <returns>The 1D format.</returns>
-        /// </summary>
         internal override BarcodeFormat BarcodeFormat => BarcodeFormat.UPC_A;
 
         /// <summary>
