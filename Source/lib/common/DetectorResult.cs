@@ -18,8 +18,7 @@ using System.Collections.Generic;
 
 namespace ZXing.Common
 {
-    /// <summary> result of detecting a barcode in an image.
-    /// </summary>
+    /// <summary> result of detecting a barcode in an image. </summary>
     /// <remarks>
     /// This includes the raw matrix of black/white pixels corresponding to the barcode,
     /// and possibly points of interest in the image,

@@ -55,64 +55,29 @@ namespace ZXing
         /// </summary>
         public int NumBits { get; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BarCodeText"/> class.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="rawBytes">The raw bytes.</param>
-        /// <param name="resultPoints">The result points.</param>
-        /// <param name="format">The format.</param>
         public BarCodeText(string text,
-                      byte[] rawBytes,
-                      ResultPoint[] resultPoints,
-                      BarcodeFormat format)
-           : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now.Ticks)
-        {
-        }
+            byte[] rawBytes,
+            ResultPoint[] resultPoints,
+            BarcodeFormat format)
+            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now.Ticks) { }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BarCodeText"/> class.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="rawBytes">The raw bytes.</param>
-        /// <param name="numBits"></param>
-        /// <param name="resultPoints">The result points.</param>
-        /// <param name="format">The format.</param>
         public BarCodeText(string text,
-                      byte[] rawBytes,
-                      int numBits,
-                      ResultPoint[] resultPoints,
-                      BarcodeFormat format)
-           : this(text, rawBytes, numBits, resultPoints, format, DateTime.Now.Ticks)
-        {
-        }
+            byte[] rawBytes,
+            int numBits,
+            ResultPoint[] resultPoints,
+            BarcodeFormat format)
+            : this(text, rawBytes, numBits, resultPoints, format, DateTime.Now.Ticks) { }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BarCodeText"/> class.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="rawBytes">The raw bytes.</param>
-        /// <param name="resultPoints">The result points.</param>
-        /// <param name="format">The format.</param>
-        /// <param name="timestamp">The timestamp.</param>
         public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
-           : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp)
-        {
-        }
+            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp) { }
 
-        /// <summary> Initializes a new instance of the <see cref="BarCodeText"/> class. </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="rawBytes">The raw bytes.</param>
-        /// <param name="numBits"></param>
-        /// <param name="resultPoints">The result points.</param>
-        /// <param name="format">The format.</param>
-        /// <param name="timestamp">The timestamp.</param>
         public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints, BarcodeFormat format, long timestamp)
         {
             if (text == null && rawBytes == null)
             {
                 throw new ArgumentException("Text and bytes are null");
             }
+
             Text = text;
             RawBytes = rawBytes;
             NumBits = numBits;
@@ -122,47 +87,37 @@ namespace ZXing
             Timestamp = timestamp;
         }
 
-        /// <summary>
-        /// Adds one metadata to the result
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="value">The value.</param>
         public void PutMetadata(ResultMetadataType type, object value)
         {
             if (ResultMetadata == null)
             {
                 ResultMetadata = new Dictionary<ResultMetadataType, object>();
             }
+
             ResultMetadata[type] = value;
         }
 
-        /// <summary> Adds a list of metadata to the result </summary>
-        /// <param name="metadata">The metadata.</param>
         public void PutAllMetadata(IDictionary<ResultMetadataType, object> metadata)
         {
-            if (metadata != null)
+            if (metadata == null)
             {
-                if (ResultMetadata == null)
-                {
-                    ResultMetadata = metadata;
-                }
-                else
-                {
-                    foreach (var entry in metadata)
-                    {
-                        ResultMetadata[entry.Key] = entry.Value;
-                    }
-                }
+                return;
             }
-        }
 
+            if (ResultMetadata == null)
+            {
+                ResultMetadata = new Dictionary<ResultMetadataType, object>();
+            }
+
+            ResultMetadata.AddRange(metadata);
+        }
         /// <summary> Adds the result points. </summary>
         public void AddResultPoints(params ResultPoint[] newPoints)
         {
             var oldPoints = ResultPoints;
             if (oldPoints == null)
             {
-                ResultPoints = newPoints;
+                ResultPoints = newPoints; //TODO: make a Copy!
             }
             else if (newPoints != null && newPoints.Length > 0)
             {
@@ -174,6 +129,19 @@ namespace ZXing
         }
 
         public override string ToString() => Text ?? GetType().Name + "[" + RawBytes.Length + " bytes]";
+
+    }
+
+    public static class XDictionary {
+
+        public static void AddRange<TK, TV>(this IDictionary<TK, TV> resultMetadata
+            , IEnumerable<KeyValuePair<TK, TV>> metadata)
+        {
+            foreach (var entry in metadata)
+            {
+                resultMetadata[entry.Key] = entry.Value;
+            }
+        }
 
     }
 }
