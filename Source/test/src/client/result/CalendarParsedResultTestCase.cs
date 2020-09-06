@@ -147,7 +147,7 @@ namespace ZXing.Client.Result.Test
          // Not parsed as VEVENT
          var fakeResult = new ZXing.BarCodeText("BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\n" +
                                            "GEO:-12.345\r\n" +
-                                           "END:VEVENT\r\nEND:VCALENDAR", null, null, BarcodeFormat.QR_CODE);
+                                           "END:VEVENT\r\nEND:VCALENDAR", null, null, null, BarcodeFormat.QR_CODE);
          var result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.TEXT, result.Type);
       }
@@ -232,7 +232,7 @@ namespace ZXing.Client.Result.Test
                                  double latitude,
                                  double longitude)
       {
-         var fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
+         var fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
          var result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.CALENDAR, result.Type);
          var calResult = (CalendarParsedResult)result;

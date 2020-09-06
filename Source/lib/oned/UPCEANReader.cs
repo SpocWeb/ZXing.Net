@@ -209,14 +209,12 @@ namespace ZXing.OneD
             var left = (startGuardRange[1] + startGuardRange[0]) / 2.0f;
             var right = (endRange[1] + endRange[0]) / 2.0f;
             var format = BarcodeFormat;
-            var decodeResult = new BarCodeText(resultString,
-                                             null, // no natural byte representation for these barcodes
-                                             new[]
-                                                {
-                                                new ResultPoint(left, rowNumber),
-                                                new ResultPoint(right, rowNumber)
-                                                },
-                                             format);
+            var decodeResult = new BarCodeText(resultString, null, row // no natural byte representation for these barcodes
+                , new[] {
+                    new ResultPoint(left, rowNumber),
+                    new ResultPoint(right, rowNumber)
+                },
+                format);
 
             var extensionResult = extensionReader.decodeRow(rowNumber, row, endRange[1]);
             if (extensionResult != null)

@@ -33,13 +33,13 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [Test]
       public void TestDecodingRowByRow()
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
 
          var firstRowNumber = binaryMap.Height / 3;
          var firstRow = binaryMap.GetBlackRow(firstRowNumber, null);
-         Assert.IsFalse(rssExpandedReader.decodeRow2pairs(firstRowNumber, firstRow));
+         Assert.IsFalse(rssExpandedReader.DecodeRow2Pairs(firstRowNumber, firstRow));
 
          Assert.AreEqual(1, rssExpandedReader.Rows.Count);
          var firstExpandedRow = rssExpandedReader.Rows[0];
@@ -53,17 +53,17 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var secondRow = binaryMap.GetBlackRow(secondRowNumber, null);
          secondRow.Reverse();
 
-         Assert.IsTrue(rssExpandedReader.decodeRow2pairs(secondRowNumber, secondRow));
+         Assert.IsTrue(rssExpandedReader.DecodeRow2Pairs(secondRowNumber, secondRow));
          var totalPairs = rssExpandedReader.Pairs;
 
-         var result = RSSExpandedReader.constructResult(totalPairs);
+         var result = RssExpandedReader.ConstructResult(totalPairs);
          Assert.AreEqual("(01)98898765432106(3202)012345(15)991231", result.Text);
       }
 
       [Test]
       public void TestCompleteDecode()
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
 

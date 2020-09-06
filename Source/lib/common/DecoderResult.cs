@@ -19,12 +19,14 @@ using System.Collections.Generic;
 
 namespace ZXing.Common
 {
-    /// <summary>
-    /// Encapsulates the result of decoding a matrix of bits. This typically
-    /// applies to 2D barcode formats. For now it contains the raw bytes obtained,
-    /// as well as a String interpretation of those bytes, if applicable.
-    /// <author>Sean Owen</author>
+    /// <summary> Result of decoding a matrix of bits.
     /// </summary>
+    /// <remarks>
+    /// This typically applies to 2D barcode formats.
+    /// For now it contains the raw bytes obtained,
+    /// as well as a String interpretation of those bytes, if applicable.
+    /// </remarks>
+    /// <author>Sean Owen</author>
     public sealed class DecoderResult
     {
         /// <summary> raw bytes representing the result, or null if not applicable </summary>
@@ -48,22 +50,20 @@ namespace ZXing.Common
         /// <summary> number of errors corrected, or null if not applicable </summary>
         public int ErrorsCorrected { get; set; }
 
-        /// <summary>
-        /// gives the sequence number of the result if structured append was found </summary>
+        /// <summary> gives the sequence number of the result if structured append was found </summary>
         public int StructuredAppendSequenceNumber { get; }
 
-        /// <summary>
-        /// number of erasures corrected, or null if not applicable </summary>
+        /// <summary> number of erasures corrected, or null if not applicable </summary>
         public int Erasures { get; set; }
 
-        /// <summary>
-        /// gives the parity information if structured append was found </summary>
+        /// <summary> gives the parity information if structured append was found </summary>
         public int StructuredAppendParity { get; }
 
-        /// <summary>
-        /// Miscellanseous data value for the various decoders </summary>
+        /// <summary> Miscellaneous data value for the various decoders </summary>
         /// <value>The other.</value>
         public object Other { get; set; }
+
+        public IRoBitMatrix BitMap { get; }
 
         public DecoderResult(byte[] rawBytes, string text, IList<byte[]> byteSegments, string ecLevel)
            : this(rawBytes, text, byteSegments, ecLevel, -1, -1) { }

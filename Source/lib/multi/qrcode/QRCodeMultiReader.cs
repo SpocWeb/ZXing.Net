@@ -93,7 +93,7 @@ namespace ZXing.Multi.QrCode
                 points = data.ApplyMirroredCorrection(points);
             }
 
-            var barCodeText = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.QR_CODE);
+            var barCodeText = decoderResult.AsBarCodeText(BarcodeFormat.QR_CODE, points);
             var byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)
             {
@@ -144,10 +144,12 @@ namespace ZXing.Multi.QrCode
             using (var newRawBytes = new MemoryStream())
             using (var newByteSegment = new MemoryStream())
             {
+                IRoBitMatrix bitmap = null;
                 foreach (BarCodeText saResult in saResults)
                 {
                     newText.Append(saResult.Text);
                     byte[] saBytes = saResult.RawBytes;
+                    bitmap = saResult.Bitmap;
                     newRawBytes.Write(saBytes, 0, saBytes.Length);
                     if (saResult.ResultMetadata.ContainsKey(ResultMetadataType.BYTE_SEGMENTS))
                     {
@@ -163,7 +165,7 @@ namespace ZXing.Multi.QrCode
                 }
 
                 BarCodeText newResult = new BarCodeText(newText.ToString()
-                    , newRawBytes.ToArray(), Array.Empty<ResultPoint>(), BarcodeFormat.QR_CODE);
+                    , newRawBytes.ToArray(), bitmap, Array.Empty<ResultPoint>(), BarcodeFormat.QR_CODE);
                 if (newByteSegment.Length > 0)
                 {
                     var byteSegmentList = new List<byte[]>

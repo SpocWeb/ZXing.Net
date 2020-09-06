@@ -623,7 +623,7 @@ namespace ZXing.OneD
 
             return new BarCodeText(
                result.ToString(),
-               rawBytes,
+               rawBytes, row,
                new[]
                   {
                   new ResultPoint(left, rowNumber),

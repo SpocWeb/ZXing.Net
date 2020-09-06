@@ -550,7 +550,7 @@ namespace ZXing.IMB
 
             return new BarCodeText(
                trackingNumber,
-               null,
+               null, row,
                new[]
                   {
                   new ResultPoint(pixelStartOffset, rowNumber),

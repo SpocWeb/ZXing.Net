@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using ZXing.Common;
 
 namespace ZXing
 {
@@ -27,6 +28,8 @@ namespace ZXing
 
         /// <returns>raw bytes encoded by the barcode, if applicable, otherwise <code>null</code></returns>
         public byte[] RawBytes { get; }
+
+        public IRoBitMatrix Bitmap { get; }
 
         /// <summary>points related to the barcode in the image. </summary>
         /// <remarks>
@@ -45,16 +48,16 @@ namespace ZXing
         /// <summary> how many bits of <see cref="RawBytes"/> are valid; typically 8 times its length </summary>
         public int NumBits { get; }
 
-        public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format)
-            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now) { }
+        public BarCodeText(string text, byte[] rawBytes, IRoBitMatrix bitmap, ResultPoint[] resultPoints, BarcodeFormat format)
+            : this(text, rawBytes, bitmap, 8 * rawBytes?.Length ?? 0, resultPoints, format, DateTime.Now) { }
 
-        public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints, BarcodeFormat format)
-            : this(text, rawBytes, numBits, resultPoints, format, DateTime.Now) { }
+        public BarCodeText(string text, byte[] rawBytes, IRoBitMatrix bitmap, int numBits, ResultPoint[] resultPoints, BarcodeFormat format)
+            : this(text, rawBytes, bitmap, numBits, resultPoints, format, DateTime.Now) { }
 
-        public BarCodeText(string text, byte[] rawBytes, ResultPoint[] resultPoints, BarcodeFormat format, DateTime timestamp)
-            : this(text, rawBytes, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp) { }
+        public BarCodeText(string text, byte[] rawBytes, IRoBitMatrix bitmap, ResultPoint[] resultPoints, BarcodeFormat format, DateTime timestamp)
+            : this(text, rawBytes, bitmap, 8 * rawBytes?.Length ?? 0, resultPoints, format, timestamp) { }
 
-        public BarCodeText(string text, byte[] rawBytes, int numBits, ResultPoint[] resultPoints
+        public BarCodeText(string text, byte[] rawBytes, IRoBitMatrix bitmap, int numBits, ResultPoint[] resultPoints
             , BarcodeFormat format, DateTime timestamp)
         {
             if (text == null && rawBytes == null)
@@ -64,6 +67,7 @@ namespace ZXing
 
             Text = text;
             RawBytes = rawBytes;
+            Bitmap = bitmap;
             NumBits = numBits;
             ResultPoints = resultPoints;
             BarcodeFormat = format;
@@ -118,6 +122,10 @@ namespace ZXing
     }
 
     public static class XDictionary {
+
+        public static BarCodeText AsBarCodeText(this DecoderResult decoderResult
+            , BarcodeFormat format, params ResultPoint[] points)
+            => new BarCodeText(decoderResult.Text, decoderResult.RawBytes, decoderResult.BitMap, points, format);
 
         public static void AddRange<TK, TV>(this IDictionary<TK, TV> resultMetadata
             , IEnumerable<KeyValuePair<TK, TV>> metadata)

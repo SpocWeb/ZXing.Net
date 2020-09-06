@@ -24,7 +24,7 @@ namespace ZXing.OneD
     /// <summary>
     /// Decodes MSI barcodes.
     /// </summary>
-    public sealed class MSIReader : OneDReader
+    public sealed class MsiReader : OneDReader
     {
         internal static string ALPHABET_STRING = "0123456789";
         static readonly char[] ALPHABET = ALPHABET_STRING.ToCharArray();
@@ -41,16 +41,16 @@ namespace ZXing.OneD
         const int START_ENCODING = 0x06;
         const int END_ENCODING = 0x09;
 
-        readonly bool usingCheckDigit;
-        readonly StringBuilder decodeRowResult;
-        readonly int[] counters;
-        int averageCounterWidth;
+        readonly bool _UsingCheckDigit;
+        readonly StringBuilder _DecodeRowResult;
+        readonly int[] _Counters;
+        int _AverageCounterWidth;
 
         /// <summary>
         /// Creates a reader that assumes all encoded data is data, and does not treat the final
         /// character as a check digit.
         /// </summary>
-        public MSIReader()
+        public MsiReader()
            : this(false)
         {
         }
@@ -60,11 +60,11 @@ namespace ZXing.OneD
         /// </summary>
         /// <param name="usingCheckDigit">if true, treat the last data character as a check digit, not
         /// data, and verify that the checksum passes.</param>
-        public MSIReader(bool usingCheckDigit)
+        public MsiReader(bool usingCheckDigit)
         {
-            this.usingCheckDigit = usingCheckDigit;
-            decodeRowResult = new StringBuilder(20);
-            counters = new int[8];
+            this._UsingCheckDigit = usingCheckDigit;
+            _DecodeRowResult = new StringBuilder(20);
+            _Counters = new int[8];
         }
 
         /// <summary>
@@ -77,14 +77,14 @@ namespace ZXing.OneD
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
         public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
-            for (var index = 0; index < counters.Length; index++)
+            for (var index = 0; index < _Counters.Length; index++)
             {
-                counters[index] = 0;
+                _Counters[index] = 0;
             }
 
-            decodeRowResult.Length = 0;
+            _DecodeRowResult.Length = 0;
 
-            int[] start = findStartPattern(row, counters);
+            int[] start = FindStartPattern(row, _Counters);
             if (start == null) {
                 return null;
             }
@@ -96,10 +96,10 @@ namespace ZXing.OneD
             int lastStart = nextStart;
             do
             {
-                if (!RecordPattern(row, nextStart, counters, 8))
+                if (!RecordPattern(row, nextStart, _Counters, 8))
                 {
                     // not enough bars for a number but perhaps enough for the end pattern
-                    var endPattern = findEndPattern(row, nextStart, counters);
+                    var endPattern = FindEndPattern(row, nextStart, _Counters);
                     if (endPattern == null) {
                         return null;
                     }
@@ -107,12 +107,12 @@ namespace ZXing.OneD
                     nextStart = endPattern[1];
                     break;
                 }
-                var pattern = toPattern(counters, 8);
-                if (!patternToChar(pattern, out decodedChar))
+                var pattern = ToPattern(_Counters, 8);
+                if (!PatternToChar(pattern, out decodedChar))
                 {
                     // pattern doesn't result in an encoded number
                     // but it could be the end pattern followed by some black areas
-                    var endPattern = findEndPattern(row, nextStart, counters);
+                    var endPattern = FindEndPattern(row, nextStart, _Counters);
                     if (endPattern == null) {
                         return null;
                     }
@@ -120,9 +120,9 @@ namespace ZXing.OneD
                     nextStart = endPattern[1];
                     break;
                 }
-                decodeRowResult.Append(decodedChar);
+                _DecodeRowResult.Append(decodedChar);
                 lastStart = nextStart;
-                foreach (int counter in counters)
+                foreach (int counter in _Counters)
                 {
                     nextStart += counter;
                 }
@@ -132,15 +132,15 @@ namespace ZXing.OneD
 
             // at least 3 digits to prevent false positives within other kind
             // of codes like PDF417
-            if (decodeRowResult.Length < 3)
+            if (_DecodeRowResult.Length < 3)
             {
                 return null;
             }
 
-            var rawBytes = Encoding.UTF8.GetBytes(decodeRowResult.ToString());
-            var resultString = decodeRowResult.ToString();
+            var rawBytes = Encoding.UTF8.GetBytes(_DecodeRowResult.ToString());
+            var resultString = _DecodeRowResult.ToString();
 
-            if (usingCheckDigit)
+            if (_UsingCheckDigit)
             {
                 var resultStringWithoutChecksum = resultString.Substring(0, resultString.Length - 1);
                 int checkSum = CalculateChecksumLuhn(resultStringWithoutChecksum);
@@ -162,10 +162,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(right, rowNumber));
             }
 
-            return new BarCodeText(
-               resultString,
-               rawBytes,
-               new[]
+            return new BarCodeText(resultString, rawBytes, row, new[]
                   {
                   new ResultPoint(left, rowNumber),
                   new ResultPoint(right, rowNumber)
@@ -173,7 +170,7 @@ namespace ZXing.OneD
                BarcodeFormat.MSI);
         }
 
-        int[] findStartPattern(BitArray row, int[] counters)
+        int[] FindStartPattern(BitArray row, int[] counters)
         {
             const int patternLength = 2;
 
@@ -201,8 +198,8 @@ namespace ZXing.OneD
                         var factorNarrowToWide = counters[0] / (float)counters[1];
                         if (factorNarrowToWide >= 1.5 && factorNarrowToWide <= 5)
                         {
-                            calculateAverageCounterWidth(counters, patternLength);
-                            if (toPattern(counters, patternLength) == START_ENCODING)
+                            CalculateAverageCounterWidth(counters, patternLength);
+                            if (ToPattern(counters, patternLength) == START_ENCODING)
                             {
                                 // Look for whitespace before start pattern, >= 50% of width of start pattern
                                 if (row.IsRange(Math.Max(0, patternStart - ((i - patternStart) >> 1)), patternStart, false))
@@ -228,7 +225,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        int[] findEndPattern(BitArray row, int rowOffset, int[] counters)
+        int[] FindEndPattern(BitArray row, int rowOffset, int[] counters)
         {
             const int patternLength = 3;
 
@@ -254,7 +251,7 @@ namespace ZXing.OneD
                         var factorNarrowToWide = counters[1] / (float)counters[0];
                         if (factorNarrowToWide >= 1.5 && factorNarrowToWide <= 5)
                         {
-                            if (toPattern(counters, patternLength) == END_ENCODING)
+                            if (ToPattern(counters, patternLength) == END_ENCODING)
                             {
                                 // Look for whitespace after end pattern, >= 50% of width of end pattern
                                 var minEndOfWhite = Math.Min(row.Size - 1, i + ((i - patternStart) >> 1));
@@ -274,7 +271,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        void calculateAverageCounterWidth(int[] counters, int patternLength)
+        void CalculateAverageCounterWidth(int[] counters, int patternLength)
         {
             // look for the minimum and the maximum width of the bars
             // there are only two sizes for MSI barcodes
@@ -296,10 +293,10 @@ namespace ZXing.OneD
             }
             // calculate the average of the minimum and maximum width
             // using some bit shift to get a higher resolution without floating point arithmetic
-            averageCounterWidth = ((maxCounter << 8) + (minCounter << 8)) / 2;
+            _AverageCounterWidth = ((maxCounter << 8) + (minCounter << 8)) / 2;
         }
 
-        int toPattern(int[] counters, int patternLength)
+        int ToPattern(int[] counters, int patternLength)
         {
             // calculating the encoded value from the pattern
             int pattern = 0;
@@ -308,7 +305,7 @@ namespace ZXing.OneD
             for (var index = 0; index < patternLength; index++)
             {
                 var counter = counters[index];
-                if (counter << 8 < averageCounterWidth)
+                if (counter << 8 < _AverageCounterWidth)
                 {
                     pattern = (pattern << 1) | bit;
                 }
@@ -323,7 +320,7 @@ namespace ZXing.OneD
             return pattern;
         }
 
-        static bool patternToChar(int pattern, out char c)
+        static bool PatternToChar(int pattern, out char c)
         {
             for (int i = 0; i < CHARACTER_ENCODINGS.Length; i++)
             {
@@ -337,7 +334,7 @@ namespace ZXing.OneD
             return false;
         }
 
-        static readonly int[] doubleAndCrossSum = { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
+        static readonly int[] DOUBLE_AND_CROSS_SUM = { 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
 
         static int CalculateChecksumLuhn(string number)
         {
@@ -350,7 +347,7 @@ namespace ZXing.OneD
             }
             for (var index = number.Length - 1; index >= 0; index -= 2)
             {
-                var digit = doubleAndCrossSum[number[index] - 48];
+                var digit = DOUBLE_AND_CROSS_SUM[number[index] - 48];
                 checksum += digit;
             }
 

@@ -21,7 +21,7 @@ namespace ZXing.Common
 {
     /// <summary>fast array of bits, represented compactly by an array of ints internally. </summary>
     /// <author>Sean Owen</author>
-    public sealed class BitArray
+    public sealed class BitArray : IRoBitMatrix
     {
 
         /// <summary> size of the array in Bits </summary>
@@ -99,9 +99,7 @@ namespace ZXing.Common
             0, 25, 22, 31, 15, 29, 10, 12, 6, 0, 21, 14, 9, 5, 20, 8, 19, 18
          };
 
-        /// <summary>
-        /// Gets the next set.
-        /// </summary>
+        /// <summary> Gets the next set. </summary>
         /// <param name="from">first bit to check</param>
         /// <returns>index of first bit that is set, starting from the given index, or size if none are set
         /// at or beyond this given index</returns>
@@ -451,5 +449,22 @@ namespace ZXing.Common
         {
             return new BitArray((int[])Array.Clone(), Size);
         }
+
+        #region Implementation of IRoBitMatrix
+
+        int IRoBitMatrix.Height => 1;
+
+        int IRoBitMatrix.Width => Size;
+
+        /// <inheritdoc />
+        bool IRoBitMatrix.this[int col, int row] { get {
+            if (row != 0) {
+                throw new ArgumentOutOfRangeException(nameof(row), row, null);
+            }
+            return this[col];
+        } }
+
+        #endregion
+
     }
 }

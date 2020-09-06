@@ -36,7 +36,7 @@ namespace ZXing.OneD.RSS.Expanded
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
     /// </summary>
-    public sealed class RSSExpandedReader : AbstractRSSReader
+    public sealed class RssExpandedReader : AbstractRSSReader
     {
 
         static readonly int[] SYMBOL_WIDEST = {7, 5, 4, 3, 1};
@@ -103,12 +103,12 @@ namespace ZXing.OneD.RSS.Expanded
 
         const int MAX_PAIRS = 11;
 
-        readonly List<ExpandedPair> pairs = new List<ExpandedPair>(MAX_PAIRS);
-        readonly List<ExpandedRow> rows = new List<ExpandedRow>();
-        readonly int[] startEnd = new int[2];
-        bool startFromEven;
+        readonly List<ExpandedPair> _Pairs = new List<ExpandedPair>(MAX_PAIRS);
+        readonly List<ExpandedRow> _Rows = new List<ExpandedRow>();
+        readonly int[] _StartEnd = new int[2];
+        bool _StartFromEven;
 
-        public IReadOnlyList<ExpandedPair> Pairs => pairs;
+        public IReadOnlyList<ExpandedPair> Pairs => _Pairs;
 
         /// <summary>
         ///   <p>Attempts to decode a one-dimensional barcode format given a single row of
@@ -126,16 +126,16 @@ namespace ZXing.OneD.RSS.Expanded
         {
             // Rows can start with even pattern in case in prev rows there where odd number of patters.
             // So lets try twice
-            pairs.Clear();
-            startFromEven = false;
-            if (decodeRow2pairs(rowNumber, row)) {
-                return constructResult(pairs);
+            _Pairs.Clear();
+            _StartFromEven = false;
+            if (DecodeRow2Pairs(rowNumber, row)) {
+                return ConstructResult(_Pairs);
             }
 
-            pairs.Clear();
-            startFromEven = true;
-            if (decodeRow2pairs(rowNumber, row)) {
-                return constructResult(pairs);
+            _Pairs.Clear();
+            _StartFromEven = true;
+            if (DecodeRow2Pairs(rowNumber, row)) {
+                return ConstructResult(_Pairs);
             }
             return null;
         }
@@ -145,44 +145,44 @@ namespace ZXing.OneD.RSS.Expanded
         /// </summary>
         public override void Reset()
         {
-            pairs.Clear();
-            rows.Clear();
+            _Pairs.Clear();
+            _Rows.Clear();
         }
 
-        public bool decodeRow2pairs(int rowNumber, BitArray row)
+        public bool DecodeRow2Pairs(int rowNumber, BitArray row)
         {
             while (true)
             {
-                ExpandedPair nextPair = retrieveNextPair(row, pairs, rowNumber);
+                ExpandedPair nextPair = RetrieveNextPair(row, _Pairs, rowNumber);
                 if (nextPair == null) {
                     break;
                 }
-                pairs.Add(nextPair);
+                _Pairs.Add(nextPair);
                 // exit this loop when retrieveNextPair() fails and throws
             }
-            if (pairs.Count == 0)
+            if (_Pairs.Count == 0)
             {
                 return false;
             }
 
             // TODO: verify sequence of finder patterns as in checkPairSequence()
-            if (checkChecksum())
+            if (CheckChecksum())
             {
                 return true;
             }
 
-            bool tryStackedDecode = rows.Count != 0;
-            storeRow(rowNumber, false); // TODO: deal with reversed rows
+            bool tryStackedDecode = _Rows.Count != 0;
+            StoreRow(rowNumber, false); // TODO: deal with reversed rows
             if (tryStackedDecode)
             {
                 // When the image is 180-rotated, then rows are sorted in wrong direction.
                 // Try twice with both the directions.
-                List<ExpandedPair> ps = checkRows(false);
+                List<ExpandedPair> ps = CheckRows(false);
                 if (ps != null)
                 {
                     return true;
                 }
-                ps = checkRows(true);
+                ps = CheckRows(true);
                 if (ps != null)
                 {
                     return true;
@@ -192,28 +192,28 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        List<ExpandedPair> checkRows(bool reverse)
+        List<ExpandedPair> CheckRows(bool reverse)
         {
             // Limit number of rows we are checking
             // We use recursive algorithm with pure complexity and don't want it to take forever
             // Stacked barcode can have up to 11 rows, so 25 seems reasonable enough
-            if (rows.Count > 25)
+            if (_Rows.Count > 25)
             {
-                rows.Clear(); // We will never have a chance to get result, so clear it
+                _Rows.Clear(); // We will never have a chance to get result, so clear it
                 return null;
             }
 
-            pairs.Clear();
+            _Pairs.Clear();
             if (reverse)
             {
-                rows.Reverse();
+                _Rows.Reverse();
             }
 
-            List<ExpandedPair> ps = checkRows(new List<ExpandedRow>(), 0);
+            List<ExpandedPair> ps = CheckRows(new List<ExpandedRow>(), 0);
 
             if (reverse)
             {
-                rows.Reverse();
+                _Rows.Reverse();
             }
 
             return ps;
@@ -221,27 +221,27 @@ namespace ZXing.OneD.RSS.Expanded
 
         // Try to construct a valid rows sequence
         // Recursion is used to implement backtracking
-        List<ExpandedPair> checkRows(List<ExpandedRow> collectedRows, int currentRow)
+        List<ExpandedPair> CheckRows(List<ExpandedRow> collectedRows, int currentRow)
         {
-            for (int i = currentRow; i < rows.Count; i++)
+            for (int i = currentRow; i < _Rows.Count; i++)
             {
-                ExpandedRow row = rows[i];
-                pairs.Clear();
+                ExpandedRow row = _Rows[i];
+                _Pairs.Clear();
                 int size = collectedRows.Count;
                 for (int j = 0; j < size; j++)
                 {
-                    pairs.AddRange(collectedRows[j].Pairs);
+                    _Pairs.AddRange(collectedRows[j].Pairs);
                 }
-                pairs.AddRange(row.Pairs);
+                _Pairs.AddRange(row.Pairs);
 
-                if (!isValidSequence(pairs))
+                if (!IsValidSequence(_Pairs))
                 {
                     continue;
                 }
 
-                if (checkChecksum())
+                if (CheckChecksum())
                 {
-                    return pairs;
+                    return _Pairs;
                 }
 
                 var rs = new List<ExpandedRow>(collectedRows)
@@ -249,7 +249,7 @@ namespace ZXing.OneD.RSS.Expanded
                     row
                 };
                 // Recursion: try to add more rows
-                var result = checkRows(rs, i + 1);
+                var result = CheckRows(rs, i + 1);
                 if (result == null)
                     // We failed, try the next candidate
                 {
@@ -263,7 +263,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         // Whether the pairs form a valid find pattern sequence,
         // either complete or a prefix
-        static bool isValidSequence(List<ExpandedPair> pairs)
+        static bool IsValidSequence(List<ExpandedPair> pairs)
         {
             foreach (int[] sequence in FINDER_PATTERN_SEQUENCES)
             {
@@ -291,21 +291,21 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        void storeRow(int rowNumber, bool wasReversed)
+        void StoreRow(int rowNumber, bool wasReversed)
         {
             // Discard if duplicate above or below; otherwise insert in order by row number.
             int insertPos = 0;
             bool prevIsSame = false;
             bool nextIsSame = false;
-            while (insertPos < rows.Count)
+            while (insertPos < _Rows.Count)
             {
-                ExpandedRow erow = rows[insertPos];
+                ExpandedRow erow = _Rows[insertPos];
                 if (erow.RowNumber > rowNumber)
                 {
-                    nextIsSame = erow.IsEquivalent(pairs);
+                    nextIsSame = erow.IsEquivalent(_Pairs);
                     break;
                 }
-                prevIsSame = erow.IsEquivalent(pairs);
+                prevIsSame = erow.IsEquivalent(_Pairs);
                 insertPos++;
             }
             if (nextIsSame || prevIsSame)
@@ -318,18 +318,18 @@ namespace ZXing.OneD.RSS.Expanded
             // Try to merge partial rows
 
             // Check whether the row is part of an already detected row
-            if (isPartialRow(pairs, rows))
+            if (IsPartialRow(_Pairs, _Rows))
             {
                 return;
             }
 
-            rows.Insert(insertPos, new ExpandedRow(pairs, rowNumber, wasReversed));
+            _Rows.Insert(insertPos, new ExpandedRow(_Pairs, rowNumber, wasReversed));
 
-            removePartialRows(pairs, rows);
+            RemovePartialRows(_Pairs, _Rows);
         }
 
         // Remove all the rows that contains only specified pairs 
-        static void removePartialRows(List<ExpandedPair> pairs, List<ExpandedRow> rows)
+        static void RemovePartialRows(List<ExpandedPair> pairs, List<ExpandedRow> rows)
         {
             for (var index = 0; index < rows.Count; index++)
             {
@@ -355,7 +355,7 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // Returns true when one of the rows already contains all the pairs
-        static bool isPartialRow(IEnumerable<ExpandedPair> pairs, IEnumerable<ExpandedRow> rows)
+        static bool IsPartialRow(IEnumerable<ExpandedPair> pairs, IEnumerable<ExpandedRow> rows)
         {
             foreach (ExpandedRow r in rows)
             {
@@ -387,9 +387,9 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // Only used for unit testing
-        public IReadOnlyList<ExpandedRow> Rows => rows;
+        public IReadOnlyList<ExpandedRow> Rows => _Rows;
 
-        public static BarCodeText constructResult(IReadOnlyList<ExpandedPair> pairs)
+        public static BarCodeText ConstructResult(IReadOnlyList<ExpandedPair> pairs)
         {
             BitArray binary = BitArrayBuilder.buildBitArray(pairs);
 
@@ -402,17 +402,15 @@ namespace ZXing.OneD.RSS.Expanded
             ResultPoint[] firstPoints = pairs[0].FinderPattern.ResultPoints;
             ResultPoint[] lastPoints = pairs[pairs.Count - 1].FinderPattern.ResultPoints;
 
-            return new BarCodeText(
-                resultingString,
-                null,
+            return new BarCodeText(resultingString, null, binary,
                 new[] {firstPoints[0], firstPoints[1], lastPoints[0], lastPoints[1]},
                 BarcodeFormat.RSS_EXPANDED
             );
         }
 
-        bool checkChecksum()
+        bool CheckChecksum()
         {
-            ExpandedPair firstPair = pairs[0];
+            ExpandedPair firstPair = _Pairs[0];
             DataCharacter checkCharacter = firstPair.LeftChar;
             DataCharacter firstCharacter = firstPair.RightChar;
 
@@ -424,9 +422,9 @@ namespace ZXing.OneD.RSS.Expanded
             int checksum = firstCharacter.ChecksumPortion;
             int s = 2;
 
-            for (int i = 1; i < pairs.Count; ++i)
+            for (int i = 1; i < _Pairs.Count; ++i)
             {
-                ExpandedPair currentPair = pairs[i];
+                ExpandedPair currentPair = _Pairs[i];
                 checksum += currentPair.LeftChar.ChecksumPortion;
                 s++;
                 DataCharacter currentRightChar = currentPair.RightChar;
@@ -444,7 +442,7 @@ namespace ZXing.OneD.RSS.Expanded
             return checkCharacterValue == checkCharacter.Value;
         }
 
-        static int getNextSecondBar(BitArray row, int initialPos)
+        static int GetNextSecondBar(BitArray row, int initialPos)
         {
             int currentPos;
             if (row[initialPos])
@@ -461,10 +459,10 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // not private for testing
-        public ExpandedPair retrieveNextPair(BitArray row, List<ExpandedPair> previousPairs, int rowNumber)
+        public ExpandedPair RetrieveNextPair(BitArray row, List<ExpandedPair> previousPairs, int rowNumber)
         {
             bool isOddPattern = previousPairs.Count % 2 == 0;
-            if (startFromEven)
+            if (_StartFromEven)
             {
                 isOddPattern = !isOddPattern;
             }
@@ -475,13 +473,13 @@ namespace ZXing.OneD.RSS.Expanded
             int forcedOffset = -1;
             do
             {
-                if (!findNextPair(row, previousPairs, forcedOffset)) {
+                if (!FindNextPair(row, previousPairs, forcedOffset)) {
                     return null;
                 }
-                pattern = parseFoundFinderPattern(row, rowNumber, isOddPattern);
+                pattern = ParseFoundFinderPattern(row, rowNumber, isOddPattern);
                 if (pattern == null)
                 {
-                    forcedOffset = getNextSecondBar(row, startEnd[0]);
+                    forcedOffset = GetNextSecondBar(row, _StartEnd[0]);
                 }
                 else
                 {
@@ -494,7 +492,7 @@ namespace ZXing.OneD.RSS.Expanded
             // if (!checkPairSequence(previousPairs, pattern, out mayBeLast))
             //   return null;
 
-            DataCharacter leftChar = decodeDataCharacter(row, pattern, isOddPattern, true);
+            DataCharacter leftChar = DecodeDataCharacter(row, pattern, isOddPattern, true);
             if (leftChar == null) {
                 return null;
             }
@@ -505,12 +503,12 @@ namespace ZXing.OneD.RSS.Expanded
                 return null;
             }
 
-            DataCharacter rightChar = decodeDataCharacter(row, pattern, isOddPattern, false);
+            DataCharacter rightChar = DecodeDataCharacter(row, pattern, isOddPattern, false);
 
             return new ExpandedPair(leftChar, rightChar, pattern);
         }
 
-        bool findNextPair(BitArray row, List<ExpandedPair> previousPairs, int forcedOffset)
+        bool FindNextPair(BitArray row, List<ExpandedPair> previousPairs, int forcedOffset)
         {
             int[] counters = getDecodeFinderCounters();
             counters[0] = 0;
@@ -535,7 +533,7 @@ namespace ZXing.OneD.RSS.Expanded
                 rowOffset = lastPair.FinderPattern.StartEnd[1];
             }
             bool searchingEvenPair = previousPairs.Count % 2 != 0;
-            if (startFromEven)
+            if (_StartFromEven)
             {
                 searchingEvenPair = !searchingEvenPair;
             }
@@ -565,19 +563,19 @@ namespace ZXing.OneD.RSS.Expanded
                     {
                         if (searchingEvenPair)
                         {
-                            reverseCounters(counters);
+                            ReverseCounters(counters);
                         }
 
                         if (isFinderPattern(counters))
                         {
-                            startEnd[0] = patternStart;
-                            startEnd[1] = x;
+                            _StartEnd[0] = patternStart;
+                            _StartEnd[1] = x;
                             return true;
                         }
 
                         if (searchingEvenPair)
                         {
-                            reverseCounters(counters);
+                            ReverseCounters(counters);
                         }
 
                         patternStart += counters[0] + counters[1];
@@ -598,7 +596,7 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        static void reverseCounters(int[] counters)
+        static void ReverseCounters(int[] counters)
         {
             int length = counters.Length;
             for (int i = 0; i < length / 2; ++i)
@@ -609,7 +607,7 @@ namespace ZXing.OneD.RSS.Expanded
             }
         }
 
-        FinderPattern parseFoundFinderPattern(BitArray row, int rowNumber, bool oddPattern)
+        FinderPattern ParseFoundFinderPattern(BitArray row, int rowNumber, bool oddPattern)
         {
             // Actually we found elements 2-5.
             int firstCounter;
@@ -620,7 +618,7 @@ namespace ZXing.OneD.RSS.Expanded
             {
                 // If pattern number is odd, we need to locate element 1 *before* the current block.
 
-                int firstElementStart = startEnd[0] - 1;
+                int firstElementStart = _StartEnd[0] - 1;
                 // Locate element 1
                 while (firstElementStart >= 0 && !row[firstElementStart])
                 {
@@ -628,17 +626,17 @@ namespace ZXing.OneD.RSS.Expanded
                 }
 
                 firstElementStart++;
-                firstCounter = startEnd[0] - firstElementStart;
+                firstCounter = _StartEnd[0] - firstElementStart;
                 start = firstElementStart;
-                end = startEnd[1];
+                end = _StartEnd[1];
 
             }
             else
             {
                 // If pattern number is even, the pattern is reversed, so we need to locate element 1 *after* the current block.
-                start = startEnd[0];
-                end = row.GetNextUnset(startEnd[1] + 1);
-                firstCounter = end - startEnd[1];
+                start = _StartEnd[0];
+                end = row.GetNextUnset(_StartEnd[1] + 1);
+                firstCounter = end - _StartEnd[1];
             }
 
             // Make 'counters' hold 1-4
@@ -653,7 +651,7 @@ namespace ZXing.OneD.RSS.Expanded
             return new FinderPattern(value, new[] {start, end}, start, end, rowNumber);
         }
 
-        public DataCharacter decodeDataCharacter(BitArray row,
+        public DataCharacter DecodeDataCharacter(BitArray row,
             FinderPattern pattern,
             bool isOddPattern,
             bool leftChar)
@@ -729,7 +727,7 @@ namespace ZXing.OneD.RSS.Expanded
                 }
             }
 
-            if (!adjustOddEvenCounts(numModules)) {
+            if (!AdjustOddEvenCounts(numModules)) {
                 return null;
             }
 
@@ -739,7 +737,7 @@ namespace ZXing.OneD.RSS.Expanded
             int oddChecksumPortion = 0;
             for (int i = oddCounts.Length - 1; i >= 0; i--)
             {
-                if (isNotA1left(pattern, isOddPattern, leftChar))
+                if (IsNotA1Left(pattern, isOddPattern, leftChar))
                 {
                     int weight = WEIGHTS[weightRowNumber][2 * i];
                     oddChecksumPortion += oddCounts[i] * weight;
@@ -749,7 +747,7 @@ namespace ZXing.OneD.RSS.Expanded
             int evenChecksumPortion = 0;
             for (int i = evenCounts.Length - 1; i >= 0; i--)
             {
-                if (isNotA1left(pattern, isOddPattern, leftChar))
+                if (IsNotA1Left(pattern, isOddPattern, leftChar))
                 {
                     int weight = WEIGHTS[weightRowNumber][2 * i + 1];
                     evenChecksumPortion += evenCounts[i] * weight;
@@ -774,13 +772,13 @@ namespace ZXing.OneD.RSS.Expanded
             return new DataCharacter(value, checksumPortion);
         }
 
-        static bool isNotA1left(FinderPattern pattern, bool isOddPattern, bool leftChar)
+        static bool IsNotA1Left(FinderPattern pattern, bool isOddPattern, bool leftChar)
         {
             // A1: pattern.getValue is 0 (A), and it's an oddPattern, and it is a left char
             return !(pattern.Value == 0 && isOddPattern && leftChar);
         }
 
-        bool adjustOddEvenCounts(int numModules)
+        bool AdjustOddEvenCounts(int numModules)
         {
             int oddSum = MathUtils.Sum(getOddCounts());
             int evenSum = MathUtils.Sum(getEvenCounts());

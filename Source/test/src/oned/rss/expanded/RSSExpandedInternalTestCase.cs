@@ -49,7 +49,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [Test]
       public void TestFindFinderPatterns()
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "2.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
@@ -57,32 +57,32 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var row = binaryMap.GetBlackRow(rowNumber, null);
          var previousPairs = new List<ExpandedPair>();
 
-         var pair1 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
+         var pair1 = rssExpandedReader.RetrieveNextPair(row, previousPairs, rowNumber);
          previousPairs.Add(pair1);
          var finderPattern = pair1.FinderPattern;
          Assert.IsNotNull(finderPattern);
          Assert.AreEqual(0, finderPattern.Value);
 
-         var pair2 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
+         var pair2 = rssExpandedReader.RetrieveNextPair(row, previousPairs, rowNumber);
          previousPairs.Add(pair2);
          finderPattern = pair2.FinderPattern;
          Assert.IsNotNull(finderPattern);
          Assert.AreEqual(1, finderPattern.Value);
 
-         var pair3 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
+         var pair3 = rssExpandedReader.RetrieveNextPair(row, previousPairs, rowNumber);
          previousPairs.Add(pair3);
          finderPattern = pair3.FinderPattern;
          Assert.IsNotNull(finderPattern);
          Assert.AreEqual(1, finderPattern.Value);
 
          //   the previous was the last pair
-         Assert.IsNull(rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber));
+         Assert.IsNull(rssExpandedReader.RetrieveNextPair(row, previousPairs, rowNumber));
       }
 
       [Test]
       public void TestRetrieveNextPairPatterns()
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
@@ -90,13 +90,13 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var row = binaryMap.GetBlackRow(rowNumber, null);
          var previousPairs = new List<ExpandedPair>();
 
-         var pair1 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
+         var pair1 = rssExpandedReader.RetrieveNextPair(row, previousPairs, rowNumber);
          previousPairs.Add(pair1);
          var finderPattern = pair1.FinderPattern;
          Assert.IsNotNull(finderPattern);
          Assert.AreEqual(0, finderPattern.Value);
 
-         var pair2 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
+         var pair2 = rssExpandedReader.RetrieveNextPair(row, previousPairs, rowNumber);
          previousPairs.Add(pair2);
          finderPattern = pair2.FinderPattern;
          Assert.IsNotNull(finderPattern);
@@ -106,7 +106,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [Test]
       public void TestDecodeCheckCharacter()
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
@@ -120,7 +120,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var finderPatternA1 = new FinderPattern(value, startEnd, startEnd[0], startEnd[1], image.PixelHeight / 2);
 #endif
          //{1, 8, 4, 1, 1};
-         var dataCharacter = rssExpandedReader.decodeDataCharacter(row, finderPatternA1, true, true);
+         var dataCharacter = rssExpandedReader.DecodeDataCharacter(row, finderPatternA1, true, true);
 
          Assert.AreEqual(98, dataCharacter.Value);
       }
@@ -128,7 +128,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
       [Test]
       public void TestDecodeDataCharacter()
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
@@ -142,7 +142,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var finderPatternA1 = new FinderPattern(value, startEnd, startEnd[0], startEnd[1], image.PixelHeight / 2);
 #endif
          //{1, 8, 4, 1, 1};
-         var dataCharacter = rssExpandedReader.decodeDataCharacter(row, finderPatternA1, true, false);
+         var dataCharacter = rssExpandedReader.DecodeDataCharacter(row, finderPatternA1, true, false);
 
          Assert.AreEqual(19, dataCharacter.Value);
          Assert.AreEqual(1007, dataCharacter.ChecksumPortion);

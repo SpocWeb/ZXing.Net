@@ -59,7 +59,7 @@ namespace ZXing.OneD
             var length = contents.Length;
             for (var i = 0; i < length; i++)
             {
-                int indexInString = MSIReader.ALPHABET_STRING.IndexOf(contents[i]);
+                int indexInString = MsiReader.ALPHABET_STRING.IndexOf(contents[i]);
                 if (indexInString < 0) {
                     throw new ArgumentException("Requested contents contains a not encodable character: '" + contents[i] + "'");
                 }
@@ -70,7 +70,7 @@ namespace ZXing.OneD
             var pos = appendPattern(result, 0, startWidths, true);
             for (var i = 0; i < length; i++)
             {
-                var indexInString = MSIReader.ALPHABET_STRING.IndexOf(contents[i]);
+                var indexInString = MsiReader.ALPHABET_STRING.IndexOf(contents[i]);
                 var widths = numberWidths[indexInString];
                 pos += appendPattern(result, pos, widths, true);
             }

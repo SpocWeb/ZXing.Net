@@ -99,7 +99,7 @@ namespace ZXing.PDF417
 
         static BarCodeText BuildBarCodeText(this DecoderResult decoderResult, ResultPoint[] points)
         {
-            var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
+            var result = decoderResult.AsBarCodeText(BarcodeFormat.PDF_417, points);
             result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.EcLevel);
             var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
             if (pdf417ResultMetadata != null)
@@ -110,12 +110,6 @@ namespace ZXing.PDF417
             return result;
         }
 
-        /// <summary>
-        /// Gets the maximum width of the barcode
-        /// </summary>
-        /// <returns>The max width.</returns>
-        /// <param name="p1">P1.</param>
-        /// <param name="p2">P2.</param>
         static int GetMaxWidth(this ResultPoint p1, ResultPoint p2)
         {
             if (p1 == null || p2 == null)

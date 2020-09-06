@@ -225,10 +225,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(right, rowNumber));
             }
 
-            return new BarCodeText(
-               resultString,
-               null,
-               new[]
+            return new BarCodeText(resultString, null, row, new[]
                   {
                   new ResultPoint(left, rowNumber),
                   new ResultPoint(right, rowNumber)

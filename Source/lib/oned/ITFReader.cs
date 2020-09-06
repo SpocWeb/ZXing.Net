@@ -177,9 +177,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(endRange[0], rowNumber));
             }
 
-            return new BarCodeText(
-               resultString,
-               null, // no natural byte representation for these barcodes
+            return new BarCodeText(resultString, null, row, // no natural byte representation for these barcodes
                new[]
                   {
                   new ResultPoint(startRange[1], rowNumber),

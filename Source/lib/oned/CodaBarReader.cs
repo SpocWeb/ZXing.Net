@@ -194,7 +194,7 @@ namespace ZXing.OneD
 
             return new BarCodeText(
                decodeRowResult.ToString(),
-               null,
+               null, row,
                new[]
                   {
                   new ResultPoint(left, rowNumber),

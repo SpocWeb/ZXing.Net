@@ -122,8 +122,7 @@ namespace ZXing.Datamatrix
 
         public static BarCodeText AsBarCodeText(this DecoderResult decoderResult
             , params ResultPoint[] points) {
-            BarCodeText result = new BarCodeText(decoderResult.Text
-                , decoderResult.RawBytes, points, BarcodeFormat.DATA_MATRIX);
+            BarCodeText result = decoderResult.AsBarCodeText(BarcodeFormat.DATA_MATRIX, points);
             IList<byte[]> byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null) {
                 result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);

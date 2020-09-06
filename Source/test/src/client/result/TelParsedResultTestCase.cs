@@ -37,7 +37,7 @@ namespace ZXing.Client.Result.Test
 
       private static void DoTest(string contents, string number, string title)
       {
-         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, BarcodeFormat.QR_CODE);
+         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.TEL, result.Type);
          TelParsedResult telResult = (TelParsedResult)result;

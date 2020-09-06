@@ -76,9 +76,9 @@ namespace ZXing.Multi.QrCode.Test
         [Test]
         public void TestProcessStructuredAppend()
         {
-            var sa1 = new BarCodeText("SA1", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
-            var sa2 = new BarCodeText("SA2", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
-            var sa3 = new BarCodeText("SA3", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var sa1 = new BarCodeText("SA1", new byte[] { }, null, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var sa2 = new BarCodeText("SA2", new byte[] { }, null, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var sa3 = new BarCodeText("SA3", new byte[] { }, null, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
             sa1.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, (0 << 4) + 2);
             sa1.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, "L");
             sa2.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, (1 << 4) + 2);
@@ -86,7 +86,7 @@ namespace ZXing.Multi.QrCode.Test
             sa3.PutMetadata(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE, (2 << 4) + 2);
             sa3.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, "L");
 
-            var nsa = new BarCodeText("NotSA", new byte[] { }, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
+            var nsa = new BarCodeText("NotSA", new byte[] { }, null, new ResultPoint[] { }, BarcodeFormat.QR_CODE);
             nsa.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, "L");
 
             var inputs = new List<BarCodeText> {sa3, sa1, nsa, sa2};

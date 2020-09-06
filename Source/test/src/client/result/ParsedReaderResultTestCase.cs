@@ -338,7 +338,7 @@ namespace ZXing.Client.Result.Test
                                        ParsedResultType type,
                                        BarcodeFormat format)
       {
-         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, format);
+         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, format);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.IsNotNull(result);
          Assert.AreEqual(type, result.Type);

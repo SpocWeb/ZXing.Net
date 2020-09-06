@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ZXing.Aztec.Internal;
 using ZXing.Common;
+using ZXing.PDF417;
 
 namespace ZXing.Aztec
 {
@@ -25,18 +26,6 @@ namespace ZXing.Aztec
     /// <author>David Olivier</author>
     public class AztecReader : IBarCodeDecoder
     {
-        /// <summary>
-        /// Locates and decodes a barcode in some format within an image.
-        /// </summary>
-        /// <param name="image">image of barcode to decode</param>
-        /// <returns>
-        /// a String representing the content encoded by the Data Matrix code
-        /// </returns>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            return Decode(image, null);
-        }
-
         /// <summary>
         ///  Locates and decodes a Data Matrix code in an image.
         /// </summary>
@@ -48,7 +37,7 @@ namespace ZXing.Aztec
         /// <returns>
         /// String which the barcode encodes
         /// </returns>
-        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null)
         {
             var blackmatrix = image.GetBlackMatrix();
             if (blackmatrix == null) {
@@ -94,7 +83,7 @@ namespace ZXing.Aztec
                 }
             }
 
-            var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, decoderResult.NumBits, points, BarcodeFormat.AZTEC);
+            var result = decoderResult.AsBarCodeText(BarcodeFormat.AZTEC, points);
 
             IList<byte[]> byteSegments = decoderResult.ByteSegments;
             if (byteSegments != null)

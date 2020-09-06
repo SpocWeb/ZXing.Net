@@ -225,10 +225,7 @@ namespace ZXing.OneD
 
             float left = 0.0f;
             float right = end - 1;
-            return new BarCodeText(
-                resultString,
-                null,
-                new[]
+            return new BarCodeText(resultString, null, row, new[]
                 {
                     new ResultPoint(left, rowNumber),
                     new ResultPoint(right, rowNumber)

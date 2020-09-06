@@ -25,16 +25,16 @@ namespace ZXing.OneD
     /// individual readers.</p>
     ///   <author>Sean Owen</author>
     /// </summary>
-    public sealed class MultiFormatUPCEANReader : OneDReader
+    public sealed class MultiFormatUpceanReader : OneDReader
     {
 
-        readonly UpcEanReader[] readers;
+        readonly UpcEanReader[] _Readers;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultiFormatUPCEANReader"/> class.
+        /// Initializes a new instance of the <see cref="MultiFormatUpceanReader"/> class.
         /// </summary>
         /// <param name="hints">The hints.</param>
-        public MultiFormatUPCEANReader(IDictionary<DecodeHintType, object> hints)
+        public MultiFormatUpceanReader(IDictionary<DecodeHintType, object> hints)
         {
             var possibleFormats = hints == null || !hints.ContainsKey(DecodeHintType.POSSIBLE_FORMATS) ? null :
                 (IList<BarcodeFormat>)hints[DecodeHintType.POSSIBLE_FORMATS];
@@ -65,7 +65,7 @@ namespace ZXing.OneD
                 readers.Add(new Eân8Reader());
                 readers.Add(new UPCEReader());
             }
-            this.readers = readers.ToArray();
+            this._Readers = readers.ToArray();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace ZXing.OneD
                 return null;
             }
 
-            foreach (UpcEanReader reader in readers)
+            foreach (UpcEanReader reader in _Readers)
             {
                 BarCodeText result = reader.DecodeRow(rowNumber, row, startGuardPattern, hints);
                 if (result == null) {
@@ -107,22 +107,20 @@ namespace ZXing.OneD
                 // result if appropriate.
                 //
                 // But, don't return UPC-A if UPC-A was not a requested format!
-                bool ean13MayBeUPCA =
+                bool ean13MayBeUpca =
                     result.BarcodeFormat == BarcodeFormat.EAN_13 &&
                         result.Text[0] == '0';
                 var possibleFormats =
                     hints == null || !hints.ContainsKey(DecodeHintType.POSSIBLE_FORMATS) ? null : (IList<BarcodeFormat>)hints[DecodeHintType.POSSIBLE_FORMATS];
-                bool canReturnUPCA = possibleFormats == null || possibleFormats.Contains(BarcodeFormat.UPC_A) || possibleFormats.Contains(BarcodeFormat.All_1D);
+                bool canReturnUpca = possibleFormats == null || possibleFormats.Contains(BarcodeFormat.UPC_A) || possibleFormats.Contains(BarcodeFormat.All_1D);
 
-                if (ean13MayBeUPCA && canReturnUPCA)
+                if (ean13MayBeUpca && canReturnUpca)
                 {
                     // Transfer the metadata across
-                    var resultUPCA = new BarCodeText(result.Text.Substring(1),
-                                                   result.RawBytes,
-                                                   result.ResultPoints,
-                                                   BarcodeFormat.UPC_A);
-                    resultUPCA.PutAllMetadata(result.ResultMetadata);
-                    return resultUPCA;
+                    var resultUpca = new BarCodeText(result.Text.Substring(1), result.RawBytes
+                        , result.Bitmap, result.ResultPoints, BarcodeFormat.UPC_A);
+                    resultUpca.PutAllMetadata(result.ResultMetadata);
+                    return resultUpca;
                 }
                 return result;
             }
@@ -136,7 +134,7 @@ namespace ZXing.OneD
         /// </summary>
         public override void Reset()
         {
-            foreach (IBarCodeDecoder reader in readers)
+            foreach (IBarCodeDecoder reader in _Readers)
             {
                 reader.Reset();
             }

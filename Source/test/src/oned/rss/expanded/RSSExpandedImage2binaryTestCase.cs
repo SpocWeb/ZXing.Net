@@ -71,13 +71,13 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
       static void AssertCorrectImage2Binary(string imageFileName, string expected)
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
          var rowNumber = binaryMap.Height / 2;
          var row = binaryMap.GetBlackRow(rowNumber, null);
 
-         Assert.IsTrue(rssExpandedReader.decodeRow2pairs(rowNumber, row));
+         Assert.IsTrue(rssExpandedReader.DecodeRow2Pairs(rowNumber, row));
 
          var binary = BitArrayBuilder.buildBitArray(rssExpandedReader.Pairs);
          Assert.AreEqual(expected, binary.ToString());

@@ -46,16 +46,16 @@ namespace ZXing.OneD
                                                  };
         internal static readonly int ASTERISK_ENCODING = CHARACTER_ENCODINGS[47];
 
-        readonly StringBuilder decodeRowResult;
-        readonly int[] counters;
+        readonly StringBuilder _DecodeRowResult;
+        readonly int[] _Counters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Code93Reader"/> class.
         /// </summary>
         public Code93Reader()
         {
-            decodeRowResult = new StringBuilder(20);
-            counters = new int[6];
+            _DecodeRowResult = new StringBuilder(20);
+            _Counters = new int[6];
         }
 
         /// <summary>
@@ -68,14 +68,14 @@ namespace ZXing.OneD
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
         public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
-            for (var index = 0; index < counters.Length; index++)
+            for (var index = 0; index < _Counters.Length; index++)
             {
-                counters[index] = 0;
+                _Counters[index] = 0;
             }
 
-            decodeRowResult.Length = 0;
+            _DecodeRowResult.Length = 0;
 
-            int[] start = findAsteriskPattern(row);
+            int[] start = FindAsteriskPattern(row);
             if (start == null) {
                 return null;
             }
@@ -88,31 +88,31 @@ namespace ZXing.OneD
             int lastStart;
             do
             {
-                if (!RecordPattern(row, nextStart, counters)) {
+                if (!RecordPattern(row, nextStart, _Counters)) {
                     return null;
                 }
 
-                int pattern = toPattern(counters);
+                int pattern = ToPattern(_Counters);
                 if (pattern < 0)
                 {
                     return null;
                 }
-                if (!patternToChar(pattern, out decodedChar)) {
+                if (!PatternToChar(pattern, out decodedChar)) {
                     return null;
                 }
-                decodeRowResult.Append(decodedChar);
+                _DecodeRowResult.Append(decodedChar);
                 lastStart = nextStart;
-                foreach (int counter in counters)
+                foreach (int counter in _Counters)
                 {
                     nextStart += counter;
                 }
                 // Read off white space
                 nextStart = row.GetNextSet(nextStart);
             } while (decodedChar != '*');
-            decodeRowResult.Remove(decodeRowResult.Length - 1, 1); // remove asterisk
+            _DecodeRowResult.Remove(_DecodeRowResult.Length - 1, 1); // remove asterisk
 
             int lastPatternSize = 0;
-            foreach (int counter in counters)
+            foreach (int counter in _Counters)
             {
                 lastPatternSize += counter;
             }
@@ -123,19 +123,19 @@ namespace ZXing.OneD
                 return null;
             }
 
-            if (decodeRowResult.Length < 2)
+            if (_DecodeRowResult.Length < 2)
             {
                 // false positive -- need at least 2 checksum digits
                 return null;
             }
 
-            if (!checkChecksums(decodeRowResult)) {
+            if (!CheckChecksums(_DecodeRowResult)) {
                 return null;
             }
             // Remove checksum digits
-            decodeRowResult.Length = decodeRowResult.Length - 2;
+            _DecodeRowResult.Length = _DecodeRowResult.Length - 2;
 
-            string resultString = decodeExtended(decodeRowResult);
+            string resultString = DecodeExtended(_DecodeRowResult);
             if (resultString == null) {
                 return null;
             }
@@ -152,10 +152,7 @@ namespace ZXing.OneD
                 resultPointCallback(new ResultPoint(right, rowNumber));
             }
 
-            return new BarCodeText(
-               resultString,
-               null,
-               new[]
+            return new BarCodeText(resultString, null, row, new[]
                   {
                   new ResultPoint(left, rowNumber),
                   new ResultPoint(right, rowNumber)
@@ -163,53 +160,53 @@ namespace ZXing.OneD
                BarcodeFormat.CODE_93);
         }
 
-        int[] findAsteriskPattern(BitArray row)
+        int[] FindAsteriskPattern(BitArray row)
         {
             int width = row.Size;
             int rowOffset = row.GetNextSet(0);
 
-            for (var index = 0; index < counters.Length; index++)
+            for (var index = 0; index < _Counters.Length; index++)
             {
-                counters[index] = 0;
+                _Counters[index] = 0;
             }
 
             int counterPosition = 0;
             int patternStart = rowOffset;
             bool isWhite = false;
-            int patternLength = counters.Length;
+            int patternLength = _Counters.Length;
 
             for (int i = rowOffset; i < width; i++)
             {
                 if (row[i] != isWhite)
                 {
-                    counters[counterPosition]++;
+                    _Counters[counterPosition]++;
                 }
                 else
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        if (toPattern(counters) == ASTERISK_ENCODING)
+                        if (ToPattern(_Counters) == ASTERISK_ENCODING)
                         {
                             return new[] { patternStart, i };
                         }
-                        patternStart += counters[0] + counters[1];
-                        Array.Copy(counters, 2, counters, 0, counterPosition - 1);
-                        counters[counterPosition - 1] = 0;
-                        counters[counterPosition] = 0;
+                        patternStart += _Counters[0] + _Counters[1];
+                        Array.Copy(_Counters, 2, _Counters, 0, counterPosition - 1);
+                        _Counters[counterPosition - 1] = 0;
+                        _Counters[counterPosition] = 0;
                         counterPosition--;
                     }
                     else
                     {
                         counterPosition++;
                     }
-                    counters[counterPosition] = 1;
+                    _Counters[counterPosition] = 1;
                     isWhite = !isWhite;
                 }
             }
             return null;
         }
 
-        static int toPattern(int[] counters)
+        static int ToPattern(int[] counters)
         {
             int max = counters.Length;
             int sum = 0;
@@ -245,7 +242,7 @@ namespace ZXing.OneD
             return pattern;
         }
 
-        static bool patternToChar(int pattern, out char c)
+        static bool PatternToChar(int pattern, out char c)
         {
             for (int i = 0; i < CHARACTER_ENCODINGS.Length; i++)
             {
@@ -259,7 +256,7 @@ namespace ZXing.OneD
             return false;
         }
 
-        static string decodeExtended(StringBuilder encoded)
+        static string DecodeExtended(StringBuilder encoded)
         {
             int length = encoded.Length;
             StringBuilder decoded = new StringBuilder(length);
@@ -372,7 +369,7 @@ namespace ZXing.OneD
             return decoded.ToString();
         }
 
-        static bool checkChecksums(StringBuilder result)
+        static bool CheckChecksums(StringBuilder result)
         {
             int length = result.Length;
             if (!checkOneChecksum(result, length - 2, 20)) {

@@ -39,12 +39,8 @@ namespace ZXing.Common
 
         private readonly int[] _Bits;
 
-        /// <returns> The width of the matrix
-        /// </returns>
         public int Width { get; }
 
-        /// <returns> The height of the matrix
-        /// </returns>
         public int Height { get; }
 
         /// <summary> This method is for compatibility with older code. It's only logical to call if the matrix

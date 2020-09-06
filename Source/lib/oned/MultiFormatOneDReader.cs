@@ -46,7 +46,7 @@ namespace ZXing.OneD
                     possibleFormats.Contains(BarcodeFormat.EAN_8) ||
                     possibleFormats.Contains(BarcodeFormat.UPC_E))
                 {
-                    readers.Add(new MultiFormatUPCEANReader(hints));
+                    readers.Add(new MultiFormatUpceanReader(hints));
                 }
                 if (possibleFormats.Contains(BarcodeFormat.MSI))
                 {
@@ -54,7 +54,7 @@ namespace ZXing.OneD
                     bool useMsiCheckDigit = hints.ContainsKey(DecodeHintType.ASSUME_MSI_CHECK_DIGIT)
                         ? (bool)hints[DecodeHintType.ASSUME_MSI_CHECK_DIGIT]
                         : false;
-                    readers.Add(new MSIReader(useMsiCheckDigit));
+                    readers.Add(new MsiReader(useMsiCheckDigit));
                 }
                 if (possibleFormats.Contains(BarcodeFormat.CODE_39) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
@@ -86,7 +86,7 @@ namespace ZXing.OneD
                 }
                 if (possibleFormats.Contains(BarcodeFormat.RSS_EXPANDED) || possibleFormats.Contains(BarcodeFormat.All_1D))
                 {
-                    readers.Add(new RSSExpandedReader());
+                    readers.Add(new RssExpandedReader());
                 }
                 if (possibleFormats.Contains(BarcodeFormat.PHARMA_CODE))
                 {
@@ -102,14 +102,14 @@ namespace ZXing.OneD
                 // MSI needs to be activated explicit
                 // PHARMA_CODE needs to be activated explicit
 
-                readers.Add(new MultiFormatUPCEANReader(hints));
+                readers.Add(new MultiFormatUpceanReader(hints));
                 readers.Add(new Code39Reader(useCode39CheckDigit, useCode39ExtendedMode));
                 readers.Add(new CodaBarReader());
                 readers.Add(new Code93Reader());
                 readers.Add(new Code128Reader());
                 readers.Add(new ItfReader());
                 readers.Add(new RSS14Reader());
-                readers.Add(new RSSExpandedReader());
+                readers.Add(new RssExpandedReader());
             }
         }
 

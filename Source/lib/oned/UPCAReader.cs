@@ -28,7 +28,7 @@ namespace ZXing.OneD
     public sealed class UpcAReader : UpcEanReader
     {
 
-        readonly UpcEanReader ean13Reader = new Ean13Reader();
+        readonly UpcEanReader _Ean13Reader = new Ean13Reader();
 
         /// <summary>
         ///   <p>Like decodeRow(int, BitArray, java.util.Map), but
@@ -39,7 +39,7 @@ namespace ZXing.OneD
                                 BitArray row,
                                 int[] startGuardRange,
                                 IDictionary<DecodeHintType, object> hints)
-            => maybeReturnResult(ean13Reader.DecodeRow(rowNumber, row, startGuardRange, hints));
+            => MaybeReturnResult(_Ean13Reader.DecodeRow(rowNumber, row, startGuardRange, hints));
 
         /// <summary>
         ///   <p>Attempts to decode a one-dimensional barcode format given a single row of
@@ -53,7 +53,7 @@ namespace ZXing.OneD
         /// </returns>
         public override BarCodeText DecodeRow(int rowNumber, BitArray row
             , IDictionary<DecodeHintType, object> hints)
-            => maybeReturnResult(ean13Reader.DecodeRow(rowNumber, row, hints));
+            => MaybeReturnResult(_Ean13Reader.DecodeRow(rowNumber, row, hints));
 
         /// <summary>
         /// Decodes the specified image.
@@ -63,7 +63,7 @@ namespace ZXing.OneD
         /// <returns></returns>
         public override BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            return maybeReturnResult(ean13Reader.Decode(image, hints));
+            return MaybeReturnResult(_Ean13Reader.Decode(image, hints));
         }
 
         /// <summary>
@@ -84,10 +84,10 @@ namespace ZXing.OneD
         /// </returns>
         protected internal override int DecodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
         {
-            return ean13Reader.DecodeMiddle(row, startRange, resultString);
+            return _Ean13Reader.DecodeMiddle(row, startRange, resultString);
         }
 
-        static BarCodeText maybeReturnResult(BarCodeText result)
+        static BarCodeText MaybeReturnResult(BarCodeText result)
         {
             if (result == null) {
                 return null;
@@ -96,7 +96,7 @@ namespace ZXing.OneD
             var text = result.Text;
             if (text[0] == '0')
             {
-                var upcaResult = new BarCodeText(text.Substring(1), null, result.ResultPoints, BarcodeFormat.UPC_A);
+                var upcaResult = new BarCodeText(text.Substring(1), null, null, result.ResultPoints, BarcodeFormat.UPC_A);
                 if (result.ResultMetadata != null)
                 {
                     upcaResult.PutAllMetadata(result.ResultMetadata);

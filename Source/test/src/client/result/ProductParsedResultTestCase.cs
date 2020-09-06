@@ -39,7 +39,7 @@ namespace ZXing.Client.Result.Test
 
       private static void DoTest(string contents, string normalized, BarcodeFormat format)
       {
-         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, format);
+         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, format);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.PRODUCT, result.Type);
          ProductParsedResult productResult = (ProductParsedResult)result;

@@ -48,9 +48,7 @@ namespace ZXing.OneD
             IDictionary<ResultMetadataType, object> extensionData = parseExtensionString(resultString);
 
             BarCodeText extensionResult =
-                new BarCodeText(resultString,
-                           null,
-                           new[] {
+                new BarCodeText(resultString, null, row, new[] {
                        new ResultPoint((extensionStartRange[0] + extensionStartRange[1]) / 2.0f, rowNumber),
                        new ResultPoint(end, rowNumber),
                       },

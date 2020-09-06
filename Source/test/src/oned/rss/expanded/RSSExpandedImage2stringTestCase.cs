@@ -79,7 +79,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
       static void AssertCorrectImage2String(string imageFileName, string expected)
       {
-         var rssExpandedReader = new RSSExpandedReader();
+         var rssExpandedReader = new RssExpandedReader();
 
          var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
          var rowNumber = binaryMap.Height / 2;

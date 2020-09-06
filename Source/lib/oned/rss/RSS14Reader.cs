@@ -159,9 +159,7 @@ namespace ZXing.OneD.RSS
 
             ResultPoint[] leftPoints = leftPair.FinderPattern.ResultPoints;
             ResultPoint[] rightPoints = rightPair.FinderPattern.ResultPoints;
-            return new BarCodeText(
-                buffer.ToString(),
-                null,
+            return new BarCodeText(buffer.ToString(), null, null,
                 new[] {leftPoints[0], leftPoints[1], rightPoints[0], rightPoints[1],},
                 BarcodeFormat.RSS_14);
         }
