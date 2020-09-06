@@ -31,7 +31,7 @@ namespace ZXing
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public interface IBarCodeDecoder
     {
-        /// <summary> Locates and decodes a barcode in some format within an image. </summary>
+        /// <summary> Locates AND decodes a barcode in some format within an image. </summary>
         /// <param name="image">image of barcode to decode</param>
         /// <param name="hints">passed as a <see cref="IDictionary{TKey, TValue}" />
         /// from <see cref="DecodeHintType" /> to arbitrary data.
@@ -39,6 +39,9 @@ namespace ZXing
         /// The implementation may or may not do anything with these hints.
         /// </param>
         /// <returns>String which the barcode encodes</returns>
+        /// <remarks>
+        /// This should be split into 2 Steps to be able to manage Problems! 
+        /// </remarks>
         BarCodeText Decode(BinaryBitmap image, IDictionary<DecodeHintType, object> hints = null);
 
         /// <summary> Resets any internal state the implementation has after a decode </summary>

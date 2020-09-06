@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+using System.Collections.Generic;
+
 namespace ZXing.QrCode.Internal
 {
     /// <summary>
@@ -31,26 +33,17 @@ namespace ZXing.QrCode.Internal
         /// Initializes a new instance of the <see cref="QrFinderPatternInfo"/> class.
         /// </summary>
         /// <param name="patternCenters">The pattern centers.</param>
-        public QrFinderPatternInfo(FinderPattern[] patternCenters)
+        public QrFinderPatternInfo(IReadOnlyList<FinderPattern> patternCenters)
         {
             bottomLeft = patternCenters[0];
             topLeft = patternCenters[1];
             topRight = patternCenters[2];
         }
 
-        /// <summary>
-        /// Gets the bottom left.
-        /// </summary>
         public FinderPattern BottomLeft => bottomLeft;
 
-        /// <summary>
-        /// Gets the top left.
-        /// </summary>
         public FinderPattern TopLeft => topLeft;
 
-        /// <summary>
-        /// Gets the top right.
-        /// </summary>
         public FinderPattern TopRight => topRight;
 
     }
