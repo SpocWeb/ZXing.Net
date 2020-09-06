@@ -367,7 +367,7 @@ namespace ZXing.Common
         {
             var newBits = new int[bits.Length];
             // reverse all int's first
-            var len = ((size - 1) >> 5);
+            var len = (size - 1) >> 5;
             var oldBitsLen = len + 1;
             for (var i = 0; i < oldBitsLen; i++)
             {
@@ -383,13 +383,13 @@ namespace ZXing.Common
             if (size != oldBitsLen * 32)
             {
                 var leftOffset = oldBitsLen * 32 - size;
-                var currentInt = ((int)((uint)newBits[0] >> leftOffset)); // (newBits[0] >>> leftOffset);
+                var currentInt = (int)((uint)newBits[0] >> leftOffset); // (newBits[0] >>> leftOffset);
                 for (var i = 1; i < oldBitsLen; i++)
                 {
                     var nextInt = newBits[i];
                     currentInt |= nextInt << (32 - leftOffset);
                     newBits[i - 1] = currentInt;
-                    currentInt = ((int)((uint)nextInt >> leftOffset)); // (nextInt >>> leftOffset);
+                    currentInt = (int)((uint)nextInt >> leftOffset); // (nextInt >>> leftOffset);
                 }
                 newBits[oldBitsLen - 1] = currentInt;
             }
@@ -450,7 +450,7 @@ namespace ZXing.Common
         /// </returns>
         public override string ToString()
         {
-            var result = new StringBuilder(size + (size / 8) + 1);
+            var result = new StringBuilder(size + size / 8 + 1);
             for (int i = 0; i < size; i++)
             {
                 if ((i & 0x07) == 0)

@@ -27,7 +27,7 @@ namespace ZXing.OneD
     {
 
         private const int CODE_WIDTH = 3 + // start guard
-                                       (7 * 6) + // bars
+                                       7 * 6 + // bars
                                        6; // end guard
 
         private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.UPC_E };

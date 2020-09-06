@@ -111,7 +111,7 @@ namespace ZXing.QrCode.Internal
                 var eci = CharacterSetECI.getCharacterSetECIByName(encoding);
                 if (eci != null)
                 {
-                    var eciIsExplicitDisabled = (hints != null && hints.ContainsKey(EncodeHintType.DISABLE_ECI) && hints[EncodeHintType.DISABLE_ECI] != null && Convert.ToBoolean(hints[EncodeHintType.DISABLE_ECI].ToString()));
+                    var eciIsExplicitDisabled = hints != null && hints.ContainsKey(EncodeHintType.DISABLE_ECI) && hints[EncodeHintType.DISABLE_ECI] != null && Convert.ToBoolean(hints[EncodeHintType.DISABLE_ECI].ToString());
                     if (!eciIsExplicitDisabled)
                     {
                         appendECI(eci, headerBits);
@@ -469,10 +469,10 @@ namespace ZXing.QrCode.Internal
             }
             // 196 = (13 + 26) * 4 + (14 + 26) * 1
             if (numTotalBytes !=
-                ((numDataBytesInGroup1 + numEcBytesInGroup1) *
-                    numRsBlocksInGroup1) +
-                    ((numDataBytesInGroup2 + numEcBytesInGroup2) *
-                        numRsBlocksInGroup2))
+                (numDataBytesInGroup1 + numEcBytesInGroup1) *
+                numRsBlocksInGroup1 +
+                    (numDataBytesInGroup2 + numEcBytesInGroup2) *
+                    numRsBlocksInGroup2)
             {
                 throw new WriterException("Total bytes mismatch");
             }
@@ -623,7 +623,7 @@ namespace ZXing.QrCode.Internal
         public static void appendLengthInfo(int numLetters, Version version, Mode mode, BitArray bits)
         {
             int numBits = mode.getCharacterCountBits(version);
-            if (numLetters >= (1 << numBits))
+            if (numLetters >= 1 << numBits)
             {
                 throw new WriterException(numLetters + " is bigger than " + ((1 << numBits) - 1));
             }
@@ -797,7 +797,7 @@ namespace ZXing.QrCode.Internal
 
                     throw new WriterException("Invalid byte sequence");
                 }
-                int encoded = ((subtracted >> 8) * 0xc0) + (subtracted & 0xff);
+                int encoded = (subtracted >> 8) * 0xc0 + (subtracted & 0xff);
                 bits.appendBits(encoded, 13);
             }
         }

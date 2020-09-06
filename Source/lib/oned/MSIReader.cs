@@ -195,7 +195,7 @@ namespace ZXing.OneD
                     {
                         // narrow and wide areas should be as near as possible to factor 2
                         // lets say we will check 1.5 <= factor <= 5
-                        var factorNarrowToWide = counters[0] / ((float)counters[1]);
+                        var factorNarrowToWide = counters[0] / (float)counters[1];
                         if (factorNarrowToWide >= 1.5 && factorNarrowToWide <= 5)
                         {
                             calculateAverageCounterWidth(counters, patternLength);
@@ -248,7 +248,7 @@ namespace ZXing.OneD
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        var factorNarrowToWide = counters[1] / ((float)counters[0]);
+                        var factorNarrowToWide = counters[1] / (float)counters[0];
                         if (factorNarrowToWide >= 1.5 && factorNarrowToWide <= 5)
                         {
                             if (toPattern(counters, patternLength) == END_ENCODING)
@@ -305,7 +305,7 @@ namespace ZXing.OneD
             for (var index = 0; index < patternLength; index++)
             {
                 var counter = counters[index];
-                if ((counter << 8) < averageCounterWidth)
+                if (counter << 8 < averageCounterWidth)
                 {
                     pattern = (pattern << 1) | bit;
                 }
@@ -351,7 +351,7 @@ namespace ZXing.OneD
                 checksum += digit;
             }
 
-            return (10 - (checksum % 10)) % 10;
+            return (10 - checksum % 10) % 10;
         }
     }
 }

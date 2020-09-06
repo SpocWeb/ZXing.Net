@@ -51,9 +51,9 @@ namespace ZXing.OneD
                 if (possibleFormats.Contains(BarcodeFormat.MSI))
                 {
                     // MSI needs to be activated explicit
-                    bool useMsiCheckDigit = (hints.ContainsKey(DecodeHintType.ASSUME_MSI_CHECK_DIGIT)
-                                               ? (bool)hints[DecodeHintType.ASSUME_MSI_CHECK_DIGIT]
-                                               : false);
+                    bool useMsiCheckDigit = hints.ContainsKey(DecodeHintType.ASSUME_MSI_CHECK_DIGIT)
+                        ? (bool)hints[DecodeHintType.ASSUME_MSI_CHECK_DIGIT]
+                        : false;
                     readers.Add(new MSIReader(useMsiCheckDigit));
                 }
                 if (possibleFormats.Contains(BarcodeFormat.CODE_39) || possibleFormats.Contains(BarcodeFormat.All_1D))

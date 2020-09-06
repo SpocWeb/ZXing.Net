@@ -36,26 +36,26 @@ namespace ZXing.Multi.QrCode
         /// </summary>
         /// <param name="image">The image.</param>
         /// <returns></returns>
-        public BarCodeText[] decodeMultiple(BinaryBitmap image)
+        public BarCodeText[] DecodeMultiple(BinaryBitmap image)
         {
-            return decodeMultiple(image, null);
+            return DecodeMultiple(image, null);
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
-        public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
         {
-            var detectorResults = new MultiQrDetector(image).detectMulti(hints);
+            var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
             return DecodeMultiple(hints, detectorResults);
         }
 
         /// <summary> Decodes multiple QR Codes </summary>
-        public BarCodeText[] decodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] DecodeMultiple(BinaryBitmap image, IDictionary<DecodeHintType, object> hints)
         {
-            var detectorResults = new MultiQrDetector(image).detectMulti(hints);
+            var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
             return DecodeMultiple(hints, detectorResults);
         }
 
-        BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults)
+        public BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults)
         {
             var results = new List<BarCodeText>();
             foreach (var detectorResult in detectorResults)
@@ -165,8 +165,8 @@ namespace ZXing.Multi.QrCode
 
         private static int SaSequenceSort(BarCodeText a, BarCodeText b)
         {
-            var aNumber = (int) (a.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE]);
-            var bNumber = (int) (b.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE]);
+            var aNumber = (int) a.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE];
+            var bNumber = (int) b.ResultMetadata[ResultMetadataType.STRUCTURED_APPEND_SEQUENCE];
             return aNumber - bNumber;
         }
     }

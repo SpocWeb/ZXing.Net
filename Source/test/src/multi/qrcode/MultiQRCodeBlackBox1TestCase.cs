@@ -46,7 +46,7 @@ namespace ZXing.Multi.QrCode.Test
             var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
             var reader = new QRCodeMultiReader();
-            var results = reader.decodeMultiple(bitmap);
+            var results = reader.DecodeMultiple(bitmap);
             Assert.IsNotNull(results);
             Assert.AreEqual(4, results.Length);
 

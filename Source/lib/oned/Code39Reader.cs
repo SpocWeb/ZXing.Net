@@ -150,7 +150,7 @@ namespace ZXing.OneD
             int whiteSpaceAfterEnd = nextStart - lastStart - lastPatternSize;
             // If 50% of last pattern size, following last pattern, is not whitespace, fail
             // (but if it's whitespace to the very end of the image, that's OK)
-            if (nextStart != end && (whiteSpaceAfterEnd << 1) < lastPatternSize)
+            if (nextStart != end && whiteSpaceAfterEnd << 1 < lastPatternSize)
             {
                 return null;
             }
@@ -321,7 +321,7 @@ namespace ZXing.OneD
                         {
                             wideCounters--;
                             // totalWideCountersWidth = 3 * average, so this checks if counter >= 3/2 * average
-                            if ((counter << 1) >= totalWideCountersWidth)
+                            if (counter << 1 >= totalWideCountersWidth)
                             {
                                 return -1;
                             }

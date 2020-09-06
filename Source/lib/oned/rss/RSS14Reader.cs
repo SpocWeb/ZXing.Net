@@ -149,7 +149,7 @@ namespace ZXing.OneD.RSS
                 int digit = buffer[i] - '0';
                 checkDigit += (i & 0x01) == 0 ? 3 * digit : digit;
             }
-            checkDigit = 10 - (checkDigit % 10);
+            checkDigit = 10 - checkDigit % 10;
             if (checkDigit == 10)
             {
                 checkDigit = 0;

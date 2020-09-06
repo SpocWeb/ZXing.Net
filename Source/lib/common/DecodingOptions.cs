@@ -21,15 +21,10 @@ using System.ComponentModel;
 
 namespace ZXing.Common
 {
-    /// <summary>
-    /// Defines an container for encoder options
-    /// </summary>
+    /// <summary> container for encoder options </summary>
     [Serializable]
     public class DecodingOptions
     {
-        /// <summary>
-        /// Gets the data container for all options
-        /// </summary>
 #if !UNITY
         [Browsable(false)]
 #endif
@@ -244,11 +239,11 @@ namespace ZXing.Common
         }
 
         /// <summary>
-        /// If true, return the start and end digits in a Codabar barcode instead of stripping them. They
+        /// If true, return the start and end digits in a CodaBar barcode instead of stripping them. They
         /// are alpha, whereas the rest are numeric. By default, they are stripped, but this causes them
         /// to not be. Doesn't matter what it maps to; use <see cref="bool" />.
         /// </summary>
-        public bool ReturnCodabarStartEnd
+        public bool ReturnCodaBarStartEnd
         {
             get
             {
@@ -280,7 +275,7 @@ namespace ZXing.Common
         /// <value>
         ///   <c>true</c> if it should assume GS1; otherwise, <c>false</c>.
         /// </value>
-        public bool AssumeGS1
+        public bool AssumeGs1
         {
             get
             {
@@ -311,7 +306,7 @@ namespace ZXing.Common
         /// <value>
         ///   <c>true</c> if it should assume a MSI check digit; otherwise, <c>false</c>.
         /// </value>
-        public bool AssumeMSICheckDigit
+        public bool AssumeMsiCheckDigit
         {
             get
             {
@@ -371,7 +366,7 @@ namespace ZXing.Common
         /// and a UPC or EAN barcode is found but an extension is not, then no result will be returned
         /// at all.
         /// </summary>
-        public int[] AllowedEANExtensions
+        public int[] AllowedEanExtensions
         {
             get
             {
@@ -409,7 +404,7 @@ namespace ZXing.Common
         }
 
         [Serializable]
-        private class ChangeNotifyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+        public class ChangeNotifyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         {
             private readonly IDictionary<TKey, TValue> values;
 
@@ -432,10 +427,7 @@ namespace ZXing.Common
                 OnValueChanged();
             }
 
-            public bool ContainsKey(TKey key)
-            {
-                return values.ContainsKey(key);
-            }
+            public bool ContainsKey(TKey key) => values.ContainsKey(key);
 
             public ICollection<TKey> Keys => values.Keys;
 
@@ -446,10 +438,7 @@ namespace ZXing.Common
                 return result;
             }
 
-            public bool TryGetValue(TKey key, out TValue value)
-            {
-                return values.TryGetValue(key, out value);
-            }
+            public bool TryGetValue(TKey key, out TValue value) => values.TryGetValue(key, out value);
 
             public ICollection<TValue> Values => values.Values;
 

@@ -27,9 +27,9 @@ namespace ZXing.OneD
     public sealed class EAN8Writer : UPCEANWriter
     {
         private const int CODE_WIDTH = 3 + // start guard
-            (7 * 4) + // left bars
+            7 * 4 + // left bars
             5 + // middle guard
-            (7 * 4) + // right bars
+            7 * 4 + // right bars
             3; // end guard
 
         private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.EAN_8 };

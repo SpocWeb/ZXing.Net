@@ -130,7 +130,7 @@ namespace AForgeDemo
                 }
             }
 
-            camDevices.SelectCamera(((Device)(cmbDevice.SelectedItem)).Index);
+            camDevices.SelectCamera(((Device)cmbDevice.SelectedItem).Index);
             camDevices.Current.NewFrame += Current_NewFrame;
             camDevices.Current.Start();
         }

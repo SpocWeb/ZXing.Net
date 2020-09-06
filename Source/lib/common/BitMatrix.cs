@@ -233,7 +233,7 @@ namespace ZXing.Common
             get
             {
                 int offset = y * rowSize + (x >> 5);
-                return (((int)((uint)(bits[offset]) >> (x & 0x1f))) & 1) != 0;
+                return ((int)((uint)bits[offset] >> (x & 0x1f)) & 1) != 0;
             }
             set
             {
@@ -244,7 +244,7 @@ namespace ZXing.Common
                 }
                 else
                 {
-                    int offset = y * rowSize + (x / 32);
+                    int offset = y * rowSize + x / 32;
                     bits[offset] &= ~(1 << (x & 0x1f));
                 }
             }
@@ -437,11 +437,11 @@ namespace ZXing.Common
                         if (x32 * 32 < left)
                         {
                             int bit = 0;
-                            while ((theBits << (31 - bit)) == 0)
+                            while (theBits << (31 - bit) == 0)
                             {
                                 bit++;
                             }
-                            if ((x32 * 32 + bit) < left)
+                            if (x32 * 32 + bit < left)
                             {
                                 left = x32 * 32 + bit;
                             }
@@ -449,11 +449,11 @@ namespace ZXing.Common
                         if (x32 * 32 + 31 > right)
                         {
                             int bit = 31;
-                            while (((int)((uint)theBits >> bit)) == 0) // (theBits >>> bit)
+                            while ((int)((uint)theBits >> bit) == 0) // (theBits >>> bit)
                             {
                                 bit--;
                             }
-                            if ((x32 * 32 + bit) > right)
+                            if (x32 * 32 + bit > right)
                             {
                                 right = x32 * 32 + bit;
                             }
@@ -490,7 +490,7 @@ namespace ZXing.Common
 
             int theBits = bits[bitsOffset];
             int bit = 0;
-            while ((theBits << (31 - bit)) == 0)
+            while (theBits << (31 - bit) == 0)
             {
                 bit++;
             }
@@ -520,7 +520,7 @@ namespace ZXing.Common
             int theBits = bits[bitsOffset];
             int bit = 31;
 
-            while (((int)((uint)theBits >> bit)) == 0) // (theBits >>> bit)
+            while ((int)((uint)theBits >> bit) == 0) // (theBits >>> bit)
             {
                 bit--;
             }

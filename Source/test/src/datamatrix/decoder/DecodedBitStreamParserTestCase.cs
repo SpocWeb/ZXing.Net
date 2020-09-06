@@ -31,8 +31,8 @@ namespace ZXing.Datamatrix.Internal.Test
       {
          // ASCII characters 0-127 are encoded as the value + 1
          byte[] bytes = {
-                           ('a' + 1), ('b' + 1), ('c' + 1),
-                           ('A' + 1), ('B' + 1), ('C' + 1)
+                           'a' + 1, 'b' + 1, 'c' + 1,
+                           'A' + 1, 'B' + 1, 'C' + 1
                         };
             string decodedString = DecodedBitStreamParser.decode(bytes).Text;
          Assert.AreEqual("abcABC", decodedString);
@@ -43,8 +43,8 @@ namespace ZXing.Datamatrix.Internal.Test
       {
          // ASCII double digit (00 - 99) Numeric Value + 130
          byte[] bytes = {
-                           130, (1 + 130),
-                           (98 + 130), (99 + 130)
+                           130, 1 + 130,
+                           98 + 130, 99 + 130
                         };
             string decodedString = DecodedBitStreamParser.decode(bytes).Text;
          Assert.AreEqual("00019899", decodedString);

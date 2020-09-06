@@ -678,7 +678,7 @@ namespace ZXing.Datamatrix.Internal
         private static int unrandomize255State(int randomizedBase256Codeword,
                                                int base256CodewordPosition)
         {
-            int pseudoRandomNumber = ((149 * base256CodewordPosition) % 255) + 1;
+            int pseudoRandomNumber = 149 * base256CodewordPosition % 255 + 1;
             int tempVariable = randomizedBase256Codeword - pseudoRandomNumber;
             return tempVariable >= 0 ? tempVariable : tempVariable + 256;
         }

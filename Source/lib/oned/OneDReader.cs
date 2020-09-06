@@ -258,7 +258,7 @@ namespace ZXing.OneD
             }
             // If we read fully the last section of pixels and filled up our counters -- or filled
             // the last counter but ran off the side of the image, OK. Otherwise, a problem.
-            return (counterPosition == numCounters || (counterPosition == numCounters - 1 && i == end));
+            return counterPosition == numCounters || counterPosition == numCounters - 1 && i == end;
         }
 
         /// <summary>

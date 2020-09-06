@@ -73,7 +73,7 @@ namespace ZXing.QrCode.Internal
             // This gives the smallest number of pixels the center could be,
             // so skip this often.
             // When trying harder, look for all QR versions regardless of how dense they are.
-            int rowsToSkip = (3 * maxRow) / (4 * MAX_MODULES);
+            int rowsToSkip = 3 * maxRow / (4 * MAX_MODULES);
             if (rowsToSkip < MIN_SKIP || tryHarder)
             {
                 rowsToSkip = MIN_SKIP;
@@ -179,7 +179,7 @@ namespace ZXing.QrCode.Internal
         /// figures the location of the center of this run. </summary>
         private static float? centerFromEnd(IReadOnlyList<int> stateCount, int endCol)
         {
-            var result = (endCol - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0f;
+            var result = endCol - stateCount[4] - stateCount[3] - stateCount[2] / 2.0f;
             if (float.IsNaN(result)) {
                 return null;
             }

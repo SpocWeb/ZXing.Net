@@ -177,14 +177,14 @@ namespace ZXing.Common
         public static void thresholdBlock(this byte[] luminances
             , int xOffset, int yOffset, int threshold, int stride, BitMatrix matrix)
         {
-            int offset = (yOffset * stride) + xOffset;
+            int offset = yOffset * stride + xOffset;
             for (int y = 0; y < BLOCK_SIZE; y++, offset += stride)
             {
                 for (int x = 0; x < BLOCK_SIZE; x++)
                 {
                     int pixel = luminances[offset + x];
                     // Comparison needs to be <= so that black == 0 pixels are black even if the threshold is 0.
-                    matrix[xOffset + x, yOffset + y] = (pixel <= threshold);
+                    matrix[xOffset + x, yOffset + y] = pixel <= threshold;
                 }
             }
         }
@@ -280,7 +280,7 @@ namespace ZXing.Common
                             // the boundaries is used for the interior.
 
                             // The (min < bp) is arbitrary but works better than other heuristics that were tried.
-                            int averageNeighborBlackPoint = (blackPointsY1[x] + (2 * blackPointsY[x - 1]) + blackPointsY1[x - 1]) >> 2;
+                            int averageNeighborBlackPoint = (blackPointsY1[x] + 2 * blackPointsY[x - 1] + blackPointsY1[x - 1]) >> 2;
                             if (min < averageNeighborBlackPoint)
                             {
                                 average = averageNeighborBlackPoint;

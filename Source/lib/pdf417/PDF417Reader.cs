@@ -70,9 +70,9 @@ namespace ZXing.PDF417
         ///
         /// <returns>an array of Strings representing the content encoded by the PDF417 codes</returns>
         /// </summary>
-        public BarCodeText[] decodeMultiple(BinaryBitmap image)
+        public BarCodeText[] DecodeMultiple(BinaryBitmap image)
         {
-            return decodeMultiple(image, null);
+            return DecodeMultiple(image, null);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace ZXing.PDF417
         /// <returns>
         /// String which the barcodes encode
         /// </returns>
-        public BarCodeText[] decodeMultiple(BinaryBitmap image,
+        public BarCodeText[] DecodeMultiple(BinaryBitmap image,
                                        IDictionary<DecodeHintType, object> hints)
         {
             return decode(image, hints, true);
@@ -195,7 +195,7 @@ namespace ZXing.PDF417
             // do nothing
         }
 
-        public BarCodeText[] decodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
+        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints)
         {
             throw new NotImplementedException();
         }

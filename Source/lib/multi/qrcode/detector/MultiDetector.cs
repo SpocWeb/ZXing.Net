@@ -40,33 +40,39 @@ namespace ZXing.Multi.QrCode.Internal
         public MultiQrDetector(BinaryBitmap image) : base(image) { }
 
         /// <summary> Detects multiple possible Locations. </summary>
-        public DetectorResult[] detectMulti(IDictionary<DecodeHintType, object> hints)
+        public QrFinderPatternInfo[] FindMulti(IDictionary<DecodeHintType, object> hints)
         {
             var image = Image;
             var resultPointCallback =
-                hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null
-                    : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
+                hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK)
+                    ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
             var finder = new MultiQrPatternFinder(image, resultPointCallback);
-            var infos = finder.findMulti(hints);
+            var infos = finder.FindMulti(hints);
 
+            return infos;
+        }
+
+        public DetectorResult[] DetectMulti(IDictionary<DecodeHintType, object> hints)
+            => DetectMulti(FindMulti(hints));
+
+        public DetectorResult[] DetectMulti(QrFinderPatternInfo[] infos) {
             if (infos.Length == 0)
             {
                 return EMPTY_DETECTOR_RESULTS;
             }
 
             var result = new List<DetectorResult>();
-            foreach (QrFinderPatternInfo info in infos)
-            {
+            foreach (QrFinderPatternInfo info in infos) {
                 var detectorResult = processFinderPatternInfo(info);
                 if (detectorResult != null) {
                     result.Add(detectorResult);
                 }
             }
-            if (result.Count == 0)
-            {
+            if (result.Count == 0) {
                 return EMPTY_DETECTOR_RESULTS;
             }
             return result.ToArray();
         }
+
     }
 }

@@ -115,7 +115,7 @@ namespace ZXing.Datamatrix.Encoder
 
         private static char randomize253State(char ch, int codewordPosition)
         {
-            int pseudoRandom = ((149 * codewordPosition) % 253) + 1;
+            int pseudoRandom = 149 * codewordPosition % 253 + 1;
             int tempVariable = ch + pseudoRandom;
             return (char)(tempVariable <= 254 ? tempVariable : tempVariable - 254);
         }
@@ -249,7 +249,7 @@ namespace ZXing.Datamatrix.Encoder
             while (true)
             {
                 //step K
-                if ((startpos + charsProcessed) == msg.Length)
+                if (startpos + charsProcessed == msg.Length)
                 {
                     var min = int.MaxValue;
                     var mins = new byte[6];
@@ -382,7 +382,7 @@ namespace ZXing.Datamatrix.Encoder
                         return Encodation.ASCII;
                     }
                     if (intCharCounts[Encodation.BASE256] < intCharCounts[Encodation.ASCII]
-                        || (mins[Encodation.C40] + mins[Encodation.TEXT] + mins[Encodation.X12] + mins[Encodation.EDIFACT]) == 0)
+                        || mins[Encodation.C40] + mins[Encodation.TEXT] + mins[Encodation.X12] + mins[Encodation.EDIFACT] == 0)
                     {
                         return Encodation.BASE256;
                     }
@@ -473,24 +473,24 @@ namespace ZXing.Datamatrix.Encoder
 
         internal static bool isNativeC40(char ch)
         {
-            return (ch == ' ') || (ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z');
+            return ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z';
         }
 
         internal static bool isNativeText(char ch)
         {
-            return (ch == ' ') || (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') || ch == 0x001d;
+            return ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'a' && ch <= 'z' || ch == 0x001d;
         }
 
         internal static bool isNativeX12(char ch)
         {
-            return isX12TermSep(ch) || (ch == ' ') || (ch >= '0' && ch <= '9') || (ch >= 'A' && ch <= 'Z');
+            return isX12TermSep(ch) || ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z';
         }
 
         internal static bool isX12TermSep(char ch)
         {
-            return (ch == '\r') //CR
-                || (ch == '*')
-                || (ch == '>');
+            return ch == '\r' //CR
+                || ch == '*'
+                || ch == '>';
         }
 
         internal static bool isNativeEDIFACT(char ch)

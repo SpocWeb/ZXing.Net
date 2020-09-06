@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Multi;
 using ZXing.Multi.QrCode;
+using ZXing.Multi.QrCode.Internal;
 
 namespace ZXing
 {
@@ -255,7 +256,7 @@ namespace ZXing
                 else
                 {
                     // perhaps the core decoder rotates the image already (can happen if TryHarder is specified)
-                    result.ResultMetadata[ResultMetadataType.ORIENTATION] = ((int)(result.ResultMetadata[ResultMetadataType.ORIENTATION]) + rotationCount * 90) % 360;
+                    result.ResultMetadata[ResultMetadataType.ORIENTATION] = ((int)result.ResultMetadata[ResultMetadataType.ORIENTATION] + rotationCount * 90) % 360;
                 }
 
                 OnResultFound(result);
@@ -303,7 +304,10 @@ namespace ZXing
             var gridSampler = new LuminanceGridSampler(luminanceSource);
             for (; rotationCount < rotationMaxCount; rotationCount++)
             {
-                results = multiReader.decodeMultiple(binaryBitmap, Options.Hints);
+                var multiQrDetector = new MultiQrDetector(binaryBitmap);
+                var detectorResults = multiQrDetector.DetectMulti(Options.Hints);
+                results = multiQrDetector.DecodeMultiple(Options.Hints, detectorResults);
+                results = multiReader.DecodeMultiple(binaryBitmap, Options.Hints);
                 //results = multiReader.decodeMultiple(gridSampler, Options.Hints);
 
                 if (results == null)
@@ -311,7 +315,7 @@ namespace ZXing
                     if (TryInverted && luminanceSource.InversionSupported)
                     {
                         binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.invert()));
-                        results = multiReader.decodeMultiple(binaryBitmap, Options.Hints);
+                        results = multiReader.DecodeMultiple(binaryBitmap, Options.Hints);
                     }
                 }
 
@@ -340,7 +344,7 @@ namespace ZXing
                     {
                         // perhaps the core decoder rotates the image already (can happen if TryHarder is specified)
                         result.ResultMetadata[ResultMetadataType.ORIENTATION] =
-                           ((int)(result.ResultMetadata[ResultMetadataType.ORIENTATION]) + rotationCount * 90) % 360;
+                           ((int)result.ResultMetadata[ResultMetadataType.ORIENTATION] + rotationCount * 90) % 360;
                     }
                 }
 

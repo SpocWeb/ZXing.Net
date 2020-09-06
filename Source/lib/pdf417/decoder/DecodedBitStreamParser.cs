@@ -380,7 +380,7 @@ namespace ZXing.PDF417.Internal
 
             int index = 0;
             bool end = false;
-            while ((codeIndex < codewords[0]) && !end)
+            while (codeIndex < codewords[0] && !end)
             {
                 int code = codewords[codeIndex++];
                 if (code < TEXT_COMPACTION_MODE_LATCH)
@@ -676,7 +676,7 @@ namespace ZXing.PDF417.Internal
 
                         int[] byteCompactedCodewords = new int[6];
                         int nextCode = codewords[codeIndex++];
-                        while ((codeIndex < codewords[0]) && !end)
+                        while (codeIndex < codewords[0] && !end)
                         {
                             byteCompactedCodewords[count++] = nextCode;
                             // Base 900
@@ -696,7 +696,7 @@ namespace ZXing.PDF417.Internal
                                     end = true;
                                     break;
                                 default:
-                                    if ((count % 5 == 0) && (count > 0))
+                                    if (count % 5 == 0 && count > 0)
                                     {
                                         // Decode every 5 codewords
                                         // Convert to Base 256
@@ -755,7 +755,7 @@ namespace ZXing.PDF417.Internal
                                         break;
                                 }
                             }
-                            if ((count % 5 == 0) && (count > 0))
+                            if (count % 5 == 0 && count > 0)
                             {
                                 // Decode every 5 codewords
                                 // Convert to Base 256

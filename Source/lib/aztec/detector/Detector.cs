@@ -561,7 +561,7 @@ namespace ZXing.Aztec.Internal
                 return 0;
             }
 
-            return (errRatio <= 0.1f) == colorModel ? 1 : -1;
+            return errRatio <= 0.1f == colorModel ? 1 : -1;
         }
 
         /// <summary>

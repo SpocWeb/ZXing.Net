@@ -464,10 +464,10 @@ namespace ZXing.PDF417.Internal
             int len = tmp.Length;
             for (int i = 0; i < len; i++)
             {
-                bool odd = (i % 2) != 0;
+                bool odd = i % 2 != 0;
                 if (odd)
                 {
-                    h = (char)((h * 30) + tmp[i]);
+                    h = (char)(h * 30 + tmp[i]);
                     sb.Append(h);
                 }
                 else
@@ -475,9 +475,9 @@ namespace ZXing.PDF417.Internal
                     h = tmp[i];
                 }
             }
-            if ((len % 2) != 0)
+            if (len % 2 != 0)
             {
-                sb.Append((char)((h * 30) + 29)); //ps
+                sb.Append((char)(h * 30 + 29)); //ps
             }
             return submode;
         }
@@ -505,7 +505,7 @@ namespace ZXing.PDF417.Internal
             }
             else
             {
-                if ((count % 6) == 0)
+                if (count % 6 == 0)
                 {
                     sb.Append((char)LATCH_TO_BYTE);
                 }
@@ -520,7 +520,7 @@ namespace ZXing.PDF417.Internal
             if (count >= 6)
             {
                 char[] chars = new char[5];
-                while ((startpos + count - idx) >= 6)
+                while (startpos + count - idx >= 6)
                 {
                     long t = 0;
                     for (int i = 0; i < 6; i++)
@@ -615,12 +615,12 @@ namespace ZXing.PDF417.Internal
 
         private static bool isAlphaUpper(char ch)
         {
-            return ch == ' ' || (ch >= 'A' && ch <= 'Z');
+            return ch == ' ' || ch >= 'A' && ch <= 'Z';
         }
 
         private static bool isAlphaLower(char ch)
         {
-            return ch == ' ' || (ch >= 'a' && ch <= 'z');
+            return ch == ' ' || ch >= 'a' && ch <= 'z';
         }
 
         private static bool isMixed(char ch)
@@ -635,7 +635,7 @@ namespace ZXing.PDF417.Internal
 
         private static bool isText(char ch)
         {
-            return ch == '\t' || ch == '\n' || ch == '\r' || (ch >= 32 && ch <= 126);
+            return ch == '\t' || ch == '\n' || ch == '\r' || ch >= 32 && ch <= 126;
         }
 
         /// <summary>

@@ -88,7 +88,7 @@ namespace ZXing.Aztec.Internal
                 }
                 totalBitsInLayer = TotalBitsInLayer(layers, compact);
                 wordSize = WORD_SIZE[layers];
-                int usableBitsInLayers = totalBitsInLayer - (totalBitsInLayer % wordSize);
+                int usableBitsInLayers = totalBitsInLayer - totalBitsInLayer % wordSize;
                 stuffedBits = stuffBits(bits, wordSize);
                 if (stuffedBits.Size + eccBits > usableBitsInLayers)
                 {
@@ -127,7 +127,7 @@ namespace ZXing.Aztec.Internal
                         wordSize = WORD_SIZE[layers];
                         stuffedBits = stuffBits(bits, wordSize);
                     }
-                    int usableBitsInLayers = totalBitsInLayer - (totalBitsInLayer % wordSize);
+                    int usableBitsInLayers = totalBitsInLayer - totalBitsInLayer % wordSize;
                     if (compact && stuffedBits.Size > wordSize * 64)
                     {
                         // Compact format only allows 64 data words, though C4 can hold more words than that
@@ -361,7 +361,7 @@ namespace ZXing.Aztec.Internal
                 int value = 0;
                 for (int j = 0; j < wordSize; j++)
                 {
-                    value |= stuffedBits[i * wordSize + j] ? (1 << wordSize - j - 1) : 0;
+                    value |= stuffedBits[i * wordSize + j] ? 1 << wordSize - j - 1 : 0;
                 }
                 message[i] = value;
             }

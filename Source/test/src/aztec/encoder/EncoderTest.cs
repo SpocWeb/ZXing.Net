@@ -358,7 +358,7 @@ namespace ZXing.Aztec.Test
             StringBuilder sbBuild = new StringBuilder();
             for (int i = 0; i <= 3000; i++)
             {
-                sbBuild.Append((char) (128 + (i % 30)));
+                sbBuild.Append((char) (128 + i % 30));
             }
 
             string sb = sbBuild.ToString();
@@ -371,8 +371,8 @@ namespace ZXing.Aztec.Test
             })
             {
                 // This is the expected length of a binary string of length "i"
-                int expectedLength = (8 * i) +
-                                     ((i <= 31) ? 10 : (i <= 62) ? 20 : (i <= 2078) ? 21 : 31);
+                int expectedLength = 8 * i +
+                                     (i <= 31 ? 10 : i <= 62 ? 20 : i <= 2078 ? 21 : 31);
                 // Verify that we are correct about the length.
                 testHighLevelEncodeString(sb.Substring(0, i), expectedLength);
                 if (i != 1 && i != 32 && i != 2079)

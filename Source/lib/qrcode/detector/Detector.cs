@@ -110,7 +110,7 @@ namespace ZXing.QrCode.Internal
             if (provisionalVersion == null) {
                 return null;
             }
-            int modulesBetweenFPCenters = provisionalVersion.DimensionForVersion - 7;
+            int modulesBetweenFpCenters = provisionalVersion.DimensionForVersion - 7;
 
             AlignmentPattern alignmentPattern = null;
             // Anything above version 1 has another small alignment pattern bottom right
@@ -123,7 +123,7 @@ namespace ZXing.QrCode.Internal
 
                 // Estimate that alignment pattern is closer by 3 modules
                 // from "bottom right" to known top left location
-                float correctionToTopLeft = 1.0f - 3.0f / modulesBetweenFPCenters;
+                float correctionToTopLeft = 1.0f - 3.0f / modulesBetweenFpCenters;
                 int estAlignmentX = (int)(topLeft.X + correctionToTopLeft * (bottomRightX - topLeft.X));
                 int estAlignmentY = (int)(topLeft.Y + correctionToTopLeft * (bottomRightY - topLeft.Y));
 
@@ -175,8 +175,8 @@ namespace ZXing.QrCode.Internal
             else
             {
                 // Don't have an alignment pattern, just make up the bottom-right point
-                bottomRightX = (topRight.X - topLeft.X) + bottomLeft.X;
-                bottomRightY = (topRight.Y - topLeft.Y) + bottomLeft.Y;
+                bottomRightX = topRight.X - topLeft.X + bottomLeft.X;
+                bottomRightY = topRight.Y - topLeft.Y + bottomLeft.Y;
                 sourceBottomRightX = sourceBottomRightY = dimMinusThree;
             }
 
@@ -339,7 +339,7 @@ namespace ZXing.QrCode.Internal
                 // Does current pixel mean we have moved white to black or vice versa?
                 // Scanning black in state 0,2 and white in state 1, so if we find the wrong
                 // color, advance to next state or end if we are in state 2 already
-                if ((state == 1) == Image[realX, realY])
+                if (state == 1 == Image[realX, realY])
                 {
                     if (state == 2)
                     {

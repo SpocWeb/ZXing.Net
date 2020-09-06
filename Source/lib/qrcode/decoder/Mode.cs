@@ -25,96 +25,71 @@ namespace ZXing.QrCode.Internal
     /// <author>Sean Owen</author>
     public sealed class Mode
     {
-        /// <summary>
-        /// Gets the name.
-        /// </summary>
         public Names Name { get; private set; }
 
-        /// <summary>
-        /// enumeration for encoding modes
-        /// </summary>
+        /// <summary> enumeration for encoding modes </summary>
         public enum Names
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            TERMINATOR,
-            /// <summary>
-            /// numeric encoding
-            /// </summary>
-            NUMERIC,
-            /// <summary>
-            /// alpha-numeric encoding
-            /// </summary>
-            ALPHANUMERIC,
-            /// <summary>
-            /// structured append
-            /// </summary>
-            STRUCTURED_APPEND,
-            /// <summary>
-            /// byte mode encoding
-            /// </summary>
-            BYTE,
-            /// <summary>
-            /// ECI segment
-            /// </summary>
-            ECI,
-            /// <summary>
-            /// Kanji mode
-            /// </summary>
-            KANJI,
-            /// <summary>
-            /// FNC1 char, first position
-            /// </summary>
-            FNC1_FIRST_POSITION,
-            /// <summary>
-            /// FNC1 char, second position
-            /// </summary>
-            FNC1_SECOND_POSITION,
-            /// <summary>
-            /// Hanzi mode
-            /// </summary>
-            HANZI
+            /// <summary> Not really a mode... </summary>
+            TERMINATOR = 0,
+
+            /// <summary> numeric encoding </summary>
+            NUMERIC = 1,
+
+            /// <summary> alpha-numeric encoding </summary>
+            ALPHANUMERIC = 2,
+
+            /// <summary> structured append </summary>
+            STRUCTURED_APPEND = 3,
+
+            /// <summary> byte mode encoding </summary>
+            BYTE = 4,
+
+            /// <summary> ECI segment </summary>
+            ECI = 7,
+
+            /// <summary> Kanji mode </summary>
+            KANJI = 8,
+
+            /// <summary> FNC1 char, first position </summary>
+            FNC1_FIRST_POSITION = 5,
+
+            /// <summary> FNC1 char, second position </summary>
+            FNC1_SECOND_POSITION = 9,
+
+            /// <summary> Hanzi mode </summary>
+            HANZI = 0xD,
         }
 
         // No, we can't use an enum here. J2ME doesn't support it.
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly Mode TERMINATOR = new Mode(new[] { 0, 0, 0 }, 0x00, Names.TERMINATOR); // Not really a mode...
-                                                                                                          /// <summary>
-                                                                                                          /// 
-                                                                                                          /// </summary>
+        /// <summary> Not really a mode... </summary>
+        public static readonly Mode TERMINATOR = new Mode(new[] { 0, 0, 0 }, 0x00, Names.TERMINATOR);
+
+        /// <summary> numeric encoding </summary>
         public static readonly Mode NUMERIC = new Mode(new[] { 10, 12, 14 }, 0x01, Names.NUMERIC);
-        /// <summary>
-        /// 
-        /// </summary>
+
+        /// <summary> alpha-numeric encoding </summary>
         public static readonly Mode ALPHANUMERIC = new Mode(new[] { 9, 11, 13 }, 0x02, Names.ALPHANUMERIC);
-        /// <summary>
-        /// 
-        /// </summary>
+
+        /// <summary> structured append </summary>
         public static readonly Mode STRUCTURED_APPEND = new Mode(new[] { 0, 0, 0 }, 0x03, Names.STRUCTURED_APPEND); // Not supported
-                                                                                                                        /// <summary>
-                                                                                                                        /// 
-                                                                                                                        /// </summary>
+
+        /// <summary> byte mode encoding </summary>
         public static readonly Mode BYTE = new Mode(new[] { 8, 16, 16 }, 0x04, Names.BYTE);
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly Mode ECI = new Mode(null, 0x07, Names.ECI); // character counts don't apply
-                                                                           /// <summary>
-                                                                           /// 
-                                                                           /// </summary>
-        public static readonly Mode KANJI = new Mode(new[] { 8, 10, 12 }, 0x08, Names.KANJI);
-        /// <summary>
-        /// 
-        /// </summary>
+
+        /// <summary> FNC1 char, first position </summary>
         public static readonly Mode FNC1_FIRST_POSITION = new Mode(null, 0x05, Names.FNC1_FIRST_POSITION);
-        /// <summary>
-        /// 
-        /// </summary>
+
+        /// <summary> ECI segment </summary>
+        public static readonly Mode ECI = new Mode(null, 0x07, Names.ECI); // character counts don't apply
+
+        /// <summary> Kanji mode </summary>
+        public static readonly Mode KANJI = new Mode(new[] { 8, 10, 12 }, 0x08, Names.KANJI);
+
+        /// <summary> FNC1 char, second position </summary>
         public static readonly Mode FNC1_SECOND_POSITION = new Mode(null, 0x09, Names.FNC1_SECOND_POSITION);
+
         /// <summary>See GBT 18284-2000; "Hanzi" is a transliteration of this mode name.</summary>
         public static readonly Mode HANZI = new Mode(new[] { 8, 10, 12 }, 0x0D, Names.HANZI);
 
@@ -128,7 +103,7 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary>
-        /// Fors the bits.
+        /// For the bits.
         /// </summary>
         /// <param name="bits">four bits encoding a QR Code data mode</param>
         /// <returns>
@@ -139,34 +114,22 @@ namespace ZXing.QrCode.Internal
         {
             switch (bits)
             {
-                case 0x0:
-                    return TERMINATOR;
-                case 0x1:
-                    return NUMERIC;
-                case 0x2:
-                    return ALPHANUMERIC;
-                case 0x3:
-                    return STRUCTURED_APPEND;
-                case 0x4:
-                    return BYTE;
-                case 0x5:
-                    return FNC1_FIRST_POSITION;
-                case 0x7:
-                    return ECI;
-                case 0x8:
-                    return KANJI;
-                case 0x9:
-                    return FNC1_SECOND_POSITION;
-                case 0xD:
-                    // 0xD is defined in GBT 18284-2000, may not be supported in foreign country
+                case 0x0: return TERMINATOR;
+                case 0x1: return NUMERIC;
+                case 0x2: return ALPHANUMERIC;
+                case 0x3: return STRUCTURED_APPEND;
+                case 0x4: return BYTE;
+                case 0x5: return FNC1_FIRST_POSITION;
+                case 0x7: return ECI;
+                case 0x8: return KANJI;
+                case 0x9: return FNC1_SECOND_POSITION;
+                case 0xD: // 0xD is defined in GBT 18284-2000, may not be supported in foreign country
                     return HANZI;
-                default:
-                    throw new ArgumentException();
+                default: throw new ArgumentException();
             }
         }
 
-        /// <param name="version">version in question
-        /// </param>
+        /// <param name="version">version in question </param>
         /// <returns> number of bits used, in this QR Code symbol {@link Version}, to encode the
         /// count of characters that will follow encoded in this {@link Mode}
         /// </returns>

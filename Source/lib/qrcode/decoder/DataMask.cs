@@ -42,13 +42,13 @@ namespace ZXing.QrCode.Internal
                                                             // 011: mask bits for which (x + y) mod 3 == 0
                                                             (i, j) => (i + j) % 3 == 0,
                                                             // 100: mask bits for which (x/2 + y/3) mod 2 == 0
-                                                            (i, j) => ((((int)((uint)i >> 1)) + (j / 3)) & 0x01) == 0,
+                                                            (i, j) => (((int)((uint)i >> 1) + j / 3) & 0x01) == 0,
                                                             // 101: mask bits for which xy mod 2 + xy mod 3 == 0, equivalently, such that xy mod 6 == 0
-                                                            (i, j) => (i * j) % 6 == 0,
+                                                            (i, j) => i * j % 6 == 0,
                                                             // 110: mask bits for which (xy mod 2 + xy mod 3) mod 2 == 0, equivalently, such that xy mod 6 < 3
-                                                            (i, j) => ((i * j) % 6) < 3,
+                                                            (i, j) => i * j % 6 < 3,
                                                             // 111: mask bits for which ((x+y)mod 2 + xy mod 3) mod 2 == 0, equivalently, such that (x + y + xy mod 3) mod 2 == 0
-                                                            (i, j) => ((i + j + ((i * j) % 3)) & 0x01) == 0,
+                                                            (i, j) => ((i + j + i * j % 3) & 0x01) == 0,
                                                            };
 
         /// <summary> <p> revert the data masking process applied to a QR Code

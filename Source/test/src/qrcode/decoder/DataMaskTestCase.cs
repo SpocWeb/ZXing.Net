@@ -60,19 +60,19 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void testMask5()
       {
-         testMaskAcrossDimensions(5, (i, j) => (i * j) % 2 + (i * j) % 3 == 0);
+         testMaskAcrossDimensions(5, (i, j) => i * j % 2 + i * j % 3 == 0);
       }
 
       [Test]
       public void testMask6()
       {
-         testMaskAcrossDimensions(6, (i, j) => ((i * j) % 2 + (i * j) % 3) % 2 == 0);
+         testMaskAcrossDimensions(6, (i, j) => (i * j % 2 + i * j % 3) % 2 == 0);
       }
 
       [Test]
       public void testMask7()
       {
-         testMaskAcrossDimensions(7, (i, j) => ((i + j) % 2 + (i * j) % 3) % 2 == 0);
+         testMaskAcrossDimensions(7, (i, j) => ((i + j) % 2 + i * j % 3) % 2 == 0);
       }
 
       private static void testMaskAcrossDimensions(int reference, Func<int, int, bool> condition)

@@ -262,7 +262,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <returns></returns>
         public int getSymbolWidth()
         {
-            return getSymbolDataWidth() + (getHorizontalDataRegions() * 2);
+            return getSymbolDataWidth() + getHorizontalDataRegions() * 2;
         }
         /// <summary>
         /// symbol height
@@ -270,7 +270,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <returns></returns>
         public int getSymbolHeight()
         {
-            return getSymbolDataHeight() + (getVerticalDataRegions() * 2);
+            return getSymbolDataHeight() + getVerticalDataRegions() * 2;
         }
         /// <summary>
         /// codeword count

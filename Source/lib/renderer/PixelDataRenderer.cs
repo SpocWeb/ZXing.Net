@@ -84,7 +84,7 @@ namespace ZXing.Rendering
                 A = (byte)((color & 0xFF000000) >> 24);
                 R = (byte)((color & 0x00FF0000) >> 16);
                 G = (byte)((color & 0x0000FF00) >> 8);
-                B = (byte)((color & 0x000000FF));
+                B = (byte)(color & 0x000000FF);
             }
         }
 #endif

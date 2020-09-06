@@ -222,8 +222,8 @@ namespace ZXing.IMB
             // codewords to binaryData
             BigInteger binaryData = codeWord[A];
             for (int k = 1; k <= 8; k++)
-                binaryData = (binaryData * 1365) + codeWord[k];
-            binaryData = (binaryData * 636) + codeWord[J];
+                binaryData = binaryData * 1365 + codeWord[k];
+            binaryData = binaryData * 636 + codeWord[J];
 
             // get tracking code
             int[] tCode = new int[20];
@@ -405,7 +405,7 @@ namespace ZXing.IMB
             }
 
             pixelBarLength = prevBarLength;
-            return (countBars);
+            return countBars;
         }
 
         private int getNumberBars(BitArray row, int start, int stop, int barWidth)
@@ -488,7 +488,7 @@ namespace ZXing.IMB
             } while (getNumberBars(topRow, pixelStartOffset, pixelStopOffset, pixelBarLength) >= NUM_BARS_IMB);
             do
             {
-                if (rowNumberBot >= (currentBitmap.Height - 1)) {
+                if (rowNumberBot >= currentBitmap.Height - 1) {
                     return null;
                 }
                 rowNumberBot++;

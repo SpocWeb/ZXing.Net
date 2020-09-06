@@ -309,7 +309,7 @@ namespace ZXing.Common.Test
          if (barcodeReader is IMultipleBarcodeReader multiReader)
          {
             var expectedResults = expectedText.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
-            var results = multiReader.decodeMultiple(source, hints);
+            var results = multiReader.DecodeMultiple(source, hints);
             if (results == null) {
                 throw new ReaderException();
             }

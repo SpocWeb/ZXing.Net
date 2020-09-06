@@ -125,9 +125,9 @@ namespace ZXing.OneD
 
                     int s_num = gaps[j].Length;
                     bool s_color = gaps[j].Color;
-                    double multiplier = (p_num > s_num) ? ((double) p_num / s_num) : ((double) s_num / p_num);
+                    double multiplier = p_num > s_num ? (double) p_num / s_num : (double) s_num / p_num;
                     //System.out.println("multiplier: " + multiplier);
-                    if ((p_color == isWhite) && (s_color == isWhite))
+                    if (p_color == isWhite && s_color == isWhite)
                     {
                         // WHITE WHITE
                         if (multiplier <= 1.2222)
@@ -135,40 +135,40 @@ namespace ZXing.OneD
                             primary.incSimilar();
                         }
                     }
-                    else if ((p_color == isWhite) && (s_color == isBlack))
+                    else if (p_color == isWhite && s_color == isBlack)
                     {
                         // WHITE BLACK
-                        if ((multiplier > 1.5) && (multiplier < 3.6667) && (p_num > s_num))
+                        if (multiplier > 1.5 && multiplier < 3.6667 && p_num > s_num)
                         {
                             // White and small black
                             primary.incSimilar();
                         }
-                        else if ((multiplier > 1.2727) && (multiplier < 2.7778) && (p_num < s_num))
+                        else if (multiplier > 1.2727 && multiplier < 2.7778 && p_num < s_num)
                         {
                             // White and large black
                             primary.incSimilar();
                         }
                     }
-                    else if ((p_color == isBlack) && (s_color == isWhite))
+                    else if (p_color == isBlack && s_color == isWhite)
                     {
                         // BLACK WHITE
-                        if ((multiplier > 1.5) && (multiplier < 3.6667) && (p_num < s_num))
+                        if (multiplier > 1.5 && multiplier < 3.6667 && p_num < s_num)
                         {
                             // Small black and white
                             primary.incSimilar();
                             primary.incSmall();
                         }
-                        else if ((multiplier > 1.2727) && (multiplier < 2.7778) && (p_num > s_num))
+                        else if (multiplier > 1.2727 && multiplier < 2.7778 && p_num > s_num)
                         {
                             // large black and white
                             primary.incSimilar();
                             primary.incLarge();
                         }
                     }
-                    else if ((p_color == isBlack) && (s_color == isBlack))
+                    else if (p_color == isBlack && s_color == isBlack)
                     {
                         // BLACK BLACK
-                        if ((multiplier > 2.3333) && (multiplier < 4.6667))
+                        if (multiplier > 2.3333 && multiplier < 4.6667)
                         {
                             primary.incSimilar();
                             if (p_num > s_num)
@@ -189,7 +189,7 @@ namespace ZXing.OneD
             } // i
 
             var iResult = finalProcessing(gaps);
-            if (iResult == null || (iResult < 3) || (iResult > 131070))
+            if (iResult == null || iResult < 3 || iResult > 131070)
             {
                 return null;
             }
@@ -257,14 +257,14 @@ namespace ZXing.OneD
                 PixelInterval gap = gaps[i];
                 bool color = gap.Color;
                 double sim = gap.Similar;
-                if ((color == isWhite) && (!inProgress) && (sim < dMean))
+                if (color == isWhite && !inProgress && sim < dMean)
                 {
                     //System.out.println("start");
                     inProgress = true;
                     continue;
                 }
 
-                if (inProgress && (sim < dMean))
+                if (inProgress && sim < dMean)
                 {
                     //System.out.println("Similar is " + sim + " < " + dMean + " => BREAK");
                     if (color == isBlack)
@@ -272,19 +272,19 @@ namespace ZXing.OneD
                         return null;
                     }
 
-                    if ((color == isWhite) && ((i + 1) != l))
+                    if (color == isWhite && i + 1 != l)
                     {
                         return null;
                     }
                 }
 
-                if (((i + 1) == l) && (gap.Color == isBlack))
+                if (i + 1 == l && gap.Color == isBlack)
                 {
                     //System.out.println("last gap");
                     return null;
                 }
 
-                if (inProgress && (color == isBlack))
+                if (inProgress && color == isBlack)
                 {
                     if (gap.Large > gap.Small)
                     {

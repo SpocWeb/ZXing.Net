@@ -36,7 +36,7 @@ namespace ZXing.Multi.Test
          var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
          var reader = new GenericMultipleBarcodeReader(new MultiFormatReader());
-         var results = reader.decodeMultiple(bitmap);
+         var results = reader.DecodeMultiple(bitmap);
          Assert.IsNotNull(results);
          Assert.AreEqual(2, results.Length);
 

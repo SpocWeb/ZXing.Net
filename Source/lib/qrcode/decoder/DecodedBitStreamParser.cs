@@ -446,7 +446,7 @@ namespace ZXing.QrCode.Internal
                     return false;
                 }
                 result.Append(toAlphaNumericChar(threeDigitsBits / 100));
-                result.Append(toAlphaNumericChar((threeDigitsBits / 10) % 10));
+                result.Append(toAlphaNumericChar(threeDigitsBits / 10 % 10));
                 result.Append(toAlphaNumericChar(threeDigitsBits % 10));
 
                 count -= 3;

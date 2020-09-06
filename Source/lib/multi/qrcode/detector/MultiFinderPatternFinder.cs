@@ -45,17 +45,17 @@ namespace ZXing.Multi.QrCode.Internal
         // since it limits the number of regions to decode
 
         // max. legal count of modules per QR code edge (177)
-        private static float MAX_MODULE_COUNT_PER_EDGE = 180;
+        private static float _MAX_MODULE_COUNT_PER_EDGE = 180;
 
         // min. legal count per modules per QR code edge (11)
-        private static float MIN_MODULE_COUNT_PER_EDGE = 9;
+        private static float _MIN_MODULE_COUNT_PER_EDGE = 9;
 
         /// <summary>
         /// More or less arbitrary cutoff point for determining if two finder patterns might belong
         /// to the same code if they differ less than DIFF_MODSIZE_CUTOFF_PERCENT percent in their
         /// estimated modules sizes.
         /// </summary>
-        private static float DIFF_MODSIZE_CUTOFF_PERCENT = 0.05f;
+        private static float _DIFF_MODSIZE_CUTOFF_PERCENT = 0.05f;
 
         /// <summary>
         /// More or less arbitrary cutoff point for determining if two finder patterns might belong
@@ -86,7 +86,7 @@ namespace ZXing.Multi.QrCode.Internal
         /// The "best" are those that have been detected at least CENTER_QUORUM times,
         /// and whose module size differs the least from the average among those patterns.
         /// </remarks>
-        private FinderPattern[][] selectMultipleBestPatterns()
+        private FinderPattern[][] SelectMultipleBestPatterns()
         {
             List<FinderPattern> possibleCenters = PossibleCenters;
             int size = possibleCenters.Count;
@@ -131,7 +131,7 @@ namespace ZXing.Multi.QrCode.Internal
 
             List<FinderPattern[]> results = new List<FinderPattern[]>(); // holder for the results
 
-            for (int i1 = 0; i1 < (size - 2); i1++)
+            for (int i1 = 0; i1 < size - 2; i1++)
             {
                 FinderPattern p1 = possibleCenters[i1];
                 if (p1 == null)
@@ -139,7 +139,7 @@ namespace ZXing.Multi.QrCode.Internal
                     continue;
                 }
 
-                for (int i2 = i1 + 1; i2 < (size - 1); i2++)
+                for (int i2 = i1 + 1; i2 < size - 1; i2++)
                 {
                     FinderPattern p2 = possibleCenters[i2];
                     if (p2 == null)
@@ -151,7 +151,7 @@ namespace ZXing.Multi.QrCode.Internal
                     float vModSize12 = (p1.EstimatedModuleSize - p2.EstimatedModuleSize) /
                                        Math.Min(p1.EstimatedModuleSize, p2.EstimatedModuleSize);
                     float vModSize12A = Math.Abs(p1.EstimatedModuleSize - p2.EstimatedModuleSize);
-                    if (vModSize12A > DIFF_MODSIZE_CUTOFF && vModSize12 >= DIFF_MODSIZE_CUTOFF_PERCENT)
+                    if (vModSize12A > DIFF_MODSIZE_CUTOFF && vModSize12 >= _DIFF_MODSIZE_CUTOFF_PERCENT)
                     {
                         // break, since elements are ordered by the module size deviation there cannot be
                         // any more interesting elements for the given p1.
@@ -170,7 +170,7 @@ namespace ZXing.Multi.QrCode.Internal
                         float vModSize23 = (p2.EstimatedModuleSize - p3.EstimatedModuleSize) /
                                            Math.Min(p2.EstimatedModuleSize, p3.EstimatedModuleSize);
                         float vModSize23A = Math.Abs(p2.EstimatedModuleSize - p3.EstimatedModuleSize);
-                        if (vModSize23A > DIFF_MODSIZE_CUTOFF && vModSize23 >= DIFF_MODSIZE_CUTOFF_PERCENT)
+                        if (vModSize23A > DIFF_MODSIZE_CUTOFF && vModSize23 >= _DIFF_MODSIZE_CUTOFF_PERCENT)
                         {
                             // break, since elements are ordered by the module size deviation there cannot be
                             // any more interesting elements for the given p1.
@@ -188,15 +188,15 @@ namespace ZXing.Multi.QrCode.Internal
 
                         // Check the sizes
                         float estimatedModuleCount = (dA + dB) / (p1.EstimatedModuleSize * 2.0f);
-                        if (estimatedModuleCount > MAX_MODULE_COUNT_PER_EDGE ||
-                            estimatedModuleCount < MIN_MODULE_COUNT_PER_EDGE)
+                        if (estimatedModuleCount > _MAX_MODULE_COUNT_PER_EDGE ||
+                            estimatedModuleCount < _MIN_MODULE_COUNT_PER_EDGE)
                         {
                             continue;
                         }
 
                         // Calculate the difference of the edge lengths in percent
-                        float vABBC = Math.Abs((dA - dB) / Math.Min(dA, dB));
-                        if (vABBC >= 0.1f)
+                        float vAbbc = Math.Abs((dA - dB) / Math.Min(dA, dB));
+                        if (vAbbc >= 0.1f)
                         {
                             continue;
                         }
@@ -226,7 +226,7 @@ namespace ZXing.Multi.QrCode.Internal
             return null;
         }
 
-        public QrFinderPatternInfo[] findMulti(IDictionary<DecodeHintType, object> hints)
+        public QrFinderPatternInfo[] FindMulti(IDictionary<DecodeHintType, object> hints)
         {
             bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
             BitMatrix image = Image;
@@ -239,7 +239,7 @@ namespace ZXing.Multi.QrCode.Internal
             // image, and then account for the center being 3 modules in size. This gives the smallest
             // number of pixels the center could be, so skip this often. When trying harder, look for all
             // QR versions regardless of how dense they are.
-            int iSkip = (3 * maxI) / (4 * MAX_MODULES);
+            int iSkip = 3 * maxI / (4 * MAX_MODULES);
             if (iSkip < MIN_SKIP || tryHarder)
             {
                 iSkip = MIN_SKIP;
@@ -304,7 +304,7 @@ namespace ZXing.Multi.QrCode.Internal
                     IsRealCenter(stateCount, i, maxJ);
                 } // end if foundPatternCross
             } // for i=iSkip-1 ...
-            FinderPattern[][] patternInfo = selectMultipleBestPatterns();
+            FinderPattern[][] patternInfo = SelectMultipleBestPatterns();
             if (patternInfo == null) {
                 return EMPTY_RESULT_ARRAY;
             }

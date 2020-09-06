@@ -201,7 +201,7 @@ namespace ZXing.PDF417.Test
             hints[DecodeHintType.TRY_HARDER] = true;
          }
 
-         return barcodeReader.decodeMultiple(source, hints);
+         return barcodeReader.DecodeMultiple(source, hints);
       }
 
       private IDictionary<string, List<string>> getImageFileLists()
