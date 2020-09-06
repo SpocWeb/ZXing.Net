@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ZXing.Common;
 using ZXing.Multi;
 using ZXing.PDF417.Internal;
@@ -43,7 +44,8 @@ namespace ZXing.PDF417
         /// <exception cref="FormatException">if a PDF417 cannot be decoded</exception>
         public BarCodeText Decode(BinaryBitmap image,
             IDictionary<DecodeHintType, object> hints = null) {
-            BarCodeText[] results = image.Decode(hints, false);
+            DetectorResult detectorResult = Detector.Detect(image, hints, false);
+            BarCodeText[] results = detectorResult.Decode();
             if (results.Length == 0) {
                 return null;
             }
@@ -54,14 +56,17 @@ namespace ZXing.PDF417
         /// <returns>an array of Strings representing the content encoded by the PDF417 codes</returns>
         public BarCodeText[] DecodeMultiple(BinaryBitmap image
             , IDictionary<DecodeHintType, object> hints = null)
-            => image.Decode(hints, true);
+        {
+            DetectorResult detectorResult = Detector.Detect(image, hints, true);
 
-        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints) {
-            throw new NotImplementedException();
+            return detectorResult.Decode();
         }
 
-        /// <inheritdoc />
-        public BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints, DetectorResult[] detectorResults) {
+        public BarCodeText[] DecodeMultiple(IDictionary<DecodeHintType, object> hints
+            , DetectorResult[] detectorResults)
+            => detectorResults.SelectMany(detectorResult => detectorResult.Decode()).ToArray();
+
+        public BarCodeText[] DecodeMultiple(LuminanceGridSampler image, IDictionary<DecodeHintType, object> hints) {
             throw new NotImplementedException();
         }
 
@@ -69,19 +74,9 @@ namespace ZXing.PDF417
 
     public static class XPdf417Reader {
 
-        /// <summary>
-        /// Decode the specified image, with the hints and optionally multiple barcodes.
-        /// Based on Owen's Comments in <see cref="ZXing.ReaderException"/>, this method has been modified to continue silently
-        /// if a barcode was not decoded where it was detected instead of throwing a new exception object.
-        /// </summary>
-        /// <param name="image">Image.</param>
-        /// <param name="hints">Hints.</param>
-        /// <param name="multiple">If set to <c>true</c> multiple.</param>
-        public static BarCodeText[] Decode(this BinaryBitmap image
-            , IDictionary<DecodeHintType, object> hints, bool multiple)
+        public static BarCodeText[] Decode(this DetectorResult detectorResult)
         {
             var results = new List<BarCodeText>();
-            DetectorResult detectorResult = Detector.Detect(image, hints, multiple);
             if (detectorResult == null)
             {
                 return results.ToArray();
@@ -90,22 +85,30 @@ namespace ZXing.PDF417
             foreach (var points in detectorResult.Points)
             {
                 var decoderResult = Pdf417ScanningDecoder.Decode(detectorResult.Bits
-                    , points[4], points[5],
-                    points[6], points[7], GetMinCodewordWidth(points), GetMaxCodewordWidth(points));
-                if (decoderResult == null)
+                    , points[4], points[5]
+                    , points[6], points[7]
+                    , GetMinCodewordWidth(points), GetMaxCodewordWidth(points));
+                var result = decoderResult?.BuildBarCodeText(points);
+                if (result != null)
                 {
-                    continue;
+                    results.Add(result);
                 }
-                var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
-                result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
-                var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
-                if (pdf417ResultMetadata != null)
-                {
-                    result.PutMetadata(ResultMetadataType.PDF417_EXTRA_METADATA, pdf417ResultMetadata);
-                }
-                results.Add(result);
             }
+
             return results.ToArray();
+        }
+
+        static BarCodeText BuildBarCodeText(this DecoderResult decoderResult, ResultPoint[] points)
+        {
+            var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
+            result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
+            var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
+            if (pdf417ResultMetadata != null)
+            {
+                result.PutMetadata(ResultMetadataType.PDF417_EXTRA_METADATA, pdf417ResultMetadata);
+            }
+
+            return result;
         }
 
         /// <summary>
