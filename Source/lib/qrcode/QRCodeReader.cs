@@ -105,7 +105,7 @@ namespace ZXing.QrCode
         }
 
         /// <inheritdoc />
-        public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
+        public virtual BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
             //Decoder.decode()
             throw new NotSupportedException();
         }

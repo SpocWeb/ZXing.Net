@@ -292,7 +292,7 @@ namespace ZXing
             var formats = Options.PossibleFormats;
             if (formats?.Count == 1 && formats.Contains(BarcodeFormat.QR_CODE))
             {
-                multiReader = new QRCodeMultiReader();
+                multiReader = new QrCodeMultiReader();
             }
             else
             {

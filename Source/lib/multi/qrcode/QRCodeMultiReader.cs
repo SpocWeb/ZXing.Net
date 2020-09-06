@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,16 +29,15 @@ namespace ZXing.Multi.QrCode
     /// <summary>
     /// This implementation can detect and decode multiple QR Codes in an image.
     /// </summary>
-    public sealed class QRCodeMultiReader : QrCodeReader, IMultipleBarcodeReader
+    public sealed class QrCodeMultiReader : QrCodeReader, IMultipleBarcodeReader
     {
-
-        static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
 
         /// <summary> Decodes multiple QR Codes </summary>
         public BarCodeText[] DecodeMultiple(LuminanceGridSampler image
             , IDictionary<DecodeHintType, object> hints = null)
         {
             var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
+
             return DecodeMultiple(detectorResults, hints);
         }
 
@@ -46,6 +46,7 @@ namespace ZXing.Multi.QrCode
             , IDictionary<DecodeHintType, object> hints = null)
         {
             var detectorResults = new MultiQrDetector(image).DetectMulti(hints);
+
             return DecodeMultiple(detectorResults, hints);
         }
 
@@ -53,7 +54,8 @@ namespace ZXing.Multi.QrCode
             , IDictionary<DecodeHintType, object> hints = null)
         {
             var results = new List<BarCodeText>();
-            foreach (var detectorResult in detectorResults) {
+            foreach (var detectorResult in detectorResults)
+            {
                 var result = Decode(detectorResult, hints);
                 if (result == null)
                 {
@@ -68,12 +70,12 @@ namespace ZXing.Multi.QrCode
                 return null;
             }
 
-            results = ProcessStructuredAppend(results);
+            results = results.ProcessStructuredAppend();
 
             return results.ToArray();
         }
 
-        public BarCodeText Decode(DetectorResult detectorResult
+        public override BarCodeText Decode(DetectorResult detectorResult
             , IDictionary<DecodeHintType, object> hints = null)
         {
             var decoderResult = Decoder.decode(detectorResult.Bits, hints);
@@ -113,7 +115,11 @@ namespace ZXing.Multi.QrCode
             return barCodeText;
         }
 
-        public static List<BarCodeText> ProcessStructuredAppend(List<BarCodeText> results)
+    }
+
+    public static class XQrCodeMultiReader {
+
+        public static List<BarCodeText> ProcessStructuredAppend(this List<BarCodeText> results)
         {
             var newResults = new List<BarCodeText>();
             var saResults = new List<BarCodeText>();
@@ -156,7 +162,8 @@ namespace ZXing.Multi.QrCode
                     }
                 }
 
-                BarCodeText newResult = new BarCodeText(newText.ToString(), newRawBytes.ToArray(), NO_POINTS, BarcodeFormat.QR_CODE);
+                BarCodeText newResult = new BarCodeText(newText.ToString()
+                    , newRawBytes.ToArray(), Array.Empty<ResultPoint>(), BarcodeFormat.QR_CODE);
                 if (newByteSegment.Length > 0)
                 {
                     var byteSegmentList = new List<byte[]>

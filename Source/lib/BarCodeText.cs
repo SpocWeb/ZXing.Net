@@ -95,6 +95,7 @@ namespace ZXing
 
             ResultMetadata.AddRange(metadata);
         }
+
         /// <summary> Adds the result points. </summary>
         public void AddResultPoints(params ResultPoint[] newPoints)
         {

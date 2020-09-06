@@ -15,6 +15,7 @@
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using ZXing.Common;
 using ZXing.Common.ReedSolomon;
 
@@ -69,7 +70,7 @@ namespace ZXing.QrCode.Internal
             }
 
             var result = decode(parser, hints);
-            if (result != null) {
+            if (result != null && result.Text != null) {
                 return result;
             }
             // Revert the bit matrix
@@ -131,11 +132,7 @@ namespace ZXing.QrCode.Internal
             DataBlock[] dataBlocks = DataBlock.getDataBlocks(codewords, version, ecLevel);
 
             // Count total number of data bytes
-            int totalBytes = 0;
-            foreach (var dataBlock in dataBlocks)
-            {
-                totalBytes += dataBlock.NumDataCodewords;
-            }
+            int totalBytes = dataBlocks.Sum(dataBlock => dataBlock.NumDataCodewords);
             byte[] resultBytes = new byte[totalBytes];
             int resultOffset = 0;
 
@@ -144,11 +141,14 @@ namespace ZXing.QrCode.Internal
             {
                 byte[] codewordBytes = dataBlock.Codewords;
                 int numDataCodewords = dataBlock.NumDataCodewords;
-                if (correctErrors(codewordBytes, numDataCodewords)) {
-                    for (int i = 0; i < numDataCodewords; i++)
-                    {
-                        resultBytes[resultOffset++] = codewordBytes[i];
-                    }
+                if (!correctErrors(codewordBytes, numDataCodewords))
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < numDataCodewords; i++)
+                {
+                    resultBytes[resultOffset++] = codewordBytes[i];
                 }
             }
 

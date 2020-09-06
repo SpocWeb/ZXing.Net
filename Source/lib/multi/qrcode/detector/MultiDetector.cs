@@ -29,7 +29,7 @@ namespace ZXing.Multi.QrCode.Internal
     /// </summary>
     public sealed class MultiQrDetector : QrDetector
     {
-        private static readonly DetectorResult[] EMPTY_DETECTOR_RESULTS = new DetectorResult[0];
+        private static readonly DetectorResult[] _emptyDetectorResults = new DetectorResult[0];
 
         public MultiQrDetector(IGridSampler sampler) : base(sampler) { }
 
@@ -58,7 +58,7 @@ namespace ZXing.Multi.QrCode.Internal
         public DetectorResult[] DetectMulti(QrFinderPatternInfo[] infos) {
             if (infos.Length == 0)
             {
-                return EMPTY_DETECTOR_RESULTS;
+                return _emptyDetectorResults;
             }
 
             var result = new List<DetectorResult>();
@@ -69,7 +69,7 @@ namespace ZXing.Multi.QrCode.Internal
                 }
             }
             if (result.Count == 0) {
-                return EMPTY_DETECTOR_RESULTS;
+                return _emptyDetectorResults;
             }
             return result.ToArray();
         }

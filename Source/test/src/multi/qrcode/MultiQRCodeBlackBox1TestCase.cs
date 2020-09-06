@@ -30,7 +30,7 @@ namespace ZXing.Multi.QrCode.Test
     public sealed class MultiQrCodeBlackBox1TestCase : AbstractBlackBoxTestCase
     {
         public MultiQrCodeBlackBox1TestCase()
-            : base("test/data/blackbox/multi-qrcode-1", new QRCodeMultiReader(), BarcodeFormat.QR_CODE)
+            : base("test/data/blackbox/multi-qrcode-1", new QrCodeMultiReader(), BarcodeFormat.QR_CODE)
         {
             AddTest(2, 2, 0.0f);
             AddTest(2, 2, 90.0f);
@@ -45,7 +45,7 @@ namespace ZXing.Multi.QrCode.Test
             var source = new BitmapLuminanceSource((Bitmap) Bitmap.FromFile(Path.Combine(path, "1.png")));
             var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
-            var reader = new QRCodeMultiReader();
+            var reader = new QrCodeMultiReader();
             var results = reader.DecodeMultiple(bitmap);
             Assert.IsNotNull(results);
             Assert.AreEqual(4, results.Length);
@@ -91,7 +91,7 @@ namespace ZXing.Multi.QrCode.Test
 
             var inputs = new List<BarCodeText> {sa3, sa1, nsa, sa2};
 
-            var results = QRCodeMultiReader.ProcessStructuredAppend(inputs);
+            var results = inputs.ProcessStructuredAppend();
             Assert.That(results, Is.Not.Null);
             Assert.That(results.Count, Is.EqualTo(2));
 

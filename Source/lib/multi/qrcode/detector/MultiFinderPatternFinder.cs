@@ -39,23 +39,23 @@ namespace ZXing.Multi.QrCode.Internal
     /// </remarks>
     sealed class MultiQrPatternFinder : QrPatternFinder
     {
-        private static readonly QrFinderPatternInfo[] EMPTY_RESULT_ARRAY = new QrFinderPatternInfo[0];
+        private static readonly QrFinderPatternInfo[] _emptyResultArray = new QrFinderPatternInfo[0];
 
         // TODO MIN_MODULE_COUNT and MAX_MODULE_COUNT would be great hints to ask the user for
         // since it limits the number of regions to decode
 
         // max. legal count of modules per QR code edge (177)
-        private static float _MAX_MODULE_COUNT_PER_EDGE = 180;
+        private static float _maxModuleCountPerEdge = 180;
 
         // min. legal count per modules per QR code edge (11)
-        private static float _MIN_MODULE_COUNT_PER_EDGE = 9;
+        private static float _minModuleCountPerEdge = 9;
 
         /// <summary>
         /// More or less arbitrary cutoff point for determining if two finder patterns might belong
         /// to the same code if they differ less than DIFF_MODSIZE_CUTOFF_PERCENT percent in their
         /// estimated modules sizes.
         /// </summary>
-        private static float _DIFF_MODSIZE_CUTOFF_PERCENT = 0.05f;
+        private static float _diffModsizeCutoffPercent = 0.05f;
 
         /// <summary>
         /// More or less arbitrary cutoff point for determining if two finder patterns might belong
@@ -151,7 +151,7 @@ namespace ZXing.Multi.QrCode.Internal
                     float vModSize12 = (p1.EstimatedModuleSize - p2.EstimatedModuleSize) /
                                        Math.Min(p1.EstimatedModuleSize, p2.EstimatedModuleSize);
                     float vModSize12A = Math.Abs(p1.EstimatedModuleSize - p2.EstimatedModuleSize);
-                    if (vModSize12A > DIFF_MODSIZE_CUTOFF && vModSize12 >= _DIFF_MODSIZE_CUTOFF_PERCENT)
+                    if (vModSize12A > DIFF_MODSIZE_CUTOFF && vModSize12 >= _diffModsizeCutoffPercent)
                     {
                         // break, since elements are ordered by the module size deviation there cannot be
                         // any more interesting elements for the given p1.
@@ -170,7 +170,7 @@ namespace ZXing.Multi.QrCode.Internal
                         float vModSize23 = (p2.EstimatedModuleSize - p3.EstimatedModuleSize) /
                                            Math.Min(p2.EstimatedModuleSize, p3.EstimatedModuleSize);
                         float vModSize23A = Math.Abs(p2.EstimatedModuleSize - p3.EstimatedModuleSize);
-                        if (vModSize23A > DIFF_MODSIZE_CUTOFF && vModSize23 >= _DIFF_MODSIZE_CUTOFF_PERCENT)
+                        if (vModSize23A > DIFF_MODSIZE_CUTOFF && vModSize23 >= _diffModsizeCutoffPercent)
                         {
                             // break, since elements are ordered by the module size deviation there cannot be
                             // any more interesting elements for the given p1.
@@ -188,8 +188,8 @@ namespace ZXing.Multi.QrCode.Internal
 
                         // Check the sizes
                         float estimatedModuleCount = (dA + dB) / (p1.EstimatedModuleSize * 2.0f);
-                        if (estimatedModuleCount > _MAX_MODULE_COUNT_PER_EDGE ||
-                            estimatedModuleCount < _MIN_MODULE_COUNT_PER_EDGE)
+                        if (estimatedModuleCount > _maxModuleCountPerEdge ||
+                            estimatedModuleCount < _minModuleCountPerEdge)
                         {
                             continue;
                         }
@@ -306,7 +306,7 @@ namespace ZXing.Multi.QrCode.Internal
             } // for i=iSkip-1 ...
             FinderPattern[][] patternInfo = SelectMultipleBestPatterns();
             if (patternInfo == null) {
-                return EMPTY_RESULT_ARRAY;
+                return _emptyResultArray;
             }
             List<QrFinderPatternInfo> result = new List<QrFinderPatternInfo>();
             foreach (FinderPattern[] pattern in patternInfo)
@@ -317,7 +317,7 @@ namespace ZXing.Multi.QrCode.Internal
 
             if (result.Count == 0)
             {
-                return EMPTY_RESULT_ARRAY;
+                return _emptyResultArray;
             }
             return result.ToArray();
         }
