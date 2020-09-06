@@ -31,13 +31,11 @@ namespace ZXing
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public abstract class LuminanceSource
     {
-        private int _Width;
-        private int _Height;
 
         protected LuminanceSource(int width, int height)
         {
-            this._Width = width;
-            this._Height = height;
+            Width = width;
+            Height = height;
         }
 
         /// <summary> Fetches one row of luminance data from the underlying platform's bitmap. </summary>
@@ -68,18 +66,10 @@ namespace ZXing
         public abstract byte[] Matrix { get; }
 
         /// <returns> The width of the bitmap.</returns>
-        public virtual int Width
-        {
-            get => _Width;
-            protected set => _Width = value;
-        }
+        public int Width { get; protected set; }
 
         /// <returns> The height of the bitmap.</returns>
-        public virtual int Height
-        {
-            get => _Height;
-            protected set => _Height = value;
-        }
+        public int Height { get; protected set; }
 
         /// <returns> Whether this subclass supports cropping.</returns>
         public virtual bool CanCrop => false;
@@ -138,12 +128,12 @@ namespace ZXing
         /// <summary> Readable 2D String Representation with 4 Levels of Brightness </summary>
         public override string ToString()
         {
-            var row = new byte[_Width];
-            var result = new StringBuilder(_Height * (_Width + 1));
-            for (int y = 0; y < _Height; y++)
+            var row = new byte[Width];
+            var result = new StringBuilder(Height * (Width + 1));
+            for (int y = 0; y < Height; y++)
             {
                 row = GetRow(y, row);
-                for (int x = 0; x < _Width; x++)
+                for (int x = 0; x < Width; x++)
                 {
                     int luminance = row[x];
                     char c;
