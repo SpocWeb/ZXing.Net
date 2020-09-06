@@ -49,7 +49,7 @@ namespace ZXing.Test
          AssertEquals(Y, 0, source.Matrix, 0, Y.Length);
          for (int r = 0; r < ROWS; r++)
          {
-            AssertEquals(Y, r*COLS, source.getRow(r, null), 0, COLS);
+            AssertEquals(Y, r*COLS, source.GetRow(r, null), 0, COLS);
          }
       }
 
@@ -58,7 +58,7 @@ namespace ZXing.Test
       {
          var source =
             new PlanarYUVLuminanceSource(YUV, COLS, ROWS, 1, 1, COLS - 2, ROWS - 2, false);
-         Assert.IsTrue(source.CropSupported);
+         Assert.IsTrue(source.CanCrop);
          byte[] cropMatrix = source.Matrix;
          for (int r = 0; r < ROWS - 2; r++)
          {
@@ -66,7 +66,7 @@ namespace ZXing.Test
          }
          for (int r = 0; r < ROWS - 2; r++)
          {
-            AssertEquals(Y, (r + 1) * COLS + 1, source.getRow(r, null), 0, COLS - 2);
+            AssertEquals(Y, (r + 1) * COLS + 1, source.GetRow(r, null), 0, COLS - 2);
          }
       }
 

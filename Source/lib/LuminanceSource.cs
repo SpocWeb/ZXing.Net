@@ -31,13 +31,13 @@ namespace ZXing
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public abstract class LuminanceSource
     {
-        private int width;
-        private int height;
+        private int _Width;
+        private int _Height;
 
         protected LuminanceSource(int width, int height)
         {
-            this.width = width;
-            this.height = height;
+            this._Width = width;
+            this._Height = height;
         }
 
         /// <summary> Fetches one row of luminance data from the underlying platform's bitmap. </summary>
@@ -54,7 +54,7 @@ namespace ZXing
         /// Always use the returned object, and ignore the .length of the array.
         /// </param>
         /// <returns> An array containing the luminance data.</returns>
-        public abstract byte[] getRow(int y, byte[] row);
+        public abstract byte[] GetRow(int y, byte[] row);
 
         /// <summary> Fetches luminance data for the underlying bitmap. </summary>
         /// <returns>
@@ -70,19 +70,19 @@ namespace ZXing
         /// <returns> The width of the bitmap.</returns>
         public virtual int Width
         {
-            get => width;
-            protected set => width = value;
+            get => _Width;
+            protected set => _Width = value;
         }
 
         /// <returns> The height of the bitmap.</returns>
         public virtual int Height
         {
-            get => height;
-            protected set => height = value;
+            get => _Height;
+            protected set => _Height = value;
         }
 
         /// <returns> Whether this subclass supports cropping.</returns>
-        public virtual bool CropSupported => false;
+        public virtual bool CanCrop => false;
 
         /// <summary> 
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -93,7 +93,7 @@ namespace ZXing
         /// <param name="width">The width of the rectangle to crop.</param>
         /// <param name="height">The height of the rectangle to crop.</param>
         /// <returns> A cropped version of this object.</returns>
-        public virtual LuminanceSource crop(int left, int top, int width, int height)
+        public virtual LuminanceSource Crop(int left, int top, int width, int height)
         {
             throw new NotSupportedException("This luminance source does not support cropping.");
         }
@@ -106,7 +106,7 @@ namespace ZXing
         /// Only callable if <see cref="RotateSupported"/> is true.
         /// </summary>
         /// <returns>A rotated version of this object.</returns>
-        public virtual LuminanceSource rotateCounterClockwise()
+        public virtual LuminanceSource RotateCounterClockwise()
         {
             throw new NotSupportedException("This luminance source does not support rotation.");
         }
@@ -116,7 +116,7 @@ namespace ZXing
         /// Only callable if <see cref="RotateSupported"/> is true.
         /// </summary>
         /// <returns>A rotated version of this object.</returns>
-        public virtual LuminanceSource rotateCounterClockwise45()
+        public virtual LuminanceSource RotateCounterClockwise45()
         {
             throw new NotSupportedException("This luminance source does not support rotation by 45 degrees.");
         }
@@ -130,7 +130,7 @@ namespace ZXing
         /// inverts the luminance values, not supported here. has to implemented in sub classes
         /// </summary>
         /// <returns></returns>
-        public virtual LuminanceSource invert()
+        public virtual LuminanceSource Invert()
         {
             throw new NotSupportedException("This luminance source does not support inversion.");
         }
@@ -138,12 +138,12 @@ namespace ZXing
         /// <summary> Readable 2D String Representation with 4 Levels of Brightness </summary>
         public override string ToString()
         {
-            var row = new byte[width];
-            var result = new StringBuilder(height * (width + 1));
-            for (int y = 0; y < height; y++)
+            var row = new byte[_Width];
+            var result = new StringBuilder(_Height * (_Width + 1));
+            for (int y = 0; y < _Height; y++)
             {
-                row = getRow(y, row);
-                for (int x = 0; x < width; x++)
+                row = GetRow(y, row);
+                for (int x = 0; x < _Width; x++)
                 {
                     int luminance = row[x];
                     char c;
@@ -183,7 +183,7 @@ namespace ZXing
                 {
                     return false;
                 }
-                row = getRow(imageY + dy, row);
+                row = GetRow(imageY + dy, row);
                 for (int x = 0; x < max; x += 2)
                 {
                     var imageX = (int)xyPairs[x];

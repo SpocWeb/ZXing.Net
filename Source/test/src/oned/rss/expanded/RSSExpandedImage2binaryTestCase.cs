@@ -75,7 +75,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
          var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpanded-1", imageFileName);
          var rowNumber = binaryMap.Height / 2;
-         var row = binaryMap.getBlackRow(rowNumber, null);
+         var row = binaryMap.GetBlackRow(rowNumber, null);
 
          Assert.IsTrue(rssExpandedReader.decodeRow2pairs(rowNumber, row));
 

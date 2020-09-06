@@ -65,24 +65,24 @@ namespace ZXing.Multi
             int halfHeight = height / 2;
 
             // No need to call makeAbsolute as results will be relative to original top left here
-            var result = Decoder.Decode(image.crop(0, 0, halfWidth, halfHeight), hints);
+            var result = Decoder.Decode(image.Crop(0, 0, halfWidth, halfHeight), hints);
             if (result != null) {
                 return result;
             }
 
-            result = Decoder.Decode(image.crop(halfWidth, 0, halfWidth, halfHeight), hints);
+            result = Decoder.Decode(image.Crop(halfWidth, 0, halfWidth, halfHeight), hints);
             if (result != null) {
                 result.ResultPoints.MakeAbsolute(halfWidth, 0);
                 return result;
             }
 
-            result = Decoder.Decode(image.crop(0, halfHeight, halfWidth, halfHeight), hints);
+            result = Decoder.Decode(image.Crop(0, halfHeight, halfWidth, halfHeight), hints);
             if (result != null) {
                 result.ResultPoints.MakeAbsolute(0, halfHeight);
                 return result;
             }
 
-            result = Decoder.Decode(image.crop(halfWidth, halfHeight, halfWidth, halfHeight), hints);
+            result = Decoder.Decode(image.Crop(halfWidth, halfHeight, halfWidth, halfHeight), hints);
             if (result != null) {
                 result.ResultPoints.MakeAbsolute(halfWidth, halfHeight);
                 return result;
@@ -90,7 +90,7 @@ namespace ZXing.Multi
 
             int quarterWidth = halfWidth / 2;
             int quarterHeight = halfHeight / 2;
-            var center = image.crop(quarterWidth, quarterHeight, halfWidth, halfHeight);
+            var center = image.Crop(quarterWidth, quarterHeight, halfWidth, halfHeight);
             result = Decoder.Decode(center, hints);
             result?.ResultPoints.MakeAbsolute(quarterWidth, quarterHeight);
             return result;

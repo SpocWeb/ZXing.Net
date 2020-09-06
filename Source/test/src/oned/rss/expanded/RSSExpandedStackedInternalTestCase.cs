@@ -38,7 +38,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var binaryMap = TestCaseUtil.GetBinaryBitmap("test/data/blackbox/rssexpandedstacked-2", "1000.png");
 
          var firstRowNumber = binaryMap.Height / 3;
-         var firstRow = binaryMap.getBlackRow(firstRowNumber, null);
+         var firstRow = binaryMap.GetBlackRow(firstRowNumber, null);
          Assert.IsFalse(rssExpandedReader.decodeRow2pairs(firstRowNumber, firstRow));
 
          Assert.AreEqual(1, rssExpandedReader.Rows.Count);
@@ -50,7 +50,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          firstExpandedRow.Pairs[1].FinderPattern.StartEnd[1] = 0;
 
          var secondRowNumber = 2 * binaryMap.Height / 3;
-         var secondRow = binaryMap.getBlackRow(secondRowNumber, null);
+         var secondRow = binaryMap.GetBlackRow(secondRowNumber, null);
          secondRow.Reverse();
 
          Assert.IsTrue(rssExpandedReader.decodeRow2pairs(secondRowNumber, secondRow));

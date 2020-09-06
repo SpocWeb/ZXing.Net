@@ -56,9 +56,11 @@ namespace ZXing.QrCode
                 // something is wrong with the image
                 return null;
             }
+
+            var blackMatrix = image.GetBlackMatrix();
             if (hints?.ContainsKey(DecodeHintType.PURE_BARCODE) == true)
             {
-                var bits = ExtractPureBits(image.GetBlackMatrix());
+                var bits = ExtractPureBits(blackMatrix);
                 if (bits == null) {
                     return null;
                 }
@@ -67,20 +69,20 @@ namespace ZXing.QrCode
             }
             else
             {
-                IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
-                var detectorResult = new QrDetector(image.GetBlackMatrix()).detect(hints);
+                IGridSampler sampler = new DefaultGridSampler(blackMatrix);
+                var detectorResult = new QrDetector(blackMatrix).detect(hints);
                 if (detectorResult == null) {
                     return null;
                 }
                 decoderResult = Decoder.decode(detectorResult.Bits, hints);
                 points = detectorResult.Points.Single();
             }
-            if (decoderResult == null) {
+            if (!string.IsNullOrEmpty(decoderResult?.Text)) {
                 return null;
             }
 
             // If the code was mirrored: swap the bottom-left and the top-right points.
-            if (decoderResult.Other is QrCodeDecoderMetaData data)
+            if (decoderResult?.Other is QrCodeDecoderMetaData data)
             {
                 points = data.ApplyMirroredCorrection(points);
             }

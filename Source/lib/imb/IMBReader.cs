@@ -499,7 +499,7 @@ namespace ZXing.IMB
                     return null;
                 }
                 rowNumberTop--;
-                topRow = currentBitmap.getBlackRow(rowNumberTop, topRow);
+                topRow = currentBitmap.GetBlackRow(rowNumberTop, topRow);
             } while (getNumberBars(topRow, pixelStartOffset, pixelStopOffset, pixelBarLength) >= NUM_BARS_IMB);
             do
             {
@@ -507,7 +507,7 @@ namespace ZXing.IMB
                     return null;
                 }
                 rowNumberBot++;
-                botRow = currentBitmap.getBlackRow(rowNumberBot, botRow);
+                botRow = currentBitmap.GetBlackRow(rowNumberBot, botRow);
             } while (getNumberBars(botRow, pixelStartOffset, pixelStopOffset, pixelBarLength) >= NUM_BARS_IMB);
 
             List<int> listRow = new List<int>();

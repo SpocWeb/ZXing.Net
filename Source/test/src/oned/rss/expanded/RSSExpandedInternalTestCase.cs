@@ -54,7 +54,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "2.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
          var rowNumber = binaryMap.Height / 2;
-         var row = binaryMap.getBlackRow(rowNumber, null);
+         var row = binaryMap.GetBlackRow(rowNumber, null);
          var previousPairs = new List<ExpandedPair>();
 
          var pair1 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
@@ -87,7 +87,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
          var rowNumber = binaryMap.Height / 2;
-         var row = binaryMap.getBlackRow(rowNumber, null);
+         var row = binaryMap.GetBlackRow(rowNumber, null);
          var previousPairs = new List<ExpandedPair>();
 
          var pair1 = rssExpandedReader.retrieveNextPair(row, previousPairs, rowNumber);
@@ -110,7 +110,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
-         var row = binaryMap.getBlackRow(binaryMap.Height / 2, null);
+         var row = binaryMap.GetBlackRow(binaryMap.Height / 2, null);
 
          int[] startEnd = { 145, 243 };//image pixels where the A1 pattern starts (at 124) and ends (at 214)
          int value = 0;// A
@@ -132,7 +132,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
          var image = TestCaseUtil.ReadImage("test/data/blackbox/rssexpanded-1", "3.png");
          var binaryMap = new BinaryBitmap(new GlobalHistogramBinarizer(new BitmapLuminanceSource(image)));
-         var row = binaryMap.getBlackRow(binaryMap.Height / 2, null);
+         var row = binaryMap.GetBlackRow(binaryMap.Height / 2, null);
 
          int[] startEnd = { 145, 243 };//image pixels where the A1 pattern starts (at 124) and ends (at 214)
          int value = 0; // A

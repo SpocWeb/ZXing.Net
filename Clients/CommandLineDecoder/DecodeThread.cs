@@ -195,7 +195,7 @@ namespace CommandLineDecoder
             else
             {
                 int[] crop = config.Crop;
-                source = new BitmapLuminanceSource(image).crop(crop[0], crop[1], crop[2], crop[3]);
+                source = new BitmapLuminanceSource(image).Crop(crop[0], crop[1], crop[2], crop[3]);
             }
             if (config.DumpBlackPoint)
             {
@@ -262,7 +262,7 @@ namespace CommandLineDecoder
                 else
                 {
                     int[] crop = config.Crop;
-                    source = new BitmapLuminanceSource(image).crop(crop[0], crop[1], crop[2], crop[3]);
+                    source = new BitmapLuminanceSource(image).Crop(crop[0], crop[1], crop[2], crop[3]);
                 }
                 if (config.DumpBlackPoint)
                 {
@@ -365,7 +365,7 @@ namespace CommandLineDecoder
             offset += width;
             for (int y = 0; y < height; y++)
             {
-                row = bitmap.getBlackRow(y, row);
+                row = bitmap.GetBlackRow(y, row);
                 if (row == null)
                 {
                     // If fetching the row failed, draw a red line and keep going.

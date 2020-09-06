@@ -152,22 +152,22 @@ namespace ZXing.Multi
             // Decode left of barcode
             if (minX > MIN_DIMENSION_TO_RECUR)
             {
-                DoDecodeRecursively(image.crop(0, 0, (int)minX, height), hints, results, xOffset, yOffset, currentDepth + 1);
+                DoDecodeRecursively(image.Crop(0, 0, (int)minX, height), hints, results, xOffset, yOffset, currentDepth + 1);
             }
             // Decode above barcode
             if (minY > MIN_DIMENSION_TO_RECUR)
             {
-                DoDecodeRecursively(image.crop(0, 0, width, (int)minY), hints, results, xOffset, yOffset, currentDepth + 1);
+                DoDecodeRecursively(image.Crop(0, 0, width, (int)minY), hints, results, xOffset, yOffset, currentDepth + 1);
             }
             // Decode right of barcode
             if (maxX < width - MIN_DIMENSION_TO_RECUR)
             {
-                DoDecodeRecursively(image.crop((int)maxX, 0, width - (int)maxX, height), hints, results, xOffset + (int)maxX, yOffset, currentDepth + 1);
+                DoDecodeRecursively(image.Crop((int)maxX, 0, width - (int)maxX, height), hints, results, xOffset + (int)maxX, yOffset, currentDepth + 1);
             }
             // Decode below barcode
             if (maxY < height - MIN_DIMENSION_TO_RECUR)
             {
-                DoDecodeRecursively(image.crop(0, (int)maxY, width, height - (int)maxY), hints, results, xOffset, yOffset + (int)maxY, currentDepth + 1);
+                DoDecodeRecursively(image.Crop(0, (int)maxY, width, height - (int)maxY), hints, results, xOffset, yOffset + (int)maxY, currentDepth + 1);
             }
         }
 

@@ -187,7 +187,7 @@ namespace ZXing
             var result = default(BarCodeText);
             var binarizer = CreateBinarizer(luminanceSource);
             var binaryBitmap = new BinaryBitmap(binarizer);
-            var multiformatReader = Reader as MultiFormatReader;
+            var multiFormatReader = Reader as MultiFormatReader;
             var rotationCount = 0;
             var rotationMaxCount = 1;
 
@@ -205,9 +205,9 @@ namespace ZXing
 
             for (; rotationCount < rotationMaxCount; rotationCount++)
             {
-                if (usePreviousState && multiformatReader != null)
+                if (usePreviousState && multiFormatReader != null)
                 {
-                    result = multiformatReader.DecodeWithState(binaryBitmap);
+                    result = multiFormatReader.DecodeWithState(binaryBitmap);
                 }
                 else
                 {
@@ -219,10 +219,10 @@ namespace ZXing
                 {
                     if (TryInverted && luminanceSource.InversionSupported)
                     {
-                        binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.invert()));
-                        if (usePreviousState && multiformatReader != null)
+                        binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.Invert()));
+                        if (usePreviousState && multiFormatReader != null)
                         {
-                            result = multiformatReader.DecodeWithState(binaryBitmap);
+                            result = multiFormatReader.DecodeWithState(binaryBitmap);
                         }
                         else
                         {
@@ -238,7 +238,7 @@ namespace ZXing
                     break;
                 }
 
-                luminanceSource = luminanceSource.rotateCounterClockwise();
+                luminanceSource = luminanceSource.RotateCounterClockwise();
                 binarizer = CreateBinarizer(luminanceSource);
                 binaryBitmap = new BinaryBitmap(binarizer);
             }
@@ -313,7 +313,7 @@ namespace ZXing
                 {
                     if (TryInverted && luminanceSource.InversionSupported)
                     {
-                        binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.invert()));
+                        binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.Invert()));
                         results = multiReader.DecodeMultiple(binaryBitmap, Options.Hints);
                     }
                 }
@@ -324,7 +324,7 @@ namespace ZXing
                     break;
                 }
 
-                binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.rotateCounterClockwise()));
+                binaryBitmap = new BinaryBitmap(CreateBinarizer(luminanceSource.RotateCounterClockwise()));
             }
 
             if (results != null)
@@ -359,12 +359,14 @@ namespace ZXing
         /// <param name="results"></param>
         protected void OnResultsFound(IEnumerable<BarCodeText> results)
         {
-            if (ResultFound != null)
+            if (ResultFound == null)
             {
-                foreach (var result in results)
-                {
-                    ResultFound(result);
-                }
+                return;
+            }
+
+            foreach (var result in results)
+            {
+                ResultFound(result);
             }
         }
 

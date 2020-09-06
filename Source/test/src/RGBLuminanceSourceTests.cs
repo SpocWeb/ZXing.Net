@@ -63,14 +63,14 @@ namespace ZXing.Test
       [Test]
       public void TestCrop()
       {
-         Assert.IsTrue(SOURCE.CropSupported);
-         LuminanceSource cropped = SOURCE.crop(1, 1, 1, 1);
+         Assert.IsTrue(SOURCE.CanCrop);
+         LuminanceSource cropped = SOURCE.Crop(1, 1, 1, 1);
          Assert.AreEqual(1, cropped.Height);
          Assert.AreEqual(1, cropped.Width);
          // java and .Net differs, not sure, why
          //var expectedInJava = new byte[] {0x7F};
          var expected = new byte[] { 0x95 };
-         Assert.AreEqual(expected, cropped.getRow(0, null));
+         Assert.AreEqual(expected, cropped.GetRow(0, null));
       }
 
       [Test]
@@ -80,9 +80,9 @@ namespace ZXing.Test
          //var expectedInJava = new byte[] {0x00, 0x7F, 0xFF, 0x3F, 0x7F, 0x3F, 0x3F, 0x7F, 0x3F};
          var expected = new byte[] {0x00, 0x7F, 0xFF, 0x4c, 0x95, 0x1c, 0x1c, 0x95, 0x4c};
          Assert.AreEqual(expected, SOURCE.Matrix);
-         var croppedFullWidth = SOURCE.crop(0, 1, 3, 2);
+         var croppedFullWidth = SOURCE.Crop(0, 1, 3, 2);
          Assert.AreEqual(new byte[] { 0x4c, 0x95, 0x1c, 0x1c, 0x95, 0x4c }, croppedFullWidth.Matrix);
-         var croppedCorner = SOURCE.crop(1, 1, 2, 2);
+         var croppedCorner = SOURCE.Crop(1, 1, 2, 2);
          Assert.AreEqual(new byte[] { 0x95, 0x1c, 0x95, 0x4c }, croppedCorner.Matrix);
       }
 
@@ -92,7 +92,7 @@ namespace ZXing.Test
          // java and .Net differs, not sure, why
          //var expectedInJava = new byte[] {0x3F, 0x7F, 0x3F};
          var expected = new byte[] {0x1c, 0x95, 0x4c};
-         Assert.AreEqual(expected, SOURCE.getRow(2, new byte[3]));
+         Assert.AreEqual(expected, SOURCE.GetRow(2, new byte[3]));
       }
 
       [Test]
@@ -138,7 +138,7 @@ namespace ZXing.Test
       {
          BitmapSource bitmapImage = new BitmapImage(new Uri(CropSamplePicRelPath, UriKind.RelativeOrAbsolute));
          var rgbLuminanceSource = new BitmapSourceLuminanceSource(bitmapImage);
-         var croppedImage = rgbLuminanceSource.crop(0, 0, rgbLuminanceSource.Width / 2, rgbLuminanceSource.Height/5);
+         var croppedImage = rgbLuminanceSource.Crop(0, 0, rgbLuminanceSource.Width / 2, rgbLuminanceSource.Height/5);
          var result = croppedImage.ToString();
          Assert.AreEqual(_CropSamplePicRelResult, result);
       }

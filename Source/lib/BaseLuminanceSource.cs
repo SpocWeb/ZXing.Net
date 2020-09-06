@@ -85,7 +85,7 @@ namespace ZXing
         /// <returns>
         /// An array containing the luminance data.
         /// </returns>
-        public override byte[] getRow(int y, byte[] row)
+        public override byte[] GetRow(int y, byte[] row)
         {
             int width = Width;
             if (row == null || row.Length < width)
@@ -112,7 +112,7 @@ namespace ZXing
         /// <returns>
         /// A rotated version of this object.
         /// </returns>
-        public override LuminanceSource rotateCounterClockwise()
+        public override LuminanceSource RotateCounterClockwise()
         {
             var rotatedLuminances = new byte[Width * Height];
             var newWidth = Height;
@@ -136,10 +136,10 @@ namespace ZXing
         /// <returns>
         /// A rotated version of this object.
         /// </returns>
-        public override LuminanceSource rotateCounterClockwise45()
+        public override LuminanceSource RotateCounterClockwise45()
         {
             // TODO: implement a good 45 degrees rotation without lost of information
-            return base.rotateCounterClockwise45();
+            return base.RotateCounterClockwise45();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace ZXing
         /// <returns>
         /// A cropped version of this object.
         /// </returns>
-        public override LuminanceSource crop(int left, int top, int width, int height)
+        public override LuminanceSource Crop(int left, int top, int width, int height)
         {
             if (left + width > Width || top + height > Height)
             {
@@ -182,7 +182,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports cropping.</returns>
-        public override bool CropSupported => true;
+        public override bool CanCrop => true;
 
         /// <summary>
         /// </summary>
@@ -192,7 +192,7 @@ namespace ZXing
         /// <summary>
         /// Inverts the luminance values (newValue = 255 - oldValue)
         /// </summary>
-        public override LuminanceSource invert()
+        public override LuminanceSource Invert()
         {
             return new InvertedLuminanceSource(this);
         }

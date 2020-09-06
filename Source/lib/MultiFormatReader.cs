@@ -203,7 +203,7 @@ namespace ZXing
                 var reader = _Readers[index];
                 reader.Reset();
                 var result = reader.Decode(image, _Hints);
-                if (result != null)
+                if (!string.IsNullOrEmpty(result.Text))
                 {
                     // found a barcode, pushing the successful reader up front
                     // I assume that the same type of barcode is read multiple times

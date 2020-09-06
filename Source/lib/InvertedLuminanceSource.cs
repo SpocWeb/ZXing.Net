@@ -49,9 +49,9 @@ namespace ZXing
         /// <returns>
         /// An array containing the luminance data.
         /// </returns>
-        public override byte[] getRow(int y, byte[] row)
+        public override byte[] GetRow(int y, byte[] row)
         {
-            row = @delegate.getRow(y, row);
+            row = @delegate.GetRow(y, row);
             int width = Width;
             for (int i = 0; i < width; i++)
             {
@@ -89,7 +89,7 @@ namespace ZXing
         /// <summary>
         /// </summary>
         /// <returns> Whether this subclass supports cropping.</returns>
-        public override bool CropSupported => @delegate.CropSupported;
+        public override bool CanCrop => @delegate.CanCrop;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -102,9 +102,9 @@ namespace ZXing
         /// <returns>
         /// A cropped version of this object.
         /// </returns>
-        public override LuminanceSource crop(int left, int top, int width, int height)
+        public override LuminanceSource Crop(int left, int top, int width, int height)
         {
-            return new InvertedLuminanceSource(@delegate.crop(left, top, width, height));
+            return new InvertedLuminanceSource(@delegate.Crop(left, top, width, height));
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace ZXing
         /// Inverts this instance.
         /// </summary>
         /// <returns>original delegate {@link LuminanceSource} since invert undoes itself</returns>
-        public override LuminanceSource invert()
+        public override LuminanceSource Invert()
         {
             return @delegate;
         }
@@ -128,9 +128,9 @@ namespace ZXing
         /// <returns>
         /// A rotated version of this object.
         /// </returns>
-        public override LuminanceSource rotateCounterClockwise()
+        public override LuminanceSource RotateCounterClockwise()
         {
-            return new InvertedLuminanceSource(@delegate.rotateCounterClockwise());
+            return new InvertedLuminanceSource(@delegate.RotateCounterClockwise());
         }
 
         /// <summary>
@@ -140,9 +140,9 @@ namespace ZXing
         /// <returns>
         /// A rotated version of this object.
         /// </returns>
-        public override LuminanceSource rotateCounterClockwise45()
+        public override LuminanceSource RotateCounterClockwise45()
         {
-            return new InvertedLuminanceSource(@delegate.rotateCounterClockwise45());
+            return new InvertedLuminanceSource(@delegate.RotateCounterClockwise45());
         }
     }
 }

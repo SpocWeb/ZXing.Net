@@ -65,7 +65,7 @@ namespace ZXing.Common
             int[] localBuckets = _Buckets;
             for (int y = 1; y < 5; y++) {
                 int row = source.Height * y / 5;
-                var localLuminances = source.getRow(row, _Luminances);
+                var localLuminances = source.GetRow(row, _Luminances);
                 int right = (width << 2) / 5;
                 for (int x = width / 5; x < right; x++) {
                     int pixel = localLuminances[x];
@@ -93,7 +93,7 @@ namespace ZXing.Common
                 row.Clear();
             }
 
-            byte[] localLuminances = source.getRow(y, _Luminances);
+            byte[] localLuminances = source.GetRow(y, _Luminances);
             int blackPoint = LocalBlackPoint(width, localLuminances);
             if (blackPoint < 0) {
                 return null;
@@ -154,7 +154,7 @@ namespace ZXing.Common
             //var localLuminances = source.Matrix;
             for (int y = 0; y < height; y++)
             {
-                byte[] localLuminances = source.getRow(y, _Luminances);
+                byte[] localLuminances = source.GetRow(y, _Luminances);
                 int blackPoint = LocalBlackPoint(width, localLuminances);
                 if (blackPoint < 0)
                 {

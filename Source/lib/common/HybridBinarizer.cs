@@ -85,7 +85,8 @@ namespace ZXing.Common
             LuminanceSource source = LuminanceSource;
             int width = source.Width;
             int height = source.Height;
-            if (width < XHybridBinarizer.MINIMUM_DIMENSION || height < XHybridBinarizer.MINIMUM_DIMENSION)
+            if (width < XHybridBinarizer.MINIMUM_DIMENSION ||
+                height < XHybridBinarizer.MINIMUM_DIMENSION)
             {
                 // If the image is too small, fall back to the global histogram approach.
                 _Matrix = base.GetBlackMatrix();
@@ -129,8 +130,10 @@ namespace ZXing.Common
 
         /// <summary>
         /// For each 8x8 block in the image, calculate the average black point using a 5x5 grid
-        /// of the blocks around it. Also handles the corner cases (fractional blocks are computed based
-        /// on the last 8 pixels in the row/column which are also used in the previous block).
+        /// of the blocks around it.
+        /// Also handles the corner cases:
+        /// fractional blocks are computed based on the last 8 pixels in the row/column
+        /// which are also used in the previous block.
         /// </summary>
         public static void CalculateThresholdForBlock(this int[][] blackPoints
             , byte[] luminances, int subWidth, int subHeight, int width, int height

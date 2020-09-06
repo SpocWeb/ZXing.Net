@@ -26,22 +26,22 @@ namespace ZXing
     /// </remarks>
     public sealed class BinaryBitmap
     {
-        private readonly Binarizer binarizer;
-        private BitMatrix matrix;
+        private readonly Binarizer _Binarizer;
+        private BitMatrix _Matrix;
 
         public BinaryBitmap(Binarizer binarizer)
         {
-            this.binarizer = binarizer ?? throw new ArgumentException("Binarizer must be non-null.");
+            _Binarizer = binarizer ?? throw new ArgumentException("Binarizer must be non-null.");
         }
 
         public BinaryBitmap(BitMatrix matrix)
         {
-            this.matrix = matrix ?? throw new ArgumentException("matrix must be non-null.");
+            _Matrix = matrix ?? throw new ArgumentException("matrix must be non-null.");
         }
 
-        public int Width => binarizer.Width;
+        public int Width => _Binarizer.Width;
 
-        public int Height => binarizer.Height;
+        public int Height => _Binarizer.Height;
 
         /// <summary>
         /// Converts one row of luminance data to 1 bit data. May actually do the conversion, or return
@@ -53,7 +53,7 @@ namespace ZXing
         /// If used, the Binarizer will call BitArray.clear(). Always use the returned object.
         /// </param>
         /// <returns> The array of bits for this row (true means black).</returns>
-        public BitArray getBlackRow(int y, BitArray row) => binarizer.getBlackRow(y, row);
+        public BitArray GetBlackRow(int y, BitArray row) => _Binarizer.getBlackRow(y, row);
 
         /// <summary> Converts an 2D array of luminance data to 1 bit. </summary>
         /// <remarks>
@@ -69,13 +69,10 @@ namespace ZXing
         /// 2. This work will only be done once even if the caller installs multiple 2D Readers.
         /// </remarks>
         /// <returns> The 2D array of bits for the image (true means black).</returns>
-        public BitMatrix GetBlackMatrix() => matrix ?? (matrix =
-            binarizer.GetBlackMatrix());
+        public BitMatrix GetBlackMatrix() => _Matrix ?? (_Matrix = _Binarizer.GetBlackMatrix());
 
-        /// <returns>
-        /// Whether this bitmap can be cropped.
-        /// </returns>
-        public bool CropSupported => binarizer.LuminanceSource.CropSupported;
+        /// <returns> Whether this bitmap can be cropped. </returns>
+        public bool CanCrop => _Binarizer.LuminanceSource.CanCrop;
 
         /// <summary>
         /// Returns a new object with cropped image data. Implementations may keep a reference to the
@@ -86,26 +83,26 @@ namespace ZXing
         /// <param name="width">The width of the rectangle to crop.</param>
         /// <param name="height">The height of the rectangle to crop.</param>
         /// <returns> A cropped version of this object.</returns>
-        public BinaryBitmap crop(int left, int top, int width, int height)
+        public BinaryBitmap Crop(int left, int top, int width, int height)
         {
-            var newSource = binarizer.LuminanceSource.crop(left, top, width, height);
-            return new BinaryBitmap(binarizer.createBinarizer(newSource));
+            var newSource = _Binarizer.LuminanceSource.Crop(left, top, width, height);
+            return new BinaryBitmap(_Binarizer.createBinarizer(newSource));
         }
 
         /// <returns>
         /// Whether this bitmap supports counter-clockwise rotation.
         /// </returns>
-        public bool RotateSupported => binarizer.LuminanceSource.RotateSupported;
+        public bool RotateSupported => _Binarizer.LuminanceSource.RotateSupported;
 
         /// <summary>
         /// Returns a new object with rotated image data by 90 degrees counterclockwise.
         /// Only callable if <see cref="RotateSupported"/> is true.
         /// </summary>
         /// <returns>A rotated version of this object.</returns>
-        public BinaryBitmap rotateCounterClockwise()
+        public BinaryBitmap RotateCounterClockwise()
         {
-            var newSource = binarizer.LuminanceSource.rotateCounterClockwise();
-            return new BinaryBitmap(binarizer.createBinarizer(newSource));
+            var newSource = _Binarizer.LuminanceSource.RotateCounterClockwise();
+            return new BinaryBitmap(_Binarizer.createBinarizer(newSource));
         }
 
         /// <summary>
@@ -113,10 +110,10 @@ namespace ZXing
         /// Only callable if <see cref="RotateSupported"/> is true.
         /// </summary>
         /// <returns>A rotated version of this object.</returns>
-        public BinaryBitmap rotateCounterClockwise45()
+        public BinaryBitmap RotateCounterClockwise45()
         {
-            LuminanceSource newSource = binarizer.LuminanceSource.rotateCounterClockwise45();
-            return new BinaryBitmap(binarizer.createBinarizer(newSource));
+            LuminanceSource newSource = _Binarizer.LuminanceSource.RotateCounterClockwise45();
+            return new BinaryBitmap(_Binarizer.createBinarizer(newSource));
         }
 
         /// <summary>

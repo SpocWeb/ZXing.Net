@@ -56,7 +56,7 @@ namespace ZXing.OneD
             if (!tryHarder || tryHarderWithoutRotation || !image.RotateSupported) {
                 return null;
             }
-            BinaryBitmap rotatedImage = image.rotateCounterClockwise();
+            BinaryBitmap rotatedImage = image.RotateCounterClockwise();
             result = DoDecode(rotatedImage, hints);
             if (result == null) {
                 return null;
@@ -143,7 +143,7 @@ namespace ZXing.OneD
                 }
 
                 // Estimate black point for this row and load it:
-                row = image.getBlackRow(rowNumber, row);
+                row = image.GetBlackRow(rowNumber, row);
                 if (row == null) {
                     continue;
                 }

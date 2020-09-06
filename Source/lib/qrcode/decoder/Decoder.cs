@@ -70,7 +70,7 @@ namespace ZXing.QrCode.Internal
             }
 
             var result = decode(parser, hints);
-            if (result != null && result.Text != null) {
+            if (!string.IsNullOrEmpty(result?.Text)) {
                 return result;
             }
             // Revert the bit matrix
@@ -102,7 +102,7 @@ namespace ZXing.QrCode.Internal
 
             result = decode(parser, hints);
 
-            if (result != null)
+            if (!string.IsNullOrEmpty(result?.Text)) 
             {
                 // Success! Notify the caller that the code was mirrored.
                 result.Other = new QrCodeDecoderMetaData(true);
