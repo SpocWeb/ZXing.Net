@@ -26,44 +26,44 @@ namespace ZXing.Common.ReedSolomon
     ///   </p>
     /// </summary>
     /// <author>Sean Owen</author>
-    public sealed class GenericGF
+    public sealed class GenericGf
     {
         /// <summary>
         /// Aztec data 12
         /// </summary>
-        public static GenericGF AZTEC_DATA_12 = new GenericGF(0x1069, 4096, 1); // x^12 + x^6 + x^5 + x^3 + 1
+        public static GenericGf AZTEC_DATA_12 = new GenericGf(0x1069, 4096, 1); // x^12 + x^6 + x^5 + x^3 + 1
         /// <summary>
         /// Aztec data 10
         /// </summary>
-        public static GenericGF AZTEC_DATA_10 = new GenericGF(0x409, 1024, 1); // x^10 + x^3 + 1
+        public static GenericGf AZTEC_DATA_10 = new GenericGf(0x409, 1024, 1); // x^10 + x^3 + 1
         /// <summary>
         /// Aztec data 6
         /// </summary>
-        public static GenericGF AZTEC_DATA_6 = new GenericGF(0x43, 64, 1); // x^6 + x + 1
+        public static GenericGf AZTEC_DATA_6 = new GenericGf(0x43, 64, 1); // x^6 + x + 1
         /// <summary>
         /// Aztec param
         /// </summary>
-        public static GenericGF AZTEC_PARAM = new GenericGF(0x13, 16, 1); // x^4 + x + 1
+        public static GenericGf AZTEC_PARAM = new GenericGf(0x13, 16, 1); // x^4 + x + 1
         /// <summary>
         /// QR Code
         /// </summary>
-        public static GenericGF QR_CODE_FIELD_256 = new GenericGF(0x011D, 256, 0); // x^8 + x^4 + x^3 + x^2 + 1
+        public static GenericGf QR_CODE_FIELD_256 = new GenericGf(0x011D, 256, 0); // x^8 + x^4 + x^3 + x^2 + 1
         /// <summary>
         /// Data Matrix
         /// </summary>
-        public static GenericGF DATA_MATRIX_FIELD_256 = new GenericGF(0x012D, 256, 1); // x^8 + x^5 + x^3 + x^2 + 1
+        public static GenericGf DATA_MATRIX_FIELD_256 = new GenericGf(0x012D, 256, 1); // x^8 + x^5 + x^3 + x^2 + 1
         /// <summary>
         /// Aztec data 8
         /// </summary>
-        public static GenericGF AZTEC_DATA_8 = DATA_MATRIX_FIELD_256;
+        public static GenericGf AZTEC_DATA_8 = DATA_MATRIX_FIELD_256;
         /// <summary>
         /// Maxicode
         /// </summary>
-        public static GenericGF MAXICODE_FIELD_64 = AZTEC_DATA_6;
+        public static GenericGf MAXICODE_FIELD_64 = AZTEC_DATA_6;
 
-        private readonly int[] expTable;
-        private readonly int[] logTable;
-        private readonly int primitive;
+        private readonly int[] _ExpTable;
+        private readonly int[] _LogTable;
+        private readonly int _Primitive;
 
         /// <summary>
         /// Create a representation of GF(size) using the given primitive polynomial.
@@ -75,18 +75,18 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="genBase">the factor b in the generator polynomial can be 0- or 1-based
         /// *  (g(x) = (x+a^b)(x+a^(b+1))...(x+a^(b+2t-1))).
         /// *  In most cases it should be 1, but for QR code it is 0.</param>
-        public GenericGF(int primitive, int size, int genBase)
+        public GenericGf(int primitive, int size, int genBase)
         {
-            this.primitive = primitive;
+            this._Primitive = primitive;
             this.Size = size;
             GeneratorBase = genBase;
 
-            expTable = new int[size];
-            logTable = new int[size];
+            _ExpTable = new int[size];
+            _LogTable = new int[size];
             int x = 1;
             for (int i = 0; i < size; i++)
             {
-                expTable[i] = x;
+                _ExpTable[i] = x;
                 x <<= 1; // x = x * 2; we're assuming the generator alpha is 2
                 if (x >= size)
                 {
@@ -96,16 +96,16 @@ namespace ZXing.Common.ReedSolomon
             }
             for (int i = 0; i < size - 1; i++)
             {
-                logTable[expTable[i]] = i;
+                _LogTable[_ExpTable[i]] = i;
             }
             // logTable[0] == 0 but this should never be used
-            Zero = new GenericGFPoly(this, new[] { 0 });
-            One = new GenericGFPoly(this, new[] { 1 });
+            Zero = new GenericGfPoly(this, new[] { 0 });
+            One = new GenericGfPoly(this, new[] { 1 });
         }
 
-        public GenericGFPoly Zero { get; }
+        public GenericGfPoly Zero { get; }
 
-        internal GenericGFPoly One { get; }
+        internal GenericGfPoly One { get; }
 
         /// <summary>
         /// Builds the monomial.
@@ -113,7 +113,7 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="degree">The degree.</param>
         /// <param name="coefficient">The coefficient.</param>
         /// <returns>the monomial representing coefficient * x^degree</returns>
-        public GenericGFPoly buildMonomial(int degree, int coefficient)
+        public GenericGfPoly BuildMonomial(int degree, int coefficient)
         {
             if (degree < 0)
             {
@@ -125,14 +125,14 @@ namespace ZXing.Common.ReedSolomon
             }
             int[] coefficients = new int[degree + 1];
             coefficients[0] = coefficient;
-            return new GenericGFPoly(this, coefficients);
+            return new GenericGfPoly(this, coefficients);
         }
 
         /// <summary>
         /// Implements both addition and subtraction -- they are the same in GF(size).
         /// </summary>
         /// <returns>sum/difference of a and b</returns>
-        internal static int addOrSubtract(int a, int b)
+        internal static int AddOrSubtract(int a, int b)
         {
             return a ^ b;
         }
@@ -141,9 +141,9 @@ namespace ZXing.Common.ReedSolomon
         /// Exps the specified a.
         /// </summary>
         /// <returns>2 to the power of a in GF(size)</returns>
-        internal int exp(int a)
+        internal int Exp(int a)
         {
-            return expTable[a];
+            return _ExpTable[a];
         }
 
         /// <summary>
@@ -151,26 +151,26 @@ namespace ZXing.Common.ReedSolomon
         /// </summary>
         /// <param name="a">A.</param>
         /// <returns>base 2 log of a in GF(size)</returns>
-        internal int log(int a)
+        internal int Log(int a)
         {
             if (a == 0)
             {
                 throw new ArgumentException();
             }
-            return logTable[a];
+            return _LogTable[a];
         }
 
         /// <summary>
         /// Inverses the specified a.
         /// </summary>
         /// <returns>multiplicative inverse of a</returns>
-        internal int inverse(int a)
+        internal int Inverse(int a)
         {
             if (a == 0)
             {
                 throw new ArithmeticException();
             }
-            return expTable[Size - logTable[a] - 1];
+            return _ExpTable[Size - _LogTable[a] - 1];
         }
 
         /// <summary>
@@ -179,13 +179,13 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="a">A.</param>
         /// <param name="b">The b.</param>
         /// <returns>product of a and b in GF(size)</returns>
-        internal int multiply(int a, int b)
+        internal int Multiply(int a, int b)
         {
             if (a == 0 || b == 0)
             {
                 return 0;
             }
-            return expTable[(logTable[a] + logTable[b]) % (Size - 1)];
+            return _ExpTable[(_LogTable[a] + _LogTable[b]) % (Size - 1)];
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace ZXing.Common.ReedSolomon
         /// </returns>
         public override string ToString()
         {
-            return "GF(0x" + primitive.ToString("X") + ',' + Size + ')';
+            return "GF(0x" + _Primitive.ToString("X") + ',' + Size + ')';
         }
     }
 }

@@ -46,43 +46,43 @@ namespace ZXing.QrCode.Internal.Test
          BitArray v = new BitArray();
          Assert.AreEqual(0, v.SizeInBytes);
          // 1
-         v.appendBit(true);
+         v.AppendBit(true);
          Assert.AreEqual(1, v.Size);
          Assert.AreEqual(0x80000000L, GetUnsignedInt(v, 0));
          // 10
-         v.appendBit(false);
+         v.AppendBit(false);
          Assert.AreEqual(2, v.Size);
          Assert.AreEqual(0x80000000L, GetUnsignedInt(v, 0));
          // 101
-         v.appendBit(true);
+         v.AppendBit(true);
          Assert.AreEqual(3, v.Size);
          Assert.AreEqual(0xa0000000L, GetUnsignedInt(v, 0));
          // 1010
-         v.appendBit(false);
+         v.AppendBit(false);
          Assert.AreEqual(4, v.Size);
          Assert.AreEqual(0xa0000000L, GetUnsignedInt(v, 0));
          // 10101
-         v.appendBit(true);
+         v.AppendBit(true);
          Assert.AreEqual(5, v.Size);
          Assert.AreEqual(0xa8000000L, GetUnsignedInt(v, 0));
          // 101010
-         v.appendBit(false);
+         v.AppendBit(false);
          Assert.AreEqual(6, v.Size);
          Assert.AreEqual(0xa8000000L, GetUnsignedInt(v, 0));
          // 1010101
-         v.appendBit(true);
+         v.AppendBit(true);
          Assert.AreEqual(7, v.Size);
          Assert.AreEqual(0xaa000000L, GetUnsignedInt(v, 0));
          // 10101010
-         v.appendBit(false);
+         v.AppendBit(false);
          Assert.AreEqual(8, v.Size);
          Assert.AreEqual(0xaa000000L, GetUnsignedInt(v, 0));
          // 10101010 1
-         v.appendBit(true);
+         v.AppendBit(true);
          Assert.AreEqual(9, v.Size);
          Assert.AreEqual(0xaa800000L, GetUnsignedInt(v, 0));
          // 10101010 10
-         v.appendBit(false);
+         v.AppendBit(false);
          Assert.AreEqual(10, v.Size);
          Assert.AreEqual(0xaa800000L, GetUnsignedInt(v, 0));
       }
@@ -91,15 +91,15 @@ namespace ZXing.QrCode.Internal.Test
       public void TestAppendBits()
       {
          var v = new BitArray();
-         v.appendBits(0x1, 1);
+         v.AppendBits(0x1, 1);
          Assert.AreEqual(1, v.Size);
          Assert.AreEqual(0x80000000L, GetUnsignedInt(v, 0));
          v = new BitArray();
-         v.appendBits(0xff, 8);
+         v.AppendBits(0xff, 8);
          Assert.AreEqual(8, v.Size);
          Assert.AreEqual(0xff000000L, GetUnsignedInt(v, 0));
          v = new BitArray();
-         v.appendBits(0xff7, 12);
+         v.AppendBits(0xff7, 12);
          Assert.AreEqual(12, v.Size);
          Assert.AreEqual(0xff700000L, GetUnsignedInt(v, 0));
       }
@@ -109,14 +109,14 @@ namespace ZXing.QrCode.Internal.Test
       {
          BitArray v = new BitArray();
          Assert.AreEqual(0, v.SizeInBytes);
-         v.appendBit(false);
+         v.AppendBit(false);
          // 1 bit was added in the vector, so 1 byte should be consumed.
          Assert.AreEqual(1, v.SizeInBytes);
-         v.appendBits(0, 7);
+         v.AppendBits(0, 7);
          Assert.AreEqual(1, v.SizeInBytes);
-         v.appendBits(0, 8);
+         v.AppendBits(0, 8);
          Assert.AreEqual(2, v.SizeInBytes);
-         v.appendBits(0, 1);
+         v.AppendBits(0, 1);
          // We now have 17 bits, so 3 bytes should be consumed.
          Assert.AreEqual(3, v.SizeInBytes);
       }
@@ -125,10 +125,10 @@ namespace ZXing.QrCode.Internal.Test
       public void TestAppendBitVector()
       {
          BitArray v1 = new BitArray();
-         v1.appendBits(0xbe, 8);
+         v1.AppendBits(0xbe, 8);
          BitArray v2 = new BitArray();
-         v2.appendBits(0xef, 8);
-         v1.appendBitArray(v2);
+         v2.AppendBits(0xef, 8);
+         v1.AppendBitArray(v2);
          // beef = 1011 1110 1110 1111
          Assert.AreEqual(" X.XXXXX. XXX.XXXX", v1.ToString());
       }
@@ -137,10 +137,10 @@ namespace ZXing.QrCode.Internal.Test
       public void TestXor()
       {
          var v1 = new BitArray();
-         v1.appendBits(0x5555aaaa, 32);
+         v1.AppendBits(0x5555aaaa, 32);
          var v2 = new BitArray();
-         v2.appendBits(-1431677611, 32); // 0xaaaa5555
-         v1.xor(v2);
+         v2.AppendBits(-1431677611, 32); // 0xaaaa5555
+         v1.Xor(v2);
          Assert.AreEqual(0xffffffffL, GetUnsignedInt(v1, 0));
       }
 
@@ -148,10 +148,10 @@ namespace ZXing.QrCode.Internal.Test
       public void TestXor2()
       {
          var v1 = new BitArray();
-         v1.appendBits(0x2a, 7); // 010 1010
+         v1.AppendBits(0x2a, 7); // 010 1010
          var v2 = new BitArray();
-         v2.appendBits(0x55, 7); // 101 0101
-         v1.xor(v2);
+         v2.AppendBits(0x55, 7); // 101 0101
+         v1.Xor(v2);
          Assert.AreEqual(0xfe000000L, GetUnsignedInt(v1, 0)); // 1111 1110
       }
 
@@ -159,7 +159,7 @@ namespace ZXing.QrCode.Internal.Test
       public void TestAt()
       {
          BitArray v = new BitArray();
-         v.appendBits(0xdead, 16);  // 1101 1110 1010 1101
+         v.AppendBits(0xdead, 16);  // 1101 1110 1010 1101
          Assert.IsTrue(v[0]);
          Assert.IsTrue(v[1]);
          Assert.IsFalse(v[2]);
@@ -185,7 +185,7 @@ namespace ZXing.QrCode.Internal.Test
       public void TestToString()
       {
          BitArray v = new BitArray();
-         v.appendBits(0xdead, 16);  // 1101 1110 1010 1101
+         v.AppendBits(0xdead, 16);  // 1101 1110 1010 1101
          Assert.AreEqual(" XX.XXXX. X.X.XX.X", v.ToString());
       }
    }

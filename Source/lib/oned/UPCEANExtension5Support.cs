@@ -91,8 +91,8 @@ namespace ZXing.OneD
                 if (x != 4)
                 {
                     // Read off separator if not last
-                    rowOffset = row.getNextSet(rowOffset);
-                    rowOffset = row.getNextUnset(rowOffset);
+                    rowOffset = row.GetNextSet(rowOffset);
+                    rowOffset = row.GetNextUnset(rowOffset);
                 }
             }
 

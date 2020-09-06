@@ -52,7 +52,7 @@ namespace ZXing.Common.Test
       private static void DoTest(byte[] bytes, string charsetName)
       {
          var charset = Encoding.GetEncoding(charsetName);
-            string guessedName = StringUtils.guessEncoding(bytes, null);
+            string guessedName = StringUtils.GuessEncoding(bytes, null);
          var guessedEncoding = Encoding.GetEncoding(guessedName);
          Assert.AreEqual(charset, guessedEncoding);
       }

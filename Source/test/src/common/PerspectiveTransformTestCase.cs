@@ -31,7 +31,7 @@ namespace ZXing.Common.Test
       [Test]
       public void TestSquareToQuadrilateral()
       {
-         PerspectiveTransform pt = XTrafo.squareToQuadrilateral(
+         PerspectiveTransform pt = XTrafo.SquareToQuadrilateral(
              2.0f, 3.0f, 10.0f, 4.0f, 16.0f, 15.0f, 4.0f, 9.0f);
          AssertPointEquals(2.0f, 3.0f, 0.0f, 0.0f, pt);
          AssertPointEquals(10.0f, 4.0f, 1.0f, 0.0f, pt);
@@ -44,7 +44,7 @@ namespace ZXing.Common.Test
       [Test]
       public void TestQuadrilateralToQuadrilateral()
       {
-         PerspectiveTransform pt = XTrafo.quadrilateralToQuadrilateral(
+         PerspectiveTransform pt = XTrafo.QuadrilateralToQuadrilateral(
              2.0f, 3.0f, 10.0f, 4.0f, 16.0f, 15.0f, 4.0f, 9.0f,
              103.0f, 110.0f, 300.0f, 120.0f, 290.0f, 270.0f, 150.0f, 280.0f);
          AssertPointEquals(103.0f, 110.0f, 2.0f, 3.0f, pt);
@@ -62,7 +62,7 @@ namespace ZXing.Common.Test
                                             PerspectiveTransform pt)
       {
          float[] points = { sourceX, sourceY };
-         pt.transformPoints(points);
+         pt.TransformPoints(points);
          Assert.AreEqual(expectedX, points[0], _EPSILON);
          Assert.AreEqual(expectedY, points[1], _EPSILON);
       }

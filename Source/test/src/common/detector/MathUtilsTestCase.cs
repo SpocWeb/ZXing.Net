@@ -26,47 +26,47 @@ namespace ZXing.Common.Detector.Test
       [Test]
       public void TestRound()
       {
-         Assert.That(MathUtils.round(-1.0f), Is.EqualTo(-1));
-         Assert.That(MathUtils.round(0.0f), Is.EqualTo(0));
-         Assert.That(MathUtils.round(1.0f), Is.EqualTo(1));
+         Assert.That(MathUtils.Round(-1.0f), Is.EqualTo(-1));
+         Assert.That(MathUtils.Round(0.0f), Is.EqualTo(0));
+         Assert.That(MathUtils.Round(1.0f), Is.EqualTo(1));
 
-         Assert.That(MathUtils.round(1.9f), Is.EqualTo(2));
-         Assert.That(MathUtils.round(2.1f), Is.EqualTo(2));
+         Assert.That(MathUtils.Round(1.9f), Is.EqualTo(2));
+         Assert.That(MathUtils.Round(2.1f), Is.EqualTo(2));
 
-         Assert.That(MathUtils.round(2.5f), Is.EqualTo(3));
+         Assert.That(MathUtils.Round(2.5f), Is.EqualTo(3));
 
-         Assert.That(MathUtils.round(-1.9f), Is.EqualTo(-2));
-         Assert.That(MathUtils.round(-2.1f), Is.EqualTo(-2));
+         Assert.That(MathUtils.Round(-1.9f), Is.EqualTo(-2));
+         Assert.That(MathUtils.Round(-2.1f), Is.EqualTo(-2));
 
-         Assert.That(MathUtils.round(-2.5f), Is.EqualTo(-3)); // This differs from Math.round()
+         Assert.That(MathUtils.Round(-2.5f), Is.EqualTo(-3)); // This differs from Math.round()
 
          // doesn't work like java
          //Assert.That(MathUtils.round(int.MaxValue), Is.EqualTo(int.MaxValue));
-         Assert.That(MathUtils.round(int.MinValue), Is.EqualTo(int.MinValue));
+         Assert.That(MathUtils.Round(int.MinValue), Is.EqualTo(int.MinValue));
 
-         Assert.That(MathUtils.round(float.PositiveInfinity), Is.EqualTo(int.MaxValue));
-         Assert.That(MathUtils.round(float.NegativeInfinity), Is.EqualTo(int.MinValue));
+         Assert.That(MathUtils.Round(float.PositiveInfinity), Is.EqualTo(int.MaxValue));
+         Assert.That(MathUtils.Round(float.NegativeInfinity), Is.EqualTo(int.MinValue));
 
-         Assert.That(MathUtils.round(float.NaN), Is.EqualTo(0));
+         Assert.That(MathUtils.Round(float.NaN), Is.EqualTo(0));
       }
 
       [Test]
       public void TestDistance()
       {
-         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.distance(1.0f, 2.0f, 3.0f, 4.0f), _EPSILON);
-         Assert.AreEqual(0.0f, MathUtils.distance(1.0f, 2.0f, 1.0f, 2.0f), _EPSILON);
+         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.Distance(1.0f, 2.0f, 3.0f, 4.0f), _EPSILON);
+         Assert.AreEqual(0.0f, MathUtils.Distance(1.0f, 2.0f, 1.0f, 2.0f), _EPSILON);
 
-         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.distance(1, 2, 3, 4), _EPSILON);
-         Assert.AreEqual(0.0f, MathUtils.distance(1, 2, 1, 2), _EPSILON);
+         Assert.AreEqual((float)System.Math.Sqrt(8.0), MathUtils.Distance(1, 2, 3, 4), _EPSILON);
+         Assert.AreEqual(0.0f, MathUtils.Distance(1, 2, 1, 2), _EPSILON);
       }
 
       [Test]
       public void TestSum()
       {
-         Assert.That(MathUtils.sum(new int[] { }), Is.EqualTo(0));
-         Assert.That(MathUtils.sum(new int[] { 1 }), Is.EqualTo(1));
-         Assert.That(MathUtils.sum(new int[] { 1, 3 }), Is.EqualTo(4));
-         Assert.That(MathUtils.sum(new int[] { -1, 1 }), Is.EqualTo(0));
+         Assert.That(MathUtils.Sum(new int[] { }), Is.EqualTo(0));
+         Assert.That(MathUtils.Sum(new int[] { 1 }), Is.EqualTo(1));
+         Assert.That(MathUtils.Sum(new int[] { 1, 3 }), Is.EqualTo(4));
+         Assert.That(MathUtils.Sum(new int[] { -1, 1 }), Is.EqualTo(0));
       }
    }
 }

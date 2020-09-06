@@ -441,22 +441,22 @@ namespace ZXing.QrCode.Internal.Test
          Encoder.terminateBits(1, v);
          Assert.AreEqual(" ........", v.ToString());
          v = new BitArray();
-         v.appendBits(0, 3); // Append 000
+         v.AppendBits(0, 3); // Append 000
          Encoder.terminateBits(1, v);
          Assert.AreEqual(" ........", v.ToString());
          v = new BitArray();
-         v.appendBits(0, 5); // Append 00000
+         v.AppendBits(0, 5); // Append 00000
          Encoder.terminateBits(1, v);
          Assert.AreEqual(" ........", v.ToString());
          v = new BitArray();
-         v.appendBits(0, 8); // Append 00000000
+         v.AppendBits(0, 8); // Append 00000000
          Encoder.terminateBits(1, v);
          Assert.AreEqual(" ........", v.ToString());
          v = new BitArray();
          Encoder.terminateBits(2, v);
          Assert.AreEqual(" ........ XXX.XX..", v.ToString());
          v = new BitArray();
-         v.appendBits(0, 1); // Append 0
+         v.AppendBits(0, 1); // Append 0
          Encoder.terminateBits(3, v);
          Assert.AreEqual(" ........ XXX.XX.. ...X...X", v.ToString());
       }
@@ -506,7 +506,7 @@ namespace ZXing.QrCode.Internal.Test
          var @in = new BitArray();
          foreach (byte dataByte in dataBytes)
          {
-            @in.appendBits(dataByte, 8);
+            @in.AppendBits(dataByte, 8);
          }
          var @out = Encoder.interleaveWithECBytes(@in, 26, 9, 1);
          byte[] expected =
@@ -519,7 +519,7 @@ namespace ZXing.QrCode.Internal.Test
             };
          Assert.AreEqual(expected.Length, @out.SizeInBytes);
          var outArray = new byte[expected.Length];
-         @out.toBytes(0, outArray, 0, expected.Length);
+         @out.ToBytes(0, outArray, 0, expected.Length);
          // Can't use Arrays.equals(), because outArray may be longer than out.sizeInBytes()
          for (int x = 0; x < expected.Length; x++)
          {
@@ -538,7 +538,7 @@ namespace ZXing.QrCode.Internal.Test
          @in = new BitArray();
          foreach (byte dataByte in dataBytes)
          {
-            @in.appendBits(dataByte, 8);
+            @in.AppendBits(dataByte, 8);
          }
          @out = Encoder.interleaveWithECBytes(@in, 134, 62, 4);
          expected = new byte[]
@@ -561,7 +561,7 @@ namespace ZXing.QrCode.Internal.Test
             };
          Assert.AreEqual(expected.Length, @out.SizeInBytes);
          outArray = new byte[expected.Length];
-         @out.toBytes(0, outArray, 0, expected.Length);
+         @out.ToBytes(0, outArray, 0, expected.Length);
          for (int x = 0; x < expected.Length; x++)
          {
             Assert.AreEqual(expected[x], outArray[x]);

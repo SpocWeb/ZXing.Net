@@ -33,37 +33,29 @@ namespace ZXing.Maxicode.Internal
         private const int EVEN = 1;
         private const int ODD = 2;
 
-        private readonly ReedSolomonDecoder rsDecoder;
+        private readonly ReedSolomonDecoder _RsDecoder;
 
         /// <summary>
         /// constructor
         /// </summary>
         public Decoder()
         {
-            rsDecoder = new ReedSolomonDecoder(GenericGF.MAXICODE_FIELD_64);
+            _RsDecoder = new ReedSolomonDecoder(GenericGf.MAXICODE_FIELD_64);
         }
-        /// <summary>
-        /// decode the bits
-        /// </summary>
-        /// <param name="bits"></param>
-        /// <returns></returns>
-        public DecoderResult decode(BitMatrix bits)
-        {
-            return decode(bits, null);
-        }
+
         /// <summary>
         /// decode the bits
         /// </summary>
         /// <param name="bits"></param>
         /// <param name="hints"></param>
         /// <returns></returns>
-        public DecoderResult decode(BitMatrix bits,
-                                    IDictionary<DecodeHintType, object> hints)
+        public DecoderResult Decode(BitMatrix bits,
+                                    IDictionary<DecodeHintType, object> hints = null)
         {
             BitMatrixParser parser = new BitMatrixParser(bits);
-            byte[] codewords = parser.readCodewords();
+            byte[] codewords = parser.ReadCodewords();
 
-            if (!correctErrors(codewords, 0, 10, 10, ALL)) {
+            if (!CorrectErrors(codewords, 0, 10, 10, ALL)) {
                 return null;
             }
 
@@ -74,19 +66,19 @@ namespace ZXing.Maxicode.Internal
                 case 2:
                 case 3:
                 case 4:
-                    if (!correctErrors(codewords, 20, 84, 40, EVEN)) {
+                    if (!CorrectErrors(codewords, 20, 84, 40, EVEN)) {
                         return null;
                     }
-                    if (!correctErrors(codewords, 20, 84, 40, ODD)) {
+                    if (!CorrectErrors(codewords, 20, 84, 40, ODD)) {
                         return null;
                     }
                     datawords = new byte[94];
                     break;
                 case 5:
-                    if (!correctErrors(codewords, 20, 68, 56, EVEN)) {
+                    if (!CorrectErrors(codewords, 20, 68, 56, EVEN)) {
                         return null;
                     }
-                    if (!correctErrors(codewords, 20, 68, 56, ODD)) {
+                    if (!CorrectErrors(codewords, 20, 68, 56, ODD)) {
                         return null;
                     }
                     datawords = new byte[78];
@@ -98,10 +90,10 @@ namespace ZXing.Maxicode.Internal
             Array.Copy(codewords, 0, datawords, 0, 10);
             Array.Copy(codewords, 20, datawords, 10, datawords.Length - 10);
 
-            return DecodedBitStreamParser.decode(datawords, mode);
+            return DecodedBitStreamParser.Decode(datawords, mode);
         }
 
-        private bool correctErrors(byte[] codewordBytes,
+        private bool CorrectErrors(byte[] codewordBytes,
                                    int start,
                                    int dataCodewords,
                                    int ecCodewords,
@@ -122,7 +114,7 @@ namespace ZXing.Maxicode.Internal
                 }
             }
 
-            if (!rsDecoder.decode(codewordsInts, ecCodewords / divisor)) {
+            if (!_RsDecoder.Decode(codewordsInts, ecCodewords / divisor)) {
                 return false;
             }
 

@@ -72,7 +72,7 @@ namespace ZXing.Common
                     localBuckets[pixel >> LUMINANCE_SHIFT]++;
                 }
             }
-            var blackPoint = localBuckets.estimateBlackPoint();
+            var blackPoint = localBuckets.EstimateBlackPoint();
             if (blackPoint < 0) {
                 throw new ArgumentException("Could not determine BlackPoint!");
             }
@@ -90,7 +90,7 @@ namespace ZXing.Common
             }
             else
             {
-                row.clear();
+                row.Clear();
             }
 
             byte[] localLuminances = source.getRow(y, _Luminances);
@@ -139,7 +139,7 @@ namespace ZXing.Common
             {
                 localBuckets[(localLuminances[x]) >> LUMINANCE_SHIFT]++;
             }
-            int blackPoint = localBuckets.estimateBlackPoint();
+            int blackPoint = localBuckets.EstimateBlackPoint();
             return blackPoint;
         }
 
@@ -215,7 +215,7 @@ namespace ZXing.Common
 
     public static class X {
 
-        public static int estimateBlackPoint(this IReadOnlyList<int> buckets)
+        public static int EstimateBlackPoint(this IReadOnlyList<int> buckets)
         {
             var firstPeak = FindTallestPeak(buckets);
             var maxBucketCount = buckets[firstPeak];

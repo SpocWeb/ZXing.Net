@@ -48,13 +48,13 @@ namespace ZXing.QrCode.Internal
 
             try
             {
-                CharacterSetECI currentCharacterSetECI = null;
+                CharacterSetEci currentCharacterSetECI = null;
                 bool fc1InEffect = false;
                 Mode mode;
                 do
                 {
                     // While still another segment to read...
-                    if (bits.available() < 4)
+                    if (bits.Available() < 4)
                     {
                         // OK, assume we're done. Really, a TERMINATOR mode should have been recorded here
                         mode = Mode.TERMINATOR;
@@ -63,7 +63,7 @@ namespace ZXing.QrCode.Internal
                     {
                         try
                         {
-                            mode = Mode.forBits(bits.readBits(4)); // mode is encoded by 4 bits
+                            mode = Mode.forBits(bits.ReadBits(4)); // mode is encoded by 4 bits
                         }
                         catch (ArgumentException)
                         {
@@ -80,19 +80,19 @@ namespace ZXing.QrCode.Internal
                             fc1InEffect = true;
                             break;
                         case Mode.Names.STRUCTURED_APPEND:
-                            if (bits.available() < 16)
+                            if (bits.Available() < 16)
                             {
                                 return null;
                             }
                             // not really supported; but sequence number and parity is added later to the result metadata
                             // Read next 8 bits (symbol sequence #) and 8 bits (parity data), then continue
-                            symbolSequence = bits.readBits(8);
-                            parityData = bits.readBits(8);
+                            symbolSequence = bits.ReadBits(8);
+                            parityData = bits.ReadBits(8);
                             break;
                         case Mode.Names.ECI:
                             // Count doesn't apply to ECI
                             int value = parseECIValue(bits);
-                            currentCharacterSetECI = CharacterSetECI.getCharacterSetECIByValue(value);
+                            currentCharacterSetECI = CharacterSetEci.GetCharacterSetEciByValue(value);
                             if (currentCharacterSetECI == null)
                             {
                                 return null;
@@ -101,8 +101,8 @@ namespace ZXing.QrCode.Internal
                         case Mode.Names.HANZI:
                             // First handle Hanzi mode which does not start with character count
                             //chinese mode contains a sub set indicator right after mode indicator
-                            int subset = bits.readBits(4);
-                            int countHanzi = bits.readBits(mode.getCharacterCountBits(version));
+                            int subset = bits.ReadBits(4);
+                            int countHanzi = bits.ReadBits(mode.getCharacterCountBits(version));
                             if (subset == GB2312_SUBSET)
                             {
                                 if (!decodeHanziSegment(bits, result, countHanzi)) {
@@ -113,7 +113,7 @@ namespace ZXing.QrCode.Internal
                         default:
                             // "Normal" QR code modes:
                             // How many characters will follow, encoded in this mode?
-                            int count = bits.readBits(mode.getCharacterCountBits(version));
+                            int count = bits.ReadBits(mode.getCharacterCountBits(version));
                             switch (mode.Name)
                             {
                                 case Mode.Names.NUMERIC:
@@ -168,7 +168,7 @@ namespace ZXing.QrCode.Internal
                                                int count)
         {
             // Don't crash trying to read more bits than we have available.
-            if (count * 13 > bits.available())
+            if (count * 13 > bits.Available())
             {
                 return false;
             }
@@ -180,7 +180,7 @@ namespace ZXing.QrCode.Internal
             while (count > 0)
             {
                 // Each 13 bits encodes a 2-byte character
-                int twoBytes = bits.readBits(13);
+                int twoBytes = bits.ReadBits(13);
                 int assembledTwoBytes = ((twoBytes / 0x060) << 8) | (twoBytes % 0x060);
                 if (assembledTwoBytes < 0x00A00)
                 {
@@ -229,7 +229,7 @@ namespace ZXing.QrCode.Internal
                                                int count)
         {
             // Don't crash trying to read more bits than we have available.
-            if (count * 13 > bits.available())
+            if (count * 13 > bits.Available())
             {
                 return false;
             }
@@ -241,7 +241,7 @@ namespace ZXing.QrCode.Internal
             while (count > 0)
             {
                 // Each 13 bits encodes a 2-byte character
-                int twoBytes = bits.readBits(13);
+                int twoBytes = bits.ReadBits(13);
                 int assembledTwoBytes = ((twoBytes / 0x0C0) << 8) | (twoBytes % 0x0C0);
                 if (assembledTwoBytes < 0x01F00)
                 {
@@ -287,12 +287,12 @@ namespace ZXing.QrCode.Internal
         private static bool decodeByteSegment(BitSource bits,
                                               StringBuilder result,
                                               int count,
-                                              CharacterSetECI currentCharacterSetECI,
+                                              CharacterSetEci currentCharacterSetECI,
                                               IList<byte[]> byteSegments,
                                               IDictionary<DecodeHintType, object> hints)
         {
             // Don't crash trying to read more bits than we have available.
-            if (count << 3 > bits.available())
+            if (count << 3 > bits.Available())
             {
                 return false;
             }
@@ -300,7 +300,7 @@ namespace ZXing.QrCode.Internal
             byte[] readBytes = new byte[count];
             for (int i = 0; i < count; i++)
             {
-                readBytes[i] = (byte)bits.readBits(8);
+                readBytes[i] = (byte)bits.ReadBits(8);
             }
             string encoding;
             if (currentCharacterSetECI == null)
@@ -310,7 +310,7 @@ namespace ZXing.QrCode.Internal
                 // upon decoding. I have seen ISO-8859-1 used as well as
                 // Shift_JIS -- without anything like an ECI designator to
                 // give a hint.
-                encoding = StringUtils.guessEncoding(readBytes, hints);
+                encoding = StringUtils.GuessEncoding(readBytes, hints);
             }
             else
             {
@@ -383,11 +383,11 @@ namespace ZXing.QrCode.Internal
             int start = result.Length;
             while (count > 1)
             {
-                if (bits.available() < 11)
+                if (bits.Available() < 11)
                 {
                     return false;
                 }
-                int nextTwoCharsBits = bits.readBits(11);
+                int nextTwoCharsBits = bits.ReadBits(11);
                 result.Append(toAlphaNumericChar(nextTwoCharsBits / 45));
                 result.Append(toAlphaNumericChar(nextTwoCharsBits % 45));
                 count -= 2;
@@ -395,11 +395,11 @@ namespace ZXing.QrCode.Internal
             if (count == 1)
             {
                 // special case: one character left
-                if (bits.available() < 6)
+                if (bits.Available() < 6)
                 {
                     return false;
                 }
-                result.Append(toAlphaNumericChar(bits.readBits(6)));
+                result.Append(toAlphaNumericChar(bits.ReadBits(6)));
             }
 
             // See section 6.4.8.1, 6.4.8.2
@@ -436,11 +436,11 @@ namespace ZXing.QrCode.Internal
             while (count >= 3)
             {
                 // Each 10 bits encodes three digits
-                if (bits.available() < 10)
+                if (bits.Available() < 10)
                 {
                     return false;
                 }
-                int threeDigitsBits = bits.readBits(10);
+                int threeDigitsBits = bits.ReadBits(10);
                 if (threeDigitsBits >= 1000)
                 {
                     return false;
@@ -454,11 +454,11 @@ namespace ZXing.QrCode.Internal
             if (count == 2)
             {
                 // Two digits left over to read, encoded in 7 bits
-                if (bits.available() < 7)
+                if (bits.Available() < 7)
                 {
                     return false;
                 }
-                int twoDigitsBits = bits.readBits(7);
+                int twoDigitsBits = bits.ReadBits(7);
                 if (twoDigitsBits >= 100)
                 {
                     return false;
@@ -469,11 +469,11 @@ namespace ZXing.QrCode.Internal
             else if (count == 1)
             {
                 // One digit left over to read
-                if (bits.available() < 4)
+                if (bits.Available() < 4)
                 {
                     return false;
                 }
-                int digitBits = bits.readBits(4);
+                int digitBits = bits.ReadBits(4);
                 if (digitBits >= 10)
                 {
                     return false;
@@ -486,7 +486,7 @@ namespace ZXing.QrCode.Internal
 
         private static int parseECIValue(BitSource bits)
         {
-            int firstByte = bits.readBits(8);
+            int firstByte = bits.ReadBits(8);
             if ((firstByte & 0x80) == 0)
             {
                 // just one byte
@@ -495,13 +495,13 @@ namespace ZXing.QrCode.Internal
             if ((firstByte & 0xC0) == 0x80)
             {
                 // two bytes
-                int secondByte = bits.readBits(8);
+                int secondByte = bits.ReadBits(8);
                 return ((firstByte & 0x3F) << 8) | secondByte;
             }
             if ((firstByte & 0xE0) == 0xC0)
             {
                 // three bytes
-                int secondThirdBytes = bits.readBits(16);
+                int secondThirdBytes = bits.ReadBits(16);
                 return ((firstByte & 0x1F) << 16) | secondThirdBytes;
             }
             throw new ArgumentException("Bad ECI bits starting with byte " + firstByte);

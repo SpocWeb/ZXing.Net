@@ -16,11 +16,12 @@
 
 using System;
 using System.Text;
+using ZXing.Common.ReedSolomon;
 
 namespace ZXing.PDF417.Internal.EC
 {
     /// <summary>
-    /// <see cref="ZXing.Common.ReedSolomon.GenericGFPoly"/>
+    /// <see cref="GenericGfPoly"/>
     /// </summary>
     /// <author>Sean Owen</author>
     internal sealed class ModulusPoly

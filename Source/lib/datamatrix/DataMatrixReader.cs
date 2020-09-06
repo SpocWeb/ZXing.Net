@@ -21,11 +21,8 @@ using ZXing.Datamatrix.Internal;
 
 namespace ZXing.Datamatrix
 {
-    /// <summary>
-    /// This implementation can detect and decode Data Matrix codes in an image.
-    ///
+    /// <summary> detect and decode Data Matrix codes in an image. </summary>
     /// <author>bbrown@google.com (Brian Brown)</author>
-    /// </summary>
     public sealed class DataMatrixReader : IBarCodeDecoder {
 
         static readonly ResultPoint[] NO_POINTS = new ResultPoint[0];
@@ -53,11 +50,8 @@ namespace ZXing.Datamatrix
                 decoderResult = _Decoder.decode(detectorResult.Bits);
                 points = detectorResult.Points.Single();
             }
-            if (decoderResult == null) {
-                return null;
-            }
 
-            return decoderResult.AsBarCodeText(points);
+            return decoderResult?.AsBarCodeText(points);
         }
 
         public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
@@ -134,7 +128,7 @@ namespace ZXing.Datamatrix
             if (byteSegments != null) {
                 result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
             }
-            var ecLevel = decoderResult.ECLevel;
+            var ecLevel = decoderResult.EcLevel;
             if (ecLevel != null) {
                 result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
             }

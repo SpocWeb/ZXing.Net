@@ -75,10 +75,10 @@ namespace ZXing.OneD.RSS
         {
             Pair leftPair = decodePair(row, false, rowNumber, hints);
             addOrTally(possibleLeftPairs, leftPair);
-            row.reverse();
+            row.Reverse();
             Pair rightPair = decodePair(row, true, rowNumber, hints);
             addOrTally(possibleRightPairs, rightPair);
-            row.reverse();
+            row.Reverse();
             int lefSize = possibleLeftPairs.Count;
             for (int i = 0; i < lefSize; i++)
             {
@@ -252,7 +252,7 @@ namespace ZXing.OneD.RSS
             }
 
             int numModules = outsideChar ? 16 : 15;
-            float elementWidth = MathUtils.sum(counters) / (float) numModules;
+            float elementWidth = MathUtils.Sum(counters) / (float) numModules;
 
             int[] oddCounts = getOddCounts();
             int[] evenCounts = getEvenCounts();
@@ -427,8 +427,8 @@ namespace ZXing.OneD.RSS
 
         private bool adjustOddEvenCounts(bool outsideChar, int numModules)
         {
-            int oddSum = MathUtils.sum(getOddCounts());
-            int evenSum = MathUtils.sum(getEvenCounts());
+            int oddSum = MathUtils.Sum(getOddCounts());
+            int evenSum = MathUtils.Sum(getEvenCounts());
             int mismatch = oddSum + evenSum - numModules;
             bool oddParityBad = (oddSum & 0x01) == (outsideChar ? 1 : 0);
             bool evenParityBad = (evenSum & 0x01) == 1;

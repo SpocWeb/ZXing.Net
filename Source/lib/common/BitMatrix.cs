@@ -350,12 +350,12 @@ namespace ZXing.Common
             }
             else
             {
-                row.clear();
+                row.Clear();
             }
             int offset = y * RowSize;
             for (int x = 0; x < RowSize; x++)
             {
-                row.setBulk(x << 5, _Bits[offset + x]);
+                row.SetBulk(x << 5, _Bits[offset + x]);
             }
             return row;
         }
@@ -383,8 +383,8 @@ namespace ZXing.Common
                 topRow = GetRow(i, topRow);
                 int bottomRowIndex = Height - 1 - i;
                 bottomRow = GetRow(bottomRowIndex, bottomRow);
-                topRow.reverse();
-                bottomRow.reverse();
+                topRow.Reverse();
+                bottomRow.Reverse();
                 SetRow(i, bottomRow);
                 SetRow(bottomRowIndex, topRow);
             }

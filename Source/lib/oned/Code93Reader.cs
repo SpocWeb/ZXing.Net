@@ -81,7 +81,7 @@ namespace ZXing.OneD
             }
 
             // Read off white space    
-            int nextStart = row.getNextSet(start[1]);
+            int nextStart = row.GetNextSet(start[1]);
             int end = row.Size;
 
             char decodedChar;
@@ -107,7 +107,7 @@ namespace ZXing.OneD
                     nextStart += counter;
                 }
                 // Read off white space
-                nextStart = row.getNextSet(nextStart);
+                nextStart = row.GetNextSet(nextStart);
             } while (decodedChar != '*');
             decodeRowResult.Remove(decodeRowResult.Length - 1, 1); // remove asterisk
 
@@ -166,7 +166,7 @@ namespace ZXing.OneD
         private int[] findAsteriskPattern(BitArray row)
         {
             int width = row.Size;
-            int rowOffset = row.getNextSet(0);
+            int rowOffset = row.GetNextSet(0);
 
             for (var index = 0; index < counters.Length; index++)
             {

@@ -134,7 +134,7 @@ namespace ZXing.Common
         [CategoryAttribute("Standard"), DescriptionAttribute("Specifies whether the data should be encoded " +
             "to the GS1 standard; if so a FNC1 character is added in front of the data.")]
 #endif
-        public bool GS1Format
+        public bool Gs1Format
         {
             get
             {

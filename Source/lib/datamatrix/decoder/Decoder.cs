@@ -34,7 +34,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         public Decoder()
         {
-            rsDecoder = new ReedSolomonDecoder(GenericGF.DATA_MATRIX_FIELD_256);
+            rsDecoder = new ReedSolomonDecoder(GenericGf.DATA_MATRIX_FIELD_256);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace ZXing.Datamatrix.Internal
                 codewordsInts[i] = codewordBytes[i];
             }
             int numECCodewords = codewordBytes.Length - numDataCodewords;
-            if (!rsDecoder.decode(codewordsInts, numECCodewords)) {
+            if (!rsDecoder.Decode(codewordsInts, numECCodewords)) {
                 return false;
             }
 

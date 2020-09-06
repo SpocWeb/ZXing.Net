@@ -621,7 +621,7 @@ namespace ZXing.Aztec.Test
             var str = DOTX.Replace(bits, "");
             foreach (char aStr in str)
             {
-                @in.appendBit(aStr == 'X');
+                @in.AppendBit(aStr == 'X');
             }
             return @in;
         }

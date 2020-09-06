@@ -49,10 +49,10 @@ namespace ZXing.Common
         {
             CalculateEntireImage();
 
-            return matrix;
+            return _Matrix;
         }
 
-        private BitMatrix matrix;
+        private BitMatrix _Matrix;
 
         /// <summary>
         /// initializing constructor
@@ -77,7 +77,7 @@ namespace ZXing.Common
         /// </remarks>
         private void CalculateEntireImage()
         {
-            if (matrix != null)
+            if (_Matrix != null)
             {
                 return;
             }
@@ -88,7 +88,7 @@ namespace ZXing.Common
             if (width < XHybridBinarizer.MINIMUM_DIMENSION || height < XHybridBinarizer.MINIMUM_DIMENSION)
             {
                 // If the image is too small, fall back to the global histogram approach.
-                matrix = base.GetBlackMatrix();
+                _Matrix = base.GetBlackMatrix();
             }
             else
             {
@@ -106,11 +106,11 @@ namespace ZXing.Common
                     subHeight++;
                 }
 
-                int[][] blackPoints = luminances.calculateBlackPoints(subWidth, subHeight, width, height);
+                int[][] blackPoints = luminances.CalculateBlackPoints(subWidth, subHeight, width, height);
 
                 var newMatrix = new BitMatrix(width, height);
-                blackPoints.calculateThresholdForBlock(luminances, subWidth, subHeight, width, height, newMatrix);
-                matrix = newMatrix;
+                blackPoints.CalculateThresholdForBlock(luminances, subWidth, subHeight, width, height, newMatrix);
+                _Matrix = newMatrix;
             }
         }
 
@@ -132,7 +132,7 @@ namespace ZXing.Common
         /// of the blocks around it. Also handles the corner cases (fractional blocks are computed based
         /// on the last 8 pixels in the row/column which are also used in the previous block).
         /// </summary>
-        public static void calculateThresholdForBlock(this int[][] blackPoints
+        public static void CalculateThresholdForBlock(this int[][] blackPoints
             , byte[] luminances, int subWidth, int subHeight, int width, int height
             , BitMatrix matrix)
         {
@@ -146,7 +146,7 @@ namespace ZXing.Common
                 {
                     yoffset = maxYOffset;
                 }
-                int top = cap(y, subHeight - 3);
+                int top = Cap(y, subHeight - 3);
                 for (int x = 0; x < subWidth; x++)
                 {
                     int xoffset = x << BLOCK_SIZE_POWER;
@@ -154,7 +154,7 @@ namespace ZXing.Common
                     {
                         xoffset = maxXOffset;
                     }
-                    int left = cap(x, subWidth - 3);
+                    int left = Cap(x, subWidth - 3);
                     int sum = 0;
                     for (int z = -2; z <= 2; z++)
                     {
@@ -166,15 +166,15 @@ namespace ZXing.Common
                         sum += blackRow[left + 2];
                     }
                     int average = sum / 25;
-                    thresholdBlock(luminances, xoffset, yoffset, average, width, matrix);
+                    ThresholdBlock(luminances, xoffset, yoffset, average, width, matrix);
                 }
             }
         }
 
-        public static int cap(int value, int max) => value < 2 ? 2 : value > max ? max : value;
+        public static int Cap(int value, int max) => value < 2 ? 2 : value > max ? max : value;
 
         /// <summary> Applies individual threshold to an 8x8 block of pixels. </summary>
-        public static void thresholdBlock(this byte[] luminances
+        public static void ThresholdBlock(this byte[] luminances
             , int xOffset, int yOffset, int threshold, int stride, BitMatrix matrix)
         {
             int offset = yOffset * stride + xOffset;
@@ -199,7 +199,7 @@ namespace ZXing.Common
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <returns></returns>
-        public static int[][] calculateBlackPoints(this byte[] luminances
+        public static int[][] CalculateBlackPoints(this byte[] luminances
             , int subWidth, int subHeight, int width, int height)
         {
             int maxYOffset = height - BLOCK_SIZE;

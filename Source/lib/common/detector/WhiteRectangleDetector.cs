@@ -31,13 +31,13 @@ namespace ZXing.Common.Detector
         private const int INIT_SIZE = 10;
         private const int CORR = 1;
 
-        private readonly IRoBitMatrix image;
-        private readonly int height;
-        private readonly int width;
-        private readonly int leftInit;
-        private readonly int rightInit;
-        private readonly int downInit;
-        private readonly int upInit;
+        private readonly IRoBitMatrix _Image;
+        private readonly int _Height;
+        private readonly int _Width;
+        private readonly int _LeftInit;
+        private readonly int _RightInit;
+        private readonly int _DownInit;
+        private readonly int _UpInit;
 
         /// <summary>
         /// Creates a WhiteRectangleDetector instance
@@ -52,7 +52,7 @@ namespace ZXing.Common.Detector
 
             var instance = new WhiteRectangleDetector(image);
 
-            if (instance.upInit < 0 || instance.leftInit < 0 || instance.downInit >= instance.height || instance.rightInit >= instance.width)
+            if (instance._UpInit < 0 || instance._LeftInit < 0 || instance._DownInit >= instance._Height || instance._RightInit >= instance._Width)
             {
                 return null;
             }
@@ -74,7 +74,7 @@ namespace ZXing.Common.Detector
         {
             var instance = new WhiteRectangleDetector(image, initSize, x, y);
 
-            if (instance.upInit < 0 || instance.leftInit < 0 || instance.downInit >= instance.height || instance.rightInit >= instance.width)
+            if (instance._UpInit < 0 || instance._LeftInit < 0 || instance._DownInit >= instance._Height || instance._RightInit >= instance._Width)
             {
                 return null;
             }
@@ -102,14 +102,14 @@ namespace ZXing.Common.Detector
         /// <param name="y">The y.</param>
         internal WhiteRectangleDetector(IRoBitMatrix image, int initSize, int x, int y)
         {
-            this.image = image;
-            height = image.Height;
-            width = image.Width;
+            this._Image = image;
+            _Height = image.Height;
+            _Width = image.Width;
             int halfsize = initSize / 2;
-            leftInit = x - halfsize;
-            rightInit = x + halfsize;
-            upInit = y - halfsize;
-            downInit = y + halfsize;
+            _LeftInit = x - halfsize;
+            _RightInit = x + halfsize;
+            _UpInit = y - halfsize;
+            _DownInit = y + halfsize;
         }
 
         /// <summary>
@@ -122,12 +122,12 @@ namespace ZXing.Common.Detector
         /// are the second and third. The first point will be the topmost
         /// point and the last, the bottommost. The second point will be
         /// leftmost and the third, the rightmost</returns>
-        public ResultPoint[] detect()
+        public ResultPoint[] Detect()
         {
-            int left = leftInit;
-            int right = rightInit;
-            int up = upInit;
-            int down = downInit;
+            int left = _LeftInit;
+            int right = _RightInit;
+            int up = _UpInit;
+            int down = _DownInit;
             bool sizeExceeded = false;
             bool aBlackPointFoundOnBorder = true;
 
@@ -145,9 +145,9 @@ namespace ZXing.Common.Detector
                 // .   |
                 // .....
                 bool rightBorderNotWhite = true;
-                while ((rightBorderNotWhite || !atLeastOneBlackPointFoundOnRight) && right < width)
+                while ((rightBorderNotWhite || !atLeastOneBlackPointFoundOnRight) && right < _Width)
                 {
-                    rightBorderNotWhite = containsBlackPoint(up, down, right, false);
+                    rightBorderNotWhite = ContainsBlackPoint(up, down, right, false);
                     if (rightBorderNotWhite)
                     {
                         right++;
@@ -160,7 +160,7 @@ namespace ZXing.Common.Detector
                     }
                 }
 
-                if (right >= width)
+                if (right >= _Width)
                 {
                     sizeExceeded = true;
                     break;
@@ -170,9 +170,9 @@ namespace ZXing.Common.Detector
                 // .   .
                 // .___.
                 bool bottomBorderNotWhite = true;
-                while ((bottomBorderNotWhite || !atLeastOneBlackPointFoundOnBottom) && down < height)
+                while ((bottomBorderNotWhite || !atLeastOneBlackPointFoundOnBottom) && down < _Height)
                 {
-                    bottomBorderNotWhite = containsBlackPoint(left, right, down, true);
+                    bottomBorderNotWhite = ContainsBlackPoint(left, right, down, true);
                     if (bottomBorderNotWhite)
                     {
                         down++;
@@ -185,7 +185,7 @@ namespace ZXing.Common.Detector
                     }
                 }
 
-                if (down >= height)
+                if (down >= _Height)
                 {
                     sizeExceeded = true;
                     break;
@@ -197,7 +197,7 @@ namespace ZXing.Common.Detector
                 bool leftBorderNotWhite = true;
                 while ((leftBorderNotWhite || !atLeastOneBlackPointFoundOnLeft) && left >= 0)
                 {
-                    leftBorderNotWhite = containsBlackPoint(up, down, left, false);
+                    leftBorderNotWhite = ContainsBlackPoint(up, down, left, false);
                     if (leftBorderNotWhite)
                     {
                         left--;
@@ -222,7 +222,7 @@ namespace ZXing.Common.Detector
                 bool topBorderNotWhite = true;
                 while ((topBorderNotWhite || !atLeastOneBlackPointFoundOnTop) && up >= 0)
                 {
-                    topBorderNotWhite = containsBlackPoint(left, right, up, true);
+                    topBorderNotWhite = ContainsBlackPoint(left, right, up, true);
                     if (topBorderNotWhite)
                     {
                         up--;
@@ -294,22 +294,22 @@ namespace ZXing.Common.Detector
                     return null;
                 }
 
-                return centerEdges(y, z, x, t);
+                return CenterEdges(y, z, x, t);
             }
             return null;
         }
 
         private ResultPoint getBlackPointOnSegment(float aX, float aY, float bX, float bY)
         {
-            int dist = MathUtils.round(MathUtils.distance(aX, aY, bX, bY));
+            int dist = MathUtils.Round(MathUtils.Distance(aX, aY, bX, bY));
             float xStep = (bX - aX) / dist;
             float yStep = (bY - aY) / dist;
 
             for (int i = 0; i < dist; i++)
             {
-                int x = MathUtils.round(aX + i * xStep);
-                int y = MathUtils.round(aY + i * yStep);
-                if (image[x, y])
+                int x = MathUtils.Round(aX + i * xStep);
+                int y = MathUtils.Round(aY + i * yStep);
+                if (_Image[x, y])
                 {
                     return new ResultPoint(x, y);
                 }
@@ -329,7 +329,7 @@ namespace ZXing.Common.Detector
         /// are the second and third. The first point will be the topmost
         /// point and the last, the bottommost. The second point will be
         /// leftmost and the third, the rightmost</returns>
-        private ResultPoint[] centerEdges(ResultPoint y, ResultPoint z,
+        private ResultPoint[] CenterEdges(ResultPoint y, ResultPoint z,
                                           ResultPoint x, ResultPoint t)
         {
             //
@@ -348,7 +348,7 @@ namespace ZXing.Common.Detector
             float ti = t.X;
             float tj = t.Y;
 
-            if (yi < width / 2.0f)
+            if (yi < _Width / 2.0f)
             {
                 return new[]
                           {
@@ -377,13 +377,13 @@ namespace ZXing.Common.Detector
         /// <returns>
         ///   true if a black point has been found, else false.
         /// </returns>
-        private bool containsBlackPoint(int a, int b, int @fixed, bool horizontal)
+        private bool ContainsBlackPoint(int a, int b, int @fixed, bool horizontal)
         {
             if (horizontal)
             {
                 for (int x = a; x <= b; x++)
                 {
-                    if (image[x, @fixed])
+                    if (_Image[x, @fixed])
                     {
                         return true;
                     }
@@ -393,7 +393,7 @@ namespace ZXing.Common.Detector
             {
                 for (int y = a; y <= b; y++)
                 {
-                    if (image[@fixed, y])
+                    if (_Image[@fixed, y])
                     {
                         return true;
                     }

@@ -34,9 +34,9 @@ namespace ZXing.Common.ReedSolomon.Test
       public void TestDataMatrix()
       {
          // real life test cases
-         TestEncodeDecode(GenericGF.DATA_MATRIX_FIELD_256,
+         TestEncodeDecode(GenericGf.DATA_MATRIX_FIELD_256,
              new int[] { 142, 164, 186 }, new int[] { 114, 25, 5, 88, 102 });
-         TestEncodeDecode(GenericGF.DATA_MATRIX_FIELD_256, new int[] {
+         TestEncodeDecode(GenericGf.DATA_MATRIX_FIELD_256, new int[] {
         0x69, 0x75, 0x75, 0x71, 0x3B, 0x30, 0x30, 0x64,
         0x70, 0x65, 0x66, 0x2F, 0x68, 0x70, 0x70, 0x68,
         0x6D, 0x66, 0x2F, 0x64, 0x70, 0x6E, 0x30, 0x71,
@@ -47,22 +47,22 @@ namespace ZXing.Common.ReedSolomon.Test
         0xF0, 0x1C, 0xF1, 0xD0, 0x6D, 0x00, 0x98, 0xDA,
         0x80, 0x88, 0xBE, 0xFF, 0xB7, 0xFA, 0xA9, 0x95 });
          // synthetic test cases
-         TestEncodeDecodeRandom(GenericGF.DATA_MATRIX_FIELD_256, 10, 240);
-         TestEncodeDecodeRandom(GenericGF.DATA_MATRIX_FIELD_256, 128, 127);
-         TestEncodeDecodeRandom(GenericGF.DATA_MATRIX_FIELD_256, 220, 35);
+         TestEncodeDecodeRandom(GenericGf.DATA_MATRIX_FIELD_256, 10, 240);
+         TestEncodeDecodeRandom(GenericGf.DATA_MATRIX_FIELD_256, 128, 127);
+         TestEncodeDecodeRandom(GenericGf.DATA_MATRIX_FIELD_256, 220, 35);
       }
 
       [Test]
       public void TestQrCode()
       {
          // Test case from example given in ISO 18004, Annex I
-         TestEncodeDecode(GenericGF.QR_CODE_FIELD_256, new int[] {
+         TestEncodeDecode(GenericGf.QR_CODE_FIELD_256, new int[] {
         0x10, 0x20, 0x0C, 0x56, 0x61, 0x80, 0xEC, 0x11,
         0xEC, 0x11, 0xEC, 0x11, 0xEC, 0x11, 0xEC, 0x11 },
              new int[] {
         0xA5, 0x24, 0xD4, 0xC1, 0xED, 0x36, 0xC7, 0x87,
         0x2C, 0x55 });
-         TestEncodeDecode(GenericGF.QR_CODE_FIELD_256, new int[] {
+         TestEncodeDecode(GenericGf.QR_CODE_FIELD_256, new int[] {
         0x72, 0x67, 0x2F, 0x77, 0x69, 0x6B, 0x69, 0x2F,
         0x4D, 0x61, 0x69, 0x6E, 0x5F, 0x50, 0x61, 0x67,
         0x65, 0x3B, 0x3B, 0x00, 0xEC, 0x11, 0xEC, 0x11,
@@ -73,26 +73,26 @@ namespace ZXing.Common.ReedSolomon.Test
         0x08, 0x62 });
          // real life test cases
          // synthetic test cases
-         TestEncodeDecodeRandom(GenericGF.QR_CODE_FIELD_256, 10, 240);
-         TestEncodeDecodeRandom(GenericGF.QR_CODE_FIELD_256, 128, 127);
-         TestEncodeDecodeRandom(GenericGF.QR_CODE_FIELD_256, 220, 35);
+         TestEncodeDecodeRandom(GenericGf.QR_CODE_FIELD_256, 10, 240);
+         TestEncodeDecodeRandom(GenericGf.QR_CODE_FIELD_256, 128, 127);
+         TestEncodeDecodeRandom(GenericGf.QR_CODE_FIELD_256, 220, 35);
       }
 
       [Test]
       public void TestAztec()
       {
          // real life test cases
-         TestEncodeDecode(GenericGF.AZTEC_PARAM,
+         TestEncodeDecode(GenericGf.AZTEC_PARAM,
              new int[] { 0x5, 0x6 }, new int[] { 0x3, 0x2, 0xB, 0xB, 0x7 });
-         TestEncodeDecode(GenericGF.AZTEC_PARAM,
+         TestEncodeDecode(GenericGf.AZTEC_PARAM,
              new int[] { 0x0, 0x0, 0x0, 0x9 }, new int[] { 0xA, 0xD, 0x8, 0x6, 0x5, 0x6 });
-         TestEncodeDecode(GenericGF.AZTEC_PARAM,
+         TestEncodeDecode(GenericGf.AZTEC_PARAM,
              new int[] { 0x2, 0x8, 0x8, 0x7 }, new int[] { 0xE, 0xC, 0xA, 0x9, 0x6, 0x8 });
-         TestEncodeDecode(GenericGF.AZTEC_DATA_6, new int[] {
+         TestEncodeDecode(GenericGf.AZTEC_DATA_6, new int[] {
         0x9, 0x32, 0x1, 0x29, 0x2F, 0x2, 0x27, 0x25, 0x1, 0x1B },
              new int[] {
         0x2C, 0x2, 0xD, 0xD, 0xA, 0x16, 0x28, 0x9, 0x22, 0xA, 0x14 });
-         TestEncodeDecode(GenericGF.AZTEC_DATA_8, new int[] {
+         TestEncodeDecode(GenericGf.AZTEC_DATA_8, new int[] {
         0xE0, 0x86, 0x42, 0x98, 0xE8, 0x4A, 0x96, 0xC6,
         0xB9, 0xF0, 0x8C, 0xA7, 0x4A, 0xDA, 0xF8, 0xCE,
         0xB7, 0xDE, 0x88, 0x64, 0x29, 0x8E, 0x84, 0xA9,
@@ -110,7 +110,7 @@ namespace ZXing.Common.ReedSolomon.Test
         0xED, 0xA1, 0xF8, 0x47, 0x2A, 0x50, 0xA6, 0xBC,
         0x53, 0x7D, 0x29, 0xFE, 0x06, 0x49, 0xF3, 0x73,
         0x9F, 0xC1, 0x75 });
-         TestEncodeDecode(GenericGF.AZTEC_DATA_10, new int[] {
+         TestEncodeDecode(GenericGf.AZTEC_DATA_10, new int[] {
         0x15C, 0x1E1, 0x2D5, 0x02E, 0x048, 0x1E2, 0x037, 0x0CD,
         0x02E, 0x056, 0x26A, 0x281, 0x1C2, 0x1A6, 0x296, 0x045,
         0x041, 0x0AA, 0x095, 0x2CE, 0x003, 0x38F, 0x2CD, 0x1A2,
@@ -172,7 +172,7 @@ namespace ZXing.Common.ReedSolomon.Test
         0x306, 0x3A5, 0x352, 0x351, 0x275, 0x0ED, 0x045, 0x229,
         0x0BF, 0x05D, 0x253, 0x1BE, 0x02E, 0x35A, 0x0E4, 0x2E9,
         0x17A, 0x166, 0x03C, 0x007 });
-         TestEncodeDecode(GenericGF.AZTEC_DATA_12, new int[] {
+         TestEncodeDecode(GenericGf.AZTEC_DATA_12, new int[] {
         0x571, 0xE1B, 0x542, 0xE12, 0x1E2, 0x0DC, 0xCD0, 0xB85,
         0x69A, 0xA81, 0x709, 0xA6A, 0x584, 0x510, 0x4AA, 0x256,
         0xCE0, 0x0F8, 0xFB3, 0x5A2, 0x0D9, 0xAD1, 0x389, 0x09C,
@@ -384,15 +384,15 @@ namespace ZXing.Common.ReedSolomon.Test
         0x03C, 0x1DE, 0x7DF, 0x2B1, 0x09D, 0xC81, 0xDA4, 0x8F7,
         0x6B9, 0x947, 0x9B0 });
          // synthetic test cases
-         TestEncodeDecodeRandom(GenericGF.AZTEC_PARAM, 2, 5); // compact mode message
-         TestEncodeDecodeRandom(GenericGF.AZTEC_PARAM, 4, 6); // full mode message
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_6, 10, 7);
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_6, 20, 12);
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_8, 20, 11);
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_8, 128, 127);
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_10, 128, 128);
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_10, 768, 255);
-         TestEncodeDecodeRandom(GenericGF.AZTEC_DATA_12, 3072, 1023);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_PARAM, 2, 5); // compact mode message
+         TestEncodeDecodeRandom(GenericGf.AZTEC_PARAM, 4, 6); // full mode message
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_6, 10, 7);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_6, 20, 12);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_8, 20, 11);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_8, 128, 127);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_10, 128, 128);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_10, 768, 255);
+         TestEncodeDecodeRandom(GenericGf.AZTEC_DATA_12, 3072, 1023);
       }
 
        public static void Corrupt(int[] received, int howMany, Random random, int max)
@@ -415,7 +415,7 @@ namespace ZXing.Common.ReedSolomon.Test
            }
        }
 
-       private static void TestEncodeDecodeRandom(GenericGF field, int dataSize, int ecSize)
+       private static void TestEncodeDecodeRandom(GenericGf field, int dataSize, int ecSize)
        {
            Assert.IsTrue(dataSize > 0 && dataSize <= field.Size - 3, "Invalid data size for " + field);
            Assert.IsTrue(ecSize > 0 && ecSize + dataSize <= field.Size, "Invalid ECC size for " + field);
@@ -435,20 +435,20 @@ namespace ZXing.Common.ReedSolomon.Test
 
                // generate ECC words
                Array.Copy(dataWords, 0, message, 0, dataWords.Length);
-               encoder.encode(message, ecWords.Length);
+               encoder.Encode(message, ecWords.Length);
                Array.Copy(message, dataSize, ecWords, 0, ecSize);
                // check to see if Decoder can fix up to ecWords/2 random errors
                TestDecoder(field, dataWords, ecWords);
            }
        }
 
-       private static void TestEncodeDecode(GenericGF field, int[] dataWords, int[] ecWords)
+       private static void TestEncodeDecode(GenericGf field, int[] dataWords, int[] ecWords)
        {
            TestEncoder(field, dataWords, ecWords);
            TestDecoder(field, dataWords, ecWords);
        }
 
-       private static void TestEncoder(GenericGF field, int[] dataWords, int[] ecWords)
+       private static void TestEncoder(GenericGf field, int[] dataWords, int[] ecWords)
        {
            ReedSolomonEncoder encoder = new ReedSolomonEncoder(field);
            int[] messageExpected = new int[dataWords.Length + ecWords.Length];
@@ -456,12 +456,12 @@ namespace ZXing.Common.ReedSolomon.Test
            Array.Copy(dataWords, 0, messageExpected, 0, dataWords.Length);
            Array.Copy(ecWords, 0, messageExpected, dataWords.Length, ecWords.Length);
            Array.Copy(dataWords, 0, message, 0, dataWords.Length);
-           encoder.encode(message, ecWords.Length);
+           encoder.Encode(message, ecWords.Length);
            AssertDataEquals("Encode in " + field + " (" + dataWords.Length + ',' + ecWords.Length + ") failed",
                messageExpected, message);
        }
 
-       private static void TestDecoder(GenericGF field, int[] dataWords, int[] ecWords)
+       private static void TestDecoder(GenericGf field, int[] dataWords, int[] ecWords)
        {
            ReedSolomonDecoder decoder = new ReedSolomonDecoder(field);
            int[] message = new int[dataWords.Length + ecWords.Length];
@@ -481,7 +481,7 @@ namespace ZXing.Common.ReedSolomon.Test
                    Array.Copy(dataWords, 0, message, 0, dataWords.Length);
                    Array.Copy(ecWords, 0, message, dataWords.Length, ecWords.Length);
                    Corrupt(message, i, random, field.Size);
-                   if (!decoder.decode(message, ecWords.Length))
+                   if (!decoder.Decode(message, ecWords.Length))
                    {
                        // fail only if maxErrors exceeded
                        Assert.IsTrue(i > maxErrors,

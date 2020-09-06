@@ -73,14 +73,14 @@ namespace ZXing.Common
         /// defined by the "from" parameters
         /// </returns>
         /// <throws>  ReaderException if image can't be sampled, for example, if the transformation defined </throws>
-        public BitMatrix sampleGrid(int dimensionX, int dimensionY
+        public BitMatrix SampleGrid(int dimensionX, int dimensionY
             , float p1ToX, float p1ToY, float p2ToX, float p2ToY, float p3ToX, float p3ToY, float p4ToX, float p4ToY
             , float p1FromX, float p1FromY, float p2FromX, float p2FromY, float p3FromX, float p3FromY, float p4FromX,
             float p4FromY) {
-            PerspectiveTransform transform = XTrafo.quadrilateralToQuadrilateral(
+            PerspectiveTransform transform = XTrafo.QuadrilateralToQuadrilateral(
                 p1ToX, p1ToY, p2ToX, p2ToY, p3ToX, p3ToY, p4ToX, p4ToY,
                 p1FromX, p1FromY, p2FromX, p2FromY, p3FromX, p3FromY, p4FromX, p4FromY);
-            return sampleGrid(dimensionX, dimensionY, transform);
+            return SampleGrid(dimensionX, dimensionY, transform);
         }
 
         /// <inheritdoc />
@@ -89,14 +89,14 @@ namespace ZXing.Common
         /// <summary>
         /// 
         /// </summary>
-        public abstract BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform);
+        public abstract BitMatrix SampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform);
 
     }
 
     public interface IGridSampler
     {
-        BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform);
-        BitMatrix sampleGrid(int dimension1, int dimension2, float low1, float low2, float high1, float low3, float high2, float high3, float low4, float high4, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
+        BitMatrix SampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform);
+        BitMatrix SampleGrid(int dimension1, int dimension2, float low1, float low2, float high1, float low3, float high2, float high3, float low4, float high4, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4);
         BitMatrix GetImage();
 
     }

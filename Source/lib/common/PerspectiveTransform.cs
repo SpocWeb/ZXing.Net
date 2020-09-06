@@ -21,25 +21,25 @@ namespace ZXing.Common
         /// <summary>
         /// 
         /// </summary>
-        public static PerspectiveTransform quadrilateralToQuadrilateral(float x0, float y0
+        public static PerspectiveTransform QuadrilateralToQuadrilateral(float x0, float y0
             , float x1, float y1
             , float x2, float y2
             , float x3, float y3
-            , float x0p, float y0p
-            , float x1p, float y1p
-            , float x2p, float y2p
-            , float x3p, float y3p)
+            , float x0P, float y0P
+            , float x1P, float y1P
+            , float x2P, float y2P
+            , float x3P, float y3P)
         {
 
-            PerspectiveTransform qToS = quadriLateralToSquare(x0, y0, x1, y1, x2, y2, x3, y3);
-            PerspectiveTransform sToQ = squareToQuadrilateral(x0p, y0p, x1p, y1p, x2p, y2p, x3p, y3p);
-            return sToQ.times(qToS);
+            PerspectiveTransform qToS = QuadriLateralToSquare(x0, y0, x1, y1, x2, y2, x3, y3);
+            PerspectiveTransform sToQ = SquareToQuadrilateral(x0P, y0P, x1P, y1P, x2P, y2P, x3P, y3P);
+            return sToQ.Times(qToS);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static PerspectiveTransform squareToQuadrilateral(float x0, float y0,
+        public static PerspectiveTransform SquareToQuadrilateral(float x0, float y0,
             float x1, float y1,
             float x2, float y2,
             float x3, float y3)
@@ -67,10 +67,10 @@ namespace ZXing.Common
         }
 
         /// <summary> Here, the adjoint serves as the inverse </summary>
-        public static PerspectiveTransform quadriLateralToSquare(float x0, float y0
+        public static PerspectiveTransform QuadriLateralToSquare(float x0, float y0
             , float x1, float y1, float x2, float y2, float x3, float y3)
             =>
-                squareToQuadrilateral(x0, y0, x1, y1, x2, y2, x3, y3).buildAdjoint();
+                SquareToQuadrilateral(x0, y0, x1, y1, x2, y2, x3, y3).BuildAdjoint();
     }
 
     /// <summary> <p> Perspective 2D transform. </summary>
@@ -88,82 +88,82 @@ namespace ZXing.Common
     /// </remarks>
     public sealed class PerspectiveTransform
     {
-        public readonly float a11;
-        public readonly float a12;
-        public readonly float a13;
-        public readonly float a21;
-        public readonly float a22;
-        public readonly float a23;
-        public readonly float a31;
-        public readonly float a32;
-        public readonly float a33;
+        public readonly float A11;
+        public readonly float A12;
+        public readonly float A13;
+        public readonly float A21;
+        public readonly float A22;
+        public readonly float A23;
+        public readonly float A31;
+        public readonly float A32;
+        public readonly float A33;
 
         /// <summary> Initializing Constructor </summary>
         public PerspectiveTransform(float a11, float a21, float a31, float a12, float a22, float a32, float a13, float a23, float a33)
         {
-            this.a11 = a11;
-            this.a12 = a12;
-            this.a13 = a13;
-            this.a21 = a21;
-            this.a22 = a22;
-            this.a23 = a23;
-            this.a31 = a31;
-            this.a32 = a32;
-            this.a33 = a33;
+            this.A11 = a11;
+            this.A12 = a12;
+            this.A13 = a13;
+            this.A21 = a21;
+            this.A22 = a22;
+            this.A23 = a23;
+            this.A31 = a31;
+            this.A32 = a32;
+            this.A33 = a33;
         }
 
         /// <summary> Maps <paramref name="xyPoints"/> in place using this Trafo </summary>
-        public void transformPoints(float[] xyPoints)
+        public void TransformPoints(float[] xyPoints)
         {
             int maxI = xyPoints.Length - 1; // points.length must be even
             for (int i = 0; i < maxI; i += 2)
             {
                 float x = xyPoints[i];
                 float y = xyPoints[i + 1];
-                float z = a13 * x + a23 * y + a33;
-                xyPoints[i] = (a11 * x + a21 * y + a31) / z;
-                xyPoints[i + 1] = (a12 * x + a22 * y + a32) / z;
+                float z = A13 * x + A23 * y + A33;
+                xyPoints[i] = (A11 * x + A21 * y + A31) / z;
+                xyPoints[i + 1] = (A12 * x + A22 * y + A32) / z;
             } //Division results in Projective Geometry
         }
 
         /// <summary> Maps <paramref name="xyPoints"/> in place using this Trafo </summary>
-        public void transformPoints(float[] xValues, float[] yValues)
+        public void TransformPoints(float[] xValues, float[] yValues)
         {
             int n = xValues.Length;
             for (int i = 0; i < n; i++)
             {
                 float x = xValues[i];
                 float y = yValues[i];
-                float z = a13 * x + a23 * y + a33;
-                xValues[i] = (a11 * x + a21 * y + a31) / z;
-                yValues[i] = (a12 * x + a22 * y + a32) / z;
+                float z = A13 * x + A23 * y + A33;
+                xValues[i] = (A11 * x + A21 * y + A31) / z;
+                yValues[i] = (A12 * x + A22 * y + A32) / z;
             } //Division results in Projective Geometry
         }
 
         /// <summary> Adjoint is the transpose of the coFactor matrix </summary>
         /// <returns></returns>
-        internal PerspectiveTransform buildAdjoint() =>
+        internal PerspectiveTransform BuildAdjoint() =>
             new PerspectiveTransform(
-                a22 * a33 - a23 * a32,
-                a23 * a31 - a21 * a33,
-                a21 * a32 - a22 * a31,
-                a13 * a32 - a12 * a33,
-                a11 * a33 - a13 * a31,
-                a12 * a31 - a11 * a32,
-                a12 * a23 - a13 * a22,
-                a13 * a21 - a11 * a23,
-                a11 * a22 - a12 * a21);
+                A22 * A33 - A23 * A32,
+                A23 * A31 - A21 * A33,
+                A21 * A32 - A22 * A31,
+                A13 * A32 - A12 * A33,
+                A11 * A33 - A13 * A31,
+                A12 * A31 - A11 * A32,
+                A12 * A23 - A13 * A22,
+                A13 * A21 - A11 * A23,
+                A11 * A22 - A12 * A21);
 
-        public PerspectiveTransform times(PerspectiveTransform other) =>
+        public PerspectiveTransform Times(PerspectiveTransform other) =>
             new PerspectiveTransform(
-                a11 * other.a11 + a21 * other.a12 + a31 * other.a13,
-                a11 * other.a21 + a21 * other.a22 + a31 * other.a23,
-                a11 * other.a31 + a21 * other.a32 + a31 * other.a33,
-                a12 * other.a11 + a22 * other.a12 + a32 * other.a13,
-                a12 * other.a21 + a22 * other.a22 + a32 * other.a23,
-                a12 * other.a31 + a22 * other.a32 + a32 * other.a33,
-                a13 * other.a11 + a23 * other.a12 + a33 * other.a13,
-                a13 * other.a21 + a23 * other.a22 + a33 * other.a23,
-                a13 * other.a31 + a23 * other.a32 + a33 * other.a33);
+                A11 * other.A11 + A21 * other.A12 + A31 * other.A13,
+                A11 * other.A21 + A21 * other.A22 + A31 * other.A23,
+                A11 * other.A31 + A21 * other.A32 + A31 * other.A33,
+                A12 * other.A11 + A22 * other.A12 + A32 * other.A13,
+                A12 * other.A21 + A22 * other.A22 + A32 * other.A23,
+                A12 * other.A31 + A22 * other.A32 + A32 * other.A33,
+                A13 * other.A11 + A23 * other.A12 + A33 * other.A13,
+                A13 * other.A21 + A23 * other.A22 + A33 * other.A23,
+                A13 * other.A31 + A23 * other.A32 + A33 * other.A33);
     }
 }

@@ -315,7 +315,7 @@ namespace ZXing.OneD
         private static int SkipWhiteSpace(BitArray row)
         {
             int width = row.Size;
-            int endStart = row.getNextSet(0);
+            int endStart = row.GetNextSet(0);
             if (endStart == width)
             {
                 return -1;
@@ -334,7 +334,7 @@ namespace ZXing.OneD
         {
             // For convenience, reverse the row and then
             // search from 'the start' for the end block
-            row.reverse();
+            row.Reverse();
             int endStart = SkipWhiteSpace(row);
             if (endStart < 0) {
                 return null;
@@ -345,7 +345,7 @@ namespace ZXing.OneD
             }
             if (endPattern == null)
             {
-                row.reverse();
+                row.Reverse();
                 return null;
             }
 
@@ -354,7 +354,7 @@ namespace ZXing.OneD
             // ref: http://www.barcode-1.net/i25code.html
             if (!ValidateQuietZone(row, endPattern[0]))
             {
-                row.reverse();
+                row.Reverse();
                 return null;
             }
 
@@ -365,7 +365,7 @@ namespace ZXing.OneD
             endPattern[0] = row.Size - endPattern[1];
             endPattern[1] = row.Size - temp;
 
-            row.reverse();
+            row.Reverse();
             return endPattern;
         }
 

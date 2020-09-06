@@ -182,7 +182,7 @@ namespace ZXing.PDF417.Internal
 
             if (encoding != null && !disableEci && string.Compare(DEFAULT_ENCODING_NAME, encoding.WebName, StringComparison.Ordinal) != 0)
             {
-                CharacterSetECI eci = CharacterSetECI.getCharacterSetECIByName(encoding.WebName);
+                CharacterSetEci eci = CharacterSetEci.GetCharacterSetEciByName(encoding.WebName);
                 if (eci != null)
                 {
                     encodingECI(eci.Value, sb);

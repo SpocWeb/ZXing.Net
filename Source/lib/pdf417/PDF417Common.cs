@@ -59,7 +59,7 @@ namespace ZXing.PDF417
         [Obsolete]
         public static int getBitCountSum(int[] moduleBitCount)
         {
-            return MathUtils.sum(moduleBitCount);
+            return MathUtils.Sum(moduleBitCount);
         }
 
         /// <summary>

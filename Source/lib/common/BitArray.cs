@@ -72,7 +72,7 @@ namespace ZXing.Common
                 throw new ArgumentException("size must be at least 1");
             }
             this.Size = size;
-            Array = makeArray(size);
+            Array = MakeArray(size);
         }
 
         // For testing only
@@ -82,11 +82,11 @@ namespace ZXing.Common
             this.Size = size;
         }
 
-        private void ensureCapacity(int size)
+        private void EnsureCapacity(int size)
         {
             if (size > Array.Length << 5)
             {
-                int[] newBits = makeArray(size);
+                int[] newBits = MakeArray(size);
                 System.Array.Copy(Array, 0, newBits, 0, Array.Length);
                 Array = newBits;
             }
@@ -97,12 +97,12 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="i">bit to set
         /// </param>
-        public void flip(int i)
+        public void Flip(int i)
         {
             Array[i >> 5] ^= 1 << (i & 0x1F);
         }
 
-        private static int numberOfTrailingZeros(int num)
+        private static int NumberOfTrailingZeros(int num)
         {
             var index = (-num & num) % 37;
             if (index < 0) {
@@ -123,7 +123,7 @@ namespace ZXing.Common
         /// <param name="from">first bit to check</param>
         /// <returns>index of first bit that is set, starting from the given index, or size if none are set
         /// at or beyond this given index</returns>
-        public int getNextSet(int from)
+        public int GetNextSet(int from)
         {
             if (from >= Size)
             {
@@ -141,7 +141,7 @@ namespace ZXing.Common
                 }
                 currentBits = Array[bitsOffset];
             }
-            int result = (bitsOffset << 5) + numberOfTrailingZeros(currentBits);
+            int result = (bitsOffset << 5) + NumberOfTrailingZeros(currentBits);
             return result > Size ? Size : result;
         }
 
@@ -150,7 +150,7 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="from">index to start looking for unset bit</param>
         /// <returns>index of next unset bit, or <see cref="Size"/> if none are unset until the end</returns>
-        public int getNextUnset(int from)
+        public int GetNextUnset(int from)
         {
             if (from >= Size)
             {
@@ -168,7 +168,7 @@ namespace ZXing.Common
                 }
                 currentBits = ~Array[bitsOffset];
             }
-            int result = (bitsOffset << 5) + numberOfTrailingZeros(currentBits);
+            int result = (bitsOffset << 5) + NumberOfTrailingZeros(currentBits);
             return result > Size ? Size : result;
         }
 
@@ -180,7 +180,7 @@ namespace ZXing.Common
         /// <param name="newBits">the new value of the next 32 bits. Note again that the least-significant bit
         /// corresponds to bit i, the next-least-significant to i+1, and so on.
         /// </param>
-        public void setBulk(int i, int newBits)
+        public void SetBulk(int i, int newBits)
         {
             Array[i >> 5] = newBits;
         }
@@ -190,7 +190,7 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="start">start of range, inclusive.</param>
         /// <param name="end">end of range, exclusive</param>
-        public void setRange(int start, int end)
+        public void SetRange(int start, int end)
         {
             if (end < start || start < 0 || end > Size)
             {
@@ -214,7 +214,7 @@ namespace ZXing.Common
         }
 
         /// <summary> Clears all bits (sets to false).</summary>
-        public void clear()
+        public void Clear()
         {
             int max = Array.Length;
             for (int i = 0; i < max; i++)
@@ -234,7 +234,7 @@ namespace ZXing.Common
         /// </param>
         /// <returns> true iff all bits are set or not set in range, according to value argument</returns>
         /// <throws><exception cref="ArgumentException" /> if end is less than start or the range is not contained in the array</throws>
-        public bool isRange(int start, int end, bool value)
+        public bool IsRange(int start, int end, bool value)
         {
             if (end < start || start < 0 || end > Size)
             {
@@ -268,9 +268,9 @@ namespace ZXing.Common
         /// Appends the bit.
         /// </summary>
         /// <param name="bit">The bit.</param>
-        public void appendBit(bool bit)
+        public void AppendBit(bool bit)
         {
-            ensureCapacity(Size + 1);
+            EnsureCapacity(Size + 1);
             if (bit)
             {
                 Array[Size >> 5] |= 1 << (Size & 0x1F);
@@ -290,16 +290,16 @@ namespace ZXing.Common
         /// </summary>
         /// <param name="value"><see cref="int"/> containing bits to append</param>
         /// <param name="numBits">bits from value to append</param>
-        public void appendBits(int value, int numBits)
+        public void AppendBits(int value, int numBits)
         {
             if (numBits < 0 || numBits > 32)
             {
                 throw new ArgumentException("Num bits must be between 0 and 32");
             }
-            ensureCapacity(Size + numBits);
+            EnsureCapacity(Size + numBits);
             for (int numBitsLeft = numBits; numBitsLeft > 0; numBitsLeft--)
             {
-                appendBit(((value >> (numBitsLeft - 1)) & 0x01) == 1);
+                AppendBit(((value >> (numBitsLeft - 1)) & 0x01) == 1);
             }
         }
 
@@ -307,13 +307,13 @@ namespace ZXing.Common
         /// adds the array to the end
         /// </summary>
         /// <param name="other"></param>
-        public void appendBitArray(BitArray other)
+        public void AppendBitArray(BitArray other)
         {
             int otherSize = other.Size;
-            ensureCapacity(Size + otherSize);
+            EnsureCapacity(Size + otherSize);
             for (int i = 0; i < otherSize; i++)
             {
-                appendBit(other[i]);
+                AppendBit(other[i]);
             }
         }
 
@@ -321,7 +321,7 @@ namespace ZXing.Common
         /// XOR operation
         /// </summary>
         /// <param name="other"></param>
-        public void xor(BitArray other)
+        public void Xor(BitArray other)
         {
             if (Size != other.Size)
             {
@@ -343,7 +343,7 @@ namespace ZXing.Common
         /// of the internal representation, which is exposed by BitArray</param>
         /// <param name="offset">position in array to start writing</param>
         /// <param name="numBytes">how many bytes to write</param>
-        public void toBytes(int bitOffset, byte[] array, int offset, int numBytes)
+        public void ToBytes(int bitOffset, byte[] array, int offset, int numBytes)
         {
             for (int i = 0; i < numBytes; i++)
             {
@@ -361,7 +361,7 @@ namespace ZXing.Common
         }
 
         /// <summary> Reverses all bits in the array.</summary>
-        public void reverse()
+        public void Reverse()
         {
             var newBits = new int[Array.Length];
             // reverse all int's first
@@ -394,7 +394,7 @@ namespace ZXing.Common
             Array = newBits;
         }
 
-        private static int[] makeArray(int size)
+        private static int[] MakeArray(int size)
         {
             return new int[(size + 31) >> 5];
         }

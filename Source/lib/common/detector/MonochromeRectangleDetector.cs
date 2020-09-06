@@ -29,7 +29,7 @@ namespace ZXing.Common.Detector
     {
         private const int MAX_MODULES = 32;
 
-        private readonly BitMatrix image;
+        private readonly BitMatrix _Image;
 
         /// <summary>
         /// initializing constructor
@@ -37,7 +37,7 @@ namespace ZXing.Common.Detector
         /// <param name="image"></param>
         public MonochromeRectangleDetector(BitMatrix image)
         {
-            this.image = image;
+            this._Image = image;
         }
 
         /// <summary>
@@ -49,10 +49,10 @@ namespace ZXing.Common.Detector
         /// the topmost point and the last, the bottommost. The second point will be leftmost and the
         /// third, the rightmost
         /// </returns>
-        public ResultPoint[] detect()
+        public ResultPoint[] Detect()
         {
-            int height = image.Height;
-            int width = image.Width;
+            int height = _Image.Height;
+            int width = _Image.Width;
             int halfHeight = height >> 1;
             int halfWidth = width >> 1;
             int deltaY = Math.Max(1, height / (MAX_MODULES << 3));
@@ -62,29 +62,29 @@ namespace ZXing.Common.Detector
             int bottom = height;
             int left = 0;
             int right = width;
-            ResultPoint pointA = findCornerFromCenter(halfWidth, 0, left, right, halfHeight, -deltaY, top, bottom, halfWidth >> 1);
+            ResultPoint pointA = FindCornerFromCenter(halfWidth, 0, left, right, halfHeight, -deltaY, top, bottom, halfWidth >> 1);
             if (pointA == null) {
                 return null;
             }
             top = (int)pointA.Y - 1;
-            ResultPoint pointB = findCornerFromCenter(halfWidth, -deltaX, left, right, halfHeight, 0, top, bottom, halfHeight >> 1);
+            ResultPoint pointB = FindCornerFromCenter(halfWidth, -deltaX, left, right, halfHeight, 0, top, bottom, halfHeight >> 1);
             if (pointB == null) {
                 return null;
             }
             left = (int)pointB.X - 1;
-            ResultPoint pointC = findCornerFromCenter(halfWidth, deltaX, left, right, halfHeight, 0, top, bottom, halfHeight >> 1);
+            ResultPoint pointC = FindCornerFromCenter(halfWidth, deltaX, left, right, halfHeight, 0, top, bottom, halfHeight >> 1);
             if (pointC == null) {
                 return null;
             }
             right = (int)pointC.X + 1;
-            ResultPoint pointD = findCornerFromCenter(halfWidth, 0, left, right, halfHeight, deltaY, top, bottom, halfWidth >> 1);
+            ResultPoint pointD = FindCornerFromCenter(halfWidth, 0, left, right, halfHeight, deltaY, top, bottom, halfWidth >> 1);
             if (pointD == null) {
                 return null;
             }
             bottom = (int)pointD.Y + 1;
 
             // Go try to find point A again with better information -- might have been off at first.
-            pointA = findCornerFromCenter(halfWidth, 0, left, right, halfHeight, -deltaY, top, bottom, halfWidth >> 2);
+            pointA = FindCornerFromCenter(halfWidth, 0, left, right, halfHeight, -deltaY, top, bottom, halfWidth >> 2);
             if (pointA == null) {
                 return null;
             }
@@ -118,7 +118,7 @@ namespace ZXing.Common.Detector
         /// </param>
         /// <returns> a <see cref="ResultPoint"/> encapsulating the corner that was found
         /// </returns>
-        private ResultPoint findCornerFromCenter(int centerX, int deltaX, int left, int right, int centerY, int deltaY, int top, int bottom, int maxWhiteRun)
+        private ResultPoint FindCornerFromCenter(int centerX, int deltaX, int left, int right, int centerY, int deltaY, int top, int bottom, int maxWhiteRun)
         {
             int[] lastRange = null;
             for (int y = centerY, x = centerX; y < bottom && y >= top && x < right && x >= left; y += deltaY, x += deltaX)
@@ -127,12 +127,12 @@ namespace ZXing.Common.Detector
                 if (deltaX == 0)
                 {
                     // horizontal slices, up and down
-                    range = blackWhiteRange(y, maxWhiteRun, left, right, true);
+                    range = BlackWhiteRange(y, maxWhiteRun, left, right, true);
                 }
                 else
                 {
                     // vertical slices, left and right
-                    range = blackWhiteRange(x, maxWhiteRun, top, bottom, false);
+                    range = BlackWhiteRange(x, maxWhiteRun, top, bottom, false);
                 }
                 if (range == null)
                 {
@@ -190,7 +190,7 @@ namespace ZXing.Common.Detector
         /// <returns> int[] with start and end of found range, or null if no such range is found
         /// (e.g. only white was found)
         /// </returns>
-        private int[] blackWhiteRange(int fixedDimension, int maxWhiteRun, int minDim, int maxDim, bool horizontal)
+        private int[] BlackWhiteRange(int fixedDimension, int maxWhiteRun, int minDim, int maxDim, bool horizontal)
         {
             int center = (minDim + maxDim) >> 1;
 
@@ -198,7 +198,7 @@ namespace ZXing.Common.Detector
             int start = center;
             while (start >= minDim)
             {
-                if (horizontal ? image[start, fixedDimension] : image[fixedDimension, start])
+                if (horizontal ? _Image[start, fixedDimension] : _Image[fixedDimension, start])
                 {
                     start--;
                 }
@@ -209,7 +209,7 @@ namespace ZXing.Common.Detector
                     {
                         start--;
                     }
-                    while (start >= minDim && !(horizontal ? image[start, fixedDimension] : image[fixedDimension, start]));
+                    while (start >= minDim && !(horizontal ? _Image[start, fixedDimension] : _Image[fixedDimension, start]));
                     int whiteRunSize = whiteRunStart - start;
                     if (start < minDim || whiteRunSize > maxWhiteRun)
                     {
@@ -224,7 +224,7 @@ namespace ZXing.Common.Detector
             int end = center;
             while (end < maxDim)
             {
-                if (horizontal ? image[end, fixedDimension] : image[fixedDimension, end])
+                if (horizontal ? _Image[end, fixedDimension] : _Image[fixedDimension, end])
                 {
                     end++;
                 }
@@ -235,7 +235,7 @@ namespace ZXing.Common.Detector
                     {
                         end++;
                     }
-                    while (end < maxDim && !(horizontal ? image[end, fixedDimension] : image[fixedDimension, end]));
+                    while (end < maxDim && !(horizontal ? _Image[end, fixedDimension] : _Image[fixedDimension, end]));
                     int whiteRunSize = end - whiteRunStart;
                     if (end >= maxDim || whiteRunSize > maxWhiteRun)
                     {

@@ -130,7 +130,7 @@ namespace ZXing.Datamatrix.Internal
                     }
                     mode = Mode.ASCII_ENCODE;
                 }
-            } while (mode != Mode.PAD_ENCODE && bits.available() > 0);
+            } while (mode != Mode.PAD_ENCODE && bits.Available() > 0);
             if (resultTrailer.Length > 0)
             {
                 result.Append(resultTrailer);
@@ -150,7 +150,7 @@ namespace ZXing.Datamatrix.Internal
             mode = Mode.ASCII_ENCODE;
             do
             {
-                int oneByte = bits.readBits(8);
+                int oneByte = bits.ReadBits(8);
                 if (oneByte == 0)
                 {
                     return false;
@@ -230,14 +230,14 @@ namespace ZXing.Datamatrix.Internal
                         default:
                             // Not to be used in ASCII encodation
                             // but work around encoders that end with 254, latch back to ASCII
-                            if (oneByte != 254 || bits.available() != 0)
+                            if (oneByte != 254 || bits.Available() != 0)
                             {
                                 return false;
                             }
                             break;
                     }
                 }
-            } while (bits.available() > 0);
+            } while (bits.Available() > 0);
             mode = Mode.ASCII_ENCODE;
             return true;
         }
@@ -258,18 +258,18 @@ namespace ZXing.Datamatrix.Internal
             do
             {
                 // If there is only one byte left then it will be encoded as ASCII
-                if (bits.available() == 8)
+                if (bits.Available() == 8)
                 {
                     return true;
                 }
-                int firstByte = bits.readBits(8);
+                int firstByte = bits.ReadBits(8);
                 if (firstByte == 254)
                 {
                     // Unlatch codeword
                     return true;
                 }
 
-                parseTwoBytes(firstByte, bits.readBits(8), cValues);
+                parseTwoBytes(firstByte, bits.ReadBits(8), cValues);
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -357,7 +357,7 @@ namespace ZXing.Datamatrix.Internal
                             return false;
                     }
                 }
-            } while (bits.available() > 0);
+            } while (bits.Available() > 0);
 
             return true;
         }
@@ -377,18 +377,18 @@ namespace ZXing.Datamatrix.Internal
             do
             {
                 // If there is only one byte left then it will be encoded as ASCII
-                if (bits.available() == 8)
+                if (bits.Available() == 8)
                 {
                     return true;
                 }
-                int firstByte = bits.readBits(8);
+                int firstByte = bits.ReadBits(8);
                 if (firstByte == 254)
                 {
                     // Unlatch codeword
                     return true;
                 }
 
-                parseTwoBytes(firstByte, bits.readBits(8), cValues);
+                parseTwoBytes(firstByte, bits.ReadBits(8), cValues);
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -485,7 +485,7 @@ namespace ZXing.Datamatrix.Internal
                             return false;
                     }
                 }
-            } while (bits.available() > 0);
+            } while (bits.Available() > 0);
 
             return true;
         }
@@ -503,18 +503,18 @@ namespace ZXing.Datamatrix.Internal
             do
             {
                 // If there is only one byte left then it will be encoded as ASCII
-                if (bits.available() == 8)
+                if (bits.Available() == 8)
                 {
                     return true;
                 }
-                int firstByte = bits.readBits(8);
+                int firstByte = bits.ReadBits(8);
                 if (firstByte == 254)
                 {
                     // Unlatch codeword
                     return true;
                 }
 
-                parseTwoBytes(firstByte, bits.readBits(8), cValues);
+                parseTwoBytes(firstByte, bits.ReadBits(8), cValues);
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -551,7 +551,7 @@ namespace ZXing.Datamatrix.Internal
                             break;
                     }
                 }
-            } while (bits.available() > 0);
+            } while (bits.Available() > 0);
 
             return true;
         }
@@ -575,14 +575,14 @@ namespace ZXing.Datamatrix.Internal
             do
             {
                 // If there is only two or less bytes left then it will be encoded as ASCII
-                if (bits.available() <= 16)
+                if (bits.Available() <= 16)
                 {
                     return true;
                 }
 
                 for (int i = 0; i < 4; i++)
                 {
-                    int edifactValue = bits.readBits(6);
+                    int edifactValue = bits.ReadBits(6);
 
                     // Check for the unlatch character
                     if (edifactValue == 0x1F)
@@ -592,7 +592,7 @@ namespace ZXing.Datamatrix.Internal
                         int bitsLeft = 8 - bits.BitOffset;
                         if (bitsLeft != 8)
                         {
-                            bits.readBits(bitsLeft);
+                            bits.ReadBits(bitsLeft);
                         }
                         return true;
                     }
@@ -604,7 +604,7 @@ namespace ZXing.Datamatrix.Internal
                     }
                     result.Append((char)edifactValue);
                 }
-            } while (bits.available() > 0);
+            } while (bits.Available() > 0);
 
             return true;
         }
@@ -618,12 +618,12 @@ namespace ZXing.Datamatrix.Internal
         {
             // Figure out how long the Base 256 Segment is.
             int codewordPosition = 1 + bits.ByteOffset; // position is 1-indexed
-            int d1 = unrandomize255State(bits.readBits(8), codewordPosition++);
+            int d1 = unrandomize255State(bits.ReadBits(8), codewordPosition++);
             int count;
             if (d1 == 0)
             {
                 // Read the remainder of the symbol
-                count = bits.available() / 8;
+                count = bits.Available() / 8;
             }
             else if (d1 < 250)
             {
@@ -631,7 +631,7 @@ namespace ZXing.Datamatrix.Internal
             }
             else
             {
-                count = 250 * (d1 - 249) + unrandomize255State(bits.readBits(8), codewordPosition++);
+                count = 250 * (d1 - 249) + unrandomize255State(bits.ReadBits(8), codewordPosition++);
             }
 
             // We're seeing NegativeArraySizeException errors from users.
@@ -645,11 +645,11 @@ namespace ZXing.Datamatrix.Internal
             {
                 // Have seen this particular error in the wild, such as at
                 // http://www.bcgen.com/demo/IDAutomationStreamingDataMatrix.aspx?MODE=3&D=Fred&PFMT=3&PT=F&X=0.3&O=0&LM=0.2
-                if (bits.available() < 8)
+                if (bits.Available() < 8)
                 {
                     return false;
                 }
-                bytes[i] = (byte)unrandomize255State(bits.readBits(8), codewordPosition++);
+                bytes[i] = (byte)unrandomize255State(bits.ReadBits(8), codewordPosition++);
             }
             byteSegments.Add(bytes);
             try

@@ -122,7 +122,7 @@ namespace ZXing.OneD
                 int quietStart = start - (nextStart - start);
                 if (quietStart >= 0)
                 {
-                    foundStart = row.isRange(quietStart, start, false);
+                    foundStart = row.IsRange(quietStart, start, false);
                 }
             }
             return startRange;
@@ -190,7 +190,7 @@ namespace ZXing.OneD
             // spec might want more whitespace, but in practice this is the maximum we can count on.
             var end = endRange[1];
             var quietEnd = end + (end - endRange[0]);
-            if (quietEnd >= row.Size || !row.isRange(end, quietEnd, false))
+            if (quietEnd >= row.Size || !row.IsRange(end, quietEnd, false))
             {
                 return null;
             }
@@ -348,7 +348,7 @@ namespace ZXing.OneD
             int patternLength = pattern.Length;
             int width = row.Size;
             bool isWhite = whiteFirst;
-            rowOffset = whiteFirst ? row.getNextUnset(rowOffset) : row.getNextSet(rowOffset);
+            rowOffset = whiteFirst ? row.GetNextUnset(rowOffset) : row.GetNextSet(rowOffset);
             int counterPosition = 0;
             int patternStart = rowOffset;
             for (int x = rowOffset; x < width; x++)

@@ -285,7 +285,7 @@ namespace ZXing.OneD
         {
             counterLength = 0;
             // Start from the first white bit.
-            int i = row.getNextUnset(0);
+            int i = row.GetNextUnset(0);
             int end = row.Size;
             if (i >= end)
             {

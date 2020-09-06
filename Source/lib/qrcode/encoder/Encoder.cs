@@ -108,7 +108,7 @@ namespace ZXing.QrCode.Internal
             // Append ECI segment if applicable
             if (mode == Mode.BYTE && generateECI)
             {
-                var eci = CharacterSetECI.getCharacterSetECIByName(encoding);
+                var eci = CharacterSetEci.GetCharacterSetEciByName(encoding);
                 if (eci != null)
                 {
                     var eciIsExplicitDisabled = hints != null && hints.ContainsKey(EncodeHintType.DISABLE_ECI) && hints[EncodeHintType.DISABLE_ECI] != null && Convert.ToBoolean(hints[EncodeHintType.DISABLE_ECI].ToString());
@@ -152,12 +152,12 @@ namespace ZXing.QrCode.Internal
             }
 
             var headerAndDataBits = new BitArray();
-            headerAndDataBits.appendBitArray(headerBits);
+            headerAndDataBits.AppendBitArray(headerBits);
             // Find "length" of main segment and write it
             var numLetters = mode == Mode.BYTE ? dataBits.SizeInBytes : content.Length;
             appendLengthInfo(numLetters, version, mode, headerAndDataBits);
             // Put data together into the overall payload
-            headerAndDataBits.appendBitArray(dataBits);
+            headerAndDataBits.AppendBitArray(dataBits);
 
             var ecBlocks = version.getECBlocksForLevel(ecLevel);
             var numDataBytes = version.TotalCodewords - ecBlocks.TotalECCodewords;
@@ -392,7 +392,7 @@ namespace ZXing.QrCode.Internal
             }
             for (int i = 0; i < 4 && bits.Size < capacity; ++i)
             {
-                bits.appendBit(false);
+                bits.AppendBit(false);
             }
             // Append termination bits. See 8.4.8 of JISX0510:2004 (p.24) for details.
             // If the last byte isn't 8-bit aligned, we'll add padding bits.
@@ -401,14 +401,14 @@ namespace ZXing.QrCode.Internal
             {
                 for (int i = numBitsInLastByte; i < 8; i++)
                 {
-                    bits.appendBit(false);
+                    bits.AppendBit(false);
                 }
             }
             // If we have more space, we'll fill the space with padding patterns defined in 8.4.9 (p.24).
             int numPaddingBytes = numDataBytes - bits.SizeInBytes;
             for (int i = 0; i < numPaddingBytes; ++i)
             {
-                bits.appendBits((i & 0x01) == 0 ? 0xEC : 0x11, 8);
+                bits.AppendBits((i & 0x01) == 0 ? 0xEC : 0x11, 8);
             }
             if (bits.Size != capacity)
             {
@@ -533,7 +533,7 @@ namespace ZXing.QrCode.Internal
 
                 int size = numDataBytesInBlock[0];
                 byte[] dataBytes = new byte[size];
-                bits.toBytes(8 * dataBytesOffset, dataBytes, 0, size);
+                bits.ToBytes(8 * dataBytesOffset, dataBytes, 0, size);
                 byte[] ecBytes = generateECBytes(dataBytes, numEcBytesInBlock[0]);
                 blocks.Add(new BlockPair(dataBytes, ecBytes));
 
@@ -557,7 +557,7 @@ namespace ZXing.QrCode.Internal
                     byte[] dataBytes = block.DataBytes;
                     if (i < dataBytes.Length)
                     {
-                        result.appendBits(dataBytes[i], 8);
+                        result.AppendBits(dataBytes[i], 8);
                     }
                 }
             }
@@ -569,7 +569,7 @@ namespace ZXing.QrCode.Internal
                     byte[] ecBytes = block.ErrorCorrectionBytes;
                     if (i < ecBytes.Length)
                     {
-                        result.appendBits(ecBytes[i], 8);
+                        result.AppendBits(ecBytes[i], 8);
                     }
                 }
             }
@@ -591,7 +591,7 @@ namespace ZXing.QrCode.Internal
                 toEncode[i] = dataBytes[i];
 
             }
-            new ReedSolomonEncoder(GenericGF.QR_CODE_FIELD_256).encode(toEncode, numEcBytesInBlock);
+            new ReedSolomonEncoder(GenericGf.QR_CODE_FIELD_256).Encode(toEncode, numEcBytesInBlock);
 
             byte[] ecBytes = new byte[numEcBytesInBlock];
             for (int i = 0; i < numEcBytesInBlock; i++)
@@ -609,7 +609,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="bits">The bits.</param>
         public static void appendModeInfo(Mode mode, BitArray bits)
         {
-            bits.appendBits(mode.Bits, 4);
+            bits.AppendBits(mode.Bits, 4);
         }
 
 
@@ -627,7 +627,7 @@ namespace ZXing.QrCode.Internal
             {
                 throw new WriterException(numLetters + " is bigger than " + ((1 << numBits) - 1));
             }
-            bits.appendBits(numLetters, numBits);
+            bits.AppendBits(numLetters, numBits);
         }
 
         /// <summary>
@@ -671,20 +671,20 @@ namespace ZXing.QrCode.Internal
                     // Encode three numeric letters in ten bits.
                     int num2 = content[i + 1] - '0';
                     int num3 = content[i + 2] - '0';
-                    bits.appendBits(num1 * 100 + num2 * 10 + num3, 10);
+                    bits.AppendBits(num1 * 100 + num2 * 10 + num3, 10);
                     i += 3;
                 }
                 else if (i + 1 < length)
                 {
                     // Encode two numeric letters in seven bits.
                     int num2 = content[i + 1] - '0';
-                    bits.appendBits(num1 * 10 + num2, 7);
+                    bits.AppendBits(num1 * 10 + num2, 7);
                     i += 2;
                 }
                 else
                 {
                     // Encode one numeric letter in four bits.
-                    bits.appendBits(num1, 4);
+                    bits.AppendBits(num1, 4);
                     i++;
                 }
             }
@@ -710,13 +710,13 @@ namespace ZXing.QrCode.Internal
                         throw new WriterException();
                     }
                     // Encode two alphanumeric letters in 11 bits.
-                    bits.appendBits(code1 * 45 + code2, 11);
+                    bits.AppendBits(code1 * 45 + code2, 11);
                     i += 2;
                 }
                 else
                 {
                     // Encode one alphanumeric letter in six bits.
-                    bits.appendBits(code1, 6);
+                    bits.AppendBits(code1, 6);
                     i++;
                 }
             }
@@ -757,7 +757,7 @@ namespace ZXing.QrCode.Internal
             }
             foreach (byte b in bytes)
             {
-                bits.appendBits(b, 8);
+                bits.AppendBits(b, 8);
             }
         }
 
@@ -798,16 +798,16 @@ namespace ZXing.QrCode.Internal
                     throw new WriterException("Invalid byte sequence");
                 }
                 int encoded = (subtracted >> 8) * 0xc0 + (subtracted & 0xff);
-                bits.appendBits(encoded, 13);
+                bits.AppendBits(encoded, 13);
             }
         }
 
-        private static void appendECI(CharacterSetECI eci, BitArray bits)
+        private static void appendECI(CharacterSetEci eci, BitArray bits)
         {
-            bits.appendBits(Mode.ECI.Bits, 4);
+            bits.AppendBits(Mode.ECI.Bits, 4);
 
             // This is correct for values up to 127, which is all we need now.
-            bits.appendBits(eci.Value, 8);
+            bits.AppendBits(eci.Value, 8);
         }
     }
 }

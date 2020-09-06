@@ -48,7 +48,7 @@ namespace ZXing.Datamatrix.Internal
         /// <returns><see cref="DetectorResult" />encapsulating results of detecting a Data Matrix Code or null</returns>
         public DetectorResult detect()
         {
-            ResultPoint[] cornerPoints = rectangleDetector?.detect();
+            ResultPoint[] cornerPoints = rectangleDetector?.Detect();
             if (cornerPoints == null) {
                 return null;
             }
@@ -351,7 +351,7 @@ namespace ZXing.Datamatrix.Internal
             int dimensionX,
             int dimensionY)
         {
-            return sampler.sampleGrid(
+            return sampler.SampleGrid(
                 dimensionX,
                 dimensionY,
                 0.5f,

@@ -45,12 +45,12 @@ namespace ZXing.Common.Test
          BitArray array = new BitArray(32);
          for (int i = 0; i < array.Size; i++)
          {
-            Assert.AreEqual(32, array.getNextSet(i));
+            Assert.AreEqual(32, array.GetNextSet(i));
          }
          array = new BitArray(33);
          for (int i = 0; i < array.Size; i++)
          {
-            Assert.AreEqual(33, array.getNextSet(i));
+            Assert.AreEqual(33, array.GetNextSet(i));
          }
       }
 
@@ -61,13 +61,13 @@ namespace ZXing.Common.Test
          array[31] = true;
          for (int i = 0; i < array.Size; i++)
          {
-            Assert.AreEqual(i <= 31 ? 31 : 33, array.getNextSet(i));
+            Assert.AreEqual(i <= 31 ? 31 : 33, array.GetNextSet(i));
          }
          array = new BitArray(33);
          array[32] = true;
          for (int i = 0; i < array.Size; i++)
          {
-            Assert.AreEqual(32, array.getNextSet(i));
+            Assert.AreEqual(32, array.GetNextSet(i));
          }
       }
 
@@ -92,7 +92,7 @@ namespace ZXing.Common.Test
             {
                expected = 63;
             }
-            Assert.AreEqual(expected, array.getNextSet(i));
+            Assert.AreEqual(expected, array.GetNextSet(i));
          }
       }
 
@@ -117,7 +117,7 @@ namespace ZXing.Common.Test
             {
                expected = 63;
             }
-            Assert.AreEqual(expected, array.getNextSet(i));
+            Assert.AreEqual(expected, array.GetNextSet(i));
          }
       }
 
@@ -142,7 +142,7 @@ namespace ZXing.Common.Test
                {
                   expected++;
                }
-               int actual = array.getNextSet(query);
+               int actual = array.GetNextSet(query);
                Assert.AreEqual(expected, actual);
             }
          }
@@ -153,7 +153,7 @@ namespace ZXing.Common.Test
       public void TestSetBulk()
       {
          BitArray array = new BitArray(64);
-         array.setBulk(32, -65536);
+         array.SetBulk(32, -65536);
          for (int i = 0; i < 48; i++)
          {
             Assert.IsFalse(array[i]);
@@ -168,7 +168,7 @@ namespace ZXing.Common.Test
       public void TestSetRange()
       {
          BitArray array = new BitArray(64);
-         array.setRange(28, 36);
+         array.SetRange(28, 36);
          Assert.IsFalse(array[27]);
          for (int i = 28; i < 36; i++)
          {
@@ -185,7 +185,7 @@ namespace ZXing.Common.Test
          {
             array[i] = true;
          }
-         array.clear();
+         array.Clear();
          for (int i = 0; i < 32; i++)
          {
             Assert.IsFalse(array[i]);
@@ -197,9 +197,9 @@ namespace ZXing.Common.Test
       {
          BitArray array = new BitArray(32);
          Assert.IsFalse(array[5]);
-         array.flip(5);
+         array.Flip(5);
          Assert.IsTrue(array[5]);
-         array.flip(5);
+         array.Flip(5);
          Assert.IsFalse(array[5]);
       }
 
@@ -218,25 +218,25 @@ namespace ZXing.Common.Test
       public void TestIsRange()
       {
          BitArray array = new BitArray(64);
-         Assert.IsTrue(array.isRange(0, 64, false));
-         Assert.IsFalse(array.isRange(0, 64, true));
+         Assert.IsTrue(array.IsRange(0, 64, false));
+         Assert.IsFalse(array.IsRange(0, 64, true));
          array[32] = true;
-         Assert.IsTrue(array.isRange(32, 33, true));
+         Assert.IsTrue(array.IsRange(32, 33, true));
          array[31] = true;
-         Assert.IsTrue(array.isRange(31, 33, true));
+         Assert.IsTrue(array.IsRange(31, 33, true));
          array[34] = true;
-         Assert.IsFalse(array.isRange(31, 35, true));
+         Assert.IsFalse(array.IsRange(31, 35, true));
          for (int i = 0; i < 31; i++)
          {
             array[i] = true;
          }
-         Assert.IsTrue(array.isRange(0, 33, true));
+         Assert.IsTrue(array.IsRange(0, 33, true));
          for (int i = 33; i < 64; i++)
          {
             array[i] = true;
          }
-         Assert.IsTrue(array.isRange(0, 64, true));
-         Assert.IsFalse(array.isRange(0, 64, false));
+         Assert.IsTrue(array.IsRange(0, 64, true));
+         Assert.IsFalse(array.IsRange(0, 64, false));
       }
 
       [Test]

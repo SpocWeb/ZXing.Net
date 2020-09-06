@@ -101,7 +101,7 @@ namespace ZXing.Aztec
             {
                 result.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
             }
-            var ecLevel = decoderResult.ECLevel;
+            var ecLevel = decoderResult.EcLevel;
             if (ecLevel != null)
             {
                 result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);

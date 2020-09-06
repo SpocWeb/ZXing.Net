@@ -27,24 +27,24 @@ namespace ZXing.Common.ReedSolomon.Test
    [TestFixture]
    public sealed class GenericGfPolyTestCase
    {
-       private static readonly GenericGF FIELD = GenericGF.QR_CODE_FIELD_256;
+       private static readonly GenericGf FIELD = GenericGf.QR_CODE_FIELD_256;
 
        [Test]
         public void TestPolynomialString()
        {
            Assert.That(FIELD.Zero.ToString(), Is.EqualTo("0"));
-           Assert.That(FIELD.buildMonomial(0, -1).ToString(), Is.EqualTo("-1"));
-           var p = new GenericGFPoly(FIELD, new int[] { 3, 0, -2, 1, 1 });
+           Assert.That(FIELD.BuildMonomial(0, -1).ToString(), Is.EqualTo("-1"));
+           var p = new GenericGfPoly(FIELD, new int[] { 3, 0, -2, 1, 1 });
            Assert.That(p.ToString(), Is.EqualTo("a^25x^4 - ax^2 + x + 1"));
-           p = new GenericGFPoly(FIELD, new int[] { 3 });
+           p = new GenericGfPoly(FIELD, new int[] { 3 });
            Assert.That(p.ToString(), Is.EqualTo("a^25"));
         }
 
        [Test]
         public void TestZero()
        {
-           Assert.That(FIELD.Zero, Is.EqualTo(FIELD.buildMonomial(1, 0)));
-           Assert.That(FIELD.Zero, Is.EqualTo(FIELD.buildMonomial(1, 2).multiply(0)));
+           Assert.That(FIELD.Zero, Is.EqualTo(FIELD.BuildMonomial(1, 0)));
+           Assert.That(FIELD.Zero, Is.EqualTo(FIELD.BuildMonomial(1, 2).Multiply(0)));
        }
     }
 }

@@ -258,7 +258,7 @@ namespace ZXing.QrCode.Internal.Test
          BitArray bits = new BitArray();
          foreach (char c in bytes)
          {
-            bits.appendBits(c, 8);
+            bits.AppendBits(c, 8);
          }
          ByteMatrix matrix = new ByteMatrix(21, 21);
          MatrixUtil.buildMatrix(bits,

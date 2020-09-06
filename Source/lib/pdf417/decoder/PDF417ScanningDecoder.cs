@@ -582,7 +582,7 @@ namespace ZXing.PDF417.Internal
                 return null;
             }
             int endColumn;
-            int codewordBitCount = MathUtils.sum(moduleBitCount);
+            int codewordBitCount = MathUtils.Sum(moduleBitCount);
             if (leftToRight)
             {
                 endColumn = startColumn + codewordBitCount;

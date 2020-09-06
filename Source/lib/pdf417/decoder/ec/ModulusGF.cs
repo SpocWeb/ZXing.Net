@@ -15,12 +15,13 @@
  */
 
 using System;
+using ZXing.Common.ReedSolomon;
 
 namespace ZXing.PDF417.Internal.EC
 {
     /// <summary>
     /// <p>A field based on powers of a generator integer, modulo some modulus.</p>
-    /// <see cref="ZXing.Common.ReedSolomon.GenericGFPoly"/>
+    /// <see cref="GenericGfPoly"/>
     /// </summary>
     /// <author>Sean Owen</author>
     internal sealed class ModulusGF

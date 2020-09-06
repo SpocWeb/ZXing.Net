@@ -100,7 +100,7 @@ namespace ZXing.PDF417
         static BarCodeText BuildBarCodeText(this DecoderResult decoderResult, ResultPoint[] points)
         {
             var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, points, BarcodeFormat.PDF_417);
-            result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.ECLevel);
+            result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, decoderResult.EcLevel);
             var pdf417ResultMetadata = (PDF417ResultMetadata)decoderResult.Other;
             if (pdf417ResultMetadata != null)
             {

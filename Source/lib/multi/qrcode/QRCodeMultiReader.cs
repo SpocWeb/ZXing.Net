@@ -98,7 +98,7 @@ namespace ZXing.Multi.QrCode
                 barCodeText.PutMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
             }
 
-            var ecLevel = decoderResult.ECLevel;
+            var ecLevel = decoderResult.EcLevel;
             if (ecLevel != null)
             {
                 barCodeText.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);

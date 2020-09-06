@@ -28,13 +28,13 @@ namespace ZXing.Common.ReedSolomon
     /// port of his C++ Reed-Solomon implementation.</p>
     /// </summary>
     /// <author>Sean Owen</author>
-    public sealed class GenericGFPoly
+    public sealed class GenericGfPoly
     {
-        private readonly GenericGF field;
-        private readonly int[] coefficients;
+        private readonly GenericGf _Field;
+        private readonly int[] _Coefficients;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericGFPoly"/> class.
+        /// Initializes a new instance of the <see cref="GenericGfPoly"/> class.
         /// </summary>
         /// <param name="field">the {@link GenericGF} instance representing the field to use
         /// to perform computations</param>
@@ -43,13 +43,13 @@ namespace ZXing.Common.ReedSolomon
         /// <exception cref="ArgumentException">if argument is null or empty,
         /// or if leading coefficient is 0 and this is not a
         /// constant polynomial (that is, it is not the monomial "0")</exception>
-        public GenericGFPoly(GenericGF field, int[] coefficients)
+        public GenericGfPoly(GenericGf field, int[] coefficients)
         {
             if (coefficients.Length == 0)
             {
                 throw new ArgumentException();
             }
-            this.field = field;
+            this._Field = field;
             int coefficientsLength = coefficients.Length;
             if (coefficientsLength > 1 && coefficients[0] == 0)
             {
@@ -61,45 +61,45 @@ namespace ZXing.Common.ReedSolomon
                 }
                 if (firstNonZero == coefficientsLength)
                 {
-                    this.coefficients = new[] { 0 };
+                    this._Coefficients = new[] { 0 };
                 }
                 else
                 {
-                    this.coefficients = new int[coefficientsLength - firstNonZero];
+                    this._Coefficients = new int[coefficientsLength - firstNonZero];
                     Array.Copy(coefficients,
                         firstNonZero,
-                        this.coefficients,
+                        this._Coefficients,
                         0,
-                        this.coefficients.Length);
+                        this._Coefficients.Length);
                 }
             }
             else
             {
-                this.coefficients = coefficients;
+                this._Coefficients = coefficients;
             }
         }
 
-        public IReadOnlyList<int> Coefficients => coefficients;
+        public IReadOnlyList<int> Coefficients => _Coefficients;
 
         /// <summary>
         /// degree of this polynomial
         /// </summary>
-        public int Degree => coefficients.Length - 1;
+        public int Degree => _Coefficients.Length - 1;
 
         /// <summary>
-        /// Gets a value indicating whether this <see cref="GenericGFPoly"/> is zero.
+        /// Gets a value indicating whether this <see cref="GenericGfPoly"/> is zero.
         /// </summary>
         /// <value>true iff this polynomial is the monomial "0"</value>
-        public bool isZero => coefficients[0] == 0;
+        public bool IsZero => _Coefficients[0] == 0;
 
         /// <summary>
         /// coefficient of x^degree term in this polynomial
         /// </summary>
         /// <param name="degree">The degree.</param>
         /// <returns>coefficient of x^degree term in this polynomial</returns>
-        public int getCoefficient(int degree)
+        public int GetCoefficient(int degree)
         {
-            return coefficients[coefficients.Length - 1 - degree];
+            return _Coefficients[_Coefficients.Length - 1 - degree];
         }
 
         /// <summary>
@@ -107,49 +107,49 @@ namespace ZXing.Common.ReedSolomon
         /// </summary>
         /// <param name="a">A.</param>
         /// <returns>evaluation of this polynomial at a given point</returns>
-        public int evaluateAt(int a)
+        public int EvaluateAt(int a)
         {
             int result = 0;
             if (a == 0)
             {
                 // Just return the x^0 coefficient
-                return getCoefficient(0);
+                return GetCoefficient(0);
             }
             if (a == 1)
             {
                 // Just the sum of the coefficients
-                foreach (var coefficient in coefficients)
+                foreach (var coefficient in _Coefficients)
                 {
-                    result = GenericGF.addOrSubtract(result, coefficient);
+                    result = GenericGf.AddOrSubtract(result, coefficient);
                 }
                 return result;
             }
-            result = coefficients[0];
-            int size = coefficients.Length;
+            result = _Coefficients[0];
+            int size = _Coefficients.Length;
             for (int i = 1; i < size; i++)
             {
-                result = GenericGF.addOrSubtract(field.multiply(a, result), coefficients[i]);
+                result = GenericGf.AddOrSubtract(_Field.Multiply(a, result), _Coefficients[i]);
             }
             return result;
         }
 
-        public GenericGFPoly addOrSubtract(GenericGFPoly other)
+        public GenericGfPoly AddOrSubtract(GenericGfPoly other)
         {
-            if (!field.Equals(other.field))
+            if (!_Field.Equals(other._Field))
             {
                 throw new ArgumentException("GenericGFPolys do not have same GenericGF field");
             }
-            if (isZero)
+            if (IsZero)
             {
                 return other;
             }
-            if (other.isZero)
+            if (other.IsZero)
             {
                 return this;
             }
 
-            int[] smallerCoefficients = coefficients;
-            int[] largerCoefficients = other.coefficients;
+            int[] smallerCoefficients = _Coefficients;
+            int[] largerCoefficients = other._Coefficients;
             if (smallerCoefficients.Length > largerCoefficients.Length)
             {
                 int[] temp = smallerCoefficients;
@@ -163,25 +163,25 @@ namespace ZXing.Common.ReedSolomon
 
             for (int i = lengthDiff; i < largerCoefficients.Length; i++)
             {
-                sumDiff[i] = GenericGF.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
+                sumDiff[i] = GenericGf.AddOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
             }
 
-            return new GenericGFPoly(field, sumDiff);
+            return new GenericGfPoly(_Field, sumDiff);
         }
 
-        public GenericGFPoly multiply(GenericGFPoly other)
+        public GenericGfPoly Multiply(GenericGfPoly other)
         {
-            if (!field.Equals(other.field))
+            if (!_Field.Equals(other._Field))
             {
                 throw new ArgumentException("GenericGFPolys do not have same GenericGF field");
             }
-            if (isZero || other.isZero)
+            if (IsZero || other.IsZero)
             {
-                return field.Zero;
+                return _Field.Zero;
             }
-            int[] aCoefficients = coefficients;
+            int[] aCoefficients = _Coefficients;
             int aLength = aCoefficients.Length;
-            int[] bCoefficients = other.coefficients;
+            int[] bCoefficients = other._Coefficients;
             int bLength = bCoefficients.Length;
             int[] product = new int[aLength + bLength - 1];
             for (int i = 0; i < aLength; i++)
@@ -189,33 +189,33 @@ namespace ZXing.Common.ReedSolomon
                 int aCoeff = aCoefficients[i];
                 for (int j = 0; j < bLength; j++)
                 {
-                    product[i + j] = GenericGF.addOrSubtract(product[i + j],
-                        field.multiply(aCoeff, bCoefficients[j]));
+                    product[i + j] = GenericGf.AddOrSubtract(product[i + j],
+                        _Field.Multiply(aCoeff, bCoefficients[j]));
                 }
             }
-            return new GenericGFPoly(field, product);
+            return new GenericGfPoly(_Field, product);
         }
 
-        public GenericGFPoly multiply(int scalar)
+        public GenericGfPoly Multiply(int scalar)
         {
             if (scalar == 0)
             {
-                return field.Zero;
+                return _Field.Zero;
             }
             if (scalar == 1)
             {
                 return this;
             }
-            int size = coefficients.Length;
+            int size = _Coefficients.Length;
             int[] product = new int[size];
             for (int i = 0; i < size; i++)
             {
-                product[i] = field.multiply(coefficients[i], scalar);
+                product[i] = _Field.Multiply(_Coefficients[i], scalar);
             }
-            return new GenericGFPoly(field, product);
+            return new GenericGfPoly(_Field, product);
         }
 
-        public GenericGFPoly multiplyByMonomial(int degree, int coefficient)
+        public GenericGfPoly MultiplyByMonomial(int degree, int coefficient)
         {
             if (degree < 0)
             {
@@ -223,42 +223,42 @@ namespace ZXing.Common.ReedSolomon
             }
             if (coefficient == 0)
             {
-                return field.Zero;
+                return _Field.Zero;
             }
-            int size = coefficients.Length;
+            int size = _Coefficients.Length;
             int[] product = new int[size + degree];
             for (int i = 0; i < size; i++)
             {
-                product[i] = field.multiply(coefficients[i], coefficient);
+                product[i] = _Field.Multiply(_Coefficients[i], coefficient);
             }
-            return new GenericGFPoly(field, product);
+            return new GenericGfPoly(_Field, product);
         }
 
-        public GenericGFPoly[] divide(GenericGFPoly other)
+        public GenericGfPoly[] Divide(GenericGfPoly other)
         {
-            if (!field.Equals(other.field))
+            if (!_Field.Equals(other._Field))
             {
                 throw new ArgumentException("GenericGFPolys do not have same GenericGF field");
             }
-            if (other.isZero)
+            if (other.IsZero)
             {
                 throw new ArgumentException("Divide by 0");
             }
 
-            GenericGFPoly quotient = field.Zero;
-            GenericGFPoly remainder = this;
+            GenericGfPoly quotient = _Field.Zero;
+            GenericGfPoly remainder = this;
 
-            int denominatorLeadingTerm = other.getCoefficient(other.Degree);
-            int inverseDenominatorLeadingTerm = field.inverse(denominatorLeadingTerm);
+            int denominatorLeadingTerm = other.GetCoefficient(other.Degree);
+            int inverseDenominatorLeadingTerm = _Field.Inverse(denominatorLeadingTerm);
 
-            while (remainder.Degree >= other.Degree && !remainder.isZero)
+            while (remainder.Degree >= other.Degree && !remainder.IsZero)
             {
                 int degreeDifference = remainder.Degree - other.Degree;
-                int scale = field.multiply(remainder.getCoefficient(remainder.Degree), inverseDenominatorLeadingTerm);
-                GenericGFPoly term = other.multiplyByMonomial(degreeDifference, scale);
-                GenericGFPoly iterationQuotient = field.buildMonomial(degreeDifference, scale);
-                quotient = quotient.addOrSubtract(iterationQuotient);
-                remainder = remainder.addOrSubtract(term);
+                int scale = _Field.Multiply(remainder.GetCoefficient(remainder.Degree), inverseDenominatorLeadingTerm);
+                GenericGfPoly term = other.MultiplyByMonomial(degreeDifference, scale);
+                GenericGfPoly iterationQuotient = _Field.BuildMonomial(degreeDifference, scale);
+                quotient = quotient.AddOrSubtract(iterationQuotient);
+                remainder = remainder.AddOrSubtract(term);
             }
 
             return new[] { quotient, remainder };
@@ -266,14 +266,14 @@ namespace ZXing.Common.ReedSolomon
 
         public override string ToString()
         {
-            if (isZero)
+            if (IsZero)
             {
                 return "0";
             }
             StringBuilder result = new StringBuilder(8 * Degree);
             for (int degree = Degree; degree >= 0; degree--)
             {
-                int coefficient = getCoefficient(degree);
+                int coefficient = GetCoefficient(degree);
                 if (coefficient != 0)
                 {
                     if (coefficient < 0)
@@ -297,7 +297,7 @@ namespace ZXing.Common.ReedSolomon
                     }
                     if (degree == 0 || coefficient != 1)
                     {
-                        int alphaPower = field.log(coefficient);
+                        int alphaPower = _Field.Log(coefficient);
                         if (alphaPower == 0)
                         {
                             result.Append('1');

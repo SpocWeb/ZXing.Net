@@ -60,28 +60,28 @@ namespace ZXing.Maxicode.Internal
          new[] {737,736,743,742,749,748,755,754,761,760,767,766,773,772,779,778,785,784,791,790,797,796,803,802,809,808,815,814,863,862}
       };
 
-        private readonly BitMatrix bitMatrix;
+        private readonly BitMatrix _BitMatrix;
 
         /// <summary>
         /// <param name="bitMatrix"><see cref="BitMatrix" />to parse</param>
         /// </summary>
         internal BitMatrixParser(BitMatrix bitMatrix)
         {
-            this.bitMatrix = bitMatrix;
+            this._BitMatrix = bitMatrix;
         }
 
-        internal byte[] readCodewords()
+        public byte[] ReadCodewords()
         {
             byte[] result = new byte[144];
-            int height = bitMatrix.Height;
-            int width = bitMatrix.Width;
+            int height = _BitMatrix.Height;
+            int width = _BitMatrix.Width;
             for (int y = 0; y < height; y++)
             {
                 int[] bitnrRow = BITNR[y];
                 for (int x = 0; x < width; x++)
                 {
                     int bit = bitnrRow[x];
-                    if (bit >= 0 && bitMatrix[x, y])
+                    if (bit >= 0 && _BitMatrix[x, y])
                     {
                         result[bit / 6] |= (byte)(1 << (5 - (bit % 6)));
                     }

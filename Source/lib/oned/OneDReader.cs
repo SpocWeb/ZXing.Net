@@ -155,7 +155,7 @@ namespace ZXing.OneD
                     if (attempt == 1)
                     {
                         // trying again?
-                        row.reverse(); // reverse the row and continue
+                        row.Reverse(); // reverse the row and continue
                                        // This means we will only ever draw result points *once* in the life of this method
                                        // since we want to avoid drawing the wrong points after flipping the row, and,
                                        // don't want to clutter with noise from every single row scan -- just the scans

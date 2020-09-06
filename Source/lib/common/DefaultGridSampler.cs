@@ -34,8 +34,8 @@ namespace ZXing.Common
         public override BitMatrix GetImage() => _Image;
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public override BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
-            => _Image.sampleGrid(dimensionX, dimensionY, transform, 1);
+        public override BitMatrix SampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
+            => _Image.SampleGrid(dimensionX, dimensionY, transform, 1);
 
     }
 
@@ -54,15 +54,15 @@ namespace ZXing.Common
         public override BitMatrix GetImage() => Binarizer.GetBlackMatrix();
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public override BitMatrix sampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
-            => XGridSampler.sampleGrid(Image, dimensionX, dimensionY, transform, Binarizer.BlackPoint, 1);
+        public override BitMatrix SampleGrid(int dimensionX, int dimensionY, PerspectiveTransform transform)
+            => XGridSampler.SampleGrid(Image, dimensionX, dimensionY, transform, Binarizer.BlackPoint, 1);
 
     }
 
     public static class XGridSampler {
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public static BitMatrix sampleGrid(LuminanceSource image
+        public static BitMatrix SampleGrid(LuminanceSource image
             , int dimensionX, int dimensionY, PerspectiveTransform transform
             , int blackPoint, int range)
         {
@@ -82,10 +82,10 @@ namespace ZXing.Common
                     xyPairs[x] = (x >> 1) + 0.5f; //x * 0.5f;
                     xyPairs[x + 1] = yValue;
                 }
-                transform.transformPoints(xyPairs);
+                transform.TransformPoints(xyPairs);
                 // Quick check to see if points transformed to something inside the image;
                 // sufficient to check the endpoints
-                if (!checkAndNudgePoints(xyPairs, image.Width, image.Height))
+                if (!CheckAndNudgePoints(xyPairs, image.Width, image.Height))
                 {
                     return null;
                 }
@@ -115,7 +115,7 @@ namespace ZXing.Common
         }
 
         /// <summary> Samples the <paramref name="image"/> to a lower Resolution </summary>
-        public static BitMatrix sampleGrid(this BitMatrix image
+        public static BitMatrix SampleGrid(this BitMatrix image
             , int dimensionX, int dimensionY, PerspectiveTransform transform
             , int range)
         {
@@ -136,10 +136,10 @@ namespace ZXing.Common
                     xyPairs[x] = (x >> 1) + 0.5f; //x * 0.5f;
                     xyPairs[x + 1] = iValue;
                 }
-                transform.transformPoints(xyPairs);
+                transform.TransformPoints(xyPairs);
                 // Quick check to see if points transformed to something inside the image;
                 // sufficient to check the endpoints
-                if (!checkAndNudgePoints(xyPairs, image.Width, image.Height))
+                if (!CheckAndNudgePoints(xyPairs, image.Width, image.Height))
                 {
                     return null;
                 }
@@ -216,7 +216,7 @@ namespace ZXing.Common
         /// </param>
         /// <param name="points">actual points in x1,y1,...,xn,yn form
         /// </param>
-        static bool checkAndNudgePoints(float[] points, int width, int height)
+        static bool CheckAndNudgePoints(float[] points, int width, int height)
         {
             // Check and nudge points from start until we see some that are OK:
             bool nudged = true;

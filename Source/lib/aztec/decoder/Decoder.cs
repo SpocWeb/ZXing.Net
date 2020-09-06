@@ -245,28 +245,28 @@ namespace ZXing.Aztec.Internal
         /// <returns>the corrected array</returns>
         private bool[] correctBits(bool[] rawbits)
         {
-            GenericGF gf;
+            GenericGf gf;
             int codewordSize;
 
             if (ddata.NbLayers <= 2)
             {
                 codewordSize = 6;
-                gf = GenericGF.AZTEC_DATA_6;
+                gf = GenericGf.AZTEC_DATA_6;
             }
             else if (ddata.NbLayers <= 8)
             {
                 codewordSize = 8;
-                gf = GenericGF.AZTEC_DATA_8;
+                gf = GenericGf.AZTEC_DATA_8;
             }
             else if (ddata.NbLayers <= 22)
             {
                 codewordSize = 10;
-                gf = GenericGF.AZTEC_DATA_10;
+                gf = GenericGf.AZTEC_DATA_10;
             }
             else
             {
                 codewordSize = 12;
-                gf = GenericGF.AZTEC_DATA_12;
+                gf = GenericGf.AZTEC_DATA_12;
             }
 
             int numDataCodewords = ddata.NbDatablocks;
@@ -285,7 +285,7 @@ namespace ZXing.Aztec.Internal
             }
 
             var rsDecoder = new ReedSolomonDecoder(gf);
-            if (!rsDecoder.decode(dataWords, numECCodewords)) {
+            if (!rsDecoder.Decode(dataWords, numECCodewords)) {
                 return null;
             }
 

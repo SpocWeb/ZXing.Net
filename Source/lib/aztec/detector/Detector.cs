@@ -257,8 +257,8 @@ namespace ZXing.Aztec.Internal
                 parameterData >>= 4;
             }
 
-            var rsDecoder = new ReedSolomonDecoder(GenericGF.AZTEC_PARAM);
-            if (!rsDecoder.decode(parameterWords, numECCodewords)) {
+            var rsDecoder = new ReedSolomonDecoder(GenericGf.AZTEC_PARAM);
+            if (!rsDecoder.Decode(parameterWords, numECCodewords)) {
                 return -1;
             }
 
@@ -354,7 +354,7 @@ namespace ZXing.Aztec.Internal
             if (whiteDetector == null) {
                 return null;
             }
-            ResultPoint[] cornerPoints = whiteDetector.detect();
+            ResultPoint[] cornerPoints = whiteDetector.Detect();
             if (cornerPoints != null)
             {
                 pointA = cornerPoints[0];
@@ -376,8 +376,8 @@ namespace ZXing.Aztec.Internal
             }
 
             //Compute the center of the rectangle
-            cx = MathUtils.round((pointA.X + pointD.X + pointB.X + pointC.X) / 4.0f);
-            cy = MathUtils.round((pointA.Y + pointD.Y + pointB.Y + pointC.Y) / 4.0f);
+            cx = MathUtils.Round((pointA.X + pointD.X + pointB.X + pointC.X) / 4.0f);
+            cy = MathUtils.Round((pointA.Y + pointD.Y + pointB.Y + pointC.Y) / 4.0f);
 
             // Redetermine the white rectangle starting from previously computed center.
             // This will ensure that we end up with a white rectangle in center bull's eye
@@ -386,7 +386,7 @@ namespace ZXing.Aztec.Internal
             if (whiteDetector == null) {
                 return null;
             }
-            cornerPoints = whiteDetector.detect();
+            cornerPoints = whiteDetector.Detect();
             if (cornerPoints != null)
             {
                 pointA = cornerPoints[0];
@@ -405,8 +405,8 @@ namespace ZXing.Aztec.Internal
             }
 
             // Recompute the center of the rectangle
-            cx = MathUtils.round((pointA.X + pointD.X + pointB.X + pointC.X) / 4.0f);
-            cy = MathUtils.round((pointA.Y + pointD.Y + pointB.Y + pointC.Y) / 4.0f);
+            cx = MathUtils.Round((pointA.X + pointD.X + pointB.X + pointC.X) / 4.0f);
+            cy = MathUtils.Round((pointA.Y + pointD.Y + pointB.Y + pointC.Y) / 4.0f);
 
             return new Point(cx, cy);
         }
@@ -440,7 +440,7 @@ namespace ZXing.Aztec.Internal
             float low = dimension / 2.0f - nbCenterLayers;
             float high = dimension / 2.0f + nbCenterLayers;
 
-            return GridSampler.sampleGrid(
+            return GridSampler.SampleGrid(
                                       dimension,
                                       dimension,
                                       low, low, // topleft
@@ -472,7 +472,7 @@ namespace ZXing.Aztec.Internal
             float dy = moduleSize * (p2.Y - p1.Y) / d;
             for (int i = 0; i < size; i++)
             {
-                if (_Image[MathUtils.round(px + i * dx), MathUtils.round(py + i * dy)])
+                if (_Image[MathUtils.Round(px + i * dx), MathUtils.Round(py + i * dy)])
                 {
                     result |= 1 << (size - i - 1);
                 }
@@ -548,7 +548,7 @@ namespace ZXing.Aztec.Internal
             {
                 px += dx;
                 py += dy;
-                if (_Image[MathUtils.round(px), MathUtils.round(py)] != colorModel)
+                if (_Image[MathUtils.Round(px), MathUtils.Round(py)] != colorModel)
                 {
                     error++;
                 }
@@ -636,20 +636,20 @@ namespace ZXing.Aztec.Internal
 
         private bool isValid(ResultPoint point)
         {
-            int x = MathUtils.round(point.X);
-            int y = MathUtils.round(point.Y);
+            int x = MathUtils.Round(point.X);
+            int y = MathUtils.Round(point.Y);
             return isValid(x, y);
         }
 
         // L2 distance
         private static float distance(Point a, Point b)
         {
-            return MathUtils.distance(a.X, a.Y, b.X, b.Y);
+            return MathUtils.Distance(a.X, a.Y, b.X, b.Y);
         }
 
         private static float distance(ResultPoint a, ResultPoint b)
         {
-            return MathUtils.distance(a.X, a.Y, b.X, b.Y);
+            return MathUtils.Distance(a.X, a.Y, b.X, b.Y);
         }
 
         private int getDimension()

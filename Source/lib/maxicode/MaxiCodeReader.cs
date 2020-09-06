@@ -30,18 +30,7 @@ namespace ZXing.Maxicode
         private const int MATRIX_WIDTH = 30;
         private const int MATRIX_HEIGHT = 33;
 
-        private readonly Decoder decoder = new Decoder();
-
-        /// <summary>
-        /// Locates and decodes a MaxiCode in an image.
-        ///
-        /// <returns>a String representing the content encoded by the MaxiCode</returns>
-        /// <exception cref="FormatException">if a MaxiCode cannot be decoded</exception>
-        /// </summary>
-        public BarCodeText decode(BinaryBitmap image)
-        {
-            return Decode(image, null);
-        }
+        private readonly Decoder _Decoder = new Decoder();
 
         /// <summary>
         /// Locates and decodes a MaxiCode within an image. This method also accepts
@@ -59,18 +48,18 @@ namespace ZXing.Maxicode
         {
             // Note that MaxiCode reader effectively always assumes PURE_BARCODE mode
             // and can't detect it in an image
-            var bits = extractPureBits(image.GetBlackMatrix());
+            var bits = ExtractPureBits(image.GetBlackMatrix());
             if (bits == null) {
                 return null;
             }
-            var decoderResult = decoder.decode(bits, hints);
+            var decoderResult = _Decoder.Decode(bits, hints);
             if (decoderResult == null) {
                 return null;
             }
 
             var result = new BarCodeText(decoderResult.Text, decoderResult.RawBytes, NO_POINTS, BarcodeFormat.MAXICODE);
 
-            var ecLevel = decoderResult.ECLevel;
+            var ecLevel = decoderResult.EcLevel;
             if (ecLevel != null)
             {
                 result.PutMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
@@ -100,7 +89,7 @@ namespace ZXing.Maxicode
         /// <seealso cref="ZXing.Datamatrix.DataMatrixReader.extractPureBits(BitMatrix)" />
         /// <sQrCodeReader.ExtractPureBitsts(BitMatrix)" />
         /// </summary>
-        private static BitMatrix extractPureBits(BitMatrix image)
+        private static BitMatrix ExtractPureBits(BitMatrix image)
         {
 
             int[] enclosingRectangle = image.GetEnclosingRectangle();

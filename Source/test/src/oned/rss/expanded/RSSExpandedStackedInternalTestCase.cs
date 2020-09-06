@@ -51,7 +51,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
          var secondRowNumber = 2 * binaryMap.Height / 3;
          var secondRow = binaryMap.getBlackRow(secondRowNumber, null);
-         secondRow.reverse();
+         secondRow.Reverse();
 
          Assert.IsTrue(rssExpandedReader.decodeRow2pairs(secondRowNumber, secondRow));
          var totalPairs = rssExpandedReader.Pairs;

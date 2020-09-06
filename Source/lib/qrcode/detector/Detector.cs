@@ -141,7 +141,7 @@ namespace ZXing.QrCode.Internal
 
             PerspectiveTransform transform = createTransform(topLeft, topRight, bottomLeft, alignmentPattern, dimension);
 
-            BitMatrix bits = Sampler.sampleGrid(dimension, dimension, transform);
+            BitMatrix bits = Sampler.SampleGrid(dimension, dimension, transform);
 
             if (bits == null) {
                 return null;
@@ -180,7 +180,7 @@ namespace ZXing.QrCode.Internal
                 sourceBottomRightX = sourceBottomRightY = dimMinusThree;
             }
 
-            return XTrafo.quadrilateralToQuadrilateral(
+            return XTrafo.QuadrilateralToQuadrilateral(
                3.5f,
                3.5f,
                dimMinusThree,
@@ -204,8 +204,8 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         private static bool computeDimension(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, float moduleSize, out int dimension)
         {
-            int tltrCentersDimension = MathUtils.round(ResultPoint.Distance(topLeft, topRight) / moduleSize);
-            int tlblCentersDimension = MathUtils.round(ResultPoint.Distance(topLeft, bottomLeft) / moduleSize);
+            int tltrCentersDimension = MathUtils.Round(ResultPoint.Distance(topLeft, topRight) / moduleSize);
+            int tlblCentersDimension = MathUtils.Round(ResultPoint.Distance(topLeft, bottomLeft) / moduleSize);
             dimension = ((tltrCentersDimension + tlblCentersDimension) >> 1) + 7;
             switch (dimension & 0x03)
             {
@@ -343,7 +343,7 @@ namespace ZXing.QrCode.Internal
                 {
                     if (state == 2)
                     {
-                        return MathUtils.distance(x, y, fromX, fromY);
+                        return MathUtils.Distance(x, y, fromX, fromY);
                     }
                     state++;
                 }
@@ -365,7 +365,7 @@ namespace ZXing.QrCode.Internal
             // small approximation; (toX+xStep,toY+yStep) might be really correct. Ignore this.
             if (state == 2)
             {
-                return MathUtils.distance(toX + xStep, toY, fromX, fromY);
+                return MathUtils.Distance(toX + xStep, toY, fromX, fromY);
             }
             // else we didn't find even black-white-black; no estimate is really possible
             return float.NaN;

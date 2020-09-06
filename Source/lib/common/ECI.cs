@@ -24,22 +24,22 @@ namespace ZXing.Common
     /// 5.3 of ISO 18004.
     /// </summary>
     /// <author>Sean Owen</author>
-    public abstract class ECI
+    public abstract class Eci
     {
         /// <summary>
         /// the ECI value
         /// </summary>
         public virtual int Value { get; }
 
-        internal ECI(int val)
+        internal Eci(int val)
         {
             Value = val;
         }
 
         /// <param name="val">ECI value</param>
-        /// <returns><see cref="ECI"/> representing ECI of given value, or null if it is legal but unsupported</returns>
+        /// <returns><see cref="Eci"/> representing ECI of given value, or null if it is legal but unsupported</returns>
         /// <throws>ArgumentException if ECI value is invalid </throws>
-        public static ECI getECIByValue(int val)
+        public static Eci GetEciByValue(int val)
         {
             if (val < 0 || val > 999999)
             {
@@ -48,7 +48,7 @@ namespace ZXing.Common
             if (val < 900)
             {
                 // Character set ECIs use 000000 - 000899
-                return CharacterSetECI.getCharacterSetECIByValue(val);
+                return CharacterSetEci.GetCharacterSetEciByValue(val);
             }
             return null;
         }

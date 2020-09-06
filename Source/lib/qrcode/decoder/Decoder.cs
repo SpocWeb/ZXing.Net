@@ -37,7 +37,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         public Decoder()
         {
-            rsDecoder = new ReedSolomonDecoder(GenericGF.QR_CODE_FIELD_256);
+            rsDecoder = new ReedSolomonDecoder(GenericGf.QR_CODE_FIELD_256);
         }
 
         /// <summary>
@@ -116,11 +116,11 @@ namespace ZXing.QrCode.Internal
             if (version == null) {
                 return null;
             }
-            var formatinfo = parser.ReadFormatInformation();
-            if (formatinfo == null) {
+            var formatInfo = parser.ReadFormatInformation();
+            if (formatInfo == null) {
                 return null;
             }
-            ErrorCorrectionLevel ecLevel = formatinfo.ErrorCorrectionLevel;
+            ErrorCorrectionLevel ecLevel = formatInfo.ErrorCorrectionLevel;
 
             // Read codewords
             byte[] codewords = parser.ReadCodewords();
@@ -144,12 +144,11 @@ namespace ZXing.QrCode.Internal
             {
                 byte[] codewordBytes = dataBlock.Codewords;
                 int numDataCodewords = dataBlock.NumDataCodewords;
-                if (!correctErrors(codewordBytes, numDataCodewords)) {
-                    return null;
-                }
-                for (int i = 0; i < numDataCodewords; i++)
-                {
-                    resultBytes[resultOffset++] = codewordBytes[i];
+                if (correctErrors(codewordBytes, numDataCodewords)) {
+                    for (int i = 0; i < numDataCodewords; i++)
+                    {
+                        resultBytes[resultOffset++] = codewordBytes[i];
+                    }
                 }
             }
 
@@ -171,7 +170,7 @@ namespace ZXing.QrCode.Internal
             }
             int numECCodewords = codewordBytes.Length - numDataCodewords;
 
-            if (!rsDecoder.decode(codewordsInts, numECCodewords)) {
+            if (!rsDecoder.Decode(codewordsInts, numECCodewords)) {
                 return false;
             }
 

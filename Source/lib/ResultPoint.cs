@@ -105,7 +105,7 @@ namespace ZXing
         }
 
         public static float Distance(ResultPoint pattern1, ResultPoint pattern2)
-            => MathUtils.distance(pattern1.X, pattern1.Y, pattern2.X, pattern2.Y);
+            => MathUtils.Distance(pattern1.X, pattern1.Y, pattern2.X, pattern2.Y);
 
         /// <summary>
         /// Returns the z component of the cross product between vectors BC and BA.

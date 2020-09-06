@@ -448,13 +448,13 @@ namespace ZXing.OneD.RSS.Expanded
             int currentPos;
             if (row[initialPos])
             {
-                currentPos = row.getNextUnset(initialPos);
-                currentPos = row.getNextSet(currentPos);
+                currentPos = row.GetNextUnset(initialPos);
+                currentPos = row.GetNextSet(currentPos);
             }
             else
             {
-                currentPos = row.getNextSet(initialPos);
-                currentPos = row.getNextUnset(currentPos);
+                currentPos = row.GetNextSet(initialPos);
+                currentPos = row.GetNextUnset(currentPos);
             }
             return currentPos;
         }
@@ -636,7 +636,7 @@ namespace ZXing.OneD.RSS.Expanded
             {
                 // If pattern number is even, the pattern is reversed, so we need to locate element 1 *after* the current block.
                 start = startEnd[0];
-                end = row.getNextUnset(startEnd[1] + 1);
+                end = row.GetNextUnset(startEnd[1] + 1);
                 firstCounter = end - startEnd[1];
             }
 
@@ -681,7 +681,7 @@ namespace ZXing.OneD.RSS.Expanded
             } //counters[] has the pixels of the module
 
             const int numModules = 17; //left and right data characters have all the same length
-            float elementWidth = MathUtils.sum(counters) / (float) numModules;
+            float elementWidth = MathUtils.Sum(counters) / (float) numModules;
 
             // Sanity check: element width for pattern and the character should match
             float expectedElementWidth = (pattern.StartEnd[1] - pattern.StartEnd[0]) / 15.0f;
@@ -781,8 +781,8 @@ namespace ZXing.OneD.RSS.Expanded
 
         private bool adjustOddEvenCounts(int numModules)
         {
-            int oddSum = MathUtils.sum(getOddCounts());
-            int evenSum = MathUtils.sum(getEvenCounts());
+            int oddSum = MathUtils.Sum(getOddCounts());
+            int evenSum = MathUtils.Sum(getEvenCounts());
             bool incrementOdd = false;
             bool decrementOdd = false;
 

@@ -39,15 +39,15 @@ namespace ZXing.Common.ReedSolomon
     /// <author>sanfordsquires</author>
     public sealed class ReedSolomonDecoder
     {
-        private readonly GenericGF field;
+        private readonly GenericGf _Field;
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="field"></param>
-        public ReedSolomonDecoder(GenericGF field)
+        public ReedSolomonDecoder(GenericGf field)
         {
-            this.field = field;
+            this._Field = field;
         }
 
         /// <summary>
@@ -58,14 +58,14 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="received">data and error-correction codewords</param>
         /// <param name="twoS">number of error-correction codewords available</param>
         /// <returns>false: decoding fails</returns>
-        public bool decode(int[] received, int twoS)
+        public bool Decode(int[] received, int twoS)
         {
-            var poly = new GenericGFPoly(field, received);
+            var poly = new GenericGfPoly(_Field, received);
             var syndromeCoefficients = new int[twoS];
             var noError = true;
             for (var i = 0; i < twoS; i++)
             {
-                var eval = poly.evaluateAt(field.exp(i + field.GeneratorBase));
+                var eval = poly.EvaluateAt(_Field.Exp(i + _Field.GeneratorBase));
                 syndromeCoefficients[syndromeCoefficients.Length - 1 - i] = eval;
                 if (eval != 0)
                 {
@@ -76,78 +76,78 @@ namespace ZXing.Common.ReedSolomon
             {
                 return true;
             }
-            var syndrome = new GenericGFPoly(field, syndromeCoefficients);
+            var syndrome = new GenericGfPoly(_Field, syndromeCoefficients);
 
-            var sigmaOmega = runEuclideanAlgorithm(field.buildMonomial(twoS, 1), syndrome, twoS);
+            var sigmaOmega = RunEuclideanAlgorithm(_Field.BuildMonomial(twoS, 1), syndrome, twoS);
             if (sigmaOmega == null) {
                 return false;
             }
 
             var sigma = sigmaOmega[0];
-            var errorLocations = findErrorLocations(sigma);
+            var errorLocations = FindErrorLocations(sigma);
             if (errorLocations == null) {
                 return false;
             }
 
             var omega = sigmaOmega[1];
-            var errorMagnitudes = findErrorMagnitudes(omega, errorLocations);
+            var errorMagnitudes = FindErrorMagnitudes(omega, errorLocations);
             for (var i = 0; i < errorLocations.Length; i++)
             {
-                var position = received.Length - 1 - field.log(errorLocations[i]);
+                var position = received.Length - 1 - _Field.Log(errorLocations[i]);
                 if (position < 0)
                 {
                     // throw new ReedSolomonException("Bad error location");
                     return false;
                 }
-                received[position] = GenericGF.addOrSubtract(received[position], errorMagnitudes[i]);
+                received[position] = GenericGf.AddOrSubtract(received[position], errorMagnitudes[i]);
             }
 
             return true;
         }
 
-        internal GenericGFPoly[] runEuclideanAlgorithm(GenericGFPoly a, GenericGFPoly b, int R)
+        internal GenericGfPoly[] RunEuclideanAlgorithm(GenericGfPoly a, GenericGfPoly b, int maxDegree)
         {
             // Assume a's degree is >= b's
             if (a.Degree < b.Degree)
             {
-                GenericGFPoly temp = a;
+                GenericGfPoly temp = a;
                 a = b;
                 b = temp;
             }
 
-            GenericGFPoly rLast = a;
-            GenericGFPoly r = b;
-            GenericGFPoly tLast = field.Zero;
-            GenericGFPoly t = field.One;
+            GenericGfPoly rLast = a;
+            GenericGfPoly r = b;
+            GenericGfPoly tLast = _Field.Zero;
+            GenericGfPoly t = _Field.One;
 
             // Run Euclidean algorithm until r's degree is less than R/2
-            while (r.Degree >= R / 2)
+            while (r.Degree >= maxDegree / 2)
             {
-                GenericGFPoly rLastLast = rLast;
-                GenericGFPoly tLastLast = tLast;
+                GenericGfPoly rLastLast = rLast;
+                GenericGfPoly tLastLast = tLast;
                 rLast = r;
                 tLast = t;
 
                 // Divide rLastLast by rLast, with quotient in q and remainder in r
-                if (rLast.isZero)
+                if (rLast.IsZero)
                 {
                     // Oops, Euclidean algorithm already terminated?
                     // throw new ReedSolomonException("r_{i-1} was zero");
                     return null;
                 }
                 r = rLastLast;
-                GenericGFPoly q = field.Zero;
-                int denominatorLeadingTerm = rLast.getCoefficient(rLast.Degree);
-                int dltInverse = field.inverse(denominatorLeadingTerm);
-                while (r.Degree >= rLast.Degree && !r.isZero)
+                GenericGfPoly q = _Field.Zero;
+                int denominatorLeadingTerm = rLast.GetCoefficient(rLast.Degree);
+                int dltInverse = _Field.Inverse(denominatorLeadingTerm);
+                while (r.Degree >= rLast.Degree && !r.IsZero)
                 {
                     int degreeDiff = r.Degree - rLast.Degree;
-                    int scale = field.multiply(r.getCoefficient(r.Degree), dltInverse);
-                    q = q.addOrSubtract(field.buildMonomial(degreeDiff, scale));
-                    r = r.addOrSubtract(rLast.multiplyByMonomial(degreeDiff, scale));
+                    int scale = _Field.Multiply(r.GetCoefficient(r.Degree), dltInverse);
+                    q = q.AddOrSubtract(_Field.BuildMonomial(degreeDiff, scale));
+                    r = r.AddOrSubtract(rLast.MultiplyByMonomial(degreeDiff, scale));
                 }
 
-                t = q.multiply(tLast).addOrSubtract(tLastLast);
+                t = q.Multiply(tLast).AddOrSubtract(tLastLast);
 
                 if (r.Degree >= rLast.Degree)
                 {
@@ -156,35 +156,35 @@ namespace ZXing.Common.ReedSolomon
                 }
             }
 
-            int sigmaTildeAtZero = t.getCoefficient(0);
+            int sigmaTildeAtZero = t.GetCoefficient(0);
             if (sigmaTildeAtZero == 0)
             {
                 // throw new ReedSolomonException("sigmaTilde(0) was zero");
                 return null;
             }
 
-            int inverse = field.inverse(sigmaTildeAtZero);
-            GenericGFPoly sigma = t.multiply(inverse);
-            GenericGFPoly omega = r.multiply(inverse);
+            int inverse = _Field.Inverse(sigmaTildeAtZero);
+            GenericGfPoly sigma = t.Multiply(inverse);
+            GenericGfPoly omega = r.Multiply(inverse);
             return new[] { sigma, omega };
         }
 
-        private int[] findErrorLocations(GenericGFPoly errorLocator)
+        private int[] FindErrorLocations(GenericGfPoly errorLocator)
         {
             // This is a direct application of Chien's search
             int numErrors = errorLocator.Degree;
             if (numErrors == 1)
             {
                 // shortcut
-                return new[] { errorLocator.getCoefficient(1) };
+                return new[] { errorLocator.GetCoefficient(1) };
             }
             int[] result = new int[numErrors];
             int e = 0;
-            for (int i = 1; i < field.Size && e < numErrors; i++)
+            for (int i = 1; i < _Field.Size && e < numErrors; i++)
             {
-                if (errorLocator.evaluateAt(i) == 0)
+                if (errorLocator.EvaluateAt(i) == 0)
                 {
-                    result[e] = field.inverse(i);
+                    result[e] = _Field.Inverse(i);
                     e++;
                 }
             }
@@ -196,14 +196,14 @@ namespace ZXing.Common.ReedSolomon
             return result;
         }
 
-        private int[] findErrorMagnitudes(GenericGFPoly errorEvaluator, int[] errorLocations)
+        private int[] FindErrorMagnitudes(GenericGfPoly errorEvaluator, int[] errorLocations)
         {
             // This is directly applying Forney's Formula
             int s = errorLocations.Length;
             int[] result = new int[s];
             for (int i = 0; i < s; i++)
             {
-                int xiInverse = field.inverse(errorLocations[i]);
+                int xiInverse = _Field.Inverse(errorLocations[i]);
                 int denominator = 1;
                 for (int j = 0; j < s; j++)
                 {
@@ -213,18 +213,18 @@ namespace ZXing.Common.ReedSolomon
                         //    GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
                         // Above should work but fails on some Apple and Linux JDKs due to a Hotspot bug.
                         // Below is a funny-looking workaround from Steven Parkes
-                        int term = field.multiply(errorLocations[j], xiInverse);
+                        int term = _Field.Multiply(errorLocations[j], xiInverse);
                         int termPlus1 = (term & 0x1) == 0 ? term | 1 : term & ~1;
-                        denominator = field.multiply(denominator, termPlus1);
+                        denominator = _Field.Multiply(denominator, termPlus1);
 
                         // removed in java version, not sure if this is right
                         // denominator = field.multiply(denominator, GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
                     }
                 }
-                result[i] = field.multiply(errorEvaluator.evaluateAt(xiInverse), field.inverse(denominator));
-                if (field.GeneratorBase != 0)
+                result[i] = _Field.Multiply(errorEvaluator.EvaluateAt(xiInverse), _Field.Inverse(denominator));
+                if (_Field.GeneratorBase != 0)
                 {
-                    result[i] = field.multiply(result[i], xiInverse);
+                    result[i] = _Field.Multiply(result[i], xiInverse);
                 }
             }
             return result;

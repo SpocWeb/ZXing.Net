@@ -331,7 +331,7 @@ namespace ZXing.IMB
         private int isIMB(BitArray row, ref int pixelStartOffset, ref int pixelStopOffset, ref int pixelBarLength)
         {
             int width = row.Size;
-            int rowOffset = row.getNextSet(0);
+            int rowOffset = row.GetNextSet(0);
             pixelStartOffset = rowOffset;
             int previousPixelOffset = pixelStartOffset;
             const bool isWhite = false;

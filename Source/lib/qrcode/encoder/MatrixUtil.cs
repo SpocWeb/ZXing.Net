@@ -397,14 +397,14 @@ namespace ZXing.QrCode.Internal
                 throw new WriterException("Invalid mask pattern");
             }
             int typeInfo = (ecLevel.Bits << 3) | maskPattern;
-            bits.appendBits(typeInfo, 5);
+            bits.AppendBits(typeInfo, 5);
 
             int bchCode = calculateBCHCode(typeInfo, TYPE_INFO_POLY);
-            bits.appendBits(bchCode, 10);
+            bits.AppendBits(bchCode, 10);
 
             BitArray maskBits = new BitArray();
-            maskBits.appendBits(TYPE_INFO_MASK_PATTERN, 15);
-            bits.xor(maskBits);
+            maskBits.AppendBits(TYPE_INFO_MASK_PATTERN, 15);
+            bits.Xor(maskBits);
 
             if (bits.Size != 15)
             {
@@ -421,9 +421,9 @@ namespace ZXing.QrCode.Internal
         /// <param name="bits">The bits.</param>
         public static void makeVersionInfoBits(Version version, BitArray bits)
         {
-            bits.appendBits(version.VersionNumber, 6);
+            bits.AppendBits(version.VersionNumber, 6);
             int bchCode = calculateBCHCode(version.VersionNumber, VERSION_INFO_POLY);
-            bits.appendBits(bchCode, 12);
+            bits.AppendBits(bchCode, 12);
 
             if (bits.Size != 18)
             {

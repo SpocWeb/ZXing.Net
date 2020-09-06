@@ -55,7 +55,7 @@ namespace ZXing.Common
         /// <returns>name of guessed encoding; at the moment will only guess one of:
         /// {@link #SHIFT_JIS}, {@link #UTF8}, {@link #ISO88591}, or the platform
         /// default encoding if none of these can possibly be correct</returns>
-        public static string guessEncoding(byte[] bytes, IDictionary<DecodeHintType, object> hints)
+        public static string GuessEncoding(byte[] bytes, IDictionary<DecodeHintType, object> hints)
         {
             if (hints != null && hints.ContainsKey(DecodeHintType.CHARACTER_SET))
             {
@@ -69,9 +69,9 @@ namespace ZXing.Common
             // For now, merely tries to distinguish ISO-8859-1, UTF-8 and Shift_JIS,
             // which should be by far the most common encodings.
             int length = bytes.Length;
-            bool canBeISO88591 = true;
-            bool canBeShiftJIS = true;
-            bool canBeUTF8 = true;
+            bool canBeIso88591 = true;
+            bool canBeShiftJis = true;
+            bool canBeUtf8 = true;
             int utf8BytesLeft = 0;
             int utf2BytesChars = 0;
             int utf3BytesChars = 0;
@@ -84,26 +84,26 @@ namespace ZXing.Common
             int sjisMaxDoubleBytesWordLength = 0;
             int isoHighOther = 0;
 
-            bool utf8bom = bytes.Length > 3 &&
+            bool utf8Bom = bytes.Length > 3 &&
                 bytes[0] == 0xEF &&
                 bytes[1] == 0xBB &&
                 bytes[2] == 0xBF;
 
             for (int i = 0;
-                 i < length && (canBeISO88591 || canBeShiftJIS || canBeUTF8);
+                 i < length && (canBeIso88591 || canBeShiftJis || canBeUtf8);
                  i++)
             {
 
                 int value = bytes[i];
 
                 // UTF-8 stuff
-                if (canBeUTF8)
+                if (canBeUtf8)
                 {
                     if (utf8BytesLeft > 0)
                     {
                         if ((value & 0x80) == 0)
                         {
-                            canBeUTF8 = false;
+                            canBeUtf8 = false;
                         }
                         else
                         {
@@ -114,7 +114,7 @@ namespace ZXing.Common
                     {
                         if ((value & 0x40) == 0)
                         {
-                            canBeUTF8 = false;
+                            canBeUtf8 = false;
                         }
                         else
                         {
@@ -139,7 +139,7 @@ namespace ZXing.Common
                                     }
                                     else
                                     {
-                                        canBeUTF8 = false;
+                                        canBeUtf8 = false;
                                     }
                                 }
                             }
@@ -148,11 +148,11 @@ namespace ZXing.Common
                 }
 
                 // ISO-8859-1 stuff
-                if (canBeISO88591)
+                if (canBeIso88591)
                 {
                     if (value > 0x7F && value < 0xA0)
                     {
-                        canBeISO88591 = false;
+                        canBeIso88591 = false;
                     }
                     else if (value > 0x9F)
                     {
@@ -164,13 +164,13 @@ namespace ZXing.Common
                 }
 
                 // Shift_JIS stuff
-                if (canBeShiftJIS)
+                if (canBeShiftJis)
                 {
                     if (sjisBytesLeft > 0)
                     {
                         if (value < 0x40 || value == 0x7F || value > 0xFC)
                         {
-                            canBeShiftJIS = false;
+                            canBeShiftJis = false;
                         }
                         else
                         {
@@ -179,7 +179,7 @@ namespace ZXing.Common
                     }
                     else if (value == 0x80 || value == 0xA0 || value > 0xEF)
                     {
-                        canBeShiftJIS = false;
+                        canBeShiftJis = false;
                     }
                     else if (value > 0xA0 && value < 0xE0)
                     {
@@ -211,22 +211,22 @@ namespace ZXing.Common
                 }
             }
 
-            if (canBeUTF8 && utf8BytesLeft > 0)
+            if (canBeUtf8 && utf8BytesLeft > 0)
             {
-                canBeUTF8 = false;
+                canBeUtf8 = false;
             }
-            if (canBeShiftJIS && sjisBytesLeft > 0)
+            if (canBeShiftJis && sjisBytesLeft > 0)
             {
-                canBeShiftJIS = false;
+                canBeShiftJis = false;
             }
 
             // Easy -- if there is BOM or at least 1 valid not-single byte character (and no evidence it can't be UTF-8), done
-            if (canBeUTF8 && (utf8bom || utf2BytesChars + utf3BytesChars + utf4BytesChars > 0))
+            if (canBeUtf8 && (utf8Bom || utf2BytesChars + utf3BytesChars + utf4BytesChars > 0))
             {
                 return UTF8;
             }
             // Easy -- if assuming Shift_JIS or >= 3 valid consecutive not-ascii characters (and no evidence it can't be), done
-            if (canBeShiftJIS && (ASSUME_SHIFT_JIS || sjisMaxKatakanaWordLength >= 3 || sjisMaxDoubleBytesWordLength >= 3))
+            if (canBeShiftJis && (ASSUME_SHIFT_JIS || sjisMaxKatakanaWordLength >= 3 || sjisMaxDoubleBytesWordLength >= 3))
             {
                 return SHIFT_JIS;
             }
@@ -235,22 +235,22 @@ namespace ZXing.Common
             //   - only two consecutive katakana chars in the whole text, or
             //   - at least 10% of bytes that could be "upper" not-alphanumeric Latin1,
             // - then we conclude Shift_JIS, else ISO-8859-1
-            if (canBeISO88591 && canBeShiftJIS)
+            if (canBeIso88591 && canBeShiftJis)
             {
                 return (sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2) || isoHighOther * 10 >= length
                     ? SHIFT_JIS : ISO88591;
             }
 
             // Otherwise, try in order ISO-8859-1, Shift JIS, UTF-8 and fall back to default platform encoding
-            if (canBeISO88591)
+            if (canBeIso88591)
             {
                 return ISO88591;
             }
-            if (canBeShiftJIS)
+            if (canBeShiftJis)
             {
                 return SHIFT_JIS;
             }
-            if (canBeUTF8)
+            if (canBeUtf8)
             {
                 return UTF8;
             }

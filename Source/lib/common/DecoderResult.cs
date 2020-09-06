@@ -40,7 +40,7 @@ namespace ZXing.Common
         public IList<byte[]> ByteSegments { get; }
 
         /// <summary> name of error correction level used, or null if not applicable </summary>
-        public string ECLevel { get; }
+        public string EcLevel { get; }
 
         /// <summary> gets a value which describe if structure append data was found </summary>
         public bool StructuredAppend => StructuredAppendParity >= 0 && StructuredAppendSequenceNumber >= 0;
@@ -86,7 +86,7 @@ namespace ZXing.Common
             NumBits = numBits;
             Text = text;
             ByteSegments = byteSegments;
-            ECLevel = ecLevel;
+            EcLevel = ecLevel;
             StructuredAppendParity = saParity;
             StructuredAppendSequenceNumber = saSequence;
         }

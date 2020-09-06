@@ -31,14 +31,14 @@ namespace ZXing.Common
     /// </author>
     public sealed class BitSource
     {
-        private readonly byte[] bytes;
+        private readonly byte[] _Bytes;
 
         /// <param name="bytes">bytes from which this will read bits. Bits will be read from the first byte first.
         /// Bits are read within a byte from most-significant to least-significant bit.
         /// </param>
         public BitSource(byte[] bytes)
         {
-            this.bytes = bytes;
+            this._Bytes = bytes;
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace ZXing.Common
         /// bits of the int
         /// </returns>
         /// <exception cref="ArgumentException">if numBits isn't in [1,32] or more than is available</exception>
-        public int readBits(int numBits)
+        public int ReadBits(int numBits)
         {
-            if (numBits < 1 || numBits > 32 || numBits > available())
+            if (numBits < 1 || numBits > 32 || numBits > Available())
             {
                 throw new ArgumentException(numBits.ToString(), "numBits");
             }
@@ -73,7 +73,7 @@ namespace ZXing.Common
                 int toRead = numBits < bitsLeft ? numBits : bitsLeft;
                 int bitsToNotRead = bitsLeft - toRead;
                 int mask = (0xFF >> (8 - toRead)) << bitsToNotRead;
-                result = (bytes[ByteOffset] & mask) >> bitsToNotRead;
+                result = (_Bytes[ByteOffset] & mask) >> bitsToNotRead;
                 numBits -= toRead;
                 BitOffset += toRead;
                 if (BitOffset == 8)
@@ -88,7 +88,7 @@ namespace ZXing.Common
                 return result;
             }
             while (numBits >= 8) {
-                result = (result << 8) | (bytes[ByteOffset] & 0xFF);
+                result = (result << 8) | (_Bytes[ByteOffset] & 0xFF);
                 ByteOffset++;
                 numBits -= 8;
             }
@@ -97,7 +97,7 @@ namespace ZXing.Common
             if (numBits > 0) {
                 int bitsToNotRead = 8 - numBits;
                 int mask = (0xFF >> bitsToNotRead) << bitsToNotRead;
-                result = (result << numBits) | ((bytes[ByteOffset] & mask) >> bitsToNotRead);
+                result = (result << numBits) | ((_Bytes[ByteOffset] & mask) >> bitsToNotRead);
                 BitOffset += numBits;
             }
 
@@ -106,9 +106,9 @@ namespace ZXing.Common
 
         /// <returns> number of bits that can be read successfully
         /// </returns>
-        public int available()
+        public int Available()
         {
-            return 8 * (bytes.Length - ByteOffset) - BitOffset;
+            return 8 * (_Bytes.Length - ByteOffset) - BitOffset;
         }
     }
 }

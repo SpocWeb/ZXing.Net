@@ -262,14 +262,14 @@ namespace ZXing.Aztec.Internal
             var modeMessage = new BitArray();
             if (compact)
             {
-                modeMessage.appendBits(layers - 1, 2);
-                modeMessage.appendBits(messageSizeInWords - 1, 6);
+                modeMessage.AppendBits(layers - 1, 2);
+                modeMessage.AppendBits(messageSizeInWords - 1, 6);
                 modeMessage = generateCheckWords(modeMessage, 28, 4);
             }
             else
             {
-                modeMessage.appendBits(layers - 1, 5);
-                modeMessage.appendBits(messageSizeInWords - 1, 11);
+                modeMessage.AppendBits(layers - 1, 5);
+                modeMessage.AppendBits(messageSizeInWords - 1, 11);
                 modeMessage = generateCheckWords(modeMessage, 40, 4);
             }
             return modeMessage;
@@ -339,14 +339,14 @@ namespace ZXing.Aztec.Internal
             var rs = new ReedSolomonEncoder(getGF(wordSize));
             var totalWords = totalBits / wordSize;
             var messageWords = bitsToWords(bitArray, wordSize, totalWords);
-            rs.encode(messageWords, totalWords - messageSizeInWords);
+            rs.Encode(messageWords, totalWords - messageSizeInWords);
 
             var startPad = totalBits % wordSize;
             var messageBits = new BitArray();
-            messageBits.appendBits(0, startPad);
+            messageBits.AppendBits(0, startPad);
             foreach (var messageWord in messageWords)
             {
-                messageBits.appendBits(messageWord, wordSize);
+                messageBits.AppendBits(messageWord, wordSize);
             }
             return messageBits;
         }
@@ -368,20 +368,20 @@ namespace ZXing.Aztec.Internal
             return message;
         }
 
-        private static GenericGF getGF(int wordSize)
+        private static GenericGf getGF(int wordSize)
         {
             switch (wordSize)
             {
                 case 4:
-                    return GenericGF.AZTEC_PARAM;
+                    return GenericGf.AZTEC_PARAM;
                 case 6:
-                    return GenericGF.AZTEC_DATA_6;
+                    return GenericGf.AZTEC_DATA_6;
                 case 8:
-                    return GenericGF.AZTEC_DATA_8;
+                    return GenericGf.AZTEC_DATA_8;
                 case 10:
-                    return GenericGF.AZTEC_DATA_10;
+                    return GenericGf.AZTEC_DATA_10;
                 case 12:
-                    return GenericGF.AZTEC_DATA_12;
+                    return GenericGf.AZTEC_DATA_12;
                 default:
                     throw new ArgumentException("Unsupported word size " + wordSize);
             }
@@ -405,17 +405,17 @@ namespace ZXing.Aztec.Internal
                 }
                 if ((word & mask) == mask)
                 {
-                    @out.appendBits(word & mask, wordSize);
+                    @out.AppendBits(word & mask, wordSize);
                     i--;
                 }
                 else if ((word & mask) == 0)
                 {
-                    @out.appendBits(word | 1, wordSize);
+                    @out.AppendBits(word | 1, wordSize);
                     i--;
                 }
                 else
                 {
-                    @out.appendBits(word, wordSize);
+                    @out.AppendBits(word, wordSize);
                 }
             }
 

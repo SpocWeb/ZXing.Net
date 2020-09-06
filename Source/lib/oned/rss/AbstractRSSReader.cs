@@ -134,7 +134,7 @@ namespace ZXing.OneD.RSS
         [Obsolete]
         protected static int count(int[] array)
         {
-            return MathUtils.sum(array);
+            return MathUtils.Sum(array);
         }
 
         /// <summary>

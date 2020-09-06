@@ -47,7 +47,7 @@ namespace ZXing.Aztec.Internal
         /// <param name="text"></param>
         public override void appendTo(BitArray bitArray, byte[] text)
         {
-            bitArray.appendBits(value, bitCount);
+            bitArray.AppendBits(value, bitCount);
         }
         /// <summary>
         /// string representation

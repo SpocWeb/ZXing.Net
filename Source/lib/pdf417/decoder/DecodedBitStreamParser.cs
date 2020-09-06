@@ -143,7 +143,7 @@ namespace ZXing.PDF417.Internal
                         codeIndex = numericCompaction(codewords, codeIndex, result);
                         break;
                     case ECI_CHARSET:
-                        var charsetECI = CharacterSetECI.getCharacterSetECIByValue(codewords[codeIndex++]);
+                        var charsetECI = CharacterSetEci.GetCharacterSetEciByValue(codewords[codeIndex++]);
                         encoding = getEncoding(charsetECI.EncodingName);
                         break;
                     case ECI_GENERAL_PURPOSE:

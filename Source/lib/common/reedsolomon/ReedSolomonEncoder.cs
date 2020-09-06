@@ -26,41 +26,41 @@ namespace ZXing.Common.ReedSolomon
     /// <author>William Rucklidge</author>
     public sealed class ReedSolomonEncoder
     {
-        private readonly GenericGF field;
-        private readonly IList<GenericGFPoly> cachedGenerators;
+        private readonly GenericGf _Field;
+        private readonly IList<GenericGfPoly> _CachedGenerators;
 
         /// <summary>
         /// constructor
         /// </summary>
         /// <param name="field"></param>
-        public ReedSolomonEncoder(GenericGF field)
+        public ReedSolomonEncoder(GenericGf field)
         {
-            this.field = field;
-            cachedGenerators = new List<GenericGFPoly>
+            this._Field = field;
+            _CachedGenerators = new List<GenericGfPoly>
             {
-                new GenericGFPoly(field, new[] { 1 })
+                new GenericGfPoly(field, new[] { 1 })
             };
         }
 
-        private GenericGFPoly buildGenerator(int degree)
+        private GenericGfPoly BuildGenerator(int degree)
         {
-            if (degree >= cachedGenerators.Count)
+            if (degree >= _CachedGenerators.Count)
             {
-                var lastGenerator = cachedGenerators[cachedGenerators.Count - 1];
-                for (int d = cachedGenerators.Count; d <= degree; d++)
+                var lastGenerator = _CachedGenerators[_CachedGenerators.Count - 1];
+                for (int d = _CachedGenerators.Count; d <= degree; d++)
                 {
-                    var nextGenerator = lastGenerator.multiply(new GenericGFPoly(field, new[] { 1, field.exp(d - 1 + field.GeneratorBase) }));
-                    cachedGenerators.Add(nextGenerator);
+                    var nextGenerator = lastGenerator.Multiply(new GenericGfPoly(_Field, new[] { 1, _Field.Exp(d - 1 + _Field.GeneratorBase) }));
+                    _CachedGenerators.Add(nextGenerator);
                     lastGenerator = nextGenerator;
                 }
             }
-            return cachedGenerators[degree];
+            return _CachedGenerators[degree];
         }
 
         /// <summary>
         /// encodes
         /// </summary>
-        public void encode(int[] toEncode, int ecBytes)
+        public void Encode(int[] toEncode, int ecBytes)
         {
             if (ecBytes == 0)
             {
@@ -72,14 +72,14 @@ namespace ZXing.Common.ReedSolomon
                 throw new ArgumentException("No data bytes provided");
             }
 
-            var generator = buildGenerator(ecBytes);
+            var generator = BuildGenerator(ecBytes);
             var infoCoefficients = new int[dataBytes];
             Array.Copy(toEncode, 0, infoCoefficients, 0, dataBytes);
 
-            var info = new GenericGFPoly(field, infoCoefficients);
-            info = info.multiplyByMonomial(ecBytes, 1);
+            var info = new GenericGfPoly(_Field, infoCoefficients);
+            info = info.MultiplyByMonomial(ecBytes, 1);
 
-            var remainder = info.divide(generator)[1];
+            var remainder = info.Divide(generator)[1];
             var coefficients = remainder.Coefficients;
             var numZeroCoefficients = ecBytes - coefficients.Count;
             for (var i = 0; i < numZeroCoefficients; i++)

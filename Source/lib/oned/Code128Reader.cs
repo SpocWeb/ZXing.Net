@@ -161,7 +161,7 @@ namespace ZXing.OneD
         private static int[] findStartPattern(BitArray row)
         {
             int width = row.Size;
-            int rowOffset = row.getNextSet(0);
+            int rowOffset = row.GetNextSet(0);
 
             int counterPosition = 0;
             int[] counters = new int[6];
@@ -194,7 +194,7 @@ namespace ZXing.OneD
                         if (bestMatch >= 0)
                         {
                             // Look for whitespace before start pattern, >= 50% of width of start pattern
-                            if (row.isRange(Math.Max(0, patternStart - (i - patternStart) / 2), patternStart,
+                            if (row.IsRange(Math.Max(0, patternStart - (i - patternStart) / 2), patternStart,
                                 false))
                             {
                                 return new[] { patternStart, i, bestMatch };
@@ -564,8 +564,8 @@ namespace ZXing.OneD
             // Check for ample whitespace following pattern, but, to do this we first need to remember that
             // we fudged decoding CODE_STOP since it actually has 7 bars, not 6. There is a black bar left
             // to read off. Would be slightly better to properly read. Here we just skip it:
-            nextStart = row.getNextUnset(nextStart);
-            if (!row.isRange(nextStart,
+            nextStart = row.GetNextUnset(nextStart);
+            if (!row.IsRange(nextStart,
                              Math.Min(row.Size, nextStart + (nextStart - lastStart) / 2),
                              false))
             {

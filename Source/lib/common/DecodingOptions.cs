@@ -406,14 +406,14 @@ namespace ZXing.Common
         [Serializable]
         public class ChangeNotifyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         {
-            private readonly IDictionary<TKey, TValue> values;
+            private readonly IDictionary<TKey, TValue> _Values;
 
             [field: NonSerialized]
             public event Action<object, EventArgs> ValueChanged;
 
             public ChangeNotifyDictionary()
             {
-                values = new Dictionary<TKey, TValue>();
+                _Values = new Dictionary<TKey, TValue>();
             }
 
             private void OnValueChanged()
@@ -423,64 +423,64 @@ namespace ZXing.Common
 
             public void Add(TKey key, TValue value)
             {
-                values.Add(key, value);
+                _Values.Add(key, value);
                 OnValueChanged();
             }
 
-            public bool ContainsKey(TKey key) => values.ContainsKey(key);
+            public bool ContainsKey(TKey key) => _Values.ContainsKey(key);
 
-            public ICollection<TKey> Keys => values.Keys;
+            public ICollection<TKey> Keys => _Values.Keys;
 
             public bool Remove(TKey key)
             {
-                var result = values.Remove(key);
+                var result = _Values.Remove(key);
                 OnValueChanged();
                 return result;
             }
 
-            public bool TryGetValue(TKey key, out TValue value) => values.TryGetValue(key, out value);
+            public bool TryGetValue(TKey key, out TValue value) => _Values.TryGetValue(key, out value);
 
-            public ICollection<TValue> Values => values.Values;
+            public ICollection<TValue> Values => _Values.Values;
 
             public TValue this[TKey key]
             {
-                get => values[key];
+                get => _Values[key];
                 set
                 {
-                    values[key] = value;
+                    _Values[key] = value;
                     OnValueChanged();
                 }
             }
 
             public void Add(KeyValuePair<TKey, TValue> item)
             {
-                values.Add(item);
+                _Values.Add(item);
                 OnValueChanged();
             }
 
             public void Clear()
             {
-                values.Clear();
+                _Values.Clear();
                 OnValueChanged();
             }
 
             public bool Contains(KeyValuePair<TKey, TValue> item)
             {
-                return values.Contains(item);
+                return _Values.Contains(item);
             }
 
             public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
             {
-                values.CopyTo(array, arrayIndex);
+                _Values.CopyTo(array, arrayIndex);
             }
 
-            public int Count => values.Count;
+            public int Count => _Values.Count;
 
-            public bool IsReadOnly => values.IsReadOnly;
+            public bool IsReadOnly => _Values.IsReadOnly;
 
             public bool Remove(KeyValuePair<TKey, TValue> item)
             {
-                var result = values.Remove(item);
+                var result = _Values.Remove(item);
                 OnValueChanged();
 
                 return result;
@@ -488,12 +488,12 @@ namespace ZXing.Common
 
             public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
             {
-                return values.GetEnumerator();
+                return _Values.GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return ((IEnumerable)values).GetEnumerator();
+                return ((IEnumerable)_Values).GetEnumerator();
             }
         }
     }
