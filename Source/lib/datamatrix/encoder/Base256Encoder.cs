@@ -21,7 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class Base256Encoder : Encoder
     {
-        public int EncodingMode => Encodation.BASE256;
+        public int EncodingMode => EnCoding.BASE256;
 
         public void encode(EncoderContext context)
         {
@@ -38,7 +38,7 @@ namespace ZXing.Datamatrix.Encoder
                 if (newMode != EncodingMode)
                 {
                     // Return to ASCII encodation, which will actually handle latch to new mode
-                    context.signalEncoderChange(Encodation.ASCII);
+                    context.signalEncoderChange(EnCoding.ASCII);
                     break;
                 }
             }

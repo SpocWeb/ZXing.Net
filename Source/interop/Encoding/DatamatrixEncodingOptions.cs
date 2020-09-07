@@ -87,7 +87,7 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int DefaultEncodation
         {
-            get => wrappedDatamatrixEncodingOptions.DefaultEncodation.GetValueOrDefault(Datamatrix.Encoder.Encodation.ASCII);
+            get => wrappedDatamatrixEncodingOptions.DefaultEncodation.GetValueOrDefault(Datamatrix.Encoder.EnCoding.ASCII);
             set => wrappedDatamatrixEncodingOptions.DefaultEncodation = value;
         }
     }

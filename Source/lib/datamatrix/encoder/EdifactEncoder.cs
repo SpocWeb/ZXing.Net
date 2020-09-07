@@ -21,7 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class EdifactEncoder : Encoder
     {
-        public int EncodingMode => Encodation.EDIFACT;
+        public int EncodingMode => EnCoding.EDIFACT;
 
         public void encode(EncoderContext context)
         {
@@ -43,7 +43,7 @@ namespace ZXing.Datamatrix.Encoder
                     if (newMode != EncodingMode)
                     {
                         // Return to ASCII encodation, which will actually handle latch to new mode
-                        context.signalEncoderChange(Encodation.ASCII);
+                        context.signalEncoderChange(EnCoding.ASCII);
                         break;
                     }
                 }
@@ -117,7 +117,7 @@ namespace ZXing.Datamatrix.Encoder
             }
             finally
             {
-                context.signalEncoderChange(Encodation.ASCII);
+                context.signalEncoderChange(EnCoding.ASCII);
             }
         }
 

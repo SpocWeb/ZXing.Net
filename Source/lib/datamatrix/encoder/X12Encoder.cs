@@ -20,7 +20,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class X12Encoder : C40Encoder
     {
-        public override int EncodingMode => Encodation.X12;
+        public override int EncodingMode => EnCoding.X12;
 
         public override void encode(EncoderContext context)
         {
@@ -43,7 +43,7 @@ namespace ZXing.Datamatrix.Encoder
                     if (newMode != currentMode)
                     {
                         // Return to ASCII encodation, which will actually handle latch to new mode
-                        context.signalEncoderChange(Encodation.ASCII);
+                        context.signalEncoderChange(EnCoding.ASCII);
                         break;
                     }
                 }
@@ -96,7 +96,7 @@ namespace ZXing.Datamatrix.Encoder
                 context.writeCodeword(HighLevelEncoder.X12_UNLATCH);
             }
             if (context.NewEncoding < 0) {
-                context.signalEncoderChange(Encodation.ASCII);
+                context.signalEncoderChange(EnCoding.ASCII);
             }
         }
     }

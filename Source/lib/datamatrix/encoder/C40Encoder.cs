@@ -21,7 +21,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal class C40Encoder : Encoder
     {
-        public virtual int EncodingMode => Encodation.C40;
+        public virtual int EncodingMode => EnCoding.C40;
 
         public virtual void encode(EncoderContext context)
         {
@@ -62,7 +62,7 @@ namespace ZXing.Datamatrix.Encoder
                     if (newMode != EncodingMode)
                     {
                         // Return to ASCII encodation, which will actually handle latch to new mode
-                        context.signalEncoderChange(Encodation.ASCII);
+                        context.signalEncoderChange(EnCoding.ASCII);
                         break;
                     }
                 }
@@ -142,7 +142,7 @@ namespace ZXing.Datamatrix.Encoder
             {
                 throw new InvalidOperationException("Unexpected case. Please report!");
             }
-            context.signalEncoderChange(Encodation.ASCII);
+            context.signalEncoderChange(EnCoding.ASCII);
         }
 
         protected virtual int encodeChar(char c, StringBuilder sb)

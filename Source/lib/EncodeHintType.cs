@@ -135,7 +135,7 @@ namespace ZXing
         CODE128_FORCE_CODESET_B,
 
         /// <summary>
-        /// Specifies the default encodation for Data Matrix (type <see cref="ZXing.Datamatrix.Encoder.Encodation"/>)
+        /// Specifies the default encodation for Data Matrix (type <see cref="ZXing.Datamatrix.Encoder.EnCoding"/>)
         /// Make sure that the content fits into the encodation value, otherwise there will be an exception thrown.
         /// standard value: Encodation.ASCII
         /// </summary>

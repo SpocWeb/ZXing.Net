@@ -20,7 +20,7 @@ namespace ZXing.Datamatrix.Encoder
 {
     internal sealed class ASCIIEncoder : Encoder
     {
-        public int EncodingMode => Encodation.ASCII;
+        public int EncodingMode => EnCoding.ASCII;
 
         public void encode(EncoderContext context)
         {
@@ -40,25 +40,25 @@ namespace ZXing.Datamatrix.Encoder
                 {
                     switch (newMode)
                     {
-                        case Encodation.BASE256:
+                        case EnCoding.BASE256:
                             context.writeCodeword(HighLevelEncoder.LATCH_TO_BASE256);
-                            context.signalEncoderChange(Encodation.BASE256);
+                            context.signalEncoderChange(EnCoding.BASE256);
                             return;
-                        case Encodation.C40:
+                        case EnCoding.C40:
                             context.writeCodeword(HighLevelEncoder.LATCH_TO_C40);
-                            context.signalEncoderChange(Encodation.C40);
+                            context.signalEncoderChange(EnCoding.C40);
                             return;
-                        case Encodation.X12:
+                        case EnCoding.X12:
                             context.writeCodeword(HighLevelEncoder.LATCH_TO_ANSIX12);
-                            context.signalEncoderChange(Encodation.X12);
+                            context.signalEncoderChange(EnCoding.X12);
                             break;
-                        case Encodation.TEXT:
+                        case EnCoding.TEXT:
                             context.writeCodeword(HighLevelEncoder.LATCH_TO_TEXT);
-                            context.signalEncoderChange(Encodation.TEXT);
+                            context.signalEncoderChange(EnCoding.TEXT);
                             break;
-                        case Encodation.EDIFACT:
+                        case EnCoding.EDIFACT:
                             context.writeCodeword(HighLevelEncoder.LATCH_TO_EDIFACT);
-                            context.signalEncoderChange(Encodation.EDIFACT);
+                            context.signalEncoderChange(EnCoding.EDIFACT);
                             break;
                         default:
                             throw new InvalidOperationException("Illegal mode: " + newMode);

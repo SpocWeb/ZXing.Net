@@ -431,8 +431,8 @@
     <Compile Include="..\datamatrix\encoder\EdifactEncoder.cs">
       <Link>datamatrix\encoder\EdifactEncoder.cs</Link>
     </Compile>
-    <Compile Include="..\datamatrix\encoder\Encodation.cs">
-      <Link>datamatrix\encoder\Encodation.cs</Link>
+    <Compile Include="..\datamatrix\encoder\EnCoding.cs">
+      <Link>datamatrix\encoder\EnCoding.cs</Link>
     </Compile>
     <Compile Include="..\datamatrix\encoder\Encoder.cs">
       <Link>datamatrix\encoder\Encoder.cs</Link>

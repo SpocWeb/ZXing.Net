@@ -17,9 +17,9 @@
 namespace ZXing.Datamatrix.Encoder
 {
     /// <summary>
-    /// Enumeration for encodation types
+    /// Enumeration for encoding types
     /// </summary>
-    public sealed class Encodation
+    public sealed class EnCoding
     {
         /// <summary>
         /// ASCII
