@@ -15,12 +15,11 @@
  */
 
 
-using System;
 using NUnit.Framework;
 
 namespace ZXing.Client.Result.Test
 {
-   [TestFixture]
+    [TestFixture]
    public class VinParsedResultTestCase
    {
 

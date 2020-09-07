@@ -77,7 +77,7 @@ namespace ZXing.QrCode
                 decoderResult = Decoder.decode(detectorResult.Bits, hints);
                 points = detectorResult.Points.Single();
             }
-            if (!string.IsNullOrEmpty(decoderResult?.Text)) {
+            if (string.IsNullOrEmpty(decoderResult?.Text)) {
                 return null;
             }
 

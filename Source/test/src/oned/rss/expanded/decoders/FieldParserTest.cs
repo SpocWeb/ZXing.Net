@@ -24,17 +24,15 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
-
 using NUnit.Framework;
 
 namespace ZXing.OneD.RSS.Expanded.Decoders.Test
 {
-   /// <summary>
-   /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
-   /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
+    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
+    /// </summary>
+    [TestFixture]
    public class FieldParserTest
    {
       private static void CheckFields(string expected)

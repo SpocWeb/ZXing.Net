@@ -24,18 +24,17 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
 
 namespace ZXing.Client.Result.Test
 {
-   /// <summary>
-   /// <author>Antonio Manuel Benjumea Conde, Servinform, S.A.</author>
-   /// <author>Agustín Delgado, Servinform, S.A.</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Antonio Manuel Benjumea Conde, Servinform, S.A.</author>
+    /// <author>Agustín Delgado, Servinform, S.A.</author>
+    /// </summary>
+    [TestFixture]
    public sealed class ExpandedProductParsedResultTestCase
    {
       [Test]

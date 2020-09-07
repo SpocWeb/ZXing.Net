@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using System;
 using System.Text;
 
 using NUnit.Framework;
@@ -23,10 +22,10 @@ using ZXing.Datamatrix.Encoder;
 
 namespace ZXing.Datamatrix.Test
 {
-   /// <summary>
-   /// Tests for {@link HighLevelEncoder}.
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// Tests for {@link HighLevelEncoder}.
+    /// </summary>
+    [TestFixture]
    public sealed class HighLevelEncodeTestCase
    {
       private static readonly SymbolInfo[] TEST_SYMBOLS =

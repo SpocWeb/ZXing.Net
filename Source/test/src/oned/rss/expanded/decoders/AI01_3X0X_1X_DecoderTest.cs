@@ -24,16 +24,14 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
-
 using NUnit.Framework;
 
 namespace ZXing.OneD.RSS.Expanded.Decoders.Test
 {
-   /// <summary>
-   /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
-   /// </summary>
-   public class Ai013X0X1XDecoderTest : AbstractDecoderTest
+    /// <summary>
+    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
+    /// </summary>
+    public class Ai013X0X1XDecoderTest : AbstractDecoderTest
    {
       private static string _HEADER_310_X_11 = "..XXX...";
       private static string _HEADER_320_X_11 = "..XXX..X";

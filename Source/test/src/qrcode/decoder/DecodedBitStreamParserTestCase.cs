@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 using ZXing.Common.Test;
 
 namespace ZXing.QrCode.Internal.Test
 {
-   /// <summary>
-   /// Tests <see cref="DecodedBitStreamParser" />.
-   ///
-   /// <author>Sean Owen</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// Tests <see cref="DecodedBitStreamParser" />.
+    ///
+    /// <author>Sean Owen</author>
+    /// </summary>
+    [TestFixture]
    public sealed class DecodedBitStreamParserTestCase
    {
       [Test]

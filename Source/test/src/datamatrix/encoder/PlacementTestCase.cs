@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -22,10 +21,10 @@ using NUnit.Framework;
 
 namespace ZXing.Datamatrix.Test
 {
-   /// <summary>
-   /// Tests the DataMatrix placement algorithm.
-   /// </summary>
-   public sealed class PlacementTestCase
+    /// <summary>
+    /// Tests the DataMatrix placement algorithm.
+    /// </summary>
+    public sealed class PlacementTestCase
    {
       private static readonly Regex SPACE = new Regex(" "
 #if !SILVERLIGHT

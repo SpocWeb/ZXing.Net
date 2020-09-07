@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 
 namespace ZXing.Datamatrix.Internal.Test
 {
-   /// <summary>
-   /// <author>bbrown@google.com (Brian Brown)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>bbrown@google.com (Brian Brown)</author>
+    /// </summary>
+    [TestFixture]
    public sealed class DecodedBitStreamParserTestCase
    {
       [Test]

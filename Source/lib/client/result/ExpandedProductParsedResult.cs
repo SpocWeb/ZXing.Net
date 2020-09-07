@@ -24,7 +24,6 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
 using System.Collections.Generic;
 
 namespace ZXing.Client.Result

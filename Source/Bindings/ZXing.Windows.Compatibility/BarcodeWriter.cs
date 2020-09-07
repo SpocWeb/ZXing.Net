@@ -15,7 +15,6 @@
  */
 
 using System.Drawing;
-using ZXing.Rendering;
 
 namespace ZXing.Windows.Compatibility
 {

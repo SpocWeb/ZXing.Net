@@ -15,8 +15,6 @@
  */
 
 using System;
-
-using NUnit.Framework;
 using ZXing.Common.ReedSolomon.Test;
 
 namespace ZXing.PDF417.Internal.Test

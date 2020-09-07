@@ -24,19 +24,17 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
-
 using NUnit.Framework;
 using ZXing.Common;
 using ZXing.OneD.RSS.Expanded.Decoders;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {
-   /// <summary>
-   /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
-   /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
+    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
+    /// </summary>
+    [TestFixture]
    public sealed class ExpandedInformationDecoderTest
    {
       [Test]

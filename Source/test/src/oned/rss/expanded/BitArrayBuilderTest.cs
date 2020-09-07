@@ -24,7 +24,6 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
@@ -32,11 +31,11 @@ using ZXing.Common;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {
-   /// <summary>
-   /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
-   /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
+    /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
+    /// </summary>
+    [TestFixture]
    public sealed class BitArrayBuilderTest
    {
       [Test]

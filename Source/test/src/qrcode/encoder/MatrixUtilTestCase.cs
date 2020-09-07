@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 
 using ZXing.Common;
 
 namespace ZXing.QrCode.Internal.Test
 {
-   /// <summary>
-   /// <author>satorux@google.com (Satoru Takabayashi) - creator</author>
-   /// <author>mysen@google.com (Chris Mysen) - ported from C++</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>satorux@google.com (Satoru Takabayashi) - creator</author>
+    /// <author>mysen@google.com (Chris Mysen) - ported from C++</author>
+    /// </summary>
+    [TestFixture]
    public sealed class MatrixUtilTestCase
    {
 

@@ -20,10 +20,10 @@ using OpenCvSharp;
 
 namespace ZXing.OpenCV
 {
-	/// <summary>
-	/// a barcode reader class which can be used with the Mat type from OpenCVSharp
-	/// </summary>
-	public class BarcodeReader : BarcodeReader<Mat>
+    /// <summary>
+    /// a barcode reader class which can be used with the Mat type from OpenCVSharp
+    /// </summary>
+    public class BarcodeReader : BarcodeReader<Mat>
 	{
 		/// <summary>
 		/// define a custom function for creation of a luminance source with our specialized Mat-supporting class

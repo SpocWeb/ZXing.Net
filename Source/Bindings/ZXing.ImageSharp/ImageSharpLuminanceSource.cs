@@ -15,7 +15,6 @@
  */
 
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace ZXing.ImageSharp

@@ -14,8 +14,6 @@
 * limitations under the License.
 */
 
-using System;
-
 namespace ZXing.Client.Result
 {
     /// <summary> Parses strings of digits that represent a ISBN.

@@ -14,8 +14,6 @@
 * limitations under the License.
 */
 
-using System;
-
 namespace ZXing.Client.Result
 {
     /// <author>  Sean Owen

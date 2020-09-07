@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 
 namespace ZXing.Client.Result.Test
 {
-   /// <summary>
-   /// Tests <see cref="ISBNParsedResult" />.
-   ///
-   /// <author>Sean Owen</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// Tests <see cref="ISBNParsedResult" />.
+    ///
+    /// <author>Sean Owen</author>
+    /// </summary>
+    [TestFixture]
    public sealed class IsbnParsedResultTestCase
    {
       [Test]

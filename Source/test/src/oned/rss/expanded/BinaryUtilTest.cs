@@ -24,7 +24,6 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
 using System.Text.RegularExpressions;
 
 using NUnit.Framework;
@@ -32,10 +31,10 @@ using ZXing.Common;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {
-   /// <summary>
-   /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
+    /// </summary>
+    [TestFixture]
    public sealed class BinaryUtilTest
    {
       private const string SPACE = " ";

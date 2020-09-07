@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-using System;
 using System.Text;
 
 using ZXing.Datamatrix.Encoder;
 
 namespace ZXing.Datamatrix.Test
 {
-   public sealed class DebugPlacement : DefaultPlacement
+    public sealed class DebugPlacement : DefaultPlacement
    {
       internal DebugPlacement(string codewords, int numcols, int numrows)
          : base(codewords, numcols, numrows)

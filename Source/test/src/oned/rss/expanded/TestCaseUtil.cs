@@ -24,7 +24,6 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
 #if !SILVERLIGHT
 using System.Drawing;
 #else
@@ -37,7 +36,7 @@ using ZXing.Common.Test;
 
 namespace ZXing.OneD.RSS.Expanded.Test
 {
-   internal static class TestCaseUtil
+    internal static class TestCaseUtil
    {
       internal static BinaryBitmap GetBinaryBitmap(string directory, string path)
       {

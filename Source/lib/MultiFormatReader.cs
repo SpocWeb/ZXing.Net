@@ -198,11 +198,12 @@ namespace ZXing
                 ? (ResultPointCallback)_Hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK]
                 : null;
 
+            BarCodeText result = null;
             for (var index = 0; index < _Readers.Count; index++)
             {
                 var reader = _Readers[index];
                 reader.Reset();
-                var result = reader.Decode(image, _Hints);
+                result = reader.Decode(image, _Hints);
                 if (!string.IsNullOrEmpty(result.Text))
                 {
                     // found a barcode, pushing the successful reader up front
@@ -216,7 +217,7 @@ namespace ZXing
                 rpCallback?.Invoke(null);
             }
 
-            return null;
+            return result;
         }
     }
 }

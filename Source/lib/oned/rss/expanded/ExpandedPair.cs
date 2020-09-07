@@ -24,8 +24,6 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
-
 namespace ZXing.OneD.RSS.Expanded
 {
     /// <summary>

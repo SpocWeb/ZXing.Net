@@ -17,7 +17,6 @@
 using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Maxicode.Internal;
-using ZXing.QrCode;
 
 namespace ZXing.Maxicode
 {

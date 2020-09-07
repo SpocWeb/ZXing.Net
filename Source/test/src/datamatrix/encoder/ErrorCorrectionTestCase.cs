@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 
 using ZXing.Datamatrix.Encoder;
 
 namespace ZXing.Datamatrix.Test
 {
-   /// <summary>
-   /// Tests for the ECC200 error correction.
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// Tests for the ECC200 error correction.
+    /// </summary>
+    [TestFixture]
    public sealed class ErrorCorrectionTestCase
    {
       [Test]

@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-using System;
-using System.Text;
 using NUnit.Framework;
 
 namespace ZXing.Common.ReedSolomon.Test
 {
-   /// <summary>
-   /// 
-   /// </summary>
-   /// <author>Rustam Abdullaev</author>
-   [TestFixture]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <author>Rustam Abdullaev</author>
+    [TestFixture]
    public sealed class GenericGfPolyTestCase
    {
        private static readonly GenericGf FIELD = GenericGf.QR_CODE_FIELD_256;

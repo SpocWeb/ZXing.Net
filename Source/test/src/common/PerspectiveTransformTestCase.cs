@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-using System;
-
 using NUnit.Framework;
 
 namespace ZXing.Common.Test
 {
-   /// <summary>
-   /// <author>Sean Owen</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Sean Owen</author>
+    /// </summary>
+    [TestFixture]
    public sealed class PerspectiveTransformTestCase
    {
       private static float _EPSILON = 1.0E-4f;

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,13 +26,13 @@ using NUnit.Framework;
 
 namespace ZXing.Common.Test
 {
-   /// <summary>
-   /// This abstract class looks for negative results, i.e. it only allows a certain number of false
-   /// positives in images which should not decode. This helps ensure that we are not too lenient.
-   ///
-   /// <author>dswitkin@google.com (Daniel Switkin)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// This abstract class looks for negative results, i.e. it only allows a certain number of false
+    /// positives in images which should not decode. This helps ensure that we are not too lenient.
+    ///
+    /// <author>dswitkin@google.com (Daniel Switkin)</author>
+    /// </summary>
+    [TestFixture]
    public abstract class AbstractNegativeBlackBoxTestCase : AbstractBlackBoxTestCase
    {
 #if !SILVERLIGHT

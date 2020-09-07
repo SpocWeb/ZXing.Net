@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using System;
 using System.Globalization;
 using System.Threading;
 
@@ -22,13 +21,13 @@ using NUnit.Framework;
 
 namespace ZXing.Client.Result.Test
 {
-   /// <summary>
-   /// Tests <see cref="ParsedResult" />.
-   ///
-   /// <author>Sean Owen</author>
-   /// <author>dswitkin@google.com (Daniel Switkin)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// Tests <see cref="ParsedResult" />.
+    ///
+    /// <author>Sean Owen</author>
+    /// <author>dswitkin@google.com (Daniel Switkin)</author>
+    /// </summary>
+    [TestFixture]
    public sealed class ParsedReaderResultTestCase
    {
       [SetUp]

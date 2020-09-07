@@ -3,12 +3,10 @@
 using System.Runtime.Serialization;
 #endif
 #if !(WINDOWS_PHONE || SILVERLIGHT4 || SILVERLIGHT5 || WindowsCE || PORTABLE || NETSTANDARD1_0)
-using System.Runtime.Serialization.Formatters;
 #endif
 #if !(PORTABLE || NETSTANDARD1_0)
 using System.Security.Permissions;
 #endif
-using System.Text;
 
 
 namespace BigIntegerLibrary

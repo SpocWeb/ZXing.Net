@@ -24,18 +24,16 @@
  *   http://www.piramidepse.com/
  */
 
-using System;
-
 using NUnit.Framework;
 using ZXing.Common;
 using ZXing.OneD.RSS.Expanded.Test;
 
 namespace ZXing.OneD.RSS.Expanded.Decoders.Test
 {
-   /// <summary>
-   /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
-   /// </summary>
-   [TestFixture]
+    /// <summary>
+    /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
+    /// </summary>
+    [TestFixture]
    public abstract class AbstractDecoderTest
    {
       protected static string Numeric10 = "..X..XX";
