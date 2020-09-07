@@ -55,7 +55,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
             for (int i = 0; i < 4; ++i)
             {
-                int currentBlock = getGeneralDecoder().extractNumericValueFromBitArray(currentPos + 10 * i, 10);
+                int currentBlock = GetGeneralDecoder().extractNumericValueFromBitArray(currentPos + 10 * i, 10);
                 if (currentBlock / 100 == 0)
                 {
                     buf.Append('0');
@@ -79,7 +79,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 checkDigit += (i & 0x01) == 0 ? 3 * digit : digit;
             }
 
-            checkDigit = 10 - (checkDigit % 10);
+            checkDigit = 10 - checkDigit % 10;
             if (checkDigit == 10)
             {
                 checkDigit = 0;

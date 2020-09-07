@@ -92,7 +92,7 @@ namespace ZXing.PDF417.Internal
             {
                 float sampleIndex =
                    bitCountSum / (2 * PDF417Common.MODULES_IN_CODEWORD) +
-                   (i * bitCountSum) / PDF417Common.MODULES_IN_CODEWORD;
+                   i * bitCountSum / PDF417Common.MODULES_IN_CODEWORD;
                 if (sumPreviousBits + moduleBitCount[bitCountIndex] <= sampleIndex)
                 {
                     sumPreviousBits += moduleBitCount[bitCountIndex];

@@ -35,41 +35,22 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// </summary>
     public abstract class AbstractExpandedDecoder
     {
-        private readonly BitArray information;
-        private readonly GeneralAppIdDecoder generalDecoder;
+        private readonly BitArray _Information;
+        private readonly GeneralAppIdDecoder _GeneralDecoder;
 
         internal AbstractExpandedDecoder(BitArray information)
         {
-            this.information = information;
-            generalDecoder = new GeneralAppIdDecoder(information);
+            _Information = information;
+            _GeneralDecoder = new GeneralAppIdDecoder(information);
         }
 
-        /// <summary>
-        /// Gets the information.
-        /// </summary>
-        /// <returns></returns>
-        protected BitArray getInformation()
-        {
-            return information;
-        }
+        protected BitArray GetInformation() => _Information;
 
-        internal GeneralAppIdDecoder getGeneralDecoder()
-        {
-            return generalDecoder;
-        }
+        internal GeneralAppIdDecoder GetGeneralDecoder() => _GeneralDecoder;
 
-        /// <summary>
-        /// Parses the information.
-        /// </summary>
-        /// <returns></returns>
-        public abstract string parseInformation();
+        public abstract string ParseInformation();
 
-        /// <summary>
-        /// Creates the decoder.
-        /// </summary>
-        /// <param name="information">The information.</param>
-        /// <returns></returns>
-        public static AbstractExpandedDecoder createDecoder(BitArray information)
+        public static AbstractExpandedDecoder CreateDecoder(BitArray information)
         {
             if (information[1])
             {

@@ -25,7 +25,7 @@ namespace ZXing.Datamatrix.Encoder
         public void encode(EncoderContext context)
         {
             //step B
-            int n = HighLevelEncoder.determineConsecutiveDigitCount(context.Message, context.Pos);
+            int n = HighLevelEncoder.DetermineConsecutiveDigitCount(context.Message, context.Pos);
             if (n >= 2)
             {
                 context.writeCodeword(encodeASCIIDigits(context.Message[context.Pos],
@@ -35,7 +35,7 @@ namespace ZXing.Datamatrix.Encoder
             else
             {
                 char c = context.CurrentChar;
-                int newMode = HighLevelEncoder.lookAheadTest(context.Message, context.Pos, EncodingMode);
+                int newMode = HighLevelEncoder.LookAheadTest(context.Message, context.Pos, EncodingMode);
                 if (newMode != EncodingMode)
                 {
                     switch (newMode)
@@ -64,7 +64,7 @@ namespace ZXing.Datamatrix.Encoder
                             throw new InvalidOperationException("Illegal mode: " + newMode);
                     }
                 }
-                else if (HighLevelEncoder.isExtendedASCII(c))
+                else if (HighLevelEncoder.IsExtendedAscii(c))
                 {
                     context.writeCodeword(HighLevelEncoder.UPPER_SHIFT);
                     context.writeCodeword((char)(c - 128 + 1));
@@ -90,7 +90,7 @@ namespace ZXing.Datamatrix.Encoder
 
         private static char encodeASCIIDigits(char digit1, char digit2)
         {
-            if (HighLevelEncoder.isDigit(digit1) && HighLevelEncoder.isDigit(digit2))
+            if (HighLevelEncoder.IsDigit(digit1) && HighLevelEncoder.IsDigit(digit2))
             {
                 int num = (digit1 - 48) * 10 + (digit2 - 48);
                 return (char)(num + 130);

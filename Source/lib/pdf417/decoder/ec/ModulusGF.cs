@@ -42,7 +42,7 @@ namespace ZXing.PDF417.Internal.EC
             for (int i = 0; i < modulus; i++)
             {
                 expTable[i] = x;
-                x = (x * generator) % modulus;
+                x = x * generator % modulus;
             }
             for (int i = 0; i < modulus - 1; i++)
             {

@@ -119,7 +119,7 @@ namespace ZXing.Common
                     int right = localLuminances[x + 1];
                     // A simple -1 4 -1 box filter with a weight of 2.
                     // ((center << 2) - left - right) >> 1
-                    if (((center * 4) - left - right) / 2 < blackPoint)
+                    if ((center * 4 - left - right) / 2 < blackPoint)
                     {
                         row[x] = true;
                     }
@@ -137,7 +137,7 @@ namespace ZXing.Common
             int[] localBuckets = _Buckets;
             for (int x = 0; x < width; x++)
             {
-                localBuckets[(localLuminances[x]) >> LUMINANCE_SHIFT]++;
+                localBuckets[localLuminances[x] >> LUMINANCE_SHIFT]++;
             }
             int blackPoint = localBuckets.EstimateBlackPoint();
             return blackPoint;
@@ -196,7 +196,7 @@ namespace ZXing.Common
                 for (int x = 0; x < width; x++)
                 {
                     int pixel = localLuminances[offset + x];
-                    matrix[x, y] = (pixel < blackPoint);
+                    matrix[x, y] = pixel < blackPoint;
                 }
             }
 

@@ -79,10 +79,10 @@ namespace ZXing.OneD
             int height,
             IDictionary<EncodeHintType, object> hints = null)
         {
-            forceCodesetB = (hints != null &&
-                             hints.ContainsKey(EncodeHintType.CODE128_FORCE_CODESET_B) &&
-                             hints[EncodeHintType.CODE128_FORCE_CODESET_B] != null &&
-                             Convert.ToBoolean(hints[EncodeHintType.CODE128_FORCE_CODESET_B].ToString()));
+            forceCodesetB = hints != null &&
+                hints.ContainsKey(EncodeHintType.CODE128_FORCE_CODESET_B) &&
+                hints[EncodeHintType.CODE128_FORCE_CODESET_B] != null &&
+                Convert.ToBoolean(hints[EncodeHintType.CODE128_FORCE_CODESET_B].ToString());
             ;
             if (hints != null &&
                 hints.ContainsKey(EncodeHintType.GS1_FORMAT) &&
@@ -296,7 +296,7 @@ namespace ZXing.OneD
                 if (start < value.Length)
                 {
                     var c = value[start];
-                    if (c < ' ' || (oldCode == CODE_CODE_A && (c < '`' || (c >= ESCAPE_FNC_1 && c <= ESCAPE_FNC_4))))
+                    if (c < ' ' || oldCode == CODE_CODE_A && (c < '`' || c >= ESCAPE_FNC_1 && c <= ESCAPE_FNC_4))
                     {
                         // can continue in code A, encodes ASCII 0 to 95 or FNC1 to FNC4
                         return CODE_CODE_A;

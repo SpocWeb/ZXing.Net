@@ -34,7 +34,7 @@ namespace ZXing.Datamatrix.Encoder
 
                 int lastCharSize = encodeChar(c, buffer);
 
-                int unwritten = (buffer.Length / 3) * 2;
+                int unwritten = buffer.Length / 3 * 2;
 
                 int curCodewordCount = context.CodewordCount + unwritten;
                 context.updateSymbolInfo(curCodewordCount);
@@ -44,11 +44,11 @@ namespace ZXing.Datamatrix.Encoder
                 {
                     //Avoid having a single C40 value in the last triplet
                     var removed = new StringBuilder();
-                    if ((buffer.Length % 3) == 2 && available != 2)
+                    if (buffer.Length % 3 == 2 && available != 2)
                     {
                         lastCharSize = backtrackOneCharacter(context, buffer, removed, lastCharSize);
                     }
-                    while ((buffer.Length % 3) == 1 && (lastCharSize > 3 || available != 1))
+                    while (buffer.Length % 3 == 1 && (lastCharSize > 3 || available != 1))
                     {
                         lastCharSize = backtrackOneCharacter(context, buffer, removed, lastCharSize);
                     }
@@ -56,9 +56,9 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 int count = buffer.Length;
-                if ((count % 3) == 0)
+                if (count % 3 == 0)
                 {
-                    int newMode = HighLevelEncoder.lookAheadTest(context.Message, context.Pos, EncodingMode);
+                    int newMode = HighLevelEncoder.LookAheadTest(context.Message, context.Pos, EncodingMode);
                     if (newMode != EncodingMode)
                     {
                         // Return to ASCII encoding, which will actually handle latch to new mode
@@ -95,7 +95,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="buffer">the buffer with the remaining encoded characters</param>
         protected virtual void handleEOD(EncoderContext context, StringBuilder buffer)
         {
-            int unwritten = (buffer.Length / 3) * 2;
+            int unwritten = buffer.Length / 3 * 2;
             int rest = buffer.Length % 3;
 
             int curCodewordCount = context.CodewordCount + unwritten;
@@ -203,7 +203,7 @@ namespace ZXing.Datamatrix.Encoder
             char c1 = sb[startPos];
             char c2 = sb[startPos + 1];
             char c3 = sb[startPos + 2];
-            int v = (1600 * c1) + (40 * c2) + c3 + 1;
+            int v = 1600 * c1 + 40 * c2 + c3 + 1;
             char cw1 = (char) (v / 256);
             char cw2 = (char) (v % 256);
             return new string(new[] {cw1, cw2});

@@ -30,7 +30,7 @@ namespace ZXing.Datamatrix.Encoder
 
         public override int getDataLengthForInterleavedBlock(int index)
         {
-            return (index <= 8) ? 156 : 155;
+            return index <= 8 ? 156 : 155;
         }
     }
 }

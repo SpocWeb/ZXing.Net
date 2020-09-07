@@ -95,28 +95,28 @@ namespace ZXing.Datamatrix.Internal
             do
             {
                 // Check the four corner cases
-                if ((row == numRows) && (column == 0) && !corner1Read)
+                if (row == numRows && column == 0 && !corner1Read)
                 {
                     result[resultOffset++] = (byte)readCorner1(numRows, numColumns);
                     row -= 2;
                     column += 2;
                     corner1Read = true;
                 }
-                else if ((row == numRows - 2) && (column == 0) && ((numColumns & 0x03) != 0) && !corner2Read)
+                else if (row == numRows - 2 && column == 0 && (numColumns & 0x03) != 0 && !corner2Read)
                 {
                     result[resultOffset++] = (byte)readCorner2(numRows, numColumns);
                     row -= 2;
                     column += 2;
                     corner2Read = true;
                 }
-                else if ((row == numRows + 4) && (column == 2) && ((numColumns & 0x07) == 0) && !corner3Read)
+                else if (row == numRows + 4 && column == 2 && (numColumns & 0x07) == 0 && !corner3Read)
                 {
                     result[resultOffset++] = (byte)readCorner3(numRows, numColumns);
                     row -= 2;
                     column += 2;
                     corner3Read = true;
                 }
-                else if ((row == numRows - 2) && (column == 0) && ((numColumns & 0x07) == 4) && !corner4Read)
+                else if (row == numRows - 2 && column == 0 && (numColumns & 0x07) == 4 && !corner4Read)
                 {
                     result[resultOffset++] = (byte)readCorner4(numRows, numColumns);
                     row -= 2;
@@ -128,30 +128,30 @@ namespace ZXing.Datamatrix.Internal
                     // Sweep upward diagonally to the right
                     do
                     {
-                        if ((row < numRows) && (column >= 0) && !readMappingMatrix[column, row])
+                        if (row < numRows && column >= 0 && !readMappingMatrix[column, row])
                         {
                             result[resultOffset++] = (byte)readUtah(row, column, numRows, numColumns);
                         }
                         row -= 2;
                         column += 2;
-                    } while ((row >= 0) && (column < numColumns));
+                    } while (row >= 0 && column < numColumns);
                     row += 1;
                     column += 3;
 
                     // Sweep downward diagonally to the left
                     do
                     {
-                        if ((row >= 0) && (column < numColumns) && !readMappingMatrix[column, row])
+                        if (row >= 0 && column < numColumns && !readMappingMatrix[column, row])
                         {
                             result[resultOffset++] = (byte)readUtah(row, column, numRows, numColumns);
                         }
                         row += 2;
                         column -= 2;
-                    } while ((row < numRows) && (column >= 0));
+                    } while (row < numRows && column >= 0);
                     row += 3;
                     column += 1;
                 }
-            } while ((row < numRows) || (column < numColumns));
+            } while (row < numRows || column < numColumns);
 
             if (resultOffset != Version.getTotalCodewords())
             {

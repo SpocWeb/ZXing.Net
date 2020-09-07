@@ -65,7 +65,7 @@ namespace ZXing.Client.Result
             }
             else
             {
-                smsURIWithoutQuery = rawText.Substring(4, (queryStart) - (4));
+                smsURIWithoutQuery = rawText.Substring(4, queryStart - 4);
             }
 
             int lastComma = -1;

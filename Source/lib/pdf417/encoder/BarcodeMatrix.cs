@@ -42,7 +42,7 @@ namespace ZXing.PDF417.Internal
             {
                 //Matrix width is: Cols*COLUMN_WIDTH + <PDF417_START_COLS> + <PDF417_END_COLS> + 1
                 //When compact=true, the END_COLS are omitted.
-                matrix[i] = new BarcodeRow(width * COLUMN_WIDTH + (2 * COLUMN_WIDTH) + (compact ? 0 : 2) * COLUMN_WIDTH + 1);
+                matrix[i] = new BarcodeRow(width * COLUMN_WIDTH + 2 * COLUMN_WIDTH + (compact ? 0 : 2) * COLUMN_WIDTH + 1);
             }
             this.width = width * COLUMN_WIDTH;
             this.height = height;

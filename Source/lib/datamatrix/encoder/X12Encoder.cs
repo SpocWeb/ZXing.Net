@@ -35,11 +35,11 @@ namespace ZXing.Datamatrix.Encoder
                 encodeChar(c, buffer);
 
                 int count = buffer.Length;
-                if ((count % 3) == 0)
+                if (count % 3 == 0)
                 {
                     writeNextTriplet(context, buffer);
 
-                    int newMode = HighLevelEncoder.lookAheadTest(context.Message, context.Pos, currentMode);
+                    int newMode = HighLevelEncoder.LookAheadTest(context.Message, context.Pos, currentMode);
                     if (newMode != currentMode)
                     {
                         // Return to ASCII encoding, which will actually handle latch to new mode
@@ -78,7 +78,7 @@ namespace ZXing.Datamatrix.Encoder
                     }
                     else
                     {
-                        HighLevelEncoder.illegalCharacter(c);
+                        HighLevelEncoder.IllegalCharacter(c);
                     }
                     break;
             }

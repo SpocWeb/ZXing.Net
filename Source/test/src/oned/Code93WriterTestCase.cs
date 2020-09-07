@@ -54,7 +54,7 @@ namespace ZXing.OneD.Test
         {
             // non-extended chars are not changed.
             var src = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
-            var dst = Code93Writer.convertToExtended(src);
+            var dst = Code93Writer.ConvertToExtended(src);
             Assert.That(dst, Is.EqualTo(src));
         }
 

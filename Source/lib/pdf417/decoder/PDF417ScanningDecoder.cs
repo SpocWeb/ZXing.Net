@@ -484,7 +484,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="barcodeColumn">Barcode column.</param>
         static bool IsValidBarcodeColumn(DetectionResult detectionResult, int barcodeColumn)
         {
-            return (barcodeColumn >= 0) && (barcodeColumn < detectionResult.DetectionResultColumns.Length);
+            return barcodeColumn >= 0 && barcodeColumn < detectionResult.DetectionResultColumns.Length;
         }
 
         /// <summary>
@@ -582,7 +582,7 @@ namespace ZXing.PDF417.Internal
             }
             else
             {
-                for (int i = 0; i < (moduleBitCount.Length >> 1); i++)
+                for (int i = 0; i < moduleBitCount.Length >> 1; i++)
                 {
                     int tmpCount = moduleBitCount[i];
                     moduleBitCount[i] = moduleBitCount[moduleBitCount.Length - 1 - i];
@@ -658,8 +658,8 @@ namespace ZXing.PDF417.Internal
                 }
             }
             if (moduleNumber == moduleBitCount.Length ||
-               ((imageColumn == (leftToRight ? maxColumn : minColumn)) &&
-                 moduleNumber == moduleBitCount.Length - 1))
+               imageColumn == (leftToRight ? maxColumn : minColumn) &&
+               moduleNumber == moduleBitCount.Length - 1)
             {
                 return moduleBitCount;
             }

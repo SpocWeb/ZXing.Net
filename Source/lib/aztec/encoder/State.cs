@@ -110,8 +110,8 @@ namespace ZXing.Aztec.Internal
                 mode = HighLevelEncoder.MODE_UPPER;
             }
             int deltaBitCount =
-               (BinaryShiftByteCount == 0 || BinaryShiftByteCount == 31) ? 18 :
-                  (BinaryShiftByteCount == 62) ? 9 : 8;
+               BinaryShiftByteCount == 0 || BinaryShiftByteCount == 31 ? 18 :
+                  BinaryShiftByteCount == 62 ? 9 : 8;
             State result = new State(token, mode, BinaryShiftByteCount + 1, bitCount + deltaBitCount);
             if (result.BinaryShiftByteCount == 2047 + 31)
             {

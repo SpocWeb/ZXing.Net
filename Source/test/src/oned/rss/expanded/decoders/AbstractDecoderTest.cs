@@ -68,8 +68,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
       protected static void AssertCorrectBinaryString(string binaryString, string expectedNumber)
       {
          BitArray binary = BinaryUtil.BuildBitArrayFromStringWithoutSpaces(binaryString);
-         AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(binary);
-            string result = decoder.parseInformation();
+         AbstractExpandedDecoder decoder = AbstractExpandedDecoder.CreateDecoder(binary);
+            string result = decoder.ParseInformation();
          Assert.AreEqual(expectedNumber, result);
       }
    }

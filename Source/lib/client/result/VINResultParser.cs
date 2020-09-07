@@ -91,15 +91,15 @@ namespace ZXing.Client.Result
         {
             if (c >= 'A' && c <= 'I')
             {
-                return (c - 'A') + 1;
+                return c - 'A' + 1;
             }
             if (c >= 'J' && c <= 'R')
             {
-                return (c - 'J') + 1;
+                return c - 'J' + 1;
             }
             if (c >= 'S' && c <= 'Z')
             {
-                return (c - 'S') + 2;
+                return c - 'S' + 2;
             }
             if (c >= '0' && c <= '9')
             {
@@ -146,11 +146,11 @@ namespace ZXing.Client.Result
         {
             if (c >= 'E' && c <= 'H')
             {
-                return (c - 'E') + 1984;
+                return c - 'E' + 1984;
             }
             if (c >= 'J' && c <= 'N')
             {
-                return (c - 'J') + 1988;
+                return c - 'J' + 1988;
             }
             if (c == 'P')
             {
@@ -158,19 +158,19 @@ namespace ZXing.Client.Result
             }
             if (c >= 'R' && c <= 'T')
             {
-                return (c - 'R') + 1994;
+                return c - 'R' + 1994;
             }
             if (c >= 'V' && c <= 'Y')
             {
-                return (c - 'V') + 1997;
+                return c - 'V' + 1997;
             }
             if (c >= '1' && c <= '9')
             {
-                return (c - '1') + 2001;
+                return c - '1' + 2001;
             }
             if (c >= 'A' && c <= 'D')
             {
-                return (c - 'A') + 2010;
+                return c - 'A' + 2010;
             }
             throw new ArgumentException(c.ToString());
         }
@@ -194,7 +194,7 @@ namespace ZXing.Client.Result
                     }
                     break;
                 case '9':
-                    if ((c2 >= 'A' && c2 <= 'E') || (c2 >= '3' && c2 <= '9'))
+                    if (c2 >= 'A' && c2 <= 'E' || c2 >= '3' && c2 <= '9')
                     {
                         return "BR";
                     }
@@ -242,7 +242,7 @@ namespace ZXing.Client.Result
                 case 'W':
                     return "DE";
                 case 'X':
-                    if (c2 == '0' || (c2 >= '3' && c2 <= '9'))
+                    if (c2 == '0' || c2 >= '3' && c2 <= '9')
                     {
                         return "RU";
                     }

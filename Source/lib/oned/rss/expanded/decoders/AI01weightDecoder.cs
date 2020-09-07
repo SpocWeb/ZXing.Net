@@ -41,7 +41,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         protected void encodeCompressedWeight(StringBuilder buf, int currentPos, int weightSize)
         {
-            int originalWeightNumeric = getGeneralDecoder().extractNumericValueFromBitArray(currentPos, weightSize);
+            int originalWeightNumeric = GetGeneralDecoder().extractNumericValueFromBitArray(currentPos, weightSize);
             addWeightCode(buf, originalWeightNumeric);
 
             int weightNumeric = checkWeight(originalWeightNumeric);

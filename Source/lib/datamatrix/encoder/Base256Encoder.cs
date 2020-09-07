@@ -34,7 +34,7 @@ namespace ZXing.Datamatrix.Encoder
 
                 context.Pos++;
 
-                int newMode = HighLevelEncoder.lookAheadTest(context.Message, context.Pos, EncodingMode);
+                int newMode = HighLevelEncoder.LookAheadTest(context.Message, context.Pos, EncodingMode);
                 if (newMode != EncodingMode)
                 {
                     // Return to ASCII encoding, which will actually handle latch to new mode
@@ -46,7 +46,7 @@ namespace ZXing.Datamatrix.Encoder
             const int lengthFieldSize = 1;
             int currentSize = context.CodewordCount + dataCount + lengthFieldSize;
             context.updateSymbolInfo(currentSize);
-            bool mustPad = (context.SymbolInfo.dataCapacity - currentSize) > 0;
+            bool mustPad = context.SymbolInfo.dataCapacity - currentSize > 0;
             if (context.HasMoreCharacters || mustPad)
             {
                 if (dataCount <= 249)
@@ -55,7 +55,7 @@ namespace ZXing.Datamatrix.Encoder
                 }
                 else if (dataCount <= 1555)
                 {
-                    buffer[0] = (char)((dataCount / 250) + 249);
+                    buffer[0] = (char)(dataCount / 250 + 249);
                     buffer.Insert(1, new[] { (char)(dataCount % 250) });
                 }
                 else
@@ -76,7 +76,7 @@ namespace ZXing.Datamatrix.Encoder
 
         private static char randomize255State(char ch, int codewordPosition)
         {
-            int pseudoRandom = ((149 * codewordPosition) % 255) + 1;
+            int pseudoRandom = 149 * codewordPosition % 255 + 1;
             int tempVariable = ch + pseudoRandom;
             if (tempVariable <= 255)
             {

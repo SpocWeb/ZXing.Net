@@ -131,8 +131,8 @@ namespace ZXing.QrCode
             // dimensions. For example, if input is 25x25 the QR will be 33x33 including the quiet zone.
             // If the requested size is 200x160, the multiple will be 4, for a QR of 132x132. These will
             // handle all the padding from 100x100 (the actual QR) up to 200x160.
-            int leftPadding = (outputWidth - (inputWidth * multiple)) / 2;
-            int topPadding = (outputHeight - (inputHeight * multiple)) / 2;
+            int leftPadding = (outputWidth - inputWidth * multiple) / 2;
+            int topPadding = (outputHeight - inputHeight * multiple) / 2;
 
             var output = new BitMatrix(outputWidth, outputHeight);
 

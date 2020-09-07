@@ -46,8 +46,8 @@ namespace ZXing.OneD.RSS
                      elmWidth++, narrowMask &= ~(1 << bar))
                 {
                     int subVal = combins(n - elmWidth - 1, elements - bar - 2);
-                    if (noNarrow && (narrowMask == 0) &&
-                        (n - elmWidth - (elements - bar - 1) >= elements - bar - 1))
+                    if (noNarrow && narrowMask == 0 &&
+                        n - elmWidth - (elements - bar - 1) >= elements - bar - 1)
                     {
                         subVal -= combins(n - elmWidth - (elements - bar),
                                           elements - bar - 2);

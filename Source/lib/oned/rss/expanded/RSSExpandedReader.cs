@@ -221,7 +221,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         // Try to construct a valid rows sequence
         // Recursion is used to implement backtracking
-        List<ExpandedPair> CheckRows(List<ExpandedRow> collectedRows, int currentRow)
+        List<ExpandedPair> CheckRows(IReadOnlyList<ExpandedRow> collectedRows, int currentRow)
         {
             for (int i = currentRow; i < _Rows.Count; i++)
             {
@@ -263,7 +263,7 @@ namespace ZXing.OneD.RSS.Expanded
 
         // Whether the pairs form a valid find pattern sequence,
         // either complete or a prefix
-        static bool IsValidSequence(List<ExpandedPair> pairs)
+        static bool IsValidSequence(IReadOnlyList<ExpandedPair> pairs)
         {
             foreach (int[] sequence in FINDER_PATTERN_SEQUENCES)
             {
@@ -329,7 +329,7 @@ namespace ZXing.OneD.RSS.Expanded
         }
 
         // Remove all the rows that contains only specified pairs 
-        static void RemovePartialRows(List<ExpandedPair> pairs, List<ExpandedRow> rows)
+        static void RemovePartialRows(ICollection<ExpandedPair> pairs, IList<ExpandedRow> rows)
         {
             for (var index = 0; index < rows.Count; index++)
             {
@@ -393,8 +393,8 @@ namespace ZXing.OneD.RSS.Expanded
         {
             BitArray binary = BitArrayBuilder.buildBitArray(pairs);
 
-            AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(binary);
-            string resultingString = decoder.parseInformation();
+            AbstractExpandedDecoder decoder = AbstractExpandedDecoder.CreateDecoder(binary);
+            string resultingString = decoder.ParseInformation();
             if (resultingString == null) {
                 return null;
             }
@@ -508,7 +508,7 @@ namespace ZXing.OneD.RSS.Expanded
             return new ExpandedPair(leftChar, rightChar, pattern);
         }
 
-        bool FindNextPair(BitArray row, List<ExpandedPair> previousPairs, int forcedOffset)
+        bool FindNextPair(BitArray row, IReadOnlyList<ExpandedPair> previousPairs, int forcedOffset)
         {
             int[] counters = getDecodeFinderCounters();
             counters[0] = 0;
@@ -596,9 +596,9 @@ namespace ZXing.OneD.RSS.Expanded
             return false;
         }
 
-        static void ReverseCounters(int[] counters)
+        static void ReverseCounters(IList<int> counters)
         {
-            int length = counters.Length;
+            int length = counters.Count;
             for (int i = 0; i < length / 2; ++i)
             {
                 int tmp = counters[i];

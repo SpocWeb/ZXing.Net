@@ -50,10 +50,10 @@ namespace ZXing.OneD
 
         internal static readonly int ASTERISK_ENCODING = 0x094;
 
-        readonly bool usingCheckDigit;
-        readonly bool extendedMode;
-        readonly StringBuilder decodeRowResult;
-        readonly int[] counters;
+        readonly bool _UsingCheckDigit;
+        readonly bool _ExtendedMode;
+        readonly StringBuilder _DecodeRowResult;
+        readonly int[] _Counters;
 
         /// <summary>
         /// Creates a reader that assumes all encoded data is data, and does not treat the final
@@ -85,10 +85,10 @@ namespace ZXing.OneD
         /// <param name="extendedMode">if true, will attempt to decode extended Code 39 sequences in the text.</param>
         public Code39Reader(bool usingCheckDigit, bool extendedMode)
         {
-            this.usingCheckDigit = usingCheckDigit;
-            this.extendedMode = extendedMode;
-            decodeRowResult = new StringBuilder(20);
-            counters = new int[9];
+            this._UsingCheckDigit = usingCheckDigit;
+            this._ExtendedMode = extendedMode;
+            _DecodeRowResult = new StringBuilder(20);
+            _Counters = new int[9];
         }
 
         /// <summary>
@@ -101,14 +101,14 @@ namespace ZXing.OneD
         /// <returns><see cref="BarCodeText"/>containing encoded string and start/end of barcode</returns>
         public override BarCodeText DecodeRow(int rowNumber, BitArray row, IDictionary<DecodeHintType, object> hints)
         {
-            for (var index = 0; index < counters.Length; index++)
+            for (var index = 0; index < _Counters.Length; index++)
             {
-                counters[index] = 0;
+                _Counters[index] = 0;
             }
 
-            decodeRowResult.Length = 0;
+            _DecodeRowResult.Length = 0;
 
-            int[] start = findAsteriskPattern(row, counters);
+            int[] start = FindAsteriskPattern(row, _Counters);
             if (start == null) {
                 return null;
             }
@@ -121,32 +121,32 @@ namespace ZXing.OneD
             int lastStart;
             do
             {
-                if (!RecordPattern(row, nextStart, counters)) {
+                if (!RecordPattern(row, nextStart, _Counters)) {
                     return null;
                 }
 
-                int pattern = toNarrowWidePattern(counters);
+                int pattern = ToNarrowWidePattern(_Counters);
                 if (pattern < 0)
                 {
                     return null;
                 }
-                if (!patternToChar(pattern, out decodedChar)) {
+                if (!PatternToChar(pattern, out decodedChar)) {
                     return null;
                 }
-                decodeRowResult.Append(decodedChar);
+                _DecodeRowResult.Append(decodedChar);
                 lastStart = nextStart;
-                foreach (int counter in counters)
+                foreach (int counter in _Counters)
                 {
                     nextStart += counter;
                 }
                 // Read off white space
                 nextStart = row.GetNextSet(nextStart);
             } while (decodedChar != '*');
-            decodeRowResult.Length = decodeRowResult.Length - 1; // remove asterisk
+            _DecodeRowResult.Length = _DecodeRowResult.Length - 1; // remove asterisk
 
             // Look for whitespace after pattern:
             int lastPatternSize = 0;
-            foreach (int counter in counters)
+            foreach (int counter in _Counters)
             {
                 lastPatternSize += counter;
             }
@@ -159,7 +159,7 @@ namespace ZXing.OneD
             }
 
             // overriding constructor value is possible
-            bool useCode39CheckDigit = usingCheckDigit;
+            bool useCode39CheckDigit = _UsingCheckDigit;
             if (hints != null && hints.ContainsKey(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT))
             {
                 useCode39CheckDigit = (bool)hints[DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT];
@@ -167,27 +167,27 @@ namespace ZXing.OneD
 
             if (useCode39CheckDigit)
             {
-                int max = decodeRowResult.Length - 1;
+                int max = _DecodeRowResult.Length - 1;
                 int total = 0;
                 for (int i = 0; i < max; i++)
                 {
-                    total += ALPHABET_STRING.IndexOf(decodeRowResult[i]);
+                    total += ALPHABET_STRING.IndexOf(_DecodeRowResult[i]);
                 }
-                if (decodeRowResult[max] != ALPHABET_STRING[total % 43])
+                if (_DecodeRowResult[max] != ALPHABET_STRING[total % 43])
                 {
                     return null;
                 }
-                decodeRowResult.Length = max;
+                _DecodeRowResult.Length = max;
             }
 
-            if (decodeRowResult.Length == 0)
+            if (_DecodeRowResult.Length == 0)
             {
                 // false positive
                 return null;
             }
 
             // overriding constructor value is possible
-            bool useCode39ExtendedMode = extendedMode;
+            bool useCode39ExtendedMode = _ExtendedMode;
             if (hints != null && hints.ContainsKey(DecodeHintType.USE_CODE_39_EXTENDED_MODE))
             {
                 useCode39ExtendedMode = (bool)hints[DecodeHintType.USE_CODE_39_EXTENDED_MODE];
@@ -196,13 +196,13 @@ namespace ZXing.OneD
             string resultString;
             if (useCode39ExtendedMode)
             {
-                resultString = decodeExtended(decodeRowResult.ToString());
+                resultString = DecodeExtended(_DecodeRowResult.ToString());
                 if (resultString == null)
                 {
                     if (hints != null &&
                         hints.ContainsKey(DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE) &&
                         Convert.ToBoolean(hints[DecodeHintType.RELAXED_CODE_39_EXTENDED_MODE])) {
-                        resultString = decodeRowResult.ToString();
+                        resultString = _DecodeRowResult.ToString();
                     } else {
                         return null;
                     }
@@ -210,7 +210,7 @@ namespace ZXing.OneD
             }
             else
             {
-                resultString = decodeRowResult.ToString();
+                resultString = _DecodeRowResult.ToString();
             }
 
             float left = (start[1] + start[0]) / 2.0f;
@@ -233,7 +233,7 @@ namespace ZXing.OneD
                BarcodeFormat.CODE_39);
         }
 
-        static int[] findAsteriskPattern(BitArray row, int[] counters)
+        static int[] FindAsteriskPattern(BitArray row, int[] counters)
         {
             int width = row.Size;
             int rowOffset = row.GetNextSet(0);
@@ -253,7 +253,7 @@ namespace ZXing.OneD
                 {
                     if (counterPosition == patternLength - 1)
                     {
-                        if (toNarrowWidePattern(counters) == ASTERISK_ENCODING)
+                        if (ToNarrowWidePattern(counters) == ASTERISK_ENCODING)
                         {
                             // Look for whitespace before start pattern, >= 50% of width of start pattern
                             if (row.IsRange(Math.Max(0, patternStart - ((i - patternStart) >> 1)), patternStart, false))
@@ -280,9 +280,9 @@ namespace ZXing.OneD
 
         // For efficiency, returns -1 on failure. Not throwing here saved as many as 700 exceptions
         // per image when using some of our blackbox images.
-        static int toNarrowWidePattern(int[] counters)
+        static int ToNarrowWidePattern(IReadOnlyList<int> counters)
         {
-            int numCounters = counters.Length;
+            int numCounters = counters.Count;
             int maxNarrowCounter = 0;
             int wideCounters;
             do
@@ -333,7 +333,7 @@ namespace ZXing.OneD
             return -1;
         }
 
-        static bool patternToChar(int pattern, out char c)
+        static bool PatternToChar(int pattern, out char c)
         {
             for (int i = 0; i < CHARACTER_ENCODINGS.Length; i++)
             {
@@ -347,7 +347,7 @@ namespace ZXing.OneD
             return pattern == ASTERISK_ENCODING;
         }
 
-        static string decodeExtended(string encoded)
+        static string DecodeExtended(string encoded)
         {
             int length = encoded.Length;
             StringBuilder decoded = new StringBuilder(length);

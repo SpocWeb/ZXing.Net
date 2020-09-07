@@ -27,12 +27,12 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class Code39Writer : OneDimensionalCodeWriter
     {
-        private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.CODE_39 };
+        private static readonly IList<BarcodeFormat> SUPPORTED_WRITE_FORMATS = new List<BarcodeFormat> { BarcodeFormat.CODE_39 };
 
         /// <summary>
         /// returns supported formats
         /// </summary>
-        protected override IList<BarcodeFormat> SupportedWriteFormats => supportedWriteFormats;
+        protected override IList<BarcodeFormat> SupportedWriteFormats => SUPPORTED_WRITE_FORMATS;
 
         /// <summary>
         /// Encode the contents to byte array expression of one-dimensional barcode.
@@ -55,7 +55,7 @@ namespace ZXing.OneD
                 if (indexInString < 0)
                 {
                     var unencodable = contents[i];
-                    contents = tryToConvertToExtendedMode(contents);
+                    contents = TryToConvertToExtendedMode(contents);
                     if (contents == null) {
                         throw new ArgumentException("Requested content contains a non-encodable character: '" + unencodable + "'");
                     }
@@ -70,9 +70,9 @@ namespace ZXing.OneD
             }
 
             int[] widths = new int[9];
-            int codeWidth = 24 + 1 + (13 * length);
+            int codeWidth = 24 + 1 + 13 * length;
             var result = new bool[codeWidth];
-            toIntArray(Code39Reader.ASTERISK_ENCODING, widths);
+            ToIntArray(Code39Reader.ASTERISK_ENCODING, widths);
             int pos = AppendPattern(result, 0, widths, true);
             int[] narrowWhite = {1};
             pos += AppendPattern(result, pos, narrowWhite, false);
@@ -80,16 +80,16 @@ namespace ZXing.OneD
             for (int i = 0; i < length; i++)
             {
                 int indexInString = Code39Reader.ALPHABET_STRING.IndexOf(contents[i]);
-                toIntArray(Code39Reader.CHARACTER_ENCODINGS[indexInString], widths);
+                ToIntArray(Code39Reader.CHARACTER_ENCODINGS[indexInString], widths);
                 pos += AppendPattern(result, pos, widths, true);
                 pos += AppendPattern(result, pos, narrowWhite, false);
             }
-            toIntArray(Code39Reader.ASTERISK_ENCODING, widths);
+            ToIntArray(Code39Reader.ASTERISK_ENCODING, widths);
             AppendPattern(result, pos, widths, true);
             return result;
         }
 
-        private static void toIntArray(int a, int[] toReturn)
+        private static void ToIntArray(int a, IList<int> toReturn)
         {
             for (int i = 0; i < 9; i++)
             {
@@ -98,7 +98,7 @@ namespace ZXing.OneD
             }
         }
 
-        private static string tryToConvertToExtendedMode(string contents)
+        private static string TryToConvertToExtendedMode(string contents)
         {
             var length = contents.Length;
             var extendedContent = new StringBuilder();

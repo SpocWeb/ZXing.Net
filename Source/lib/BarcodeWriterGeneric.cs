@@ -37,7 +37,7 @@ namespace ZXing
         /// </summary>
         public EncodingOptions Options
         {
-            get => (options ?? (options = new EncodingOptions { Height = 100, Width = 100 }));
+            get => options ?? (options = new EncodingOptions { Height = 100, Width = 100 });
             set => options = value;
         }
 

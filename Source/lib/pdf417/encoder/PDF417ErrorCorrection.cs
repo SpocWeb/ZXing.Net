@@ -221,11 +221,11 @@ namespace ZXing.PDF417.Internal
                 int t3;
                 for (int j = k - 1; j >= 1; j--)
                 {
-                    t2 = (t1 * EC_COEFFICIENTS[errorCorrectionLevel][j]) % 929;
+                    t2 = t1 * EC_COEFFICIENTS[errorCorrectionLevel][j] % 929;
                     t3 = 929 - t2;
                     e[j] = (char)((e[j - 1] + t3) % 929);
                 }
-                t2 = (t1 * EC_COEFFICIENTS[errorCorrectionLevel][0]) % 929;
+                t2 = t1 * EC_COEFFICIENTS[errorCorrectionLevel][0] % 929;
                 t3 = 929 - t2;
                 e[0] = (char)(t3 % 929);
             }

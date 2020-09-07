@@ -97,7 +97,7 @@ namespace ZXing.OneD
                 crcBuffer[crcBufferPos++] = (byte)((indexInString >> 3) & 1);
             }
             // CRC calculation
-            for (var i = 0; i < (4 * length); i++)
+            for (var i = 0; i < 4 * length; i++)
             {
                 if (crcBuffer[i] != 0)
                 {

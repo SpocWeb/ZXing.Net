@@ -128,8 +128,8 @@ namespace ZXing.Aztec
             int outputHeight = Math.Max(height, inputHeight);
 
             int multiple = Math.Min(outputWidth / inputWidth, outputHeight / inputHeight);
-            int leftPadding = (outputWidth - (inputWidth * multiple)) / 2;
-            int topPadding = (outputHeight - (inputHeight * multiple)) / 2;
+            int leftPadding = (outputWidth - inputWidth * multiple) / 2;
+            int topPadding = (outputHeight - inputHeight * multiple) / 2;
 
             var output = new BitMatrix(outputWidth, outputHeight);
 

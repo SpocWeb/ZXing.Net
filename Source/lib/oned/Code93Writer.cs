@@ -25,12 +25,12 @@ namespace ZXing.OneD
     /// </summary>
     public class Code93Writer : OneDimensionalCodeWriter
     {
-        private static readonly IList<BarcodeFormat> supportedWriteFormats = new List<BarcodeFormat> { BarcodeFormat.CODE_93 };
+        private static readonly IList<BarcodeFormat> SUPPORTED_WRITE_FORMATS = new List<BarcodeFormat> { BarcodeFormat.CODE_93 };
 
         /// <summary>
         /// returns supported formats
         /// </summary>
-        protected override IList<BarcodeFormat> SupportedWriteFormats => supportedWriteFormats;
+        protected override IList<BarcodeFormat> SupportedWriteFormats => SUPPORTED_WRITE_FORMATS;
 
         /// <summary>
         /// </summary>
@@ -38,7 +38,7 @@ namespace ZXing.OneD
         /// <returns>a { @code bool[]} of horizontal pixels(false = white, true = black)</returns>
         public override bool[] Encode(string contents)
         {
-            contents = convertToExtended(contents);
+            contents = ConvertToExtended(contents);
             int length = contents.Length;
             if (length > 80)
             {
@@ -52,25 +52,25 @@ namespace ZXing.OneD
             bool[] result = new bool[codeWidth];
 
             //start character (*)
-            int pos = appendPattern(result, 0, Code93Reader.ASTERISK_ENCODING);
+            int pos = AppendPattern(result, 0, Code93Reader.ASTERISK_ENCODING);
             for (int i = 0; i < length; i++)
             {
                 int indexInString = Code93Reader.ALPHABET_STRING.IndexOf(contents[i]);
-                pos += appendPattern(result, pos, Code93Reader.CHARACTER_ENCODINGS[indexInString]);
+                pos += AppendPattern(result, pos, Code93Reader.CHARACTER_ENCODINGS[indexInString]);
             }
 
             //add two checksums
-            int check1 = computeChecksumIndex(contents, 20);
-            pos += appendPattern(result, pos, Code93Reader.CHARACTER_ENCODINGS[check1]);
+            int check1 = ComputeChecksumIndex(contents, 20);
+            pos += AppendPattern(result, pos, Code93Reader.CHARACTER_ENCODINGS[check1]);
 
             //append the contents to reflect the first checksum added
             contents += Code93Reader.ALPHABET_STRING[check1];
 
-            int check2 = computeChecksumIndex(contents, 15);
-            pos += appendPattern(result, pos, Code93Reader.CHARACTER_ENCODINGS[check2]);
+            int check2 = ComputeChecksumIndex(contents, 15);
+            pos += AppendPattern(result, pos, Code93Reader.CHARACTER_ENCODINGS[check2]);
 
             //end character (*)
-            pos += appendPattern(result, pos, Code93Reader.ASTERISK_ENCODING);
+            pos += AppendPattern(result, pos, Code93Reader.ASTERISK_ENCODING);
 
             //termination bar (single black bar)
             result[pos] = true;
@@ -78,24 +78,7 @@ namespace ZXing.OneD
             return result;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="target">output to append to</param>
-        /// <param name="pos">start position</param>
-        /// <param name="pattern">pattern to append</param>
-        /// <param name="startColor">unused</param>
-        /// <returns>9</returns>
-        [Obsolete("without replacement; intended as an internal-only method")]
-        protected new static int appendPattern(bool[] target, int pos, int[] pattern, bool startColor)
-        {
-            foreach (var bit in pattern)
-            {
-                target[pos++] = bit != 0;
-            }
-            return 9;
-        }
-
-        private static int appendPattern(bool[] target, int pos, int a)
+        private static int AppendPattern(IList<bool> target, int pos, int a)
         {
             for (int i = 0; i < 9; i++)
             {
@@ -105,7 +88,7 @@ namespace ZXing.OneD
             return 9;
         }
 
-        private static int computeChecksumIndex(string contents, int maxWeight)
+        private static int ComputeChecksumIndex(string contents, int maxWeight)
         {
             int weight = 1;
             int total = 0;
@@ -122,7 +105,7 @@ namespace ZXing.OneD
             return total % 47;
         }
 
-        public static string convertToExtended(string contents)
+        public static string ConvertToExtended(string contents)
         {
             int length = contents.Length;
             var extendedContent = new StringBuilder(length * 2);

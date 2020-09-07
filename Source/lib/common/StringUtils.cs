@@ -239,7 +239,7 @@ namespace ZXing.Common
             // - then we conclude Shift_JIS, else ISO-8859-1
             if (canBeIso88591 && canBeShiftJis)
             {
-                return (sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2) || isoHighOther * 10 >= length
+                return sjisMaxKatakanaWordLength == 2 && sjisKatakanaChars == 2 || isoHighOther * 10 >= length
                     ? SHIFT_JIS : ISO88591;
             }
 

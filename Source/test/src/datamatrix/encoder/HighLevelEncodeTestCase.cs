@@ -405,7 +405,7 @@ namespace ZXing.Datamatrix.Test
 
       static string EncodeHighLevel(string msg)
       {
-            string encoded = HighLevelEncoder.encodeHighLevel(msg);
+            string encoded = HighLevelEncoder.EncodeHighLevel(msg);
          //DecodeHighLevel.decode(encoded);
          return Visualize(encoded);
       }

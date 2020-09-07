@@ -176,7 +176,7 @@ namespace ZXing.Rendering
                 try
                 {
                     var pixels = new byte[bmpData.Stride * height];
-                    var padding = bmpData.Stride - (3 * width);
+                    var padding = bmpData.Stride - 3 * width;
                     var index = 0;
                     var color = Background;
 

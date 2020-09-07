@@ -31,7 +31,7 @@ namespace ZXing.Client.Result
         {
             var rawText = result.Text;
             if (rawText == null ||
-               (!rawText.StartsWith("urlto:") && !rawText.StartsWith("URLTO:")))
+               !rawText.StartsWith("urlto:") && !rawText.StartsWith("URLTO:"))
             {
                 return null;
             }
@@ -40,7 +40,7 @@ namespace ZXing.Client.Result
             {
                 return null;
             }
-            var title = titleEnd <= 6 ? null : rawText.Substring(6, (titleEnd) - (6));
+            var title = titleEnd <= 6 ? null : rawText.Substring(6, titleEnd - 6);
             var uri = rawText.Substring(titleEnd + 1);
             return new URIParsedResult(uri, title);
         }

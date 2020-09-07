@@ -92,7 +92,7 @@ namespace ZXing.OneD
             int outputHeight = Math.Max(1, height);
 
             int multiple = outputWidth / fullWidth;
-            int leftPadding = (outputWidth - (inputWidth * multiple)) / 2;
+            int leftPadding = (outputWidth - inputWidth * multiple) / 2;
 
             BitMatrix output = new BitMatrix(outputWidth, outputHeight);
             for (int inputX = 0, outputX = leftPadding; inputX < inputWidth; inputX++, outputX += multiple)
@@ -170,14 +170,14 @@ namespace ZXing.OneD
 
             for (var index = contents.Length - 1; index >= 0; index -= 2)
             {
-                oddSum += (contents[index] - '0');
+                oddSum += contents[index] - '0';
             }
             for (var index = contents.Length - 2; index >= 0; index -= 2)
             {
-                evenSum += (contents[index] - '0');
+                evenSum += contents[index] - '0';
             }
 
-            return contents + ((10 - ((oddSum * 3 + evenSum) % 10)) % 10);
+            return contents + (10 - (oddSum * 3 + evenSum) % 10) % 10;
         }
     }
 }

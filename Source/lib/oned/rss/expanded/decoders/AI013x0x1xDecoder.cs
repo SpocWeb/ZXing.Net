@@ -50,9 +50,9 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             this.firstAIdigits = firstAIdigits;
         }
 
-        public override string parseInformation()
+        public override string ParseInformation()
         {
-            if (getInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE + DATE_SIZE)
+            if (GetInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE + DATE_SIZE)
             {
                 return null;
             }
@@ -68,7 +68,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         void encodeCompressedDate(StringBuilder buf, int currentPos)
         {
-            int numericDate = getGeneralDecoder().extractNumericValueFromBitArray(currentPos, DATE_SIZE);
+            int numericDate = GetGeneralDecoder().extractNumericValueFromBitArray(currentPos, DATE_SIZE);
             if (numericDate == 38400)
             {
                 return;

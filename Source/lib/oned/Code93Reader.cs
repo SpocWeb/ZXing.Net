@@ -206,9 +206,9 @@ namespace ZXing.OneD
             return null;
         }
 
-        static int ToPattern(int[] counters)
+        static int ToPattern(IReadOnlyList<int> counters)
         {
-            int max = counters.Length;
+            int max = counters.Count;
             int sum = 0;
             foreach (var counter in counters)
             {

@@ -114,7 +114,7 @@ namespace ZXing.Datamatrix.Encoder
         }
         */
 
-        private static char randomize253State(char ch, int codewordPosition)
+        private static char Randomize253State(char ch, int codewordPosition)
         {
             int pseudoRandom = 149 * codewordPosition % 253 + 1;
             int tempVariable = ch + pseudoRandom;
@@ -127,9 +127,9 @@ namespace ZXing.Datamatrix.Encoder
         /// </summary>
         /// <param name="msg">the message</param>
         /// <returns>the encoded message (the char values range from 0 to 255)</returns>
-        public static string encodeHighLevel(string msg)
+        public static string EncodeHighLevel(string msg)
         {
-            return encodeHighLevel(msg, SymbolShapeHint.FORCE_NONE, null, null, EnCoding.ASCII);
+            return EncodeHighLevel(msg, SymbolShapeHint.FORCE_NONE, null, null, EnCoding.ASCII);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="maxSize">the maximum symbol size constraint or null for no constraint</param>
         /// <param name="defaultEncoding">encoding mode to start with</param>
         /// <returns>the encoded message (the char values range from 0 to 255)</returns>
-        public static string encodeHighLevel(string msg,
+        public static string EncodeHighLevel(string msg,
                                              SymbolShapeHint shape,
                                              Dimension minSize,
                                              Dimension maxSize,
@@ -222,13 +222,13 @@ namespace ZXing.Datamatrix.Encoder
             }
             while (codewords.Length < capacity)
             {
-                codewords.Append(randomize253State(PAD, codewords.Length + 1));
+                codewords.Append(Randomize253State(PAD, codewords.Length + 1));
             }
 
             return context.Codewords.ToString();
         }
 
-        internal static int lookAheadTest(string msg, int startpos, int currentMode)
+        internal static int LookAheadTest(string msg, int startpos, int currentMode)
         {
             if (startpos >= msg.Length)
             {
@@ -255,8 +255,8 @@ namespace ZXing.Datamatrix.Encoder
                     var min = int.MaxValue;
                     var mins = new byte[6];
                     var intCharCounts = new int[6];
-                    min = findMinimums(charCounts, intCharCounts, min, mins);
-                    var minCount = getMinimumCount(mins);
+                    min = FindMinimums(charCounts, intCharCounts, min, mins);
+                    var minCount = GetMinimumCount(mins);
 
                     if (intCharCounts[EnCoding.ASCII] == min)
                     {
@@ -285,11 +285,11 @@ namespace ZXing.Datamatrix.Encoder
                 charsProcessed++;
 
                 //step L
-                if (isDigit(c))
+                if (IsDigit(c))
                 {
                     charCounts[EnCoding.ASCII] += 0.5f;
                 }
-                else if (isExtendedASCII(c))
+                else if (IsExtendedAscii(c))
                 {
                     charCounts[EnCoding.ASCII] = (float)Math.Ceiling(charCounts[EnCoding.ASCII]);
                     charCounts[EnCoding.ASCII] += 2.0f;
@@ -301,11 +301,11 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 //step M
-                if (isNativeC40(c))
+                if (IsNativeC40(c))
                 {
                     charCounts[EnCoding.C40] += 2.0f / 3.0f;
                 }
-                else if (isExtendedASCII(c))
+                else if (IsExtendedAscii(c))
                 {
                     charCounts[EnCoding.C40] += 8.0f / 3.0f;
                 }
@@ -315,11 +315,11 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 //step N
-                if (isNativeText(c))
+                if (IsNativeText(c))
                 {
                     charCounts[EnCoding.TEXT] += 2.0f / 3.0f;
                 }
-                else if (isExtendedASCII(c))
+                else if (IsExtendedAscii(c))
                 {
                     charCounts[EnCoding.TEXT] += 8.0f / 3.0f;
                 }
@@ -329,11 +329,11 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 //step O
-                if (isNativeX12(c))
+                if (IsNativeX12(c))
                 {
                     charCounts[EnCoding.X12] += 2.0f / 3.0f;
                 }
-                else if (isExtendedASCII(c))
+                else if (IsExtendedAscii(c))
                 {
                     charCounts[EnCoding.X12] += 13.0f / 3.0f;
                 }
@@ -343,11 +343,11 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 //step P
-                if (isNativeEDIFACT(c))
+                if (IsNativeEdifact(c))
                 {
                     charCounts[EnCoding.EDIFACT] += 3.0f / 4.0f;
                 }
-                else if (isExtendedASCII(c))
+                else if (IsExtendedAscii(c))
                 {
                     charCounts[EnCoding.EDIFACT] += 17.0f / 4.0f;
                 }
@@ -357,7 +357,7 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 // step Q
-                if (isSpecialB256(c))
+                if (IsSpecialB256(c))
                 {
                     charCounts[EnCoding.BASE256] += 4.0f;
                 }
@@ -371,8 +371,8 @@ namespace ZXing.Datamatrix.Encoder
                 {
                     var intCharCounts = new int[6];
                     var mins = new byte[6];
-                    findMinimums(charCounts, intCharCounts, int.MaxValue, mins);
-                    int minCount = getMinimumCount(mins);
+                    FindMinimums(charCounts, intCharCounts, int.MaxValue, mins);
+                    int minCount = GetMinimumCount(mins);
 
                     if (intCharCounts[EnCoding.ASCII] < intCharCounts[EnCoding.BASE256]
                         && intCharCounts[EnCoding.ASCII] < intCharCounts[EnCoding.C40]
@@ -414,11 +414,11 @@ namespace ZXing.Datamatrix.Encoder
                             while (p < msg.Length)
                             {
                                 char tc = msg[p];
-                                if (isX12TermSep(tc))
+                                if (IsX12TermSep(tc))
                                 {
                                     return EnCoding.X12;
                                 }
-                                if (!isNativeX12(tc))
+                                if (!IsNativeX12(tc))
                                 {
                                     break;
                                 }
@@ -431,7 +431,7 @@ namespace ZXing.Datamatrix.Encoder
             }
         }
 
-        private static int findMinimums(IReadOnlyList<float> charCounts, int[] intCharCounts, int min, byte[] mins)
+        private static int FindMinimums(IReadOnlyList<float> charCounts, int[] intCharCounts, int min, byte[] mins)
         {
             SupportClass.Fill(mins, (byte)0);
             for (int i = 0; i < 6; i++)
@@ -452,7 +452,7 @@ namespace ZXing.Datamatrix.Encoder
             return min;
         }
 
-        private static int getMinimumCount(byte[] mins)
+        private static int GetMinimumCount(byte[] mins)
         {
             int minCount = 0;
             for (int i = 0; i < 6; i++)
@@ -462,44 +462,44 @@ namespace ZXing.Datamatrix.Encoder
             return minCount;
         }
 
-        internal static bool isDigit(char ch)
+        internal static bool IsDigit(char ch)
         {
             return ch >= '0' && ch <= '9';
         }
 
-        internal static bool isExtendedASCII(char ch)
+        internal static bool IsExtendedAscii(char ch)
         {
             return ch >= 128 && ch <= 255;
         }
 
-        internal static bool isNativeC40(char ch)
+        internal static bool IsNativeC40(char ch)
         {
             return ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z';
         }
 
-        internal static bool isNativeText(char ch)
+        internal static bool IsNativeText(char ch)
         {
             return ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'a' && ch <= 'z' || ch == 0x001d;
         }
 
-        internal static bool isNativeX12(char ch)
+        internal static bool IsNativeX12(char ch)
         {
-            return isX12TermSep(ch) || ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z';
+            return IsX12TermSep(ch) || ch == ' ' || ch >= '0' && ch <= '9' || ch >= 'A' && ch <= 'Z';
         }
 
-        internal static bool isX12TermSep(char ch)
+        internal static bool IsX12TermSep(char ch)
         {
             return ch == '\r' //CR
                 || ch == '*'
                 || ch == '>';
         }
 
-        internal static bool isNativeEDIFACT(char ch)
+        internal static bool IsNativeEdifact(char ch)
         {
             return ch >= ' ' && ch <= '^';
         }
 
-        internal static bool isSpecialB256(char ch)
+        internal static bool IsSpecialB256(char ch)
         {
             return false; //TODO NOT IMPLEMENTED YET!!!
         }
@@ -510,7 +510,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="msg">the message</param>
         /// <param name="startpos">the start position within the message</param>
         /// <returns>the requested character count</returns>
-        public static int determineConsecutiveDigitCount(string msg, int startpos)
+        public static int DetermineConsecutiveDigitCount(string msg, int startpos)
         {
             int count = 0;
             int len = msg.Length;
@@ -518,7 +518,7 @@ namespace ZXing.Datamatrix.Encoder
             if (idx < len)
             {
                 char ch = msg[idx];
-                while (isDigit(ch) && idx < len)
+                while (IsDigit(ch) && idx < len)
                 {
                     count++;
                     idx++;
@@ -531,7 +531,7 @@ namespace ZXing.Datamatrix.Encoder
             return count;
         }
 
-        internal static void illegalCharacter(char c)
+        internal static void IllegalCharacter(char c)
         {
             throw new ArgumentException(string.Format("Illegal character: {0} (0x{1:X})", c, (int)c));
         }

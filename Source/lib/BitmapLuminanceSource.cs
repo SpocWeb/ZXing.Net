@@ -226,7 +226,7 @@ namespace ZXing
             var strideStep = data.Stride;
             var buffer = new byte[stride];
             var ptrInBitmap = data.Scan0;
-            var evenWidth = (width / 2) * 2;
+            var evenWidth = width / 2 * 2;
 
             if (pixelWidth != 0) {
                 throw new InvalidOperationException("Unsupported pixel format: " + bitmap.PixelFormat);

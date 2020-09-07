@@ -43,9 +43,9 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        public override string parseInformation()
+        public override string ParseInformation()
         {
-            if (getInformation().Size < HEADER_SIZE + GTIN_SIZE)
+            if (GetInformation().Size < HEADER_SIZE + GTIN_SIZE)
             {
                 return null;
             }
@@ -55,13 +55,13 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             encodeCompressedGtin(buf, HEADER_SIZE);
 
             int lastAIdigit =
-                getGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE + GTIN_SIZE, LAST_DIGIT_SIZE);
+                GetGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE + GTIN_SIZE, LAST_DIGIT_SIZE);
             buf.Append("(392");
             buf.Append(lastAIdigit);
             buf.Append(')');
 
             DecodedInformation decodedInformation =
-                getGeneralDecoder().decodeGeneralPurposeField(HEADER_SIZE + GTIN_SIZE + LAST_DIGIT_SIZE, null);
+                GetGeneralDecoder().decodeGeneralPurposeField(HEADER_SIZE + GTIN_SIZE + LAST_DIGIT_SIZE, null);
             buf.Append(decodedInformation.getNewString());
 
             return buf.ToString();

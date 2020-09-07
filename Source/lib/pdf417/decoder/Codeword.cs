@@ -83,7 +83,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="rowNumber">Row number.</param>
         public bool IsValidRowNumber(int rowNumber)
         {
-            return rowNumber != BARCODE_ROW_UNKNOWN && Bucket == (rowNumber % 3) * 3;
+            return rowNumber != BARCODE_ROW_UNKNOWN && Bucket == rowNumber % 3 * 3;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         public void setRowNumberAsRowIndicatorColumn()
         {
-            RowNumber = (Value / 30) * 3 + Bucket / 3;
+            RowNumber = Value / 30 * 3 + Bucket / 3;
         }
 
         /// <summary>

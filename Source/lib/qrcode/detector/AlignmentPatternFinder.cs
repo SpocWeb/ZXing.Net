@@ -94,7 +94,7 @@ namespace ZXing.QrCode.Internal
             for (int iGen = 0; iGen < height; iGen++)
             {
                 // Search from middle outwards
-                int i = middleI + ((iGen & 0x01) == 0 ? ((iGen + 1) >> 1) : -((iGen + 1) >> 1));
+                int i = middleI + ((iGen & 0x01) == 0 ? (iGen + 1) >> 1 : -((iGen + 1) >> 1));
                 stateCount[0] = 0;
                 stateCount[1] = 0;
                 stateCount[2] = 0;
@@ -180,7 +180,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         private static float? centerFromEnd(int[] stateCount, int end)
         {
-            var result = (end - stateCount[2]) - stateCount[1] / 2.0f;
+            var result = end - stateCount[2] - stateCount[1] / 2.0f;
             if (float.IsNaN(result)) {
                 return null;
             }

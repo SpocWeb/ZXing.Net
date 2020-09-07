@@ -43,9 +43,9 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        public override string parseInformation()
+        public override string ParseInformation()
         {
-            if (getInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE)
+            if (GetInformation().Size != HEADER_SIZE + GTIN_SIZE + WEIGHT_SIZE)
             {
                 return null;
             }

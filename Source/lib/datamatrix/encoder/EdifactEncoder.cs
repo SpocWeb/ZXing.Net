@@ -39,7 +39,7 @@ namespace ZXing.Datamatrix.Encoder
                     context.writeCodewords(encodeToCodewords(buffer, 0));
                     buffer.Remove(0, 4);
 
-                    int newMode = HighLevelEncoder.lookAheadTest(context.Message, context.Pos, EncodingMode);
+                    int newMode = HighLevelEncoder.LookAheadTest(context.Message, context.Pos, EncodingMode);
                     if (newMode != EncodingMode)
                     {
                         // Return to ASCII encoding, which will actually handle latch to new mode
@@ -133,7 +133,7 @@ namespace ZXing.Datamatrix.Encoder
             }
             else
             {
-                HighLevelEncoder.illegalCharacter(c);
+                HighLevelEncoder.IllegalCharacter(c);
             }
         }
 

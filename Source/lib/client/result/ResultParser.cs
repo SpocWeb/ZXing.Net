@@ -283,7 +283,7 @@ namespace ZXing.Client.Result
                         {
                             matches = new List<string>();
                         }
-                        string element = unescapeBackslash(rawText.Substring(start, (i) - (start)));
+                        string element = unescapeBackslash(rawText.Substring(start, i - start));
                         if (trim)
                         {
                             element = element.Trim();
@@ -297,7 +297,7 @@ namespace ZXing.Client.Result
                     }
                 }
             }
-            if (matches == null || (matches.Count == 0))
+            if (matches == null || matches.Count == 0)
             {
                 return null;
             }

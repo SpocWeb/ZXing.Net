@@ -91,7 +91,7 @@ namespace ZXing.Datamatrix
 
 
             //1. step: Data encoding
-            string encoded = HighLevelEncoder.encodeHighLevel(contents, shape, minSize, maxSize, defaultEncoding);
+            string encoded = HighLevelEncoder.EncodeHighLevel(contents, shape, minSize, maxSize, defaultEncoding);
 
             SymbolInfo symbolInfo = SymbolInfo.lookup(encoded.Length, shape, minSize, maxSize, true);
 
@@ -127,12 +127,12 @@ namespace ZXing.Datamatrix
             {
                 // Fill the top edge with alternate 0 / 1
                 int matrixX;
-                if ((y % symbolInfo.matrixHeight) == 0)
+                if (y % symbolInfo.matrixHeight == 0)
                 {
                     matrixX = 0;
                     for (int x = 0; x < symbolInfo.getSymbolWidth(); x++)
                     {
-                        matrix.Set(matrixX, matrixY, (x % 2) == 0);
+                        matrix.Set(matrixX, matrixY, x % 2 == 0);
                         matrixX++;
                     }
                     matrixY++;
@@ -141,7 +141,7 @@ namespace ZXing.Datamatrix
                 for (int x = 0; x < symbolWidth; x++)
                 {
                     // Fill the right edge with full 1
-                    if ((x % symbolInfo.matrixWidth) == 0)
+                    if (x % symbolInfo.matrixWidth == 0)
                     {
                         matrix.Set(matrixX, matrixY, true);
                         matrixX++;
@@ -149,15 +149,15 @@ namespace ZXing.Datamatrix
                     matrix.Set(matrixX, matrixY, placement.getBit(x, y));
                     matrixX++;
                     // Fill the right edge with alternate 0 / 1
-                    if ((x % symbolInfo.matrixWidth) == symbolInfo.matrixWidth - 1)
+                    if (x % symbolInfo.matrixWidth == symbolInfo.matrixWidth - 1)
                     {
-                        matrix.Set(matrixX, matrixY, (y % 2) == 0);
+                        matrix.Set(matrixX, matrixY, y % 2 == 0);
                         matrixX++;
                     }
                 }
                 matrixY++;
                 // Fill the bottom edge with full 1
-                if ((y % symbolInfo.matrixHeight) == symbolInfo.matrixHeight - 1)
+                if (y % symbolInfo.matrixHeight == symbolInfo.matrixHeight - 1)
                 {
                     matrixX = 0;
                     for (int x = 0; x < symbolInfo.getSymbolWidth(); x++)
@@ -188,8 +188,8 @@ namespace ZXing.Datamatrix
 
             int multiple = Math.Min(outputWidth / matrixWidth, outputHeight / matrixHeight);
 
-            int leftPadding = (outputWidth - (matrixWidth * multiple)) / 2;
-            int topPadding = (outputHeight - (matrixHeight * multiple)) / 2;
+            int leftPadding = (outputWidth - matrixWidth * multiple) / 2;
+            int topPadding = (outputHeight - matrixHeight * multiple) / 2;
 
             BitMatrix output;
 

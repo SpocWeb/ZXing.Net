@@ -207,22 +207,22 @@ namespace ZXing.QrCode.Internal
                     break;
 
                 case 4:
-                    intermediate = (((int)((uint)y >> 1)) + (x / 3)) & 0x1;
+                    intermediate = ((int)((uint)y >> 1) + x / 3) & 0x1;
                     break;
 
                 case 5:
                     temp = y * x;
-                    intermediate = (temp & 0x1) + (temp % 3);
+                    intermediate = (temp & 0x1) + temp % 3;
                     break;
 
                 case 6:
                     temp = y * x;
-                    intermediate = (((temp & 0x1) + (temp % 3)) & 0x1);
+                    intermediate = ((temp & 0x1) + temp % 3) & 0x1;
                     break;
 
                 case 7:
                     temp = y * x;
-                    intermediate = (((temp % 3) + ((y + x) & 0x1)) & 0x1);
+                    intermediate = (temp % 3 + ((y + x) & 0x1)) & 0x1;
                     break;
 
                 default:

@@ -102,7 +102,7 @@ namespace ZXing.Maxicode.Internal
         static int GetBit(int bit, byte[] bytes)
         {
             bit--;
-            return (bytes[bit / 6] & (1 << (5 - (bit % 6)))) == 0 ? 0 : 1;
+            return (bytes[bit / 6] & (1 << (5 - bit % 6))) == 0 ? 0 : 1;
         }
 
         static int GetInt(byte[] bytes, byte[] x)

@@ -44,10 +44,10 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
 
         }
 
-        public override string parseInformation()
+        public override string ParseInformation()
         {
             StringBuilder buf = new StringBuilder();
-            return getGeneralDecoder().decodeAllCodes(buf, HEADER_SIZE);
+            return GetGeneralDecoder().decodeAllCodes(buf, HEADER_SIZE);
         }
     }
 }

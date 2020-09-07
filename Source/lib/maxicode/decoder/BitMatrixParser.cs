@@ -84,7 +84,7 @@ namespace ZXing.Maxicode.Internal
                     int bit = bitnrRow[x];
                     if (bit >= 0 && _BitMatrix[x, y])
                     {
-                        result[bit / 6] |= (byte)(1 << (5 - (bit % 6)));
+                        result[bit / 6] |= (byte)(1 << (5 - bit % 6));
                     }
                 }
             }

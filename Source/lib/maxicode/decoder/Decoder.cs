@@ -109,7 +109,7 @@ namespace ZXing.Maxicode.Internal
             int[] codewordsInts = new int[codewords / divisor];
             for (int i = 0; i < codewords; i++)
             {
-                if ((mode == ALL) || (i % 2 == (mode - 1)))
+                if (mode == ALL || i % 2 == mode - 1)
                 {
                     codewordsInts[i / divisor] = codewordBytes[i + start];
                 }
@@ -123,7 +123,7 @@ namespace ZXing.Maxicode.Internal
             // We don't care about errors in the error-correction codewords
             for (int i = 0; i < dataCodewords; i++)
             {
-                if ((mode == ALL) || (i % 2 == (mode - 1)))
+                if (mode == ALL || i % 2 == mode - 1)
                 {
                     codewordBytes[i + start] = (byte)codewordsInts[i / divisor];
                 }

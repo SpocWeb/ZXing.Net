@@ -184,8 +184,8 @@ namespace ZXing.Client.Result
                         i += 2; // Skip \n and continutation whitespace
                     }
                     else if (quotedPrintable && // If preceded by = in quoted printable
-                             ((i >= 1 && rawText[i - 1] == '=') || // this is a continuation
-                              (i >= 2 && rawText[i - 2] == '=')))
+                             (i >= 1 && rawText[i - 1] == '=' || // this is a continuation
+                              i >= 2 && rawText[i - 2] == '='))
                     {
                         i++; // Skip \n
                     }

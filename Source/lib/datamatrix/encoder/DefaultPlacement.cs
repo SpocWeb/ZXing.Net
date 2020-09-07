@@ -85,50 +85,50 @@ namespace ZXing.Datamatrix.Encoder
             do
             {
                 // repeatedly first check for one of the special corner cases, then...
-                if ((row == Numrows) && (col == 0))
+                if (row == Numrows && col == 0)
                 {
                     corner1(pos++);
                 }
-                if ((row == Numrows - 2) && (col == 0) && ((Numcols % 4) != 0))
+                if (row == Numrows - 2 && col == 0 && Numcols % 4 != 0)
                 {
                     corner2(pos++);
                 }
-                if ((row == Numrows - 2) && (col == 0) && (Numcols % 8 == 4))
+                if (row == Numrows - 2 && col == 0 && Numcols % 8 == 4)
                 {
                     corner3(pos++);
                 }
-                if ((row == Numrows + 4) && (col == 2) && ((Numcols % 8) == 0))
+                if (row == Numrows + 4 && col == 2 && Numcols % 8 == 0)
                 {
                     corner4(pos++);
                 }
                 // sweep upward diagonally, inserting successive characters...
                 do
                 {
-                    if ((row < Numrows) && (col >= 0) && noBit(col, row))
+                    if (row < Numrows && col >= 0 && noBit(col, row))
                     {
                         utah(row, col, pos++);
                     }
                     row -= 2;
                     col += 2;
-                } while (row >= 0 && (col < Numcols));
+                } while (row >= 0 && col < Numcols);
                 row++;
                 col += 3;
 
                 // and then sweep downward diagonally, inserting successive characters, ...
                 do
                 {
-                    if ((row >= 0) && (col < Numcols) && noBit(col, row))
+                    if (row >= 0 && col < Numcols && noBit(col, row))
                     {
                         utah(row, col, pos++);
                     }
                     row += 2;
                     col -= 2;
-                } while ((row < Numrows) && (col >= 0));
+                } while (row < Numrows && col >= 0);
                 row += 3;
                 col++;
 
                 // ...until the entire array is scanned
-            } while ((row < Numrows) || (col < Numcols));
+            } while (row < Numrows || col < Numcols);
 
             // Lastly, if the lower right-hand corner is untouched, fill in fixed pattern
             if (noBit(Numcols - 1, Numrows - 1))
@@ -143,12 +143,12 @@ namespace ZXing.Datamatrix.Encoder
             if (row < 0)
             {
                 row += Numrows;
-                col += 4 - ((Numrows + 4) % 8);
+                col += 4 - (Numrows + 4) % 8;
             }
             if (col < 0)
             {
                 col += Numcols;
-                row += 4 - ((Numcols + 4) % 8);
+                row += 4 - (Numcols + 4) % 8;
             }
             // Note the conversion:
             int v = codewords[pos];

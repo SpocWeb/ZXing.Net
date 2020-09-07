@@ -285,10 +285,10 @@ namespace ZXing.PDF417.Internal
             var barcodeRowCountUpperPartValues = barcodeRowCountUpperPart.getValue();
             var barcodeRowCountLowerPartValues = barcodeRowCountLowerPart.getValue();
             var barcodeEcLevelValues = barcodeEcLevel.getValue();
-            if ((barcodeColumnCountValues.Length == 0) ||
-                (barcodeRowCountUpperPartValues.Length == 0) ||
-                (barcodeRowCountLowerPartValues.Length == 0) ||
-                (barcodeEcLevelValues.Length == 0) ||
+            if (barcodeColumnCountValues.Length == 0 ||
+                barcodeRowCountUpperPartValues.Length == 0 ||
+                barcodeRowCountLowerPartValues.Length == 0 ||
+                barcodeEcLevelValues.Length == 0 ||
                  barcodeColumnCountValues[0] < 1 ||
                  barcodeRowCountUpperPartValues[0] + barcodeRowCountLowerPartValues[0] < PDF417Common.MIN_ROWS_IN_BARCODE ||
                  barcodeRowCountUpperPartValues[0] + barcodeRowCountLowerPartValues[0] > PDF417Common.MAX_ROWS_IN_BARCODE)

@@ -137,11 +137,6 @@ namespace ZXing.Interop.Encoding
     [ClassInterface(ClassInterfaceType.AutoDual)]
     public sealed class Dimension
     {
-        /// <summary>
-        /// initializing constructor
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
         public Dimension(int width, int height)
         {
             if (width < 0 || height < 0)
@@ -152,15 +147,9 @@ namespace ZXing.Interop.Encoding
             Height = height;
         }
 
-        /// <summary>
-        /// the width
-        /// </summary>
-        public int Width { get; private set; }
+        public int Width { get; }
 
-        /// <summary>
-        /// the height
-        /// </summary>
-        public int Height { get; private set; }
+        public int Height { get; }
 
         public override bool Equals(object other)
         {
@@ -171,14 +160,9 @@ namespace ZXing.Interop.Encoding
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return Width * 32713 + Height;
-        }
+        public override int GetHashCode() => Width * 32713 + Height;
 
-        public override string ToString()
-        {
-            return Width + "x" + Height;
-        }
+        public override string ToString() => Width + "x" + Height;
+
     }
 }

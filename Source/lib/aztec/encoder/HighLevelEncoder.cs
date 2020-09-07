@@ -188,7 +188,7 @@ namespace ZXing.Aztec.Internal
             {
                 int pairCode;
                 // don't remove the (int) type cast, mono compiler needs it
-                int nextChar = (index + 1 < text.Length) ? text[index + 1] : 0;
+                int nextChar = index + 1 < text.Length ? text[index + 1] : 0;
                 switch (text[index])
                 {
                     case (byte)'\r':

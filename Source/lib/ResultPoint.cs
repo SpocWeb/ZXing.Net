@@ -114,7 +114,7 @@ namespace ZXing
         {
             float bX = pointB.X;
             float bY = pointB.Y;
-            return ((pointC.X - bX) * (pointA.Y - bY)) - ((pointC.Y - bY) * (pointA.X - bX));
+            return (pointC.X - bX) * (pointA.Y - bY) - (pointC.Y - bY) * (pointA.X - bX);
         }
     }
 }

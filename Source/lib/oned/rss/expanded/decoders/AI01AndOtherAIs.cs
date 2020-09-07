@@ -44,18 +44,18 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
         {
         }
 
-        public override string parseInformation()
+        public override string ParseInformation()
         {
             StringBuilder buff = new StringBuilder();
 
             buff.Append("(01)");
             int initialGtinPosition = buff.Length;
-            int firstGtinDigit = getGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE, 4);
+            int firstGtinDigit = GetGeneralDecoder().extractNumericValueFromBitArray(HEADER_SIZE, 4);
             buff.Append(firstGtinDigit);
 
             encodeCompressedGtinWithoutAI(buff, HEADER_SIZE + 4, initialGtinPosition);
 
-            return getGeneralDecoder().decodeAllCodes(buff, HEADER_SIZE + 44);
+            return GetGeneralDecoder().decodeAllCodes(buff, HEADER_SIZE + 44);
         }
     }
 }

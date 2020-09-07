@@ -46,17 +46,17 @@ namespace ZXing.Aztec.Internal
         /// <param name="bits">The bits.</param>
         /// <param name="points">The points.</param>
         /// <param name="compact">if set to <c>true</c> [compact].</param>
-        /// <param name="nbDatablocks">The nb datablocks.</param>
+        /// <param name="nbDataBlocks">The nb datablocks.</param>
         /// <param name="nbLayers">The nb layers.</param>
-        public AztecDetectorResult(BitMatrix bits,
+        public AztecDetectorResult(IBitMatrix bits,
                                    ResultPoint[] points,
                                    bool compact,
-                                   int nbDatablocks,
+                                   int nbDataBlocks,
                                    int nbLayers)
            : base(bits, points)
         {
             Compact = compact;
-            NbDatablocks = nbDatablocks;
+            NbDatablocks = nbDataBlocks;
             NbLayers = nbLayers;
         }
     }

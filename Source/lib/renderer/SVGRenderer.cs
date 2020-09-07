@@ -470,7 +470,7 @@ namespace ZXing.Rendering
 #if !UNITY
             internal static double ConvertAlpha(Color alpha)
             {
-                return Math.Round((alpha.A / (double)255), 2);
+                return Math.Round(alpha.A / (double)255, 2);
             }
 
             internal static string GetBackgroundStyle(Color color)

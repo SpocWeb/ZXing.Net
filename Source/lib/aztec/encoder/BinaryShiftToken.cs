@@ -51,7 +51,7 @@ namespace ZXing.Aztec.Internal
         {
             for (int i = 0; i < binaryShiftByteCount; i++)
             {
-                if (i == 0 || (i == 31 && binaryShiftByteCount <= 62))
+                if (i == 0 || i == 31 && binaryShiftByteCount <= 62)
                 {
                     // We need a header before the first character, and before
                     // character 31 when the total byte code is <= 62
