@@ -51,7 +51,7 @@ namespace ZXing.QrCode.Internal.Test
          {
             for (int x = 0; x < 45; ++x)
             {
-               matrix.set(x, y, (y + x) % 2 == 1);
+               matrix.Set(x, y, (y + x) % 2 == 1);
             }
          }
 
@@ -91,7 +91,7 @@ namespace ZXing.QrCode.Internal.Test
          {
             for (int x = 0; x < 21; ++x)
             {
-               matrix.set(x, y, (y + x) % 2 == 1);
+               matrix.Set(x, y, (y + x) % 2 == 1);
             }
          }
          qrCode.Matrix = matrix;

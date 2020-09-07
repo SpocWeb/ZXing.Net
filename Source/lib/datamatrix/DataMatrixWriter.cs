@@ -57,9 +57,9 @@ namespace ZXing.Datamatrix
                 if (hints.ContainsKey(EncodeHintType.DATA_MATRIX_SHAPE))
                 {
                     var requestedShape = hints[EncodeHintType.DATA_MATRIX_SHAPE];
-                    if (requestedShape is SymbolShapeHint)
+                    if (requestedShape is SymbolShapeHint hint)
                     {
-                        shape = (SymbolShapeHint)requestedShape;
+                        shape = hint;
                     }
                     else
                     {
@@ -132,7 +132,7 @@ namespace ZXing.Datamatrix
                     matrixX = 0;
                     for (int x = 0; x < symbolInfo.getSymbolWidth(); x++)
                     {
-                        matrix.set(matrixX, matrixY, (x % 2) == 0);
+                        matrix.Set(matrixX, matrixY, (x % 2) == 0);
                         matrixX++;
                     }
                     matrixY++;
@@ -143,15 +143,15 @@ namespace ZXing.Datamatrix
                     // Fill the right edge with full 1
                     if ((x % symbolInfo.matrixWidth) == 0)
                     {
-                        matrix.set(matrixX, matrixY, true);
+                        matrix.Set(matrixX, matrixY, true);
                         matrixX++;
                     }
-                    matrix.set(matrixX, matrixY, placement.getBit(x, y));
+                    matrix.Set(matrixX, matrixY, placement.getBit(x, y));
                     matrixX++;
                     // Fill the right edge with alternate 0 / 1
                     if ((x % symbolInfo.matrixWidth) == symbolInfo.matrixWidth - 1)
                     {
-                        matrix.set(matrixX, matrixY, (y % 2) == 0);
+                        matrix.Set(matrixX, matrixY, (y % 2) == 0);
                         matrixX++;
                     }
                 }
@@ -162,7 +162,7 @@ namespace ZXing.Datamatrix
                     matrixX = 0;
                     for (int x = 0; x < symbolInfo.getSymbolWidth(); x++)
                     {
-                        matrix.set(matrixX, matrixY, true);
+                        matrix.Set(matrixX, matrixY, true);
                         matrixX++;
                     }
                     matrixY++;

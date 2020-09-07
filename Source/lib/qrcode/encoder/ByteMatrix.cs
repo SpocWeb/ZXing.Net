@@ -67,33 +67,17 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         public byte[][] Array { get; }
 
-        /// <summary>
-        /// Sets the specified x.
-        /// </summary>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <param name="value">The value.</param>
-        public void set(int x, int y, byte value)
+        public void Set(int x, int y, byte value)
         {
             Array[y][x] = value;
         }
 
-        /// <summary>
-        /// Sets the specified x.
-        /// </summary>
-        /// <param name="x">The x.</param>
-        /// <param name="y">The y.</param>
-        /// <param name="value">if set to <c>true</c> [value].</param>
-        public void set(int x, int y, bool value)
+        public void Set(int x, int y, bool value)
         {
             Array[y][x] = (byte)(value ? 1 : 0);
         }
 
-        /// <summary>
-        /// Clears the specified value.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        public void clear(byte value)
+        public void Clear(byte value)
         {
             for (int y = 0; y < Height; ++y)
             {

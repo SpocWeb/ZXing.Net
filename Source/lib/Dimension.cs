@@ -49,37 +49,18 @@ namespace ZXing
         /// </summary>
         public int Height { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
         public override bool Equals(object other)
         {
-            if (other is Dimension)
+            if (other is Dimension d)
             {
-                var d = (Dimension)other;
                 return Width == d.Width && Height == d.Height;
             }
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return Width * 32713 + Height;
-        }
+        public override int GetHashCode() => Width * 32713 + Height;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return Width + "x" + Height;
-        }
+        public override string ToString() => Width + "x" + Height;
+
     }
 }

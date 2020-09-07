@@ -129,9 +129,9 @@ namespace ZXing.PDF417
                 if (Hints.ContainsKey(EncodeHintType.PDF417_ASPECT_RATIO))
                 {
                     var value = Hints[EncodeHintType.PDF417_ASPECT_RATIO];
-                    if (value is PDF417AspectRatio)
+                    if (value is PDF417AspectRatio ratio)
                     {
-                        return (PDF417AspectRatio)value;
+                        return ratio;
                     }
                     if (value is int)
                     {
@@ -159,9 +159,9 @@ namespace ZXing.PDF417
                 if (Hints.ContainsKey(EncodeHintType.PDF417_IMAGE_ASPECT_RATIO))
                 {
                     var value = Hints[EncodeHintType.PDF417_IMAGE_ASPECT_RATIO];
-                    if (value is float)
+                    if (value is float f)
                     {
-                        return (float)value;
+                        return f;
                     }
                 }
                 return Internal.PDF417.DEFAULT_PREFERRED_RATIO;

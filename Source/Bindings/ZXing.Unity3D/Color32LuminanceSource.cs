@@ -36,22 +36,22 @@ namespace ZXing.Unity
         /// <summary>
         /// Initializes a new instance of the <see cref="Color32LuminanceSource"/> class.
         /// </summary>
-        /// <param name="color32s">The color32s.</param>
+        /// <param name="color32S">The color32s.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         [System.CLSCompliant(false)]
-        public Color32LuminanceSource(Color32[] color32s, int width, int height)
+        public Color32LuminanceSource(Color32[] color32S, int width, int height)
            : base(width, height)
         {
-            SetPixels(color32s);
+            SetPixels(color32S);
         }
 
         /// <summary>
         /// Sets the pixels.
         /// </summary>
-        /// <param name="color32s">The color32s.</param>
+        /// <param name="color32S">The color32s.</param>
         [System.CLSCompliant(false)]
-        public void SetPixels(Color32[] color32s)
+        public void SetPixels(Color32[] color32S)
         {
             var z = 0;
 
@@ -61,7 +61,7 @@ namespace ZXing.Unity
                 // it means that the top most row of the image would be the bottom most in the array.
                 for (var x = 0; x < Width; x++)
                 {
-                    var color32 = color32s[y * Width + x];
+                    var color32 = color32S[y * Width + x];
                     // Calculate luminance cheaply, favoring green.
                     luminances[z++] = (byte)((
                        color32.r +

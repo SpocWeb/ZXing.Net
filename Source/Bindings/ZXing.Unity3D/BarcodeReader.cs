@@ -25,14 +25,14 @@ namespace ZXing.Unity
     [CLSCompliant(false)]
     public class BarcodeReader : BarcodeReaderGeneric, IBarcodeReader
     {
-        private static readonly Func<Color32[], int, int, LuminanceSource> defaultCreateLuminanceSource =
+        private static readonly Func<Color32[], int, int, LuminanceSource> DEFAULT_CREATE_LUMINANCE_SOURCE =
            (rawColor32, width, height) => new Color32LuminanceSource(rawColor32, width, height);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReader"/> class.
         /// </summary>
         public BarcodeReader()
-           : this(new MultiFormatReader(), defaultCreateLuminanceSource, null)
+           : this(new MultiFormatReader(), DEFAULT_CREATE_LUMINANCE_SOURCE, null)
         {
         }
 
@@ -62,15 +62,15 @@ namespace ZXing.Unity
         /// If null, an exception is thrown when Decode is called</param>
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
-        /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
+        /// <param name="createRgbLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
         public BarcodeReader(Reader reader,
            Func<Color32[], int, int, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
+           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRgbLuminanceSource
         )
-           : base(reader, createBinarizer, createRGBLuminanceSource)
+           : base(reader, createBinarizer, createRgbLuminanceSource)
         {
-            CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
+            CreateLuminanceSource = createLuminanceSource ?? DEFAULT_CREATE_LUMINANCE_SOURCE;
         }
 
         /// <summary>

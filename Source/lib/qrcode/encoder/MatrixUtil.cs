@@ -124,7 +124,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="matrix">The matrix.</param>
         public static void ClearMatrix(ByteMatrix matrix)
         {
-            matrix.clear(2);
+            matrix.Clear(2);
         }
 
         /// <summary>
