@@ -43,7 +43,7 @@ namespace ZXing.Datamatrix
                 points = NO_POINTS;
             } else {
                 IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
-                DetectorResult detectorResult = new Detector(sampler).detect();
+                DetectorResult detectorResult = new Detector(sampler).Detect();
                 if (detectorResult?.Bits == null) {
                     return null;
                 }

@@ -46,7 +46,7 @@ namespace ZXing.Client.Result.Test
             };
             BarCodeText result =
              new BarCodeText("(01)66546(13)001205(3932)4455(3102)6544(123)544654", null, null, null, BarcodeFormat.RSS_EXPANDED);
-         var o = (ExpandedProductParsedResult)new ExpandedProductResultParser().parse(result);
+         var o = (ExpandedProductParsedResult)new ExpandedProductResultParser().Parse(result);
          Assert.IsNotNull(o);
          Assert.AreEqual("66546", o.ProductID);
          Assert.IsNull(o.Sscc);

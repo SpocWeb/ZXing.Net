@@ -76,7 +76,7 @@ namespace WindowsFormsDemo
                     txtContent.Text += " UPC/EAN Extension: " + result.ResultMetadata[ResultMetadataType.UPC_EAN_EXTENSION].ToString();
                 }
                 _LastResults.Add(result);
-                var parsedResult = ResultParser.parseResult(result);
+                var parsedResult = ResultParser.ParseResult(result);
                 if (parsedResult != null)
                 {
                     btnExtendedResult.Visible = !(parsedResult is TextParsedResult);
@@ -479,7 +479,7 @@ namespace WindowsFormsDemo
             if (_LastResults.Count < 1) {
                 return;
             }
-            var parsedResult = ResultParser.parseResult(_LastResults[0]);
+            var parsedResult = ResultParser.ParseResult(_LastResults[0]);
             using (var dlg = new ExtendedResultForm())
             {
                 dlg.Result = parsedResult;

@@ -105,7 +105,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="bitMatrix">bit matrix to detect barcodes in.</param>
         /// <param name="multiple">multiple if true, then the image is searched for multiple codes. If false, then at most one code will be found and returned.</param>
         /// <returns>List of ResultPoint arrays containing the coordinates of found barcodes</returns>
-        static List<ResultPoint[]> Detect(BitMatrix bitMatrix, bool multiple)
+        static List<ResultPoint[]> Detect(IRoBitMatrix bitMatrix, bool multiple)
         {
             List<ResultPoint[]> barcodeCoordinates = new List<ResultPoint[]>();
             int row = 0;
@@ -178,7 +178,7 @@ namespace ZXing.PDF417.Internal
         ///           vertices[6] x, y top right codeword area
         ///           vertices[7] x, y bottom right codeword area
         /// </returns>
-        static ResultPoint[] FindVertices(BitMatrix matrix, int startRow, int startColumn)
+        static ResultPoint[] FindVertices(IRoBitMatrix matrix, int startRow, int startColumn)
         {
             int height = matrix.Height;
             int width = matrix.Width;
@@ -203,9 +203,10 @@ namespace ZXing.PDF417.Internal
         /// <param name="result">Result.</param>
         /// <param name="tmpResult">Temp result.</param>
         /// <param name="destinationIndexes">Destination indexes.</param>
-        static void CopyToResult(ResultPoint[] result, ResultPoint[] tmpResult, int[] destinationIndexes)
+        static void CopyToResult(IList<ResultPoint> result
+            , IReadOnlyList<ResultPoint> tmpResult, IReadOnlyList<int> destinationIndexes)
         {
-            for (int i = 0; i < destinationIndexes.Length; i++)
+            for (int i = 0; i < destinationIndexes.Count; i++)
             {
                 result[destinationIndexes[i]] = tmpResult[i];
             }
@@ -222,39 +223,39 @@ namespace ZXing.PDF417.Internal
         /// <param name="startColumn">Start column.</param>
         /// <param name="pattern">Pattern.</param>
         static ResultPoint[] FindRowsWithPattern(
-           BitMatrix matrix,
+           IRoBitMatrix matrix,
            int height,
            int width,
            int startRow,
            int startColumn,
-           int[] pattern)
+           IReadOnlyList<int> pattern)
         {
             ResultPoint[] result = new ResultPoint[4];
             bool found = false;
-            int[] counters = new int[pattern.Length];
+            int[] counters = new int[pattern.Count];
             for (; startRow < height; startRow += ROW_STEP)
             {
                 int[] loc = FindGuardPattern(matrix, startColumn, startRow, width, false, pattern, counters);
-                if (loc != null)
-                {
-                    while (startRow > 0)
-                    {
-                        int[] previousRowLoc = FindGuardPattern(matrix, startColumn, --startRow, width, false, pattern, counters);
-                        if (previousRowLoc != null)
-                        {
-                            loc = previousRowLoc;
-                        }
-                        else
-                        {
-                            startRow++;
-                            break;
-                        }
-                    }
-                    result[0] = new ResultPoint(loc[0], startRow);
-                    result[1] = new ResultPoint(loc[1], startRow);
-                    found = true;
-                    break;
+                if (loc == null) {
+                    continue;
                 }
+                while (startRow > 0)
+                {
+                    int[] previousRowLoc = FindGuardPattern(matrix, startColumn, --startRow, width, false, pattern, counters);
+                    if (previousRowLoc != null)
+                    {
+                        loc = previousRowLoc;
+                    }
+                    else
+                    {
+                        startRow++;
+                        break;
+                    }
+                }
+                result[0] = new ResultPoint(loc[0], startRow);
+                result[1] = new ResultPoint(loc[1], startRow);
+                found = true;
+                break;
             }
             int stopRow = startRow + 1;
             // Last row of the current symbol that contains pattern
@@ -310,12 +311,12 @@ namespace ZXing.PDF417.Internal
         /// <param name="pattern">pattern of counts of number of black and white pixels that are being searched for as a pattern.</param>
         /// <param name="counters">counters array of counters, as long as pattern, to re-use .</param>
         static int[] FindGuardPattern(
-           BitMatrix matrix,
+           IRoBitMatrix matrix,
            int column,
            int row,
            int width,
            bool whiteFirst,
-           int[] pattern,
+           IReadOnlyList<int> pattern,
            int[] counters)
         {
             SupportClass.Fill(counters, 0);
@@ -329,7 +330,7 @@ namespace ZXing.PDF417.Internal
             }
             var x = patternStart;
             var counterPosition = 0;
-            var patternLength = pattern.Length;
+            var patternLength = pattern.Count;
             for (var isWhite = whiteFirst; x < width; x++)
             {
                 var pixel = matrix[x, row];
@@ -383,9 +384,9 @@ namespace ZXing.PDF417.Internal
         /// <param name="counters">observed counters.</param>
         /// <param name="pattern">expected pattern.</param>
         /// <param name="maxIndividualVariance">The most any counter can differ before we give up.</param>
-        static int PatternMatchVariance(int[] counters, int[] pattern, int maxIndividualVariance)
+        static int PatternMatchVariance(IReadOnlyList<int> counters, IReadOnlyList<int> pattern, int maxIndividualVariance)
         {
-            int numCounters = counters.Length;
+            int numCounters = counters.Count;
             int total = 0;
             int patternLength = 0;
             for (int i = 0; i < numCounters; i++)

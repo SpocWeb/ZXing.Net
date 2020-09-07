@@ -29,7 +29,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (!(rawText.StartsWith("smtp:") || rawText.StartsWith("SMTP:")))

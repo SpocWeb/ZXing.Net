@@ -83,7 +83,7 @@ namespace ZXing.Client.Result.Test
             string type)
         {
             var fakeResult = new BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
-            var result = ResultParser.parseResult(fakeResult);
+            var result = ResultParser.ParseResult(fakeResult);
 
             // Ensure it is a wifi code
             Assert.AreEqual(ParsedResultType.WIFI, result.Type);

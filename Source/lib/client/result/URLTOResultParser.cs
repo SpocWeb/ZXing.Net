@@ -27,7 +27,7 @@ namespace ZXing.Client.Result
     /// </author>
     sealed class URLTOResultParser : ResultParser
     {
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             var rawText = result.Text;
             if (rawText == null ||

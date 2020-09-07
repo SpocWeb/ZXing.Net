@@ -694,7 +694,7 @@ namespace ZXing.PDF417.Internal
         {
 
             //1. step: High-level encoding
-            string highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg, compaction, encoding, disableEci);
+            string highLevel = Pdf417HighLevelEncoder.EncodeHighLevel(msg, compaction, encoding, disableEci);
             int sourceCodeWords = highLevel.Length;
 
             string macroCodeWords = getMacroBlock(ref sourceCodeWords);
@@ -789,7 +789,7 @@ namespace ZXing.PDF417.Internal
             sourceCodeWords++;
 
             // Segment index
-            string segmentIndex = PDF417HighLevelEncoder.encodeHighLevel(metadata.SegmentIndex.ToString("00000"), Compaction.NUMERIC, encoding, disableEci);
+            string segmentIndex = Pdf417HighLevelEncoder.EncodeHighLevel(metadata.SegmentIndex.ToString("00000"), Compaction.NUMERIC, encoding, disableEci);
 
             // Remove the latch to numeric prefix.
             segmentIndex = segmentIndex.Replace(((char)0x386).ToString(), "");
@@ -797,7 +797,7 @@ namespace ZXing.PDF417.Internal
             sourceCodeWords += segmentIndex.Length;
 
             // File Id
-            string fileId = PDF417HighLevelEncoder.encodeHighLevel(metadata.FileId, Compaction.TEXT, encoding, disableEci);
+            string fileId = Pdf417HighLevelEncoder.EncodeHighLevel(metadata.FileId, Compaction.TEXT, encoding, disableEci);
             macroCodewords.Append(fileId);
             sourceCodeWords += fileId.Length;
 
@@ -811,7 +811,7 @@ namespace ZXing.PDF417.Internal
                 macroCodewords.Append((char)0x0);
                 sourceCodeWords++;
 
-                string fileName = PDF417HighLevelEncoder.encodeHighLevel(metadata.FileName, Compaction.TEXT, encoding, disableEci);
+                string fileName = Pdf417HighLevelEncoder.EncodeHighLevel(metadata.FileName, Compaction.TEXT, encoding, disableEci);
                 // Remove the latch to text prefix.
                 fileName = fileName.Replace(((char)0x384).ToString(), "");
 
@@ -881,7 +881,7 @@ namespace ZXing.PDF417.Internal
                 case PDF417OptionalMacroFields.TimeStamp:
                 case PDF417OptionalMacroFields.FileSize:
                 case PDF417OptionalMacroFields.Checksum:
-                    encodedValue = PDF417HighLevelEncoder.encodeHighLevel(value, Compaction.NUMERIC, encoding, disableEci);
+                    encodedValue = Pdf417HighLevelEncoder.EncodeHighLevel(value, Compaction.NUMERIC, encoding, disableEci);
                     // Remove the latch to numeric prefix.
                     encodedValue = encodedValue.Replace(((char)0x386).ToString(), "");
                     break;
@@ -889,7 +889,7 @@ namespace ZXing.PDF417.Internal
                 case PDF417OptionalMacroFields.FileName:
                 case PDF417OptionalMacroFields.Sender:
                 case PDF417OptionalMacroFields.Addressee:
-                    encodedValue = PDF417HighLevelEncoder.encodeHighLevel(metadata.Addressee, Compaction.TEXT, encoding, disableEci);
+                    encodedValue = Pdf417HighLevelEncoder.EncodeHighLevel(metadata.Addressee, Compaction.TEXT, encoding, disableEci);
                     // Remove the latch to text prefix.
                     encodedValue = encodedValue.Replace(((char)0x384).ToString(), "");
                     break;

@@ -30,7 +30,7 @@ namespace ZXing.Client.Result
     /// </author>
     internal sealed class AddressBookAUResultParser : ResultParser
     {
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             var rawText = result.Text;
             // MEMORY is mandatory; seems like a decent indicator, as does end-of-record separator CR/LF
@@ -41,15 +41,15 @@ namespace ZXing.Client.Result
 
             // NAME1 and NAME2 have specific uses, namely written name and pronunciation, respectively.
             // Therefore we treat them specially instead of as an array of names.
-            var name = matchSinglePrefixedField("NAME1:", rawText, '\r', true);
-            var pronunciation = matchSinglePrefixedField("NAME2:", rawText, '\r', true);
+            var name = MatchSinglePrefixedField("NAME1:", rawText, '\r', true);
+            var pronunciation = MatchSinglePrefixedField("NAME2:", rawText, '\r', true);
 
             var phoneNumbers = matchMultipleValuePrefix("TEL", rawText);
             var emails = matchMultipleValuePrefix("MAIL", rawText);
-            var note = matchSinglePrefixedField("MEMORY:", rawText, '\r', false);
-            var address = matchSinglePrefixedField("ADD:", rawText, '\r', true);
+            var note = MatchSinglePrefixedField("MEMORY:", rawText, '\r', false);
+            var address = MatchSinglePrefixedField("ADD:", rawText, '\r', true);
             var addresses = address == null ? null : new[] { address };
-            return new AddressBookParsedResult(maybeWrap(name),
+            return new AddressBookParsedResult(MaybeWrap(name),
                                                null,
                                                pronunciation,
                                                phoneNumbers,
@@ -73,7 +73,7 @@ namespace ZXing.Client.Result
             // For now, always 3, and always trim
             for (int i = 1; i <= 3; i++)
             {
-                var value = matchSinglePrefixedField(prefix + i + ':', rawText, '\r', true);
+                var value = MatchSinglePrefixedField(prefix + i + ':', rawText, '\r', true);
                 if (value == null)
                 {
                     break;

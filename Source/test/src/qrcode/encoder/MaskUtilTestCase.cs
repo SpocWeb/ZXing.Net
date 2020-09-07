@@ -33,7 +33,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(1, 0, 0);
          matrix.Set(2, 0, 0);
          matrix.Set(3, 0, 0);
-         Assert.AreEqual(0, MaskUtil.applyMaskPenaltyRule1(matrix));
+         Assert.AreEqual(0, MaskUtil.ApplyMaskPenaltyRule1(matrix));
          // Horizontal.
          matrix = new ByteMatrix(6, 1);
          matrix.Set(0, 0, 0);
@@ -42,9 +42,9 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(3, 0, 0);
          matrix.Set(4, 0, 0);
          matrix.Set(5, 0, 1);
-         Assert.AreEqual(3, MaskUtil.applyMaskPenaltyRule1(matrix));
+         Assert.AreEqual(3, MaskUtil.ApplyMaskPenaltyRule1(matrix));
          matrix.Set(5, 0, 0);
-         Assert.AreEqual(4, MaskUtil.applyMaskPenaltyRule1(matrix));
+         Assert.AreEqual(4, MaskUtil.ApplyMaskPenaltyRule1(matrix));
          // Vertical.
          matrix = new ByteMatrix(1, 6);
          matrix.Set(0, 0, 0);
@@ -53,9 +53,9 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(0, 3, 0);
          matrix.Set(0, 4, 0);
          matrix.Set(0, 5, 1);
-         Assert.AreEqual(3, MaskUtil.applyMaskPenaltyRule1(matrix));
+         Assert.AreEqual(3, MaskUtil.ApplyMaskPenaltyRule1(matrix));
          matrix.Set(0, 5, 0);
-         Assert.AreEqual(4, MaskUtil.applyMaskPenaltyRule1(matrix));
+         Assert.AreEqual(4, MaskUtil.ApplyMaskPenaltyRule1(matrix));
       }
 
       [Test]
@@ -63,19 +63,19 @@ namespace ZXing.QrCode.Internal.Test
       {
          var matrix = new ByteMatrix(1, 1);
          matrix.Set(0, 0, 0);
-         Assert.AreEqual(0, MaskUtil.applyMaskPenaltyRule2(matrix));
+         Assert.AreEqual(0, MaskUtil.ApplyMaskPenaltyRule2(matrix));
          matrix = new ByteMatrix(2, 2);
          matrix.Set(0, 0, 0);
          matrix.Set(1, 0, 0);
          matrix.Set(0, 1, 0);
          matrix.Set(1, 1, 1);
-         Assert.AreEqual(0, MaskUtil.applyMaskPenaltyRule2(matrix));
+         Assert.AreEqual(0, MaskUtil.ApplyMaskPenaltyRule2(matrix));
          matrix = new ByteMatrix(2, 2);
          matrix.Set(0, 0, 0);
          matrix.Set(1, 0, 0);
          matrix.Set(0, 1, 0);
          matrix.Set(1, 1, 0);
-         Assert.AreEqual(3, MaskUtil.applyMaskPenaltyRule2(matrix));
+         Assert.AreEqual(3, MaskUtil.ApplyMaskPenaltyRule2(matrix));
          matrix = new ByteMatrix(3, 3);
          matrix.Set(0, 0, 0);
          matrix.Set(1, 0, 0);
@@ -87,7 +87,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(1, 2, 0);
          matrix.Set(2, 2, 0);
          // Four instances of 2x2 blocks.
-         Assert.AreEqual(3*4, MaskUtil.applyMaskPenaltyRule2(matrix));
+         Assert.AreEqual(3*4, MaskUtil.ApplyMaskPenaltyRule2(matrix));
       }
 
       [Test]
@@ -106,7 +106,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(8, 0, 1);
          matrix.Set(9, 0, 0);
          matrix.Set(10, 0, 1);
-         Assert.AreEqual(40, MaskUtil.applyMaskPenaltyRule3(matrix));
+         Assert.AreEqual(40, MaskUtil.ApplyMaskPenaltyRule3(matrix));
          // Horizontal 10111010000.
          matrix = new ByteMatrix(11, 1);
          matrix.Set(0, 0, 1);
@@ -120,7 +120,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(8, 0, 0);
          matrix.Set(9, 0, 0);
          matrix.Set(10, 0, 0);
-         Assert.AreEqual(40, MaskUtil.applyMaskPenaltyRule3(matrix));
+         Assert.AreEqual(40, MaskUtil.ApplyMaskPenaltyRule3(matrix));
          // Vertical 00001011101.
          matrix = new ByteMatrix(1, 11);
          matrix.Set(0, 0, 0);
@@ -134,7 +134,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(0, 8, 1);
          matrix.Set(0, 9, 0);
          matrix.Set(0, 10, 1);
-         Assert.AreEqual(40, MaskUtil.applyMaskPenaltyRule3(matrix));
+         Assert.AreEqual(40, MaskUtil.ApplyMaskPenaltyRule3(matrix));
          // Vertical 10111010000.
          matrix = new ByteMatrix(1, 11);
          matrix.Set(0, 0, 1);
@@ -148,7 +148,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(0, 8, 0);
          matrix.Set(0, 9, 0);
          matrix.Set(0, 10, 0);
-         Assert.AreEqual(40, MaskUtil.applyMaskPenaltyRule3(matrix));
+         Assert.AreEqual(40, MaskUtil.ApplyMaskPenaltyRule3(matrix));
       }
 
       [Test]
@@ -157,12 +157,12 @@ namespace ZXing.QrCode.Internal.Test
          // Dark cell ratio = 0%
          var matrix = new ByteMatrix(1, 1);
          matrix.Set(0, 0, 0);
-         Assert.AreEqual(100, MaskUtil.applyMaskPenaltyRule4(matrix));
+         Assert.AreEqual(100, MaskUtil.ApplyMaskPenaltyRule4(matrix));
          // Dark cell ratio = 5%
          matrix = new ByteMatrix(2, 1);
          matrix.Set(0, 0, 0);
          matrix.Set(0, 0, 1);
-         Assert.AreEqual(0, MaskUtil.applyMaskPenaltyRule4(matrix));
+         Assert.AreEqual(0, MaskUtil.ApplyMaskPenaltyRule4(matrix));
          // Dark cell ratio = 66.67%
          matrix = new ByteMatrix(6, 1);
          matrix.Set(0, 0, 0);
@@ -171,7 +171,7 @@ namespace ZXing.QrCode.Internal.Test
          matrix.Set(3, 0, 1);
          matrix.Set(4, 0, 1);
          matrix.Set(5, 0, 0);
-         Assert.AreEqual(30, MaskUtil.applyMaskPenaltyRule4(matrix));
+         Assert.AreEqual(30, MaskUtil.ApplyMaskPenaltyRule4(matrix));
       }
 
       private static bool TestGetDataMaskBitInternal(int maskPattern,
@@ -182,7 +182,7 @@ namespace ZXing.QrCode.Internal.Test
             for (int y = 0; y < 6; ++y)
             {
                if ((expected[y][x] == 1) !=
-                   MaskUtil.getDataMaskBit(maskPattern, x, y))
+                   MaskUtil.GetDataMaskBit(maskPattern, x, y))
                {
                   return false;
                }

@@ -39,7 +39,7 @@ namespace ZXing.Client.Result
          , RegexOptions.IgnoreCase);
 #endif
 
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null)

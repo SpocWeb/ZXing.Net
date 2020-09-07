@@ -55,7 +55,7 @@ namespace ZXing.Client.Result
 );
 #endif
 
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             // We specifically handle the odd "URL" scheme here for simplicity and add "URI" for fun

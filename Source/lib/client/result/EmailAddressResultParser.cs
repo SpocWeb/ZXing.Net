@@ -33,7 +33,7 @@ namespace ZXing.Client.Result
 );
 #endif
 
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null)
@@ -50,13 +50,13 @@ namespace ZXing.Client.Result
                 {
                     hostEmail = hostEmail.Substring(0, queryStart);
                 }
-                hostEmail = urlDecode(hostEmail);
+                hostEmail = UrlDecode(hostEmail);
                 string[] tos = null;
                 if (!string.IsNullOrEmpty(hostEmail))
                 {
                     tos = COMMA.Split(hostEmail);
                 }
-                var nameValues = parseNameValuePairs(rawText);
+                var nameValues = ParseNameValuePairs(rawText);
                 string[] ccs = null;
                 string[] bccs = null;
                 string subject = null;

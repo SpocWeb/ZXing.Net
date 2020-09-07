@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Common.Detector;
 
@@ -28,47 +29,48 @@ namespace ZXing.Datamatrix.Internal
     public sealed class Detector
     {
         /// <summary> This is only a candidate Image </summary>
-        protected BitMatrix image;
-        protected readonly IGridSampler sampler;
-        private readonly WhiteRectangleDetector rectangleDetector;
+        readonly BitMatrix Image;
+
+       readonly IGridSampler Sampler;
+        private readonly WhiteRectangleDetector _RectangleDetector;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Detector"/> class.
         /// </summary>
         public Detector(IGridSampler sampler)
         {
-            this.sampler = sampler;
-            image = sampler.GetImage();
-            rectangleDetector = WhiteRectangleDetector.Create(image);
+            this.Sampler = sampler;
+            Image = sampler.GetImage();
+            _RectangleDetector = WhiteRectangleDetector.Create(Image);
         }
 
         /// <summary>
         /// <p>Detects a Data Matrix Code in an image.</p>
         /// </summary>
         /// <returns><see cref="DetectorResult" />encapsulating results of detecting a Data Matrix Code or null</returns>
-        public DetectorResult detect()
+        public DetectorResult Detect()
         {
-            ResultPoint[] cornerPoints = rectangleDetector?.Detect();
+            ResultPoint[] cornerPoints = _RectangleDetector?.Detect();
             if (cornerPoints == null) {
                 return null;
             }
 
-            ResultPoint[] points = detectSolid1(cornerPoints);
-            points = detectSolid2(points);
-            points[3] = correctTopRight(points);
+            ResultPoint[] points = DetectSolid1(cornerPoints);
+            points = DetectSolid2(points);
+            points[3] = CorrectTopRight(points);
             if (points[3] == null)
             {
                 return null;
             }
-            points = shiftToModuleCenter(points);
+            points = ShiftToModuleCenter(points);
 
             ResultPoint topLeft = points[0];
             ResultPoint bottomLeft = points[1];
             ResultPoint bottomRight = points[2];
             ResultPoint topRight = points[3];
 
-            int dimensionTop = transitionsBetween(topLeft, topRight) + 1;
-            int dimensionRight = transitionsBetween(bottomRight, topRight) + 1;
+            int dimensionTop = TransitionsBetween(topLeft, topRight) + 1;
+            int dimensionRight = TransitionsBetween(bottomRight, topRight) + 1;
             if ((dimensionTop & 0x01) == 1)
             {
                 dimensionTop += 1;
@@ -84,7 +86,7 @@ namespace ZXing.Datamatrix.Internal
                 dimensionTop = dimensionRight = Math.Max(dimensionTop, dimensionRight);
             }
 
-            BitMatrix bits = sampleGrid(sampler,
+            BitMatrix bits = SampleGrid(Sampler,
                 topLeft,
                 bottomLeft,
                 bottomRight,
@@ -95,14 +97,14 @@ namespace ZXing.Datamatrix.Internal
             return new DetectorResult(bits, new[] { topLeft, bottomLeft, bottomRight, topRight });
         }
 
-        private static ResultPoint shiftPoint(ResultPoint point, ResultPoint to, int div)
+        private static ResultPoint ShiftPoint(ResultPoint point, ResultPoint to, int div)
         {
             float x = (to.X - point.X) / (div + 1);
             float y = (to.Y - point.Y) / (div + 1);
             return new ResultPoint(point.X + x, point.Y + y);
         }
 
-        private static ResultPoint moveAway(ResultPoint point, float fromX, float fromY)
+        private static ResultPoint MoveAway(ResultPoint point, float fromX, float fromY)
         {
             float x = point.X;
             float y = point.Y;
@@ -128,12 +130,8 @@ namespace ZXing.Datamatrix.Internal
             return new ResultPoint(x, y);
         }
 
-        /// <summary>
-        /// Detect a solid side which has minimum transition.
-        /// </summary>
-        /// <param name="cornerPoints"></param>
-        /// <returns></returns>
-        private ResultPoint[] detectSolid1(ResultPoint[] cornerPoints)
+        /// <summary> Detect a solid side which has minimum transition. </summary>
+        private ResultPoint[] DetectSolid1(IReadOnlyList<ResultPoint> cornerPoints)
         {
             // 0  2
             // 1  3
@@ -142,33 +140,33 @@ namespace ZXing.Datamatrix.Internal
             ResultPoint pointC = cornerPoints[3];
             ResultPoint pointD = cornerPoints[2];
 
-            int trAB = transitionsBetween(pointA, pointB);
-            int trBC = transitionsBetween(pointB, pointC);
-            int trCD = transitionsBetween(pointC, pointD);
-            int trDA = transitionsBetween(pointD, pointA);
+            int trAb = TransitionsBetween(pointA, pointB);
+            int trBc = TransitionsBetween(pointB, pointC);
+            int trCd = TransitionsBetween(pointC, pointD);
+            int trDa = TransitionsBetween(pointD, pointA);
 
             // 0..3
             // :  :
             // 1--2
-            int min = trAB;
+            int min = trAb;
             ResultPoint[] points = { pointD, pointA, pointB, pointC };
-            if (min > trBC)
+            if (min > trBc)
             {
-                min = trBC;
+                min = trBc;
                 points[0] = pointA;
                 points[1] = pointB;
                 points[2] = pointC;
                 points[3] = pointD;
             }
-            if (min > trCD)
+            if (min > trCd)
             {
-                min = trCD;
+                min = trCd;
                 points[0] = pointB;
                 points[1] = pointC;
                 points[2] = pointD;
                 points[3] = pointA;
             }
-            if (min > trDA)
+            if (min > trDa)
             {
                 points[0] = pointC;
                 points[1] = pointD;
@@ -184,7 +182,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         /// <param name="points"></param>
         /// <returns></returns>
-        private ResultPoint[] detectSolid2(ResultPoint[] points)
+        private ResultPoint[] DetectSolid2(ResultPoint[] points)
         {
             // A..D
             // :  :
@@ -196,16 +194,16 @@ namespace ZXing.Datamatrix.Internal
 
             // Transition detection on the edge is not stable.
             // To safely detect, shift the points to the module center.
-            int tr = transitionsBetween(pointA, pointD);
-            ResultPoint pointBs = shiftPoint(pointB, pointC, (tr + 1) * 4);
-            ResultPoint pointCs = shiftPoint(pointC, pointB, (tr + 1) * 4);
-            int trBA = transitionsBetween(pointBs, pointA);
-            int trCD = transitionsBetween(pointCs, pointD);
+            int tr = TransitionsBetween(pointA, pointD);
+            ResultPoint pointBs = ShiftPoint(pointB, pointC, (tr + 1) * 4);
+            ResultPoint pointCs = ShiftPoint(pointC, pointB, (tr + 1) * 4);
+            int trBa = TransitionsBetween(pointBs, pointA);
+            int trCd = TransitionsBetween(pointCs, pointD);
 
             // 0..3
             // |  :
             // 1--2
-            if (trBA < trCD)
+            if (trBa < trCd)
             {
                 // solid sides: A-B-C
                 points[0] = pointA;
@@ -225,12 +223,8 @@ namespace ZXing.Datamatrix.Internal
             return points;
         }
 
-        /// <summary>
-        /// Calculates the corner position of the white top right module.
-        /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
-        private ResultPoint correctTopRight(ResultPoint[] points)
+        /// <summary> Calculates the corner position of the white top right module. </summary>
+        private ResultPoint CorrectTopRight(IReadOnlyList<ResultPoint> points)
         {
             // A..D
             // |  :
@@ -241,13 +235,13 @@ namespace ZXing.Datamatrix.Internal
             ResultPoint pointD = points[3];
 
             // shift points for safe transition detection.
-            int trTop = transitionsBetween(pointA, pointD);
-            int trRight = transitionsBetween(pointB, pointD);
-            ResultPoint pointAs = shiftPoint(pointA, pointB, (trRight + 1) * 4);
-            ResultPoint pointCs = shiftPoint(pointC, pointB, (trTop + 1) * 4);
+            int trTop = TransitionsBetween(pointA, pointD);
+            int trRight = TransitionsBetween(pointB, pointD);
+            ResultPoint pointAs = ShiftPoint(pointA, pointB, (trRight + 1) * 4);
+            ResultPoint pointCs = ShiftPoint(pointC, pointB, (trTop + 1) * 4);
 
-            trTop = transitionsBetween(pointAs, pointD);
-            trRight = transitionsBetween(pointCs, pointD);
+            trTop = TransitionsBetween(pointAs, pointD);
+            trRight = TransitionsBetween(pointCs, pointD);
 
             ResultPoint candidate1 = new ResultPoint(
                 pointD.X + (pointC.X - pointB.X) / (trTop + 1),
@@ -256,35 +250,31 @@ namespace ZXing.Datamatrix.Internal
                 pointD.X + (pointA.X - pointB.X) / (trRight + 1),
                 pointD.Y + (pointA.Y - pointB.Y) / (trRight + 1));
 
-            if (!isValid(candidate1))
+            if (!IsValid(candidate1))
             {
-                if (isValid(candidate2))
+                if (IsValid(candidate2))
                 {
                     return candidate2;
                 }
                 return null;
             }
-            if (!isValid(candidate2))
+            if (!IsValid(candidate2))
             {
                 return candidate1;
             }
 
-            int sumc1 = transitionsBetween(pointAs, candidate1) + transitionsBetween(pointCs, candidate1);
-            int sumc2 = transitionsBetween(pointAs, candidate2) + transitionsBetween(pointCs, candidate2);
+            int sumC1 = TransitionsBetween(pointAs, candidate1) + TransitionsBetween(pointCs, candidate1);
+            int sumC2 = TransitionsBetween(pointAs, candidate2) + TransitionsBetween(pointCs, candidate2);
 
-            if (sumc1 > sumc2)
+            if (sumC1 > sumC2)
             {
                 return candidate1;
             }
             return candidate2;
         }
 
-        /// <summary>
-        /// Shift the edge points to the module center.
-        /// </summary>
-        /// <param name="points"></param>
-        /// <returns></returns>
-        private ResultPoint[] shiftToModuleCenter(ResultPoint[] points)
+        /// <summary> Shift the edge points to the module center. </summary>
+        private ResultPoint[] ShiftToModuleCenter(IReadOnlyList<ResultPoint> points)
         {
             // A..D
             // |  :
@@ -295,16 +285,16 @@ namespace ZXing.Datamatrix.Internal
             ResultPoint pointD = points[3];
 
             // calculate pseudo dimensions
-            int dimH = transitionsBetween(pointA, pointD) + 1;
-            int dimV = transitionsBetween(pointC, pointD) + 1;
+            int dimH = TransitionsBetween(pointA, pointD) + 1;
+            int dimV = TransitionsBetween(pointC, pointD) + 1;
 
             // shift points for safe dimension detection
-            ResultPoint pointAs = shiftPoint(pointA, pointB, dimV * 4);
-            ResultPoint pointCs = shiftPoint(pointC, pointB, dimH * 4);
+            ResultPoint pointAs = ShiftPoint(pointA, pointB, dimV * 4);
+            ResultPoint pointCs = ShiftPoint(pointC, pointB, dimH * 4);
 
             //  calculate more precise dimensions
-            dimH = transitionsBetween(pointAs, pointD) + 1;
-            dimV = transitionsBetween(pointCs, pointD) + 1;
+            dimH = TransitionsBetween(pointAs, pointD) + 1;
+            dimV = TransitionsBetween(pointCs, pointD) + 1;
             if ((dimH & 0x01) == 1)
             {
                 dimH += 1;
@@ -318,32 +308,32 @@ namespace ZXing.Datamatrix.Internal
             // I want points on the edges.
             float centerX = (pointA.X + pointB.X + pointC.X + pointD.X) / 4;
             float centerY = (pointA.Y + pointB.Y + pointC.Y + pointD.Y) / 4;
-            pointA = moveAway(pointA, centerX, centerY);
-            pointB = moveAway(pointB, centerX, centerY);
-            pointC = moveAway(pointC, centerX, centerY);
-            pointD = moveAway(pointD, centerX, centerY);
+            pointA = MoveAway(pointA, centerX, centerY);
+            pointB = MoveAway(pointB, centerX, centerY);
+            pointC = MoveAway(pointC, centerX, centerY);
+            pointD = MoveAway(pointD, centerX, centerY);
 
             ResultPoint pointBs;
             ResultPoint pointDs;
 
             // shift points to the center of each modules
-            pointAs = shiftPoint(pointA, pointB, dimV * 4);
-            pointAs = shiftPoint(pointAs, pointD, dimH * 4);
-            pointBs = shiftPoint(pointB, pointA, dimV * 4);
-            pointBs = shiftPoint(pointBs, pointC, dimH * 4);
-            pointCs = shiftPoint(pointC, pointD, dimV * 4);
-            pointCs = shiftPoint(pointCs, pointB, dimH * 4);
-            pointDs = shiftPoint(pointD, pointC, dimV * 4);
-            pointDs = shiftPoint(pointDs, pointA, dimH * 4);
+            pointAs = ShiftPoint(pointA, pointB, dimV * 4);
+            pointAs = ShiftPoint(pointAs, pointD, dimH * 4);
+            pointBs = ShiftPoint(pointB, pointA, dimV * 4);
+            pointBs = ShiftPoint(pointBs, pointC, dimH * 4);
+            pointCs = ShiftPoint(pointC, pointD, dimV * 4);
+            pointCs = ShiftPoint(pointCs, pointB, dimH * 4);
+            pointDs = ShiftPoint(pointD, pointC, dimV * 4);
+            pointDs = ShiftPoint(pointDs, pointA, dimH * 4);
 
             return new[] { pointAs, pointBs, pointCs, pointDs };
         }
 
-        private bool isValid(ResultPoint p)
-            => p.X >= 0 && p.X < image.Width &&
-                p.Y > 0 && p.Y < image.Height;
+        private bool IsValid(ResultPoint p)
+            => p.X >= 0 && p.X < Image.Width &&
+                p.Y > 0 && p.Y < Image.Height;
 
-        private static BitMatrix sampleGrid(IGridSampler sampler,
+        private static BitMatrix SampleGrid(IGridSampler sampler,
             ResultPoint topLeft,
             ResultPoint bottomLeft,
             ResultPoint bottomRight,
@@ -378,7 +368,7 @@ namespace ZXing.Datamatrix.Internal
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        private int transitionsBetween(ResultPoint from, ResultPoint to)
+        private int TransitionsBetween(ResultPoint from, ResultPoint to)
         {
             // See QR Code Detector, sizeOfBlackWhiteBlackRun()
             int fromX = (int)from.X;
@@ -402,10 +392,10 @@ namespace ZXing.Datamatrix.Internal
             int ystep = fromY < toY ? 1 : -1;
             int xstep = fromX < toX ? 1 : -1;
             int transitions = 0;
-            bool inBlack = image[steep ? fromY : fromX, steep ? fromX : fromY];
+            bool inBlack = Image[steep ? fromY : fromX, steep ? fromX : fromY];
             for (int x = fromX, y = fromY; x != toX; x += xstep)
             {
-                bool isBlack = image[steep ? y : x, steep ? x : y];
+                bool isBlack = Image[steep ? y : x, steep ? x : y];
                 if (isBlack != inBlack)
                 {
                     transitions++;

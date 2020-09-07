@@ -38,7 +38,7 @@ namespace ZXing.Client.Result.Test
       static void DoTest(string contents, string normalized, BarcodeFormat format)
       {
          BarCodeText fakeResult = new BarCodeText(contents, null, null, null, format);
-         ParsedResult result = ResultParser.parseResult(fakeResult);
+         ParsedResult result = ResultParser.ParseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.PRODUCT, result.Type);
          ProductParsedResult productResult = (ProductParsedResult)result;
          Assert.AreEqual(contents, productResult.ProductID);

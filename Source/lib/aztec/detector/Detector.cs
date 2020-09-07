@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Common.Detector;
 using ZXing.Common.ReedSolomon;
@@ -38,11 +39,11 @@ namespace ZXing.Aztec.Internal
 
         private readonly IGridSampler GridSampler;
 
-        private bool compact;
-        private int nbLayers;
-        private int nbDataBlocks;
-        private int nbCenterLayers;
-        private int shift;
+        private bool _Compact;
+        private int _NbLayers;
+        private int _NbDataBlocks;
+        private int _NbCenterLayers;
+        private int _Shift;
 
         readonly IRoBitMatrix _Image;
 
@@ -57,7 +58,6 @@ namespace ZXing.Aztec.Internal
         public Detector(IRoBitMatrix bitMatrix, IGridSampler gridSampler) {
             _Image = bitMatrix;
             GridSampler = gridSampler;
-            ;
         }
 
         /// <summary>
@@ -67,17 +67,17 @@ namespace ZXing.Aztec.Internal
         /// <returns>
         /// encapsulating results of detecting an Aztec Code
         /// </returns>
-        public AztecDetectorResult detect(bool isMirror = false)
+        public AztecDetectorResult Detect(bool isMirror = false)
         {
             // 1. Get the center of the aztec matrix
-            var pCenter = getMatrixCenter();
+            var pCenter = GetMatrixCenter();
             if (pCenter == null) {
                 return null;
             }
 
             // 2. Get the center points of the four diagonal points just outside the bull's eye
             //  [topRight, bottomRight, bottomLeft, topLeft]
-            var bullsEyeCorners = getBullsEyeCorners(pCenter);
+            var bullsEyeCorners = GetBullsEyeCorners(pCenter);
             if (bullsEyeCorners == null)
             {
                 return null;
@@ -90,53 +90,52 @@ namespace ZXing.Aztec.Internal
             }
 
             // 3. Get the size of the matrix and other parameters from the bull's eye
-            if (!extractParameters(bullsEyeCorners))
+            if (!ExtractParameters(bullsEyeCorners))
             {
                 return null;
             }
 
             // 4. Sample the grid
-            var bits = sampleGrid(bullsEyeCorners[shift % 4],
-                                  bullsEyeCorners[(shift + 1) % 4],
-                                  bullsEyeCorners[(shift + 2) % 4],
-                                  bullsEyeCorners[(shift + 3) % 4]);
+            var bits = SampleGrid(bullsEyeCorners[_Shift % 4],
+                                  bullsEyeCorners[(_Shift + 1) % 4],
+                                  bullsEyeCorners[(_Shift + 2) % 4],
+                                  bullsEyeCorners[(_Shift + 3) % 4]);
             if (bits == null)
             {
                 return null;
             }
 
             // 5. Get the corners of the matrix.
-            var corners = getMatrixCornerPoints(bullsEyeCorners);
+            var corners = GetMatrixCornerPoints(bullsEyeCorners);
             if (corners == null)
             {
                 return null;
             }
 
-            return new AztecDetectorResult(bits, corners, compact, nbDataBlocks, nbLayers);
+            return new AztecDetectorResult(bits, corners, _Compact, _NbDataBlocks, _NbLayers);
         }
 
         /// <summary>
         /// Extracts the number of data layers and data blocks from the layer around the bull's eye 
         /// </summary>
         /// <param name="bullsEyeCorners">bullEyeCornerPoints the array of bull's eye corners</param>
-        /// <returns></returns>
-        private bool extractParameters(ResultPoint[] bullsEyeCorners)
+        private bool ExtractParameters(IReadOnlyList<ResultPoint> bullsEyeCorners)
         {
-            if (!isValid(bullsEyeCorners[0]) || !isValid(bullsEyeCorners[1]) ||
-                !isValid(bullsEyeCorners[2]) || !isValid(bullsEyeCorners[3]))
+            if (!IsValid(bullsEyeCorners[0]) || !IsValid(bullsEyeCorners[1]) ||
+                !IsValid(bullsEyeCorners[2]) || !IsValid(bullsEyeCorners[3]))
             {
                 return false;
             }
 
-            int length = 2 * nbCenterLayers;
+            int length = 2 * _NbCenterLayers;
 
             // Get the bits around the bull's eye
             int[] sides =
                {
-               sampleLine(bullsEyeCorners[0], bullsEyeCorners[1], length), // Right side
-               sampleLine(bullsEyeCorners[1], bullsEyeCorners[2], length), // Bottom 
-               sampleLine(bullsEyeCorners[2], bullsEyeCorners[3], length), // Left side
-               sampleLine(bullsEyeCorners[3], bullsEyeCorners[0], length) // Top 
+               SampleLine(bullsEyeCorners[0], bullsEyeCorners[1], length), // Right side
+               SampleLine(bullsEyeCorners[1], bullsEyeCorners[2], length), // Bottom 
+               SampleLine(bullsEyeCorners[2], bullsEyeCorners[3], length), // Left side
+               SampleLine(bullsEyeCorners[3], bullsEyeCorners[0], length) // Top 
             };
 
 
@@ -144,8 +143,8 @@ namespace ZXing.Aztec.Internal
             // orientation marks.  
             // sides[shift] is the row/column that goes from the corner with three
             // orientation marks to the corner with two.
-            shift = getRotation(sides, length);
-            if (shift < 0) {
+            _Shift = GetRotation(sides, length);
+            if (_Shift < 0) {
                 return false;
             }
 
@@ -153,8 +152,8 @@ namespace ZXing.Aztec.Internal
             long parameterData = 0;
             for (int i = 0; i < 4; i++)
             {
-                int side = sides[(shift + i) % 4];
-                if (compact)
+                int side = sides[(_Shift + i) % 4];
+                if (_Compact)
                 {
                     // Each side of the form ..XXXXXXX. where Xs are parameter data
                     parameterData <<= 7;
@@ -170,28 +169,28 @@ namespace ZXing.Aztec.Internal
 
             // Corrects parameter data using RS.  Returns just the data portion
             // without the error correction.
-            int correctedData = getCorrectedParameterData(parameterData, compact);
+            int correctedData = GetCorrectedParameterData(parameterData, _Compact);
             if (correctedData < 0) {
                 return false;
             }
 
-            if (compact)
+            if (_Compact)
             {
                 // 8 bits:  2 bits layers and 6 bits data blocks
-                nbLayers = (correctedData >> 6) + 1;
-                nbDataBlocks = (correctedData & 0x3F) + 1;
+                _NbLayers = (correctedData >> 6) + 1;
+                _NbDataBlocks = (correctedData & 0x3F) + 1;
             }
             else
             {
                 // 16 bits:  5 bits layers and 11 bits data blocks
-                nbLayers = (correctedData >> 11) + 1;
-                nbDataBlocks = (correctedData & 0x7FF) + 1;
+                _NbLayers = (correctedData >> 11) + 1;
+                _NbDataBlocks = (correctedData & 0x7FF) + 1;
             }
 
             return true;
         }
 
-        private static int getRotation(int[] sides, int length)
+        private static int GetRotation(int[] sides, int length)
         {
             // In a normal pattern, we expect to See
             //   **    .*             D       A
@@ -232,7 +231,7 @@ namespace ZXing.Aztec.Internal
         /// <param name="parameterData">paremeter bits</param>
         /// <param name="compact">compact true if this is a compact Aztec code</param>
         /// <returns></returns>
-        private static int getCorrectedParameterData(long parameterData, bool compact)
+        private static int GetCorrectedParameterData(long parameterData, bool compact)
         {
             int numCodewords;
             int numDataCodewords;
@@ -248,7 +247,7 @@ namespace ZXing.Aztec.Internal
                 numDataCodewords = 4;
             }
 
-            int numECCodewords = numCodewords - numDataCodewords;
+            int numEcCodewords = numCodewords - numDataCodewords;
             int[] parameterWords = new int[numCodewords];
 
             for (int i = numCodewords - 1; i >= 0; --i)
@@ -258,7 +257,7 @@ namespace ZXing.Aztec.Internal
             }
 
             var rsDecoder = new ReedSolomonDecoder(GenericGf.AZTEC_PARAM);
-            if (!rsDecoder.Decode(parameterWords, numECCodewords)) {
+            if (!rsDecoder.Decode(parameterWords, numEcCodewords)) {
                 return -1;
             }
 
@@ -278,69 +277,69 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="pCenter">Center point</param>
         /// <returns>The corners of the bull-eye</returns>
-        private ResultPoint[] getBullsEyeCorners(Point pCenter)
+        private ResultPoint[] GetBullsEyeCorners(Point pCenter)
         {
-            Point pina = pCenter;
-            Point pinb = pCenter;
-            Point pinc = pCenter;
-            Point pind = pCenter;
+            Point pinA = pCenter;
+            Point pinB = pCenter;
+            Point pinC = pCenter;
+            Point pinD = pCenter;
 
             bool color = true;
 
-            for (nbCenterLayers = 1; nbCenterLayers < 9; nbCenterLayers++)
+            for (_NbCenterLayers = 1; _NbCenterLayers < 9; _NbCenterLayers++)
             {
-                Point pouta = getFirstDifferent(pina, color, 1, -1);
-                Point poutb = getFirstDifferent(pinb, color, 1, 1);
-                Point poutc = getFirstDifferent(pinc, color, -1, 1);
-                Point poutd = getFirstDifferent(pind, color, -1, -1);
+                Point poutA = GetFirstDifferent(pinA, color, 1, -1);
+                Point poutB = GetFirstDifferent(pinB, color, 1, 1);
+                Point poutC = GetFirstDifferent(pinC, color, -1, 1);
+                Point poutD = GetFirstDifferent(pinD, color, -1, -1);
 
                 //d      a
                 //
                 //c      b
 
-                if (nbCenterLayers > 2)
+                if (_NbCenterLayers > 2)
                 {
-                    float q = distance(poutd, pouta) * nbCenterLayers / (distance(pind, pina) * (nbCenterLayers + 2));
-                    if (q < 0.75 || q > 1.25 || !isWhiteOrBlackRectangle(pouta, poutb, poutc, poutd))
+                    float q = Distance(poutD, poutA) * _NbCenterLayers / (Distance(pinD, pinA) * (_NbCenterLayers + 2));
+                    if (q < 0.75 || q > 1.25 || !IsWhiteOrBlackRectangle(poutA, poutB, poutC, poutD))
                     {
                         break;
                     }
                 }
 
-                pina = pouta;
-                pinb = poutb;
-                pinc = poutc;
-                pind = poutd;
+                pinA = poutA;
+                pinB = poutB;
+                pinC = poutC;
+                pinD = poutD;
 
                 color = !color;
             }
 
-            if (nbCenterLayers != 5 && nbCenterLayers != 7)
+            if (_NbCenterLayers != 5 && _NbCenterLayers != 7)
             {
                 return null;
             }
 
-            compact = nbCenterLayers == 5;
+            _Compact = _NbCenterLayers == 5;
 
             // Expand the square by .5 pixel in each direction so that we're on the border
             // between the white square and the black square
-            var pinax = new ResultPoint(pina.X + 0.5f, pina.Y - 0.5f);
-            var pinbx = new ResultPoint(pinb.X + 0.5f, pinb.Y + 0.5f);
-            var pincx = new ResultPoint(pinc.X - 0.5f, pinc.Y + 0.5f);
-            var pindx = new ResultPoint(pind.X - 0.5f, pind.Y - 0.5f);
+            var pinax = new ResultPoint(pinA.X + 0.5f, pinA.Y - 0.5f);
+            var pinbx = new ResultPoint(pinB.X + 0.5f, pinB.Y + 0.5f);
+            var pincx = new ResultPoint(pinC.X - 0.5f, pinC.Y + 0.5f);
+            var pindx = new ResultPoint(pinD.X - 0.5f, pinD.Y - 0.5f);
 
             // Expand the square so that its corners are the centers of the points
             // just outside the bull's eye.
-            return expandSquare(new[] { pinax, pinbx, pincx, pindx },
-                                2 * nbCenterLayers - 3,
-                                2 * nbCenterLayers);
+            return ExpandSquare(new[] { pinax, pinbx, pincx, pindx },
+                                2 * _NbCenterLayers - 3,
+                                2 * _NbCenterLayers);
         }
 
         /// <summary>
         /// Finds a candidate center point of an Aztec code from an image
         /// </summary>
         /// <returns>the center point</returns>
-        private Point getMatrixCenter()
+        private Point GetMatrixCenter()
         {
             ResultPoint pointA;
             ResultPoint pointB;
@@ -369,10 +368,10 @@ namespace ZXing.Aztec.Internal
                 // In that case, surely in the bull's eye, we try to expand the rectangle.
                 cx = _Image.Width / 2;
                 cy = _Image.Height / 2;
-                pointA = getFirstDifferent(new Point(cx + 7, cy - 7), false, 1, -1).toResultPoint();
-                pointB = getFirstDifferent(new Point(cx + 7, cy + 7), false, 1, 1).toResultPoint();
-                pointC = getFirstDifferent(new Point(cx - 7, cy + 7), false, -1, 1).toResultPoint();
-                pointD = getFirstDifferent(new Point(cx - 7, cy - 7), false, -1, -1).toResultPoint();
+                pointA = GetFirstDifferent(new Point(cx + 7, cy - 7), false, 1, -1).ToResultPoint();
+                pointB = GetFirstDifferent(new Point(cx + 7, cy + 7), false, 1, 1).ToResultPoint();
+                pointC = GetFirstDifferent(new Point(cx - 7, cy + 7), false, -1, 1).ToResultPoint();
+                pointD = GetFirstDifferent(new Point(cx - 7, cy - 7), false, -1, -1).ToResultPoint();
             }
 
             //Compute the center of the rectangle
@@ -398,10 +397,10 @@ namespace ZXing.Aztec.Internal
             {
                 // This exception can be in case the initial rectangle is white
                 // In that case we try to expand the rectangle.
-                pointA = getFirstDifferent(new Point(cx + 7, cy - 7), false, 1, -1).toResultPoint();
-                pointB = getFirstDifferent(new Point(cx + 7, cy + 7), false, 1, 1).toResultPoint();
-                pointC = getFirstDifferent(new Point(cx - 7, cy + 7), false, -1, 1).toResultPoint();
-                pointD = getFirstDifferent(new Point(cx - 7, cy - 7), false, -1, -1).toResultPoint();
+                pointA = GetFirstDifferent(new Point(cx + 7, cy - 7), false, 1, -1).ToResultPoint();
+                pointB = GetFirstDifferent(new Point(cx + 7, cy + 7), false, 1, 1).ToResultPoint();
+                pointC = GetFirstDifferent(new Point(cx - 7, cy + 7), false, -1, 1).ToResultPoint();
+                pointD = GetFirstDifferent(new Point(cx - 7, cy - 7), false, -1, -1).ToResultPoint();
             }
 
             // Recompute the center of the rectangle
@@ -416,8 +415,8 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="bullsEyeCorners">the array of bull's eye corners</param>
         /// <returns>the array of aztec code corners</returns>
-        private ResultPoint[] getMatrixCornerPoints(ResultPoint[] bullsEyeCorners)
-            => expandSquare(bullsEyeCorners, 2 * nbCenterLayers, getDimension());
+        private ResultPoint[] GetMatrixCornerPoints(IReadOnlyList<ResultPoint> bullsEyeCorners)
+            => ExpandSquare(bullsEyeCorners, 2 * _NbCenterLayers, GetDimension());
 
         /// <summary>
         /// Creates a BitMatrix by sampling the provided image.
@@ -430,23 +429,23 @@ namespace ZXing.Aztec.Internal
         /// <param name="bottomRight">The bottom right.</param>
         /// <param name="topRight">The top right.</param>
         /// <returns></returns>
-        private BitMatrix sampleGrid(ResultPoint topLeft,
+        private BitMatrix SampleGrid(ResultPoint topLeft,
                                      ResultPoint topRight,
                                      ResultPoint bottomRight,
                                      ResultPoint bottomLeft)
         {
-            int dimension = getDimension();
+            int dimension = GetDimension();
 
-            float low = dimension / 2.0f - nbCenterLayers;
-            float high = dimension / 2.0f + nbCenterLayers;
+            float low = dimension / 2.0f - _NbCenterLayers;
+            float high = dimension / 2.0f + _NbCenterLayers;
 
             return GridSampler.SampleGrid(
                                       dimension,
                                       dimension,
-                                      low, low, // topleft
-                                      high, low, // topright
-                                      high, high, // bottomright
-                                      low, high, // bottomleft
+                                      low, low, // topLeft
+                                      high, low, // topRight
+                                      high, high, // bottomRight
+                                      low, high, // bottomLeft
                                       topLeft.X, topLeft.Y,
                                       topRight.X, topRight.Y,
                                       bottomRight.X, bottomRight.Y,
@@ -460,11 +459,11 @@ namespace ZXing.Aztec.Internal
         /// <param name="p2">end point (exclusive)</param>
         /// <param name="size">number of bits</param>
         /// <returns> the array of bits as an int (first bit is high-order bit of result)</returns>
-        private int sampleLine(ResultPoint p1, ResultPoint p2, int size)
+        private int SampleLine(ResultPoint p1, ResultPoint p2, int size)
         {
             int result = 0;
 
-            float d = distance(p1, p2);
+            float d = Distance(p1, p2);
             float moduleSize = d / size;
             float px = p1.X;
             float py = p1.Y;
@@ -489,7 +488,7 @@ namespace ZXing.Aztec.Internal
         /// <param name="p4">The p4.</param>
         /// <returns>true if the border of the rectangle passed in parameter is compound of white points only
         /// or black points only</returns>
-        private bool isWhiteOrBlackRectangle(Point p1, Point p2, Point p3, Point p4)
+        private bool IsWhiteOrBlackRectangle(Point p1, Point p2, Point p3, Point p4)
         {
             const int corr = 3;
 
@@ -498,28 +497,28 @@ namespace ZXing.Aztec.Internal
             p3 = new Point(p3.X + corr, p3.Y - corr);
             p4 = new Point(p4.X + corr, p4.Y + corr);
 
-            int cInit = getColor(p4, p1);
+            int cInit = GetColor(p4, p1);
 
             if (cInit == 0)
             {
                 return false;
             }
 
-            int c = getColor(p1, p2);
+            int c = GetColor(p1, p2);
 
             if (c != cInit)
             {
                 return false;
             }
 
-            c = getColor(p2, p3);
+            c = GetColor(p2, p3);
 
             if (c != cInit)
             {
                 return false;
             }
 
-            c = getColor(p3, p4);
+            c = GetColor(p3, p4);
 
             return c == cInit;
 
@@ -531,9 +530,9 @@ namespace ZXing.Aztec.Internal
         /// <param name="p1">The p1.</param>
         /// <param name="p2">The p2.</param>
         /// <returns>1 if segment more than 90% black, -1 if segment is more than 90% white, 0 else</returns>
-        private int getColor(Point p1, Point p2)
+        private int GetColor(Point p1, Point p2)
         {
-            float d = distance(p1, p2);
+            float d = Distance(p1, p2);
             float dx = (p2.X - p1.X) / d;
             float dy = (p2.Y - p1.Y) / d;
             int error = 0;
@@ -572,12 +571,12 @@ namespace ZXing.Aztec.Internal
         /// <param name="dx">The dx.</param>
         /// <param name="dy">The dy.</param>
         /// <returns></returns>
-        private Point getFirstDifferent(Point init, bool color, int dx, int dy)
+        private Point GetFirstDifferent(Point init, bool color, int dx, int dy)
         {
             int x = init.X + dx;
             int y = init.Y + dy;
 
-            while (isValid(x, y) && _Image[x, y] == color)
+            while (IsValid(x, y) && _Image[x, y] == color)
             {
                 x += dx;
                 y += dy;
@@ -586,13 +585,13 @@ namespace ZXing.Aztec.Internal
             x -= dx;
             y -= dy;
 
-            while (isValid(x, y) && _Image[x, y] == color)
+            while (IsValid(x, y) && _Image[x, y] == color)
             {
                 x += dx;
             }
             x -= dx;
 
-            while (isValid(x, y) && _Image[x, y] == color)
+            while (IsValid(x, y) && _Image[x, y] == color)
             {
                 y += dy;
             }
@@ -608,61 +607,61 @@ namespace ZXing.Aztec.Internal
         /// <param name="oldSide">the original length of the side of the square in the target bit matrix</param>
         /// <param name="newSide">the new length of the size of the square in the target bit matrix</param>
         /// <returns>the corners of the expanded square</returns>
-        private static ResultPoint[] expandSquare(ResultPoint[] cornerPoints, int oldSide, int newSide)
+        private static ResultPoint[] ExpandSquare(IReadOnlyList<ResultPoint> cornerPoints, int oldSide, int newSide)
         {
             float ratio = newSide / (2.0f * oldSide);
             float dx = cornerPoints[0].X - cornerPoints[2].X;
             float dy = cornerPoints[0].Y - cornerPoints[2].Y;
-            float centerx = (cornerPoints[0].X + cornerPoints[2].X) / 2.0f;
-            float centery = (cornerPoints[0].Y + cornerPoints[2].Y) / 2.0f;
+            float centerX = (cornerPoints[0].X + cornerPoints[2].X) / 2.0f;
+            float centerY = (cornerPoints[0].Y + cornerPoints[2].Y) / 2.0f;
 
-            var result0 = new ResultPoint(centerx + ratio * dx, centery + ratio * dy);
-            var result2 = new ResultPoint(centerx - ratio * dx, centery - ratio * dy);
+            var result0 = new ResultPoint(centerX + ratio * dx, centerY + ratio * dy);
+            var result2 = new ResultPoint(centerX - ratio * dx, centerY - ratio * dy);
 
             dx = cornerPoints[1].X - cornerPoints[3].X;
             dy = cornerPoints[1].Y - cornerPoints[3].Y;
-            centerx = (cornerPoints[1].X + cornerPoints[3].X) / 2.0f;
-            centery = (cornerPoints[1].Y + cornerPoints[3].Y) / 2.0f;
-            var result1 = new ResultPoint(centerx + ratio * dx, centery + ratio * dy);
-            var result3 = new ResultPoint(centerx - ratio * dx, centery - ratio * dy);
+            centerX = (cornerPoints[1].X + cornerPoints[3].X) / 2.0f;
+            centerY = (cornerPoints[1].Y + cornerPoints[3].Y) / 2.0f;
+            var result1 = new ResultPoint(centerX + ratio * dx, centerY + ratio * dy);
+            var result3 = new ResultPoint(centerX - ratio * dx, centerY - ratio * dy);
 
             return new[] { result0, result1, result2, result3 };
         }
 
-        private bool isValid(int x, int y)
+        private bool IsValid(int x, int y)
         {
             return x >= 0 && x < _Image.Width && y > 0 && y < _Image.Height;
         }
 
-        private bool isValid(ResultPoint point)
+        private bool IsValid(ResultPoint point)
         {
             int x = MathUtils.Round(point.X);
             int y = MathUtils.Round(point.Y);
-            return isValid(x, y);
+            return IsValid(x, y);
         }
 
         // L2 distance
-        private static float distance(Point a, Point b)
+        private static float Distance(Point a, Point b)
         {
             return MathUtils.Distance(a.X, a.Y, b.X, b.Y);
         }
 
-        private static float distance(ResultPoint a, ResultPoint b)
+        private static float Distance(ResultPoint a, ResultPoint b)
         {
             return MathUtils.Distance(a.X, a.Y, b.X, b.Y);
         }
 
-        private int getDimension()
+        private int GetDimension()
         {
-            if (compact)
+            if (_Compact)
             {
-                return 4 * nbLayers + 11;
+                return 4 * _NbLayers + 11;
             }
-            if (nbLayers <= 4)
+            if (_NbLayers <= 4)
             {
-                return 4 * nbLayers + 15;
+                return 4 * _NbLayers + 15;
             }
-            return 4 * nbLayers + 2 * ((nbLayers - 4) / 8 + 1) + 15;
+            return 4 * _NbLayers + 2 * ((_NbLayers - 4) / 8 + 1) + 15;
         }
 
         public sealed class Point
@@ -670,7 +669,7 @@ namespace ZXing.Aztec.Internal
             public int X { get; }
             public int Y { get; }
 
-            public ResultPoint toResultPoint()
+            public ResultPoint ToResultPoint()
             {
                 return new ResultPoint(X, Y);
             }

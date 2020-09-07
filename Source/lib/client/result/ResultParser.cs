@@ -73,18 +73,18 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="theResult">the raw <see cref="Result"/> to parse</param>
         /// <returns><see cref="ParsedResult" /> encapsulating the parsing result</returns>
-        public abstract ParsedResult parse(BarCodeText theResult);
+        public abstract ParsedResult Parse(BarCodeText theResult);
 
         /// <summary>
         /// Parses the result.
         /// </summary>
         /// <param name="theResult">The result.</param>
         /// <returns></returns>
-        public static ParsedResult parseResult(BarCodeText theResult)
+        public static ParsedResult ParseResult(BarCodeText theResult)
         {
             foreach (var parser in PARSERS)
             {
-                var result = parser.parse(theResult);
+                var result = parser.Parse(theResult);
                 if (result != null)
                 {
                     return result;
@@ -98,7 +98,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        protected static void maybeAppend(string value, StringBuilder result)
+        protected static void MaybeAppend(string value, StringBuilder result)
         {
             if (value != null)
             {
@@ -111,7 +111,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <param name="result"></param>
-        protected static void maybeAppend(string[] value, StringBuilder result)
+        protected static void MaybeAppend(string[] value, StringBuilder result)
         {
             if (value != null)
             {
@@ -127,7 +127,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected static string[] maybeWrap(string value)
+        protected static string[] MaybeWrap(string value)
         {
             return value == null ? null : new[] { value };
         }
@@ -136,7 +136,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="escaped"></param>
         /// <returns></returns>
-        protected static string unescapeBackslash(string escaped)
+        protected static string UnescapeBackslash(string escaped)
         {
             if (escaped != null)
             {
@@ -170,7 +170,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        protected static int parseHexDigit(char c)
+        protected static int ParseHexDigit(char c)
         {
             if (c >= 'a')
             {
@@ -196,12 +196,12 @@ namespace ZXing.Client.Result
             return -1;
         }
 
-        internal static bool isStringOfDigits(string value, int length)
+        internal static bool IsStringOfDigits(string value, int length)
         {
             return value != null && length > 0 && length == value.Length && DIGITS.Match(value).Success;
         }
 
-        internal static bool isSubstringOfDigits(string value, int offset, int length)
+        internal static bool IsSubstringOfDigits(string value, int offset, int length)
         {
             if (value == null || length <= 0)
             {
@@ -211,7 +211,7 @@ namespace ZXing.Client.Result
             return value.Length >= max && DIGITS.Match(value, offset, length).Success;
         }
 
-        internal static IDictionary<string, string> parseNameValuePairs(string uri)
+        internal static IDictionary<string, string> ParseNameValuePairs(string uri)
         {
             int paramStart = uri.IndexOf('?');
             if (paramStart < 0)
@@ -221,12 +221,12 @@ namespace ZXing.Client.Result
             var result = new Dictionary<string, string>(3);
             foreach (var keyValue in AMPERSAND.Split(uri.Substring(paramStart + 1)))
             {
-                appendKeyValue(keyValue, result);
+                AppendKeyValue(keyValue, result);
             }
             return result;
         }
 
-        private static void appendKeyValue(string keyValue, IDictionary<string, string> result)
+        private static void AppendKeyValue(string keyValue, IDictionary<string, string> result)
         {
             string[] keyValueTokens = EQUALS.Split(keyValue, 2);
             if (keyValueTokens.Length == 2)
@@ -236,7 +236,7 @@ namespace ZXing.Client.Result
                 try
                 {
                     //value = URLDecoder.decode(value, "UTF-8");
-                    value = urlDecode(value);
+                    value = UrlDecode(value);
                     result[key] = value;
                 }
                 catch (Exception uee)
@@ -247,14 +247,14 @@ namespace ZXing.Client.Result
             }
         }
 
-        internal static string[] matchPrefixedField(string prefix, string rawText, char endChar, bool trim)
+        internal static string[] MatchPrefixedField(string prefix, string rawText, char endChar, bool trim)
         {
             IList<string> matches = null;
             int i = 0;
             int max = rawText.Length;
             while (i < max)
             {
-                i = rawText.IndexOf(prefix, i);
+                i = rawText.IndexOf(prefix, i, StringComparison.Ordinal);
                 if (i < 0)
                 {
                     break;
@@ -271,7 +271,7 @@ namespace ZXing.Client.Result
                         i = rawText.Length;
                         done = true;
                     }
-                    else if (countPrecedingBackslashes(rawText, i) % 2 != 0)
+                    else if (CountPrecedingBackslashes(rawText, i) % 2 != 0)
                     {
                         // semicolon was escaped (odd count of preceding backslashes) so continue
                         i++;
@@ -283,7 +283,7 @@ namespace ZXing.Client.Result
                         {
                             matches = new List<string>();
                         }
-                        string element = unescapeBackslash(rawText.Substring(start, i - start));
+                        string element = UnescapeBackslash(rawText.Substring(start, i - start));
                         if (trim)
                         {
                             element = element.Trim();
@@ -304,7 +304,7 @@ namespace ZXing.Client.Result
             return SupportClass.toStringArray(matches);
         }
 
-        private static int countPrecedingBackslashes(string s, int pos)
+        private static int CountPrecedingBackslashes(string s, int pos)
         {
             int count = 0;
             for (int i = pos - 1; i >= 0; i--)
@@ -321,9 +321,9 @@ namespace ZXing.Client.Result
             return count;
         }
 
-        internal static string matchSinglePrefixedField(string prefix, string rawText, char endChar, bool trim)
+        internal static string MatchSinglePrefixedField(string prefix, string rawText, char endChar, bool trim)
         {
-            string[] matches = matchPrefixedField(prefix, rawText, endChar, trim);
+            string[] matches = MatchPrefixedField(prefix, rawText, endChar, trim);
             return matches?[0];
         }
         /// <summary>
@@ -331,7 +331,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="escaped"></param>
         /// <returns></returns>
-        protected static string urlDecode(string escaped)
+        protected static string UrlDecode(string escaped)
         {
             // Should we better use HttpUtility.UrlDecode?
             // Is HttpUtility.UrlDecode available for all platforms?
@@ -343,7 +343,7 @@ namespace ZXing.Client.Result
             }
             char[] escapedArray = escaped.ToCharArray();
 
-            int first = findFirstEscape(escapedArray);
+            int first = FindFirstEscape(escapedArray);
             if (first < 0)
             {
                 return escaped;
@@ -372,8 +372,8 @@ namespace ZXing.Client.Result
                     }
                     else
                     {
-                        int firstDigitValue = parseHexDigit(escapedArray[++i]);
-                        int secondDigitValue = parseHexDigit(escapedArray[++i]);
+                        int firstDigitValue = ParseHexDigit(escapedArray[++i]);
+                        int secondDigitValue = ParseHexDigit(escapedArray[++i]);
                         if (firstDigitValue < 0 || secondDigitValue < 0)
                         {
                             // bad digit, just move on
@@ -392,9 +392,9 @@ namespace ZXing.Client.Result
             return unescaped.ToString();
         }
 
-        private static int findFirstEscape(char[] escapedArray)
+        private static int FindFirstEscape(IReadOnlyList<char> escapedArray)
         {
-            int max = escapedArray.Length;
+            int max = escapedArray.Count;
             for (int i = 0; i < max; i++)
             {
                 char c = escapedArray[i];

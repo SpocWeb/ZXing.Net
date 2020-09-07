@@ -75,7 +75,7 @@ namespace ZXing.OneD.RSS.Expanded.Test
 
          Assert.AreEqual(BarcodeFormat.RSS_EXPANDED, theResult.BarcodeFormat);
 
-         var result = ResultParser.parseResult(theResult);
+         var result = ResultParser.ParseResult(theResult);
 
          Assert.AreEqual(expected, result);
       }

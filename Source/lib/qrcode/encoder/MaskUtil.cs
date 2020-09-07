@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace ZXing.QrCode.Internal
 {
@@ -38,9 +39,9 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns></returns>
-        public static int applyMaskPenaltyRule1(ByteMatrix matrix)
+        public static int ApplyMaskPenaltyRule1(ByteMatrix matrix)
         {
-            return applyMaskPenaltyRule1Internal(matrix, true) + applyMaskPenaltyRule1Internal(matrix, false);
+            return ApplyMaskPenaltyRule1Internal(matrix, true) + ApplyMaskPenaltyRule1Internal(matrix, false);
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns></returns>
-        public static int applyMaskPenaltyRule2(ByteMatrix matrix)
+        public static int ApplyMaskPenaltyRule2(ByteMatrix matrix)
         {
             int penalty = 0;
             var array = matrix.Array;
@@ -79,7 +80,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns></returns>
-        public static int applyMaskPenaltyRule3(ByteMatrix matrix)
+        public static int ApplyMaskPenaltyRule3(ByteMatrix matrix)
         {
             int numPenalties = 0;
             byte[][] array = matrix.Array;
@@ -98,7 +99,7 @@ namespace ZXing.QrCode.Internal
                         arrayY[x + 4] == 1 &&
                         arrayY[x + 5] == 0 &&
                         arrayY[x + 6] == 1 &&
-                        (isWhiteHorizontal(arrayY, x - 4, x) || isWhiteHorizontal(arrayY, x + 7, x + 11)))
+                        (IsWhiteHorizontal(arrayY, x - 4, x) || IsWhiteHorizontal(arrayY, x + 7, x + 11)))
                     {
                         numPenalties++;
                     }
@@ -110,7 +111,7 @@ namespace ZXing.QrCode.Internal
                         array[y + 4][x] == 1 &&
                         array[y + 5][x] == 0 &&
                         array[y + 6][x] == 1 &&
-                        (isWhiteVertical(array, x, y - 4, y) || isWhiteVertical(array, x, y + 7, y + 11)))
+                        (IsWhiteVertical(array, x, y - 4, y) || IsWhiteVertical(array, x, y + 7, y + 11)))
                     {
                         numPenalties++;
                     }
@@ -119,10 +120,10 @@ namespace ZXing.QrCode.Internal
             return numPenalties * N3;
         }
 
-        private static bool isWhiteHorizontal(byte[] rowArray, int from, int to)
+        private static bool IsWhiteHorizontal(IReadOnlyList<byte> rowArray, int from, int to)
         {
             from = Math.Max(from, 0);
-            to = Math.Min(to, rowArray.Length);
+            to = Math.Min(to, rowArray.Count);
             for (int i = from; i < to; i++)
             {
                 if (rowArray[i] == 1)
@@ -133,10 +134,10 @@ namespace ZXing.QrCode.Internal
             return true;
         }
 
-        private static bool isWhiteVertical(byte[][] array, int col, int from, int to)
+        private static bool IsWhiteVertical(IReadOnlyList<byte[]> array, int col, int from, int to)
         {
             from = Math.Max(from, 0);
-            to = Math.Min(to, array.Length);
+            to = Math.Min(to, array.Count);
             for (int i = from; i < to; i++)
             {
                 if (array[i][col] == 1)
@@ -153,7 +154,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns></returns>
-        public static int applyMaskPenaltyRule4(ByteMatrix matrix)
+        public static int ApplyMaskPenaltyRule4(ByteMatrix matrix)
         {
             int numDarkCells = 0;
             var array = matrix.Array;
@@ -184,7 +185,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns></returns>
-        public static bool getDataMaskBit(int maskPattern, int x, int y)
+        public static bool GetDataMaskBit(int maskPattern, int x, int y)
         {
             int intermediate, temp;
             switch (maskPattern)
@@ -239,7 +240,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="matrix">The matrix.</param>
         /// <param name="isHorizontal">if set to <c>true</c> [is horizontal].</param>
         /// <returns></returns>
-        private static int applyMaskPenaltyRule1Internal(ByteMatrix matrix, bool isHorizontal)
+        private static int ApplyMaskPenaltyRule1Internal(ByteMatrix matrix, bool isHorizontal)
         {
             int penalty = 0;
             int iLimit = isHorizontal ? matrix.Height : matrix.Width;

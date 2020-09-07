@@ -80,7 +80,7 @@ namespace ZXing.Aztec.Test
                         copy.Flip(orientationPoints[error2].X, orientationPoints[error2].Y);
                      }
                      // The detector doesn't seem to work when matrix bits are only 1x1.  So magnify.
-                     AztecDetectorResult r = new Detector(MakeLarger(copy, 3)).detect(isMirror);
+                     AztecDetectorResult r = new Detector(MakeLarger(copy, 3)).Detect(isMirror);
                      Assert.IsNotNull(r);
                      Assert.AreEqual(r.NbLayers, layers);
                      Assert.AreEqual(r.Compact, compact);
@@ -107,7 +107,7 @@ namespace ZXing.Aztec.Test
                      copy.Flip(orientationPoints[error].X, orientationPoints[error].Y);
                   }
                   var larger = MakeLarger(copy, 3);
-                  var result = new Detector(larger).detect(false);
+                  var result = new Detector(larger).Detect(false);
                   if (result != null)
                   {
                      Assert.Fail("Should not reach here");

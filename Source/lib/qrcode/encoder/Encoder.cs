@@ -45,10 +45,10 @@ namespace ZXing.QrCode.Internal
         // Basically it applies four rules and sum all penalties.
         static int CalculateMaskPenalty(ByteMatrix matrix)
         {
-            return MaskUtil.applyMaskPenaltyRule1(matrix)
-                    + MaskUtil.applyMaskPenaltyRule2(matrix)
-                    + MaskUtil.applyMaskPenaltyRule3(matrix)
-                    + MaskUtil.applyMaskPenaltyRule4(matrix);
+            return MaskUtil.ApplyMaskPenaltyRule1(matrix)
+                    + MaskUtil.ApplyMaskPenaltyRule2(matrix)
+                    + MaskUtil.ApplyMaskPenaltyRule3(matrix)
+                    + MaskUtil.ApplyMaskPenaltyRule4(matrix);
         }
 
         /// <summary>

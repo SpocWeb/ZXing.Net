@@ -14,6 +14,8 @@
 * limitations under the License.
 */
 
+using System.Collections.Generic;
+
 namespace ZXing.Common.ReedSolomon
 {
     /// <summary> <p>Implements Reed-Solomon decoding, as the name implies.</p>
@@ -197,10 +199,10 @@ namespace ZXing.Common.ReedSolomon
             return result;
         }
 
-        int[] FindErrorMagnitudes(GenericGfPoly errorEvaluator, int[] errorLocations)
+        int[] FindErrorMagnitudes(GenericGfPoly errorEvaluator, IReadOnlyList<int> errorLocations)
         {
             // This is directly applying Forney's Formula
-            int s = errorLocations.Length;
+            int s = errorLocations.Count;
             int[] result = new int[s];
             for (int i = 0; i < s; i++)
             {
@@ -208,19 +210,19 @@ namespace ZXing.Common.ReedSolomon
                 int denominator = 1;
                 for (int j = 0; j < s; j++)
                 {
-                    if (i != j)
-                    {
-                        //denominator = field.multiply(denominator,
-                        //    GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
-                        // Above should work but fails on some Apple and Linux JDKs due to a Hotspot bug.
-                        // Below is a funny-looking workaround from Steven Parkes
-                        int term = _Field.Multiply(errorLocations[j], xiInverse);
-                        int termPlus1 = (term & 0x1) == 0 ? term | 1 : term & ~1;
-                        denominator = _Field.Multiply(denominator, termPlus1);
-
-                        // removed in java version, not sure if this is right
-                        // denominator = field.multiply(denominator, GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
+                    if (i == j) {
+                        continue;
                     }
+                    //denominator = field.multiply(denominator,
+                    //    GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
+                    // Above should work but fails on some Apple and Linux JDKs due to a Hotspot bug.
+                    // Below is a funny-looking workaround from Steven Parkes
+                    int term = _Field.Multiply(errorLocations[j], xiInverse);
+                    int termPlus1 = (term & 0x1) == 0 ? term | 1 : term & ~1;
+                    denominator = _Field.Multiply(denominator, termPlus1);
+
+                    // removed in java version, not sure if this is right
+                    // denominator = field.multiply(denominator, GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
                 }
                 result[i] = _Field.Multiply(errorEvaluator.EvaluateAt(xiInverse), _Field.Inverse(denominator));
                 if (_Field.GeneratorBase != 0)

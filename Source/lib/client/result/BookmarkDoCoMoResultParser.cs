@@ -22,7 +22,7 @@ namespace ZXing.Client.Result
     /// </author>
     internal sealed class BookmarkDoCoMoResultParser : AbstractDoCoMoResultParser
     {
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("MEBKM:"))

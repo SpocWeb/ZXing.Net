@@ -32,12 +32,12 @@ namespace ZXing.Client.Result
     {
         internal static string[] matchDoCoMoPrefixedField(string prefix, string rawText)
         {
-            return matchPrefixedField(prefix, rawText, ';', true);
+            return MatchPrefixedField(prefix, rawText, ';', true);
         }
 
         internal static string matchSingleDoCoMoPrefixedField(string prefix, string rawText, bool trim)
         {
-            return matchSinglePrefixedField(prefix, rawText, ';', trim);
+            return MatchSinglePrefixedField(prefix, rawText, ';', trim);
         }
     }
 }

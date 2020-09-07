@@ -218,7 +218,7 @@ namespace CommandLineDecoder
                 }
                 else
                 {
-                    ParsedResult parsedResult = ResultParser.parseResult(result);
+                    ParsedResult parsedResult = ResultParser.ParseResult(result);
                     var resultString = originalInput + " (format: " + result.BarcodeFormat + ", type: " + parsedResult.Type + "):" + Environment.NewLine;
                     for (int i = 0; i < result.ResultPoints.Length; i++)
                     {
@@ -288,7 +288,7 @@ namespace CommandLineDecoder
                     {
                         foreach (var result in results)
                         {
-                            ParsedResult parsedResult = ResultParser.parseResult(result);
+                            ParsedResult parsedResult = ResultParser.ParseResult(result);
                             var resultString = originalInput + " (format: " + result.BarcodeFormat + ", type: " + parsedResult.Type + "):" + Environment.NewLine;
                             for (int i = 0; i < result.ResultPoints.Length; i++)
                             {

@@ -288,7 +288,7 @@ namespace ZXing.QrCode.Internal
                         // Skip masking if mask_pattern is -1.
                         if (maskPattern != -1)
                         {
-                            if (MaskUtil.getDataMaskBit(maskPattern, xx, y))
+                            if (MaskUtil.GetDataMaskBit(maskPattern, xx, y))
                             {
                                 bit ^= 0x1;
                             }

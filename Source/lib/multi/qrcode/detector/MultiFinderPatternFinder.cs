@@ -250,7 +250,7 @@ namespace ZXing.Multi.QrCode.Internal
             for (int i = iSkip - 1; i < maxI; i += iSkip)
             {
                 // Get a row of black/white values
-                doClearCounts(stateCount);
+                DoClearCounts(stateCount);
                 int currentState = 0;
                 for (int j = 0; j < maxJ; j++)
                 {
@@ -273,17 +273,17 @@ namespace ZXing.Multi.QrCode.Internal
                             if (currentState == 4)
                             {
                                 // A winner?
-                                if (foundPatternCross(stateCount) && IsRealCenter(stateCount, i, j))
+                                if (FoundPatternCross(stateCount) && IsRealCenter(stateCount, i, j))
                                 {
                                     // Yes
                                     // Clear state to start looking again
                                     currentState = 0;
-                                    doClearCounts(stateCount);
+                                    DoClearCounts(stateCount);
                                 }
                                 else
                                 {
                                     // No, shift counts back by two
-                                    doShiftCounts2(stateCount);
+                                    DoShiftCounts2(stateCount);
                                     currentState = 3;
                                 }
                             }
@@ -300,7 +300,7 @@ namespace ZXing.Multi.QrCode.Internal
                     }
                 } // for j=...
 
-                if (foundPatternCross(stateCount))
+                if (FoundPatternCross(stateCount))
                 {
                     IsRealCenter(stateCount, i, maxJ);
                 } // end if foundPatternCross

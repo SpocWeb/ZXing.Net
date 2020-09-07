@@ -48,7 +48,7 @@ namespace ZXing.Aztec
             ResultPoint[] points = null;
             DecoderResult decoderResult = null;
 
-            var detectorResult = detector.detect();
+            var detectorResult = detector.Detect();
             if (detectorResult != null)
             {
                 points = detectorResult.Points.Single();
@@ -57,7 +57,7 @@ namespace ZXing.Aztec
             }
             if (decoderResult == null)
             {
-                detectorResult = detector.detect(true);
+                detectorResult = detector.Detect(true);
                 if (detectorResult == null) {
                     return null;
                 }

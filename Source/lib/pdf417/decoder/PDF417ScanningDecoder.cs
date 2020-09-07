@@ -781,7 +781,7 @@ namespace ZXing.PDF417.Internal
                 return -1;
 
             }
-            if (!ERROR_CORRECTION.decode(codewords, numEcCodewords, erasures, out var errorCount))
+            if (!ERROR_CORRECTION.Decode(codewords, numEcCodewords, erasures, out var errorCount))
             {
                 return -1;
             }

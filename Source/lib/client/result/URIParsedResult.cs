@@ -84,7 +84,7 @@ namespace ZXing.Client.Result
             {
                 nextSlash = uri.Length;
             }
-            return ResultParser.isSubstringOfDigits(uri, start, nextSlash - start);
+            return ResultParser.IsSubstringOfDigits(uri, start, nextSlash - start);
         }
     }
 }

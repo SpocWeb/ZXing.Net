@@ -33,7 +33,7 @@ namespace ZXing.Client.Result
     /// </author>
     internal sealed class SMSMMSResultParser : ResultParser
     {
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null ||
@@ -44,7 +44,7 @@ namespace ZXing.Client.Result
             }
 
             // Check up front if this is a URI syntax string with query arguments
-            var nameValuePairs = parseNameValuePairs(rawText);
+            var nameValuePairs = ParseNameValuePairs(rawText);
             string subject = null;
             string body = null;
             var querySyntax = false;

@@ -36,7 +36,7 @@ namespace ZXing.Client.Result
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             var rawText = result.Text;
             if (!rawText.StartsWith("WIFI:"))
@@ -44,20 +44,20 @@ namespace ZXing.Client.Result
                 return null;
             }
             rawText = rawText.Substring("WIFI:".Length);
-            var ssid = matchSinglePrefixedField("S:", rawText, ';', false);
+            var ssid = MatchSinglePrefixedField("S:", rawText, ';', false);
             if (string.IsNullOrEmpty(ssid))
             {
                 return null;
             }
-            var pass = matchSinglePrefixedField("P:", rawText, ';', false);
-            var type = matchSinglePrefixedField("T:", rawText, ';', false) ?? "nopass";
+            var pass = MatchSinglePrefixedField("P:", rawText, ';', false);
+            var type = MatchSinglePrefixedField("T:", rawText, ';', false) ?? "nopass";
 
             // Unfortunately, in the past, H: was not just used for boolean 'hidden', but 'phase 2 method'.
             // To try to retain backwards compatibility, we set one or the other based on whether the string
             // is 'true' or 'false':
             bool hidden = false;
-            string phase2Method = matchSinglePrefixedField("PH2:", rawText, ';', false);
-            string hValue = matchSinglePrefixedField("H:", rawText, ';', false);
+            string phase2Method = MatchSinglePrefixedField("PH2:", rawText, ';', false);
+            string hValue = MatchSinglePrefixedField("H:", rawText, ';', false);
             if (hValue != null)
             {
                 // If PH2 was specified separately, or if the value is clearly boolean, interpret it as 'hidden'
@@ -75,9 +75,9 @@ namespace ZXing.Client.Result
                 }
             }
 
-            var identity = matchSinglePrefixedField("I:", rawText, ';', false);
-            var anonymousIdentity = matchSinglePrefixedField("A:", rawText, ';', false);
-            var eapMethod = matchSinglePrefixedField("E:", rawText, ';', false);
+            var identity = MatchSinglePrefixedField("I:", rawText, ';', false);
+            var anonymousIdentity = MatchSinglePrefixedField("A:", rawText, ';', false);
+            var eapMethod = MatchSinglePrefixedField("E:", rawText, ';', false);
 
             return new WifiParsedResult(type, ssid, pass, hidden, identity, anonymousIdentity, eapMethod, phase2Method);
         }

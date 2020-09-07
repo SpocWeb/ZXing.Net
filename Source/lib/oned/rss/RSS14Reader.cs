@@ -101,7 +101,7 @@ namespace ZXing.OneD.RSS
             return null;
         }
 
-        static void AddOrTally(IList<Pair> possiblePairs, Pair pair)
+        static void AddOrTally(ICollection<Pair> possiblePairs, Pair pair)
         {
             if (pair == null)
             {
@@ -394,7 +394,7 @@ namespace ZXing.OneD.RSS
             return null;
         }
 
-        FinderPattern ParseFoundFinderPattern(BitArray row, int rowNumber, bool right, int[] startEnd)
+        FinderPattern ParseFoundFinderPattern(BitArray row, int rowNumber, bool right, IReadOnlyList<int> startEnd)
         {
             // Actually we found elements 2-5
             bool firstIsBlack = row[startEnd[0]];

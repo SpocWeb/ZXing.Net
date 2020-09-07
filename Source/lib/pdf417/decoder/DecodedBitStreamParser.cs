@@ -132,11 +132,11 @@ namespace ZXing.PDF417.Internal
                         break;
                     case BYTE_COMPACTION_MODE_LATCH:
                     case BYTE_COMPACTION_MODE_LATCH_6:
-                        codeIndex = ByteCompaction(code, codewords, encoding ?? (encoding = GetEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME)), codeIndex, result);
+                        codeIndex = ByteCompaction(code, codewords, encoding ?? (encoding = GetEncoding(Pdf417HighLevelEncoder.DEFAULT_ENCODING_NAME)), codeIndex, result);
                         break;
                     case MODE_SHIFT_TO_BYTE_COMPACTION_MODE:
                         if (encoding == null) {
-                            encoding = GetEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME);
+                            encoding = GetEncoding(Pdf417HighLevelEncoder.DEFAULT_ENCODING_NAME);
                         }
                         result.Append(encoding.GetString(new []{(byte)codewords[codeIndex++]}, 0, 1));
                         break;

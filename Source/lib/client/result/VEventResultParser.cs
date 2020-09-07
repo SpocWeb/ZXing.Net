@@ -30,7 +30,7 @@ namespace ZXing.Client.Result
     /// </author>
     sealed class VEventResultParser : ResultParser
     {
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null)

@@ -130,7 +130,7 @@ namespace ZXing.PDF417.Internal.Test
 
       bool CheckDecode(int[] received, int[] erasures)
       {
-          if (!_Ec.decode(received, ECC_BYTES, erasures, out var errorCount)) {
+          if (!_Ec.Decode(received, ECC_BYTES, erasures, out var errorCount)) {
               return false;
           }
 

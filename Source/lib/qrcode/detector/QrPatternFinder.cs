@@ -30,7 +30,7 @@ namespace ZXing.QrCode.Internal
     public class QrPatternFinder
     {
         private const int CENTER_QUORUM = 2;
-        private static readonly EstimatedModuleComparer moduleComparator = new EstimatedModuleComparer();
+        private static readonly EstimatedModuleComparer MODULE_COMPARATOR = new EstimatedModuleComparer();
 
         /// <summary> 1 pixel/module times 3 modules/center </summary>
         protected internal const int MIN_SKIP = 3;
@@ -42,24 +42,24 @@ namespace ZXing.QrCode.Internal
 
         private readonly BitMatrix _Image;
         private readonly List<FinderPattern> _PossibleCenters;
-        private bool hasSkipped;
-        private readonly int[] crossCheckStateCount;
-        private readonly ResultPointCallback resultPointCallback;
+        private bool _HasSkipped;
+        private readonly int[] _CrossCheckStateCount;
+        private readonly ResultPointCallback _ResultPointCallback;
 
         /// <summary> Creates a finder that will search the image for three finder patterns. </summary>
         public QrPatternFinder(BitMatrix image, ResultPointCallback resultPointCallback = null)
         {
             _Image = image;
             _PossibleCenters = new List<FinderPattern>();
-            crossCheckStateCount = new int[5];
-            this.resultPointCallback = resultPointCallback;
+            _CrossCheckStateCount = new int[5];
+            this._ResultPointCallback = resultPointCallback;
         }
 
         protected internal virtual BitMatrix Image => _Image;
 
         protected internal virtual List<FinderPattern> PossibleCenters => _PossibleCenters;
 
-        internal virtual QrFinderPatternInfo find(IDictionary<DecodeHintType, object> hints)
+        internal virtual QrFinderPatternInfo Find(IDictionary<DecodeHintType, object> hints)
         {
             bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
             int maxRow = _Image.Height;
@@ -86,12 +86,12 @@ namespace ZXing.QrCode.Internal
                 ; row += rowsToSkip)
             {
                 // Get a row of black/white values
-                doClearCounts(stateCount);
+                DoClearCounts(stateCount);
                 int currentState = 0;
                 for (int col = 0; col < maxCol; col++) {
                     ScanRow(ref row, ref col, maxCol, stateCount, ref currentState, ref rowsToSkip, ref done);
                 }
-                if (!foundPatternCross(stateCount)) {
+                if (!FoundPatternCross(stateCount)) {
                     continue;
                 }
                 bool confirmed = IsRealCenter(stateCount, row, maxCol);
@@ -99,13 +99,13 @@ namespace ZXing.QrCode.Internal
                     continue;
                 }
                 rowsToSkip = stateCount[0];
-                if (hasSkipped)
+                if (_HasSkipped)
                 { // Found a third one
-                    done = haveMultiplyConfirmedCenters();
+                    done = HaveMultiplyConfirmedCenters();
                 }
             }
 
-            FinderPattern[] patternInfo = selectBestPatterns();
+            FinderPattern[] patternInfo = SelectBestPatterns();
             if (patternInfo == null) {
                 return null;
             }
@@ -136,25 +136,25 @@ namespace ZXing.QrCode.Internal
                 stateCount[++currentState]++;
                 return;
             } // A winner?
-            if (!foundPatternCross(stateCount)) {
+            if (!FoundPatternCross(stateCount)) {
                 // No, shift counts back by two
-                doShiftCounts2(stateCount);
+                DoShiftCounts2(stateCount);
                 currentState = 3;
                 return;
             } // Yes, a Winner!
             bool confirmed = IsRealCenter(stateCount, row, col);
             if (!confirmed) {
-                doShiftCounts2(stateCount);
+                DoShiftCounts2(stateCount);
                 currentState = 3;
                 return;
             }
             // Start examining every other line. Checking each line turned out to be too
             // expensive and didn't improve performance.
             rowsToSkip = 2;
-            if (hasSkipped) {
-                done = haveMultiplyConfirmedCenters();
+            if (_HasSkipped) {
+                done = HaveMultiplyConfirmedCenters();
             } else {
-                int rowSkip = findRowSkip();
+                int rowSkip = FindRowSkip();
                 if (rowSkip > stateCount[2]) {
                     // Skip rows between row of lower confirmed center
                     // and top of presumed third confirmed center
@@ -170,14 +170,14 @@ namespace ZXing.QrCode.Internal
             }
             // Clear state to start looking again
             currentState = 0;
-            doClearCounts(stateCount);
+            DoClearCounts(stateCount);
         }
 
         private static bool IsBlack(int currentState) => (currentState & 1) == 0;
 
         /// <summary> Given a count of black/white/black/white/black pixels just seen and an end position,
         /// figures the location of the center of this run. </summary>
-        private static float? centerFromEnd(IReadOnlyList<int> stateCount, int endCol)
+        private static float? CenterFromEnd(IReadOnlyList<int> stateCount, int endCol)
         {
             var result = endCol - stateCount[4] - stateCount[3] - stateCount[2] / 2.0f;
             if (float.IsNaN(result)) {
@@ -191,7 +191,7 @@ namespace ZXing.QrCode.Internal
         /// <returns> true iff the proportions of the counts is close enough to the 1/1/3/1/1 ratios
         /// used by finder patterns to be considered a match
         /// </returns>
-        protected internal static bool foundPatternCross(int[] stateCount)
+        protected internal static bool FoundPatternCross(int[] stateCount)
         {
             int totalModuleSize = 0;
             for (int i = 0; i < 5; i++)
@@ -222,7 +222,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="stateCount">count of black/white/black/white/black pixels just read</param>
         /// <returns>true if the proportions of the counts is close enough to the 1/1/3/1/1 ratios
         /// by finder patterns to be considered a match</returns>
-        protected static bool foundPatternDiagonal(int[] stateCount)
+        protected static bool FoundPatternDiagonal(int[] stateCount)
         {
             int totalModuleSize = 0;
             for (int i = 0; i < 5; i++)
@@ -253,12 +253,12 @@ namespace ZXing.QrCode.Internal
         {
             get
             {
-                doClearCounts(crossCheckStateCount);
-                return crossCheckStateCount;
+                DoClearCounts(_CrossCheckStateCount);
+                return _CrossCheckStateCount;
             }
         }
 
-        protected static void doClearCounts(int[] counts)
+        protected static void DoClearCounts(int[] counts)
         {
             SupportClass.Fill(counts, 0);
         }
@@ -267,7 +267,7 @@ namespace ZXing.QrCode.Internal
         /// shifts left by 2 index
         /// </summary>
         /// <param name="stateCount"></param>
-        protected static void doShiftCounts2(int[] stateCount)
+        protected static void DoShiftCounts2(int[] stateCount)
         {
             stateCount[0] = stateCount[2];
             stateCount[1] = stateCount[3];
@@ -284,7 +284,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="centerI">row where a finder pattern was detected</param>
         /// <param name="centerJ">center of the section that appears to cross a finder pattern</param>
         /// <returns>true if proportions are withing expected limits</returns>
-        private bool crossCheckDiagonal(int centerI, int centerJ)
+        private bool CrossCheckDiagonal(int centerI, int centerJ)
         {
             int[] stateCount = CrossCheckStateCount;
 
@@ -353,7 +353,7 @@ namespace ZXing.QrCode.Internal
                 return false;
             }
 
-            return foundPatternDiagonal(stateCount);
+            return FoundPatternDiagonal(stateCount);
         }
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace ZXing.QrCode.Internal
         /// observed in any reading state, based on the results of the horizontal scan</param>
         /// <param name="originalStateCountTotal">The original state count total.</param>
         /// <returns> vertical center of finder pattern, or null if not found </returns>
-        private float? crossCheckVertical(int startI, int centerJ, int maxCount, int originalStateCountTotal)
+        private float? CrossCheckVertical(int startI, int centerJ, int maxCount, int originalStateCountTotal)
         {
             int maxI = _Image.Height;
             int[] stateCount = CrossCheckStateCount;
@@ -441,14 +441,14 @@ namespace ZXing.QrCode.Internal
                 return null;
             }
 
-            return foundPatternCross(stateCount) ? centerFromEnd(stateCount, i) : null;
+            return FoundPatternCross(stateCount) ? CenterFromEnd(stateCount, i) : null;
         }
 
         /// <summary> <p>Like {@link #crossCheckVertical(int, int, int, int)}, and in fact is basically identical,
         /// except it reads horizontally instead of vertically. This is used to cross-cross
         /// check a vertical cross check and locate the real center of the alignment pattern.</p>
         /// </summary>
-        private float? crossCheckHorizontal(int startJ, int centerI, int maxCount, int originalStateCountTotal)
+        private float? CrossCheckHorizontal(int startJ, int centerI, int maxCount, int originalStateCountTotal)
         {
             int maxJ = _Image.Width;
             int[] stateCount = CrossCheckStateCount;
@@ -519,7 +519,7 @@ namespace ZXing.QrCode.Internal
                 return null;
             }
 
-            return foundPatternCross(stateCount) ? centerFromEnd(stateCount, j) : null;
+            return FoundPatternCross(stateCount) ? CenterFromEnd(stateCount, j) : null;
         }
 
         /// <summary> called when a horizontal scan finds one possible alignment pattern. </summary>
@@ -541,18 +541,18 @@ namespace ZXing.QrCode.Internal
         {
             int stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] +
                                   stateCount[4];
-            float? centerCol = centerFromEnd(stateCount, endCol);
+            float? centerCol = CenterFromEnd(stateCount, endCol);
             if (centerCol == null)
             {
                 return false;
             }
-            float? centerRow = crossCheckVertical(row, (int)centerCol.Value, stateCount[2], stateCountTotal);
+            float? centerRow = CrossCheckVertical(row, (int)centerCol.Value, stateCount[2], stateCountTotal);
             if (centerRow == null)
             {
                 return false;
             } // Re-cross check
-            centerCol = crossCheckHorizontal((int)centerCol.Value, (int)centerRow.Value, stateCount[2], stateCountTotal);
-            if (centerCol == null || !crossCheckDiagonal((int)centerRow, (int)centerCol))
+            centerCol = CrossCheckHorizontal((int)centerCol.Value, (int)centerRow.Value, stateCount[2], stateCountTotal);
+            if (centerCol == null || !CrossCheckDiagonal((int)centerRow, (int)centerCol))
             {
                 return false;
             }
@@ -570,7 +570,7 @@ namespace ZXing.QrCode.Internal
 
             _PossibleCenters.Add(point);
 
-            resultPointCallback?.Invoke(point);
+            _ResultPointCallback?.Invoke(point);
             return true;
         }
 
@@ -594,7 +594,7 @@ namespace ZXing.QrCode.Internal
         /// allow us to infer that the third pattern must lie below a certain point farther
         /// down in the image.
         /// </returns>
-        private int findRowSkip()
+        private int FindRowSkip()
         {
             int max = _PossibleCenters.Count;
             if (max <= 1)
@@ -617,7 +617,7 @@ namespace ZXing.QrCode.Internal
                         /// In the worst case, only the difference
                         /// between the difference in the x / y coordinates of the two centers.
                         /// This is the case where you find top left last.
-                        hasSkipped = true;
+                        _HasSkipped = true;
                         return (int) (Math.Abs(firstConfirmedCenter.X - center.X) - Math.Abs(firstConfirmedCenter.Y - center.Y)) / 2;
                     }
                 }
@@ -629,7 +629,7 @@ namespace ZXing.QrCode.Internal
         /// at least {@link #CENTER_QUORUM} times each, and, the estimated module size of the
         /// candidates is "pretty similar"
         /// </returns>
-        private bool haveMultiplyConfirmedCenters()
+        private bool HaveMultiplyConfirmedCenters()
         {
             int confirmedCount = 0;
             float totalModuleSize = 0.0f;
@@ -662,7 +662,7 @@ namespace ZXing.QrCode.Internal
             return totalDeviation <= 0.05f * totalModuleSize;
         }
 
-        private static double squaredDistance(FinderPattern a, FinderPattern b)
+        public static double SquaredDistance( ResultPoint a, ResultPoint b)
         {
             double x = a.X - b.X;
             double y = a.Y - b.Y;
@@ -672,7 +672,7 @@ namespace ZXing.QrCode.Internal
         /// <returns> the 3 best {@link FinderPattern}s from our list of candidates. The "best" are
         /// those have similar module size and form a shape closer to a isosceles right triangle.
         /// </returns>
-        private FinderPattern[] selectBestPatterns()
+        private FinderPattern[] SelectBestPatterns()
         {
             int startSize = _PossibleCenters.Count;
             if (startSize < 3)
@@ -681,7 +681,7 @@ namespace ZXing.QrCode.Internal
                 return null;
             }
 
-            _PossibleCenters.Sort(moduleComparator);
+            _PossibleCenters.Sort(MODULE_COMPARATOR);
 
             double distortion = double.MaxValue;
             FinderPattern[] bestPatterns = new FinderPattern[3];
@@ -694,7 +694,7 @@ namespace ZXing.QrCode.Internal
                 for (int j = i + 1; j < _PossibleCenters.Count - 1; j++)
                 {
                     FinderPattern fpj = _PossibleCenters[j];
-                    double squares0 = squaredDistance(fpi, fpj);
+                    double squares0 = SquaredDistance(fpi, fpj);
 
                     for (int k = j + 1; k < _PossibleCenters.Count; k++)
                     {
@@ -707,8 +707,8 @@ namespace ZXing.QrCode.Internal
                         }
 
                         var a = squares0;
-                        var b = squaredDistance(fpj, fpk);
-                        var c = squaredDistance(fpi, fpk);
+                        var b = SquaredDistance(fpj, fpk);
+                        var c = SquaredDistance(fpi, fpk);
 
                         // sorts ascending - inlined
                         if (a < b)

@@ -367,7 +367,9 @@ namespace ZXing.Datamatrix.Encoder
                 }
 
                 //step R
-                if (charsProcessed >= 4)
+                if (charsProcessed < 4) {
+                    continue;
+                }
                 {
                     var intCharCounts = new int[6];
                     var mins = new byte[6];
@@ -431,7 +433,7 @@ namespace ZXing.Datamatrix.Encoder
             }
         }
 
-        private static int FindMinimums(IReadOnlyList<float> charCounts, int[] intCharCounts, int min, byte[] mins)
+        private static int FindMinimums(IReadOnlyList<float> charCounts, IList<int> intCharCounts, int min, byte[] mins)
         {
             SupportClass.Fill(mins, (byte)0);
             for (int i = 0; i < 6; i++)
@@ -452,7 +454,7 @@ namespace ZXing.Datamatrix.Encoder
             return min;
         }
 
-        private static int GetMinimumCount(byte[] mins)
+        private static int GetMinimumCount(IReadOnlyList<byte> mins)
         {
             int minCount = 0;
             for (int i = 0; i < 6; i++)

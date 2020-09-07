@@ -35,7 +35,7 @@ namespace ZXing.Client.Result
     /// </author>
     internal sealed class AddressBookDoCoMoResultParser : AbstractDoCoMoResultParser
     {
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("MECARD:"))
@@ -54,7 +54,7 @@ namespace ZXing.Client.Result
             string note = matchSingleDoCoMoPrefixedField("NOTE:", rawText, false);
             string[] addresses = matchDoCoMoPrefixedField("ADR:", rawText);
             string birthday = matchSingleDoCoMoPrefixedField("BDAY:", rawText, true);
-            if (!isStringOfDigits(birthday, 8))
+            if (!IsStringOfDigits(birthday, 8))
             {
                 // No reason to throw out the whole card because the birthday is formatted wrong.
                 birthday = null;
@@ -65,7 +65,7 @@ namespace ZXing.Client.Result
             // honor it when found in the wild.
             string org = matchSingleDoCoMoPrefixedField("ORG:", rawText, true);
 
-            return new AddressBookParsedResult(maybeWrap(name),
+            return new AddressBookParsedResult(MaybeWrap(name),
                                                null,
                                                pronunciation,
                                                phoneNumbers,

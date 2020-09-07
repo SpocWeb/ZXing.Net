@@ -33,7 +33,7 @@ namespace ZXing.Client.Result
         // like the DoCoMo MECARD format, but this is not technically one of
         // DoCoMo's proposed formats
 
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             string rawText = result.Text;
             if (rawText == null || !rawText.StartsWith("BIZCARD:"))
@@ -51,12 +51,12 @@ namespace ZXing.Client.Result
             string phoneNumber3 = matchSingleDoCoMoPrefixedField("F:", rawText, true);
             string email = matchSingleDoCoMoPrefixedField("E:", rawText, true);
 
-            return new AddressBookParsedResult(maybeWrap(fullName),
+            return new AddressBookParsedResult(MaybeWrap(fullName),
                                                null,
                                                null,
                                                buildPhoneNumbers(phoneNumber1, phoneNumber2, phoneNumber3),
                                                null,
-                                               maybeWrap(email),
+                                               MaybeWrap(email),
                                                null,
                                                null,
                                                null,

@@ -53,7 +53,7 @@ namespace ZXing.Client.Result
       private static readonly Regex SEMICOLON_OR_COMMA = new Regex("[;,]", RegexOptions.Compiled);
 #endif
 
-        public override ParsedResult parse(BarCodeText result)
+        public override ParsedResult Parse(BarCodeText result)
         {
             // Although we should insist on the raw text ending with "END:VCARD", there's no reason
             // to throw out everything else we parsed just because this was omitted. In fact, Eclair
@@ -300,8 +300,8 @@ namespace ZXing.Client.Result
                             else
                             {
                                 char nextNextChar = value[i + 2];
-                                int firstDigit = parseHexDigit(nextChar);
-                                int secondDigit = parseHexDigit(nextNextChar);
+                                int firstDigit = ParseHexDigit(nextChar);
+                                int secondDigit = ParseHexDigit(nextNextChar);
                                 if (firstDigit >= 0 && secondDigit >= 0)
                                 {
                                     fragmentBuffer.WriteByte((byte)((firstDigit << 4) | secondDigit));
@@ -376,7 +376,7 @@ namespace ZXing.Client.Result
             return values == null || values.Count == 0 ? null : values[0];
         }
 
-        private static string toPrimaryValue(List<string> list)
+        private static string toPrimaryValue(IReadOnlyList<string> list)
         {
             return list == null || list.Count == 0 ? null : list[0];
         }
@@ -476,7 +476,7 @@ namespace ZXing.Client.Result
             }
         }
 
-        private static void maybeAppendComponent(string[] components, int i, StringBuilder newName)
+        private static void maybeAppendComponent(IReadOnlyList<string> components, int i, StringBuilder newName)
         {
             if (!string.IsNullOrEmpty(components[i]))
             {

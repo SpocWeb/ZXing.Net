@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using ZXing.Common;
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
@@ -33,7 +34,7 @@ namespace ZXing.PDF417.Internal
     /// PDF417 high-level encoder following the algorithm described in ISO/IEC 15438:2001(E) in
     /// annex P.
     /// </summary>
-    public static class PDF417HighLevelEncoder
+    public static class Pdf417HighLevelEncoder
     {
         /// <summary>
         /// code for Text compaction
@@ -133,7 +134,7 @@ namespace ZXing.PDF417.Internal
 
         internal static string DEFAULT_ENCODING_NAME = "ISO-8859-1";
 
-        static PDF417HighLevelEncoder()
+        static Pdf417HighLevelEncoder()
         {
             //Construct inverse lookups
             for (int idx = 0; idx < MIXED.Length; idx++)
@@ -175,7 +176,7 @@ namespace ZXing.PDF417.Internal
         /// or null for default / not applicable</param>
         /// <param name="disableEci">if true, don't add an ECI segment for different encodings than default</param>
         /// <returns>the encoded message (the char values range from 0 to 928)</returns>
-        public static string encodeHighLevel(string msg, Compaction compaction, Encoding encoding, bool disableEci)
+        public static string EncodeHighLevel(string msg, Compaction compaction, Encoding encoding, bool disableEci)
         {
             //the codewords 0..928 are encoded as Unicode characters
             var sb = new StringBuilder(msg.Length);
@@ -185,7 +186,7 @@ namespace ZXing.PDF417.Internal
                 CharacterSetEci eci = CharacterSetEci.GetCharacterSetEciByName(encoding.WebName);
                 if (eci != null)
                 {
-                    encodingECI(eci.Value, sb);
+                    EncodingEci(eci.Value, sb);
                 }
             }
 
@@ -197,33 +198,33 @@ namespace ZXing.PDF417.Internal
             switch (compaction)
             {
                 case Compaction.TEXT:
-                    encodeText(msg, p, len, sb, textSubMode);
+                    EncodeText(msg, p, len, sb, textSubMode);
                     break;
                 case Compaction.BYTE:
-                    var msgBytes = toBytes(msg, encoding);
-                    encodeBinary(msgBytes, p, msgBytes.Length, BYTE_COMPACTION, sb);
+                    var msgBytes = ToBytes(msg, encoding);
+                    EncodeBinary(msgBytes, p, msgBytes.Length, BYTE_COMPACTION, sb);
                     break;
                 case Compaction.NUMERIC:
                     sb.Append((char)LATCH_TO_NUMERIC);
-                    encodeNumeric(msg, p, len, sb);
+                    EncodeNumeric(msg, p, len, sb);
                     break;
                 default:
                     int encodingMode = TEXT_COMPACTION; //Default mode, see 4.4.2.1
                     byte[] bytes = null;
                     while (p < len)
                     {
-                        int n = determineConsecutiveDigitCount(msg, p);
+                        int n = DetermineConsecutiveDigitCount(msg, p);
                         if (n >= 13)
                         {
                             sb.Append((char)LATCH_TO_NUMERIC);
                             encodingMode = NUMERIC_COMPACTION;
                             textSubMode = SUBMODE_ALPHA; //Reset after latch
-                            encodeNumeric(msg, p, n, sb);
+                            EncodeNumeric(msg, p, n, sb);
                             p += n;
                         }
                         else
                         {
-                            int t = determineConsecutiveTextCount(msg, p);
+                            int t = DetermineConsecutiveTextCount(msg, p);
                             if (t >= 5 || n == len)
                             {
                                 if (encodingMode != TEXT_COMPACTION)
@@ -232,16 +233,16 @@ namespace ZXing.PDF417.Internal
                                     encodingMode = TEXT_COMPACTION;
                                     textSubMode = SUBMODE_ALPHA; //start with submode alpha after latch
                                 }
-                                textSubMode = encodeText(msg, p, t, sb, textSubMode);
+                                textSubMode = EncodeText(msg, p, t, sb, textSubMode);
                                 p += t;
                             }
                             else
                             {
                                 if (bytes == null)
                                 {
-                                    bytes = toBytes(msg, encoding);
+                                    bytes = ToBytes(msg, encoding);
                                 }
-                                int b = determineConsecutiveBinaryCount(msg, bytes, p, encoding, out var byteCount);
+                                int b = DetermineConsecutiveBinaryCount(msg, bytes, p, encoding, out var byteCount);
                                 if (b == 0)
                                 {
                                     b = 1;
@@ -249,14 +250,14 @@ namespace ZXing.PDF417.Internal
                                 if (b == 1 && byteCount == 1 && encodingMode == TEXT_COMPACTION)
                                 {
                                     //Switch for one byte (instead of latch)
-                                    encodeBinary(bytes, 0, 1, TEXT_COMPACTION, sb);
+                                    EncodeBinary(bytes, 0, 1, TEXT_COMPACTION, sb);
                                 }
                                 else
                                 {
                                     //Mode latch performed by encodeBinary()
-                                    encodeBinary(bytes,
-                                       toBytes(msg.Substring(0, p), encoding).Length,
-                                       toBytes(msg.Substring(p, b), encoding).Length,
+                                    EncodeBinary(bytes,
+                                       ToBytes(msg.Substring(0, p), encoding).Length,
+                                       ToBytes(msg.Substring(p, b), encoding).Length,
                                        encodingMode,
                                        sb);
                                     encodingMode = BYTE_COMPACTION;
@@ -272,7 +273,7 @@ namespace ZXing.PDF417.Internal
             return sb.ToString();
         }
 
-        private static Encoding getEncoder(Encoding encoding)
+        private static Encoding GetEncoder(Encoding encoding)
         {
             // Defer instantiating default Charset until needed, since it may be for an unsupported
             // encoding.
@@ -318,14 +319,14 @@ namespace ZXing.PDF417.Internal
             return encoding;
         }
 
-        private static byte[] toBytes(string msg, Encoding encoding)
+        private static byte[] ToBytes(string msg, Encoding encoding)
         {
-            return getEncoder(encoding).GetBytes(msg);
+            return GetEncoder(encoding).GetBytes(msg);
         }
 
-        private static byte[] toBytes(char msg, Encoding encoding)
+        private static byte[] ToBytes(char msg, Encoding encoding)
         {
-            return getEncoder(encoding).GetBytes(new[] { msg });
+            return GetEncoder(encoding).GetBytes(new[] { msg });
         }
 
         /// <summary>
@@ -339,7 +340,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="initialSubmode">should normally be SUBMODE_ALPHA</param>
         /// <returns>the text submode in which this method ends</returns>
         /// </summary>
-        private static int encodeText(string msg,
+        private static int EncodeText(string msg,
                                       int startpos,
                                       int count,
                                       StringBuilder sb,
@@ -354,7 +355,7 @@ namespace ZXing.PDF417.Internal
                 switch (submode)
                 {
                     case SUBMODE_ALPHA:
-                        if (isAlphaUpper(ch))
+                        if (IsAlphaUpper(ch))
                         {
                             if (ch == ' ')
                             {
@@ -366,13 +367,13 @@ namespace ZXing.PDF417.Internal
                             }
                         }
                         else {
-                            if (isAlphaLower(ch))
+                            if (IsAlphaLower(ch))
                             {
                                 submode = SUBMODE_LOWER;
                                 tmp.Append((char)27); //ll
                                 continue;
                             }
-                            if (isMixed(ch))
+                            if (IsMixed(ch))
                             {
                                 submode = SUBMODE_MIXED;
                                 tmp.Append((char)28); //ml
@@ -383,7 +384,7 @@ namespace ZXing.PDF417.Internal
                         }
                         break;
                     case SUBMODE_LOWER:
-                        if (isAlphaLower(ch))
+                        if (IsAlphaLower(ch))
                         {
                             if (ch == ' ')
                             {
@@ -396,13 +397,13 @@ namespace ZXing.PDF417.Internal
                         }
                         else
                         {
-                            if (isAlphaUpper(ch))
+                            if (IsAlphaUpper(ch))
                             {
                                 tmp.Append((char)27); //as
                                 tmp.Append((char)(ch - 65));
                                 //space cannot happen here, it is also in "Lower"
                             }
-                            else if (isMixed(ch))
+                            else if (IsMixed(ch))
                             {
                                 submode = SUBMODE_MIXED;
                                 tmp.Append((char)28); //ml
@@ -416,18 +417,18 @@ namespace ZXing.PDF417.Internal
                         }
                         break;
                     case SUBMODE_MIXED:
-                        if (isMixed(ch))
+                        if (IsMixed(ch))
                         {
                             tmp.Append((char)MIXED[ch]);
                         }
                         else {
-                            if (isAlphaUpper(ch))
+                            if (IsAlphaUpper(ch))
                             {
                                 submode = SUBMODE_ALPHA;
                                 tmp.Append((char)28); //al
                                 continue;
                             }
-                            if (isAlphaLower(ch))
+                            if (IsAlphaLower(ch))
                             {
                                 submode = SUBMODE_LOWER;
                                 tmp.Append((char)27); //ll
@@ -436,7 +437,7 @@ namespace ZXing.PDF417.Internal
                             if (startpos + idx + 1 < count)
                             {
                                 char next = msg[startpos + idx + 1];
-                                if (isPunctuation(next))
+                                if (IsPunctuation(next))
                                 {
                                     submode = SUBMODE_PUNCTUATION;
                                     tmp.Append((char)25); //pl
@@ -448,7 +449,7 @@ namespace ZXing.PDF417.Internal
                         }
                         break;
                     default: //SUBMODE_PUNCTUATION
-                        if (isPunctuation(ch))
+                        if (IsPunctuation(ch))
                         {
                             tmp.Append((char)PUNCTUATION[ch]);
                         }
@@ -499,7 +500,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startmode">the mode from which this method starts</param>
         /// <param name="sb">receives the encoded codewords</param>
         /// </summary>
-        private static void encodeBinary(byte[] bytes,
+        private static void EncodeBinary(IReadOnlyList<byte> bytes,
                                          int startpos,
                                          int count,
                                          int startmode,
@@ -554,7 +555,7 @@ namespace ZXing.PDF417.Internal
             }
         }
 
-        private static void encodeNumeric(string msg, int startpos, int count, StringBuilder sb)
+        private static void EncodeNumeric(string msg, int startpos, int count, StringBuilder sb)
         {
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
          int idx = 0;
@@ -614,32 +615,32 @@ namespace ZXing.PDF417.Internal
         }
 
 
-        private static bool isDigit(char ch)
+        private static bool IsDigit(char ch)
         {
             return ch >= '0' && ch <= '9';
         }
 
-        private static bool isAlphaUpper(char ch)
+        private static bool IsAlphaUpper(char ch)
         {
             return ch == ' ' || ch >= 'A' && ch <= 'Z';
         }
 
-        private static bool isAlphaLower(char ch)
+        private static bool IsAlphaLower(char ch)
         {
             return ch == ' ' || ch >= 'a' && ch <= 'z';
         }
 
-        private static bool isMixed(char ch)
+        private static bool IsMixed(char ch)
         {
             return MIXED[ch] != -1;
         }
 
-        private static bool isPunctuation(char ch)
+        private static bool IsPunctuation(char ch)
         {
             return PUNCTUATION[ch] != -1;
         }
 
-        private static bool isText(char ch)
+        private static bool IsText(char ch)
         {
             return ch == '\t' || ch == '\n' || ch == '\r' || ch >= 32 && ch <= 126;
         }
@@ -651,7 +652,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startpos">the start position within the message</param>
         /// <returns>the requested character count</returns>
         /// </summary>
-        private static int determineConsecutiveDigitCount(string msg, int startpos)
+        private static int DetermineConsecutiveDigitCount(string msg, int startpos)
         {
             int count = 0;
             int len = msg.Length;
@@ -659,7 +660,7 @@ namespace ZXing.PDF417.Internal
             if (idx < len)
             {
                 char ch = msg[idx];
-                while (isDigit(ch) && idx < len)
+                while (IsDigit(ch) && idx < len)
                 {
                     count++;
                     idx++;
@@ -679,7 +680,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="startpos">the start position within the message</param>
         /// <returns>the requested character count</returns>
         /// </summary>
-        private static int determineConsecutiveTextCount(string msg, int startpos)
+        private static int DetermineConsecutiveTextCount(string msg, int startpos)
         {
             int len = msg.Length;
             int idx = startpos;
@@ -687,7 +688,7 @@ namespace ZXing.PDF417.Internal
             {
                 char ch = msg[idx];
                 int numericCount = 0;
-                while (numericCount < 13 && isDigit(ch) && idx < len)
+                while (numericCount < 13 && IsDigit(ch) && idx < len)
                 {
                     numericCount++;
                     idx++;
@@ -708,7 +709,7 @@ namespace ZXing.PDF417.Internal
                 ch = msg[idx];
 
                 //Check if character is encodable
-                if (!isText(ch))
+                if (!IsText(ch))
                 {
                     break;
                 }
@@ -726,19 +727,19 @@ namespace ZXing.PDF417.Internal
         /// <param name="encoding"></param>
         /// <param name="byteCount"></param>
         /// <returns>the requested character count</returns>
-        private static int determineConsecutiveBinaryCount(string msg, byte[] bytes, int startpos, Encoding encoding, out int byteCount)
+        private static int DetermineConsecutiveBinaryCount(string msg, IReadOnlyList<byte> bytes, int startpos, Encoding encoding, out int byteCount)
         {
             int len = msg.Length;
             int idx = startpos;
             int idxb = idx;  // bytes index (may differ from idx for utf-8 and other unicode encodings)
             byteCount = 0;
-            encoding = getEncoder(encoding);
+            encoding = GetEncoder(encoding);
             while (idx < len)
             {
                 char ch = msg[idx];
                 int numericCount = 0;
 
-                while (numericCount < 13 && isDigit(ch))
+                while (numericCount < 13 && IsDigit(ch))
                 {
                     numericCount++;
                     //textCount++;
@@ -760,14 +761,14 @@ namespace ZXing.PDF417.Internal
                     throw new WriterException("Non-encodable character detected: " + ch + " (Unicode: " + (int)ch + ')');
                 }
                 idx++;
-                var charAsBytes = toBytes(ch, encoding);
+                var charAsBytes = ToBytes(ch, encoding);
                 idxb += charAsBytes.Length; // for non-ascii symbols
                 byteCount += charAsBytes.Length;
             }
             return idx - startpos;
         }
 
-        private static void encodingECI(int eci, StringBuilder sb)
+        private static void EncodingEci(int eci, StringBuilder sb)
         {
             if (eci >= 0 && eci < 900)
             {

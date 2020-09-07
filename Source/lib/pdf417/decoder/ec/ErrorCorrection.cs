@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System.Collections.Generic;
+
 namespace ZXing.PDF417.Internal.EC
 {
     /// <summary>
@@ -25,34 +27,34 @@ namespace ZXing.PDF417.Internal.EC
     /// </summary>
     public sealed class ErrorCorrection
     {
-        private readonly ModulusGF field;
+        private readonly ModulusGF _Field;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorCorrection"/> class.
         /// </summary>
         public ErrorCorrection()
         {
-            field = ModulusGF.PDF417_GF;
+            _Field = ModulusGF.PDF417_GF;
         }
 
         /// <summary>
         /// Decodes the specified received.
         /// </summary>
         /// <param name="received">received codewords</param>
-        /// <param name="numECCodewords">number of those codewords used for EC</param>
+        /// <param name="numEcCodewords">number of those codewords used for EC</param>
         /// <param name="erasures">location of erasures</param>
         /// <param name="errorLocationsCount">The error locations count.</param>
         /// <returns></returns>
-        public bool decode(int[] received, int numECCodewords, int[] erasures, out int errorLocationsCount)
+        public bool Decode(int[] received, int numEcCodewords, int[] erasures, out int errorLocationsCount)
         {
-            ModulusPoly poly = new ModulusPoly(field, received);
-            int[] S = new int[numECCodewords];
+            ModulusPoly poly = new ModulusPoly(_Field, received);
+            int[] s = new int[numEcCodewords];
             bool error = false;
             errorLocationsCount = 0;
-            for (int i = numECCodewords; i > 0; i--)
+            for (int i = numEcCodewords; i > 0; i--)
             {
-                int eval = poly.evaluateAt(field.exp(i));
-                S[numECCodewords - i] = eval;
+                int eval = poly.evaluateAt(_Field.exp(i));
+                s[numEcCodewords - i] = eval;
                 if (eval != 0)
                 {
                     error = true;
@@ -64,22 +66,22 @@ namespace ZXing.PDF417.Internal.EC
                 return true;
             }
 
-            ModulusPoly knownErrors = field.One;
+            ModulusPoly knownErrors = _Field.One;
             if (erasures != null)
             {
                 foreach (int erasure in erasures)
                 {
-                    int b = field.exp(received.Length - 1 - erasure);
+                    int b = _Field.exp(received.Length - 1 - erasure);
                     // Add (1 - bx) term:
-                    ModulusPoly term = new ModulusPoly(field, new[] { field.subtract(0, b), 1 });
+                    ModulusPoly term = new ModulusPoly(_Field, new[] { _Field.subtract(0, b), 1 });
                     knownErrors = knownErrors.multiply(term);
                 }
             }
 
-            ModulusPoly syndrome = new ModulusPoly(field, S);
+            ModulusPoly syndrome = new ModulusPoly(_Field, s);
             //syndrome = syndrome.multiply(knownErrors);
 
-            ModulusPoly[] sigmaOmega = runEuclideanAlgorithm(field.buildMonomial(numECCodewords, 1), syndrome, numECCodewords);
+            ModulusPoly[] sigmaOmega = RunEuclideanAlgorithm(_Field.buildMonomial(numEcCodewords, 1), syndrome, numEcCodewords);
 
             if (sigmaOmega == null)
             {
@@ -96,24 +98,24 @@ namespace ZXing.PDF417.Internal.EC
 
             //sigma = sigma.multiply(knownErrors);
 
-            int[] errorLocations = findErrorLocations(sigma);
+            int[] errorLocations = FindErrorLocations(sigma);
 
             if (errorLocations == null)
             {
                 return false;
             }
 
-            int[] errorMagnitudes = findErrorMagnitudes(omega, sigma, errorLocations);
+            int[] errorMagnitudes = FindErrorMagnitudes(omega, sigma, errorLocations);
 
             for (int i = 0; i < errorLocations.Length; i++)
             {
-                int position = received.Length - 1 - field.log(errorLocations[i]);
+                int position = received.Length - 1 - _Field.log(errorLocations[i]);
                 if (position < 0)
                 {
                     return false;
 
                 }
-                received[position] = field.subtract(received[position], errorMagnitudes[i]);
+                received[position] = _Field.subtract(received[position], errorMagnitudes[i]);
             }
             errorLocationsCount = errorLocations.Length;
             return true;
@@ -123,7 +125,7 @@ namespace ZXing.PDF417.Internal.EC
         /// Runs the euclidean algorithm (Greatest Common Divisor) until r's degree is less than R/2
         /// </summary>
         /// <returns>The euclidean algorithm.</returns>
-        private ModulusPoly[] runEuclideanAlgorithm(ModulusPoly a, ModulusPoly b, int R)
+        private ModulusPoly[] RunEuclideanAlgorithm(ModulusPoly a, ModulusPoly b, int maxDegree)
         {
             // Assume a's degree is >= b's
             if (a.Degree < b.Degree)
@@ -135,11 +137,11 @@ namespace ZXing.PDF417.Internal.EC
 
             ModulusPoly rLast = a;
             ModulusPoly r = b;
-            ModulusPoly tLast = field.Zero;
-            ModulusPoly t = field.One;
+            ModulusPoly tLast = _Field.Zero;
+            ModulusPoly t = _Field.One;
 
             // Run Euclidean algorithm until r's degree is less than R/2
-            while (r.Degree >= R / 2)
+            while (r.Degree >= maxDegree / 2)
             {
                 ModulusPoly rLastLast = rLast;
                 ModulusPoly tLastLast = tLast;
@@ -153,14 +155,14 @@ namespace ZXing.PDF417.Internal.EC
                     return null;
                 }
                 r = rLastLast;
-                ModulusPoly q = field.Zero;
+                ModulusPoly q = _Field.Zero;
                 int denominatorLeadingTerm = rLast.getCoefficient(rLast.Degree);
-                int dltInverse = field.inverse(denominatorLeadingTerm);
+                int dltInverse = _Field.inverse(denominatorLeadingTerm);
                 while (r.Degree >= rLast.Degree && !r.isZero)
                 {
                     int degreeDiff = r.Degree - rLast.Degree;
-                    int scale = field.multiply(r.getCoefficient(r.Degree), dltInverse);
-                    q = q.add(field.buildMonomial(degreeDiff, scale));
+                    int scale = _Field.multiply(r.getCoefficient(r.Degree), dltInverse);
+                    q = q.add(_Field.buildMonomial(degreeDiff, scale));
                     r = r.subtract(rLast.multiplyByMonomial(degreeDiff, scale));
                 }
 
@@ -173,7 +175,7 @@ namespace ZXing.PDF417.Internal.EC
                 return null;
             }
 
-            int inverse = field.inverse(sigmaTildeAtZero);
+            int inverse = _Field.inverse(sigmaTildeAtZero);
             ModulusPoly sigma = t.multiply(inverse);
             ModulusPoly omega = r.multiply(inverse);
             return new[] { sigma, omega };
@@ -184,17 +186,17 @@ namespace ZXing.PDF417.Internal.EC
         /// </summary>
         /// <returns>The error locations.</returns>
         /// <param name="errorLocator">Error locator.</param>
-        private int[] findErrorLocations(ModulusPoly errorLocator)
+        private int[] FindErrorLocations(ModulusPoly errorLocator)
         {
             // This is a direct application of Chien's search
             int numErrors = errorLocator.Degree;
             int[] result = new int[numErrors];
             int e = 0;
-            for (int i = 1; i < field.Size && e < numErrors; i++)
+            for (int i = 1; i < _Field.Size && e < numErrors; i++)
             {
                 if (errorLocator.evaluateAt(i) == 0)
                 {
-                    result[e] = field.inverse(i);
+                    result[e] = _Field.inverse(i);
                     e++;
                 }
             }
@@ -209,31 +211,28 @@ namespace ZXing.PDF417.Internal.EC
         /// Finds the error magnitudes by directly applying Forney's Formula
         /// </summary>
         /// <returns>The error magnitudes.</returns>
-        /// <param name="errorEvaluator">Error evaluator.</param>
-        /// <param name="errorLocator">Error locator.</param>
-        /// <param name="errorLocations">Error locations.</param>
-        private int[] findErrorMagnitudes(ModulusPoly errorEvaluator,
+        private int[] FindErrorMagnitudes(ModulusPoly errorEvaluator,
                                           ModulusPoly errorLocator,
-                                          int[] errorLocations)
+                                          IReadOnlyList<int> errorLocations)
         {
             int errorLocatorDegree = errorLocator.Degree;
             int[] formalDerivativeCoefficients = new int[errorLocatorDegree];
             for (int i = 1; i <= errorLocatorDegree; i++)
             {
                 formalDerivativeCoefficients[errorLocatorDegree - i] =
-                    field.multiply(i, errorLocator.getCoefficient(i));
+                    _Field.multiply(i, errorLocator.getCoefficient(i));
             }
-            ModulusPoly formalDerivative = new ModulusPoly(field, formalDerivativeCoefficients);
+            ModulusPoly formalDerivative = new ModulusPoly(_Field, formalDerivativeCoefficients);
 
             // This is directly applying Forney's Formula
-            int s = errorLocations.Length;
+            int s = errorLocations.Count;
             int[] result = new int[s];
             for (int i = 0; i < s; i++)
             {
-                int xiInverse = field.inverse(errorLocations[i]);
-                int numerator = field.subtract(0, errorEvaluator.evaluateAt(xiInverse));
-                int denominator = field.inverse(formalDerivative.evaluateAt(xiInverse));
-                result[i] = field.multiply(numerator, denominator);
+                int xiInverse = _Field.inverse(errorLocations[i]);
+                int numerator = _Field.subtract(0, errorEvaluator.evaluateAt(xiInverse));
+                int denominator = _Field.inverse(formalDerivative.evaluateAt(xiInverse));
+                result[i] = _Field.multiply(numerator, denominator);
             }
             return result;
         }
