@@ -29,17 +29,18 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void Test()
       {
-         var qrCode = new QRCode();
+          // First, test simple setters and getters.
+          // We use numbers of version 7-H.
+          var qrCode = new QrCode {
+              Mode = Mode.BYTE,
+              EcLevel = ErrorCorrectionLevel.H,
+              Version = Version.GetVersionForNumber(7),
+              MaskPattern = 3
+          };
 
-         // First, test simple setters and getters.
-         // We use numbers of version 7-H.
-         qrCode.Mode = Mode.BYTE;
-         qrCode.ECLevel = ErrorCorrectionLevel.H;
-         qrCode.Version = Version.getVersionForNumber(7);
-         qrCode.MaskPattern = 3;
 
-         Assert.AreEqual(Mode.BYTE, qrCode.Mode);
-         Assert.AreEqual(ErrorCorrectionLevel.H, qrCode.ECLevel);
+          Assert.AreEqual(Mode.BYTE, qrCode.Mode);
+         Assert.AreEqual(ErrorCorrectionLevel.H, qrCode.EcLevel);
          Assert.AreEqual(7, qrCode.Version.VersionNumber);
          Assert.AreEqual(3, qrCode.MaskPattern);
 
@@ -63,7 +64,7 @@ namespace ZXing.QrCode.Internal.Test
       public void TestToString1()
       {
          {
-            var qrCode = new QRCode();
+            var qrCode = new QrCode();
             const string expected = "<<\n" +
                                     " mode: \n" +
                                     " ecLevel: \n" +
@@ -78,11 +79,11 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void TestToString2()
       {
-         var qrCode = new QRCode
+         var qrCode = new QrCode
                          {
                             Mode = Mode.BYTE,
-                            ECLevel = ErrorCorrectionLevel.H,
-                            Version = Version.getVersionForNumber(1),
+                            EcLevel = ErrorCorrectionLevel.H,
+                            Version = Version.GetVersionForNumber(1),
                             MaskPattern = 3,
                          };
          var matrix = new ByteMatrix(21, 21);
@@ -128,10 +129,10 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void TestIsValidMaskPattern()
       {
-         Assert.IsFalse(QRCode.isValidMaskPattern(-1));
-         Assert.IsTrue(QRCode.isValidMaskPattern(0));
-         Assert.IsTrue(QRCode.isValidMaskPattern(7));
-         Assert.IsFalse(QRCode.isValidMaskPattern(8));
+         Assert.IsFalse(QrCode.IsValidMaskPattern(-1));
+         Assert.IsTrue(QrCode.IsValidMaskPattern(0));
+         Assert.IsTrue(QrCode.IsValidMaskPattern(7));
+         Assert.IsFalse(QrCode.IsValidMaskPattern(8));
       }
    }
 }

@@ -60,11 +60,11 @@ namespace ZXing.QrCode.Internal
 
             // Figure out the number and size of data blocks used by this version and
             // error correction level
-            Version.ECBlocks ecBlocks = version.getECBlocksForLevel(ecLevel);
+            Version.EcBlocks ecBlocks = version.GetEcBlocksForLevel(ecLevel);
 
             // First count the total number of data blocks
             int totalBlocks = 0;
-            Version.ECB[] ecBlockArray = ecBlocks.getECBlocks();
+            Version.Ecb[] ecBlockArray = ecBlocks.GetEcBlocks();
             foreach (var ecBlock in ecBlockArray)
             {
                 totalBlocks += ecBlock.Count;
@@ -78,7 +78,7 @@ namespace ZXing.QrCode.Internal
                 for (int i = 0; i < ecBlock.Count; i++)
                 {
                     int numDataCodewords = ecBlock.DataCodewords;
-                    int numBlockCodewords = ecBlocks.ECCodewordsPerBlock + numDataCodewords;
+                    int numBlockCodewords = ecBlocks.EcCodewordsPerBlock + numDataCodewords;
                     result[numResultBlocks++] = new DataBlock(numDataCodewords, new byte[numBlockCodewords]);
                 }
             }
@@ -98,7 +98,7 @@ namespace ZXing.QrCode.Internal
             }
             longerBlocksStartAt++;
 
-            int shorterBlocksNumDataCodewords = shorterBlocksTotalCodewords - ecBlocks.ECCodewordsPerBlock;
+            int shorterBlocksNumDataCodewords = shorterBlocksTotalCodewords - ecBlocks.EcCodewordsPerBlock;
             // The last elements of result may be 1 element longer;
             // first fill out as many elements as all of them have
             int rawCodewordsOffset = 0;

@@ -57,7 +57,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="reference"></param>
         /// <param name="bits">representation of QR Code bits</param>
         /// <param name="dimension">dimension of QR Code, represented by bits, being unmasked</param>
-        public static void unmaskBitMatrix(int reference, IBitMatrix bits, int dimension)
+        public static void UnmaskBitMatrix(int reference, IBitMatrix bits, int dimension)
         {
             if (reference < 0 || reference > 7)
             {

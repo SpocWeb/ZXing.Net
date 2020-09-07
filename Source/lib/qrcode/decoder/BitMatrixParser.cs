@@ -22,10 +22,10 @@ namespace ZXing.QrCode.Internal
     internal sealed class BitMatrixParser
     {
 
-        readonly IBitMatrix bitMatrix;
-        Version parsedVersion;
-        FormatInformation parsedFormatInfo;
-        bool mirrored;
+        readonly IBitMatrix _BitMatrix;
+        Version _ParsedVersion;
+        FormatInformation _ParsedFormatInfo;
+        bool _Mirrored;
 
         /// <param name="bitMatrix">{@link BitMatrix} to parse</param>
         /// <throws>ReaderException if dimension is not >= 21 and 1 mod 4</throws>
@@ -42,7 +42,7 @@ namespace ZXing.QrCode.Internal
         BitMatrixParser(IBitMatrix bitMatrix)
         {
             // Should only be called from createBitMatrixParser with the important checks before
-            this.bitMatrix = bitMatrix;
+            this._BitMatrix = bitMatrix;
         }
 
         /// <summary> <p>Reads format information from one of its two locations within the QR Code.</p>
@@ -55,9 +55,9 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         internal FormatInformation ReadFormatInformation()
         {
-            if (parsedFormatInfo != null)
+            if (_ParsedFormatInfo != null)
             {
-                return parsedFormatInfo;
+                return _ParsedFormatInfo;
             }
 
             // Read top-left format info bits
@@ -76,7 +76,7 @@ namespace ZXing.QrCode.Internal
                 formatInfoBits1 = CopyBit(8, j, formatInfoBits1);
             }
             // Read the top-right/bottom-left pattern too
-            int dimension = bitMatrix.Height;
+            int dimension = _BitMatrix.Height;
             int formatInfoBits2 = 0;
             int jMin = dimension - 7;
             for (int j = dimension - 1; j >= jMin; j--)
@@ -88,12 +88,8 @@ namespace ZXing.QrCode.Internal
                 formatInfoBits2 = CopyBit(i, 8, formatInfoBits2);
             }
 
-            parsedFormatInfo = FormatInformation.decodeFormatInformation(formatInfoBits1, formatInfoBits2);
-            if (parsedFormatInfo != null)
-            {
-                return parsedFormatInfo;
-            }
-            return null;
+            _ParsedFormatInfo = FormatInformation.DecodeFormatInformation(formatInfoBits1, formatInfoBits2);
+            return _ParsedFormatInfo;
         }
 
         /// <summary> <p>Reads QR Code's version information from one of its two locations within the QR Code.</p>
@@ -106,17 +102,17 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         internal Version ReadVersion()
         {
-            if (parsedVersion != null)
+            if (_ParsedVersion != null)
             {
-                return parsedVersion;
+                return _ParsedVersion;
             }
 
-            int dimension = bitMatrix.Height;
+            int dimension = _BitMatrix.Height;
 
             int provisionalVersion = (dimension - 17) >> 2;
             if (provisionalVersion <= 6)
             {
-                return Version.getVersionForNumber(provisionalVersion);
+                return Version.GetVersionForNumber(provisionalVersion);
             }
 
             // Read top-right version info: 3 wide by 6 tall
@@ -130,10 +126,10 @@ namespace ZXing.QrCode.Internal
                 }
             }
 
-            parsedVersion = Version.decodeVersionInformation(versionBits);
-            if (parsedVersion != null && parsedVersion.DimensionForVersion == dimension)
+            _ParsedVersion = Version.DecodeVersionInformation(versionBits);
+            if (_ParsedVersion != null && _ParsedVersion.DimensionForVersion == dimension)
             {
-                return parsedVersion;
+                return _ParsedVersion;
             }
 
             // Hmm, failed. Try bottom left: 6 wide by 3 tall
@@ -146,17 +142,17 @@ namespace ZXing.QrCode.Internal
                 }
             }
 
-            parsedVersion = Version.decodeVersionInformation(versionBits);
-            if (parsedVersion != null && parsedVersion.DimensionForVersion == dimension)
+            _ParsedVersion = Version.DecodeVersionInformation(versionBits);
+            if (_ParsedVersion != null && _ParsedVersion.DimensionForVersion == dimension)
             {
-                return parsedVersion;
+                return _ParsedVersion;
             }
             return null;
         }
 
         int CopyBit(int i, int j, int versionBits)
         {
-            bool bit = mirrored ? bitMatrix[j, i] : bitMatrix[i, j];
+            bool bit = _Mirrored ? _BitMatrix[j, i] : _BitMatrix[i, j];
             return bit ? (versionBits << 1) | 0x1 : versionBits << 1;
         }
 
@@ -181,10 +177,10 @@ namespace ZXing.QrCode.Internal
 
             // Get the data mask for the format used in this QR Code.
             // This will exclude some bits from reading as we wind through the bit matrix.
-            int dimension = bitMatrix.Height;
-            DataMask.unmaskBitMatrix(formatInfo.DataMask, bitMatrix, dimension);
+            int dimension = _BitMatrix.Height;
+            DataMask.UnmaskBitMatrix(formatInfo.DataMask, _BitMatrix, dimension);
 
-            BitMatrix functionPattern = version.buildFunctionPattern();
+            BitMatrix functionPattern = version.BuildFunctionPattern();
 
             bool readingUp = true;
             byte[] result = new byte[version.TotalCodewords];
@@ -200,29 +196,27 @@ namespace ZXing.QrCode.Internal
                     // saves time and makes the other code proceed more cleanly
                     j--;
                 }
-                // Read alternatingly from bottom to top then top to bottom
+                // Read alternating from bottom to top then top to bottom
                 for (int count = 0; count < dimension; count++)
                 {
                     int i = readingUp ? dimension - 1 - count : count;
-                    for (int col = 0; col < 2; col++)
-                    {
-                        // Ignore bits covered by the function pattern
-                        if (!functionPattern[j - col, i])
+                    for (int col = 0; col < 2; col++) {
+                        if (functionPattern[j - col, i]) {
+                            continue;
+                        } // Ignore bits covered by the function pattern
+                        // Read a bit
+                        bitsRead++;
+                        currentByte <<= 1;
+                        if (_BitMatrix[j - col, i])
                         {
-                            // Read a bit
-                            bitsRead++;
-                            currentByte <<= 1;
-                            if (bitMatrix[j - col, i])
-                            {
-                                currentByte |= 1;
-                            }
-                            // If we've made a whole byte, save it off
-                            if (bitsRead == 8)
-                            {
-                                result[resultOffset++] = (byte)currentByte;
-                                bitsRead = 0;
-                                currentByte = 0;
-                            }
+                            currentByte |= 1;
+                        }
+                        // If we've made a whole byte, save it off
+                        if (bitsRead == 8)
+                        {
+                            result[resultOffset++] = (byte)currentByte;
+                            bitsRead = 0;
+                            currentByte = 0;
                         }
                     }
                 }
@@ -238,14 +232,14 @@ namespace ZXing.QrCode.Internal
         /**
          * Revert the mask removal done while reading the code words. The bit matrix should revert to its original state.
          */
-        internal void Remask()
+        internal void ReMask()
         {
-            if (parsedFormatInfo == null)
+            if (_ParsedFormatInfo == null)
             {
                 return; // We have no format information, and have no data mask
             }
-            int dimension = bitMatrix.Height;
-            DataMask.unmaskBitMatrix(parsedFormatInfo.DataMask, bitMatrix, dimension);
+            int dimension = _BitMatrix.Height;
+            DataMask.UnmaskBitMatrix(_ParsedFormatInfo.DataMask, _BitMatrix, dimension);
         }
 
         /**
@@ -258,22 +252,22 @@ namespace ZXing.QrCode.Internal
          */
         internal void SetMirror(bool mirror)
         {
-            parsedVersion = null;
-            parsedFormatInfo = null;
-            mirrored = mirror;
+            _ParsedVersion = null;
+            _ParsedFormatInfo = null;
+            _Mirrored = mirror;
         }
 
         /** Mirror the bit matrix in order to attempt a second reading. */
         internal void Mirror()
         {
-            for (int x = 0; x < bitMatrix.Width; x++)
+            for (int x = 0; x < _BitMatrix.Width; x++)
             {
-                for (int y = x + 1; y < bitMatrix.Height; y++)
+                for (int y = x + 1; y < _BitMatrix.Height; y++)
                 {
-                    if (bitMatrix[x, y] != bitMatrix[y, x])
+                    if (_BitMatrix[x, y] != _BitMatrix[y, x])
                     {
-                        bitMatrix.Flip(y, x);
-                        bitMatrix.Flip(x, y);
+                        _BitMatrix.Flip(y, x);
+                        _BitMatrix.Flip(x, y);
                     }
                 }
             }

@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace ZXing.PDF417.Internal
 {
@@ -41,17 +42,11 @@ namespace ZXing.PDF417.Internal
             IsLeft = isLeft;
         }
 
-        /// <summary>
-        /// Sets the Row Numbers as Inidicator Columns
-        /// </summary>
-        void setRowNumbers()
+        /// <summary> Sets the Row Numbers as Indicator Columns </summary>
+        void SetRowNumbers()
         {
-            foreach (var cw in Codewords)
-            {
-                if (cw != null)
-                {
-                    cw.setRowNumberAsRowIndicatorColumn();
-                }
+            foreach (var cw in Codewords) {
+                cw?.setRowNumberAsRowIndicatorColumn();
             }
         }
 
@@ -64,11 +59,11 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The indicator column row numbers.</returns>
         /// <param name="metadata">Metadata.</param>
-        public void adjustCompleteIndicatorColumnRowNumbers(BarcodeMetadata metadata)
+        public void AdjustCompleteIndicatorColumnRowNumbers(BarcodeMetadata metadata)
         {
             var codewords = Codewords;
-            setRowNumbers(); // Assign this as an indicator column
-            removeIncorrectCodewords(codewords, metadata);
+            SetRowNumbers(); // Assign this as an indicator column
+            RemoveIncorrectCodewords(codewords, metadata);
 
             ResultPoint top = IsLeft ? Box.TopLeft : Box.TopRight;
             ResultPoint bottom = IsLeft ? Box.BottomLeft : Box.BottomRight;
@@ -158,14 +153,14 @@ namespace ZXing.PDF417.Internal
         /// Gets the row heights.
         /// </summary>
         /// <returns>The row heights.</returns>
-        public int[] getRowHeights()
+        public int[] GetRowHeights()
         {
-            BarcodeMetadata barcodeMetadata = getBarcodeMetadata();
+            BarcodeMetadata barcodeMetadata = GetBarcodeMetadata();
             if (barcodeMetadata == null)
             {
                 return null;
             }
-            adjustIncompleteIndicatorColumnRowNumbers(barcodeMetadata);
+            AdjustIncompleteIndicatorColumnRowNumbers(barcodeMetadata);
             int[] result = new int[barcodeMetadata.RowCount];
             foreach (var codeword in Codewords)
             {
@@ -187,7 +182,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the in omplete indicator column row numbers.
         /// </summary>
         /// <param name="metadata">Metadata.</param>
-        void adjustIncompleteIndicatorColumnRowNumbers(BarcodeMetadata metadata)
+        void AdjustIncompleteIndicatorColumnRowNumbers(BarcodeMetadata metadata)
         {
             // TODO maybe we should add missing codewords to store the correct row number to make
             // finding row numbers for other columns easier
@@ -251,13 +246,13 @@ namespace ZXing.PDF417.Internal
         /// Gets the barcode metadata.
         /// </summary>
         /// <returns>The barcode metadata.</returns>
-        public BarcodeMetadata getBarcodeMetadata()
+        public BarcodeMetadata GetBarcodeMetadata()
         {
             var codewords = Codewords;
             BarcodeValue barcodeColumnCount = new BarcodeValue();
             BarcodeValue barcodeRowCountUpperPart = new BarcodeValue();
             BarcodeValue barcodeRowCountLowerPart = new BarcodeValue();
-            BarcodeValue barcodeECLevel = new BarcodeValue();
+            BarcodeValue barcodeEcLevel = new BarcodeValue();
             foreach (Codeword codeword in codewords)
             {
                 if (codeword == null)
@@ -277,7 +272,7 @@ namespace ZXing.PDF417.Internal
                         barcodeRowCountUpperPart.setValue(rowIndicatorValue * 3 + 1);
                         break;
                     case 1:
-                        barcodeECLevel.setValue(rowIndicatorValue / 3);
+                        barcodeEcLevel.setValue(rowIndicatorValue / 3);
                         barcodeRowCountLowerPart.setValue(rowIndicatorValue % 3);
                         break;
                     case 2:
@@ -289,11 +284,11 @@ namespace ZXing.PDF417.Internal
             var barcodeColumnCountValues = barcodeColumnCount.getValue();
             var barcodeRowCountUpperPartValues = barcodeRowCountUpperPart.getValue();
             var barcodeRowCountLowerPartValues = barcodeRowCountLowerPart.getValue();
-            var barcodeECLevelValues = barcodeECLevel.getValue();
+            var barcodeEcLevelValues = barcodeEcLevel.getValue();
             if ((barcodeColumnCountValues.Length == 0) ||
                 (barcodeRowCountUpperPartValues.Length == 0) ||
                 (barcodeRowCountLowerPartValues.Length == 0) ||
-                (barcodeECLevelValues.Length == 0) ||
+                (barcodeEcLevelValues.Length == 0) ||
                  barcodeColumnCountValues[0] < 1 ||
                  barcodeRowCountUpperPartValues[0] + barcodeRowCountLowerPartValues[0] < PDF417Common.MIN_ROWS_IN_BARCODE ||
                  barcodeRowCountUpperPartValues[0] + barcodeRowCountLowerPartValues[0] > PDF417Common.MAX_ROWS_IN_BARCODE)
@@ -303,20 +298,18 @@ namespace ZXing.PDF417.Internal
             var barcodeMetadata = new BarcodeMetadata(barcodeColumnCountValues[0],
                                                       barcodeRowCountUpperPartValues[0],
                                                       barcodeRowCountLowerPartValues[0],
-                                                      barcodeECLevelValues[0]);
-            removeIncorrectCodewords(codewords, barcodeMetadata);
+                                                      barcodeEcLevelValues[0]);
+            RemoveIncorrectCodewords(codewords, barcodeMetadata);
             return barcodeMetadata;
         }
 
-        /// <summary>
-        /// Prune the codewords which do not match the metadata
+        /// <summary> Prune the codewords which do not match the metadata </summary>
+        /// <remarks>
         /// TODO Maybe we should keep the incorrect codewords for the start and end positions?
-        /// </summary>
-        /// <param name="codewords">Codewords.</param>
-        /// <param name="metadata">Metadata.</param>
-        void removeIncorrectCodewords(Codeword[] codewords, BarcodeMetadata metadata)
+        /// </remarks>
+        void RemoveIncorrectCodewords(IList<Codeword> codewords, BarcodeMetadata metadata)
         {
-            for (int row = 0; row < codewords.Length; row++)
+            for (int row = 0; row < codewords.Count; row++)
             {
                 var codeword = codewords[row];
                 if (codeword == null) {

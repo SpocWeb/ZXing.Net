@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -71,16 +72,16 @@ namespace ZXing.PDF417.Internal
         /// Returns the DetectionResult Columns.  This does a fair bit of calculation, so call it sparingly.
         /// </summary>
         /// <returns>The detection result columns.</returns>
-        public DetectionResultColumn[] getDetectionResultColumns()
+        public DetectionResultColumn[] GetDetectionResultColumns()
         {
-            adjustIndicatorColumnRowNumbers(DetectionResultColumns[0]);
-            adjustIndicatorColumnRowNumbers(DetectionResultColumns[ColumnCount + 1]);
+            AdjustIndicatorColumnRowNumbers(DetectionResultColumns[0]);
+            AdjustIndicatorColumnRowNumbers(DetectionResultColumns[ColumnCount + 1]);
             int unadjustedCodewordCount = PDF417Common.MAX_CODEWORDS_IN_BARCODE;
             int previousUnadjustedCount;
             do
             {
                 previousUnadjustedCount = unadjustedCodewordCount;
-                unadjustedCodewordCount = adjustRowNumbers();
+                unadjustedCodewordCount = AdjustRowNumbers();
             } while (unadjustedCodewordCount > 0 && unadjustedCodewordCount < previousUnadjustedCount);
             return DetectionResultColumns;
         }
@@ -89,13 +90,8 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the indicator column row numbers.
         /// </summary>
         /// <param name="detectionResultColumn">Detection result column.</param>
-        void adjustIndicatorColumnRowNumbers(DetectionResultColumn detectionResultColumn)
-        {
-            if (detectionResultColumn != null)
-            {
-                ((DetectionResultRowIndicatorColumn)detectionResultColumn)
-                   .adjustCompleteIndicatorColumnRowNumbers(Metadata);
-            }
+        void AdjustIndicatorColumnRowNumbers(DetectionResultColumn detectionResultColumn) {
+            ((DetectionResultRowIndicatorColumn) detectionResultColumn)?.AdjustCompleteIndicatorColumnRowNumbers(Metadata);
         }
 
         /// <summary>
@@ -103,12 +99,12 @@ namespace ZXing.PDF417.Internal
         /// will be counted several times. It just serves as an indicator to see when we can stop adjusting row numbers
         /// </summary>
         /// <returns>The row numbers.</returns>
-        int adjustRowNumbers()
+        int AdjustRowNumbers()
         {
             // TODO ensure that no detected codewords with unknown row number are left
             // we should be able to estimate the row height and use it as a hint for the row number
             // we should also fill the rows top to bottom and bottom to top
-            int unadjustedCount = adjustRowNumbersByRow();
+            int unadjustedCount = AdjustRowNumbersByRow();
             if (unadjustedCount == 0)
             {
                 return 0;
@@ -124,7 +120,7 @@ namespace ZXing.PDF417.Internal
                     }
                     if (!codewords[codewordsRow].HasValidRowNumber)
                     {
-                        adjustRowNumbers(barcodeColumn, codewordsRow, codewords);
+                        AdjustRowNumbers(barcodeColumn, codewordsRow, codewords);
                     }
                 }
             }
@@ -135,34 +131,34 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers by row.
         /// </summary>
         /// <returns>The row numbers by row.</returns>
-        int adjustRowNumbersByRow()
+        int AdjustRowNumbersByRow()
         {
-            adjustRowNumbersFromBothRI(); // RI = RowIndicators
+            AdjustRowNumbersFromBothRi(); // RI = RowIndicators
                                           // TODO we should only do full row adjustments if row numbers of left and right row indicator column match.
                                           // Maybe it's even better to calculated the height (in codeword rows) and divide it by the number of barcode
                                           // rows. This, together with the LRI and RRI row numbers should allow us to get a good estimate where a row
                                           // number starts and ends.
-            int unadjustedCount = adjustRowNumbersFromLRI();
-            return unadjustedCount + adjustRowNumbersFromRRI();
+            int unadjustedCount = AdjustRowNumbersFromLri();
+            return unadjustedCount + AdjustRowNumbersFromRri();
         }
 
         /// <summary>
         /// Adjusts the row numbers from both Row Indicators
         /// </summary>
         /// <returns> zero </returns>
-        void adjustRowNumbersFromBothRI()
+        void AdjustRowNumbersFromBothRi()
         {
             if (DetectionResultColumns[0] == null || DetectionResultColumns[ColumnCount + 1] == null)
             {
                 return;
             }
-            Codeword[] LRIcodewords = DetectionResultColumns[0].Codewords;
-            Codeword[] RRIcodewords = DetectionResultColumns[ColumnCount + 1].Codewords;
-            for (int codewordsRow = 0; codewordsRow < LRIcodewords.Length; codewordsRow++)
+            Codeword[] lrIcodewords = DetectionResultColumns[0].Codewords;
+            Codeword[] rrIcodewords = DetectionResultColumns[ColumnCount + 1].Codewords;
+            for (int codewordsRow = 0; codewordsRow < lrIcodewords.Length; codewordsRow++)
             {
-                if (LRIcodewords[codewordsRow] != null &&
-                    RRIcodewords[codewordsRow] != null &&
-                    LRIcodewords[codewordsRow].RowNumber == RRIcodewords[codewordsRow].RowNumber)
+                if (lrIcodewords[codewordsRow] != null &&
+                    rrIcodewords[codewordsRow] != null &&
+                    lrIcodewords[codewordsRow].RowNumber == rrIcodewords[codewordsRow].RowNumber)
                 {
                     for (int barcodeColumn = 1; barcodeColumn <= ColumnCount; barcodeColumn++)
                     {
@@ -171,7 +167,7 @@ namespace ZXing.PDF417.Internal
                         {
                             continue;
                         }
-                        codeword.RowNumber = LRIcodewords[codewordsRow].RowNumber;
+                        codeword.RowNumber = lrIcodewords[codewordsRow].RowNumber;
                         if (!codeword.HasValidRowNumber)
                         {
                             // LOG.info("Removing codeword with invalid row number, cw[" + codewordsRow + "][" + barcodeColumn + "]");
@@ -186,7 +182,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers from Right Row Indicator.
         /// </summary>
         /// <returns>The unadjusted row count.</returns>
-        int adjustRowNumbersFromRRI()
+        int AdjustRowNumbersFromRri()
         {
             if (DetectionResultColumns[ColumnCount + 1] == null)
             {
@@ -207,7 +203,7 @@ namespace ZXing.PDF417.Internal
                     Codeword codeword = DetectionResultColumns[barcodeColumn].Codewords[codewordsRow];
                     if (codeword != null)
                     {
-                        invalidRowCounts = adjustRowNumberIfValid(rowIndicatorRowNumber, invalidRowCounts, codeword);
+                        invalidRowCounts = AdjustRowNumberIfValid(rowIndicatorRowNumber, invalidRowCounts, codeword);
                         if (!codeword.HasValidRowNumber)
                         {
                             unadjustedCount++;
@@ -222,7 +218,7 @@ namespace ZXing.PDF417.Internal
         /// Adjusts the row numbers from Left Row Indicator.
         /// </summary>
         /// <returns> Unadjusted row Count.</returns>
-        int adjustRowNumbersFromLRI()
+        int AdjustRowNumbersFromLri()
         {
             if (DetectionResultColumns[0] == null)
             {
@@ -243,7 +239,7 @@ namespace ZXing.PDF417.Internal
                     Codeword codeword = DetectionResultColumns[barcodeColumn].Codewords[codewordsRow];
                     if (codeword != null)
                     {
-                        invalidRowCounts = adjustRowNumberIfValid(rowIndicatorRowNumber, invalidRowCounts, codeword);
+                        invalidRowCounts = AdjustRowNumberIfValid(rowIndicatorRowNumber, invalidRowCounts, codeword);
                         if (!codeword.HasValidRowNumber)
                         {
                             unadjustedCount++;
@@ -261,7 +257,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="rowIndicatorRowNumber">Row indicator row number.</param>
         /// <param name="invalidRowCounts">Invalid row counts.</param>
         /// <param name="codeword">Codeword.</param>
-        static int adjustRowNumberIfValid(int rowIndicatorRowNumber, int invalidRowCounts, Codeword codeword)
+        static int AdjustRowNumberIfValid(int rowIndicatorRowNumber, int invalidRowCounts, Codeword codeword)
         {
 
             if (codeword == null)
@@ -289,7 +285,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="barcodeColumn">Barcode column.</param>
         /// <param name="codewordsRow">Codewords row.</param>
         /// <param name="codewords">Codewords.</param>
-        void adjustRowNumbers(int barcodeColumn, int codewordsRow, Codeword[] codewords)
+        void AdjustRowNumbers(int barcodeColumn, int codewordsRow, IReadOnlyList<Codeword> codewords)
         {
             Codeword codeword = codewords[codewordsRow];
             Codeword[] previousColumnCodewords = DetectionResultColumns[barcodeColumn - 1].Codewords;
@@ -316,13 +312,13 @@ namespace ZXing.PDF417.Internal
                 otherCodewords[10] = previousColumnCodewords[codewordsRow - 2];
                 otherCodewords[11] = nextColumnCodewords[codewordsRow - 2];
             }
-            if (codewordsRow < codewords.Length - 1)
+            if (codewordsRow < codewords.Count - 1)
             {
                 otherCodewords[1] = codewords[codewordsRow + 1];
                 otherCodewords[6] = previousColumnCodewords[codewordsRow + 1];
                 otherCodewords[7] = nextColumnCodewords[codewordsRow + 1];
             }
-            if (codewordsRow < codewords.Length - 2)
+            if (codewordsRow < codewords.Count - 2)
             {
                 otherCodewords[9] = codewords[codewordsRow + 2];
                 otherCodewords[12] = previousColumnCodewords[codewordsRow + 2];
@@ -330,7 +326,7 @@ namespace ZXing.PDF417.Internal
             }
             foreach (Codeword otherCodeword in otherCodewords)
             {
-                if (adjustRowNumber(codeword, otherCodeword))
+                if (AdjustRowNumber(codeword, otherCodeword))
                 {
                     return;
                 }
@@ -343,7 +339,7 @@ namespace ZXing.PDF417.Internal
         /// <returns><c>true</c>, if row number was adjusted, <c>false</c> otherwise.</returns>
         /// <param name="codeword">Codeword.</param>
         /// <param name="otherCodeword">Other codeword.</param>
-        static bool adjustRowNumber(Codeword codeword, Codeword otherCodeword)
+        static bool AdjustRowNumber(Codeword codeword, Codeword otherCodeword)
         {
             if (otherCodeword == null)
             {
@@ -364,11 +360,7 @@ namespace ZXing.PDF417.Internal
         public override string ToString()
         {
             StringBuilder formatter = new StringBuilder();
-            DetectionResultColumn rowIndicatorColumn = DetectionResultColumns[0];
-            if (rowIndicatorColumn == null)
-            {
-                rowIndicatorColumn = DetectionResultColumns[ColumnCount + 1];
-            }
+            DetectionResultColumn rowIndicatorColumn = DetectionResultColumns[0] ?? DetectionResultColumns[ColumnCount + 1];
             for (int codewordsRow = 0; codewordsRow < rowIndicatorColumn.Codewords.Length; codewordsRow++)
             {
                 formatter.AppendFormat(CultureInfo.InvariantCulture, "CW {0,3}:", codewordsRow);

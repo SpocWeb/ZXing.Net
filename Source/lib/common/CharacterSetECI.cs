@@ -79,7 +79,7 @@ namespace ZXing.Common
             NAME_TO_ECI[encodingName] = eci;
         }
 
-        static void AddCharacterSet(int value, string[] encodingNames)
+        static void AddCharacterSet(int value, IReadOnlyList<string> encodingNames)
         {
             var eci = new CharacterSetEci(value, encodingNames[0]);
             VALUE_TO_ECI[value] = eci; // can't use valueOf

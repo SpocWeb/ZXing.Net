@@ -30,7 +30,7 @@ namespace ZXing.QrCode.Internal.Test
         [ExpectedException(typeof(ArgumentException))]
         public void TestBadVersion()
         {
-            Version.getVersionForNumber(0);
+            Version.GetVersionForNumber(0);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace ZXing.QrCode.Internal.Test
         {
             for (int i = 1; i <= 40; i++)
             {
-                CheckVersion(Version.getVersionForNumber(i), i, 4 * i + 17);
+                CheckVersion(Version.GetVersionForNumber(i), i, 4 * i + 17);
             }
         }
 
@@ -52,11 +52,11 @@ namespace ZXing.QrCode.Internal.Test
                 Assert.IsTrue(version.AlignmentPatternCenters.Length > 0);
             }
             Assert.AreEqual(dimension, version.DimensionForVersion);
-            Assert.IsNotNull(version.getECBlocksForLevel(ErrorCorrectionLevel.H));
-            Assert.IsNotNull(version.getECBlocksForLevel(ErrorCorrectionLevel.L));
-            Assert.IsNotNull(version.getECBlocksForLevel(ErrorCorrectionLevel.M));
-            Assert.IsNotNull(version.getECBlocksForLevel(ErrorCorrectionLevel.Q));
-            Assert.IsNotNull(version.buildFunctionPattern());
+            Assert.IsNotNull(version.GetEcBlocksForLevel(ErrorCorrectionLevel.H));
+            Assert.IsNotNull(version.GetEcBlocksForLevel(ErrorCorrectionLevel.L));
+            Assert.IsNotNull(version.GetEcBlocksForLevel(ErrorCorrectionLevel.M));
+            Assert.IsNotNull(version.GetEcBlocksForLevel(ErrorCorrectionLevel.Q));
+            Assert.IsNotNull(version.BuildFunctionPattern());
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace ZXing.QrCode.Internal.Test
         {
             for (int i = 1; i <= 40; i++)
             {
-                Assert.AreEqual(i, Version.getProvisionalVersionForDimension(4 * i + 17).VersionNumber);
+                Assert.AreEqual(i, Version.GetProvisionalVersionForDimension(4 * i + 17).VersionNumber);
             }
         }
 
@@ -82,7 +82,7 @@ namespace ZXing.QrCode.Internal.Test
 
         private static void DoTestVersion(int expectedVersion, int mask)
         {
-            Version version = Version.decodeVersionInformation(mask);
+            Version version = Version.DecodeVersionInformation(mask);
             Assert.IsNotNull(version);
             Assert.AreEqual(expectedVersion, version.VersionNumber);
         }

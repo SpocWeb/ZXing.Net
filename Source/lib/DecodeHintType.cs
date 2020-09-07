@@ -104,7 +104,7 @@ namespace ZXing
         ASSUME_GS1,
 
         /// <summary>
-        /// If true, return the start and end digits in a Codabar barcode instead of stripping them. They
+        /// If true, return the start and end digits in a CodaBar barcode instead of stripping them. They
         /// are alpha, whereas the rest are numeric. By default, they are stripped, but this causes them
         /// to not be. Doesn't matter what it maps to; use <see cref="bool" />.
         /// </summary>

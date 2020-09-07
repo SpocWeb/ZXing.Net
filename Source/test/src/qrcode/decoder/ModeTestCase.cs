@@ -47,12 +47,12 @@ namespace ZXing.QrCode.Internal.Test
         public void TestCharacterCount()
         {
             // Spot check a few values
-            Assert.AreEqual(10, Mode.NUMERIC.getCharacterCountBits(Version.getVersionForNumber(5)));
-            Assert.AreEqual(12, Mode.NUMERIC.getCharacterCountBits(Version.getVersionForNumber(26)));
-            Assert.AreEqual(14, Mode.NUMERIC.getCharacterCountBits(Version.getVersionForNumber(40)));
-            Assert.AreEqual(9, Mode.ALPHANUMERIC.getCharacterCountBits(Version.getVersionForNumber(6)));
-            Assert.AreEqual(8, Mode.BYTE.getCharacterCountBits(Version.getVersionForNumber(7)));
-            Assert.AreEqual(8, Mode.KANJI.getCharacterCountBits(Version.getVersionForNumber(8)));
+            Assert.AreEqual(10, Mode.NUMERIC.getCharacterCountBits(Version.GetVersionForNumber(5)));
+            Assert.AreEqual(12, Mode.NUMERIC.getCharacterCountBits(Version.GetVersionForNumber(26)));
+            Assert.AreEqual(14, Mode.NUMERIC.getCharacterCountBits(Version.GetVersionForNumber(40)));
+            Assert.AreEqual(9, Mode.ALPHANUMERIC.getCharacterCountBits(Version.GetVersionForNumber(6)));
+            Assert.AreEqual(8, Mode.BYTE.getCharacterCountBits(Version.GetVersionForNumber(7)));
+            Assert.AreEqual(8, Mode.KANJI.getCharacterCountBits(Version.GetVersionForNumber(8)));
         }
     }
 }

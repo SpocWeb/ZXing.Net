@@ -30,10 +30,10 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void TestBitsDiffering()
       {
-         Assert.AreEqual(0, FormatInformation.numBitsDiffering(1, 1));
-         Assert.AreEqual(1, FormatInformation.numBitsDiffering(0, 2));
-         Assert.AreEqual(2, FormatInformation.numBitsDiffering(1, 2));
-         Assert.AreEqual(32, FormatInformation.numBitsDiffering(-1, 0));
+         Assert.AreEqual(0, FormatInformation.NumBitsDiffering(1, 1));
+         Assert.AreEqual(1, FormatInformation.NumBitsDiffering(0, 2));
+         Assert.AreEqual(2, FormatInformation.NumBitsDiffering(1, 2));
+         Assert.AreEqual(32, FormatInformation.NumBitsDiffering(-1, 0));
       }
 
       [Test]
@@ -41,28 +41,28 @@ namespace ZXing.QrCode.Internal.Test
       {
          // Normal case
          FormatInformation expected =
-             FormatInformation.decodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
+             FormatInformation.DecodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
          Assert.IsNotNull(expected);
          Assert.AreEqual((byte)0x07, expected.DataMask);
          Assert.AreEqual(ErrorCorrectionLevel.Q, expected.ErrorCorrectionLevel);
          // where the code forgot the mask!
          Assert.AreEqual(expected,
-                      FormatInformation.decodeFormatInformation(_UNMASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO));
+                      FormatInformation.DecodeFormatInformation(_UNMASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO));
       }
 
       [Test]
       public void TestDecodeWithBitDifference()
       {
          FormatInformation expected =
-             FormatInformation.decodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
+             FormatInformation.DecodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
          // 1,2,3,4 bits difference
-         Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
+         Assert.AreEqual(expected, FormatInformation.DecodeFormatInformation(
              _MASKED_TEST_FORMAT_INFO ^ 0x01, _MASKED_TEST_FORMAT_INFO ^ 0x01));
-         Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
+         Assert.AreEqual(expected, FormatInformation.DecodeFormatInformation(
              _MASKED_TEST_FORMAT_INFO ^ 0x03, _MASKED_TEST_FORMAT_INFO ^ 0x03));
-         Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
+         Assert.AreEqual(expected, FormatInformation.DecodeFormatInformation(
              _MASKED_TEST_FORMAT_INFO ^ 0x07, _MASKED_TEST_FORMAT_INFO ^ 0x07));
-         Assert.IsNull(FormatInformation.decodeFormatInformation(
+         Assert.IsNull(FormatInformation.DecodeFormatInformation(
              _MASKED_TEST_FORMAT_INFO ^ 0x0F, _MASKED_TEST_FORMAT_INFO ^ 0x0F));
       }
 
@@ -70,8 +70,8 @@ namespace ZXing.QrCode.Internal.Test
       public void TestDecodeWithMisread()
       {
          FormatInformation expected =
-             FormatInformation.decodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
-         Assert.AreEqual(expected, FormatInformation.decodeFormatInformation(
+             FormatInformation.DecodeFormatInformation(_MASKED_TEST_FORMAT_INFO, _MASKED_TEST_FORMAT_INFO);
+         Assert.AreEqual(expected, FormatInformation.DecodeFormatInformation(
              _MASKED_TEST_FORMAT_INFO ^ 0x03, _MASKED_TEST_FORMAT_INFO ^ 0x0F));
       }
    }

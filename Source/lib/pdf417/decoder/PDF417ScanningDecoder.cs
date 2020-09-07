@@ -43,7 +43,7 @@ namespace ZXing.PDF417.Internal
         /// TODO: don't pass in minCodewordWidth and maxCodewordWidth, pass in barcode columns for start and stop pattern
         /// columns. That way width can be deducted from the pattern column.
         /// This approach also allows to detect more details about the barcode, e.g. if a bar type (white or black) is wider 
-        /// than it should be. This can happen if the scanner used a bad blackpoint.
+        /// than it should be. This can happen if the scanner used a bad blackPoint.
         /// </summary>
         /// <param name="image">Image.</param>
         /// <param name="imageTopLeft">Image top left.</param>
@@ -179,11 +179,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="rowIndicatorColumn">Row indicator column.</param>
         static BoundingBox AdjustBoundingBox(DetectionResultRowIndicatorColumn rowIndicatorColumn)
         {
-            if (rowIndicatorColumn == null)
-            {
-                return null;
-            }
-            int[] rowHeights = rowIndicatorColumn.getRowHeights();
+            int[] rowHeights = rowIndicatorColumn?.GetRowHeights();
             if (rowHeights == null)
             {
                 return null;
@@ -219,10 +215,10 @@ namespace ZXing.PDF417.Internal
             return rowIndicatorColumn.Box.addMissingRows(missingStartRows, missingEndRows, rowIndicatorColumn.IsLeft);
         }
 
-        static int GetMax(int[] values)
+        static int GetMax(IReadOnlyList<int> values)
         {
             int maxValue = -1;
-            for (var index = values.Length - 1; index >= 0; index--)
+            for (var index = values.Count - 1; index >= 0; index--)
             {
                 maxValue = Math.Max(maxValue, values[index]);
             }
@@ -241,13 +237,13 @@ namespace ZXing.PDF417.Internal
 
             BarcodeMetadata leftBarcodeMetadata;
             if (leftRowIndicatorColumn == null ||
-                (leftBarcodeMetadata = leftRowIndicatorColumn.getBarcodeMetadata()) == null)
+                (leftBarcodeMetadata = leftRowIndicatorColumn.GetBarcodeMetadata()) == null)
             {
-                return rightRowIndicatorColumn?.getBarcodeMetadata();
+                return rightRowIndicatorColumn?.GetBarcodeMetadata();
             }
             BarcodeMetadata rightBarcodeMetadata;
             if (rightRowIndicatorColumn == null ||
-                (rightBarcodeMetadata = rightRowIndicatorColumn.getBarcodeMetadata()) == null)
+                (rightBarcodeMetadata = rightRowIndicatorColumn.GetBarcodeMetadata()) == null)
             {
                 return leftBarcodeMetadata;
             }
@@ -295,12 +291,8 @@ namespace ZXing.PDF417.Internal
             return rowIndicatorColumn;
         }
 
-        /// <summary>
-        /// Adjusts the codeword count.
-        /// </summary>
-        /// <param name="detectionResult">Detection result.</param>
-        /// <param name="barcodeMatrix">Barcode matrix.</param>
-        static bool AdjustCodewordCount(DetectionResult detectionResult, BarcodeValue[][] barcodeMatrix)
+        /// <summary> Adjusts the codeword count. </summary>
+        static bool AdjustCodewordCount(DetectionResult detectionResult, IReadOnlyList<BarcodeValue[]> barcodeMatrix)
         {
             var barcodeMatrix01 = barcodeMatrix[0][1];
             int[] numberOfCodewords = barcodeMatrix01.getValue();
@@ -395,10 +387,10 @@ namespace ZXing.PDF417.Internal
         static DecoderResult CreateDecoderResultFromAmbiguousValues(int ecLevel,
                                                                             int[] codewords,
                                                                             int[] erasureArray,
-                                                                            int[] ambiguousIndexes,
-                                                                            int[][] ambiguousIndexValues)
+                                                                            IReadOnlyList<int> ambiguousIndexes,
+                                                                            IReadOnlyList<int[]> ambiguousIndexValues)
         {
-            int[] ambiguousIndexCount = new int[ambiguousIndexes.Length];
+            int[] ambiguousIndexCount = new int[ambiguousIndexes.Count];
 
             int tries = 100;
             while (tries-- > 0)
@@ -457,7 +449,7 @@ namespace ZXing.PDF417.Internal
             }
 
             int column = 0;
-            foreach (DetectionResultColumn detectionResultColumn in detectionResult.getDetectionResultColumns())
+            foreach (DetectionResultColumn detectionResultColumn in detectionResult.GetDetectionResultColumns())
             {
                 if (detectionResultColumn != null)
                 {
@@ -801,9 +793,9 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <param name="codewords">Codewords.</param>
         /// <param name="numEcCodewords">Number EC codewords.</param>
-        static bool VerifyCodewordCount(int[] codewords, int numEcCodewords)
+        static bool VerifyCodewordCount(IList<int> codewords, int numEcCodewords)
         {
-            if (codewords.Length < 4)
+            if (codewords.Count < 4)
             {
                 // Codeword array size should be at least 4 allowing for
                 // Count CW, At least one Data CW, Error Correction CW, Error Correction CW
@@ -813,16 +805,16 @@ namespace ZXing.PDF417.Internal
             // codewords in the symbol, including the Symbol Length Descriptor itself, data codewords and pad
             // codewords, but excluding the number of error correction codewords.
             int numberOfCodewords = codewords[0];
-            if (numberOfCodewords > codewords.Length)
+            if (numberOfCodewords > codewords.Count)
             {
                 return false;
             }
             if (numberOfCodewords == 0)
             {
                 // Reset to the Length of the array - 8 (Allow for at least level 3 Error Correction (8 Error Codewords)
-                if (numEcCodewords < codewords.Length)
+                if (numEcCodewords < codewords.Count)
                 {
-                    codewords[0] = codewords.Length - numEcCodewords;
+                    codewords[0] = codewords.Count - numEcCodewords;
                 }
                 else
                 {
@@ -866,29 +858,15 @@ namespace ZXing.PDF417.Internal
         /// <returns>The codeword bucket number.</returns>
         /// <param name="codeword">Codeword.</param>
         static int GetCodewordBucketNumber(int codeword)
-        {
-            return GetCodewordBucketNumber(GetBitCountForCodeword(codeword));
-        }
+            => GetCodewordBucketNumber(GetBitCountForCodeword(codeword));
 
-        /// <summary>
-        /// Gets the codeword bucket number.
-        /// </summary>
-        /// <returns>The codeword bucket number.</returns>
-        /// <param name="moduleBitCount">Module bit count.</param>
-        static int GetCodewordBucketNumber(int[] moduleBitCount)
-        {
-            return (moduleBitCount[0] - moduleBitCount[2] + moduleBitCount[4] - moduleBitCount[6] + 9) % 9;
-        }
+        static int GetCodewordBucketNumber(IReadOnlyList<int> moduleBitCount)
+            => (moduleBitCount[0] - moduleBitCount[2] + moduleBitCount[4] - moduleBitCount[6] + 9) % 9;
 
-        /// <summary>
-        /// Returns a <see cref="string"/> that represents the <see cref="ZXing.PDF417.Internal.BarcodeValue"/> jagged array.
-        /// </summary>
-        /// <returns>A <see cref="string"/> that represents the <see cref="ZXing.PDF417.Internal.BarcodeValue"/> jagged array.</returns>
-        /// <param name="barcodeMatrix">Barcode matrix as a jagged array.</param>
-        public static string ToString(BarcodeValue[][] barcodeMatrix)
+        public static string ToString(this IReadOnlyList<BarcodeValue[]> barcodeMatrix)
         {
             StringBuilder formatter = new StringBuilder();
-            for (int row = 0; row < barcodeMatrix.Length; row++)
+            for (int row = 0; row < barcodeMatrix.Count; row++)
             {
                 formatter.AppendFormat(CultureInfo.InvariantCulture, "Row {0,2}: ", row);
                 for (int column = 0; column < barcodeMatrix[row].Length; column++)

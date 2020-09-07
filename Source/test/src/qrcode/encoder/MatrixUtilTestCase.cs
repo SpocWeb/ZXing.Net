@@ -49,7 +49,7 @@ namespace ZXing.QrCode.Internal.Test
       public void TestClearMatrix()
       {
          ByteMatrix matrix = new ByteMatrix(2, 2);
-         MatrixUtil.clearMatrix(matrix);
+         MatrixUtil.ClearMatrix(matrix);
          Assert.AreEqual(2, matrix[0, 0]);
          Assert.AreEqual(2, matrix[1, 0]);
          Assert.AreEqual(2, matrix[0, 1]);
@@ -84,8 +84,8 @@ namespace ZXing.QrCode.Internal.Test
               " 1 0 0 0 0 0 1 0                          \n" +
               " 1 1 1 1 1 1 1 0                          \n";
             ByteMatrix matrix = new ByteMatrix(21, 21);
-            MatrixUtil.clearMatrix(matrix);
-            MatrixUtil.embedBasicPatterns(Version.getVersionForNumber(1), matrix);
+            MatrixUtil.ClearMatrix(matrix);
+            MatrixUtil.EmbedBasicPatterns(Version.GetVersionForNumber(1), matrix);
             Assert.AreEqual(expected, matrix.ToString());
          }
          {
@@ -118,8 +118,8 @@ namespace ZXing.QrCode.Internal.Test
               " 1 0 0 0 0 0 1 0                                  \n" +
               " 1 1 1 1 1 1 1 0                                  \n";
             ByteMatrix matrix = new ByteMatrix(25, 25);
-            MatrixUtil.clearMatrix(matrix);
-            MatrixUtil.embedBasicPatterns(Version.getVersionForNumber(2), matrix);
+            MatrixUtil.ClearMatrix(matrix);
+            MatrixUtil.EmbedBasicPatterns(Version.GetVersionForNumber(2), matrix);
             Assert.AreEqual(expected, matrix.ToString());
          }
       }
@@ -151,8 +151,8 @@ namespace ZXing.QrCode.Internal.Test
            "                 0                        \n" +
            "                 1                        \n";
          ByteMatrix matrix = new ByteMatrix(21, 21);
-         MatrixUtil.clearMatrix(matrix);
-         MatrixUtil.embedTypeInfo(ErrorCorrectionLevel.M, 5, matrix);
+         MatrixUtil.ClearMatrix(matrix);
+         MatrixUtil.EmbedTypeInfo(ErrorCorrectionLevel.M, 5, matrix);
          Assert.AreEqual(expected, matrix.ToString());
       }
 
@@ -185,8 +185,8 @@ namespace ZXing.QrCode.Internal.Test
          // Actually, version 7 QR Code has 45x45 matrix but we use 21x21 here
          // since 45x45 matrix is too big to depict.
          ByteMatrix matrix = new ByteMatrix(21, 21);
-         MatrixUtil.clearMatrix(matrix);
-         MatrixUtil.maybeEmbedVersionInfo(Version.getVersionForNumber(7), matrix);
+         MatrixUtil.ClearMatrix(matrix);
+         MatrixUtil.MaybeEmbedVersionInfo(Version.GetVersionForNumber(7), matrix);
          Assert.AreEqual(expected, matrix.ToString());
       }
 
@@ -218,9 +218,9 @@ namespace ZXing.QrCode.Internal.Test
            " 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n";
          BitArray bits = new BitArray();
          ByteMatrix matrix = new ByteMatrix(21, 21);
-         MatrixUtil.clearMatrix(matrix);
-         MatrixUtil.embedBasicPatterns(Version.getVersionForNumber(1), matrix);
-         MatrixUtil.embedDataBits(bits, -1, matrix);
+         MatrixUtil.ClearMatrix(matrix);
+         MatrixUtil.EmbedBasicPatterns(Version.GetVersionForNumber(1), matrix);
+         MatrixUtil.EmbedDataBits(bits, -1, matrix);
          Assert.AreEqual(expected, matrix.ToString());
       }
 
@@ -259,9 +259,9 @@ namespace ZXing.QrCode.Internal.Test
             bits.AppendBits(c, 8);
          }
          ByteMatrix matrix = new ByteMatrix(21, 21);
-         MatrixUtil.buildMatrix(bits,
+         MatrixUtil.BuildMatrix(bits,
                                 ErrorCorrectionLevel.H,
-                                Version.getVersionForNumber(1),  // Version 1
+                                Version.GetVersionForNumber(1),  // Version 1
                                 3,  // Mask pattern 3
                                 matrix);
          Assert.AreEqual(expected, matrix.ToString());
@@ -270,10 +270,10 @@ namespace ZXing.QrCode.Internal.Test
       [Test]
       public void TestFindMsbSet()
       {
-         Assert.AreEqual(0, MatrixUtil.findMSBSet(0));
-         Assert.AreEqual(1, MatrixUtil.findMSBSet(1));
-         Assert.AreEqual(8, MatrixUtil.findMSBSet(0x80));
-         Assert.AreEqual(32, MatrixUtil.findMSBSet(-2147483648 /*0x80000000*/));
+         Assert.AreEqual(0, MatrixUtil.FindMsbSet(0));
+         Assert.AreEqual(1, MatrixUtil.FindMsbSet(1));
+         Assert.AreEqual(8, MatrixUtil.FindMsbSet(0x80));
+         Assert.AreEqual(32, MatrixUtil.FindMsbSet(-2147483648 /*0x80000000*/));
       }
 
       [Test]
@@ -281,21 +281,21 @@ namespace ZXing.QrCode.Internal.Test
       {
          // Encoding of type information.
          // From Appendix C in JISX0510:2004 (p 65)
-         Assert.AreEqual(0xdc, MatrixUtil.calculateBCHCode(5, 0x537));
+         Assert.AreEqual(0xdc, MatrixUtil.CalculateBchCode(5, 0x537));
          // From http://www.swetake.com/qr/qr6.html
-         Assert.AreEqual(0x1c2, MatrixUtil.calculateBCHCode(0x13, 0x537));
+         Assert.AreEqual(0x1c2, MatrixUtil.CalculateBchCode(0x13, 0x537));
          // From http://www.swetake.com/qr/qr11.html
-         Assert.AreEqual(0x214, MatrixUtil.calculateBCHCode(0x1b, 0x537));
+         Assert.AreEqual(0x214, MatrixUtil.CalculateBchCode(0x1b, 0x537));
 
          // Encoding of version information.
          // From Appendix D in JISX0510:2004 (p 68)
-         Assert.AreEqual(0xc94, MatrixUtil.calculateBCHCode(7, 0x1f25));
-         Assert.AreEqual(0x5bc, MatrixUtil.calculateBCHCode(8, 0x1f25));
-         Assert.AreEqual(0xa99, MatrixUtil.calculateBCHCode(9, 0x1f25));
-         Assert.AreEqual(0x4d3, MatrixUtil.calculateBCHCode(10, 0x1f25));
-         Assert.AreEqual(0x9a6, MatrixUtil.calculateBCHCode(20, 0x1f25));
-         Assert.AreEqual(0xd75, MatrixUtil.calculateBCHCode(30, 0x1f25));
-         Assert.AreEqual(0xc69, MatrixUtil.calculateBCHCode(40, 0x1f25));
+         Assert.AreEqual(0xc94, MatrixUtil.CalculateBchCode(7, 0x1f25));
+         Assert.AreEqual(0x5bc, MatrixUtil.CalculateBchCode(8, 0x1f25));
+         Assert.AreEqual(0xa99, MatrixUtil.CalculateBchCode(9, 0x1f25));
+         Assert.AreEqual(0x4d3, MatrixUtil.CalculateBchCode(10, 0x1f25));
+         Assert.AreEqual(0x9a6, MatrixUtil.CalculateBchCode(20, 0x1f25));
+         Assert.AreEqual(0xd75, MatrixUtil.CalculateBchCode(30, 0x1f25));
+         Assert.AreEqual(0xc69, MatrixUtil.CalculateBchCode(40, 0x1f25));
       }
 
       // We don't test a lot of cases in this function since we've already
@@ -305,7 +305,7 @@ namespace ZXing.QrCode.Internal.Test
       {
          // From Appendix D in JISX0510:2004 (p 68)
          BitArray bits = new BitArray();
-         MatrixUtil.makeVersionInfoBits(Version.getVersionForNumber(7), bits);
+         MatrixUtil.MakeVersionInfoBits(Version.GetVersionForNumber(7), bits);
          Assert.AreEqual(" ...XXXXX ..X..X.X ..", bits.ToString());
       }
 
@@ -316,7 +316,7 @@ namespace ZXing.QrCode.Internal.Test
       {
          // From Appendix C in JISX0510:2004 (p 65)
          BitArray bits = new BitArray();
-         MatrixUtil.makeTypeInfoBits(ErrorCorrectionLevel.M, 5, bits);
+         MatrixUtil.MakeTypeInfoBits(ErrorCorrectionLevel.M, 5, bits);
          Assert.AreEqual(" X......X X..XXX.", bits.ToString());
       }
    }

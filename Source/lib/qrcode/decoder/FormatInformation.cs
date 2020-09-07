@@ -80,7 +80,7 @@ namespace ZXing.QrCode.Internal
             DataMask = (byte)(formatInfo & 0x07);
         }
 
-        public static int numBitsDiffering(int a, int b)
+        public static int NumBitsDiffering(int a, int b)
         {
             a ^= b; // a now has a 1 bit exactly where its bit differs with b's
                     // Count bits set quickly with a series of lookups:
@@ -103,9 +103,9 @@ namespace ZXing.QrCode.Internal
         /// information about the format it specifies, or <code>null</code>
         /// if doesn't seem to match any known pattern
         /// </returns>
-        public static FormatInformation decodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
+        public static FormatInformation DecodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
         {
-            FormatInformation formatInfo = doDecodeFormatInformation(maskedFormatInfo1, maskedFormatInfo2);
+            FormatInformation formatInfo = DoDecodeFormatInformation(maskedFormatInfo1, maskedFormatInfo2);
             if (formatInfo != null)
             {
                 return formatInfo;
@@ -113,11 +113,11 @@ namespace ZXing.QrCode.Internal
             // Should return null, but, some QR codes apparently
             // do not mask this info. Try again by actually masking the pattern
             // first
-            return doDecodeFormatInformation(maskedFormatInfo1 ^ FORMAT_INFO_MASK_QR,
+            return DoDecodeFormatInformation(maskedFormatInfo1 ^ FORMAT_INFO_MASK_QR,
                                              maskedFormatInfo2 ^ FORMAT_INFO_MASK_QR);
         }
 
-        private static FormatInformation doDecodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
+        private static FormatInformation DoDecodeFormatInformation(int maskedFormatInfo1, int maskedFormatInfo2)
         {
             // Find the int in FORMAT_INFO_DECODE_LOOKUP with fewest bits differing
             int bestDifference = int.MaxValue;
@@ -130,7 +130,7 @@ namespace ZXing.QrCode.Internal
                     // Found an exact match
                     return new FormatInformation(decodeInfo[1]);
                 }
-                int bitsDifference = numBitsDiffering(maskedFormatInfo1, targetInfo);
+                int bitsDifference = NumBitsDiffering(maskedFormatInfo1, targetInfo);
                 if (bitsDifference < bestDifference)
                 {
                     bestFormatInfo = decodeInfo[1];
@@ -139,7 +139,7 @@ namespace ZXing.QrCode.Internal
                 if (maskedFormatInfo1 != maskedFormatInfo2)
                 {
                     // also try the other option
-                    bitsDifference = numBitsDiffering(maskedFormatInfo2, targetInfo);
+                    bitsDifference = NumBitsDiffering(maskedFormatInfo2, targetInfo);
                     if (bitsDifference < bestDifference)
                     {
                         bestFormatInfo = decodeInfo[1];

@@ -75,7 +75,7 @@ namespace ZXing.QrCode
                         errorCorrectionLevel = requestedEcLevel as ErrorCorrectionLevel;
                         if (errorCorrectionLevel == null)
                         {
-                            switch (requestedEcLevel.ToString().ToUpper())
+                            switch ((requestedEcLevel + "").ToUpper())
                             {
                                 case "L":
                                     errorCorrectionLevel = ErrorCorrectionLevel.L;
@@ -106,13 +106,13 @@ namespace ZXing.QrCode
                 }
             }
 
-            var code = Encoder.encode(contents, errorCorrectionLevel, hints);
+            var code = Encoder.Encode(contents, errorCorrectionLevel, hints);
             return RenderResult(code, width, height, quietZone);
         }
 
         // Note that the input matrix uses 0 == white, 1 == black, while the output matrix uses
         // 0 == black, 255 == white (i.e. an 8 bit greyscale bitmap).
-        static BitMatrix RenderResult(QRCode code, int width, int height, int quietZone)
+        static BitMatrix RenderResult(Internal.QrCode code, int width, int height, int quietZone)
         {
             var input = code.Matrix;
             if (input == null)

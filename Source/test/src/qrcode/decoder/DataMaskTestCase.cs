@@ -87,7 +87,7 @@ namespace ZXing.QrCode.Internal.Test
       private static void TestMask(int reference, int dimension, Func<int, int, bool> condition)
       {
          BitMatrix bits = new BitMatrix(dimension);
-         DataMask.unmaskBitMatrix(reference, bits, dimension);
+         DataMask.UnmaskBitMatrix(reference, bits, dimension);
          for (int i = 0; i < dimension; i++)
          {
             for (int j = 0; j < dimension; j++)

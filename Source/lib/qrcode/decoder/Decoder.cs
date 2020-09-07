@@ -74,7 +74,7 @@ namespace ZXing.QrCode.Internal
                 return result;
             }
             // Revert the bit matrix
-            parser.Remask();
+            parser.ReMask();
 
             // Will be attempting a mirrored reading of the version and format info.
             parser.SetMirror(true);

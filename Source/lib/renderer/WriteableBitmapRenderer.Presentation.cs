@@ -129,7 +129,7 @@ namespace ZXing.Rendering
                                                                     format == BarcodeFormat.MSI ||
                                                                     format == BarcodeFormat.PLESSEY);
             int emptyArea = outputContent ? 16 : 0;
-            int pixelsize = 1;
+            int pixelSize = 1;
 
             if (options != null)
             {
@@ -142,10 +142,10 @@ namespace ZXing.Rendering
                     height = options.Height;
                 }
                 // calculating the scaling factor
-                pixelsize = width / matrix.Width;
-                if (pixelsize > height / matrix.Height)
+                pixelSize = width / matrix.Width;
+                if (pixelSize > height / matrix.Height)
                 {
-                    pixelsize = height / matrix.Height;
+                    pixelSize = height / matrix.Height;
                 }
             }
 
@@ -158,23 +158,23 @@ namespace ZXing.Rendering
 
             for (int y = 0; y < matrix.Height - emptyArea; y++)
             {
-                for (var pixelsizeHeight = 0; pixelsizeHeight < pixelsize; pixelsizeHeight++)
+                for (var pixelSizeHeight = 0; pixelSizeHeight < pixelSize; pixelSizeHeight++)
                 {
                     for (var x = 0; x < matrix.Width; x++)
                     {
                         var color = matrix[x, y] ? foreground : background;
-                        for (var pixelsizeWidth = 0; pixelsizeWidth < pixelsize; pixelsizeWidth++)
+                        for (var pixelSizeWidth = 0; pixelSizeWidth < pixelSize; pixelSizeWidth++)
                         {
                             pixels[index++] = color;
                         }
                     }
-                    for (var x = pixelsize * matrix.Width; x < width; x++)
+                    for (var x = pixelSize * matrix.Width; x < width; x++)
                     {
                         pixels[index++] = background;
                     }
                 }
             }
-            for (int y = matrix.Height * pixelsize - emptyArea; y < height; y++)
+            for (int y = matrix.Height * pixelSize - emptyArea; y < height; y++)
             {
                 for (var x = 0; x < width; x++)
                 {

@@ -42,8 +42,8 @@ namespace ZXing.QrCode.Internal
         public static string DEFAULT_BYTE_MODE_ENCODING = "ISO-8859-1";
 
         // The mask penalty calculation is complicated.  See Table 21 of JISX0510:2004 (p.45) for details.
-        // Basically it applies four rules and summate all penalties.
-        private static int calculateMaskPenalty(ByteMatrix matrix)
+        // Basically it applies four rules and sum all penalties.
+        private static int CalculateMaskPenalty(ByteMatrix matrix)
         {
             return MaskUtil.applyMaskPenaltyRule1(matrix)
                     + MaskUtil.applyMaskPenaltyRule2(matrix)
@@ -62,10 +62,10 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="content">text to encode</param>
         /// <param name="ecLevel">error correction level to use</param>
-        /// <returns><see cref="QRCode"/> representing the encoded QR code</returns>
-        public static QRCode encode(string content, ErrorCorrectionLevel ecLevel)
+        /// <returns><see cref="QrCode"/> representing the encoded QR code</returns>
+        public static QrCode Encode(string content, ErrorCorrectionLevel ecLevel)
         {
-            return encode(content, ecLevel, null);
+            return Encode(content, ecLevel, null);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="ecLevel">The ec level.</param>
         /// <param name="hints">The hints.</param>
         /// <returns></returns>
-        public static QRCode encode(string content,
+        public static QrCode Encode(string content,
                                   ErrorCorrectionLevel ecLevel,
                                   IDictionary<EncodeHintType, object> hints)
         {
@@ -88,7 +88,7 @@ namespace ZXing.QrCode.Internal
             {
                 encoding = DEFAULT_BYTE_MODE_ENCODING;
             }
-            var generateECI = hasEncodingHint || !DEFAULT_BYTE_MODE_ENCODING.Equals(encoding);
+            var generateEci = hasEncodingHint || !DEFAULT_BYTE_MODE_ENCODING.Equals(encoding);
 #else
          // Silverlight supports only UTF-8 and UTF-16 out-of-the-box
          const string encoding = "UTF-8";
@@ -98,15 +98,15 @@ namespace ZXing.QrCode.Internal
 #endif
 
             // Pick an encoding mode appropriate for the content. Note that this will not attempt to use
-            // multiple modes / segments even if that were more efficient. Twould be nice.
-            var mode = chooseMode(content, encoding);
+            // multiple modes / segments even if that were more efficient. would be nice.
+            var mode = ChooseMode(content, encoding);
 
             // This will store the header information, like mode and
             // length, as well as "header" segments like an ECI segment.
             var headerBits = new BitArray();
 
             // Append ECI segment if applicable
-            if (mode == Mode.BYTE && generateECI)
+            if (mode == Mode.BYTE && generateEci)
             {
                 var eci = CharacterSetEci.GetCharacterSetEciByName(encoding);
                 if (eci != null)
@@ -114,66 +114,66 @@ namespace ZXing.QrCode.Internal
                     var eciIsExplicitDisabled = hints != null && hints.ContainsKey(EncodeHintType.DISABLE_ECI) && hints[EncodeHintType.DISABLE_ECI] != null && Convert.ToBoolean(hints[EncodeHintType.DISABLE_ECI].ToString());
                     if (!eciIsExplicitDisabled)
                     {
-                        appendECI(eci, headerBits);
+                        AppendEci(eci, headerBits);
                     }
                 }
             }
 
             // Append the FNC1 mode header for GS1 formatted data if applicable
-            var hasGS1FormatHint = hints != null && hints.ContainsKey(EncodeHintType.GS1_FORMAT);
-            if (hasGS1FormatHint && hints[EncodeHintType.GS1_FORMAT] != null && Convert.ToBoolean(hints[EncodeHintType.GS1_FORMAT].ToString()))
+            var hasGs1FormatHint = hints != null && hints.ContainsKey(EncodeHintType.GS1_FORMAT);
+            if (hasGs1FormatHint && hints[EncodeHintType.GS1_FORMAT] != null && Convert.ToBoolean(hints[EncodeHintType.GS1_FORMAT].ToString()))
             {
                 // GS1 formatted codes are prefixed with a FNC1 in first position mode header
-                appendModeInfo(Mode.FNC1_FIRST_POSITION, headerBits);
+                AppendModeInfo(Mode.FNC1_FIRST_POSITION, headerBits);
             }
 
             // (With ECI in place,) Write the mode marker
-            appendModeInfo(mode, headerBits);
+            AppendModeInfo(mode, headerBits);
 
             // Collect data within the main segment, separately, to count its size if needed. Don't add it to
             // main payload yet.
             var dataBits = new BitArray();
-            appendBytes(content, mode, dataBits, encoding);
+            AppendBytes(content, mode, dataBits, encoding);
 
             Version version;
             if (hints != null && hints.ContainsKey(EncodeHintType.QR_VERSION))
             {
                 int versionNumber = int.Parse(hints[EncodeHintType.QR_VERSION].ToString());
-                version = Version.getVersionForNumber(versionNumber);
-                int bitsNeeded = calculateBitsNeeded(mode, headerBits, dataBits, version);
-                if (!willFit(bitsNeeded, version, ecLevel))
+                version = Version.GetVersionForNumber(versionNumber);
+                int bitsNeeded = CalculateBitsNeeded(mode, headerBits, dataBits, version);
+                if (!WillFit(bitsNeeded, version, ecLevel))
                 {
                     throw new WriterException("Data too big for requested version");
                 }
             }
             else
             {
-                version = recommendVersion(ecLevel, mode, headerBits, dataBits);
+                version = RecommendVersion(ecLevel, mode, headerBits, dataBits);
             }
 
             var headerAndDataBits = new BitArray();
             headerAndDataBits.AppendBitArray(headerBits);
             // Find "length" of main segment and write it
             var numLetters = mode == Mode.BYTE ? dataBits.SizeInBytes : content.Length;
-            appendLengthInfo(numLetters, version, mode, headerAndDataBits);
+            AppendLengthInfo(numLetters, version, mode, headerAndDataBits);
             // Put data together into the overall payload
             headerAndDataBits.AppendBitArray(dataBits);
 
-            var ecBlocks = version.getECBlocksForLevel(ecLevel);
-            var numDataBytes = version.TotalCodewords - ecBlocks.TotalECCodewords;
+            var ecBlocks = version.GetEcBlocksForLevel(ecLevel);
+            var numDataBytes = version.TotalCodewords - ecBlocks.TotalEcCodewords;
 
             // Terminate the bits properly.
-            terminateBits(numDataBytes, headerAndDataBits);
+            TerminateBits(numDataBytes, headerAndDataBits);
 
             // Interleave data bits with error correction code.
-            var finalBits = interleaveWithECBytes(headerAndDataBits,
+            var finalBits = InterleaveWithEcBytes(headerAndDataBits,
                                                        version.TotalCodewords,
                                                        numDataBytes,
                                                        ecBlocks.NumBlocks);
 
-            var qrCode = new QRCode
+            var qrCode = new QrCode
             {
-                ECLevel = ecLevel,
+                EcLevel = ecLevel,
                 Mode = mode,
                 Version = version
             };
@@ -187,17 +187,17 @@ namespace ZXing.QrCode.Internal
             if (hints != null && hints.ContainsKey(EncodeHintType.QR_MASK_PATTERN))
             {
                 var hintMaskPattern = int.Parse(hints[EncodeHintType.QR_MASK_PATTERN].ToString());
-                maskPattern = QRCode.isValidMaskPattern(hintMaskPattern) ? hintMaskPattern : -1;
+                maskPattern = QrCode.IsValidMaskPattern(hintMaskPattern) ? hintMaskPattern : -1;
             }
 
             if (maskPattern == -1)
             {
-                maskPattern = chooseMaskPattern(finalBits, ecLevel, version, matrix);
+                maskPattern = ChooseMaskPattern(finalBits, ecLevel, version, matrix);
             }
             qrCode.MaskPattern = maskPattern;
 
             // Build the matrix and set it to "qrCode".
-            MatrixUtil.buildMatrix(finalBits, ecLevel, version, maskPattern, matrix);
+            MatrixUtil.BuildMatrix(finalBits, ecLevel, version, maskPattern, matrix);
             qrCode.Matrix = matrix;
 
             return qrCode;
@@ -207,20 +207,20 @@ namespace ZXing.QrCode.Internal
         /// Decides the smallest version of QR code that will contain all of the provided data.
         /// </summary>
         /// <exception cref="WriterException">if the data cannot fit in any version</exception>
-        private static Version recommendVersion(ErrorCorrectionLevel ecLevel, Mode mode, BitArray headerBits, BitArray dataBits)
+        private static Version RecommendVersion(ErrorCorrectionLevel ecLevel, Mode mode, BitArray headerBits, BitArray dataBits)
         {
             // Hard part: need to know version to know how many bits length takes. But need to know how many
             // bits it takes to know version. First we take a guess at version by assuming version will be
             // the minimum, 1:
-            var provisionalBitsNeeded = calculateBitsNeeded(mode, headerBits, dataBits, Version.getVersionForNumber(1));
-            var provisionalVersion = chooseVersion(provisionalBitsNeeded, ecLevel);
+            var provisionalBitsNeeded = CalculateBitsNeeded(mode, headerBits, dataBits, Version.GetVersionForNumber(1));
+            var provisionalVersion = ChooseVersion(provisionalBitsNeeded, ecLevel);
 
             // Use that guess to calculate the right version. I am still not sure this works in 100% of cases.
-            var bitsNeeded = calculateBitsNeeded(mode, headerBits, dataBits, provisionalVersion);
-            return chooseVersion(bitsNeeded, ecLevel);
+            var bitsNeeded = CalculateBitsNeeded(mode, headerBits, dataBits, provisionalVersion);
+            return ChooseVersion(bitsNeeded, ecLevel);
         }
 
-        private static int calculateBitsNeeded(Mode mode, BitArray headerBits, BitArray dataBits, Version version)
+        private static int CalculateBitsNeeded(Mode mode, BitArray headerBits, BitArray dataBits, Version version)
         {
             return headerBits.Size + mode.getCharacterCountBits(version) + dataBits.Size;
         }
@@ -231,7 +231,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="code">The code.</param>
         /// <returns>the code point of the table used in alphanumeric mode or
         /// -1 if there is no corresponding code in the table.</returns>
-        public static int getAlphanumericCode(int code)
+        public static int GetAlphanumericCode(int code)
         {
             if (code < ALPHANUMERIC_TABLE.Length)
             {
@@ -245,9 +245,9 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="content">The content.</param>
         /// <returns></returns>
-        public static Mode chooseMode(string content)
+        public static Mode ChooseMode(string content)
         {
-            return chooseMode(content, null);
+            return ChooseMode(content, null);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="content">The content.</param>
         /// <param name="encoding">The encoding.</param>
         /// <returns></returns>
-        private static Mode chooseMode(string content, string encoding)
+        private static Mode ChooseMode(string content, string encoding)
         {
             if ("Shift_JIS".Equals(encoding) && isOnlyDoubleByteKanji(content))
             {
@@ -273,7 +273,7 @@ namespace ZXing.QrCode.Internal
                 {
                     hasNumeric = true;
                 }
-                else if (getAlphanumericCode(c) != -1)
+                else if (GetAlphanumericCode(c) != -1)
                 {
                     hasAlphanumeric = true;
                 }
@@ -325,7 +325,7 @@ namespace ZXing.QrCode.Internal
             return true;
         }
 
-        private static int chooseMaskPattern(BitArray bits,
+        private static int ChooseMaskPattern(BitArray bits,
                                              ErrorCorrectionLevel ecLevel,
                                              Version version,
                                              ByteMatrix matrix)
@@ -333,11 +333,11 @@ namespace ZXing.QrCode.Internal
             int minPenalty = int.MaxValue;  // Lower penalty is better.
             int bestMaskPattern = -1;
             // We try all mask patterns to choose the best one.
-            for (int maskPattern = 0; maskPattern < QRCode.NUM_MASK_PATTERNS; maskPattern++)
+            for (int maskPattern = 0; maskPattern < QrCode.NUM_MASK_PATTERNS; maskPattern++)
             {
 
-                MatrixUtil.buildMatrix(bits, ecLevel, version, maskPattern, matrix);
-                int penalty = calculateMaskPenalty(matrix);
+                MatrixUtil.BuildMatrix(bits, ecLevel, version, maskPattern, matrix);
+                int penalty = CalculateMaskPenalty(matrix);
                 if (penalty < minPenalty)
                 {
 
@@ -348,12 +348,12 @@ namespace ZXing.QrCode.Internal
             return bestMaskPattern;
         }
 
-        private static Version chooseVersion(int numInputBits, ErrorCorrectionLevel ecLevel)
+        private static Version ChooseVersion(int numInputBits, ErrorCorrectionLevel ecLevel)
         {
             for (int versionNum = 1; versionNum <= 40; versionNum++)
             {
-                var version = Version.getVersionForNumber(versionNum);
-                if (willFit(numInputBits, version, ecLevel))
+                var version = Version.GetVersionForNumber(versionNum);
+                if (WillFit(numInputBits, version, ecLevel))
                 {
                     return version;
                 }
@@ -363,14 +363,14 @@ namespace ZXing.QrCode.Internal
 
         /// <summary></summary>
         /// <returns>true if the number of input bits will fit in a code with the specified version and error correction level.</returns>
-        private static bool willFit(int numInputBits, Version version, ErrorCorrectionLevel ecLevel)
+        private static bool WillFit(int numInputBits, Version version, ErrorCorrectionLevel ecLevel)
         {
             // In the following comments, we use numbers of Version 7-H.
             // numBytes = 196
             var numBytes = version.TotalCodewords;
             // getNumECBytes = 130
-            var ecBlocks = version.getECBlocksForLevel(ecLevel);
-            var numEcBytes = ecBlocks.TotalECCodewords;
+            var ecBlocks = version.GetEcBlocksForLevel(ecLevel);
+            var numEcBytes = ecBlocks.TotalEcCodewords;
             // getNumDataBytes = 196 - 130 = 66
             var numDataBytes = numBytes - numEcBytes;
             var totalInputBytes = (numInputBits + 7) / 8;
@@ -382,7 +382,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="numDataBytes">The num data bytes.</param>
         /// <param name="bits">The bits.</param>
-        public static void terminateBits(int numDataBytes, BitArray bits)
+        public static void TerminateBits(int numDataBytes, BitArray bits)
         {
             int capacity = numDataBytes << 3;
             if (bits.Size > capacity)
@@ -423,31 +423,31 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="numTotalBytes">The num total bytes.</param>
         /// <param name="numDataBytes">The num data bytes.</param>
-        /// <param name="numRSBlocks">The num RS blocks.</param>
-        /// <param name="blockID">The block ID.</param>
+        /// <param name="numRsBlocks">The num RS blocks.</param>
+        /// <param name="blockId">The block ID.</param>
         /// <param name="numDataBytesInBlock">The num data bytes in block.</param>
-        /// <param name="numECBytesInBlock">The num EC bytes in block.</param>
-        public static void getNumDataBytesAndNumECBytesForBlockID(int numTotalBytes,
+        /// <param name="numEcBytesInBlock">The num EC bytes in block.</param>
+        public static void GetNumDataBytesAndNumEcBytesForBlockId(int numTotalBytes,
                                                            int numDataBytes,
-                                                           int numRSBlocks,
-                                                           int blockID,
+                                                           int numRsBlocks,
+                                                           int blockId,
                                                            int[] numDataBytesInBlock,
-                                                           int[] numECBytesInBlock)
+                                                           int[] numEcBytesInBlock)
         {
-            if (blockID >= numRSBlocks)
+            if (blockId >= numRsBlocks)
             {
                 throw new WriterException("Block ID too large");
             }
             // numRsBlocksInGroup2 = 196 % 5 = 1
-            int numRsBlocksInGroup2 = numTotalBytes % numRSBlocks;
+            int numRsBlocksInGroup2 = numTotalBytes % numRsBlocks;
             // numRsBlocksInGroup1 = 5 - 1 = 4
-            int numRsBlocksInGroup1 = numRSBlocks - numRsBlocksInGroup2;
+            int numRsBlocksInGroup1 = numRsBlocks - numRsBlocksInGroup2;
             // numTotalBytesInGroup1 = 196 / 5 = 39
-            int numTotalBytesInGroup1 = numTotalBytes / numRSBlocks;
+            int numTotalBytesInGroup1 = numTotalBytes / numRsBlocks;
             // numTotalBytesInGroup2 = 39 + 1 = 40
             int numTotalBytesInGroup2 = numTotalBytesInGroup1 + 1;
             // numDataBytesInGroup1 = 66 / 5 = 13
-            int numDataBytesInGroup1 = numDataBytes / numRSBlocks;
+            int numDataBytesInGroup1 = numDataBytes / numRsBlocks;
             // numDataBytesInGroup2 = 13 + 1 = 14
             int numDataBytesInGroup2 = numDataBytesInGroup1 + 1;
             // numEcBytesInGroup1 = 39 - 13 = 26
@@ -462,7 +462,7 @@ namespace ZXing.QrCode.Internal
                 throw new WriterException("EC bytes mismatch");
             }
             // 5 = 4 + 1.
-            if (numRSBlocks != numRsBlocksInGroup1 + numRsBlocksInGroup2)
+            if (numRsBlocks != numRsBlocksInGroup1 + numRsBlocksInGroup2)
             {
 
                 throw new WriterException("RS blocks mismatch");
@@ -477,18 +477,18 @@ namespace ZXing.QrCode.Internal
                 throw new WriterException("Total bytes mismatch");
             }
 
-            if (blockID < numRsBlocksInGroup1)
+            if (blockId < numRsBlocksInGroup1)
             {
 
                 numDataBytesInBlock[0] = numDataBytesInGroup1;
-                numECBytesInBlock[0] = numEcBytesInGroup1;
+                numEcBytesInBlock[0] = numEcBytesInGroup1;
             }
             else
             {
 
 
                 numDataBytesInBlock[0] = numDataBytesInGroup2;
-                numECBytesInBlock[0] = numEcBytesInGroup2;
+                numEcBytesInBlock[0] = numEcBytesInGroup2;
             }
         }
 
@@ -499,12 +499,12 @@ namespace ZXing.QrCode.Internal
         /// <param name="bits">The bits.</param>
         /// <param name="numTotalBytes">The num total bytes.</param>
         /// <param name="numDataBytes">The num data bytes.</param>
-        /// <param name="numRSBlocks">The num RS blocks.</param>
+        /// <param name="numRsBlocks">The num RS blocks.</param>
         /// <returns></returns>
-        public static BitArray interleaveWithECBytes(BitArray bits,
+        public static BitArray InterleaveWithEcBytes(BitArray bits,
                                                int numTotalBytes,
                                                int numDataBytes,
-                                               int numRSBlocks)
+                                               int numRsBlocks)
         {
             // "bits" must have "getNumDataBytes" bytes of data.
             if (bits.SizeInBytes != numDataBytes)
@@ -520,21 +520,21 @@ namespace ZXing.QrCode.Internal
             int maxNumEcBytes = 0;
 
             // Since, we know the number of reedsolmon blocks, we can initialize the vector with the number.
-            var blocks = new List<BlockPair>(numRSBlocks);
+            var blocks = new List<BlockPair>(numRsBlocks);
 
-            for (int i = 0; i < numRSBlocks; ++i)
+            for (int i = 0; i < numRsBlocks; ++i)
             {
 
                 int[] numDataBytesInBlock = new int[1];
                 int[] numEcBytesInBlock = new int[1];
-                getNumDataBytesAndNumECBytesForBlockID(
-                    numTotalBytes, numDataBytes, numRSBlocks, i,
+                GetNumDataBytesAndNumEcBytesForBlockId(
+                    numTotalBytes, numDataBytes, numRsBlocks, i,
                     numDataBytesInBlock, numEcBytesInBlock);
 
                 int size = numDataBytesInBlock[0];
                 byte[] dataBytes = new byte[size];
                 bits.ToBytes(8 * dataBytesOffset, dataBytes, 0, size);
-                byte[] ecBytes = generateECBytes(dataBytes, numEcBytesInBlock[0]);
+                byte[] ecBytes = GenerateEcBytes(dataBytes, numEcBytesInBlock[0]);
                 blocks.Add(new BlockPair(dataBytes, ecBytes));
 
                 maxNumDataBytes = Math.Max(maxNumDataBytes, size);
@@ -582,7 +582,7 @@ namespace ZXing.QrCode.Internal
             return result;
         }
 
-        public static byte[] generateECBytes(byte[] dataBytes, int numEcBytesInBlock)
+        public static byte[] GenerateEcBytes(byte[] dataBytes, int numEcBytesInBlock)
         {
             int numDataBytes = dataBytes.Length;
             int[] toEncode = new int[numDataBytes + numEcBytesInBlock];
@@ -607,7 +607,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
-        public static void appendModeInfo(Mode mode, BitArray bits)
+        public static void AppendModeInfo(Mode mode, BitArray bits)
         {
             bits.AppendBits(mode.Bits, 4);
         }
@@ -620,7 +620,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="version">The version.</param>
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
-        public static void appendLengthInfo(int numLetters, Version version, Mode mode, BitArray bits)
+        public static void AppendLengthInfo(int numLetters, Version version, Mode mode, BitArray bits)
         {
             int numBits = mode.getCharacterCountBits(version);
             if (numLetters >= 1 << numBits)
@@ -637,28 +637,28 @@ namespace ZXing.QrCode.Internal
         /// <param name="mode">The mode.</param>
         /// <param name="bits">The bits.</param>
         /// <param name="encoding">The encoding.</param>
-        public static void appendBytes(string content,
+        public static void AppendBytes(string content,
                                 Mode mode,
                                 BitArray bits,
                                 string encoding)
         {
             if (mode.Equals(Mode.NUMERIC)) {
-                appendNumericBytes(content, bits);
+                AppendNumericBytes(content, bits);
             } else
                if (mode.Equals(Mode.ALPHANUMERIC)) {
-                   appendAlphanumericBytes(content, bits);
+                   AppendAlphanumericBytes(content, bits);
                } else
                   if (mode.Equals(Mode.BYTE)) {
-                      append8BitBytes(content, bits, encoding);
+                      Append8BitBytes(content, bits, encoding);
                   } else
                      if (mode.Equals(Mode.KANJI)) {
-                         appendKanjiBytes(content, bits);
+                         AppendKanjiBytes(content, bits);
                      } else {
                          throw new WriterException("Invalid mode: " + mode);
                      }
         }
 
-        public static void appendNumericBytes(string content, BitArray bits)
+        public static void AppendNumericBytes(string content, BitArray bits)
         {
             int length = content.Length;
 
@@ -690,21 +690,21 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        public static void appendAlphanumericBytes(string content, BitArray bits)
+        public static void AppendAlphanumericBytes(string content, BitArray bits)
         {
             int length = content.Length;
 
             int i = 0;
             while (i < length)
             {
-                int code1 = getAlphanumericCode(content[i]);
+                int code1 = GetAlphanumericCode(content[i]);
                 if (code1 == -1)
                 {
                     throw new WriterException();
                 }
                 if (i + 1 < length)
                 {
-                    int code2 = getAlphanumericCode(content[i + 1]);
+                    int code2 = GetAlphanumericCode(content[i + 1]);
                     if (code2 == -1)
                     {
                         throw new WriterException();
@@ -722,7 +722,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        public static void append8BitBytes(string content, BitArray bits, string encoding)
+        public static void Append8BitBytes(string content, BitArray bits, string encoding)
         {
             byte[] bytes;
             try
@@ -761,7 +761,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        public static void appendKanjiBytes(string content, BitArray bits)
+        public static void AppendKanjiBytes(string content, BitArray bits)
         {
             byte[] bytes;
             try
@@ -802,7 +802,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        private static void appendECI(CharacterSetEci eci, BitArray bits)
+        private static void AppendEci(Eci eci, BitArray bits)
         {
             bits.AppendBits(Mode.ECI.Bits, 4);
 

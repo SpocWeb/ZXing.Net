@@ -20,67 +20,28 @@ namespace ZXing.QrCode.Internal
 {
     /// <author>satorux@google.com (Satoru Takabayashi) - creator</author>
     /// <author>dswitkin@google.com (Daniel Switkin) - ported from C++</author>
-    public sealed class QRCode
+    public sealed class QrCode
     {
         /// <summary>
         /// 
         /// </summary>
         public static int NUM_MASK_PATTERNS = 8;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="QRCode"/> class.
-        /// </summary>
-        public QRCode()
+        public QrCode()
         {
             MaskPattern = -1;
         }
 
-        /// <summary>
-        /// Gets or sets the mode.
-        /// </summary>
-        /// <value>
-        /// The mode.
-        /// </value>
         public Mode Mode { get; set; }
 
-        /// <summary>
-        /// Gets or sets the EC level.
-        /// </summary>
-        /// <value>
-        /// The EC level.
-        /// </value>
-        public ErrorCorrectionLevel ECLevel { get; set; }
+        public ErrorCorrectionLevel EcLevel { get; set; }
 
-        /// <summary>
-        /// Gets or sets the version.
-        /// </summary>
-        /// <value>
-        /// The version.
-        /// </value>
         public Version Version { get; set; }
 
-        /// <summary>
-        /// Gets or sets the mask pattern.
-        /// </summary>
-        /// <value>
-        /// The mask pattern.
-        /// </value>
         public int MaskPattern { get; set; }
 
-        /// <summary>
-        /// Gets or sets the matrix.
-        /// </summary>
-        /// <value>
-        /// The matrix.
-        /// </value>
         public ByteMatrix Matrix { get; set; }
 
-        /// <summary>
-        /// Returns a <see cref="string"/> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string"/> that represents this instance.
-        /// </returns>
         public override string ToString()
         {
             var result = new StringBuilder(200);
@@ -88,7 +49,7 @@ namespace ZXing.QrCode.Internal
             result.Append(" mode: ");
             result.Append(Mode);
             result.Append("\n ecLevel: ");
-            result.Append(ECLevel);
+            result.Append(EcLevel);
             result.Append("\n version: ");
             if (Version == null) {
                 result.Append("null");
@@ -110,16 +71,8 @@ namespace ZXing.QrCode.Internal
             return result.ToString();
         }
 
-        /// <summary>
-        /// Check if "mask_pattern" is valid.
-        /// </summary>
-        /// <param name="maskPattern">The mask pattern.</param>
-        /// <returns>
-        ///   <c>true</c> if [is valid mask pattern] [the specified mask pattern]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool isValidMaskPattern(int maskPattern)
-        {
-            return maskPattern >= 0 && maskPattern < NUM_MASK_PATTERNS;
-        }
+        public static bool IsValidMaskPattern(int maskPattern)
+            => maskPattern >= 0 && maskPattern < NUM_MASK_PATTERNS;
+
     }
 }

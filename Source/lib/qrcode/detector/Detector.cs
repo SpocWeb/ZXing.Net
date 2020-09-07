@@ -106,7 +106,7 @@ namespace ZXing.QrCode.Internal
             }
 
             // QR Code Dimensions determine the Number of Bits saved in them.
-            Version provisionalVersion = Version.getProvisionalVersionForDimension(dimension);
+            Version provisionalVersion = Version.GetProvisionalVersionForDimension(dimension);
             if (provisionalVersion == null) {
                 return null;
             }

@@ -118,11 +118,11 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Set all cells to 2.  2 means that the cell is empty (not set yet).
         ///
-        /// JAVAPORT: We shouldn't need to do this at all. The code should be rewritten to begin encoding
-        /// with the ByteMatrix initialized all to zero.
+        /// JAVAPORT: We shouldn't need to do this at all. The code should be rewritten
+        /// to begin encoding with the ByteMatrix initialized all to zero.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
-        public static void clearMatrix(ByteMatrix matrix)
+        public static void ClearMatrix(ByteMatrix matrix)
         {
             matrix.clear(2);
         }
@@ -131,22 +131,17 @@ namespace ZXing.QrCode.Internal
         /// Build 2D matrix of QR Code from "dataBits" with "ecLevel", "version" and "getMaskPattern". On
         /// success, store the result in "matrix" and return true.
         /// </summary>
-        /// <param name="dataBits">The data bits.</param>
-        /// <param name="ecLevel">The ec level.</param>
-        /// <param name="version">The version.</param>
-        /// <param name="maskPattern">The mask pattern.</param>
-        /// <param name="matrix">The matrix.</param>
-        public static void buildMatrix(BitArray dataBits, ErrorCorrectionLevel ecLevel, Version version, int maskPattern,
+        public static void BuildMatrix(BitArray dataBits, ErrorCorrectionLevel ecLevel, Version version, int maskPattern,
            ByteMatrix matrix)
         {
-            clearMatrix(matrix);
-            embedBasicPatterns(version, matrix);
+            ClearMatrix(matrix);
+            EmbedBasicPatterns(version, matrix);
             // Type information appear with any version.
-            embedTypeInfo(ecLevel, maskPattern, matrix);
+            EmbedTypeInfo(ecLevel, maskPattern, matrix);
             // Version info appear if version >= 7.
-            maybeEmbedVersionInfo(version, matrix);
+            MaybeEmbedVersionInfo(version, matrix);
             // Data should be embedded at end.
-            embedDataBits(dataBits, maskPattern, matrix);
+            EmbedDataBits(dataBits, maskPattern, matrix);
         }
 
         /// <summary>
@@ -159,17 +154,17 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="version">The version.</param>
         /// <param name="matrix">The matrix.</param>
-        public static void embedBasicPatterns(Version version, ByteMatrix matrix)
+        public static void EmbedBasicPatterns(Version version, ByteMatrix matrix)
         {
             // Let's get started with embedding big squares at corners.
-            embedPositionDetectionPatternsAndSeparators(matrix);
+            EmbedPositionDetectionPatternsAndSeparators(matrix);
             // Then, embed the dark dot at the left bottom corner.
-            embedDarkDotAtLeftBottomCorner(matrix);
+            EmbedDarkDotAtLeftBottomCorner(matrix);
 
             // Position adjustment patterns appear if version >= 2.
-            maybeEmbedPositionAdjustmentPatterns(version, matrix);
+            MaybeEmbedPositionAdjustmentPatterns(version, matrix);
             // Timing patterns should be embedded after position adj. patterns.
-            embedTimingPatterns(matrix);
+            EmbedTimingPatterns(matrix);
         }
 
         /// <summary>
@@ -178,10 +173,10 @@ namespace ZXing.QrCode.Internal
         /// <param name="ecLevel">The ec level.</param>
         /// <param name="maskPattern">The mask pattern.</param>
         /// <param name="matrix">The matrix.</param>
-        public static void embedTypeInfo(ErrorCorrectionLevel ecLevel, int maskPattern, ByteMatrix matrix)
+        public static void EmbedTypeInfo(ErrorCorrectionLevel ecLevel, int maskPattern, ByteMatrix matrix)
         {
             BitArray typeInfoBits = new BitArray();
-            makeTypeInfoBits(ecLevel, maskPattern, typeInfoBits);
+            MakeTypeInfoBits(ecLevel, maskPattern, typeInfoBits);
 
             for (int i = 0; i < typeInfoBits.Size; ++i)
             {
@@ -219,7 +214,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="version">The version.</param>
         /// <param name="matrix">The matrix.</param>
-        public static void maybeEmbedVersionInfo(Version version, ByteMatrix matrix)
+        public static void MaybeEmbedVersionInfo(Version version, ByteMatrix matrix)
         {
             if (version.VersionNumber < 7)
             {
@@ -227,7 +222,7 @@ namespace ZXing.QrCode.Internal
                 return; // Don't need version info.
             }
             BitArray versionInfoBits = new BitArray();
-            makeVersionInfoBits(version, versionInfoBits);
+            MakeVersionInfoBits(version, versionInfoBits);
 
             int bitIndex = 6 * 3 - 1; // It will decrease from 17 to 0.
             for (int i = 0; i < 6; ++i)
@@ -253,7 +248,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="dataBits">The data bits.</param>
         /// <param name="maskPattern">The mask pattern.</param>
         /// <param name="matrix">The matrix.</param>
-        public static void embedDataBits(BitArray dataBits, int maskPattern, ByteMatrix matrix)
+        public static void EmbedDataBits(BitArray dataBits, int maskPattern, ByteMatrix matrix)
         {
             int bitIndex = 0;
             int direction = -1;
@@ -273,7 +268,7 @@ namespace ZXing.QrCode.Internal
                     {
                         int xx = x - i;
                         // Skip the cell if it's not empty.
-                        if (!isEmpty(matrix[xx, y]))
+                        if (!IsEmpty(matrix[xx, y]))
                         {
                             continue;
                         }
@@ -320,14 +315,14 @@ namespace ZXing.QrCode.Internal
         /// - findMSBSet(1) => 1
         /// - findMSBSet(255) => 8
         /// </summary>
-        /// <param name="value_Renamed">The value_ renamed.</param>
+        /// <param name="valueRenamed">The value_ renamed.</param>
         /// <returns></returns>
-        public static int findMSBSet(int value_Renamed)
+        public static int FindMsbSet(int valueRenamed)
         {
             int numDigits = 0;
-            while (value_Renamed != 0)
+            while (valueRenamed != 0)
             {
-                value_Renamed = (int)((uint)value_Renamed >> 1);
+                valueRenamed = (int)((uint)valueRenamed >> 1);
                 ++numDigits;
             }
             return numDigits;
@@ -363,7 +358,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="value">The value.</param>
         /// <param name="poly">The poly.</param>
         /// <returns></returns>
-        public static int calculateBCHCode(int value, int poly)
+        public static int CalculateBchCode(int value, int poly)
         {
             if (poly == 0) {
                 throw new ArgumentException("0 polynominal", "poly");
@@ -371,12 +366,12 @@ namespace ZXing.QrCode.Internal
 
             // If poly is "1 1111 0010 0101" (version info poly), msbSetInPoly is 13. We'll subtract 1
             // from 13 to make it 12.
-            int msbSetInPoly = findMSBSet(poly);
+            int msbSetInPoly = FindMsbSet(poly);
             value <<= msbSetInPoly - 1;
             // Do the division business using exclusive-or operations.
-            while (findMSBSet(value) >= msbSetInPoly)
+            while (FindMsbSet(value) >= msbSetInPoly)
             {
-                value ^= poly << (findMSBSet(value) - msbSetInPoly);
+                value ^= poly << (FindMsbSet(value) - msbSetInPoly);
             }
             // Now the "value" is the remainder (i.e. the BCH code)
             return value;
@@ -390,16 +385,16 @@ namespace ZXing.QrCode.Internal
         /// <param name="ecLevel">The ec level.</param>
         /// <param name="maskPattern">The mask pattern.</param>
         /// <param name="bits">The bits.</param>
-        public static void makeTypeInfoBits(ErrorCorrectionLevel ecLevel, int maskPattern, BitArray bits)
+        public static void MakeTypeInfoBits(ErrorCorrectionLevel ecLevel, int maskPattern, BitArray bits)
         {
-            if (!QRCode.isValidMaskPattern(maskPattern))
+            if (!QrCode.IsValidMaskPattern(maskPattern))
             {
                 throw new WriterException("Invalid mask pattern");
             }
             int typeInfo = (ecLevel.Bits << 3) | maskPattern;
             bits.AppendBits(typeInfo, 5);
 
-            int bchCode = calculateBCHCode(typeInfo, TYPE_INFO_POLY);
+            int bchCode = CalculateBchCode(typeInfo, TYPE_INFO_POLY);
             bits.AppendBits(bchCode, 10);
 
             BitArray maskBits = new BitArray();
@@ -419,10 +414,10 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="version">The version.</param>
         /// <param name="bits">The bits.</param>
-        public static void makeVersionInfoBits(Version version, BitArray bits)
+        public static void MakeVersionInfoBits(Version version, BitArray bits)
         {
             bits.AppendBits(version.VersionNumber, 6);
-            int bchCode = calculateBCHCode(version.VersionNumber, VERSION_INFO_POLY);
+            int bchCode = CalculateBchCode(version.VersionNumber, VERSION_INFO_POLY);
             bits.AppendBits(bchCode, 12);
 
             if (bits.Size != 18)
@@ -439,12 +434,12 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         ///   <c>true</c> if the specified value is empty; otherwise, <c>false</c>.
         /// </returns>
-        private static bool isEmpty(int value)
+        private static bool IsEmpty(int value)
         {
             return value == 2;
         }
 
-        private static void embedTimingPatterns(ByteMatrix matrix)
+        private static void EmbedTimingPatterns(ByteMatrix matrix)
         {
             // -8 is for skipping position detection patterns (size 7), and two horizontal/vertical
             // separation patterns (size 1). Thus, 8 = 7 + 1.
@@ -452,12 +447,12 @@ namespace ZXing.QrCode.Internal
             {
                 int bit = (i + 1) % 2;
                 // Horizontal line.
-                if (isEmpty(matrix[i, 6]))
+                if (IsEmpty(matrix[i, 6]))
                 {
                     matrix[i, 6] = bit;
                 }
                 // Vertical line.
-                if (isEmpty(matrix[6, i]))
+                if (IsEmpty(matrix[6, i]))
                 {
                     matrix[6, i] = bit;
                 }
@@ -468,7 +463,7 @@ namespace ZXing.QrCode.Internal
         /// Embed the lonely dark dot at left bottom corner. JISX0510:2004 (p.46)
         /// </summary>
         /// <param name="matrix">The matrix.</param>
-        private static void embedDarkDotAtLeftBottomCorner(ByteMatrix matrix)
+        private static void EmbedDarkDotAtLeftBottomCorner(ByteMatrix matrix)
         {
             if (matrix[8, matrix.Height - 8] == 0)
             {
@@ -477,11 +472,11 @@ namespace ZXing.QrCode.Internal
             matrix[8, matrix.Height - 8] = 1;
         }
 
-        private static void embedHorizontalSeparationPattern(int xStart, int yStart, ByteMatrix matrix)
+        private static void EmbedHorizontalSeparationPattern(int xStart, int yStart, ByteMatrix matrix)
         {
             for (int x = 0; x < 8; ++x)
             {
-                if (!isEmpty(matrix[xStart + x, yStart]))
+                if (!IsEmpty(matrix[xStart + x, yStart]))
                 {
                     throw new WriterException();
                 }
@@ -489,11 +484,11 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        private static void embedVerticalSeparationPattern(int xStart, int yStart, ByteMatrix matrix)
+        private static void EmbedVerticalSeparationPattern(int xStart, int yStart, ByteMatrix matrix)
         {
             for (int y = 0; y < 7; ++y)
             {
-                if (!isEmpty(matrix[xStart, yStart + y]))
+                if (!IsEmpty(matrix[xStart, yStart + y]))
                 {
                     throw new WriterException();
                 }
@@ -507,7 +502,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="xStart">The x start.</param>
         /// <param name="yStart">The y start.</param>
         /// <param name="matrix">The matrix.</param>
-        private static void embedPositionAdjustmentPattern(int xStart, int yStart, ByteMatrix matrix)
+        private static void EmbedPositionAdjustmentPattern(int xStart, int yStart, ByteMatrix matrix)
         {
             for (int y = 0; y < 5; ++y)
             {
@@ -519,7 +514,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        private static void embedPositionDetectionPattern(int xStart, int yStart, ByteMatrix matrix)
+        private static void EmbedPositionDetectionPattern(int xStart, int yStart, ByteMatrix matrix)
         {
             for (int y = 0; y < 7; ++y)
             {
@@ -535,34 +530,34 @@ namespace ZXing.QrCode.Internal
         /// Embed position detection patterns and surrounding vertical/horizontal separators.
         /// </summary>
         /// <param name="matrix">The matrix.</param>
-        private static void embedPositionDetectionPatternsAndSeparators(ByteMatrix matrix)
+        private static void EmbedPositionDetectionPatternsAndSeparators(ByteMatrix matrix)
         {
             // Embed three big squares at corners.
             int pdpWidth = POSITION_DETECTION_PATTERN[0].Length;
             // Left top corner.
-            embedPositionDetectionPattern(0, 0, matrix);
+            EmbedPositionDetectionPattern(0, 0, matrix);
             // Right top corner.
-            embedPositionDetectionPattern(matrix.Width - pdpWidth, 0, matrix);
+            EmbedPositionDetectionPattern(matrix.Width - pdpWidth, 0, matrix);
             // Left bottom corner.
-            embedPositionDetectionPattern(0, matrix.Width - pdpWidth, matrix);
+            EmbedPositionDetectionPattern(0, matrix.Width - pdpWidth, matrix);
 
             // Embed horizontal separation patterns around the squares.
             const int hspWidth = 8;
             // Left top corner.
-            embedHorizontalSeparationPattern(0, hspWidth - 1, matrix);
+            EmbedHorizontalSeparationPattern(0, hspWidth - 1, matrix);
             // Right top corner.
-            embedHorizontalSeparationPattern(matrix.Width - hspWidth, hspWidth - 1, matrix);
+            EmbedHorizontalSeparationPattern(matrix.Width - hspWidth, hspWidth - 1, matrix);
             // Left bottom corner.
-            embedHorizontalSeparationPattern(0, matrix.Width - hspWidth, matrix);
+            EmbedHorizontalSeparationPattern(0, matrix.Width - hspWidth, matrix);
 
             // Embed vertical separation patterns around the squares.
             const int vspSize = 7;
             // Left top corner.
-            embedVerticalSeparationPattern(vspSize, 0, matrix);
+            EmbedVerticalSeparationPattern(vspSize, 0, matrix);
             // Right top corner.
-            embedVerticalSeparationPattern(matrix.Height - vspSize - 1, 0, matrix);
+            EmbedVerticalSeparationPattern(matrix.Height - vspSize - 1, 0, matrix);
             // Left bottom corner.
-            embedVerticalSeparationPattern(vspSize, matrix.Height - vspSize, matrix);
+            EmbedVerticalSeparationPattern(vspSize, matrix.Height - vspSize, matrix);
         }
 
         /// <summary>
@@ -570,7 +565,7 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         /// <param name="version">The version.</param>
         /// <param name="matrix">The matrix.</param>
-        private static void maybeEmbedPositionAdjustmentPatterns(Version version, ByteMatrix matrix)
+        private static void MaybeEmbedPositionAdjustmentPatterns(Version version, ByteMatrix matrix)
         {
             if (version.VersionNumber < 2)
             {
@@ -585,12 +580,12 @@ namespace ZXing.QrCode.Internal
                 {
                     foreach (int x in coordinates)
                     {
-                        if (x >= 0 && isEmpty(matrix[x, y]))
+                        if (x >= 0 && IsEmpty(matrix[x, y]))
                         {
                             // If the cell is unset, we embed the position adjustment pattern here.
                             // -2 is necessary since the x/y coordinates point to the center of the pattern, not the
                             // left top corner.
-                            embedPositionAdjustmentPattern(x - 2, y - 2, matrix);
+                            EmbedPositionAdjustmentPattern(x - 2, y - 2, matrix);
                         }
                     }
                 }
