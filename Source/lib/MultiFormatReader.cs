@@ -136,7 +136,7 @@ namespace ZXing
                     }
                     if (formats.Contains(BarcodeFormat.IMB))
                     {
-                        _Readers.Add(new IMBReader());
+                        _Readers.Add(new ImbReader());
                     }
                     // At end in "try harder" mode
                     if (addOneDReader && tryHarder)

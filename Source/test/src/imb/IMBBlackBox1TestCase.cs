@@ -24,7 +24,7 @@ namespace ZXing.IMB.Test
    public sealed class ImbBlackBox1TestCase : AbstractBlackBoxTestCase
    {
       public ImbBlackBox1TestCase()
-         : base("test/data/blackbox/imb-1", new IMBReader(), BarcodeFormat.IMB)
+         : base("test/data/blackbox/imb-1", new ImbReader(), BarcodeFormat.IMB)
       {
          AddTest(1, 7, 0.0f);
          AddTest(0, 7, 90.0f);

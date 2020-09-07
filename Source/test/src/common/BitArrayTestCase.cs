@@ -15,7 +15,7 @@
  */
 
 using System;
-
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace ZXing.Common.Test
@@ -319,9 +319,9 @@ namespace ZXing.Common.Test
       }
 
       /// <summary> Reverses all bits in the array.</summary>
-      private int[] ReverseOriginal(int[] oldBits, int oldSize)
+      private static int[] ReverseOriginal(IReadOnlyList<int> oldBits, int oldSize)
       {
-         int[] newBits = new int[oldBits.Length];
+         int[] newBits = new int[oldBits.Count];
          int size = oldSize;
          for (int i = 0; i < size; i++)
          {
@@ -333,16 +333,13 @@ namespace ZXing.Common.Test
          return newBits;
       }
 
-      private bool bits_index(int[] bits, int i)
-      {
-         return (bits[i >> 5] & (1 << (i & 0x1F))) != 0;
-      }
+      private static bool bits_index(IReadOnlyList<int> bits, int i) => (bits[i >> 5] & (1 << (i & 0x1F))) != 0;
 
       /// <summary> Reverses all bits in the array.</summary>
-      private int[] ReverseNew(int[] oldBits, int oldSize)
+      private static int[] ReverseNew(IReadOnlyList<int> oldBits, int oldSize)
       {
          // doesn't work if more ints are used as necessary
-         int[] newBits = new int[oldBits.Length];
+         int[] newBits = new int[oldBits.Count];
          var oldBitsLen = (int)Math.Ceiling(oldSize / 32f);
          var len = oldBitsLen - 1;
          for (var i = 0; i < oldBitsLen; i++)
@@ -355,29 +352,31 @@ namespace ZXing.Common.Test
             x = ((x >> 16) & 0xffffu) | ((x & 0xffffu) << 16);
             newBits[len - i] = (int)x;
          }
-         if (oldSize != oldBitsLen * 32)
+         if (oldSize == oldBitsLen * 32) {
+             return newBits;
+         }
          {
-            var leftOffset = oldBitsLen * 32 - oldSize;
-            var mask = 1;
-            for (var i = 0; i < 31 - leftOffset; i++ )
-                {
-                    mask = (mask << 1) | 1;
-                }
+             var leftOffset = oldBitsLen * 32 - oldSize;
+             var mask = 1;
+             for (var i = 0; i < 31 - leftOffset; i++ )
+             {
+                 mask = (mask << 1) | 1;
+             }
 
-                var currentInt = (newBits[0] >> leftOffset) & mask;
-            for (var i = 1; i < oldBitsLen; i++)
-            {
-               var nextInt = newBits[i];
-               currentInt |= nextInt << (32 - leftOffset);
-               newBits[i - 1] = currentInt;
-               currentInt = (nextInt >> leftOffset) & mask;
-            }
-            newBits[oldBitsLen - 1] = currentInt;
+             var currentInt = (newBits[0] >> leftOffset) & mask;
+             for (var i = 1; i < oldBitsLen; i++)
+             {
+                 var nextInt = newBits[i];
+                 currentInt |= nextInt << (32 - leftOffset);
+                 newBits[i - 1] = currentInt;
+                 currentInt = (nextInt >> leftOffset) & mask;
+             }
+             newBits[oldBitsLen - 1] = currentInt;
          }
          return newBits;
       }
 
-      private bool arrays_are_equal(int[] left, int[] right, int size)
+      private static bool arrays_are_equal(IReadOnlyList<int> left, IReadOnlyList<int> right, int size)
       {
          for (var i = 0; i < size; i++)
          {
@@ -388,7 +387,7 @@ namespace ZXing.Common.Test
          return true;
       }
 
-      private string BitsToString(int[] bits, int size)
+      private static string BitsToString(IReadOnlyList<int> bits, int size)
       {
          var result = new System.Text.StringBuilder(size);
          for (int i = 0; i < size; i++)
