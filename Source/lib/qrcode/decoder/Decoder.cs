@@ -31,14 +31,14 @@ namespace ZXing.QrCode.Internal
     public sealed class Decoder
     {
 
-        readonly ReedSolomonDecoder rsDecoder;
+        readonly ReedSolomonDecoder _RsDecoder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Decoder"/> class.
         /// </summary>
         public Decoder()
         {
-            rsDecoder = new ReedSolomonDecoder(GenericGf.QR_CODE_FIELD_256);
+            _RsDecoder = new ReedSolomonDecoder(GenericGf.QR_CODE_FIELD_256);
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         /// text and bytes encoded within the QR Code
         /// </returns>
-        public DecoderResult decode(bool[][] image, IDictionary<DecodeHintType, object> hints)
-            => decode(BitMatrix.Parse(image), hints);
+        public DecoderResult Decode(bool[][] image, IDictionary<DecodeHintType, object> hints)
+            => Decode(BitMatrix.Parse(image), hints);
 
         /// <summary>
         ///   <p>Decodes a QR Code represented as a {@link BitMatrix}. A 1 or "true" is taken to mean a black module.</p>
@@ -61,7 +61,7 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         /// text and bytes encoded within the QR Code
         /// </returns>
-        public DecoderResult decode(IBitMatrix bits, IDictionary<DecodeHintType, object> hints)
+        public DecoderResult Decode(IBitMatrix bits, IDictionary<DecodeHintType, object> hints)
         {
             // Construct a parser and read version, error-correction level
             var parser = BitMatrixParser.CreateBitMatrixParser(bits);
@@ -69,7 +69,7 @@ namespace ZXing.QrCode.Internal
                 return null;
             }
 
-            var result = decode(parser, hints);
+            var result = Decode(parser, hints);
             if (!string.IsNullOrEmpty(result?.Text)) {
                 return result;
             }
@@ -100,7 +100,7 @@ namespace ZXing.QrCode.Internal
             // Prepare for a mirrored reading.
             parser.Mirror();
 
-            result = decode(parser, hints);
+            result = Decode(parser, hints);
 
             if (!string.IsNullOrEmpty(result?.Text)) 
             {
@@ -111,7 +111,7 @@ namespace ZXing.QrCode.Internal
             return result;
         }
 
-        DecoderResult decode(BitMatrixParser parser, IDictionary<DecodeHintType, object> hints)
+        DecoderResult Decode(BitMatrixParser parser, IDictionary<DecodeHintType, object> hints)
         {
             Version version = parser.ReadVersion();
             if (version == null) {
@@ -141,7 +141,7 @@ namespace ZXing.QrCode.Internal
             {
                 byte[] codewordBytes = dataBlock.Codewords;
                 int numDataCodewords = dataBlock.NumDataCodewords;
-                if (!correctErrors(codewordBytes, numDataCodewords))
+                if (!CorrectErrors(codewordBytes, numDataCodewords))
                 {
                     continue;
                 }
@@ -153,24 +153,24 @@ namespace ZXing.QrCode.Internal
             }
 
             // Decode the contents of that stream of bytes
-            return DecodedBitStreamParser.decode(resultBytes, version, ecLevel, hints);
+            return DecodedBitStreamParser.Decode(resultBytes, version, ecLevel, hints);
         }
 
         /// <summary> attempts to correct the errors in-place using Reed-Solomon error correction. </summary>
         /// <param name="codewordBytes">data and error correction codewords</param>
         /// <param name="numDataCodewords">number of codewords that are data bytes</param>
-        bool correctErrors(byte[] codewordBytes, int numDataCodewords)
+        bool CorrectErrors(IList<byte> codewordBytes, int numDataCodewords)
         {
-            int numCodewords = codewordBytes.Length;
+            int numCodewords = codewordBytes.Count;
             // First read into an array of ints
             int[] codewordsInts = new int[numCodewords];
             for (int i = 0; i < numCodewords; i++)
             {
                 codewordsInts[i] = codewordBytes[i];
             }
-            int numECCodewords = codewordBytes.Length - numDataCodewords;
+            int numEcCodewords = codewordBytes.Count - numDataCodewords;
 
-            if (!rsDecoder.Decode(codewordsInts, numECCodewords)) {
+            if (!_RsDecoder.Decode(codewordsInts, numEcCodewords)) {
                 return false;
             }
 

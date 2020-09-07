@@ -69,7 +69,7 @@ namespace ZXing.Aztec.Internal
          "CTRL_PS", " ", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", ".", "CTRL_UL", "CTRL_US"
       };
 
-        static readonly IDictionary<Table, string[]> codeTables = new Dictionary<Table, string[]>
+        static readonly IDictionary<Table, string[]> CODE_TABLES = new Dictionary<Table, string[]>
       {
          {Table.UPPER, UPPER_TABLE},
          {Table.LOWER, LOWER_TABLE},
@@ -79,7 +79,7 @@ namespace ZXing.Aztec.Internal
          {Table.BINARY, null}
       };
 
-        static readonly IDictionary<char, Table> codeTableMap = new Dictionary<char, Table>
+        static readonly IDictionary<char, Table> CODE_TABLE_MAP = new Dictionary<char, Table>
       {
          {'U', Table.UPPER},
          {'L', Table.LOWER},
@@ -89,33 +89,33 @@ namespace ZXing.Aztec.Internal
          {'B', Table.BINARY}
       };
 
-        AztecDetectorResult ddata;
+        AztecDetectorResult _Data;
 
         /// <summary>
         /// Decodes the specified detector result.
         /// </summary>
         /// <param name="detectorResult">The detector result.</param>
         /// <returns></returns>
-        public DecoderResult decode(AztecDetectorResult detectorResult)
+        public DecoderResult Decode(AztecDetectorResult detectorResult)
         {
-            ddata = detectorResult;
+            _Data = detectorResult;
             var matrix = detectorResult.Bits;
-            var rawbits = extractBits(matrix);
-            if (rawbits == null) {
+            var rawBits = ExtractBits(matrix);
+            if (rawBits == null) {
                 return null;
             }
 
-            var correctedBits = correctBits(rawbits);
+            var correctedBits = CorrectBits(rawBits);
             if (correctedBits == null) {
                 return null;
             }
 
-            var result = getEncodedData(correctedBits);
+            var result = GetEncodedData(correctedBits);
             if (result == null) {
                 return null;
             }
 
-            var rawBytes = convertBoolArrayToByteArray(correctedBits);
+            var rawBytes = ConvertBoolArrayToByteArray(correctedBits);
 
             return new DecoderResult(rawBytes, correctedBits.Length, result, null, null);
         }
@@ -125,9 +125,9 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="correctedBits"></param>
         /// <returns></returns>
-        public static string highLevelDecode(bool[] correctedBits)
+        public static string HighLevelDecode(bool[] correctedBits)
         {
-            return getEncodedData(correctedBits);
+            return GetEncodedData(correctedBits);
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="correctedBits">The corrected bits.</param>
         /// <returns>the decoded string</returns>
-        static string getEncodedData(bool[] correctedBits)
+        static string GetEncodedData(IReadOnlyList<bool> correctedBits)
         {
-            var endIndex = correctedBits.Length;
+            var endIndex = correctedBits.Count;
             var latchTable = Table.UPPER; // table most recently latched to
             var shiftTable = Table.UPPER; // table to use for the next read
             var strTable = UPPER_TABLE;
@@ -152,7 +152,7 @@ namespace ZXing.Aztec.Internal
                     {
                         break;
                     }
-                    int length = readCode(correctedBits, index, 5);
+                    int length = ReadCode(correctedBits, index, 5);
                     index += 5;
                     if (length == 0)
                     {
@@ -160,7 +160,7 @@ namespace ZXing.Aztec.Internal
                         {
                             break;
                         }
-                        length = readCode(correctedBits, index, 11) + 31;
+                        length = ReadCode(correctedBits, index, 11) + 31;
                         index += 11;
                     }
                     for (int charCount = 0; charCount < length; charCount++)
@@ -170,13 +170,13 @@ namespace ZXing.Aztec.Internal
                             index = endIndex; // Force outer loop to exit
                             break;
                         }
-                        int code = readCode(correctedBits, index, 8);
+                        int code = ReadCode(correctedBits, index, 8);
                         result.Append((char)code);
                         index += 8;
                     }
                     // Go back to whatever mode we had been in
                     shiftTable = latchTable;
-                    strTable = codeTables[shiftTable];
+                    strTable = CODE_TABLES[shiftTable];
                 }
                 else
                 {
@@ -185,9 +185,9 @@ namespace ZXing.Aztec.Internal
                     {
                         break;
                     }
-                    int code = readCode(correctedBits, index, size);
+                    int code = ReadCode(correctedBits, index, size);
                     index += size;
-                    string str = getCharacter(strTable, code);
+                    string str = GetCharacter(strTable, code);
                     if (str.StartsWith("CTRL_"))
                     {
                         // Table changes
@@ -195,8 +195,8 @@ namespace ZXing.Aztec.Internal
                         // That's including when that mode is a shift.
                         // Our test case dlusbs.png for issue #642 exercises that.
                         latchTable = shiftTable;  // Latch the current mode, so as to return to Upper after U/S B/S
-                        shiftTable = getTable(str[5]);
-                        strTable = codeTables[shiftTable];
+                        shiftTable = GetTable(str[5]);
+                        strTable = CODE_TABLES[shiftTable];
                         if (str[6] == 'L')
                         {
                             latchTable = shiftTable;
@@ -207,7 +207,7 @@ namespace ZXing.Aztec.Internal
                         result.Append(str);
                         // Go back to whatever mode we had been in
                         shiftTable = latchTable;
-                        strTable = codeTables[shiftTable];
+                        strTable = CODE_TABLES[shiftTable];
                     }
                 }
             }
@@ -219,12 +219,12 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="t">The t.</param>
         /// <returns></returns>
-        static Table getTable(char t)
+        static Table GetTable(char t)
         {
-            if (!codeTableMap.ContainsKey(t)) {
-                return codeTableMap['U'];
+            if (!CODE_TABLE_MAP.ContainsKey(t)) {
+                return CODE_TABLE_MAP['U'];
             }
-            return codeTableMap[t];
+            return CODE_TABLE_MAP[t];
         }
 
         /// <summary>
@@ -233,32 +233,25 @@ namespace ZXing.Aztec.Internal
         /// <param name="table">the table used</param>
         /// <param name="code">the code of the character</param>
         /// <returns></returns>
-        static string getCharacter(string[] table, int code)
-        {
-            return table[code];
-        }
+        static string GetCharacter(IReadOnlyList<string> table, int code) => table[code];
 
-        /// <summary>
-        ///Performs RS error correction on an array of bits.
-        /// </summary>
-        /// <param name="rawbits">The rawbits.</param>
-        /// <returns>the corrected array</returns>
-        bool[] correctBits(bool[] rawbits)
+        /// <summary>Performs RS error correction on an array of bits. </summary>
+        bool[] CorrectBits(IReadOnlyList<bool> rawBits)
         {
             GenericGf gf;
             int codewordSize;
 
-            if (ddata.NbLayers <= 2)
+            if (_Data.NbLayers <= 2)
             {
                 codewordSize = 6;
                 gf = GenericGf.AZTEC_DATA_6;
             }
-            else if (ddata.NbLayers <= 8)
+            else if (_Data.NbLayers <= 8)
             {
                 codewordSize = 8;
                 gf = GenericGf.AZTEC_DATA_8;
             }
-            else if (ddata.NbLayers <= 22)
+            else if (_Data.NbLayers <= 22)
             {
                 codewordSize = 10;
                 gf = GenericGf.AZTEC_DATA_10;
@@ -269,27 +262,27 @@ namespace ZXing.Aztec.Internal
                 gf = GenericGf.AZTEC_DATA_12;
             }
 
-            int numDataCodewords = ddata.NbDatablocks;
-            int numCodewords = rawbits.Length / codewordSize;
+            int numDataCodewords = _Data.NbDatablocks;
+            int numCodewords = rawBits.Count / codewordSize;
             if (numCodewords < numDataCodewords) {
                 return null;
             }
 
-            int offset = rawbits.Length % codewordSize;
-            int numECCodewords = numCodewords - numDataCodewords;
+            int offset = rawBits.Count % codewordSize;
+            int numEcCodewords = numCodewords - numDataCodewords;
 
             int[] dataWords = new int[numCodewords];
             for (int i = 0; i < numCodewords; i++, offset += codewordSize)
             {
-                dataWords[i] = readCode(rawbits, offset, codewordSize);
+                dataWords[i] = ReadCode(rawBits, offset, codewordSize);
             }
 
             var rsDecoder = new ReedSolomonDecoder(gf);
-            if (!rsDecoder.Decode(dataWords, numECCodewords)) {
+            if (!rsDecoder.Decode(dataWords, numEcCodewords)) {
                 return null;
             }
 
-            // Now perform the unstuffing operation.
+            // Now perform the un-stuffing operation.
             // First, count how many bits are going to be thrown out as stuffing
             int mask = (1 << codewordSize) - 1;
             int stuffedBits = 0;
@@ -338,13 +331,13 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         /// <param name="matrix">The matrix.</param>
         /// <returns>the array of bits</returns>
-        bool[] extractBits(IRoBitMatrix matrix)
+        bool[] ExtractBits(IRoBitMatrix matrix)
         {
-            bool compact = ddata.Compact;
-            int layers = ddata.NbLayers;
+            bool compact = _Data.Compact;
+            int layers = _Data.NbLayers;
             int baseMatrixSize = (compact ? 11 : 14) + layers * 4; // not including alignment lines
             int[] alignmentMap = new int[baseMatrixSize];
-            bool[] rawbits = new bool[totalBitsInLayer(layers, compact)];
+            bool[] rawBits = new bool[TotalBitsInLayer(layers, compact)];
 
             if (compact)
             {
@@ -379,38 +372,32 @@ namespace ZXing.Aztec.Internal
                     for (int k = 0; k < 2; k++)
                     {
                         // left column
-                        rawbits[rowOffset + columnOffset + k] =
+                        rawBits[rowOffset + columnOffset + k] =
                            matrix[alignmentMap[low + k], alignmentMap[low + j]];
                         // bottom row
-                        rawbits[rowOffset + 2 * rowSize + columnOffset + k] =
+                        rawBits[rowOffset + 2 * rowSize + columnOffset + k] =
                            matrix[alignmentMap[low + j], alignmentMap[high - k]];
                         // right column
-                        rawbits[rowOffset + 4 * rowSize + columnOffset + k] =
+                        rawBits[rowOffset + 4 * rowSize + columnOffset + k] =
                            matrix[alignmentMap[high - k], alignmentMap[high - j]];
                         // top row
-                        rawbits[rowOffset + 6 * rowSize + columnOffset + k] =
+                        rawBits[rowOffset + 6 * rowSize + columnOffset + k] =
                            matrix[alignmentMap[high - j], alignmentMap[low + k]];
                     }
                 }
                 rowOffset += rowSize * 8;
             }
-            return rawbits;
+            return rawBits;
         }
 
-        /// <summary>
-        /// Reads a code of given length and at given index in an array of bits
-        /// </summary>
-        /// <param name="rawbits">The rawbits.</param>
-        /// <param name="startIndex">The start index.</param>
-        /// <param name="length">The length.</param>
-        /// <returns></returns>
-        static int readCode(bool[] rawbits, int startIndex, int length)
+        /// <summary> Reads a code of given length and at given index in an array of bits </summary>
+        static int ReadCode(IReadOnlyList<bool> rawBits, int startIndex, int length)
         {
             int res = 0;
             for (int i = startIndex; i < startIndex + length; i++)
             {
                 res <<= 1;
-                if (rawbits[i])
+                if (rawBits[i])
                 {
                     res |= 1;
                 }
@@ -418,38 +405,29 @@ namespace ZXing.Aztec.Internal
             return res;
         }
 
-        /// <summary>
-        /// Reads a code of length 8 in an array of bits, padding with zeros
-        /// </summary>
-        /// <param name="rawbits"></param>
-        /// <param name="startIndex"></param>
-        /// <returns></returns>
-        static byte readByte(bool[] rawbits, int startIndex)
+        /// <summary> Reads a code of length 8 in an array of bits, padding with zeros </summary>
+        static byte ReadByte(IReadOnlyList<bool> rawBits, int startIndex)
         {
-            int n = rawbits.Length - startIndex;
+            int n = rawBits.Count - startIndex;
             if (n >= 8)
             {
-                return (byte)readCode(rawbits, startIndex, 8);
+                return (byte)ReadCode(rawBits, startIndex, 8);
             }
-            return (byte)(readCode(rawbits, startIndex, n) << (8 - n));
+            return (byte)(ReadCode(rawBits, startIndex, n) << (8 - n));
         }
 
-        /// <summary>
-        /// Packs a bit array into bytes, most significant bit first
-        /// </summary>
-        /// <param name="boolArr"></param>
-        /// <returns></returns>
-        public static byte[] convertBoolArrayToByteArray(bool[] boolArr)
+        /// <summary> Packs a bit array into bytes, most significant bit first </summary>
+        public static byte[] ConvertBoolArrayToByteArray(bool[] boolArr)
         {
             byte[] byteArr = new byte[(boolArr.Length + 7) / 8];
             for (int i = 0; i < byteArr.Length; i++)
             {
-                byteArr[i] = readByte(boolArr, 8 * i);
+                byteArr[i] = ReadByte(boolArr, 8 * i);
             }
             return byteArr;
         }
 
-        static int totalBitsInLayer(int layers, bool compact)
+        static int TotalBitsInLayer(int layers, bool compact)
         {
             return ((compact ? 88 : 112) + 16 * layers) * layers;
         }

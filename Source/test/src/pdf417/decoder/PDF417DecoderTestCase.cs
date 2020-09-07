@@ -32,7 +32,7 @@ namespace ZXing.PDF417.Internal.Test
             // we should never reach these
             1000, 1000, 1000};
 
-         DecodedBitStreamParser.decodeMacroBlock(sampleCodes, 2, resultMetadata);
+         DecodedBitStreamParser.DecodeMacroBlock(sampleCodes, 2, resultMetadata);
 
          Assert.AreEqual(0, resultMetadata.SegmentIndex);
          Assert.AreEqual("ARBX", resultMetadata.FileId);
@@ -57,7 +57,7 @@ namespace ZXing.PDF417.Internal.Test
             // we should never reach these
             1000, 1000, 1000};
 
-         DecodedBitStreamParser.decodeMacroBlock(sampleCodes, 2, resultMetadata);
+         DecodedBitStreamParser.DecodeMacroBlock(sampleCodes, 2, resultMetadata);
 
          Assert.AreEqual(3, resultMetadata.SegmentIndex);
          Assert.AreEqual("ARBX", resultMetadata.FileId);
@@ -79,7 +79,7 @@ namespace ZXing.PDF417.Internal.Test
             493, 72, 780, 699, 780, 493, 755, 84, 198, 628, 368, 156, 198, 809, 19, 113};
          PDF417ResultMetadata resultMetadata = new PDF417ResultMetadata();
 
-         DecodedBitStreamParser.decodeMacroBlock(sampleCodes, 3, resultMetadata);
+         DecodedBitStreamParser.DecodeMacroBlock(sampleCodes, 3, resultMetadata);
 
          Assert.AreEqual(0, resultMetadata.SegmentIndex);
          Assert.AreEqual("AAIMAVC ", resultMetadata.FileId);
@@ -97,7 +97,7 @@ namespace ZXing.PDF417.Internal.Test
         6, 1, 500, 13, 0};
          PDF417ResultMetadata resultMetadata = new PDF417ResultMetadata();
 
-         DecodedBitStreamParser.decodeMacroBlock(sampleCodes, 3, resultMetadata);
+         DecodedBitStreamParser.DecodeMacroBlock(sampleCodes, 3, resultMetadata);
 
          Assert.AreEqual(0, resultMetadata.SegmentIndex);
          Assert.AreEqual("AAIMAVC ", resultMetadata.FileId);

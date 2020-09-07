@@ -133,7 +133,7 @@ namespace ZXing.OneD
                 return null;
             }
             // Remove checksum digits
-            _DecodeRowResult.Length = _DecodeRowResult.Length - 2;
+            _DecodeRowResult.Length -= 2;
 
             string resultString = DecodeExtended(_DecodeRowResult);
             if (resultString == null) {

@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using ZXing.Common;
@@ -113,7 +114,7 @@ namespace ZXing.PDF417.Internal
 #endif
         private const int NUMBER_OF_SEQUENCE_CODEWORDS = 2;
 
-        public static DecoderResult decode(int[] codewords, string ecLevel)
+        public static DecoderResult Decode(int[] codewords, string ecLevel)
         {
             var result = new StringBuilder(codewords.Length * 2);
             // Get compaction mode
@@ -127,24 +128,24 @@ namespace ZXing.PDF417.Internal
                 switch (code)
                 {
                     case TEXT_COMPACTION_MODE_LATCH:
-                        codeIndex = textCompaction(codewords, codeIndex, result);
+                        codeIndex = TextCompaction(codewords, codeIndex, result);
                         break;
                     case BYTE_COMPACTION_MODE_LATCH:
                     case BYTE_COMPACTION_MODE_LATCH_6:
-                        codeIndex = byteCompaction(code, codewords, encoding ?? (encoding = getEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME)), codeIndex, result);
+                        codeIndex = ByteCompaction(code, codewords, encoding ?? (encoding = GetEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME)), codeIndex, result);
                         break;
                     case MODE_SHIFT_TO_BYTE_COMPACTION_MODE:
                         if (encoding == null) {
-                            encoding = getEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME);
+                            encoding = GetEncoding(PDF417HighLevelEncoder.DEFAULT_ENCODING_NAME);
                         }
                         result.Append(encoding.GetString(new []{(byte)codewords[codeIndex++]}, 0, 1));
                         break;
                     case NUMERIC_COMPACTION_MODE_LATCH:
-                        codeIndex = numericCompaction(codewords, codeIndex, result);
+                        codeIndex = NumericCompaction(codewords, codeIndex, result);
                         break;
                     case ECI_CHARSET:
-                        var charsetECI = CharacterSetEci.GetCharacterSetEciByValue(codewords[codeIndex++]);
-                        encoding = getEncoding(charsetECI.EncodingName);
+                        var charsetEci = CharacterSetEci.GetCharacterSetEciByValue(codewords[codeIndex++]);
+                        encoding = GetEncoding(charsetEci.EncodingName);
                         break;
                     case ECI_GENERAL_PURPOSE:
                         // Can't do anything with generic ECI; skip its 2 characters
@@ -155,7 +156,7 @@ namespace ZXing.PDF417.Internal
                         codeIndex++;
                         break;
                     case BEGIN_MACRO_PDF417_CONTROL_BLOCK:
-                        codeIndex = decodeMacroBlock(codewords, codeIndex, resultMetadata);
+                        codeIndex = DecodeMacroBlock(codewords, codeIndex, resultMetadata);
                         break;
                     case BEGIN_MACRO_PDF417_OPTIONAL_FIELD:
                     case MACRO_PDF417_TERMINATOR:
@@ -166,7 +167,7 @@ namespace ZXing.PDF417.Internal
                         // appeared to be missing the starting mode. In these cases defaulting
                         // to text compaction seems to work.
                         codeIndex--;
-                        codeIndex = textCompaction(codewords, codeIndex, result);
+                        codeIndex = TextCompaction(codewords, codeIndex, result);
                         break;
                 }
                 if (codeIndex < 0) {
@@ -192,7 +193,7 @@ namespace ZXing.PDF417.Internal
             return decoderResult;
         }
 
-        private static Encoding getEncoding(string encodingName)
+        private static Encoding GetEncoding(string encodingName)
         {
             Encoding encoding = null;
 
@@ -242,7 +243,7 @@ namespace ZXing.PDF417.Internal
             return encoding;
         }
 
-        public static int decodeMacroBlock(int[] codewords, int codeIndex, PDF417ResultMetadata resultMetadata)
+        public static int DecodeMacroBlock(int[] codewords, int codeIndex, PDF417ResultMetadata resultMetadata)
         {
             if (codeIndex + NUMBER_OF_SEQUENCE_CODEWORDS > codewords[0])
             {
@@ -254,14 +255,14 @@ namespace ZXing.PDF417.Internal
             {
                 segmentIndexArray[i] = codewords[codeIndex];
             }
-            var s = decodeBase900toBase10(segmentIndexArray, NUMBER_OF_SEQUENCE_CODEWORDS);
+            var s = DecodeBase900ToBase10(segmentIndexArray, NUMBER_OF_SEQUENCE_CODEWORDS);
             if (s == null) {
                 return -1;
             }
             resultMetadata.SegmentIndex = int.Parse(s);
 
             var fileId = new StringBuilder();
-            codeIndex = textCompaction(codewords, codeIndex, fileId);
+            codeIndex = TextCompaction(codewords, codeIndex, fileId);
             resultMetadata.FileId = fileId.ToString();
 
             int optionalFieldsStart = -1;
@@ -280,23 +281,23 @@ namespace ZXing.PDF417.Internal
                         {
                             case MACRO_PDF417_OPTIONAL_FIELD_FILE_NAME:
                                 var fileName = new StringBuilder();
-                                codeIndex = textCompaction(codewords, codeIndex + 1, fileName);
+                                codeIndex = TextCompaction(codewords, codeIndex + 1, fileName);
                                 resultMetadata.FileName = fileName.ToString();
                                 break;
                             case MACRO_PDF417_OPTIONAL_FIELD_SENDER:
                                 var sender = new StringBuilder();
-                                codeIndex = textCompaction(codewords, codeIndex + 1, sender);
+                                codeIndex = TextCompaction(codewords, codeIndex + 1, sender);
                                 resultMetadata.Sender = sender.ToString();
                                 break;
                             case MACRO_PDF417_OPTIONAL_FIELD_ADDRESSEE:
                                 var addressee = new StringBuilder();
-                                codeIndex = textCompaction(codewords, codeIndex + 1, addressee);
+                                codeIndex = TextCompaction(codewords, codeIndex + 1, addressee);
                                 resultMetadata.Addressee = addressee.ToString();
                                 break;
                             case MACRO_PDF417_OPTIONAL_FIELD_SEGMENT_COUNT:
                                 {
                                     var segmentCount = new StringBuilder();
-                                    codeIndex = numericCompaction(codewords, codeIndex + 1, segmentCount);
+                                    codeIndex = NumericCompaction(codewords, codeIndex + 1, segmentCount);
 #if WindowsCE
                            try { resultMetadata.SegmentCount = Int32.Parse(segmentCount.ToString()); }
                            catch { }
@@ -310,7 +311,7 @@ namespace ZXing.PDF417.Internal
                             case MACRO_PDF417_OPTIONAL_FIELD_TIME_STAMP:
                                 {
                                     var timestamp = new StringBuilder();
-                                    codeIndex = numericCompaction(codewords, codeIndex + 1, timestamp);
+                                    codeIndex = NumericCompaction(codewords, codeIndex + 1, timestamp);
 #if WindowsCE
                            try { resultMetadata.Timestamp = Int64.Parse(timestamp.ToString()); }
                            catch { }
@@ -324,7 +325,7 @@ namespace ZXing.PDF417.Internal
                             case MACRO_PDF417_OPTIONAL_FIELD_CHECKSUM:
                                 {
                                     var checksum = new StringBuilder();
-                                    codeIndex = numericCompaction(codewords, codeIndex + 1, checksum);
+                                    codeIndex = NumericCompaction(codewords, codeIndex + 1, checksum);
 #if WindowsCE
                            try { resultMetadata.Checksum = Int32.Parse(checksum.ToString()); }
                            catch { }
@@ -338,7 +339,7 @@ namespace ZXing.PDF417.Internal
                             case MACRO_PDF417_OPTIONAL_FIELD_FILE_SIZE:
                                 {
                                     var fileSize = new StringBuilder();
-                                    codeIndex = numericCompaction(codewords, codeIndex + 1, fileSize);
+                                    codeIndex = NumericCompaction(codewords, codeIndex + 1, fileSize);
 #if WindowsCE
                            try { resultMetadata.FileSize = Int64.Parse(fileSize.ToString()); }
                            catch { }
@@ -371,7 +372,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="result">The decoded data is appended to the result.</param>
         /// <returns>The next index into the codeword array.</returns>
         /// </summary>
-        private static int textCompaction(int[] codewords, int codeIndex, StringBuilder result)
+        private static int TextCompaction(IReadOnlyList<int> codewords, int codeIndex, StringBuilder result)
         {
             // 2 character per codeword
             int[] textCompactionData = new int[(codewords[0] - codeIndex) << 1];
@@ -421,7 +422,7 @@ namespace ZXing.PDF417.Internal
                     }
                 }
             }
-            decodeTextCompaction(textCompactionData, byteCompactionData, index, result);
+            DecodeTextCompaction(textCompactionData, byteCompactionData, index, result);
             return codeIndex;
         }
 
@@ -441,8 +442,8 @@ namespace ZXing.PDF417.Internal
         /// <param name="length">The size of the text compaction and byte compaction data.</param>
         /// <param name="result">The decoded data is appended to the result.</param>
         /// </summary>
-        private static void decodeTextCompaction(int[] textCompactionData,
-                                                 int[] byteCompactionData,
+        private static void DecodeTextCompaction(IReadOnlyList<int> textCompactionData,
+                                                 IReadOnlyList<int> byteCompactionData,
                                                  int length,
                                                  StringBuilder result)
         {
@@ -660,7 +661,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="result">The decoded data is appended to the result.</param>
         /// <returns>The next index into the codeword array.</returns>
         /// </summary>
-        private static int byteCompaction(int mode, int[] codewords, Encoding encoding, int codeIndex, StringBuilder result)
+        private static int ByteCompaction(int mode, IReadOnlyList<int> codewords, Encoding encoding, int codeIndex, StringBuilder result)
         {
             var count = 0;
             var value = 0L;
@@ -784,7 +785,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="result">The decoded data is appended to the result.</param>
         /// <returns>The next index into the codeword array.</returns>
         /// </summary>
-        private static int numericCompaction(int[] codewords, int codeIndex, StringBuilder result)
+        private static int NumericCompaction(IReadOnlyList<int> codewords, int codeIndex, StringBuilder result)
         {
             int count = 0;
             bool end = false;
@@ -827,7 +828,7 @@ namespace ZXing.PDF417.Internal
                     // while in Numeric Compaction mode) serves  to terminate the
                     // current Numeric Compaction mode grouping as described in 5.4.4.2,
                     // and then to start a new one grouping.
-                    var s = decodeBase900toBase10(numericCodewords, count);
+                    var s = DecodeBase900ToBase10(numericCodewords, count);
                     if (s == null) {
                         return -1;
                     }
@@ -878,7 +879,7 @@ namespace ZXing.PDF417.Internal
         /// <param name="count">The number of codewords</param>
         /// <returns>The decoded string representing the Numeric data.</returns>
         /// </summary>
-        private static string decodeBase900toBase10(int[] codewords, int count)
+        private static string DecodeBase900ToBase10(IReadOnlyList<int> codewords, int count)
         {
 #if (SILVERLIGHT4 || SILVERLIGHT5 || NET40 || NET45 || NET46 || NET47 || NET48 || NETFX_CORE || NETSTANDARD) && !NETSTANDARD1_0
          BigInteger result = BigInteger.Zero;

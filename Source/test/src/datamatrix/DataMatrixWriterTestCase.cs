@@ -158,7 +158,7 @@ Four score and seven our forefathers brought forth", SymbolShapeHint.FORCE_SQUAR
 
          Assert.That(matrix, Is.Not.Null);
 
-         var res = new Internal.Decoder().decode(matrix);
+         var res = new Internal.Decoder().Decode(matrix);
 
          Assert.That(res, Is.Not.Null);
          Assert.That(res.Text, Is.EqualTo(data));

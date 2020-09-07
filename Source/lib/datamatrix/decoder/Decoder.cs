@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System.Collections.Generic;
 using ZXing.Common;
 using ZXing.Common.ReedSolomon;
 
@@ -27,14 +28,14 @@ namespace ZXing.Datamatrix.Internal
     /// </summary>
     public sealed class Decoder
     {
-        private readonly ReedSolomonDecoder rsDecoder;
+        private readonly ReedSolomonDecoder _RsDecoder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Decoder"/> class.
         /// </summary>
         public Decoder()
         {
-            rsDecoder = new ReedSolomonDecoder(GenericGf.DATA_MATRIX_FIELD_256);
+            _RsDecoder = new ReedSolomonDecoder(GenericGf.DATA_MATRIX_FIELD_256);
         }
 
         /// <summary>
@@ -45,9 +46,9 @@ namespace ZXing.Datamatrix.Internal
         /// <returns>text and bytes encoded within the Data Matrix Code</returns>
         /// <exception cref="FormatException">if the Data Matrix Code cannot be decoded</exception>
         /// </summary>
-        public DecoderResult decode(bool[][] image)
+        public DecoderResult Decode(bool[][] image)
         {
-            return decode(BitMatrix.Parse(image));
+            return Decode(BitMatrix.Parse(image));
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace ZXing.Datamatrix.Internal
         /// </summary>
         /// <param name="bits">booleans representing white/black Data Matrix Code modules</param>
         /// <returns>text and bytes encoded within the Data Matrix Code</returns>
-        public DecoderResult decode(IBitMatrix bits)
+        public DecoderResult Decode(IBitMatrix bits)
         {
             // Construct a parser and read version, error-correction level
             BitMatrixParser parser = new BitMatrixParser(bits);
@@ -87,7 +88,7 @@ namespace ZXing.Datamatrix.Internal
                 DataBlock dataBlock = dataBlocks[j];
                 byte[] codewordBytes = dataBlock.Codewords;
                 int numDataCodewords = dataBlock.NumDataCodewords;
-                if (!correctErrors(codewordBytes, numDataCodewords)) {
+                if (!CorrectErrors(codewordBytes, numDataCodewords)) {
                     return null;
                 }
                 for (int i = 0; i < numDataCodewords; i++)
@@ -108,17 +109,17 @@ namespace ZXing.Datamatrix.Internal
         /// <param name="codewordBytes">data and error correction codewords</param>
         /// <param name="numDataCodewords">number of codewords that are data bytes</param>
         /// </summary>
-        private bool correctErrors(byte[] codewordBytes, int numDataCodewords)
+        private bool CorrectErrors(IList<byte> codewordBytes, int numDataCodewords)
         {
-            int numCodewords = codewordBytes.Length;
+            int numCodewords = codewordBytes.Count;
             // First read into an array of ints
             int[] codewordsInts = new int[numCodewords];
             for (int i = 0; i < numCodewords; i++)
             {
                 codewordsInts[i] = codewordBytes[i];
             }
-            int numECCodewords = codewordBytes.Length - numDataCodewords;
-            if (!rsDecoder.Decode(codewordsInts, numECCodewords)) {
+            int numEcCodewords = codewordBytes.Count - numDataCodewords;
+            if (!_RsDecoder.Decode(codewordsInts, numEcCodewords)) {
                 return false;
             }
 

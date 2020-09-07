@@ -53,7 +53,7 @@ namespace ZXing.Aztec
             {
                 points = detectorResult.Points.Single();
 
-                decoderResult = new Decoder().decode(detectorResult);
+                decoderResult = new Decoder().Decode(detectorResult);
             }
             if (decoderResult == null)
             {
@@ -63,7 +63,7 @@ namespace ZXing.Aztec
                 }
 
                 points = detectorResult.Points.Single();
-                decoderResult = new Decoder().decode(detectorResult);
+                decoderResult = new Decoder().Decode(detectorResult);
                 if (decoderResult == null) {
                     return null;
                 }

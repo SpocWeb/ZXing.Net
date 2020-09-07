@@ -64,7 +64,7 @@ namespace ZXing.QrCode
                 if (bits == null) {
                     return null;
                 }
-                decoderResult = Decoder.decode(bits, hints);
+                decoderResult = Decoder.Decode(bits, hints);
                 points = NO_POINTS;
             }
             else
@@ -74,7 +74,7 @@ namespace ZXing.QrCode
                 if (detectorResult == null) {
                     return null;
                 }
-                decoderResult = Decoder.decode(detectorResult.Bits, hints);
+                decoderResult = Decoder.Decode(detectorResult.Bits, hints);
                 points = detectorResult.Points.Single();
             }
             if (string.IsNullOrEmpty(decoderResult?.Text)) {
@@ -225,7 +225,7 @@ namespace ZXing.QrCode
             return bits;
         }
 
-        static bool ModuleSize(int[] leftTopBlack, BitMatrix image, out float msize)
+        static bool ModuleSize(IReadOnlyList<int> leftTopBlack, IRoBitMatrix image, out float size)
         {
             int height = image.Height;
             int width = image.Width;
@@ -248,10 +248,10 @@ namespace ZXing.QrCode
             }
             if (x == width || y == height)
             {
-                msize = 0.0f;
+                size = 0.0f;
                 return false;
             }
-            msize = (x - leftTopBlack[0]) / 7.0f;
+            size = (x - leftTopBlack[0]) / 7.0f;
             return true;
         }
     }

@@ -233,7 +233,7 @@ namespace ZXing.OneD
         }
 
 
-        int? FinalProcessing(List<PixelInterval> gaps)
+        int? FinalProcessing(IReadOnlyList<PixelInterval> gaps)
         {
             int l = gaps.Count;
             double[]

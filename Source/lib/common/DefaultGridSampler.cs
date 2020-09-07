@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace ZXing.Common
 {
@@ -216,11 +217,11 @@ namespace ZXing.Common
         /// </param>
         /// <param name="points">actual points in x1,y1,...,xn,yn form
         /// </param>
-        static bool CheckAndNudgePoints(float[] points, int width, int height)
+        static bool CheckAndNudgePoints(IList<float> points, int width, int height)
         {
             // Check and nudge points from start until we see some that are OK:
             bool nudged = true;
-            int maxOffset = points.Length - 1; // points.length must be even
+            int maxOffset = points.Count - 1; // points.length must be even
             for (int offset = 0; offset < maxOffset && nudged; offset += 2)
             {
                 int x = (int)points[offset];
@@ -253,7 +254,7 @@ namespace ZXing.Common
             }
             // Check and nudge points from end:
             nudged = true;
-            for (int offset = points.Length - 2; offset >= 0 && nudged; offset -= 2)
+            for (int offset = points.Count - 2; offset >= 0 && nudged; offset -= 2)
             {
                 int x = (int)points[offset];
                 int y = (int)points[offset + 1];

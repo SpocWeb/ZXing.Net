@@ -36,7 +36,7 @@ namespace ZXing.QrCode.Internal.Test
          builder.Write(0xF1, 8);
          builder.Write(0xF2, 8);
          builder.Write(0xF3, 8);
-            string result = DecodedBitStreamParser.decode(builder.ToByteArray(),
+            string result = DecodedBitStreamParser.Decode(builder.ToByteArray(),
              Version.GetVersionForNumber(1), null, null).Text;
          Assert.AreEqual("\u00f1\u00f2\u00f3", result);
       }
@@ -51,7 +51,7 @@ namespace ZXing.QrCode.Internal.Test
          builder.Write(0xA2, 8);
          builder.Write(0xA3, 8);
          builder.Write(0xD0, 8);
-            string result = DecodedBitStreamParser.decode(builder.ToByteArray(),
+            string result = DecodedBitStreamParser.Decode(builder.ToByteArray(),
              Version.GetVersionForNumber(1), null, null).Text;
          Assert.AreEqual("\uff61\uff62\uff63\uff90", result);
       }
@@ -67,7 +67,7 @@ namespace ZXing.QrCode.Internal.Test
          builder.Write(0xA1, 8);
          builder.Write(0xA2, 8);
          builder.Write(0xA3, 8);
-            string result = DecodedBitStreamParser.decode(builder.ToByteArray(),
+            string result = DecodedBitStreamParser.Decode(builder.ToByteArray(),
              Version.GetVersionForNumber(1), null, null).Text;
          Assert.AreEqual("\u00ed\u00f3\u00fa", result);
       }
@@ -80,7 +80,7 @@ namespace ZXing.QrCode.Internal.Test
          builder.Write(0x01, 4); // Subset 1 = GB2312 encoding
          builder.Write(0x01, 8); // 1 characters
          builder.Write(0x03C1, 13);
-            string result = DecodedBitStreamParser.decode(builder.ToByteArray(),
+            string result = DecodedBitStreamParser.Decode(builder.ToByteArray(),
              Version.GetVersionForNumber(1), null, null).Text;
          Assert.AreEqual("\u963f", result);
       }
@@ -94,7 +94,7 @@ namespace ZXing.QrCode.Internal.Test
            builder.Write(0x01, 8); // 1 characters
            // A5A2 (U+30A2) => A5A2 - A1A1 = 401, 4*60 + 01 = 0181
            builder.Write(0x0181, 13);
-            string result = DecodedBitStreamParser.decode(builder.ToByteArray(),
+            string result = DecodedBitStreamParser.Decode(builder.ToByteArray(),
                Version.GetVersionForNumber(1), null, null).Text;
            Assert.That(result, Is.EqualTo("\u30a2"));
        }

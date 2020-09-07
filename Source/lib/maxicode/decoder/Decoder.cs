@@ -61,7 +61,7 @@ namespace ZXing.Maxicode.Internal
             }
 
             int mode = codewords[0] & 0x0F;
-            byte[] datawords;
+            byte[] dataWords;
             switch (mode)
             {
                 case 2:
@@ -73,7 +73,7 @@ namespace ZXing.Maxicode.Internal
                     if (!CorrectErrors(codewords, 20, 84, 40, ODD)) {
                         return null;
                     }
-                    datawords = new byte[94];
+                    dataWords = new byte[94];
                     break;
                 case 5:
                     if (!CorrectErrors(codewords, 20, 68, 56, EVEN)) {
@@ -82,19 +82,19 @@ namespace ZXing.Maxicode.Internal
                     if (!CorrectErrors(codewords, 20, 68, 56, ODD)) {
                         return null;
                     }
-                    datawords = new byte[78];
+                    dataWords = new byte[78];
                     break;
                 default:
                     return null;
             }
 
-            Array.Copy(codewords, 0, datawords, 0, 10);
-            Array.Copy(codewords, 20, datawords, 10, datawords.Length - 10);
+            Array.Copy(codewords, 0, dataWords, 0, 10);
+            Array.Copy(codewords, 20, dataWords, 10, dataWords.Length - 10);
 
-            return DecodedBitStreamParser.Decode(datawords, mode);
+            return DecodedBitStreamParser.Decode(dataWords, mode);
         }
 
-        bool CorrectErrors(byte[] codewordBytes,
+        bool CorrectErrors(IList<byte> codewordBytes,
                                    int start,
                                    int dataCodewords,
                                    int ecCodewords,

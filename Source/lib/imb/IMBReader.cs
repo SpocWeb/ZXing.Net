@@ -130,7 +130,9 @@ namespace ZXing.IMB
             return result;
         }
 
-        bool getCodeWords(out int[] codeWord, string imb, IDictionary<int, int> table1Check, IDictionary<int, int> table2Check, int[][] barPos, char[][] barType)
+        bool getCodeWords(out int[] codeWord, string imb
+            , IDictionary<int, int> table1Check, IDictionary<int, int> table2Check
+            , IReadOnlyList<int[]> barPos, IReadOnlyList<char[]> barType)
         {
             // initialize the binaryFcsChars to 0 (has 13 bits)
             StringBuilder[] binaryFcsChars = new StringBuilder[10];

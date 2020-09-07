@@ -90,13 +90,13 @@ namespace ZXing.Rendering
 
         }
 
-        private static bool IsEdgeLeftHand(BitMatrix b, Edge edge)
+        private static bool IsEdgeLeftHand(IRoBitMatrix b, Edge edge)
         {
             var cell = GetCell(edge.From.Col, edge.From.Row, b);
             return (edge.From.Row < edge.To.Row && cell) || (!(edge.From.Col < edge.To.Col && cell));
         }
 
-        private static IEnumerable<Edge> EdgesFrom(Coordinate c, Dictionary<Coordinate, List<Edge>> edgeMap)
+        private static IEnumerable<Edge> EdgesFrom(Coordinate c, IReadOnlyDictionary<Coordinate, List<Edge>> edgeMap)
         {
             return edgeMap.ContainsKey(c) ? edgeMap[c] : Enumerable.Empty<Edge>();
         }
@@ -107,7 +107,7 @@ namespace ZXing.Rendering
             return Coordinate.Directions.Skip(index + 1).Concat(Coordinate.Directions.Take(index));
         }
 
-        private static bool GetCell(int c, int r, BitMatrix matrix)
+        private static bool GetCell(int c, int r, IRoBitMatrix matrix)
         {
             if (r < 0 || r >= matrix.Height)
             {
@@ -120,21 +120,21 @@ namespace ZXing.Rendering
             return matrix[c, r];
         }
 
-        private static void RemoveEdge(Edge e, HashSet<Edge> edges, Dictionary<Coordinate, List<Edge>> edgeMap)
+        private static void RemoveEdge(Edge e, ICollection<Edge> edges, IReadOnlyDictionary<Coordinate, List<Edge>> edgeMap)
         {
             edges.Remove(e);
             edgeMap[e.From].Remove(e);
             edgeMap[e.To].Remove(e);
         }
 
-        private static void AddEdge(Edge e, HashSet<Edge> edges, Dictionary<Coordinate, List<Edge>> edgeMap)
+        private static void AddEdge(Edge e, ISet<Edge> edges, IDictionary<Coordinate, List<Edge>> edgeMap)
         {
             edges.Add(e);
             AddCoordinate(e.From, e, edgeMap);
             AddCoordinate(e.To, e, edgeMap);
         }
 
-        private static void AddCoordinate(Coordinate c, Edge e, Dictionary<Coordinate, List<Edge>> edgeMap)
+        private static void AddCoordinate(Coordinate c, Edge e, IDictionary<Coordinate, List<Edge>> edgeMap)
         {
             if (!edgeMap.TryGetValue(c, out var list))
             {
@@ -154,10 +154,7 @@ namespace ZXing.Rendering
                 Row = row;
             }
 
-            public bool Equals(Coordinate other)
-            {
-                return other.Row == Row && other.Col == Col;
-            }
+            public bool Equals(Coordinate other) => other.Row == Row && other.Col == Col;
 
             public override bool Equals(object obj)
             {

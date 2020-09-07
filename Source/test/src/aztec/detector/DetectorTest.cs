@@ -84,7 +84,7 @@ namespace ZXing.Aztec.Test
                      Assert.IsNotNull(r);
                      Assert.AreEqual(r.NbLayers, layers);
                      Assert.AreEqual(r.Compact, compact);
-                     DecoderResult res = new Internal.Decoder().decode(r);
+                     DecoderResult res = new Internal.Decoder().Decode(r);
                      Assert.AreEqual(data, res.Text);
                   }
                }

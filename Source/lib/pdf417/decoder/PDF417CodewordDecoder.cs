@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+using System.Collections.Generic;
 using ZXing.Common.Detector;
 
 namespace ZXing.PDF417.Internal
@@ -23,7 +24,7 @@ namespace ZXing.PDF417.Internal
     /// </summary>
     /// <author>Guenther Grau</author>
     /// <author>creatale GmbH (christoph.schulz@creatale.de)</author>
-    public static class PDF417CodewordDecoder
+    public static class Pdf417CodewordDecoder
     {
         /// <summary>
         /// The ratios table
@@ -31,9 +32,9 @@ namespace ZXing.PDF417.Internal
         private static readonly float[][] RATIOS_TABLE; // = new float[PDF417Common.SYMBOL_TABLE.Length][PDF417Common.BARS_IN_MODULE];
 
         /// <summary>
-        /// Initializes the <see cref="ZXing.PDF417.Internal.PDF417CodewordDecoder"/> class &amp; Pre-computes the symbol ratio table.
+        /// Initializes the <see cref="Pdf417CodewordDecoder"/> class &amp; Pre-computes the symbol ratio table.
         /// </summary>
-        static PDF417CodewordDecoder()
+        static Pdf417CodewordDecoder()
         {
             // Jagged arrays in Java assign the memory automatically, but C# has no equivalent. (Jon Skeet says so!)
             // http://stackoverflow.com/a/5313879/266252
@@ -67,14 +68,14 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The decoded value.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        public static int getDecodedValue(int[] moduleBitCount)
+        public static int GetDecodedValue(int[] moduleBitCount)
         {
-            int decodedValue = getDecodedCodewordValue(sampleBitCounts(moduleBitCount));
+            int decodedValue = GetDecodedCodewordValue(SampleBitCounts(moduleBitCount));
             if (decodedValue != PDF417Common.INVALID_CODEWORD)
             {
                 return decodedValue;
             }
-            return getClosestDecodedValue(moduleBitCount);
+            return GetClosestDecodedValue(moduleBitCount);
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The bit counts.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        private static int[] sampleBitCounts(int[] moduleBitCount)
+        private static int[] SampleBitCounts(int[] moduleBitCount)
         {
             float bitCountSum = MathUtils.Sum(moduleBitCount);
             int[] result = new int[PDF417Common.BARS_IN_MODULE];
@@ -108,9 +109,9 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The decoded codeword value.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        private static int getDecodedCodewordValue(int[] moduleBitCount)
+        private static int GetDecodedCodewordValue(IReadOnlyList<int> moduleBitCount)
         {
-            int decodedValue = getBitValue(moduleBitCount);
+            int decodedValue = GetBitValue(moduleBitCount);
             return PDF417Common.getCodeword(decodedValue) == PDF417Common.INVALID_CODEWORD ? PDF417Common.INVALID_CODEWORD : decodedValue;
         }
 
@@ -119,12 +120,12 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The bit value.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        private static int getBitValue(int[] moduleBitCount)
+        private static int GetBitValue(IReadOnlyList<int> moduleBitCount)
         {
             ulong result = 0;
-            for (ulong i = 0; i < (ulong)moduleBitCount.Length; i++)
+            for (ulong i = 0; i < (ulong)moduleBitCount.Count; i++)
             {
-                for (int bit = 0; bit < moduleBitCount[i]; bit++)
+                for (int bit = 0; bit < moduleBitCount[(int) i]; bit++)
                 {
                     result = (result << 1) | (i % 2ul == 0ul ? 1ul : 0ul); // C# was warning about using the bit-wise 'OR' here with a mix of int/longs.
                 }
@@ -137,7 +138,7 @@ namespace ZXing.PDF417.Internal
         /// </summary>
         /// <returns>The closest decoded value.</returns>
         /// <param name="moduleBitCount">Module bit count.</param>
-        private static int getClosestDecodedValue(int[] moduleBitCount)
+        private static int GetClosestDecodedValue(int[] moduleBitCount)
         {
             int bitCountSum = MathUtils.Sum(moduleBitCount);
             float[] bitCountRatios = new float[PDF417Common.BARS_IN_MODULE];

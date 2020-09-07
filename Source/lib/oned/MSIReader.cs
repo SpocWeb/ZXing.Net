@@ -271,7 +271,7 @@ namespace ZXing.OneD
             return null;
         }
 
-        void CalculateAverageCounterWidth(int[] counters, int patternLength)
+        void CalculateAverageCounterWidth(IReadOnlyList<int> counters, int patternLength)
         {
             // look for the minimum and the maximum width of the bars
             // there are only two sizes for MSI barcodes
@@ -296,7 +296,7 @@ namespace ZXing.OneD
             _AverageCounterWidth = ((maxCounter << 8) + (minCounter << 8)) / 2;
         }
 
-        int ToPattern(int[] counters, int patternLength)
+        int ToPattern(IReadOnlyList<int> counters, int patternLength)
         {
             // calculating the encoded value from the pattern
             int pattern = 0;
@@ -313,8 +313,8 @@ namespace ZXing.OneD
                 {
                     pattern = (pattern << 2) | doubleBit;
                 }
-                bit = bit ^ 1;
-                doubleBit = doubleBit ^ 3;
+                bit ^= 1;
+                doubleBit ^= 3;
             }
 
             return pattern;

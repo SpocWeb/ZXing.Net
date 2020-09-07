@@ -142,7 +142,7 @@ namespace ZXing.OneD
                 // Read off white space
                 nextStart = row.GetNextSet(nextStart);
             } while (decodedChar != '*');
-            _DecodeRowResult.Length = _DecodeRowResult.Length - 1; // remove asterisk
+            _DecodeRowResult.Length -= 1; // remove asterisk
 
             // Look for whitespace after pattern:
             int lastPatternSize = 0;

@@ -557,7 +557,7 @@ namespace ZXing.Datamatrix.Internal
             return true;
         }
 
-        static void parseTwoBytes(int firstByte, int secondByte, int[] result)
+        static void parseTwoBytes(int firstByte, int secondByte, IList<int> result)
         {
             int fullBitValue = (firstByte << 8) + secondByte - 1;
             int temp = fullBitValue / 1600;

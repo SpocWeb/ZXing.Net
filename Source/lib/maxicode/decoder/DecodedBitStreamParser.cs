@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using ZXing.Common;
 
@@ -99,48 +100,48 @@ namespace ZXing.Maxicode.Internal
             return new DecoderResult(bytes, result.ToString(), null, mode.ToString());
         }
 
-        static int GetBit(int bit, byte[] bytes)
+        static int GetBit(this IReadOnlyList<byte> bytes, int bit)
         {
             bit--;
             return (bytes[bit / 6] & (1 << (5 - bit % 6))) == 0 ? 0 : 1;
         }
 
-        static int GetInt(byte[] bytes, byte[] x)
+        static int GetInt(IReadOnlyList<byte> bytes, IReadOnlyList<byte> x)
         {
-            if (x.Length == 0) {
+            if (x.Count == 0) {
                 throw new ArgumentException("x");
             }
 
             int val = 0;
-            for (int i = 0; i < x.Length; i++)
+            for (int i = 0; i < x.Count; i++)
             {
-                val += GetBit(x[i], bytes) << (x.Length - i - 1);
+                val += GetBit(bytes, x[i]) << (x.Count - i - 1);
             }
             return val;
         }
 
-        static int GetCountry(byte[] bytes)
+        static int GetCountry(IReadOnlyList<byte> bytes)
         {
             return GetInt(bytes, new byte[] { 53, 54, 43, 44, 45, 46, 47, 48, 37, 38 });
         }
 
-        static int GetServiceClass(byte[] bytes)
+        static int GetServiceClass(IReadOnlyList<byte> bytes)
         {
             return GetInt(bytes, new byte[] { 55, 56, 57, 58, 59, 60, 49, 50, 51, 52 });
         }
 
-        static int GetPostCode2Length(byte[] bytes)
+        static int GetPostCode2Length(IReadOnlyList<byte> bytes)
         {
             return GetInt(bytes, new byte[] { 39, 40, 41, 42, 31, 32 });
         }
 
-        static int GetPostCode2(byte[] bytes)
+        static int GetPostCode2(IReadOnlyList<byte> bytes)
         {
             return GetInt(bytes, new byte[] {33, 34, 35, 36, 25, 26, 27, 28, 29, 30, 19,
         20, 21, 22, 23, 24, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 1, 2});
         }
 
-        static string GetPostCode3(byte[] bytes)
+        static string GetPostCode3(IReadOnlyList<byte> bytes)
         {
             return new string(
                new[]
@@ -155,7 +156,7 @@ namespace ZXing.Maxicode.Internal
                );
         }
 
-        static string GetMessage(byte[] bytes, int start, int len)
+        static string GetMessage(IReadOnlyList<byte> bytes, int start, int len)
         {
             StringBuilder sb = new StringBuilder();
             int shift = -1;
@@ -194,8 +195,8 @@ namespace ZXing.Maxicode.Internal
                         shift = 3;
                         break;
                     case NS:
-                        int nsval = (bytes[++i] << 24) + (bytes[++i] << 18) + (bytes[++i] << 12) + (bytes[++i] << 6) + bytes[++i];
-                        sb.Append(nsval.ToString(NINE_DIGITS));
+                        int nsVal = (bytes[++i] << 24) + (bytes[++i] << 18) + (bytes[++i] << 12) + (bytes[++i] << 6) + bytes[++i];
+                        sb.Append(nsVal.ToString(NINE_DIGITS));
                         break;
                     case LOCK:
                         shift = -1;
@@ -211,7 +212,7 @@ namespace ZXing.Maxicode.Internal
             }
             while (sb.Length > 0 && sb[sb.Length - 1] == PAD)
             {
-                sb.Length = sb.Length - 1;
+                sb.Length -= 1;
             }
             return sb.ToString();
         }

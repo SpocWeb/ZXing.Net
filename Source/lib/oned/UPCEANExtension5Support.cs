@@ -56,7 +56,7 @@ namespace ZXing.OneD
             return extensionResult;
         }
 
-        int DecodeMiddle(BitArray row, int[] startRange, StringBuilder resultString)
+        int DecodeMiddle(BitArray row, IReadOnlyList<int> startRange, StringBuilder resultString)
         {
             int[] counters = _DecodeMiddleCounters;
             counters[0] = 0;

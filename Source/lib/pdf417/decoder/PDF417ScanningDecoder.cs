@@ -612,7 +612,7 @@ namespace ZXing.PDF417.Internal
                 return null;
             }
 
-            int decodedValue = PDF417CodewordDecoder.getDecodedValue(moduleBitCount);
+            int decodedValue = Pdf417CodewordDecoder.GetDecodedValue(moduleBitCount);
             int codeword = PDF417Common.getCodeword(decodedValue);
             if (codeword == -1)
             {
@@ -753,7 +753,7 @@ namespace ZXing.PDF417.Internal
             }
 
             // Decode the codewords
-            DecoderResult decoderResult = DecodedBitStreamParser.decode(codewords, ecLevel.ToString());
+            DecoderResult decoderResult = DecodedBitStreamParser.Decode(codewords, ecLevel.ToString());
             if (decoderResult != null)
             {
                 decoderResult.ErrorsCorrected = correctedErrorsCount;

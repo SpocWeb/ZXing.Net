@@ -39,7 +39,7 @@ namespace ZXing.Datamatrix
                 if (bits == null) {
                     return null;
                 }
-                decoderResult = _Decoder.decode(bits);
+                decoderResult = _Decoder.Decode(bits);
                 points = NO_POINTS;
             } else {
                 IGridSampler sampler = new DefaultGridSampler(image.GetBlackMatrix());
@@ -47,7 +47,7 @@ namespace ZXing.Datamatrix
                 if (detectorResult?.Bits == null) {
                     return null;
                 }
-                decoderResult = _Decoder.decode(detectorResult.Bits);
+                decoderResult = _Decoder.Decode(detectorResult.Bits);
                 points = detectorResult.Points.Single();
             }
 
@@ -55,7 +55,7 @@ namespace ZXing.Datamatrix
         }
 
         public BarCodeText Decode(DetectorResult detectorResult, IDictionary<DecodeHintType, object> hints = null) {
-            DecoderResult result = _Decoder.decode(detectorResult.Bits);
+            DecoderResult result = _Decoder.Decode(detectorResult.Bits);
             return result.AsBarCodeText(detectorResult.Points.Single());
         }
 

@@ -39,11 +39,11 @@ namespace ZXing.Rendering
         /// <summary>
         /// the default font name if nothing else is set (Arial)
         /// </summary>
-        public const string DefaultFontName = "Arial";
+        public const string DEFAULT_FONT_NAME = "Arial";
         /// <summary>
         /// the default font size if nothing else is set (10)
         /// </summary>
-        public const int DefaultFontSize = 10;
+        public const int DEFAULT_FONT_SIZE = 10;
 
 #if !UNITY
 #if (PORTABLE || NETSTANDARD)
@@ -188,7 +188,7 @@ namespace ZXing.Rendering
             return result;
         }
 
-        private void Create(SvgImage image, BitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
+        private void Create(SvgImage image, IRoBitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
         {
             if (matrix == null) {
                 return;
@@ -213,7 +213,7 @@ namespace ZXing.Rendering
 
             if (outputContent)
             {
-                var fontSize = FontSize < 1 ? DefaultFontSize : FontSize;
+                var fontSize = FontSize < 1 ? DEFAULT_FONT_SIZE : FontSize;
                 height += fontSize + spaceBetweenMatrixAndText;
             }
 
@@ -223,8 +223,8 @@ namespace ZXing.Rendering
 
             if (outputContent)
             {
-                var fontName = string.IsNullOrEmpty(FontName) ? DefaultFontName : FontName;
-                var fontSize = FontSize < 1 ? DefaultFontSize : FontSize;
+                var fontName = string.IsNullOrEmpty(FontName) ? DEFAULT_FONT_NAME : FontName;
+                var fontSize = FontSize < 1 ? DEFAULT_FONT_SIZE : FontSize;
 
                 content = ModifyContentDependingOnBarcodeFormat(format, content);
 
@@ -234,7 +234,7 @@ namespace ZXing.Rendering
             image.AddEnd();
         }
 
-        private string ModifyContentDependingOnBarcodeFormat(BarcodeFormat format, string content)
+        private static string ModifyContentDependingOnBarcodeFormat(BarcodeFormat format, string content)
         {
             switch (format)
             {
@@ -277,7 +277,7 @@ namespace ZXing.Rendering
             return content;
         }
 
-        private static void AppendDarkCell(SvgImage image, BitMatrix matrix, int offsetX, int offSetY)
+        private static void AppendDarkCell(SvgImage image, IRoBitMatrix matrix, int offsetX, int offSetY)
         {
             if (matrix == null) {
                 return;
@@ -328,7 +328,7 @@ namespace ZXing.Rendering
             }
         }
 
-        private static void FindMaximumRectangle(BitMatrix matrix, BitMatrix processed, int startPosX, int startPosY, int endPosY, out int endPosX)
+        private static void FindMaximumRectangle(IRoBitMatrix matrix, BitMatrix processed, int startPosX, int startPosY, int endPosY, out int endPosX)
         {
             endPosX = startPosX;
 
@@ -354,7 +354,7 @@ namespace ZXing.Rendering
         /// </summary>
         public class SvgImage
         {
-            private readonly StringBuilder content;
+            private readonly StringBuilder _Content;
 
             /// <summary>
             /// Gets or sets the content.
@@ -364,20 +364,20 @@ namespace ZXing.Rendering
             /// </value>
             public string Content
             {
-                get => content.ToString();
-                set { content.Length = 0; if (value != null) {
-                        content.Append(value);
+                get => _Content.ToString();
+                set { _Content.Length = 0; if (value != null) {
+                        _Content.Append(value);
                     }
                 }
             }
 
             /// <summary>
-            /// The original height of the bitmatrix for the barcode
+            /// The original height of the bitMatrix for the barcode
             /// </summary>
             public int Height { get; set; }
 
             /// <summary>
-            /// The original width of the bitmatrix for the barcode
+            /// The original width of the bitMatrix for the barcode
             /// </summary>
             public int Width { get; set; }
 
@@ -386,7 +386,7 @@ namespace ZXing.Rendering
             /// </summary>
             public SvgImage()
             {
-                content = new StringBuilder();
+                _Content = new StringBuilder();
             }
 
             /// <summary>
@@ -394,7 +394,7 @@ namespace ZXing.Rendering
             /// </summary>
             public SvgImage(int width, int height)
             {
-                content = new StringBuilder();
+                _Content = new StringBuilder();
                 Width = width;
                 Height = height;
             }
@@ -405,7 +405,7 @@ namespace ZXing.Rendering
             /// <param name="content">The content.</param>
             public SvgImage(string content)
             {
-                this.content = new StringBuilder(content);
+                this._Content = new StringBuilder(content);
             }
 
             /// <summary>
@@ -413,26 +413,26 @@ namespace ZXing.Rendering
             /// </summary>
             public override string ToString()
             {
-                return content.ToString();
+                return _Content.ToString();
             }
 
             internal void AddHeader()
             {
-                content.Append("<?xml version=\"1.0\" standalone=\"no\"?>");
-                content.Append(@"<!-- Created with ZXing.Net (http://zxingnet.codeplex.com/) -->");
-                content.Append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
+                _Content.Append("<?xml version=\"1.0\" standalone=\"no\"?>");
+                _Content.Append(@"<!-- Created with ZXing.Net (http://zxingnet.codeplex.com/) -->");
+                _Content.Append("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
             }
 
             internal void AddEnd()
             {
-                content.Append("</svg>");
+                _Content.Append("</svg>");
             }
 
             internal void AddTag(int displaysizeX, int displaysizeY, int viewboxSizeX, int viewboxSizeY, Color background, Color fill)
             {
 
                 if (displaysizeX <= 0 || displaysizeY <= 0) {
-                    content.Append(string.Format("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" shape-rendering=\"crispEdges\" viewBox=\"0 0 {0} {1}\" viewport-fill=\"rgb({2})\" viewport-fill-opacity=\"{3}\" fill=\"rgb({4})\" fill-opacity=\"{5}\" {6}>",
+                    _Content.Append(string.Format("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" shape-rendering=\"crispEdges\" viewBox=\"0 0 {0} {1}\" viewport-fill=\"rgb({2})\" viewport-fill-opacity=\"{3}\" fill=\"rgb({4})\" fill-opacity=\"{5}\" {6}>",
                         viewboxSizeX,
                         viewboxSizeY,
                         GetColorRgb(background),
@@ -442,7 +442,7 @@ namespace ZXing.Rendering
                         GetBackgroundStyle(background)
                     ));
                 } else {
-                    content.Append(string.Format("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" shape-rendering=\"crispEdges\" viewBox=\"0 0 {0} {1}\" viewport-fill=\"rgb({2})\" viewport-fill-opacity=\"{3}\" fill=\"rgb({4})\" fill-opacity=\"{5}\" {6} width=\"{7}\" height=\"{8}\">",
+                    _Content.Append(string.Format("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.2\" baseProfile=\"tiny\" shape-rendering=\"crispEdges\" viewBox=\"0 0 {0} {1}\" viewport-fill=\"rgb({2})\" viewport-fill-opacity=\"{3}\" fill=\"rgb({4})\" fill-opacity=\"{5}\" {6} width=\"{7}\" height=\"{8}\">",
                         viewboxSizeX,
                         viewboxSizeY,
                         GetColorRgb(background),
@@ -457,14 +457,14 @@ namespace ZXing.Rendering
 
             internal void AddText(string text, string fontName, int fontSize)
             {
-                content.AppendFormat(CultureInfo.InvariantCulture,
+                _Content.AppendFormat(CultureInfo.InvariantCulture,
                    "<text x=\"50%\" y=\"98%\" style=\"font-family: {0}; font-size: {1}px\" text-anchor=\"middle\">{2}</text>",
                    fontName, fontSize, text);
             }
 
             internal void AddRec(int posX, int posY, int width, int height)
             {
-                content.AppendFormat(CultureInfo.InvariantCulture, "<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\"/>", posX, posY, width, height);
+                _Content.AppendFormat(CultureInfo.InvariantCulture, "<rect x=\"{0}\" y=\"{1}\" width=\"{2}\" height=\"{3}\"/>", posX, posY, width, height);
             }
 
 #if !UNITY

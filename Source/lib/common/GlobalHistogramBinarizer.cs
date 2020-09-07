@@ -131,7 +131,7 @@ namespace ZXing.Common
             return row;
         }
 
-        private int LocalBlackPoint(int width, byte[] localLuminances)
+        private int LocalBlackPoint(int width, IReadOnlyList<byte> localLuminances)
         {
             ClearBuckets();
             int[] localBuckets = _Buckets;

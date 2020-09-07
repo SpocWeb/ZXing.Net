@@ -78,7 +78,7 @@ namespace ZXing.Multi.QrCode
         public override BarCodeText Decode(DetectorResult detectorResult
             , IDictionary<DecodeHintType, object> hints = null)
         {
-            var decoderResult = Decoder.decode(detectorResult.Bits, hints);
+            var decoderResult = Decoder.Decode(detectorResult.Bits, hints);
 
             if (decoderResult == null)
             {

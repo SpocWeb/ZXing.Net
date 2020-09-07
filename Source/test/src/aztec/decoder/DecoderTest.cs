@@ -55,7 +55,7 @@ namespace ZXing.Aztec.Test
                 "    X X X     X X X       X X X     X X X X   \n",
                 "X ", "  ");
             AztecDetectorResult r = new AztecDetectorResult(matrix, NO_POINTS, false, 30, 2);
-            DecoderResult result = new Decoder().decode(r);
+            DecoderResult result = new Decoder().Decode(r);
             Assert.AreEqual("88888TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", result.Text);
             Assert.AreEqual(
                 new byte[]
@@ -101,7 +101,7 @@ namespace ZXing.Aztec.Test
                                          + "X X . X . X . . . X . X . . . . X X . X . . X X . . . \n",
                 "X ", ". ");
             var r = new AztecDetectorResult(matrix, NO_POINTS, true, 16, 4);
-            Assert.That(new Decoder().decode(r), Is.Null);
+            Assert.That(new Decoder().Decode(r), Is.Null);
         }
 
         [Test]
@@ -137,7 +137,7 @@ namespace ZXing.Aztec.Test
                                          + "X X . . . X X . . X . X . . . . X X . X . . X . X . X \n",
                 "X ", ". ");
             var r = new AztecDetectorResult(matrix, NO_POINTS, true, 16, 4);
-            Assert.That(new Decoder().decode(r), Is.Null);
+            Assert.That(new Decoder().Decode(r), Is.Null);
         }
 
         static void AssertEqualByteArrays(byte[] b1, byte[] b2)
@@ -173,12 +173,12 @@ namespace ZXing.Aztec.Test
             var byte9 = new byte[] {170, 128};
             var byte16 = new byte[] {99, 193};
 
-            AssertEqualByteArrays(byte0, Decoder.convertBoolArrayToByteArray(bool0));
-            AssertEqualByteArrays(byte1, Decoder.convertBoolArrayToByteArray(bool1));
-            AssertEqualByteArrays(byte7, Decoder.convertBoolArrayToByteArray(bool7));
-            AssertEqualByteArrays(byte8, Decoder.convertBoolArrayToByteArray(bool8));
-            AssertEqualByteArrays(byte9, Decoder.convertBoolArrayToByteArray(bool9));
-            AssertEqualByteArrays(byte16, Decoder.convertBoolArrayToByteArray(bool16));
+            AssertEqualByteArrays(byte0, Decoder.ConvertBoolArrayToByteArray(bool0));
+            AssertEqualByteArrays(byte1, Decoder.ConvertBoolArrayToByteArray(bool1));
+            AssertEqualByteArrays(byte7, Decoder.ConvertBoolArrayToByteArray(bool7));
+            AssertEqualByteArrays(byte8, Decoder.ConvertBoolArrayToByteArray(bool8));
+            AssertEqualByteArrays(byte9, Decoder.ConvertBoolArrayToByteArray(bool9));
+            AssertEqualByteArrays(byte16, Decoder.ConvertBoolArrayToByteArray(bool16));
         }
 
 #if !SILVERLIGHT
