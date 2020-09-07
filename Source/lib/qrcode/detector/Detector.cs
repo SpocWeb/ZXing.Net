@@ -33,7 +33,7 @@ namespace ZXing.QrCode.Internal
     public class QrDetector : ADetector
     {
 
-        ResultPointCallback resultPointCallback;
+        ResultPointCallback _ResultPointCallback;
 
         public readonly IGridSampler Sampler;
 
@@ -57,7 +57,7 @@ namespace ZXing.QrCode.Internal
         /// <summary>
         /// Gets the result point callback.
         /// </summary>
-        protected internal virtual ResultPointCallback ResultPointCallback => resultPointCallback;
+        protected internal virtual ResultPointCallback ResultPointCallback => _ResultPointCallback;
 
         /// <summary>
         ///   <p>Detects a QR Code in an image.</p>
@@ -65,7 +65,7 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         ///   <see cref="DetectorResult"/> encapsulating results of detecting a QR Code
         /// </returns>
-        public virtual DetectorResult detect() => detect(null);
+        public virtual DetectorResult Detect() => Detect(null);
 
         /// <summary>
         ///   <p>Detects a QR Code in an image.</p>
@@ -74,34 +74,34 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         ///   <see cref="DetectorResult"/> encapsulating results of detecting a QR Code
         /// </returns>
-        public virtual DetectorResult detect(IDictionary<DecodeHintType, object> hints)
+        public virtual DetectorResult Detect(IDictionary<DecodeHintType, object> hints)
         {
-            resultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
+            _ResultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
-            QrPatternFinder finder = new QrPatternFinder(Image, resultPointCallback);
+            QrPatternFinder finder = new QrPatternFinder(Image, _ResultPointCallback);
             QrFinderPatternInfo info = finder.Find(hints);
             if (info == null) {
                 return null;
             }
 
-            return processFinderPatternInfo(info);
+            return ProcessFinderPatternInfo(info);
         }
 
         /// <summary>
         /// Processes the finder pattern info.
         /// </summary>
-        protected internal virtual DetectorResult processFinderPatternInfo(QrFinderPatternInfo info)
+        protected internal virtual DetectorResult ProcessFinderPatternInfo(QrFinderPatternInfo info)
         {
             FinderPattern topLeft = info.TopLeft;
             FinderPattern topRight = info.TopRight;
             FinderPattern bottomLeft = info.BottomLeft;
 
-            float moduleSize = calculateModuleSize(topLeft, topRight, bottomLeft);
+            float moduleSize = CalculateModuleSize(topLeft, topRight, bottomLeft);
             if (moduleSize < 1.0f)
             {
                 return null;
             }
-            if (!computeDimension(topLeft, topRight, bottomLeft, moduleSize, out var dimension)) {
+            if (!ComputeDimension(topLeft, topRight, bottomLeft, moduleSize, out var dimension)) {
                 return null;
             }
 
@@ -130,7 +130,7 @@ namespace ZXing.QrCode.Internal
                 // Kind of arbitrary -- expand search radius before giving up
                 for (int i = 4; i <= 16; i <<= 1)
                 {
-                    alignmentPattern = findAlignmentInRegion(moduleSize, estAlignmentX, estAlignmentY, i);
+                    alignmentPattern = FindAlignmentInRegion(moduleSize, estAlignmentX, estAlignmentY, i);
                     if (alignmentPattern == null) {
                         continue;
                     }
@@ -139,7 +139,7 @@ namespace ZXing.QrCode.Internal
                 // If we didn't find alignment pattern... well try anyway without it
             }
 
-            PerspectiveTransform transform = createTransform(topLeft, topRight, bottomLeft, alignmentPattern, dimension);
+            PerspectiveTransform transform = CreateTransform(topLeft, topRight, bottomLeft, alignmentPattern, dimension);
 
             BitMatrix bits = Sampler.SampleGrid(dimension, dimension, transform);
 
@@ -159,7 +159,7 @@ namespace ZXing.QrCode.Internal
             return new DetectorResult(bits, points);
         }
 
-        static PerspectiveTransform createTransform(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, ResultPoint alignmentPattern, int dimension)
+        static PerspectiveTransform CreateTransform(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, ResultPoint alignmentPattern, int dimension)
         {
             float dimMinusThree = dimension - 3.5f;
             float bottomRightX;
@@ -202,7 +202,7 @@ namespace ZXing.QrCode.Internal
         /// <summary> <p>Computes the dimension (number of modules on a size) of the QR Code based on the position
         /// of the finder patterns and estimated module size.</p>
         /// </summary>
-        static bool computeDimension(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, float moduleSize, out int dimension)
+        static bool ComputeDimension(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, float moduleSize, out int dimension)
         {
             int tltrCentersDimension = MathUtils.Round(ResultPoint.Distance(topLeft, topRight) / moduleSize);
             int tlblCentersDimension = MathUtils.Round(ResultPoint.Distance(topLeft, bottomLeft) / moduleSize);
@@ -231,7 +231,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="topRight">detected top-right finder pattern center</param>
         /// <param name="bottomLeft">detected bottom-left finder pattern center</param>
         /// <returns>estimated module size</returns>
-        protected internal virtual float calculateModuleSize(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft)
+        protected internal virtual float CalculateModuleSize(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft)
         {
             // Take the average
             return (calculateModuleSizeOneWay(topLeft, topRight) + calculateModuleSizeOneWay(topLeft, bottomLeft)) / 2.0f;
@@ -243,8 +243,8 @@ namespace ZXing.QrCode.Internal
         /// </summary>
         float calculateModuleSizeOneWay(ResultPoint pattern, ResultPoint otherPattern)
         {
-            float moduleSizeEst1 = sizeOfBlackWhiteBlackRunBothWays((int)pattern.X, (int)pattern.Y, (int)otherPattern.X, (int)otherPattern.Y);
-            float moduleSizeEst2 = sizeOfBlackWhiteBlackRunBothWays((int)otherPattern.X, (int)otherPattern.Y, (int)pattern.X, (int)pattern.Y);
+            float moduleSizeEst1 = SizeOfBlackWhiteBlackRunBothWays((int)pattern.X, (int)pattern.Y, (int)otherPattern.X, (int)otherPattern.Y);
+            float moduleSizeEst2 = SizeOfBlackWhiteBlackRunBothWays((int)otherPattern.X, (int)otherPattern.Y, (int)pattern.X, (int)pattern.Y);
             if (float.IsNaN(moduleSizeEst1))
             {
                 return moduleSizeEst2 / 7.0f;
@@ -262,10 +262,10 @@ namespace ZXing.QrCode.Internal
         /// a finder pattern by looking for a black-white-black run from the center in the direction
         /// of another point (another finder pattern center), and in the opposite direction too.
         /// </summary>
-        float sizeOfBlackWhiteBlackRunBothWays(int fromX, int fromY, int toX, int toY)
+        float SizeOfBlackWhiteBlackRunBothWays(int fromX, int fromY, int toX, int toY)
         {
 
-            float result = sizeOfBlackWhiteBlackRun(fromX, fromY, toX, toY);
+            float result = SizeOfBlackWhiteBlackRun(fromX, fromY, toX, toY);
 
             // Now count other way -- don't run off image though of course
             float scale = 1.0f;
@@ -295,7 +295,7 @@ namespace ZXing.QrCode.Internal
             }
             otherToX = (int)(fromX + (otherToX - fromX) * scale);
 
-            result += sizeOfBlackWhiteBlackRun(fromX, fromY, otherToX, otherToY);
+            result += SizeOfBlackWhiteBlackRun(fromX, fromY, otherToX, otherToY);
             return result - 1.0f; // -1 because we counted the middle pixel twice
         }
 
@@ -306,7 +306,7 @@ namespace ZXing.QrCode.Internal
         /// <p>This is used when figuring out how wide a finder pattern is, when the finder pattern
         /// may be skewed or rotated.</p>
         /// </summary>
-        float sizeOfBlackWhiteBlackRun(int fromX, int fromY, int toX, int toY)
+        float SizeOfBlackWhiteBlackRun(int fromX, int fromY, int toX, int toY)
         {
             // Mild variant of Bresenham's algorithm;
             // see http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
@@ -383,7 +383,7 @@ namespace ZXing.QrCode.Internal
         /// <returns>
         ///   <see cref="AlignmentPattern"/> if found, or null otherwise
         /// </returns>
-        protected AlignmentPattern findAlignmentInRegion(float overallEstModuleSize, int estAlignmentX, int estAlignmentY, float allowanceFactor)
+        protected AlignmentPattern FindAlignmentInRegion(float overallEstModuleSize, int estAlignmentX, int estAlignmentY, float allowanceFactor)
         {
             // Look for an alignment pattern (3 modules in size) around where it
             // should be
@@ -405,7 +405,7 @@ namespace ZXing.QrCode.Internal
                alignmentAreaRightX - alignmentAreaLeftX,
                alignmentAreaBottomY - alignmentAreaTopY,
                overallEstModuleSize,
-               resultPointCallback);
+               _ResultPointCallback);
 
             return alignmentFinder.find();
         }
