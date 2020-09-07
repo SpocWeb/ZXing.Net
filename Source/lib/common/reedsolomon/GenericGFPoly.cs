@@ -49,7 +49,7 @@ namespace ZXing.Common.ReedSolomon
             {
                 throw new ArgumentException();
             }
-            this._Field = field;
+            _Field = field;
             int coefficientsLength = coefficients.Length;
             if (coefficientsLength > 1 && coefficients[0] == 0)
             {
@@ -61,21 +61,21 @@ namespace ZXing.Common.ReedSolomon
                 }
                 if (firstNonZero == coefficientsLength)
                 {
-                    this._Coefficients = new[] { 0 };
+                    _Coefficients = new[] { 0 };
                 }
                 else
                 {
-                    this._Coefficients = new int[coefficientsLength - firstNonZero];
+                    _Coefficients = new int[coefficientsLength - firstNonZero];
                     Array.Copy(coefficients,
                         firstNonZero,
-                        this._Coefficients,
+                        _Coefficients,
                         0,
-                        this._Coefficients.Length);
+                        _Coefficients.Length);
                 }
             }
             else
             {
-                this._Coefficients = coefficients;
+                _Coefficients = coefficients;
             }
         }
 

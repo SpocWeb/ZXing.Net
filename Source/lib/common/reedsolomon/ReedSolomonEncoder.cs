@@ -35,7 +35,7 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="field"></param>
         public ReedSolomonEncoder(GenericGf field)
         {
-            this._Field = field;
+            _Field = field;
             _CachedGenerators = new List<GenericGfPoly>
             {
                 new GenericGfPoly(field, new[] { 1 })

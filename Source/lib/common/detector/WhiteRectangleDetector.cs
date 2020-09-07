@@ -102,7 +102,7 @@ namespace ZXing.Common.Detector
         /// <param name="y">The y.</param>
         internal WhiteRectangleDetector(IRoBitMatrix image, int initSize, int x, int y)
         {
-            this._Image = image;
+            _Image = image;
             _Height = image.Height;
             _Width = image.Width;
             int halfsize = initSize / 2;

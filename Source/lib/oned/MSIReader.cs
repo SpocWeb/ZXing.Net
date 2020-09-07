@@ -62,7 +62,7 @@ namespace ZXing.OneD
         /// data, and verify that the checksum passes.</param>
         public MsiReader(bool usingCheckDigit)
         {
-            this._UsingCheckDigit = usingCheckDigit;
+            _UsingCheckDigit = usingCheckDigit;
             _DecodeRowResult = new StringBuilder(20);
             _Counters = new int[8];
         }

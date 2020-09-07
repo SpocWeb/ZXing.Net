@@ -28,7 +28,7 @@ namespace ZXing.QrCode.Internal
 
         public QrCodeDecoderMetaData(bool mirrored)
         {
-            this.IsMirrored = mirrored;
+            IsMirrored = mirrored;
         }
 
         public bool IsMirrored { get; }

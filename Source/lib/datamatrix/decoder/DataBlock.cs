@@ -30,8 +30,8 @@ namespace ZXing.Datamatrix.Internal
 
         private DataBlock(int numDataCodewords, byte[] codewords)
         {
-            this.NumDataCodewords = numDataCodewords;
-            this.Codewords = codewords;
+            NumDataCodewords = numDataCodewords;
+            Codewords = codewords;
         }
 
         /// <summary>

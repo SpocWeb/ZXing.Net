@@ -69,7 +69,7 @@ namespace ZXing.Common
         CharacterSetEci(int value, string encodingName)
            : base(value)
         {
-            this.EncodingName = encodingName;
+            EncodingName = encodingName;
         }
 
         static void AddCharacterSet(int value, string encodingName)

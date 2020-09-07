@@ -46,21 +46,21 @@ namespace ZXing.PDF417.Internal.EC
                 }
                 if (firstNonZero == coefficientsLength)
                 {
-                    this.Coefficients = new[] { 0 };
+                    Coefficients = new[] { 0 };
                 }
                 else
                 {
-                    this.Coefficients = new int[coefficientsLength - firstNonZero];
+                    Coefficients = new int[coefficientsLength - firstNonZero];
                     Array.Copy(coefficients,
                                firstNonZero,
-                               this.Coefficients,
+                               Coefficients,
                                0,
-                               this.Coefficients.Length);
+                               Coefficients.Length);
                 }
             }
             else
             {
-                this.Coefficients = coefficients;
+                Coefficients = coefficients;
             }
         }
 

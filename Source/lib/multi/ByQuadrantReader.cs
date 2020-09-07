@@ -32,7 +32,7 @@ namespace ZXing.Multi
         readonly IBarCodeDecoder Decoder;
 
         public ByQuadrantReader(IBarCodeDecoder decoder) {
-            this.Decoder = decoder;
+            Decoder = decoder;
         }
 
         /// <summary>

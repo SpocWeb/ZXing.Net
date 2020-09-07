@@ -81,21 +81,21 @@ namespace ZXing.Client.Result
                                            IDictionary<string, string> uncommonAIs)
            : base(ParsedResultType.PRODUCT)
         {
-            this.RawText = rawText;
-            this.ProductID = productID;
-            this.Sscc = sscc;
-            this.LotNumber = lotNumber;
-            this.ProductionDate = productionDate;
-            this.PackagingDate = packagingDate;
-            this.BestBeforeDate = bestBeforeDate;
-            this.ExpirationDate = expirationDate;
-            this.Weight = weight;
-            this.WeightType = weightType;
-            this.WeightIncrement = weightIncrement;
-            this.Price = price;
-            this.PriceIncrement = priceIncrement;
-            this.PriceCurrency = priceCurrency;
-            this.UncommonAIs = uncommonAIs;
+            RawText = rawText;
+            ProductID = productID;
+            Sscc = sscc;
+            LotNumber = lotNumber;
+            ProductionDate = productionDate;
+            PackagingDate = packagingDate;
+            BestBeforeDate = bestBeforeDate;
+            ExpirationDate = expirationDate;
+            Weight = weight;
+            WeightType = weightType;
+            WeightIncrement = weightIncrement;
+            Price = price;
+            PriceIncrement = priceIncrement;
+            PriceCurrency = priceCurrency;
+            UncommonAIs = uncommonAIs;
 
             displayResultValue = productID;
         }

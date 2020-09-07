@@ -77,26 +77,26 @@ namespace ZXing.Common
             {
                 throw new ArgumentException("Both dimensions must be greater than 0");
             }
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
             RowSize = (width + 31) >> 5;
             _Bits = new int[RowSize * height];
         }
 
         internal BitMatrix(int width, int height, int rowSize, int[] bits)
         {
-            this.Width = width;
-            this.Height = height;
-            this.RowSize = rowSize;
-            this._Bits = bits;
+            Width = width;
+            Height = height;
+            RowSize = rowSize;
+            _Bits = bits;
         }
 
         internal BitMatrix(int width, int height, int[] bits)
         {
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
             RowSize = (width + 31) >> 5;
-            this._Bits = bits;
+            _Bits = bits;
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace ZXing.Common
             }
             int right = left + width;
             int bottom = top + height;
-            if (bottom > this.Height || right > this.Width)
+            if (bottom > Height || right > Width)
             {
                 throw new ArgumentException("The region must fit inside the matrix");
             }

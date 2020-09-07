@@ -77,8 +77,8 @@ namespace ZXing.Common.ReedSolomon
         /// *  In most cases it should be 1, but for QR code it is 0.</param>
         public GenericGf(int primitive, int size, int genBase)
         {
-            this._Primitive = primitive;
-            this.Size = size;
+            _Primitive = primitive;
+            Size = size;
             GeneratorBase = genBase;
 
             _ExpTable = new int[size];

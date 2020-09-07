@@ -78,7 +78,7 @@ namespace ZXing.Client.Result
            double longitude)
            : base(ParsedResultType.CALENDAR)
         {
-            this.Summary = summary;
+            Summary = summary;
             try
             {
                 Start = parseDate(startString);
@@ -108,12 +108,12 @@ namespace ZXing.Client.Result
             startAllDay = startString.Length == 8;
             isEndAllDay = endString != null && endString.Length == 8;
 
-            this.Location = location;
-            this.Organizer = organizer;
-            this.Attendees = attendees;
-            this.Description = description;
-            this.Latitude = latitude;
-            this.Longitude = longitude;
+            Location = location;
+            Organizer = organizer;
+            Attendees = attendees;
+            Description = description;
+            Latitude = latitude;
+            Longitude = longitude;
 
             var result = new StringBuilder(100);
             maybeAppend(summary, result);

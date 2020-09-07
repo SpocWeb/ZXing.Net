@@ -32,10 +32,10 @@ namespace ZXing.PDF417.Internal
         /// <param name="maxRows">The max rows.</param>
         public Dimensions(int minCols, int maxCols, int minRows, int maxRows)
         {
-            this.MinCols = minCols;
-            this.MaxCols = maxCols;
-            this.MinRows = minRows;
-            this.MaxRows = maxRows;
+            MinCols = minCols;
+            MaxCols = maxCols;
+            MinRows = minRows;
+            MaxRows = maxRows;
         }
 
         /// <summary>

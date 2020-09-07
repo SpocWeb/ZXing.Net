@@ -65,7 +65,7 @@ namespace ZXing.OneD
                 readers.Add(new Eân8Reader());
                 readers.Add(new UPCEReader());
             }
-            this._Readers = readers.ToArray();
+            _Readers = readers.ToArray();
         }
 
         /// <summary>

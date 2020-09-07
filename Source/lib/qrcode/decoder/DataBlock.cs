@@ -32,8 +32,8 @@ namespace ZXing.QrCode.Internal
 
         DataBlock(int numDataCodewords, byte[] codewords)
         {
-            this.NumDataCodewords = numDataCodewords;
-            this.Codewords = codewords;
+            NumDataCodewords = numDataCodewords;
+            Codewords = codewords;
         }
 
         /// <summary> <p>When QR Codes use multiple data blocks, they are actually interleaved.

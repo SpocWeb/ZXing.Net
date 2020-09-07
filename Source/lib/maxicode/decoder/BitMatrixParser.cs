@@ -68,7 +68,7 @@ namespace ZXing.Maxicode.Internal
         /// </summary>
         internal BitMatrixParser(BitMatrix bitMatrix)
         {
-            this._BitMatrix = bitMatrix;
+            _BitMatrix = bitMatrix;
         }
 
         public byte[] ReadCodewords()

@@ -112,22 +112,22 @@ namespace ZXing.Client.Result
                 throw new ArgumentException("Addresses and types lengths differ");
             }
 
-            this.Names = names;
-            this.Nicknames = nicknames;
-            this.Pronunciation = pronunciation;
-            this.PhoneNumbers = phoneNumbers;
-            this.PhoneTypes = phoneTypes;
-            this.Emails = emails;
-            this.EmailTypes = emailTypes;
-            this.InstantMessenger = instantMessenger;
-            this.Note = note;
-            this.Addresses = addresses;
-            this.AddressTypes = addressTypes;
-            this.Org = org;
-            this.Birthday = birthday;
-            this.Title = title;
-            this.URLs = urls;
-            this.Geo = geo;
+            Names = names;
+            Nicknames = nicknames;
+            Pronunciation = pronunciation;
+            PhoneNumbers = phoneNumbers;
+            PhoneTypes = phoneTypes;
+            Emails = emails;
+            EmailTypes = emailTypes;
+            InstantMessenger = instantMessenger;
+            Note = note;
+            Addresses = addresses;
+            AddressTypes = addressTypes;
+            Org = org;
+            Birthday = birthday;
+            Title = title;
+            URLs = urls;
+            Geo = geo;
 
             displayResultValue = getDisplayResult();
         }

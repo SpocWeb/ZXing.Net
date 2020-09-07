@@ -35,7 +35,7 @@ namespace ZXing.PDF417.Internal.EC
 
         public ModulusGF(int modulus, int generator)
         {
-            this.Size = modulus;
+            Size = modulus;
             expTable = new int[modulus];
             logTable = new int[modulus];
             int x = 1;

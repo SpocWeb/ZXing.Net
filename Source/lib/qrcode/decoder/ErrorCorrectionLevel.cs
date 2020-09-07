@@ -39,8 +39,8 @@ namespace ZXing.QrCode.Internal
         private ErrorCorrectionLevel(int ordinal, int bits, string name)
         {
             ordinal_Renamed_Field = ordinal;
-            this.Bits = bits;
-            this.Name = name;
+            Bits = bits;
+            Name = name;
         }
 
         /// <summary>

@@ -39,8 +39,8 @@ namespace ZXing.QrCode.Internal
                 Array[i] = new byte[width];
             }
 
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
         }
 
         /// <summary>

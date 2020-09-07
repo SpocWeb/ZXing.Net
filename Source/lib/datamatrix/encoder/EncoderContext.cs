@@ -63,7 +63,7 @@ namespace ZXing.Datamatrix.Encoder
                 }
                 sb.Append(ch);
             }
-            this.Message = sb.ToString(); //Not Unicode here!
+            Message = sb.ToString(); //Not Unicode here!
             shape = SymbolShapeHint.FORCE_NONE;
             Codewords = new StringBuilder(msg.Length);
             NewEncoding = -1;
@@ -91,7 +91,7 @@ namespace ZXing.Datamatrix.Encoder
 
         public void writeCodewords(string codewords)
         {
-            this.Codewords.Append(codewords);
+            Codewords.Append(codewords);
         }
 
         public void writeCodeword(char codeword)

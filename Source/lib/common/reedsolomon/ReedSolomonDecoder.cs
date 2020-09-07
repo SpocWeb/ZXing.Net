@@ -48,7 +48,7 @@ namespace ZXing.Common.ReedSolomon
         /// <param name="field"></param>
         public ReedSolomonDecoder(GenericGf field)
         {
-            this._Field = field;
+            _Field = field;
         }
 
         /// <summary>

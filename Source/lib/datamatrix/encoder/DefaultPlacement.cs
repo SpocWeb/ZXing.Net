@@ -33,8 +33,8 @@ namespace ZXing.Datamatrix.Encoder
         public DefaultPlacement(string codewords, int numcols, int numrows)
         {
             this.codewords = codewords;
-            this.Numcols = numcols;
-            this.Numrows = numrows;
+            Numcols = numcols;
+            Numrows = numrows;
             Bits = new byte[numcols * numrows];
             SupportClass.Fill(Bits, (byte)2); //Initialize with "not set" value
         }

@@ -42,7 +42,7 @@ namespace ZXing.QrCode.Internal
         BitMatrixParser(IBitMatrix bitMatrix)
         {
             // Should only be called from createBitMatrixParser with the important checks before
-            this._BitMatrix = bitMatrix;
+            _BitMatrix = bitMatrix;
         }
 
         /// <summary> <p>Reads format information from one of its two locations within the QR Code.</p>

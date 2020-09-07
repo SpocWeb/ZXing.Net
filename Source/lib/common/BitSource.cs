@@ -38,7 +38,7 @@ namespace ZXing.Common
         /// </param>
         public BitSource(byte[] bytes)
         {
-            this._Bytes = bytes;
+            _Bytes = bytes;
         }
 
         /// <summary>

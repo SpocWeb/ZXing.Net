@@ -44,9 +44,9 @@ namespace ZXing.QrCode.Internal
 
         Version(int versionNumber, int[] alignmentPatternCenters, params EcBlocks[] ecBlocks)
         {
-            this.VersionNumber = versionNumber;
-            this.AlignmentPatternCenters = alignmentPatternCenters;
-            this._EcBlocks = ecBlocks;
+            VersionNumber = versionNumber;
+            AlignmentPatternCenters = alignmentPatternCenters;
+            _EcBlocks = ecBlocks;
             int total = 0;
             int ecCodewords = ecBlocks[0].EcCodewordsPerBlock;
             Ecb[] ecbArray = ecBlocks[0].GetEcBlocks();
@@ -209,8 +209,8 @@ namespace ZXing.QrCode.Internal
 
             internal EcBlocks(int ecCodewordsPerBlock, params Ecb[] ecBlocks)
             {
-                this.EcCodewordsPerBlock = ecCodewordsPerBlock;
-                this._EcBlocks = ecBlocks;
+                EcCodewordsPerBlock = ecCodewordsPerBlock;
+                _EcBlocks = ecBlocks;
             }
 
             /// <summary>
@@ -258,8 +258,8 @@ namespace ZXing.QrCode.Internal
 
             internal Ecb(int count, int dataCodewords)
             {
-                this.Count = count;
-                this.DataCodewords = dataCodewords;
+                Count = count;
+                DataCodewords = dataCodewords;
             }
 
             /// <summary>

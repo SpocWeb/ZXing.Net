@@ -37,7 +37,7 @@ namespace ZXing.Common.Detector
         /// <param name="image"></param>
         public MonochromeRectangleDetector(BitMatrix image)
         {
-            this._Image = image;
+            _Image = image;
         }
 
         /// <summary>

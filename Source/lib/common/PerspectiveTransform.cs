@@ -101,15 +101,15 @@ namespace ZXing.Common
         /// <summary> Initializing Constructor </summary>
         public PerspectiveTransform(float a11, float a21, float a31, float a12, float a22, float a32, float a13, float a23, float a33)
         {
-            this.A11 = a11;
-            this.A12 = a12;
-            this.A13 = a13;
-            this.A21 = a21;
-            this.A22 = a22;
-            this.A23 = a23;
-            this.A31 = a31;
-            this.A32 = a32;
-            this.A33 = a33;
+            A11 = a11;
+            A12 = a12;
+            A13 = a13;
+            A21 = a21;
+            A22 = a22;
+            A23 = a23;
+            A31 = a31;
+            A32 = a32;
+            A33 = a33;
         }
 
         /// <summary> Maps <paramref name="xyPoints"/> in place using this Trafo </summary>

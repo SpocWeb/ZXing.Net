@@ -37,10 +37,10 @@ namespace ZXing.Aztec.Internal
 
         public State(Token token, int mode, int binaryBytes, int bitCount)
         {
-            this.Token = token;
-            this.Mode = mode;
+            Token = token;
+            Mode = mode;
             BinaryShiftByteCount = binaryBytes;
-            this.BitCount = bitCount;
+            BitCount = bitCount;
             // Make sure we match the token
             //int binaryShiftBitCount = (binaryShiftByteCount * 8) +
             //    (binaryShiftByteCount == 0 ? 0 :
@@ -64,11 +64,11 @@ namespace ZXing.Aztec.Internal
         public State latchAndAppend(int mode, int value)
         {
             //assert binaryShiftByteCount == 0;
-            int bitCount = this.BitCount;
-            Token token = this.Token;
-            if (mode != this.Mode)
+            int bitCount = BitCount;
+            Token token = Token;
+            if (mode != Mode)
             {
-                int latch = HighLevelEncoder.LATCH_TABLE[this.Mode][mode];
+                int latch = HighLevelEncoder.LATCH_TABLE[Mode][mode];
                 token = token.add(latch & 0xFFFF, latch >> 16);
                 bitCount += latch >> 16;
             }
@@ -84,12 +84,12 @@ namespace ZXing.Aztec.Internal
         public State shiftAndAppend(int mode, int value)
         {
             //assert binaryShiftByteCount == 0 && this.mode != mode;
-            Token token = this.Token;
-            int thisModeBitCount = this.Mode == HighLevelEncoder.MODE_DIGIT ? 4 : 5;
+            Token token = Token;
+            int thisModeBitCount = Mode == HighLevelEncoder.MODE_DIGIT ? 4 : 5;
             // Shifts exist only to UPPER and PUNCT, both with tokens size 5.
-            token = token.add(HighLevelEncoder.SHIFT_TABLE[this.Mode][mode], thisModeBitCount);
+            token = token.add(HighLevelEncoder.SHIFT_TABLE[Mode][mode], thisModeBitCount);
             token = token.add(value, 5);
-            return new State(token, this.Mode, 0, BitCount + thisModeBitCount + 5);
+            return new State(token, Mode, 0, BitCount + thisModeBitCount + 5);
         }
 
         /// <summary>
@@ -98,10 +98,10 @@ namespace ZXing.Aztec.Internal
         /// </summary>
         public State addBinaryShiftChar(int index)
         {
-            Token token = this.Token;
-            int mode = this.Mode;
-            int bitCount = this.BitCount;
-            if (this.Mode == HighLevelEncoder.MODE_PUNCT || this.Mode == HighLevelEncoder.MODE_DIGIT)
+            Token token = Token;
+            int mode = Mode;
+            int bitCount = BitCount;
+            if (Mode == HighLevelEncoder.MODE_PUNCT || Mode == HighLevelEncoder.MODE_DIGIT)
             {
                 //assert binaryShiftByteCount == 0;
                 int latch = HighLevelEncoder.LATCH_TABLE[mode][HighLevelEncoder.MODE_UPPER];
@@ -131,7 +131,7 @@ namespace ZXing.Aztec.Internal
             {
                 return this;
             }
-            Token token = this.Token;
+            Token token = Token;
             token = token.addBinaryShift(index - BinaryShiftByteCount, BinaryShiftByteCount);
             //assert token.getTotalBitCount() == this.bitCount;
             return new State(token, Mode, 0, BitCount);

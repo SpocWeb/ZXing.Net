@@ -138,7 +138,7 @@ namespace ZXing.QrCode
                 return null;
             }
 
-            if (!QrCodeReader.ModuleSize(leftTopBlack, image, out var moduleSize)) {
+            if (!ModuleSize(leftTopBlack, image, out var moduleSize)) {
                 return null;
             }
 

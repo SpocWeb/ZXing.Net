@@ -35,8 +35,8 @@ namespace ZXing
             {
                 throw new ArgumentException();
             }
-            this.Width = width;
-            this.Height = height;
+            Width = width;
+            Height = height;
         }
 
         /// <summary>

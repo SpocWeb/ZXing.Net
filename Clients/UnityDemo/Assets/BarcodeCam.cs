@@ -24,117 +24,117 @@ using ZXing.QrCode;
 public class BarcodeCam : MonoBehaviour
 {
     // Texture for encoding test
-    public Texture2D encoded;
+    public Texture2D Encoded;
 
-    private WebCamTexture camTexture;
-    private Thread qrThread;
+    private WebCamTexture _CamTexture;
+    private Thread _QrThread;
 
-    private Color32[] c;
+    private Color32[] _C;
     private int W, H;
 
-    private Rect screenRect;
+    private Rect _ScreenRect;
 
-    private bool isQuit;
+    private bool _IsQuit;
 
     public string LastResult;
-    private bool shouldEncodeNow;
+    private bool _ShouldEncodeNow;
 
     void OnGUI()
     {
-        GUI.DrawTexture(screenRect, camTexture, ScaleMode.ScaleToFit);
+        GUI.DrawTexture(_ScreenRect, _CamTexture, ScaleMode.ScaleToFit);
     }
 
     void OnEnable()
     {
-        if (camTexture != null)
+        if (_CamTexture != null)
         {
-            camTexture.Play();
-            W = camTexture.width;
-            H = camTexture.height;
+            _CamTexture.Play();
+            W = _CamTexture.width;
+            H = _CamTexture.height;
         }
     }
 
     void OnDisable()
     {
-        if (camTexture != null)
+        if (_CamTexture != null)
         {
-            camTexture.Pause();
+            _CamTexture.Pause();
         }
     }
 
     void OnDestroy()
     {
-        qrThread.Abort();
-        camTexture.Stop();
+        _QrThread.Abort();
+        _CamTexture.Stop();
     }
 
     // It's better to stop the thread by itself rather than abort it.
     void OnApplicationQuit()
     {
-        isQuit = true;
+        _IsQuit = true;
     }
 
     void Start()
     {
-        encoded = new Texture2D(256, 256);
+        Encoded = new Texture2D(256, 256);
         LastResult = "http://www.google.com";
-        shouldEncodeNow = true;
+        _ShouldEncodeNow = true;
 
-        screenRect = new Rect(0, 0, Screen.width, Screen.height);
+        _ScreenRect = new Rect(0, 0, Screen.width, Screen.height);
 
-        camTexture = new WebCamTexture();
-        camTexture.requestedHeight = Screen.height; // 480;
-        camTexture.requestedWidth = Screen.width; //640;
+        _CamTexture = new WebCamTexture();
+        _CamTexture.requestedHeight = Screen.height; // 480;
+        _CamTexture.requestedWidth = Screen.width; //640;
         OnEnable();
 
-        qrThread = new Thread(DecodeQR);
-        qrThread.Start();
+        _QrThread = new Thread(DecodeQr);
+        _QrThread.Start();
     }
 
     void Update()
     {
-        if (c == null)
+        if (_C == null)
         {
-            c = camTexture.GetPixels32();
+            _C = _CamTexture.GetPixels32();
         }
 
         // encode the last found
         var textForEncoding = LastResult;
-        if (shouldEncodeNow &&
+        if (_ShouldEncodeNow &&
             textForEncoding != null)
         {
-            var color32 = Encode(textForEncoding, encoded.width, encoded.height);
-            encoded.SetPixels32(color32);
-            encoded.Apply();
-            shouldEncodeNow = false;
+            var color32 = Encode(textForEncoding, Encoded.width, Encoded.height);
+            Encoded.SetPixels32(color32);
+            Encoded.Apply();
+            _ShouldEncodeNow = false;
         }
     }
 
-    void DecodeQR()
+    void DecodeQr()
     {
         // create a reader with a custom luminance source
         var barcodeReader = new BarcodeReader { AutoRotate = false, TryHarder = false };
 
         while (true)
         {
-            if (isQuit) {
+            if (_IsQuit) {
                 break;
             }
 
             try
             {
                 // decode the current frame
-                var result = barcodeReader.Decode(c, W, H);
+                var result = barcodeReader.Decode(_C, W, H);
                 if (result != null)
                 {
                     LastResult = result.Text;
-                    shouldEncodeNow = true;
+                    _ShouldEncodeNow = true;
                     print(result.Text);
                 }
 
                 // Sleep a little bit and set the signal to get the next frame
                 Thread.Sleep(200);
-                c = null;
+                _C = null;
             }
             catch
             {

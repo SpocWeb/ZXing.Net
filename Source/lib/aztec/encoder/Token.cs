@@ -34,7 +34,7 @@ namespace ZXing.Aztec.Internal
         /// <param name="previous"></param>
         protected Token(Token previous)
         {
-            this.Previous = previous;
+            Previous = previous;
         }
 
         /// <summary>

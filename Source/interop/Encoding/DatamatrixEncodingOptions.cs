@@ -162,11 +162,6 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int Height { get; private set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
         public override bool Equals(object other)
         {
             if (other is Dimension d)
@@ -176,19 +171,11 @@ namespace ZXing.Interop.Encoding
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public override int GetHashCode()
         {
             return Width * 32713 + Height;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             return Width + "x" + Height;

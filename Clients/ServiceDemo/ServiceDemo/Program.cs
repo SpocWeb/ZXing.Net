@@ -29,11 +29,8 @@ namespace ServiceDemo
         {
             if (!Environment.UserInteractive)
             {
-                var ServicesToRun = new ServiceBase[]
-                                                 {
-                                                new BarcodeScannerService()
-                                                 };
-                ServiceBase.Run(ServicesToRun);
+                var servicesToRun = new ServiceBase[] {new BarcodeScannerService()};
+                ServiceBase.Run(servicesToRun);
             }
             else
             {
