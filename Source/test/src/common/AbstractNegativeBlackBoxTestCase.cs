@@ -36,17 +36,18 @@ namespace ZXing.Common.Test
    public abstract class AbstractNegativeBlackBoxTestCase : AbstractBlackBoxTestCase
    {
 #if !SILVERLIGHT
-      private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+       static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #else
       private static readonly DanielVaughan.Logging.ILog Log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-      private readonly List<TestResult> _TestResults;
+       readonly List<TestResult> _TestResults;
 
-      private class TestResult
+       class TestResult
       {
-         private readonly int _FalsePositivesAllowed;
-         private readonly float _Rotation;
+
+          readonly int _FalsePositivesAllowed;
+          readonly float _Rotation;
 
          public TestResult(int falsePositivesAllowed, float rotation)
          {
@@ -143,7 +144,7 @@ namespace ZXing.Common.Test
       /// <returns>true if nothing found, false if a non-existent barcode was detected</returns>
       /// </summary>
 #if !SILVERLIGHT
-      private bool CheckForFalsePositives(Bitmap image, float rotationInDegrees)
+      bool CheckForFalsePositives(Bitmap image, float rotationInDegrees)
 #else
       private bool checkForFalsePositives(WriteableBitmap image, float rotationInDegrees)
 #endif

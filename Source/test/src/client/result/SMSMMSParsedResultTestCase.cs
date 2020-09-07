@@ -42,7 +42,7 @@ namespace ZXing.Client.Result.Test
          DoTest(contents, new string[] { number }, subject, body, new string[] { via }, parsedUri);
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string[] numbers,
                                  string subject,
                                  string body,

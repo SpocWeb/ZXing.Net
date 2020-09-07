@@ -42,7 +42,7 @@ namespace ZXing.QrCode.Internal.Test
             }
         }
 
-        private static void CheckVersion(Version version, int number, int dimension)
+        static void CheckVersion(Version version, int number, int dimension)
         {
             Assert.IsNotNull(version);
             Assert.AreEqual(number, version.VersionNumber);
@@ -80,7 +80,7 @@ namespace ZXing.QrCode.Internal.Test
             DoTestVersion(32, 0x209D5);
         }
 
-        private static void DoTestVersion(int expectedVersion, int mask)
+        static void DoTestVersion(int expectedVersion, int mask)
         {
             Version version = Version.DecodeVersionInformation(mask);
             Assert.IsNotNull(version);

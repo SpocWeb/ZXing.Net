@@ -34,7 +34,7 @@ namespace BigIntegerLibrary
         /// 2^16 numeration base for internal computations, in order to benefit the most from the
         /// 32 bit (or 64 bit) integer processor registers.
         /// </summary>
-        private const long NumberBase = 65536;
+        const long NumberBase = 65536;
 
         /// <summary>
         /// Maximum size for numbers is up to 10240 binary digits or approximately (safe to use) 3000 decimal digits.
@@ -46,7 +46,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Ratio for the convertion of a BigInteger's size to a binary digits size.
         /// </summary>
-        private const int RatioToBinaryDigits = 16;
+        const int RatioToBinaryDigits = 16;
 
 
         /// Integer constants
@@ -59,17 +59,17 @@ namespace BigIntegerLibrary
         /// <summary>
         /// The array of digits of the number.
         /// </summary>
-        private DigitContainer _Digits;
+        DigitContainer _Digits;
 
         /// <summary>
         /// The actual number of digits of the number.
         /// </summary>
-        private int _Size;
+        int _Size;
 
         /// <summary>
         /// The number sign.
         /// </summary>
-        private Sign _Sign;
+        Sign _Sign;
 
         #endregion
 
@@ -216,7 +216,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Constructor deserializing a BigInteger.
         /// </summary>
-        private BigInteger(SerializationInfo info, StreamingContext context)
+        BigInteger(SerializationInfo info, StreamingContext context)
         {
             bool signValue = (bool)info.GetValue("sign", typeof(bool));
             if (signValue == true) {
@@ -1183,7 +1183,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Adds two BigNumbers a and b, where a >= b, a, b non-negative.
         /// </summary>
-        private static BigInteger Add(BigInteger a, BigInteger b)
+        static BigInteger Add(BigInteger a, BigInteger b)
         {
             BigInteger res = new BigInteger(a);
             long trans = 0, temp;
@@ -1216,7 +1216,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Subtracts the BigInteger b from the BigInteger a, where a >= b, a, b non-negative.
         /// </summary>
-        private static BigInteger Subtract(BigInteger a, BigInteger b)
+        static BigInteger Subtract(BigInteger a, BigInteger b)
         {
             BigInteger res = new BigInteger(a);
             int i;
@@ -1266,7 +1266,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Multiplies two BigIntegers.
         /// </summary>
-        private static BigInteger Multiply(BigInteger a, BigInteger b)
+        static BigInteger Multiply(BigInteger a, BigInteger b)
         {
             int i, j;
             long temp, trans = 0;
@@ -1310,7 +1310,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Divides a BigInteger by a one-digit int.
         /// </summary>
-        private static BigInteger DivideByOneDigitNumber(BigInteger a, long b)
+        static BigInteger DivideByOneDigitNumber(BigInteger a, long b)
         {
             BigInteger res = new BigInteger();
             int i = a._Size - 1;
@@ -1340,7 +1340,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Divides a BigInteger by another BigInteger.
         /// </summary>
-        private static BigInteger DivideByBigNumber(BigInteger a, BigInteger b)
+        static BigInteger DivideByBigNumber(BigInteger a, BigInteger b)
         {
             int k, n = a._Size, m = b._Size;
             long f, qt;
@@ -1377,7 +1377,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// DivideByBigNumber auxiliary method. 
         /// </summary>
-        private static bool DivideByBigNumberSmaller(BigInteger r, BigInteger dq, int k, int m)
+        static bool DivideByBigNumberSmaller(BigInteger r, BigInteger dq, int k, int m)
         {
             int i = m, j = 0;
 
@@ -1400,7 +1400,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// DivideByBigNumber auxilary method.
         /// </summary>
-        private static void Difference(BigInteger r, BigInteger dq, int k, int m)
+        static void Difference(BigInteger r, BigInteger dq, int k, int m)
         {
             int i;
             long borrow = 0, diff;
@@ -1416,7 +1416,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// DivideByBigNumber auxilary method.
         /// </summary>
-        private static long Trial(BigInteger r, BigInteger d, int k, int m)
+        static long Trial(BigInteger r, BigInteger d, int k, int m)
         {
             int km = k + m;
 
@@ -1434,12 +1434,13 @@ namespace BigIntegerLibrary
         #endregion
 
 
-        private class DigitContainer
+        class DigitContainer
         {
-            private readonly long[][] _Digits;
-            private const int ChunkSize = 16;
-            private const int ChunkSizeDivisionShift = 4;
-            private const int ChunkCount = BigInteger.MAX_SIZE >> ChunkSizeDivisionShift;
+
+            readonly long[][] _Digits;
+            const int ChunkSize = 16;
+            const int ChunkSizeDivisionShift = 4;
+            const int ChunkCount = BigInteger.MAX_SIZE >> ChunkSizeDivisionShift;
 
             public DigitContainer()
             {

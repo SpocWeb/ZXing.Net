@@ -63,7 +63,7 @@ namespace ZXing.Client.Result
         /// </returns>
         public string GoogleMapsURI { get; }
 
-        private string getDisplayResult()
+        string getDisplayResult()
         {
             var result = new StringBuilder(20);
             result.AppendFormat(CultureInfo.InvariantCulture, "{0:0.0###########}", Latitude);
@@ -84,7 +84,7 @@ namespace ZXing.Client.Result
             return result.ToString();
         }
 
-        private string getGeoURI()
+        string getGeoURI()
         {
             var result = new StringBuilder();
             result.Append("geo:");
@@ -104,7 +104,7 @@ namespace ZXing.Client.Result
             return result.ToString();
         }
 
-        private string getGoogleMapsURI()
+        string getGoogleMapsURI()
         {
             var result = new StringBuilder(50);
             result.Append("http://maps.google.com/?ll=");

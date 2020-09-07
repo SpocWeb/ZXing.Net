@@ -35,7 +35,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
     [TestFixture]
    public class FieldParserTest
    {
-      private static void CheckFields(string expected)
+
+       static void CheckFields(string expected)
       {
             string field = expected.Replace("(", "").Replace(")", "");
             string actual = FieldParser.parseFieldsInGeneralPurpose(field);

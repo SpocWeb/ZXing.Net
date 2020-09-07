@@ -33,7 +33,7 @@ namespace ZXing.Client.Result.Test
          DoTest("tel:2125551212", "2125551212", null);
       }
 
-      private static void DoTest(string contents, string number, string title)
+      static void DoTest(string contents, string number, string title)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);

@@ -24,7 +24,8 @@ namespace ZXing.Common.Test
     [TestFixture]
    public sealed class PerspectiveTransformTestCase
    {
-      private static float _EPSILON = 1.0E-4f;
+
+       static float _EPSILON = 1.0E-4f;
 
       [Test]
       public void TestSquareToQuadrilateral()
@@ -53,7 +54,7 @@ namespace ZXing.Common.Test
          AssertPointEquals(328.09116f, 334.16385f, 50.0f, 50.0f, pt);
       }
 
-      private static void AssertPointEquals(float expectedX,
+      static void AssertPointEquals(float expectedX,
                                             float expectedY,
                                             float sourceX,
                                             float sourceY,

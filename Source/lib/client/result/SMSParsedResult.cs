@@ -64,7 +64,7 @@ namespace ZXing.Client.Result
             displayResultValue = result.ToString();
         }
 
-        private string getSMSURI()
+        string getSMSURI()
         {
             var result = new StringBuilder();
             result.Append("sms:");

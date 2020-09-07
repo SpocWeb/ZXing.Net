@@ -35,7 +35,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// </summary>
     internal sealed class AnyAIDecoder : AbstractExpandedDecoder
     {
-        private static int HEADER_SIZE = 2 + 1 + 2;
+
+        static int HEADER_SIZE = 2 + 1 + 2;
 
         internal AnyAIDecoder(BitArray information)
            : base(information)

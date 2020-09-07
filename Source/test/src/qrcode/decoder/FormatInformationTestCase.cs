@@ -24,8 +24,9 @@ namespace ZXing.QrCode.Internal.Test
    [TestFixture]
    public sealed class FormatInformationTestCase
    {
-      private static int _MASKED_TEST_FORMAT_INFO = 0x2BED;
-      private static int _UNMASKED_TEST_FORMAT_INFO = _MASKED_TEST_FORMAT_INFO ^ 0x5412;
+
+       static int _MASKED_TEST_FORMAT_INFO = 0x2BED;
+       static int _UNMASKED_TEST_FORMAT_INFO = _MASKED_TEST_FORMAT_INFO ^ 0x5412;
 
       [Test]
       public void TestBitsDiffering()

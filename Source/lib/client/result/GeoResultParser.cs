@@ -29,9 +29,10 @@ namespace ZXing.Client.Result
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    sealed class GeoResultParser : ResultParser
+    internal sealed class GeoResultParser : ResultParser
     {
-        private static readonly Regex GEO_URL_PATTERN = new Regex(@"\A(?:" + "geo:([\\-0-9.]+),([\\-0-9.]+)(?:,([\\-0-9.]+))?(?:\\?(.*))?" + @")\z"
+
+        static readonly Regex GEO_URL_PATTERN = new Regex(@"\A(?:" + "geo:([\\-0-9.]+),([\\-0-9.]+)(?:,([\\-0-9.]+))?(?:\\?(.*))?" + @")\z"
 #if !(SILVERLIGHT4 || SILVERLIGHT5 || NETFX_CORE || PORTABLE || UNITY || NETSTANDARD1_0 || NETSTANDARD1_1 || NETSTANDARD1_2)
          , RegexOptions.Compiled | RegexOptions.IgnoreCase);
 #else

@@ -33,14 +33,15 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// <author>Eduardo Castillejo, University of Deusto (eduardo.castillejo@deusto.es)</author>
     /// </summary>
-    sealed class AI013x0x1xDecoder : AI01weightDecoder
+    internal sealed class AI013x0x1xDecoder : AI01weightDecoder
     {
-        private static int HEADER_SIZE = 7 + 1;
-        private static int WEIGHT_SIZE = 20;
-        private static int DATE_SIZE = 16;
 
-        private string dateCode;
-        private string firstAIdigits;
+        static int HEADER_SIZE = 7 + 1;
+        static int WEIGHT_SIZE = 20;
+        static int DATE_SIZE = 16;
+
+        string dateCode;
+        string firstAIdigits;
 
         internal AI013x0x1xDecoder(BitArray information, string firstAIdigits, string dateCode)
            : base(information)
@@ -65,7 +66,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
             return buf.ToString();
         }
 
-        private void encodeCompressedDate(StringBuilder buf, int currentPos)
+        void encodeCompressedDate(StringBuilder buf, int currentPos)
         {
             int numericDate = getGeneralDecoder().extractNumericValueFromBitArray(currentPos, DATE_SIZE);
             if (numericDate == 38400)

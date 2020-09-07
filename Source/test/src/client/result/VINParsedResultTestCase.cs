@@ -42,7 +42,7 @@ namespace ZXing.Client.Result.Test
          DoTest("LJCPCBLCX11000237", "LJC", "PCBLCX", "11000237", "CN", "PCBLC", 2001, '1', "000237");
       }
 
-      private static void DoTest(string contents,
+      static void DoTest(string contents,
                                  string wmi,
                                  string vds,
                                  string vis,

@@ -25,7 +25,8 @@ namespace ZXing.Common.ReedSolomon.Test
     [TestFixture]
    public sealed class GenericGfPolyTestCase
    {
-       private static readonly GenericGf FIELD = GenericGf.QR_CODE_FIELD_256;
+
+       static readonly GenericGf FIELD = GenericGf.QR_CODE_FIELD_256;
 
        [Test]
         public void TestPolynomialString()

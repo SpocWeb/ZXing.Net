@@ -95,7 +95,7 @@ namespace ZXing.Aztec.Internal
         internal static readonly int[][] CHAR_MAP = new int[5][];
         // A map showing the available shift codes.  (The shifts to BINARY are not shown
         internal static readonly int[][] SHIFT_TABLE = new int[6][]; // mode shift codes, per table
-        private readonly byte[] text;
+        readonly byte[] text;
 
         static HighLevelEncoder()
         {
@@ -251,7 +251,7 @@ namespace ZXing.Aztec.Internal
         // We update a set of states for a new character by updating each state
         // for the new character, merging the results, and then removing the
         // non-optimal states.
-        private ICollection<State> updateStateListForChar(IEnumerable<State> states, int index)
+        ICollection<State> updateStateListForChar(IEnumerable<State> states, int index)
         {
             var result = new LinkedList<State>();
             foreach (State state in states)
@@ -264,7 +264,7 @@ namespace ZXing.Aztec.Internal
         // Return a set of states that represent the possible ways of updating this
         // state for the next character.  The resulting set of states are added to
         // the "result" list.
-        private void updateStateForChar(State state, int index, ICollection<State> result)
+        void updateStateForChar(State state, int index, ICollection<State> result)
         {
             char ch = (char)(text[index] & 0xFF);
             bool charInCurrentTable = CHAR_MAP[state.Mode][ch] > 0;
@@ -309,7 +309,7 @@ namespace ZXing.Aztec.Internal
             }
         }
 
-        private static ICollection<State> updateStateListForPair(IEnumerable<State> states, int index, int pairCode)
+        static ICollection<State> updateStateListForPair(IEnumerable<State> states, int index, int pairCode)
         {
             var result = new LinkedList<State>();
             foreach (State state in states)
@@ -319,7 +319,7 @@ namespace ZXing.Aztec.Internal
             return simplifyStates(result);
         }
 
-        private static void updateStateForPair(State state, int index, int pairCode, ICollection<State> result)
+        static void updateStateForPair(State state, int index, int pairCode, ICollection<State> result)
         {
             State stateNoBinary = state.endBinaryShift(index);
             // Possibility 1.  Latch to MODE_PUNCT, and then append this code
@@ -347,7 +347,7 @@ namespace ZXing.Aztec.Internal
             }
         }
 
-        private static ICollection<State> simplifyStates(IEnumerable<State> states)
+        static ICollection<State> simplifyStates(IEnumerable<State> states)
         {
             var result = new LinkedList<State>();
             var removeList = new List<State>();

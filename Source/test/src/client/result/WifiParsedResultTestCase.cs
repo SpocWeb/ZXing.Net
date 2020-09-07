@@ -77,7 +77,7 @@ namespace ZXing.Client.Result.Test
         /// <summary>
         /// Given the string contents for the barcode, check that it matches our expectations
         /// </summary>
-        private static void DoTest(string contents,
+        static void DoTest(string contents,
             string ssid,
             string password,
             string type)

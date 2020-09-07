@@ -35,7 +35,7 @@ namespace ZXing.Client.Result.Test
          DoTest("01234565", "012345000065", BarcodeFormat.UPC_E);
       }
 
-      private static void DoTest(string contents, string normalized, BarcodeFormat format)
+      static void DoTest(string contents, string normalized, BarcodeFormat format)
       {
          ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, format);
          ParsedResult result = ResultParser.parseResult(fakeResult);

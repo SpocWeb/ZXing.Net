@@ -32,10 +32,11 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// <summary>
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// </summary>
-    abstract class AI013x0xDecoder : AI01weightDecoder
+    internal abstract class AI013x0xDecoder : AI01weightDecoder
     {
-        private static int HEADER_SIZE = 4 + 1;
-        private static int WEIGHT_SIZE = 15;
+
+        static int HEADER_SIZE = 4 + 1;
+        static int WEIGHT_SIZE = 15;
 
         internal AI013x0xDecoder(BitArray information)
            : base(information)

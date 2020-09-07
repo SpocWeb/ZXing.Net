@@ -51,13 +51,13 @@ namespace ZXing.OneD.RSS.Expanded.Test
          CheckBinary(pairValues, expected);
       }
 
-      private static void CheckBinary(int[][] pairValues, string expected)
+      static void CheckBinary(int[][] pairValues, string expected)
       {
          BitArray binary = BuildBitArray(pairValues);
          Assert.AreEqual(expected, binary.ToString());
       }
 
-      private static BitArray BuildBitArray(int[][] pairValues)
+      static BitArray BuildBitArray(int[][] pairValues)
       {
          List<ExpandedPair> pairs = new List<ExpandedPair>();
          for (int i = 0; i < pairValues.Length; ++i)

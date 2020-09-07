@@ -181,7 +181,7 @@ namespace ZXing.Aztec.Internal
             return string.Format("{0} bits={1} bytes={2}", HighLevelEncoder.MODE_NAMES[Mode], BitCount, BinaryShiftByteCount);
         }
 
-        private static int calculateBinaryShiftCost(State state)
+        static int calculateBinaryShiftCost(State state)
         {
             if (state.BinaryShiftByteCount > 62)
             {

@@ -57,7 +57,7 @@ namespace ZXing.Rendering
         /// </value>
         public double FontSize { get; set; }
 
-        private static readonly FontFamily DefaultFontFamily = new FontFamily("Arial");
+        static readonly FontFamily DefaultFontFamily = new FontFamily("Arial");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBitmapRenderer"/> class.

@@ -39,18 +39,18 @@ namespace ZXing.PDF417.Test
    public sealed class Pdf417BlackBox4TestCase : AbstractBlackBoxTestCase
    {
 #if !SILVERLIGHT
-      private static readonly log4net.ILog LOG = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+       static readonly log4net.ILog LOG = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #else
       private static readonly DanielVaughan.Logging.ILog log = DanielVaughan.Logging.LogManager.GetLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 #endif
 
-      private static readonly Encoding UTF8 = Encoding.UTF8;
-      private static readonly Encoding ISO88591 = Encoding.GetEncoding("ISO8859-1");
-      private const string TEST_BASE_PATH_SUFFIX = "test/data/blackbox/pdf417-4";
-      private readonly Pdf417Reader _BarcodeReader = new Pdf417Reader();
+       static readonly Encoding UTF8 = Encoding.UTF8;
+       static readonly Encoding ISO88591 = Encoding.GetEncoding("ISO8859-1");
+       const string TEST_BASE_PATH_SUFFIX = "test/data/blackbox/pdf417-4";
+       readonly Pdf417Reader _BarcodeReader = new Pdf417Reader();
 
-      private readonly List<TestResult> _TestResults = new List<TestResult>();
-      private string _TestBase;
+       readonly List<TestResult> _TestResults = new List<TestResult>();
+       string _TestBase;
 
       public Pdf417BlackBox4TestCase()
          : base(TEST_BASE_PATH_SUFFIX, null, BarcodeFormat.PDF_417)
@@ -187,12 +187,12 @@ namespace ZXing.PDF417.Test
          }
       }
 
-      private static PDF417ResultMetadata GetMeta(BarCodeText result)
+      static PDF417ResultMetadata GetMeta(BarCodeText result)
       {
          return (PDF417ResultMetadata) result.ResultMetadata?[ResultMetadataType.PDF417_EXTRA_METADATA];
       }
 
-      private BarCodeText[] Decode(BinaryBitmap source, bool tryHarder)
+      BarCodeText[] Decode(BinaryBitmap source, bool tryHarder)
       {
          IDictionary<DecodeHintType, object> hints = new Dictionary<DecodeHintType, object>();
          if (tryHarder)
@@ -203,7 +203,7 @@ namespace ZXing.PDF417.Test
          return _BarcodeReader.DecodeMultiple(source, hints);
       }
 
-      private IDictionary<string, List<string>> GetImageFileLists()
+      IDictionary<string, List<string>> GetImageFileLists()
       {
          IDictionary<string, List<string>> result = new Dictionary<string, List<string>>();
          foreach (string fileName in GetImageFiles())

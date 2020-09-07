@@ -24,8 +24,8 @@ namespace ZXing.Aztec.Internal
     public sealed class SimpleToken : Token
     {
         // For normal words, indicates value and bitCount
-        private readonly short value;
-        private readonly short bitCount;
+        readonly short value;
+        readonly short bitCount;
 
         /// <summary>
         /// initializing constructor

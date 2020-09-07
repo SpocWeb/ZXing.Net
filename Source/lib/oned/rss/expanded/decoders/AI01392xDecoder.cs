@@ -34,8 +34,9 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// </summary>
     internal sealed class AI01392xDecoder : AI01decoder
     {
-        private const int HEADER_SIZE = 5 + 1 + 2;
-        private const int LAST_DIGIT_SIZE = 2;
+
+        const int HEADER_SIZE = 5 + 1 + 2;
+        const int LAST_DIGIT_SIZE = 2;
 
         internal AI01392xDecoder(BitArray information)
            : base(information)

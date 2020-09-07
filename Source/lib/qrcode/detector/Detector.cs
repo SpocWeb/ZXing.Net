@@ -33,7 +33,7 @@ namespace ZXing.QrCode.Internal
     public class QrDetector : ADetector
     {
 
-        private ResultPointCallback resultPointCallback;
+        ResultPointCallback resultPointCallback;
 
         public readonly IGridSampler Sampler;
 
@@ -159,7 +159,7 @@ namespace ZXing.QrCode.Internal
             return new DetectorResult(bits, points);
         }
 
-        private static PerspectiveTransform createTransform(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, ResultPoint alignmentPattern, int dimension)
+        static PerspectiveTransform createTransform(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, ResultPoint alignmentPattern, int dimension)
         {
             float dimMinusThree = dimension - 3.5f;
             float bottomRightX;
@@ -202,7 +202,7 @@ namespace ZXing.QrCode.Internal
         /// <summary> <p>Computes the dimension (number of modules on a size) of the QR Code based on the position
         /// of the finder patterns and estimated module size.</p>
         /// </summary>
-        private static bool computeDimension(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, float moduleSize, out int dimension)
+        static bool computeDimension(ResultPoint topLeft, ResultPoint topRight, ResultPoint bottomLeft, float moduleSize, out int dimension)
         {
             int tltrCentersDimension = MathUtils.Round(ResultPoint.Distance(topLeft, topRight) / moduleSize);
             int tlblCentersDimension = MathUtils.Round(ResultPoint.Distance(topLeft, bottomLeft) / moduleSize);
@@ -241,7 +241,7 @@ namespace ZXing.QrCode.Internal
         /// {@link #sizeOfBlackWhiteBlackRunBothWays(int, int, int, int)} to figure the
         /// width of each, measuring along the axis between their centers.</p>
         /// </summary>
-        private float calculateModuleSizeOneWay(ResultPoint pattern, ResultPoint otherPattern)
+        float calculateModuleSizeOneWay(ResultPoint pattern, ResultPoint otherPattern)
         {
             float moduleSizeEst1 = sizeOfBlackWhiteBlackRunBothWays((int)pattern.X, (int)pattern.Y, (int)otherPattern.X, (int)otherPattern.Y);
             float moduleSizeEst2 = sizeOfBlackWhiteBlackRunBothWays((int)otherPattern.X, (int)otherPattern.Y, (int)pattern.X, (int)pattern.Y);
@@ -262,7 +262,7 @@ namespace ZXing.QrCode.Internal
         /// a finder pattern by looking for a black-white-black run from the center in the direction
         /// of another point (another finder pattern center), and in the opposite direction too.
         /// </summary>
-        private float sizeOfBlackWhiteBlackRunBothWays(int fromX, int fromY, int toX, int toY)
+        float sizeOfBlackWhiteBlackRunBothWays(int fromX, int fromY, int toX, int toY)
         {
 
             float result = sizeOfBlackWhiteBlackRun(fromX, fromY, toX, toY);
@@ -306,7 +306,7 @@ namespace ZXing.QrCode.Internal
         /// <p>This is used when figuring out how wide a finder pattern is, when the finder pattern
         /// may be skewed or rotated.</p>
         /// </summary>
-        private float sizeOfBlackWhiteBlackRun(int fromX, int fromY, int toX, int toY)
+        float sizeOfBlackWhiteBlackRun(int fromX, int fromY, int toX, int toY)
         {
             // Mild variant of Bresenham's algorithm;
             // see http://en.wikipedia.org/wiki/Bresenham's_line_algorithm

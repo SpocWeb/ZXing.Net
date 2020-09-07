@@ -21,7 +21,8 @@ namespace ZXing.Datamatrix.Encoder
     /// </summary>
     public class DefaultPlacement
     {
-        private readonly string codewords;
+
+        readonly string codewords;
 
         /// <summary>
         /// Main constructor
@@ -63,12 +64,12 @@ namespace ZXing.Datamatrix.Encoder
             return Bits[row * Numcols + col] == 1;
         }
 
-        private void setBit(int col, int row, bool bit)
+        void setBit(int col, int row, bool bit)
         {
             Bits[row * Numcols + col] = (byte)(bit ? 1 : 0);
         }
 
-        private bool noBit(int col, int row)
+        bool noBit(int col, int row)
         {
             return Bits[row * Numcols + col] == 2;
         }
@@ -137,7 +138,7 @@ namespace ZXing.Datamatrix.Encoder
             }
         }
 
-        private void module(int row, int col, int pos, int bit)
+        void module(int row, int col, int pos, int bit)
         {
             if (row < 0)
             {
@@ -161,7 +162,7 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="row">The row.</param>
         /// <param name="col">The col.</param>
         /// <param name="pos">character position</param>
-        private void utah(int row, int col, int pos)
+        void utah(int row, int col, int pos)
         {
             module(row - 2, col - 2, pos, 1);
             module(row - 2, col - 1, pos, 2);
@@ -173,7 +174,7 @@ namespace ZXing.Datamatrix.Encoder
             module(row, col, pos, 8);
         }
 
-        private void corner1(int pos)
+        void corner1(int pos)
         {
             module(Numrows - 1, 0, pos, 1);
             module(Numrows - 1, 1, pos, 2);
@@ -185,7 +186,7 @@ namespace ZXing.Datamatrix.Encoder
             module(3, Numcols - 1, pos, 8);
         }
 
-        private void corner2(int pos)
+        void corner2(int pos)
         {
             module(Numrows - 3, 0, pos, 1);
             module(Numrows - 2, 0, pos, 2);
@@ -197,7 +198,7 @@ namespace ZXing.Datamatrix.Encoder
             module(1, Numcols - 1, pos, 8);
         }
 
-        private void corner3(int pos)
+        void corner3(int pos)
         {
             module(Numrows - 3, 0, pos, 1);
             module(Numrows - 2, 0, pos, 2);
@@ -209,7 +210,7 @@ namespace ZXing.Datamatrix.Encoder
             module(3, Numcols - 1, pos, 8);
         }
 
-        private void corner4(int pos)
+        void corner4(int pos)
         {
             module(Numrows - 1, 0, pos, 1);
             module(Numrows - 1, Numcols - 1, pos, 2);

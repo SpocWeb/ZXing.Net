@@ -32,11 +32,12 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// <summary>
     /// <author>Pablo Orduña, University of Deusto (pablo.orduna@deusto.es)</author>
     /// </summary>
-    sealed class AI01393xDecoder : AI01decoder
+    internal sealed class AI01393xDecoder : AI01decoder
     {
-        private static int HEADER_SIZE = 5 + 1 + 2;
-        private static int LAST_DIGIT_SIZE = 2;
-        private static int FIRST_THREE_DIGITS_SIZE = 10;
+
+        static int HEADER_SIZE = 5 + 1 + 2;
+        static int LAST_DIGIT_SIZE = 2;
+        static int FIRST_THREE_DIGITS_SIZE = 10;
 
         internal AI01393xDecoder(BitArray information)
             : base(information)

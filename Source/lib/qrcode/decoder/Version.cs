@@ -28,7 +28,7 @@ namespace ZXing.QrCode.Internal
         /// <summary> See ISO 18004:2006 Annex D.
         /// Element i represents the raw version bits that specify version i + 7
         /// </summary>
-        private static readonly int[] VERSION_DECODE_INFO = {
+        static readonly int[] VERSION_DECODE_INFO = {
                                                                 0x07C94, 0x085BC, 0x09A99, 0x0A4D3, 0x0BBF6,
                                                                 0x0C762, 0x0D847, 0x0E60D, 0x0F928, 0x10B78,
                                                                 0x1145D, 0x12A17, 0x13532, 0x149A6, 0x15683,
@@ -38,11 +38,11 @@ namespace ZXing.QrCode.Internal
                                                                 0x2542E, 0x26A64, 0x27541, 0x28C69
                                                              };
 
-        private static readonly Version[] VERSIONS = BuildVersions();
+        static readonly Version[] VERSIONS = BuildVersions();
 
-        private readonly EcBlocks[] _EcBlocks;
+        readonly EcBlocks[] _EcBlocks;
 
-        private Version(int versionNumber, int[] alignmentPatternCenters, params EcBlocks[] ecBlocks)
+        Version(int versionNumber, int[] alignmentPatternCenters, params EcBlocks[] ecBlocks)
         {
             this.VersionNumber = versionNumber;
             this.AlignmentPatternCenters = alignmentPatternCenters;
@@ -205,7 +205,7 @@ namespace ZXing.QrCode.Internal
         public sealed class EcBlocks
         {
 
-            private readonly Ecb[] _EcBlocks;
+            readonly Ecb[] _EcBlocks;
 
             internal EcBlocks(int ecCodewordsPerBlock, params Ecb[] ecBlocks)
             {
@@ -286,7 +286,7 @@ namespace ZXing.QrCode.Internal
         }
 
         /// <summary> See ISO 18004:2006 6.5.1 Table 9</summary>
-        private static Version[] BuildVersions()
+        static Version[] BuildVersions()
         {
             return new[]
                {

@@ -173,7 +173,7 @@ namespace ZXing.Client.Result
                                                    uncommonAIs);
         }
 
-        private static string findAIvalue(int i, string rawText)
+        static string findAIvalue(int i, string rawText)
         {
             char c = rawText[i];
             // First character must be a open parenthesis.If not, ERROR
@@ -201,7 +201,7 @@ namespace ZXing.Client.Result
             return buf.ToString();
         }
 
-        private static string findValue(int i, string rawText)
+        static string findValue(int i, string rawText)
         {
             var buf = new StringBuilder();
             var rawTextAux = rawText.Substring(i);

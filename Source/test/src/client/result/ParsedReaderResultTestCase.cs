@@ -325,14 +325,14 @@ namespace ZXing.Client.Result.Test
       }
       */
 
-      private static void DoTestResult(string contents,
+      static void DoTestResult(string contents,
                                        string goldenResult,
                                        ParsedResultType type)
       {
          DoTestResult(contents, goldenResult, type, BarcodeFormat.QR_CODE); // QR code is arbitrary
       }
 
-      private static void DoTestResult(string contents,
+      static void DoTestResult(string contents,
                                        string goldenResult,
                                        ParsedResultType type,
                                        BarcodeFormat format)

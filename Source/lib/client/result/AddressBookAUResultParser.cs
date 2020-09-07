@@ -28,7 +28,7 @@ namespace ZXing.Client.Result
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    sealed class AddressBookAUResultParser : ResultParser
+    internal sealed class AddressBookAUResultParser : ResultParser
     {
         public override ParsedResult parse(BarCodeText result)
         {
@@ -67,7 +67,7 @@ namespace ZXing.Client.Result
                                                null);
         }
 
-        private static string[] matchMultipleValuePrefix(string prefix, string rawText)
+        static string[] matchMultipleValuePrefix(string prefix, string rawText)
         {
             IList<string> values = null;
             // For now, always 3, and always trim

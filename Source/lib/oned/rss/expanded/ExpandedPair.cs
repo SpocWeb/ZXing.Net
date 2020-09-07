@@ -67,7 +67,7 @@ namespace ZXing.OneD.RSS.Expanded
                 EqualsOrNull(FinderPattern, that.FinderPattern);
         }
 
-        private static bool EqualsOrNull(object o1, object o2)
+        static bool EqualsOrNull(object o1, object o2)
         {
             return o1?.Equals(o2) ?? o2 == null;
         }
@@ -77,7 +77,7 @@ namespace ZXing.OneD.RSS.Expanded
             return hashNotNull(LeftChar) ^ hashNotNull(RightChar) ^ hashNotNull(FinderPattern);
         }
 
-        private static int hashNotNull(object o)
+        static int hashNotNull(object o)
         {
             return o?.GetHashCode() ?? 0;
         }

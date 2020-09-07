@@ -33,7 +33,7 @@ namespace ZXing.Client.Result
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    sealed class AddressBookDoCoMoResultParser : AbstractDoCoMoResultParser
+    internal sealed class AddressBookDoCoMoResultParser : AbstractDoCoMoResultParser
     {
         public override ParsedResult parse(BarCodeText result)
         {
@@ -83,7 +83,7 @@ namespace ZXing.Client.Result
                                                null);
         }
 
-        private static string parseName(string name)
+        static string parseName(string name)
         {
             int comma = name.IndexOf(',');
             if (comma >= 0)

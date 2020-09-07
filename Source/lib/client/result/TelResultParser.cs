@@ -23,7 +23,7 @@ namespace ZXing.Client.Result
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    sealed class TelResultParser : ResultParser
+    internal sealed class TelResultParser : ResultParser
     {
         public override ParsedResult parse(BarCodeText result)
         {

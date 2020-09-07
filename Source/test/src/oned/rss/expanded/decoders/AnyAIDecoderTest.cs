@@ -33,7 +33,8 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
     /// </summary>
     public class AnyAiDecoderTest : AbstractDecoderTest
    {
-      private static string _HEADER = ".....";
+
+       static string _HEADER = ".....";
 
       [Test]
       public void testAnyAIDecoder_1()

@@ -30,7 +30,7 @@ namespace ZXing.QrCode.Internal
     {
 
         // The original table is defined in the table 5 of JISX0510:2004 (p.19).
-        private static readonly int[] ALPHANUMERIC_TABLE = {
+        static readonly int[] ALPHANUMERIC_TABLE = {
          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  // 0x00-0x0f
          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  // 0x10-0x1f
          36, -1, -1, -1, 37, 38, -1, -1, -1, -1, 39, 40, -1, 41, 42, 43,  // 0x20-0x2f
@@ -43,7 +43,7 @@ namespace ZXing.QrCode.Internal
 
         // The mask penalty calculation is complicated.  See Table 21 of JISX0510:2004 (p.45) for details.
         // Basically it applies four rules and sum all penalties.
-        private static int CalculateMaskPenalty(ByteMatrix matrix)
+        static int CalculateMaskPenalty(ByteMatrix matrix)
         {
             return MaskUtil.applyMaskPenaltyRule1(matrix)
                     + MaskUtil.applyMaskPenaltyRule2(matrix)
@@ -207,7 +207,7 @@ namespace ZXing.QrCode.Internal
         /// Decides the smallest version of QR code that will contain all of the provided data.
         /// </summary>
         /// <exception cref="WriterException">if the data cannot fit in any version</exception>
-        private static Version RecommendVersion(ErrorCorrectionLevel ecLevel, Mode mode, BitArray headerBits, BitArray dataBits)
+        static Version RecommendVersion(ErrorCorrectionLevel ecLevel, Mode mode, BitArray headerBits, BitArray dataBits)
         {
             // Hard part: need to know version to know how many bits length takes. But need to know how many
             // bits it takes to know version. First we take a guess at version by assuming version will be
@@ -220,7 +220,7 @@ namespace ZXing.QrCode.Internal
             return ChooseVersion(bitsNeeded, ecLevel);
         }
 
-        private static int CalculateBitsNeeded(Mode mode, BitArray headerBits, BitArray dataBits, Version version)
+        static int CalculateBitsNeeded(Mode mode, BitArray headerBits, BitArray dataBits, Version version)
         {
             return headerBits.Size + mode.getCharacterCountBits(version) + dataBits.Size;
         }
@@ -257,7 +257,7 @@ namespace ZXing.QrCode.Internal
         /// <param name="content">The content.</param>
         /// <param name="encoding">The encoding.</param>
         /// <returns></returns>
-        private static Mode ChooseMode(string content, string encoding)
+        static Mode ChooseMode(string content, string encoding)
         {
             if ("Shift_JIS".Equals(encoding) && isOnlyDoubleByteKanji(content))
             {
@@ -295,7 +295,7 @@ namespace ZXing.QrCode.Internal
             return Mode.BYTE;
         }
 
-        private static bool isOnlyDoubleByteKanji(string content)
+        static bool isOnlyDoubleByteKanji(string content)
         {
             byte[] bytes;
             try
@@ -325,7 +325,7 @@ namespace ZXing.QrCode.Internal
             return true;
         }
 
-        private static int ChooseMaskPattern(BitArray bits,
+        static int ChooseMaskPattern(BitArray bits,
                                              ErrorCorrectionLevel ecLevel,
                                              Version version,
                                              ByteMatrix matrix)
@@ -348,7 +348,7 @@ namespace ZXing.QrCode.Internal
             return bestMaskPattern;
         }
 
-        private static Version ChooseVersion(int numInputBits, ErrorCorrectionLevel ecLevel)
+        static Version ChooseVersion(int numInputBits, ErrorCorrectionLevel ecLevel)
         {
             for (int versionNum = 1; versionNum <= 40; versionNum++)
             {
@@ -363,7 +363,7 @@ namespace ZXing.QrCode.Internal
 
         /// <summary></summary>
         /// <returns>true if the number of input bits will fit in a code with the specified version and error correction level.</returns>
-        private static bool WillFit(int numInputBits, Version version, ErrorCorrectionLevel ecLevel)
+        static bool WillFit(int numInputBits, Version version, ErrorCorrectionLevel ecLevel)
         {
             // In the following comments, we use numbers of Version 7-H.
             // numBytes = 196
@@ -802,7 +802,7 @@ namespace ZXing.QrCode.Internal
             }
         }
 
-        private static void AppendEci(Eci eci, BitArray bits)
+        static void AppendEci(Eci eci, BitArray bits)
         {
             bits.AppendBits(Mode.ECI.Bits, 4);
 

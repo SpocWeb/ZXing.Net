@@ -731,7 +731,7 @@ namespace ZXing.QrCode.Internal.Test
          Encoder.Encode(builder.ToString(), ErrorCorrectionLevel.L);
       }
 
-      private void VerifyGs1EncodedData(QrCode qrCode)
+      void VerifyGs1EncodedData(QrCode qrCode)
       {
             string expected =
            "<<\n" +
@@ -769,7 +769,7 @@ namespace ZXing.QrCode.Internal.Test
          Assert.AreEqual(expected, qrCode.ToString());
       }
 
-      private void VerifyNotGs1EncodedData(QrCode qrCode)
+      void VerifyNotGs1EncodedData(QrCode qrCode)
       {
             string expected =
            "<<\n" +
@@ -803,7 +803,7 @@ namespace ZXing.QrCode.Internal.Test
          Assert.AreEqual(expected, qrCode.ToString());
       }
 
-      private static string ShiftJisString(byte[] bytes)
+      static string ShiftJisString(byte[] bytes)
       {
          try
          {

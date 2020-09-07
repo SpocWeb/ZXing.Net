@@ -26,7 +26,8 @@ namespace ZXing.Client.Result.Test
     [TestFixture]
    public sealed class GeoParsedResultTestCase
    {
-      private static double _EPSILON = 1.0E-10;
+
+       static double _EPSILON = 1.0E-10;
 
       [TestCase("geo:1,2", 1.0, 2.0, 0.0, null, "geo:1.0,2.0")]
       [TestCase("geo:80.33,-32.3344,3.35", 80.33, -32.3344, 3.35, null, null)]

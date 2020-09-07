@@ -28,7 +28,7 @@ namespace ZXing.Common
     public static class StringUtils
     {
 #if (WINDOWS_PHONE || SILVERLIGHT4 || SILVERLIGHT5 || NETFX_CORE || PORTABLE || NETSTANDARD)
-        private const string PLATFORM_DEFAULT_ENCODING = "UTF-8";
+        const string PLATFORM_DEFAULT_ENCODING = "UTF-8";
 #else
       private static readonly string PLATFORM_DEFAULT_ENCODING = Encoding.Default.WebName;
 #endif
@@ -40,10 +40,12 @@ namespace ZXing.Common
         /// GB2312
         /// </summary>
         public static string GB2312 = "GB2312";
-        private const string EUC_JP = "EUC-JP";
-        private const string UTF8 = "UTF-8";
-        private const string ISO88591 = "ISO-8859-1";
-        private static readonly bool ASSUME_SHIFT_JIS =
+
+        const string EUC_JP = "EUC-JP";
+        const string UTF8 = "UTF-8";
+        const string ISO88591 = "ISO-8859-1";
+
+        static readonly bool ASSUME_SHIFT_JIS =
            string.Compare(SHIFT_JIS, PLATFORM_DEFAULT_ENCODING, StringComparison.OrdinalIgnoreCase) == 0 ||
            string.Compare(EUC_JP, PLATFORM_DEFAULT_ENCODING, StringComparison.OrdinalIgnoreCase) == 0;
 

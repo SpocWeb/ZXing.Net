@@ -29,8 +29,9 @@ namespace ZXing.OneD
     /// </summary>
     public sealed class EANManufacturerOrgSupport
     {
-        private List<int[]> ranges = new List<int[]>();
-        private List<string> countryIdentifiers = new List<string>();
+
+        List<int[]> ranges = new List<int[]>();
+        List<string> countryIdentifiers = new List<string>();
 
         public string lookupCountryIdentifier(string productCode)
         {
@@ -54,13 +55,13 @@ namespace ZXing.OneD
             return null;
         }
 
-        private void add(int[] range, string id)
+        void add(int[] range, string id)
         {
             ranges.Add(range);
             countryIdentifiers.Add(id);
         }
 
-        private void initIfNeeded()
+        void initIfNeeded()
         {
             if (ranges.Count != 0)
             {

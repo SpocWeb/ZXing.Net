@@ -27,7 +27,7 @@ namespace ZXing.Client.Result
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    sealed class BizcardResultParser : AbstractDoCoMoResultParser
+    internal sealed class BizcardResultParser : AbstractDoCoMoResultParser
     {
         // Yes, we extend AbstractDoCoMoResultParser since the format is very much
         // like the DoCoMo MECARD format, but this is not technically one of
@@ -69,7 +69,7 @@ namespace ZXing.Client.Result
                                                null);
         }
 
-        private static string[] buildPhoneNumbers(string number1, string number2, string number3)
+        static string[] buildPhoneNumbers(string number1, string number2, string number3)
         {
             var numbers = new List<string>();
             if (number1 != null)
@@ -92,7 +92,7 @@ namespace ZXing.Client.Result
             return SupportClass.toStringArray(numbers);
         }
 
-        private static string buildName(string firstName, string lastName)
+        static string buildName(string firstName, string lastName)
         {
             if (firstName == null)
             {

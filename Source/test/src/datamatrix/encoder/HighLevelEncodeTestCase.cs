@@ -28,7 +28,8 @@ namespace ZXing.Datamatrix.Test
     [TestFixture]
    public sealed class HighLevelEncodeTestCase
    {
-      private static readonly SymbolInfo[] TEST_SYMBOLS =
+
+       static readonly SymbolInfo[] TEST_SYMBOLS =
          {
             new SymbolInfo(false, 3, 5, 8, 8, 1),
             new SymbolInfo(false, 5, 7, 10, 10, 1),
@@ -40,12 +41,12 @@ namespace ZXing.Datamatrix.Test
             //The last entries are fake entries to test special conditions with C40 encoding
          };
 
-      private static void UseTestSymbols()
+       static void UseTestSymbols()
       {
          SymbolInfo.overrideSymbolSet(TEST_SYMBOLS);
       }
 
-      private static void ResetSymbols()
+       static void ResetSymbols()
       {
          SymbolInfo.overrideSymbolSet(SymbolInfo.PROD_SYMBOLS);
       }
@@ -276,7 +277,7 @@ namespace ZXing.Datamatrix.Test
          AssertEndsWith("146 40 190 87", visualized);
       }
 
-      private static string CreateBinaryMessage(int len)
+      static string CreateBinaryMessage(int len)
       {
          var sb = new StringBuilder();
          sb.Append("«äöüéàá-");
@@ -288,7 +289,7 @@ namespace ZXing.Datamatrix.Test
          return sb.ToString();
       }
 
-      private static void AssertStartsWith(string expected, string actual)
+      static void AssertStartsWith(string expected, string actual)
       {
          if (!actual.StartsWith(expected))
          {
@@ -296,7 +297,7 @@ namespace ZXing.Datamatrix.Test
          }
       }
 
-      private static void AssertEndsWith(string expected, string actual)
+      static void AssertEndsWith(string expected, string actual)
       {
          if (!actual.EndsWith(expected))
          {
@@ -402,7 +403,7 @@ namespace ZXing.Datamatrix.Test
         Assert.AreEqual("127 85 102 116 117 127 129 56", visualized);
       }
 
-      private static string EncodeHighLevel(string msg)
+      static string EncodeHighLevel(string msg)
       {
             string encoded = HighLevelEncoder.encodeHighLevel(msg);
          //DecodeHighLevel.decode(encoded);

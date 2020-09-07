@@ -26,7 +26,8 @@ namespace ZXing.PDF417.Internal.Test
    /// </summary>
    public sealed class ErrorCorrectionTestCase : AbstractErrorCorrectionTestCase
    {
-      private static readonly int[] PDF417_TEST =
+
+       static readonly int[] PDF417_TEST =
          {
             48, 901, 56, 141, 627, 856, 330, 69, 244, 900,
             852, 169, 843, 895, 852, 895, 913, 154, 845, 778,
@@ -35,7 +36,7 @@ namespace ZXing.PDF417.Internal.Test
             900, 900, 900, 900, 900, 900, 900, 900
          };
 
-      private static readonly int[] PDF417_TEST_WITH_EC =
+       static readonly int[] PDF417_TEST_WITH_EC =
          {
             48, 901, 56, 141, 627, 856, 330, 69, 244, 900,
             852, 169, 843, 895, 852, 895, 913, 154, 845, 778,
@@ -51,12 +52,12 @@ namespace ZXing.PDF417.Internal.Test
             64, 159
          };
 
-      private static readonly int ECC_BYTES = PDF417_TEST_WITH_EC.Length - PDF417_TEST.Length;
-      private static readonly int ERROR_LIMIT = ECC_BYTES;
-      private static readonly int MAX_ERRORS = ERROR_LIMIT/2;
-      private static readonly int MAX_ERASURES = ERROR_LIMIT;
+       static readonly int ECC_BYTES = PDF417_TEST_WITH_EC.Length - PDF417_TEST.Length;
+       static readonly int ERROR_LIMIT = ECC_BYTES;
+       static readonly int MAX_ERRORS = ERROR_LIMIT/2;
+       static readonly int MAX_ERASURES = ERROR_LIMIT;
 
-      private readonly ErrorCorrection _Ec = new ErrorCorrection();
+       readonly ErrorCorrection _Ec = new ErrorCorrection();
 
       [Test]
       public void TestNoError()
@@ -122,12 +123,12 @@ namespace ZXing.PDF417.Internal.Test
          Assert.That(CheckDecode(received, erasures), Is.Not.True, "Should not have decoded");
       }
 
-      private bool CheckDecode(int[] received)
+      bool CheckDecode(int[] received)
       {
          return CheckDecode(received, new int[0]);
       }
 
-      private bool CheckDecode(int[] received, int[] erasures)
+      bool CheckDecode(int[] received, int[] erasures)
       {
           if (!_Ec.decode(received, ECC_BYTES, erasures, out var errorCount)) {
               return false;

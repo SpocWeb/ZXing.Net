@@ -33,14 +33,15 @@ namespace ZXing.OneD.RSS.Expanded.Decoders.Test
     /// </summary>
     public class Ai013X0X1XDecoderTest : AbstractDecoderTest
    {
-      private static string _HEADER_310_X_11 = "..XXX...";
-      private static string _HEADER_320_X_11 = "..XXX..X";
-      private static string _HEADER_310_X_13 = "..XXX.X.";
-      private static string _HEADER_320_X_13 = "..XXX.XX";
-      private static string _HEADER_310_X_15 = "..XXXX..";
-      private static string _HEADER_320_X_15 = "..XXXX.X";
-      private static string _HEADER_310_X_17 = "..XXXXX.";
-      private static string _HEADER_320_X_17 = "..XXXXXX";
+
+       static string _HEADER_310_X_11 = "..XXX...";
+       static string _HEADER_320_X_11 = "..XXX..X";
+       static string _HEADER_310_X_13 = "..XXX.X.";
+       static string _HEADER_320_X_13 = "..XXX.XX";
+       static string _HEADER_310_X_15 = "..XXXX..";
+       static string _HEADER_320_X_15 = "..XXXX.X";
+       static string _HEADER_310_X_17 = "..XXXXX.";
+       static string _HEADER_320_X_17 = "..XXXXXX";
 
       [Test]
       public void test01_310X_1X_endDate()

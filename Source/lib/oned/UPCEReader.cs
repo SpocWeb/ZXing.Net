@@ -31,7 +31,7 @@ namespace ZXing.OneD
         /// The pattern that marks the middle, and end, of a UPC-E pattern.
         /// There is no "second half" to a UPC-E barcode.
         /// </summary>
-        private static readonly int[] MIDDLE_END_PATTERN = { 1, 1, 1, 1, 1, 1 };
+        static readonly int[] MIDDLE_END_PATTERN = { 1, 1, 1, 1, 1, 1 };
 
         // For an UPC-E barcode, the final digit is represented by the parities used
         // to encode the middle six digits, according to the table below.
@@ -67,7 +67,7 @@ namespace ZXing.OneD
                                                                   new[] { 0x07, 0x0B, 0x0D, 0x0E, 0x13, 0x19, 0x1C, 0x15, 0x16, 0x1A }
                                                                };
 
-        private readonly int[] decodeMiddleCounters;
+        readonly int[] decodeMiddleCounters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UPCEReader"/> class.
@@ -146,7 +146,7 @@ namespace ZXing.OneD
         /// <param name="resultString">The result string.</param>
         /// <param name="lgPatternFound">The lg pattern found.</param>
         /// <returns></returns>
-        private static bool determineNumSysAndCheckDigit(StringBuilder resultString, int lgPatternFound)
+        static bool determineNumSysAndCheckDigit(StringBuilder resultString, int lgPatternFound)
         {
 
             for (int numSys = 0; numSys <= 1; numSys++)

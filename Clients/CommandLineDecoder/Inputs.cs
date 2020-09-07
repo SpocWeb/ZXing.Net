@@ -23,8 +23,9 @@ namespace CommandLineDecoder
     /// </summary>
     internal sealed class Inputs
     {
-        private readonly List<string> inputs = new List<string>(10);
-        private int position;
+
+        readonly List<string> inputs = new List<string>(10);
+        int position;
 
         public void addInput(string pathOrUrl)
         {

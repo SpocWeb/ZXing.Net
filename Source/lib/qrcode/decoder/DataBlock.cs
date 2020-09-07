@@ -30,7 +30,7 @@ namespace ZXing.QrCode.Internal
     internal sealed class DataBlock
     {
 
-        private DataBlock(int numDataCodewords, byte[] codewords)
+        DataBlock(int numDataCodewords, byte[] codewords)
         {
             this.NumDataCodewords = numDataCodewords;
             this.Codewords = codewords;

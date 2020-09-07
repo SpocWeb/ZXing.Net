@@ -23,7 +23,8 @@ namespace ZXing.OneD.RSS.Expanded
     /// </summary>
     public sealed class ExpandedRow
     {
-        private readonly bool wasReversed;
+
+        readonly bool wasReversed;
 
         internal ExpandedRow(List<ExpandedPair> pairs, int rowNumber, bool wasReversed)
         {

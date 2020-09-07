@@ -32,9 +32,10 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     /// </summary>
     internal sealed class DecodedInformation : DecodedObject
     {
-        private string newString;
-        private int remainingValue;
-        private bool remaining;
+
+        string newString;
+        int remainingValue;
+        bool remaining;
 
         internal DecodedInformation(int newPosition, string newString)
            : base(newPosition)

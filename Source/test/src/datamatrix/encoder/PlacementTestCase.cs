@@ -26,7 +26,8 @@ namespace ZXing.Datamatrix.Test
     /// </summary>
     public sealed class PlacementTestCase
    {
-      private static readonly Regex SPACE = new Regex(" "
+
+       static readonly Regex SPACE = new Regex(" "
 #if !SILVERLIGHT
 , RegexOptions.Compiled);
 #else
@@ -60,7 +61,7 @@ namespace ZXing.Datamatrix.Test
          }
       }
 
-      private static string Unvisualize(string visualized)
+      static string Unvisualize(string visualized)
       {
          var sb = new StringBuilder();
          foreach (var token in SPACE.Split(visualized))

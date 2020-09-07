@@ -24,15 +24,16 @@ namespace ZXing.Datamatrix.Internal
     /// </summary>
     public sealed class Version
     {
-        private static readonly Version[] VERSIONS = buildVersions();
 
-        private readonly int versionNumber;
-        private readonly int symbolSizeRows;
-        private readonly int symbolSizeColumns;
-        private readonly int dataRegionSizeRows;
-        private readonly int dataRegionSizeColumns;
-        private readonly ECBlocks ecBlocks;
-        private readonly int totalCodewords;
+        static readonly Version[] VERSIONS = buildVersions();
+
+        readonly int versionNumber;
+        readonly int symbolSizeRows;
+        readonly int symbolSizeColumns;
+        readonly int dataRegionSizeRows;
+        readonly int dataRegionSizeColumns;
+        readonly ECBlocks ecBlocks;
+        readonly int totalCodewords;
 
         internal Version(int versionNumber,
                         int symbolSizeRows,
@@ -203,7 +204,7 @@ namespace ZXing.Datamatrix.Internal
         /// <summary>
         /// See ISO 16022:2006 5.5.1 Table 7
         /// </summary>
-        private static Version[] buildVersions()
+        static Version[] buildVersions()
         {
             return new[]
                       {

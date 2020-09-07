@@ -28,7 +28,7 @@ namespace ZXing.Client.Result
     /// </author>
     /// <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
     /// </author>
-    abstract class AbstractDoCoMoResultParser : ResultParser
+    internal abstract class AbstractDoCoMoResultParser : ResultParser
     {
         internal static string[] matchDoCoMoPrefixedField(string prefix, string rawText)
         {

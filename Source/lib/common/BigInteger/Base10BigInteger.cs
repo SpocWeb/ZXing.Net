@@ -8,7 +8,7 @@ namespace BigIntegerLibrary
     /// Integer inefficiently represented internally using base-10 digits, in order to allow a
     /// visual representation as a base-10 string. Only for internal use.
     /// </summary>
-    sealed class Base10BigInteger
+    internal sealed class Base10BigInteger
     {
 
         #region Fields
@@ -16,35 +16,36 @@ namespace BigIntegerLibrary
         /// <summary>
         /// 10 numeration base for string representation, very inefficient for computations.
         /// </summary>
-        private const long NumberBase = 10;
+        const long NumberBase = 10;
 
         /// <summary>
         /// Maximum size for numbers is up to 10240 binary digits or approximately (safe to use) 3000 decimal digits.
         /// The maximum size is, in fact, double the previously specified amount, in order to accommodate operations'
         /// overflow.
         /// </summary>
-        private const int MaxSize = BigInteger.MAX_SIZE * 5;
+        const int MaxSize = BigInteger.MAX_SIZE * 5;
 
 
         /// Integer constants
-        private static readonly Base10BigInteger Zero = new Base10BigInteger();
-        private static readonly Base10BigInteger One = new Base10BigInteger(1);
+        static readonly Base10BigInteger Zero = new Base10BigInteger();
+
+        static readonly Base10BigInteger One = new Base10BigInteger(1);
 
 
         /// <summary>
         /// The array of digits of the number.
         /// </summary>
-        private DigitContainer _Digits;
+        DigitContainer _Digits;
 
         /// <summary>
         /// The actual number of digits of the number.
         /// </summary>
-        private int _Size;
+        int _Size;
 
         /// <summary>
         /// The number sign.
         /// </summary>
-        private Sign _Sign;
+        Sign _Sign;
 
 
         #endregion
@@ -650,7 +651,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Adds two BigNumbers a and b, where a >= b, a, b non-negative.
         /// </summary>
-        private static Base10BigInteger Add(Base10BigInteger a, Base10BigInteger b)
+        static Base10BigInteger Add(Base10BigInteger a, Base10BigInteger b)
         {
             Base10BigInteger res = new Base10BigInteger(a);
             long trans = 0, temp;
@@ -683,7 +684,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Subtracts the Base10BigInteger b from the Base10BigInteger a, where a >= b, a, b non-negative.
         /// </summary>
-        private static Base10BigInteger Subtract(Base10BigInteger a, Base10BigInteger b)
+        static Base10BigInteger Subtract(Base10BigInteger a, Base10BigInteger b)
         {
             Base10BigInteger res = new Base10BigInteger(a);
             int i;
@@ -733,7 +734,7 @@ namespace BigIntegerLibrary
         /// <summary>
         /// Multiplies two Base10BigIntegers.
         /// </summary>
-        private static Base10BigInteger Multiply(Base10BigInteger a, Base10BigInteger b)
+        static Base10BigInteger Multiply(Base10BigInteger a, Base10BigInteger b)
         {
             int i, j;
             long temp, trans = 0;
@@ -778,13 +779,13 @@ namespace BigIntegerLibrary
         #endregion
 
 
-
-        private class DigitContainer
+        class DigitContainer
         {
-            private readonly long[][] _Digits;
-            private const int ChunkSize = 32;
-            private const int ChunkSizeDivisionShift = 5;
-            private const int ChunkCount = Base10BigInteger.MaxSize >> ChunkSizeDivisionShift;
+
+            readonly long[][] _Digits;
+            const int ChunkSize = 32;
+            const int ChunkSizeDivisionShift = 5;
+            const int ChunkCount = Base10BigInteger.MaxSize >> ChunkSizeDivisionShift;
 
             public DigitContainer()
             {
