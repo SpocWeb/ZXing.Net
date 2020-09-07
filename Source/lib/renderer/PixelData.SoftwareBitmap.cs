@@ -31,7 +31,7 @@ namespace ZXing.Rendering
         public SoftwareBitmap ToSoftwareBitmap()
         {
             var bmp = new SoftwareBitmap(BitmapPixelFormat.Rgba8, Width, Height, BitmapAlphaMode.Ignore);
-            bmp.CopyFromBuffer(this.ToBitmap().PixelBuffer);
+            bmp.CopyFromBuffer(ToBitmap().PixelBuffer);
 
             return bmp;
         }

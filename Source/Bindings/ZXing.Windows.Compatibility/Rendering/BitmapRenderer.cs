@@ -26,7 +26,7 @@ namespace ZXing.Windows.Compatibility
     /// <summary>
     /// Renders a <see cref="BitMatrix" /> to a <see cref="Bitmap" /> image
     /// </summary>
-    public class BitmapRenderer : ZXing.Rendering.IBarcodeRenderer<Bitmap>
+    public class BitmapRenderer : Rendering.IBarcodeRenderer<Bitmap>
     {
         /// <summary>
         /// Gets or sets the foreground color.

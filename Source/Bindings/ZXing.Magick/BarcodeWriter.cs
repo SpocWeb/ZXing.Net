@@ -23,7 +23,7 @@ namespace ZXing.Magick
     /// <summary>
     /// barcode writer which creates ImageSharp Image instances
     /// </summary>
-    public class BarcodeWriter : ZXing.BarcodeWriter<IMagickImage<byte>>
+    public class BarcodeWriter : BarcodeWriter<IMagickImage<byte>>
     {
         /// <summary>
         /// contructor

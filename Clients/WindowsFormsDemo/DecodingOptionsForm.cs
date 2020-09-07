@@ -33,7 +33,7 @@ namespace WindowsFormsDemo
 
         public DecodingOptionsForm(BarcodeReader reader, bool multipleBarcodes, bool multipleBarcodesOnlyQr)
         {
-            this._Reader = reader;
+            _Reader = reader;
             InitializeComponent();
 
             chkMultipleDecode.Checked = multipleBarcodes;

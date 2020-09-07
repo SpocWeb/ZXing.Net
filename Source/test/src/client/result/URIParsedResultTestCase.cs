@@ -124,7 +124,7 @@ namespace ZXing.Client.Result.Test
 
         static void DoTest(string contents, string uri, string title)
         {
-            ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
+            BarCodeText fakeResult = new BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
             ParsedResult result = ResultParser.parseResult(fakeResult);
             Assert.AreEqual(ParsedResultType.URI, result.Type);
             URIParsedResult uriResult = (URIParsedResult) result;
@@ -134,7 +134,7 @@ namespace ZXing.Client.Result.Test
 
         static void DoTestNotUri(string text)
         {
-            ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(text, null, null, null, BarcodeFormat.QR_CODE);
+            BarCodeText fakeResult = new BarCodeText(text, null, null, null, BarcodeFormat.QR_CODE);
             ParsedResult result = ResultParser.parseResult(fakeResult);
             Assert.AreEqual(ParsedResultType.TEXT, result.Type);
             Assert.AreEqual(text, result.DisplayResult);
@@ -142,7 +142,7 @@ namespace ZXing.Client.Result.Test
 
         static void DoTestIsPossiblyMalicious(string uri, bool malicious)
         {
-            var fakeResult = new ZXing.BarCodeText(uri, null, null, null, BarcodeFormat.QR_CODE);
+            var fakeResult = new BarCodeText(uri, null, null, null, BarcodeFormat.QR_CODE);
             ParsedResult result = ResultParser.parseResult(fakeResult);
             Assert.AreEqual(malicious ? ParsedResultType.TEXT : ParsedResultType.URI, result.Type);
         }

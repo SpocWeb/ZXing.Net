@@ -49,7 +49,7 @@ namespace ZXing.Client.Result.Test
                                  string[] vias,
                                  string parsedUri)
       {
-         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
+         BarCodeText fakeResult = new BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.SMS, result.Type);
          SMSParsedResult smsResult = (SMSParsedResult)result;

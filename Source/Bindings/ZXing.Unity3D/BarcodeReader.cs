@@ -22,7 +22,7 @@ namespace ZXing.Unity
     /// <summary>
     /// A smart class to decode the barcode inside a bitmap object
     /// </summary>
-    [System.CLSCompliant(false)]
+    [CLSCompliant(false)]
     public class BarcodeReader : BarcodeReaderGeneric, IBarcodeReader
     {
         private static readonly Func<Color32[], int, int, LuminanceSource> defaultCreateLuminanceSource =
@@ -70,7 +70,7 @@ namespace ZXing.Unity
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
-            this.CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
+            CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
         }
 
         /// <summary>

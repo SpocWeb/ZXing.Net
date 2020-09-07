@@ -70,9 +70,9 @@ namespace ZXing.Common.Test
                                          IBarCodeDecoder barcodeReader,
                                          BarcodeFormat? expectedFormat)
       {
-         this._TestBase = BuildTestBase(testBasePathSuffix);
-         this._BarcodeReader = barcodeReader;
-         this._ExpectedFormat = expectedFormat;
+         _TestBase = BuildTestBase(testBasePathSuffix);
+         _BarcodeReader = barcodeReader;
+         _ExpectedFormat = expectedFormat;
          _TestResults = new List<TestResult>();
       }
 

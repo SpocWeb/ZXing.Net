@@ -785,7 +785,7 @@ namespace BigIntegerLibrary
             readonly long[][] _Digits;
             const int ChunkSize = 32;
             const int ChunkSizeDivisionShift = 5;
-            const int ChunkCount = Base10BigInteger.MaxSize >> ChunkSizeDivisionShift;
+            const int ChunkCount = MaxSize >> ChunkSizeDivisionShift;
 
             public DigitContainer()
             {

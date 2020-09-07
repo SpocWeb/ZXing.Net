@@ -23,8 +23,8 @@ namespace ZXing.ZKWeb
     /// </summary>
     public class BarcodeReader : BarcodeReader<System.DrawingCore.Bitmap>
     {
-        private static readonly System.Func<System.DrawingCore.Bitmap, LuminanceSource> defaultCreateLuminanceSource =
-           (bitmap) => new ZXing.ZKWeb.BitmapLuminanceSource(bitmap);
+        private static readonly Func<System.DrawingCore.Bitmap, LuminanceSource> defaultCreateLuminanceSource =
+           (bitmap) => new BitmapLuminanceSource(bitmap);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeReader"/> class.

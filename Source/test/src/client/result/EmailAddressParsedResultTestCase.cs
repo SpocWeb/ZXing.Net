@@ -114,7 +114,7 @@ namespace ZXing.Client.Result.Test
                                  string subject,
                                  string body)
       {
-         var fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
+         var fakeResult = new BarCodeText(contents, null, null, null, BarcodeFormat.QR_CODE);
          var result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.EMAIL_ADDRESS, result.Type);
          var emailResult = (EmailAddressParsedResult)result;

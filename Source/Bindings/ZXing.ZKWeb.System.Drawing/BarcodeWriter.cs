@@ -26,7 +26,7 @@ namespace ZXing.ZKWeb
         /// </summary>
         public BarcodeWriter()
         {
-            Renderer = new ZXing.ZKWeb.Rendering.BitmapRenderer();
+            Renderer = new Rendering.BitmapRenderer();
         }
     }
 }

@@ -206,7 +206,7 @@ namespace ZXing.Interop.Decoding
         public void Add(Common.BarcodeFormat format)
         {
             if (options.PossibleFormats == null) {
-                options.PossibleFormats = new List<ZXing.BarcodeFormat>();
+                options.PossibleFormats = new List<BarcodeFormat>();
             }
             options.PossibleFormats.Add(format.ToZXing());
         }

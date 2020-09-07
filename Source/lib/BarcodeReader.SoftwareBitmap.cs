@@ -39,7 +39,7 @@ namespace ZXing
         /// If null, an exception is thrown when Decode is called</param>
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         public BarcodeReader(IBarCodeDecoder reader,
            Func<SoftwareBitmap, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer
@@ -58,7 +58,7 @@ namespace ZXing
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         public BarcodeReader(IBarCodeDecoder reader,
            Func<SoftwareBitmap, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
@@ -66,7 +66,7 @@ namespace ZXing
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
-            this.createLuminanceSourceSoftwareBitmap = createLuminanceSource;
+            createLuminanceSourceSoftwareBitmap = createLuminanceSource;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace ZXing
         /// <value>
         /// The function to create a luminance source object.
         /// </value>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         protected Func<SoftwareBitmap, LuminanceSource> CreateLuminanceSourceSoftwareBitmap => createLuminanceSourceSoftwareBitmap ?? defaultCreateLuminanceSourceSoftwareBitmap;
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace ZXing
         /// </summary>
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         public BarCodeText Decode(SoftwareBitmap barcodeBitmap)
         {
             if (CreateLuminanceSourceSoftwareBitmap == null)
@@ -106,7 +106,7 @@ namespace ZXing
         /// </summary>
         /// <param name="barcodeBitmap">The barcode bitmap.</param>
         /// <returns>the result data or null</returns>
-        [System.CLSCompliant(false)]
+        [CLSCompliant(false)]
         public BarCodeText[] DecodeMultiple(SoftwareBitmap barcodeBitmap)
         {
             if (CreateLuminanceSourceSoftwareBitmap == null)

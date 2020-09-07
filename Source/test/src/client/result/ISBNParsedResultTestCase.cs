@@ -34,7 +34,7 @@ namespace ZXing.Client.Result.Test
 
       static void DoTest(string contents)
       {
-         ZXing.BarCodeText fakeResult = new ZXing.BarCodeText(contents, null, null, null, BarcodeFormat.EAN_13);
+         BarCodeText fakeResult = new BarCodeText(contents, null, null, null, BarcodeFormat.EAN_13);
          ParsedResult result = ResultParser.parseResult(fakeResult);
          Assert.AreEqual(ParsedResultType.ISBN, result.Type);
          ISBNParsedResult isbnResult = (ISBNParsedResult)result;

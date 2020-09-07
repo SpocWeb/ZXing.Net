@@ -792,7 +792,7 @@ namespace BigIntegerLibrary
             BigInteger oldValue = new BigInteger(0);
             BigInteger newValue = new BigInteger(n);
 
-            while (BigInteger.Abs(newValue - oldValue) >= One)
+            while (Abs(newValue - oldValue) >= One)
             {
                 oldValue = newValue;
                 newValue = (oldValue + (n / oldValue)) / Two;
@@ -1440,7 +1440,7 @@ namespace BigIntegerLibrary
             readonly long[][] _Digits;
             const int ChunkSize = 16;
             const int ChunkSizeDivisionShift = 4;
-            const int ChunkCount = BigInteger.MAX_SIZE >> ChunkSizeDivisionShift;
+            const int ChunkCount = MAX_SIZE >> ChunkSizeDivisionShift;
 
             public DigitContainer()
             {

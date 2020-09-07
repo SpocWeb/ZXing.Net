@@ -106,7 +106,7 @@ namespace ZXing.Magick.Rendering
                 }
             }
 
-            return this.magickFactory.Image.Create(totalBuffer);
+            return magickFactory.Image.Create(totalBuffer);
         }
     }
 }

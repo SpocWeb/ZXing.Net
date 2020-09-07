@@ -51,8 +51,8 @@ namespace ZXing.Common.Test
 
          public TestResult(int falsePositivesAllowed, float rotation)
          {
-            this._FalsePositivesAllowed = falsePositivesAllowed;
-            this._Rotation = rotation;
+            _FalsePositivesAllowed = falsePositivesAllowed;
+            _Rotation = rotation;
          }
 
          public int GetFalsePositivesAllowed()

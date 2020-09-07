@@ -67,7 +67,7 @@ namespace ZXing
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
-            this.CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
+            CreateLuminanceSource = createLuminanceSource ?? defaultCreateLuminanceSource;
         }
 
         /// <summary>
