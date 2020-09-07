@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -185,7 +186,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -244,7 +245,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -304,7 +305,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -326,7 +327,7 @@ namespace ZXing
         /// <param name="bitmap"></param>
         /// <param name="data"></param>
         /// <param name="luminances"></param>
-        private static void CalculateLuminanceValues565(Bitmap bitmap, BitmapData data, byte[] luminances)
+        private static void CalculateLuminanceValues565(Image bitmap, BitmapData data, IList<byte> luminances)
         {
             var height = data.Height;
             var width = data.Width;
@@ -347,7 +348,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -380,7 +381,7 @@ namespace ZXing
         /// <param name="bitmap"></param>
         /// <param name="data"></param>
         /// <param name="luminances"></param>
-        private static void CalculateLuminanceValues24Bit(Bitmap bitmap, BitmapData data, byte[] luminances)
+        private static void CalculateLuminanceValues24Bit(Image bitmap, BitmapData data, IList<byte> luminances)
         {
             var height = data.Height;
             var width = data.Width;
@@ -401,7 +402,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -427,7 +428,7 @@ namespace ZXing
         /// <param name="bitmap"></param>
         /// <param name="data"></param>
         /// <param name="luminances"></param>
-        private static void CalculateLuminanceValues32BitWithoutAlpha(Bitmap bitmap, BitmapData data, byte[] luminances)
+        private static void CalculateLuminanceValues32BitWithoutAlpha(Image bitmap, BitmapData data, IList<byte> luminances)
         {
             var height = data.Height;
             var width = data.Width;
@@ -449,7 +450,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -471,7 +472,7 @@ namespace ZXing
         }
 
         /// calculates the luminance values for 32-bit encoded bitmaps with alpha channel
-        private static void CalculateLuminanceValues32BitWithAlpha(Bitmap bitmap, BitmapData data, byte[] luminances)
+        private static void CalculateLuminanceValues32BitWithAlpha(Image bitmap, BitmapData data, IList<byte> luminances)
         {
             var height = data.Height;
             var width = data.Width;
@@ -493,7 +494,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);
@@ -521,8 +522,8 @@ namespace ZXing
             }
         }
 
-        /// calculates the luminance values for 32-bit CMYK encoded bitmaps (k is ignored at the momen)
-        private static void CalculateLuminanceValues32BitCMYK(Bitmap bitmap, BitmapData data, byte[] luminances)
+        /// calculates the luminance values for 32-bit CMYK encoded bitmaps (k is ignored at the moment)
+        private static void CalculateLuminanceValues32BitCMYK(Image bitmap, BitmapData data, IList<byte> luminances)
         {
             var height = data.Height;
             var width = data.Width;
@@ -544,7 +545,7 @@ namespace ZXing
 
             for (int y = 0; y < height; y++)
             {
-                // copy a scanline not the whole bitmap because of memory usage
+                // copy a scanLine, not the whole bitmap because of memory usage
                 Marshal.Copy(ptrInBitmap, buffer, 0, stride);
 #if NET40 || NET45 || NET46 || NET47 || NET48
                 ptrInBitmap = IntPtr.Add(ptrInBitmap, strideStep);

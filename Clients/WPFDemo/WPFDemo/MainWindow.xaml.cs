@@ -29,12 +29,9 @@ using BarcodeWriterGeometry = ZXing.Presentation.BarcodeWriterGeometry;
 
 namespace WPFDemo
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly BarcodeReader reader = new BarcodeReader();
+        private readonly BarcodeReader _Reader = new BarcodeReader();
 
         public MainWindow()
         {
@@ -68,7 +65,7 @@ namespace WPFDemo
         private void btnDecode_Click(object sender, RoutedEventArgs e)
         {
             var start = DateTime.Now;
-            var result = reader.Decode((BitmapSource)imageBarcode.Source);
+            var result = _Reader.Decode((BitmapSource)imageBarcode.Source);
             labDuration.Content = (DateTime.Now - start).Milliseconds + " ms";
             if (result != null)
             {

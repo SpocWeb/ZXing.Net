@@ -53,7 +53,7 @@ namespace ZXing.Test
             }
         }
 
-      private static readonly RGBLuminanceSource SOURCE = new RGBLuminanceSource(new byte[]
+      private static readonly RgbLuminanceSource SOURCE = new RgbLuminanceSource(new byte[]
       {
          0x00, 0x00, 0x00, 0x7F, 0x7F, 0x7F, 0xFF, 0xFF, 0xFF,
          0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00, 0xFF,

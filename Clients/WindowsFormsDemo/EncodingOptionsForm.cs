@@ -26,20 +26,14 @@ namespace WindowsFormsDemo
     {
         public EncodingOptions Options
         {
-            get
-            {
-                return (EncodingOptions)propOptions.SelectedObject;
-            }
-            set
-            {
-                propOptions.SelectedObject = value;
-            }
+            get => (EncodingOptions)propOptions.SelectedObject;
+            set => propOptions.SelectedObject = value;
         }
 
         public Type Renderer
         {
-            get { return (Type)cmbRenderer.SelectedItem; }
-            set { cmbRenderer.SelectedItem = value; }
+            get => (Type)cmbRenderer.SelectedItem;
+            set => cmbRenderer.SelectedItem = value;
         }
 
         public EncodingOptionsForm()

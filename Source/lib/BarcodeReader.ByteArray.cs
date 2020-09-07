@@ -63,7 +63,7 @@ namespace ZXing
         public BarcodeReader(IBarCodeDecoder reader,
            Func<byte[], LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
+           Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {

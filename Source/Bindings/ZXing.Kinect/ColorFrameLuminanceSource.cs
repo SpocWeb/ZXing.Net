@@ -21,7 +21,7 @@ namespace ZXing.Kinect
     /// <summary>
     /// special luminance class which supports ColorImageFrame directly
     /// </summary>
-    public class ColorFrameLuminanceSource : RGBLuminanceSource
+    public class ColorFrameLuminanceSource : RgbLuminanceSource
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorFrameLuminanceSource"/> class.
@@ -60,7 +60,7 @@ namespace ZXing.Kinect
             //
 
             var pixelData = new byte[bitmap.FrameDescription.BytesPerPixel * bitmap.FrameDescription.Width * bitmap.FrameDescription.Height];
-            var bitmapFormat = BitmapFormat.Unknown;
+            var bitmapFormat = BitmapFormat.UNKNOWN;
             switch (bitmap.RawColorImageFormat)
             {
                 case ColorImageFormat.Bayer: // docu says 1 byte per pixel, not sure if this is real

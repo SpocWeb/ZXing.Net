@@ -45,8 +45,8 @@ namespace ZXing.Interop.Decoding
 
         public DecodingOptions Options
         {
-            get { return new DecodingOptions(wrappedReader.Options); }
-            set { wrappedReader.Options = value.wrappedDecodingOptions; }
+            get => new DecodingOptions(wrappedReader.Options);
+            set => wrappedReader.Options = value.wrappedDecodingOptions;
         }
 
         public BarCodeText DecodeImageBytes([In, MarshalAs(UnmanagedType.SafeArray, SafeArraySubType = VarEnum.VT_UI1)]ref byte[] rawRGB,
@@ -70,7 +70,7 @@ namespace ZXing.Interop.Decoding
         {
             try
             {
-                using (var bitmap = (Bitmap)Bitmap.FromFile(barcodeBitmapFilePath))
+                using (var bitmap = (Bitmap)Image.FromFile(barcodeBitmapFilePath))
                 {
                     return new BarCodeText(wrappedReader.Decode(bitmap));
                 }
@@ -85,7 +85,7 @@ namespace ZXing.Interop.Decoding
         {
             try
             {
-                using (var bitmap = (Bitmap)Bitmap.FromFile(barcodeBitmapFilePath))
+                using (var bitmap = (Bitmap)Image.FromFile(barcodeBitmapFilePath))
                 {
                     var results = wrappedReader.DecodeMultiple(bitmap);
                     return results?.Select(_ => new BarCodeText(_)).ToArray();

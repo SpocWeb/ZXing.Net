@@ -44,8 +44,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public SymbolShapeHint SymbolShape
         {
-            get { return wrappedDatamatrixEncodingOptions.SymbolShape.ToInterop(); }
-            set { wrappedDatamatrixEncodingOptions.SymbolShape = value.ToZXing(); }
+            get => wrappedDatamatrixEncodingOptions.SymbolShape.ToInterop();
+            set => wrappedDatamatrixEncodingOptions.SymbolShape = value.ToZXing();
         }
 
         /// <summary>
@@ -61,10 +61,7 @@ namespace ZXing.Interop.Encoding
                 }
                 return new Dimension(wrappedValue.Width, wrappedValue.Height);
             }
-            set
-            {
-                wrappedDatamatrixEncodingOptions.MinSize = value == null ? null : new ZXing.Dimension(value.Width, value.Height);
-            }
+            set => wrappedDatamatrixEncodingOptions.MinSize = value == null ? null : new ZXing.Dimension(value.Width, value.Height);
         }
 
         /// <summary>
@@ -80,10 +77,7 @@ namespace ZXing.Interop.Encoding
                 }
                 return new Dimension(wrappedValue.Width, wrappedValue.Height);
             }
-            set
-            {
-                wrappedDatamatrixEncodingOptions.MaxSize = value == null ? null : new ZXing.Dimension(value.Width, value.Height);
-            }
+            set => wrappedDatamatrixEncodingOptions.MaxSize = value == null ? null : new ZXing.Dimension(value.Width, value.Height);
         }
 
         /// <summary>
@@ -93,8 +87,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int DefaultEncodation
         {
-            get { return wrappedDatamatrixEncodingOptions.DefaultEncodation.GetValueOrDefault(Datamatrix.Encoder.Encodation.ASCII); }
-            set { wrappedDatamatrixEncodingOptions.DefaultEncodation = value; }
+            get => wrappedDatamatrixEncodingOptions.DefaultEncodation.GetValueOrDefault(Datamatrix.Encoder.Encodation.ASCII);
+            set => wrappedDatamatrixEncodingOptions.DefaultEncodation = value;
         }
     }
 
@@ -175,9 +169,8 @@ namespace ZXing.Interop.Encoding
         /// <returns></returns>
         public override bool Equals(object other)
         {
-            if (other is Dimension)
+            if (other is Dimension d)
             {
-                var d = (Dimension)other;
                 return Width == d.Width && Height == d.Height;
             }
             return false;

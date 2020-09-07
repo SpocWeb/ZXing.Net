@@ -21,7 +21,7 @@ namespace ZXing.Kinect
     /// <summary>
     /// special luminance class which supports ColorImageFrame directly
     /// </summary>
-    public class ColorImageFrameLuminanceSource : RGBLuminanceSource
+    public class ColorImageFrameLuminanceSource : RgbLuminanceSource
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorImageFrameLuminanceSource"/> class.
@@ -51,11 +51,11 @@ namespace ZXing.Kinect
            : base(bitmap.Width, bitmap.Height)
         {
             var pixelData = new byte[bitmap.PixelDataLength];
-            var bitmapFormat = BitmapFormat.Unknown;
+            var bitmapFormat = BitmapFormat.UNKNOWN;
             switch (bitmap.Format)
             {
                 case ColorImageFormat.InfraredResolution640x480Fps30:
-                    bitmapFormat = BitmapFormat.Gray16;
+                    bitmapFormat = BitmapFormat.GRAY16;
                     break;
                 case ColorImageFormat.RawBayerResolution1280x960Fps12: // 32-bit, linear X8R8G8B8-formatted
                 case ColorImageFormat.RawBayerResolution640x480Fps30: // 32-bit, linear X8R8G8B8-formatted

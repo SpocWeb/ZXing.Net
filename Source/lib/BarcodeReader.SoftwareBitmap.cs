@@ -62,7 +62,7 @@ namespace ZXing
         public BarcodeReader(IBarCodeDecoder reader,
            Func<SoftwareBitmap, LuminanceSource> createLuminanceSource,
            Func<LuminanceSource, Binarizer> createBinarizer,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
+           Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {
@@ -77,13 +77,7 @@ namespace ZXing
         /// The function to create a luminance source object.
         /// </value>
         [System.CLSCompliant(false)]
-        protected Func<SoftwareBitmap, LuminanceSource> CreateLuminanceSourceSoftwareBitmap
-        {
-            get
-            {
-                return createLuminanceSourceSoftwareBitmap ?? defaultCreateLuminanceSourceSoftwareBitmap;
-            }
-        }
+        protected Func<SoftwareBitmap, LuminanceSource> CreateLuminanceSourceSoftwareBitmap => createLuminanceSourceSoftwareBitmap ?? defaultCreateLuminanceSourceSoftwareBitmap;
 
         /// <summary>
         /// Decodes the specified barcode bitmap.

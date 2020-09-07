@@ -40,8 +40,8 @@ namespace ZXing.Interop.Encoding
 
         public int Height
         {
-            get { return wrappedEncodingOptions.Height; }
-            set { wrappedEncodingOptions.Height = value; }
+            get => wrappedEncodingOptions.Height;
+            set => wrappedEncodingOptions.Height = value;
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int Width
         {
-            get { return wrappedEncodingOptions.Width; }
-            set { wrappedEncodingOptions.Width = value; }
+            get => wrappedEncodingOptions.Width;
+            set => wrappedEncodingOptions.Width = value;
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public bool PureBarcode
         {
-            get { return wrappedEncodingOptions.PureBarcode; }
-            set { wrappedEncodingOptions.PureBarcode = value; }
+            get => wrappedEncodingOptions.PureBarcode;
+            set => wrappedEncodingOptions.PureBarcode = value;
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int Margin
         {
-            get { return wrappedEncodingOptions.Margin; }
-            set { wrappedEncodingOptions.Margin = value; }
+            get => wrappedEncodingOptions.Margin;
+            set => wrappedEncodingOptions.Margin = value;
         }
     }
 }

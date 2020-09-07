@@ -30,27 +30,8 @@ namespace ZXing.Rendering
     /// </summary>
     public class GeometryRenderer : IBarcodeRenderer<Geometry>
     {
-        /// <summary>
-        /// Renders the specified matrix.
-        /// </summary>
-        /// <param name="matrix">The matrix.</param>
-        /// <param name="format">The format.</param>
-        /// <param name="content">The content.</param>
-        /// <returns></returns>
-        public Geometry Render(BitMatrix matrix, BarcodeFormat format, string content)
-        {
-            return Render(matrix, format, content, null);
-        }
-
-        /// <summary>
-        /// Renders the specified matrix.
-        /// </summary>
-        /// <param name="matrix">The matrix.</param>
-        /// <param name="format">The format.</param>
-        /// <param name="content">The content.</param>
-        /// <param name="options">The options.</param>
-        /// <returns></returns>
-        public Geometry Render(BitMatrix matrix, BarcodeFormat format, string content, EncodingOptions options)
+        public Geometry Render(BitMatrix matrix, BarcodeFormat format, string content
+            , EncodingOptions options = null)
         {
             var edges = new HashSet<Edge>();
             var edgeMap = new Dictionary<Coordinate, List<Edge>>();

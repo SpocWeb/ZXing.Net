@@ -24,27 +24,20 @@ namespace WindowsFormsDemo
 {
     public partial class DecodingOptionsForm : Form
     {
-        private readonly BarcodeReader reader;
-        public bool MultipleBarcodes
-        {
-            get { return chkMultipleDecode.Checked; }
-        }
-        public bool MultipleBarcodesOnlyQR
-        {
-            get { return chkMultipleDecodeOnlyQR.Checked; }
-        }
-        public bool UseGlobalHistogramBinarizer
-        {
-            get { return chkUseGlobalHistogramBinarizer.Checked; }
-        }
+        private readonly BarcodeReader _Reader;
+        public bool MultipleBarcodes => chkMultipleDecode.Checked;
 
-        public DecodingOptionsForm(BarcodeReader reader, bool multipleBarcodes, bool multipleBarcodesOnlyQR)
+        public bool MultipleBarcodesOnlyQr => chkMultipleDecodeOnlyQR.Checked;
+
+        public bool UseGlobalHistogramBinarizer => chkUseGlobalHistogramBinarizer.Checked;
+
+        public DecodingOptionsForm(BarcodeReader reader, bool multipleBarcodes, bool multipleBarcodesOnlyQr)
         {
-            this.reader = reader;
+            this._Reader = reader;
             InitializeComponent();
 
             chkMultipleDecode.Checked = multipleBarcodes;
-            chkMultipleDecodeOnlyQR.Checked = multipleBarcodesOnlyQR;
+            chkMultipleDecodeOnlyQR.Checked = multipleBarcodesOnlyQr;
 
             foreach (var val in Enum.GetValues(typeof(BarcodeFormat)))
             {
@@ -66,34 +59,34 @@ namespace WindowsFormsDemo
         {
             base.OnLoad(e);
 
-            chkTryInverted.Checked = reader.TryInverted;
-            chkTryHarder.Checked = reader.Options.TryHarder;
-            chkAutoRotate.Checked = reader.AutoRotate;
-            chkPureBarcode.Checked = reader.Options.PureBarcode;
+            chkTryInverted.Checked = _Reader.TryInverted;
+            chkTryHarder.Checked = _Reader.Options.TryHarder;
+            chkAutoRotate.Checked = _Reader.AutoRotate;
+            chkPureBarcode.Checked = _Reader.Options.PureBarcode;
 
-            chkCode39CheckDigit.Checked = reader.Options.AssumeCode39CheckDigit;
-            chkCode39ExtendedMode.Checked = reader.Options.UseCode39ExtendedMode;
-            chkCode39ExtendedModeRelaxed.Checked = reader.Options.UseCode39RelaxedExtendedMode;
+            chkCode39CheckDigit.Checked = _Reader.Options.AssumeCode39CheckDigit;
+            chkCode39ExtendedMode.Checked = _Reader.Options.UseCode39ExtendedMode;
+            chkCode39ExtendedModeRelaxed.Checked = _Reader.Options.UseCode39RelaxedExtendedMode;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            reader.TryInverted = chkTryInverted.Checked;
-            reader.Options.TryHarder = chkTryHarder.Checked;
-            reader.AutoRotate = chkAutoRotate.Checked;
-            reader.Options.PureBarcode = chkPureBarcode.Checked;
+            _Reader.TryInverted = chkTryInverted.Checked;
+            _Reader.Options.TryHarder = chkTryHarder.Checked;
+            _Reader.AutoRotate = chkAutoRotate.Checked;
+            _Reader.Options.PureBarcode = chkPureBarcode.Checked;
 
-            reader.Options.AssumeCode39CheckDigit = chkCode39CheckDigit.Checked;
-            reader.Options.UseCode39ExtendedMode = chkCode39ExtendedMode.Checked;
-            reader.Options.UseCode39RelaxedExtendedMode = chkCode39ExtendedModeRelaxed.Checked;
+            _Reader.Options.AssumeCode39CheckDigit = chkCode39CheckDigit.Checked;
+            _Reader.Options.UseCode39ExtendedMode = chkCode39ExtendedMode.Checked;
+            _Reader.Options.UseCode39RelaxedExtendedMode = chkCode39ExtendedModeRelaxed.Checked;
 
-            reader.Options.PossibleFormats = new List<BarcodeFormat>();
+            _Reader.Options.PossibleFormats = new List<BarcodeFormat>();
 
             foreach (DataGridViewRow row in dataGridViewBarcodeFormats.Rows)
             {
                 if (((bool)(row.Cells[0].Value)))
                 {
-                    reader.Options.PossibleFormats.Add(
+                    _Reader.Options.PossibleFormats.Add(
                        (BarcodeFormat)Enum.Parse(typeof(BarcodeFormat), row.Cells[1].Value.ToString()));
                 }
             }

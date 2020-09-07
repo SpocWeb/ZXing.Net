@@ -21,22 +21,22 @@ namespace ZXing.Interop.Encoding
     [ComVisible(true)]
     [Guid("9EDD06B8-92B7-48CF-A390-B96A27433127")]
     [ClassInterface(ClassInterfaceType.AutoDual)]
-    public class PDF417EncodingOptions : EncodingOptions
+    public class Pdf417EncodingOptions : EncodingOptions
     {
-        internal readonly PDF417.PDF417EncodingOptions wrappedPDF417EncodingOptions;
+        internal readonly PDF417.PDF417EncodingOptions WrappedPdf417EncodingOptions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PDF417EncodingOptions"/> class.
+        /// Initializes a new instance of the <see cref="Pdf417EncodingOptions"/> class.
         /// </summary>
-        public PDF417EncodingOptions()
+        public Pdf417EncodingOptions()
            : this(new PDF417.PDF417EncodingOptions())
         {
         }
 
-        internal PDF417EncodingOptions(PDF417.PDF417EncodingOptions other)
+        internal Pdf417EncodingOptions(PDF417.PDF417EncodingOptions other)
            : base(other)
         {
-            wrappedPDF417EncodingOptions = other;
+            WrappedPdf417EncodingOptions = other;
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public bool Compact
         {
-            get { return wrappedPDF417EncodingOptions.Compact; }
-            set { wrappedPDF417EncodingOptions.Compact = value; }
+            get => WrappedPdf417EncodingOptions.Compact;
+            set => WrappedPdf417EncodingOptions.Compact = value;
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public Compaction Compaction
         {
-            get { return wrappedPDF417EncodingOptions.Compaction.ToInterop(); }
-            set { wrappedPDF417EncodingOptions.Compaction = value.ToZXing(); }
+            get => WrappedPdf417EncodingOptions.Compaction.ToInterop();
+            set => WrappedPdf417EncodingOptions.Compaction = value.ToZXing();
         }
 
         /// <summary>
@@ -64,17 +64,17 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public Dimensions Dimensions
         {
-            get { return wrappedPDF417EncodingOptions.Dimensions.ToInterop(); }
-            set { wrappedPDF417EncodingOptions.Dimensions = value.ToZXing(); }
+            get => WrappedPdf417EncodingOptions.Dimensions.ToInterop();
+            set => WrappedPdf417EncodingOptions.Dimensions = value.ToZXing();
         }
 
         /// <summary>
         /// Specifies what degree of error correction to use
         /// </summary>
-        public PDF417ErrorCorrectionLevel ErrorCorrection
+        public Pdf417ErrorCorrectionLevel ErrorCorrection
         {
-            get { return wrappedPDF417EncodingOptions.ErrorCorrection.ToInterop(); }
-            set { wrappedPDF417EncodingOptions.ErrorCorrection = value.ToZXing(); }
+            get => WrappedPdf417EncodingOptions.ErrorCorrection.ToInterop();
+            set => WrappedPdf417EncodingOptions.ErrorCorrection = value.ToZXing();
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public string CharacterSet
         {
-            get { return wrappedPDF417EncodingOptions.CharacterSet; }
-            set { wrappedPDF417EncodingOptions.CharacterSet = value; }
+            get => WrappedPdf417EncodingOptions.CharacterSet;
+            set => WrappedPdf417EncodingOptions.CharacterSet = value;
         }
 
         /// <summary>
@@ -94,10 +94,10 @@ namespace ZXing.Interop.Encoding
         /// If you set the property to true you can use different encodings
         /// and the ECI segment is omitted.
         /// </summary>
-        public bool DisableECI
+        public bool DisableEci
         {
-            get { return wrappedPDF417EncodingOptions.DisableECI; }
-            set { wrappedPDF417EncodingOptions.DisableECI = value; }
+            get => WrappedPdf417EncodingOptions.DisableECI;
+            set => WrappedPdf417EncodingOptions.DisableECI = value;
         }
     }
 
@@ -221,7 +221,7 @@ namespace ZXing.Interop.Encoding
 
     [ComVisible(true)]
     [Guid("F8730D38-7CAE-47E4-BEF7-7B76C6C4DE7D")]
-    public enum PDF417ErrorCorrectionLevel
+    public enum Pdf417ErrorCorrectionLevel
     {
         L0 = 0,
         L1,
@@ -234,54 +234,54 @@ namespace ZXing.Interop.Encoding
         L8
     }
 
-    internal static class PDF417ErrorCorrectionLevelExtensions
+    internal static class Pdf417ErrorCorrectionLevelExtensions
     {
-        public static PDF417ErrorCorrectionLevel ToInterop(this PDF417.Internal.PDF417ErrorCorrectionLevel other)
+        public static Pdf417ErrorCorrectionLevel ToInterop(this PDF417.Internal.PDF417ErrorCorrectionLevel other)
         {
             switch (other)
             {
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L1:
-                    return PDF417ErrorCorrectionLevel.L1;
+                    return Pdf417ErrorCorrectionLevel.L1;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L2:
-                    return PDF417ErrorCorrectionLevel.L2;
+                    return Pdf417ErrorCorrectionLevel.L2;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L3:
-                    return PDF417ErrorCorrectionLevel.L3;
+                    return Pdf417ErrorCorrectionLevel.L3;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L4:
-                    return PDF417ErrorCorrectionLevel.L4;
+                    return Pdf417ErrorCorrectionLevel.L4;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L5:
-                    return PDF417ErrorCorrectionLevel.L5;
+                    return Pdf417ErrorCorrectionLevel.L5;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L6:
-                    return PDF417ErrorCorrectionLevel.L6;
+                    return Pdf417ErrorCorrectionLevel.L6;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L7:
-                    return PDF417ErrorCorrectionLevel.L7;
+                    return Pdf417ErrorCorrectionLevel.L7;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L8:
-                    return PDF417ErrorCorrectionLevel.L8;
+                    return Pdf417ErrorCorrectionLevel.L8;
                 case PDF417.Internal.PDF417ErrorCorrectionLevel.L0:
                 default:
-                    return PDF417ErrorCorrectionLevel.L0;
+                    return Pdf417ErrorCorrectionLevel.L0;
             }
         }
-        public static PDF417.Internal.PDF417ErrorCorrectionLevel ToZXing(this PDF417ErrorCorrectionLevel other)
+        public static PDF417.Internal.PDF417ErrorCorrectionLevel ToZXing(this Pdf417ErrorCorrectionLevel other)
         {
             switch (other)
             {
-                case PDF417ErrorCorrectionLevel.L1:
+                case Pdf417ErrorCorrectionLevel.L1:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L1;
-                case PDF417ErrorCorrectionLevel.L2:
+                case Pdf417ErrorCorrectionLevel.L2:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L2;
-                case PDF417ErrorCorrectionLevel.L3:
+                case Pdf417ErrorCorrectionLevel.L3:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L3;
-                case PDF417ErrorCorrectionLevel.L4:
+                case Pdf417ErrorCorrectionLevel.L4:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L4;
-                case PDF417ErrorCorrectionLevel.L5:
+                case Pdf417ErrorCorrectionLevel.L5:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L5;
-                case PDF417ErrorCorrectionLevel.L6:
+                case Pdf417ErrorCorrectionLevel.L6:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L6;
-                case PDF417ErrorCorrectionLevel.L7:
+                case Pdf417ErrorCorrectionLevel.L7:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L7;
-                case PDF417ErrorCorrectionLevel.L8:
+                case Pdf417ErrorCorrectionLevel.L8:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L8;
-                case PDF417ErrorCorrectionLevel.L0:
+                case Pdf417ErrorCorrectionLevel.L0:
                 default:
                     return PDF417.Internal.PDF417ErrorCorrectionLevel.L0;
             }

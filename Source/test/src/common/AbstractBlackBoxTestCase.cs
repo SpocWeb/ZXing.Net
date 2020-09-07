@@ -392,7 +392,7 @@ namespace ZXing.Common.Test
             IDictionary<ResultMetadataType, object> resultMetadata = result.ResultMetadata;
             foreach (var metadatum in expectedMetadata)
             {
-                ResultMetadataType.TryParse(metadatum.Key, out ResultMetadataType key);
+                Enum.TryParse(metadatum.Key, out ResultMetadataType key);
                     object expectedValue = metadatum.Value;
                     object actualValue = resultMetadata?[key];
                if (!expectedValue.Equals(actualValue))

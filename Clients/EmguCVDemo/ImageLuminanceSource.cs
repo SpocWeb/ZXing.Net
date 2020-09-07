@@ -25,6 +25,7 @@ namespace EmguCVDemo
     /// </summary>
     internal class ImageLuminanceSource : BaseLuminanceSource
     {
+        // ReSharper disable once SuggestBaseTypeForParameter
         public ImageLuminanceSource(Image<Emgu.CV.Structure.Bgr, byte> image)
            : base(image.Size.Width, image.Size.Height)
         {

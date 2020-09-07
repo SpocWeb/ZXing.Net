@@ -41,7 +41,7 @@ namespace ZXing.Multi.QrCode.Test
         public void TestMultiQrCodes()
         {
             var path = BuildTestBase("test/data/blackbox/multi-qrcode-1");
-            var source = new BitmapLuminanceSource((Bitmap) Bitmap.FromFile(Path.Combine(path, "1.png")));
+            var source = new BitmapLuminanceSource((Bitmap) Image.FromFile(Path.Combine(path, "1.png")));
             var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
             var reader = new QrCodeMultiReader();

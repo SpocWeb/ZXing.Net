@@ -140,7 +140,7 @@ namespace ServiceDemo
                 var barcodeImageFile = fileName;
                 var barcodeResultFile = fileName + ".txt";
                 using (var resultWriter = new StreamWriter(barcodeResultFile, false, Encoding.UTF8))
-                using (var bitmap = (Bitmap)Bitmap.FromFile(barcodeImageFile))
+                using (var bitmap = (Bitmap)Image.FromFile(barcodeImageFile))
                 {
                     try
                     {

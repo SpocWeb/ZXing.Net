@@ -45,8 +45,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int ErrorCorrection
         {
-            get { return wrappedAztecEncodingOptions.ErrorCorrection.GetValueOrDefault(0); }
-            set { wrappedAztecEncodingOptions.ErrorCorrection = value == 0 ? (int?)null : value; }
+            get => wrappedAztecEncodingOptions.ErrorCorrection.GetValueOrDefault(0);
+            set => wrappedAztecEncodingOptions.ErrorCorrection = value == 0 ? (int?)null : value;
         }
 
         /// <summary>
@@ -57,8 +57,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int Layers
         {
-            get { return wrappedAztecEncodingOptions.Layers.GetValueOrDefault(0); }
-            set { wrappedAztecEncodingOptions.Layers = value == 0 ? (int?)null : value; }
+            get => wrappedAztecEncodingOptions.Layers.GetValueOrDefault(0);
+            set => wrappedAztecEncodingOptions.Layers = value == 0 ? (int?)null : value;
         }
     }
 }

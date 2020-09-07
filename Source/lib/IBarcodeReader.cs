@@ -41,7 +41,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        BarCodeText Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format);
+        BarCodeText Decode(byte[] rawRGB, int width, int height, RgbLuminanceSource.BitmapFormat format);
 
         /// <summary> Tries to decode a barcode within an image which is given by a luminance source. </summary>
         /// <remarks>

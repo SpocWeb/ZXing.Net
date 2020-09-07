@@ -40,7 +40,7 @@ namespace ZXing.Test
         {
             const int roundTripsPerAlgo = 1000;
 
-            var bitmap = (Bitmap)Bitmap.FromFile(SamplePicRelPath);
+            var bitmap = (Bitmap)Image.FromFile(SamplePicRelPath);
 
             var startAlgo1 = DateTime.Now;
             for (var count = 0; count < roundTripsPerAlgo; count++)
@@ -812,7 +812,7 @@ namespace ZXing.Test
         [TestCase("../../../Source/test/data/luminance/qr-code-abc-24bit.bmp", PixelFormat.Format16bppArgb1555, "abc")]
         public void Should_Calculate_Luminance_And_Decode(string fileName, PixelFormat pixelFormat, string content)
         {
-            var bitmap = (Bitmap)Bitmap.FromFile(fileName);
+            var bitmap = (Bitmap)Image.FromFile(fileName);
             var bitmap2 = bitmap.Clone(new Rectangle(0, 0, bitmap.Width, bitmap.Height), pixelFormat);
 
             Assert.That(bitmap2.PixelFormat, Is.EqualTo(pixelFormat));

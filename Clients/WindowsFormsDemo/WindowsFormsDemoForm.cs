@@ -36,21 +36,21 @@ namespace WindowsFormsDemo
 {
     public partial class WindowsFormsDemoForm : Form
     {
-        private WebCam wCam;
-        private Timer webCamTimer;
-        private readonly BarcodeReader barcodeReader;
-        private readonly IList<ResultPoint> resultPoints;
-        private readonly IList<BarCodeText> lastResults;
+        private WebCam _WCam;
+        private Timer _WebCamTimer;
+        private readonly BarcodeReader _BarcodeReader;
+        private readonly IList<ResultPoint> _ResultPoints;
+        private readonly IList<BarCodeText> _LastResults;
         private EncodingOptions EncodingOptions { get; set; }
         private Type Renderer { get; set; }
         private bool TryMultipleBarcodes { get; set; }
-        private bool TryOnlyMultipleQRCodes { get; set; }
+        private bool TryOnlyMultipleQrCodes { get; set; }
         private bool UseGlobalHistogramBinarizer { get; set; }
 
         public WindowsFormsDemoForm()
         {
             InitializeComponent();
-            barcodeReader = new BarcodeReader(null, null, source
+            _BarcodeReader = new BarcodeReader(null, null, source
                 => UseGlobalHistogramBinarizer
                 ? new GlobalHistogramBinarizer(source)
                 : new TwoDBinarizer(source))
@@ -59,15 +59,15 @@ namespace WindowsFormsDemo
                 TryInverted = true,
                 Options = new DecodingOptions { TryHarder = true }
             };
-            barcodeReader.ResultPointFound += point =>
+            _BarcodeReader.ResultPointFound += point =>
             {
                 if (point == null) {
-                    resultPoints.Clear();
+                    _ResultPoints.Clear();
                 } else {
-                    resultPoints.Add(point);
+                    _ResultPoints.Add(point);
                 }
             };
-            barcodeReader.ResultFound += result =>
+            _BarcodeReader.ResultFound += result =>
             {
                 txtType.Text = result.BarcodeFormat.ToString();
                 txtContent.Text += result.Text + Environment.NewLine;
@@ -75,7 +75,7 @@ namespace WindowsFormsDemo
                 {
                     txtContent.Text += " UPC/EAN Extension: " + result.ResultMetadata[ResultMetadataType.UPC_EAN_EXTENSION].ToString();
                 }
-                lastResults.Add(result);
+                _LastResults.Add(result);
                 var parsedResult = ResultParser.parseResult(result);
                 if (parsedResult != null)
                 {
@@ -87,8 +87,8 @@ namespace WindowsFormsDemo
                     btnExtendedResult.Visible = false;
                 }
             };
-            resultPoints = new List<ResultPoint>();
-            lastResults = new List<BarCodeText>();
+            _ResultPoints = new List<ResultPoint>();
+            _LastResults = new List<BarCodeText>();
             Renderer = typeof(BitmapRenderer);
         }
 
@@ -133,7 +133,7 @@ namespace WindowsFormsDemo
 
             if (fileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
             {
-                if (TryOnlyMultipleQRCodes) {
+                if (TryOnlyMultipleQrCodes) {
                     Decode(PdfSupport.GetBitmapsFromPdf(fileName), TryMultipleBarcodes, new List<BarcodeFormat> { BarcodeFormat.QR_CODE });
                 } else {
                     Decode(PdfSupport.GetBitmapsFromPdf(fileName), TryMultipleBarcodes, null);
@@ -141,9 +141,9 @@ namespace WindowsFormsDemo
             }
             else
             {
-                using (var bitmap = (Bitmap)Bitmap.FromFile(fileName))
+                using (var bitmap = (Bitmap)Image.FromFile(fileName))
                 {
-                    if (TryOnlyMultipleQRCodes) {
+                    if (TryOnlyMultipleQrCodes) {
                         Decode(new[] { bitmap }, TryMultipleBarcodes, new List<BarcodeFormat> { BarcodeFormat.QR_CODE });
                     } else {
                         Decode(new[] { bitmap }, TryMultipleBarcodes, null);
@@ -154,24 +154,24 @@ namespace WindowsFormsDemo
 
         private void Decode(IEnumerable<Bitmap> bitmaps, bool tryMultipleBarcodes, IList<BarcodeFormat> possibleFormats)
         {
-            resultPoints.Clear();
-            lastResults.Clear();
+            _ResultPoints.Clear();
+            _LastResults.Clear();
             txtContent.Text = string.Empty;
 
             var timerStart = DateTime.Now.Ticks;
             IList<BarCodeText> results = null;
-            var previousFormats = barcodeReader.Options.PossibleFormats;
+            var previousFormats = _BarcodeReader.Options.PossibleFormats;
             if (possibleFormats != null) {
-                barcodeReader.Options.PossibleFormats = possibleFormats;
+                _BarcodeReader.Options.PossibleFormats = possibleFormats;
             }
 
             foreach (var bitmap in bitmaps)
             {
                 if (tryMultipleBarcodes) {
-                    results = barcodeReader.DecodeMultiple(bitmap);
+                    results = _BarcodeReader.DecodeMultiple(bitmap);
                 } else
                 {
-                    var result = barcodeReader.Decode(bitmap);
+                    var result = _BarcodeReader.Decode(bitmap);
                     if (result != null)
                     {
                         if (results == null)
@@ -184,7 +184,7 @@ namespace WindowsFormsDemo
             }
             var timerStop = DateTime.Now.Ticks;
 
-            barcodeReader.Options.PossibleFormats = previousFormats;
+            _BarcodeReader.Options.PossibleFormats = previousFormats;
 
             if (results == null)
             {
@@ -252,29 +252,29 @@ namespace WindowsFormsDemo
 
         private void btnDecodeWebCam_Click(object sender, EventArgs e)
         {
-            if (wCam == null)
+            if (_WCam == null)
             {
-                wCam = new WebCam { Container = picWebCam };
+                _WCam = new WebCam { Container = picWebCam };
 
-                wCam.OpenConnection();
+                _WCam.OpenConnection();
 
-                webCamTimer = new Timer();
-                webCamTimer.Tick += webCamTimer_Tick;
-                webCamTimer.Interval = 200;
-                webCamTimer.Start();
+                _WebCamTimer = new Timer();
+                _WebCamTimer.Tick += webCamTimer_Tick;
+                _WebCamTimer.Interval = 200;
+                _WebCamTimer.Start();
             }
             else
             {
-                webCamTimer.Stop();
-                webCamTimer = null;
-                wCam.Dispose();
-                wCam = null;
+                _WebCamTimer.Stop();
+                _WebCamTimer = null;
+                _WCam.Dispose();
+                _WCam = null;
             }
         }
 
         void webCamTimer_Tick(object sender, EventArgs e)
         {
-            var bitmap = wCam.GetCurrentImage();
+            var bitmap = _WCam.GetCurrentImage();
             if (bitmap == null) {
                 return;
             }
@@ -366,15 +366,15 @@ namespace WindowsFormsDemo
             {
                 tabCtrlMain.SelectedTab = tabPageDecoder;
                 picBarcode.Image = picEncodedBarCode.Image;
-                var pureBarcodeSetting = barcodeReader.Options.PureBarcode;
+                var pureBarcodeSetting = _BarcodeReader.Options.PureBarcode;
                 try
                 {
-                    barcodeReader.Options.PureBarcode = true;
+                    _BarcodeReader.Options.PureBarcode = true;
                     Decode(new[] { (Bitmap)picEncodedBarCode.Image }, false, null);
                 }
                 finally
                 {
-                    barcodeReader.Options.PureBarcode = pureBarcodeSetting;
+                    _BarcodeReader.Options.PureBarcode = pureBarcodeSetting;
                 }
             }
         }
@@ -463,12 +463,12 @@ namespace WindowsFormsDemo
 
         private void btnDecodingOptions_Click(object sender, EventArgs e)
         {
-            using (var dlg = new DecodingOptionsForm(barcodeReader, TryMultipleBarcodes, TryOnlyMultipleQRCodes))
+            using (var dlg = new DecodingOptionsForm(_BarcodeReader, TryMultipleBarcodes, TryOnlyMultipleQrCodes))
             {
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
                     TryMultipleBarcodes = dlg.MultipleBarcodes;
-                    TryOnlyMultipleQRCodes = dlg.MultipleBarcodesOnlyQR;
+                    TryOnlyMultipleQrCodes = dlg.MultipleBarcodesOnlyQr;
                     UseGlobalHistogramBinarizer = dlg.UseGlobalHistogramBinarizer;
                 }
             }
@@ -476,10 +476,10 @@ namespace WindowsFormsDemo
 
         private void btnExtendedResult_Click(object sender, EventArgs e)
         {
-            if (lastResults.Count < 1) {
+            if (_LastResults.Count < 1) {
                 return;
             }
-            var parsedResult = ResultParser.parseResult(lastResults[0]);
+            var parsedResult = ResultParser.parseResult(_LastResults[0]);
             using (var dlg = new ExtendedResultForm())
             {
                 dlg.Result = parsedResult;

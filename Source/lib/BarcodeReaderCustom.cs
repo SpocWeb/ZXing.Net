@@ -57,13 +57,13 @@ namespace ZXing
         /// If null, an exception is thrown when Decode is called</param>
         /// <param name="createBinarizer">Sets the function to create a binarizer object for a luminance source.
         /// If null then HybridBinarizer is used</param>
-        /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
+        /// <param name="createRgbLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
         public BarcodeReader(IBarCodeDecoder reader = null,
            Func<T, LuminanceSource> createLuminanceSource = null,
            Func<LuminanceSource, Binarizer> createBinarizer = null,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource = null
+           Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> createRgbLuminanceSource = null
         )
-           : base(reader, createBinarizer, createRGBLuminanceSource)
+           : base(reader, createBinarizer, createRgbLuminanceSource)
         {
             CreateLuminanceSource = createLuminanceSource;
         }
@@ -78,7 +78,7 @@ namespace ZXing
         /// <param name="createRGBLuminanceSource">Sets the function to create a luminance source object for a rgb raw byte array.</param>
         protected BarcodeReader(IBarCodeDecoder reader,
            Func<LuminanceSource, Binarizer> createBinarizer,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
+           Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource
         )
            : base(reader, createBinarizer, createRGBLuminanceSource)
         {

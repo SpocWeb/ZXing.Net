@@ -8,8 +8,8 @@ namespace WindowsFormsDemo
     {
         public ParsedResult Result
         {
-            get { return (ParsedResult)propGridResult.SelectedObject; }
-            set { propGridResult.SelectedObject = value; }
+            get => (ParsedResult)propGridResult.SelectedObject;
+            set => propGridResult.SelectedObject = value;
         }
 
         public ExtendedResultForm()

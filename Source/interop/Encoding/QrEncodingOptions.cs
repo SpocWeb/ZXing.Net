@@ -23,7 +23,7 @@ namespace ZXing.Interop.Encoding
     [ClassInterface(ClassInterfaceType.AutoDual)]
     public class QrCodeEncodingOptions : EncodingOptions
     {
-        internal readonly QrCode.QrCodeEncodingOptions wrappedQrEncodingOptions;
+        internal readonly QrCode.QrCodeEncodingOptions WrappedQrEncodingOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QrCodeEncodingOptions"/> class.
@@ -36,13 +36,13 @@ namespace ZXing.Interop.Encoding
         internal QrCodeEncodingOptions(QrCode.QrCodeEncodingOptions other)
            : base(other)
         {
-            wrappedQrEncodingOptions = other;
+            WrappedQrEncodingOptions = other;
         }
 
         public ErrorCorrectionLevel ErrorCorrection
         {
-            get { return wrappedQrEncodingOptions.ErrorCorrection.ToInterop(); }
-            set { wrappedQrEncodingOptions.ErrorCorrection = value.ToZXing(); }
+            get => WrappedQrEncodingOptions.ErrorCorrection.ToInterop();
+            set => WrappedQrEncodingOptions.ErrorCorrection = value.ToZXing();
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public string CharacterSet
         {
-            get { return wrappedQrEncodingOptions.CharacterSet; }
-            set { wrappedQrEncodingOptions.CharacterSet = value; }
+            get => WrappedQrEncodingOptions.CharacterSet;
+            set => WrappedQrEncodingOptions.CharacterSet = value;
         }
 
         /// <summary>
@@ -62,10 +62,10 @@ namespace ZXing.Interop.Encoding
         /// If you set the property to true you can use UTF-8 encoding
         /// and the ECI segment is omitted.
         /// </summary>
-        public bool DisableECI
+        public bool DisableEci
         {
-            get { return wrappedQrEncodingOptions.DisableECI; }
-            set { wrappedQrEncodingOptions.DisableECI = value; }
+            get => WrappedQrEncodingOptions.DisableECI;
+            set => WrappedQrEncodingOptions.DisableECI = value;
         }
 
         /// <summary>
@@ -74,9 +74,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public int QrVersion
         {
-            get { return wrappedQrEncodingOptions.QrVersion.GetValueOrDefault(0); }
-            set { wrappedQrEncodingOptions.QrVersion = (value == 0 ? (int?)null : value); }
-
+            get => WrappedQrEncodingOptions.QrVersion.GetValueOrDefault(0);
+            set => WrappedQrEncodingOptions.QrVersion = (value == 0 ? (int?)null : value);
         }
     }
 

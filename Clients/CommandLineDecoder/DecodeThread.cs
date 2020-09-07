@@ -168,7 +168,7 @@ namespace CommandLineDecoder
                 }
                 else
                 {
-                    image = (Bitmap)Bitmap.FromFile(uri.LocalPath);
+                    image = (Bitmap)Image.FromFile(uri.LocalPath);
                 }
             }
             catch (Exception)
@@ -246,7 +246,7 @@ namespace CommandLineDecoder
             Bitmap image;
             try
             {
-                image = (Bitmap)Bitmap.FromFile(uri.LocalPath);
+                image = (Bitmap)Image.FromFile(uri.LocalPath);
             }
             catch (Exception)
             {

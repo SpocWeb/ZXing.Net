@@ -46,12 +46,12 @@ namespace WindowsFormsDemo
 
         private static Bitmap ExportImage(PdfDictionary image)
         {
-            var filter = string.Empty;
+            string filter;
             var obj = image.Elements.GetObject("/Filter");
-            if (obj is PdfArray)
+            if (obj is PdfArray array)
             {
-                filter = ((PdfArray)obj).Elements.GetName(0);
-                foreach (var element in ((PdfArray)obj).Elements)
+                filter = array.Elements.GetName(0);
+                foreach (var element in array.Elements)
                 {
                     // TODO
                 }
@@ -83,7 +83,7 @@ namespace WindowsFormsDemo
                 {
                     bw.Write(stream);
                     memStream.Position = 0;
-                    var result = (Bitmap)Bitmap.FromStream(memStream);
+                    var result = (Bitmap)Image.FromStream(memStream);
                     bw.Close();
 
                     return result;

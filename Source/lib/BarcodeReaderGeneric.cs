@@ -32,13 +32,13 @@ namespace ZXing
            luminanceSource => new TwoDBinarizer(luminanceSource);
 
         /// <summary>
-        /// represents the default function which is called to get a <see cref="RGBLuminanceSource"/> instance from a raw byte array
+        /// represents the default function which is called to get a <see cref="RgbLuminanceSource"/> instance from a raw byte array
         /// </summary>
-        protected static readonly Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> defaultCreateRGBLuminanceSource =
-           (rawBytes, width, height, format) => new RGBLuminanceSource(rawBytes, width, height, format);
+        protected static readonly Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> defaultCreateRGBLuminanceSource =
+           (rawBytes, width, height, format) => new RgbLuminanceSource(rawBytes, width, height, format);
 
         private IBarCodeDecoder reader;
-        private readonly Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource;
+        private readonly Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource;
 
         private readonly Func<LuminanceSource, Binarizer> createBinarizer;
         private bool usePreviousState;
@@ -163,7 +163,7 @@ namespace ZXing
         /// If null the RGBLuminanceSource is used. The handler is only called when Decode with a byte[] array is called.</param>
         public BarcodeReaderGeneric(IBarCodeDecoder reader = null,
            Func<LuminanceSource, Binarizer> createBinarizer = null,
-           Func<byte[], int, int, RGBLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource = null
+           Func<byte[], int, int, RgbLuminanceSource.BitmapFormat, LuminanceSource> createRGBLuminanceSource = null
            )
         {
             this.reader = reader ?? new MultiFormatReader();
@@ -398,7 +398,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        public BarCodeText Decode(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
+        public BarCodeText Decode(byte[] rawRGB, int width, int height, RgbLuminanceSource.BitmapFormat format)
         {
             if (rawRGB == null) {
                 throw new ArgumentNullException("rawRGB");
@@ -419,7 +419,7 @@ namespace ZXing
         /// <returns>
         /// the result data or null
         /// </returns>
-        public BarCodeText[] DecodeMultiple(byte[] rawRGB, int width, int height, RGBLuminanceSource.BitmapFormat format)
+        public BarCodeText[] DecodeMultiple(byte[] rawRGB, int width, int height, RgbLuminanceSource.BitmapFormat format)
         {
             if (rawRGB == null) {
                 throw new ArgumentNullException("rawRGB");

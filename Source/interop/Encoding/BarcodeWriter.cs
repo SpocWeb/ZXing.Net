@@ -40,8 +40,8 @@ namespace ZXing.Interop.Encoding
         /// </summary>
         public EncodingOptions Options
         {
-            get { return (_Options ?? (_Options = new EncodingOptions())); }
-            set { _Options = value; }
+            get => (_Options ?? (_Options = new EncodingOptions()));
+            set => _Options = value;
         }
 
         public PixelData Write(string contents)

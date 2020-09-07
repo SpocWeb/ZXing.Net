@@ -66,30 +66,30 @@ namespace ZXing.Interop.Common
 
     internal static class BitmapFormatExtensions
     {
-        public static RGBLuminanceSource.BitmapFormat ToZXing(this BitmapFormat format)
+        public static RgbLuminanceSource.BitmapFormat ToZXing(this BitmapFormat format)
         {
             switch (format)
             {
                 case BitmapFormat.ARGB32:
-                    return RGBLuminanceSource.BitmapFormat.ARGB32;
+                    return RgbLuminanceSource.BitmapFormat.ARGB32;
                 case BitmapFormat.BGR24:
-                    return RGBLuminanceSource.BitmapFormat.BGR24;
+                    return RgbLuminanceSource.BitmapFormat.BGR24;
                 case BitmapFormat.BGR32:
-                    return RGBLuminanceSource.BitmapFormat.BGR32;
+                    return RgbLuminanceSource.BitmapFormat.BGR32;
                 case BitmapFormat.BGRA32:
-                    return RGBLuminanceSource.BitmapFormat.BGRA32;
+                    return RgbLuminanceSource.BitmapFormat.BGRA32;
                 case BitmapFormat.Gray8:
-                    return RGBLuminanceSource.BitmapFormat.Gray8;
+                    return RgbLuminanceSource.BitmapFormat.GRAY8;
                 case BitmapFormat.RGB24:
-                    return RGBLuminanceSource.BitmapFormat.RGB24;
+                    return RgbLuminanceSource.BitmapFormat.RGB24;
                 case BitmapFormat.RGB32:
-                    return RGBLuminanceSource.BitmapFormat.RGB32;
+                    return RgbLuminanceSource.BitmapFormat.RGB32;
                 case BitmapFormat.RGBA32:
-                    return RGBLuminanceSource.BitmapFormat.RGBA32;
+                    return RgbLuminanceSource.BitmapFormat.RGBA32;
                 case BitmapFormat.RGB565:
-                    return RGBLuminanceSource.BitmapFormat.RGB565;
+                    return RgbLuminanceSource.BitmapFormat.RGB565;
                 default:
-                    return RGBLuminanceSource.BitmapFormat.Unknown;
+                    return RgbLuminanceSource.BitmapFormat.UNKNOWN;
             }
         }
     }

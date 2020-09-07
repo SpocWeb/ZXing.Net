@@ -32,7 +32,7 @@ namespace ZXing.Multi.Test
          // Very basic test for now
          var testBase = AbstractBlackBoxTestCase.BuildTestBase("test/data/blackbox/multi-1");
 
-         var source = new BitmapLuminanceSource((Bitmap)Bitmap.FromFile(Path.Combine(testBase, "1.png")));
+         var source = new BitmapLuminanceSource((Bitmap)Image.FromFile(Path.Combine(testBase, "1.png")));
          var bitmap = new BinaryBitmap(new TwoDBinarizer(source));
 
          var reader = new GenericMultipleBarcodeReader(new MultiFormatReader());

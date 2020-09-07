@@ -42,8 +42,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool TryHarder
         {
-            get { return wrappedDecodingOptions.TryHarder; }
-            set { wrappedDecodingOptions.TryHarder = value; }
+            get => wrappedDecodingOptions.TryHarder;
+            set => wrappedDecodingOptions.TryHarder = value;
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool PureBarcode
         {
-            get { return wrappedDecodingOptions.PureBarcode; }
-            set { wrappedDecodingOptions.PureBarcode = value; }
+            get => wrappedDecodingOptions.PureBarcode;
+            set => wrappedDecodingOptions.PureBarcode = value;
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public string CharacterSet
         {
-            get { return wrappedDecodingOptions.CharacterSet; }
-            set { wrappedDecodingOptions.CharacterSet = value; }
+            get => wrappedDecodingOptions.CharacterSet;
+            set => wrappedDecodingOptions.CharacterSet = value;
         }
 
         /// <summary>
@@ -77,18 +77,15 @@ namespace ZXing.Interop.Decoding
         /// <value>
         /// The possible formats.
         /// </value>
-        public IBarcodeFormatCollection PossibleFormats
-        {
-            get { return formatCollection; }
-        }
+        public IBarcodeFormatCollection PossibleFormats => formatCollection;
 
         /// <summary>
         /// if Code39 could be detected try to use extended mode for full ASCII character set
         /// </summary>
         public bool UseCode39ExtendedMode
         {
-            get { return wrappedDecodingOptions.UseCode39ExtendedMode; }
-            set { wrappedDecodingOptions.UseCode39ExtendedMode = value; }
+            get => wrappedDecodingOptions.UseCode39ExtendedMode;
+            set => wrappedDecodingOptions.UseCode39ExtendedMode = value;
         }
 
         /// <summary>
@@ -97,8 +94,8 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public bool UseCode39RelaxedExtendedMode
         {
-            get { return wrappedDecodingOptions.UseCode39RelaxedExtendedMode; }
-            set { wrappedDecodingOptions.UseCode39RelaxedExtendedMode = value; }
+            get => wrappedDecodingOptions.UseCode39RelaxedExtendedMode;
+            set => wrappedDecodingOptions.UseCode39RelaxedExtendedMode = value;
         }
 
         /// <summary>
@@ -109,8 +106,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool AssumeCode39CheckDigit
         {
-            get { return wrappedDecodingOptions.AssumeCode39CheckDigit; }
-            set { wrappedDecodingOptions.AssumeCode39CheckDigit = value; }
+            get => wrappedDecodingOptions.AssumeCode39CheckDigit;
+            set => wrappedDecodingOptions.AssumeCode39CheckDigit = value;
         }
 
         /// <summary>
@@ -120,8 +117,8 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public bool ReturnCodabarStartEnd
         {
-            get { return wrappedDecodingOptions.ReturnCodaBarStartEnd; }
-            set { wrappedDecodingOptions.ReturnCodaBarStartEnd = value; }
+            get => wrappedDecodingOptions.ReturnCodaBarStartEnd;
+            set => wrappedDecodingOptions.ReturnCodaBarStartEnd = value;
         }
 
         /// <summary>
@@ -133,8 +130,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool AssumeGS1
         {
-            get { return wrappedDecodingOptions.AssumeGs1; }
-            set { wrappedDecodingOptions.AssumeGs1 = value; }
+            get => wrappedDecodingOptions.AssumeGs1;
+            set => wrappedDecodingOptions.AssumeGs1 = value;
         }
 
         /// <summary>
@@ -145,9 +142,8 @@ namespace ZXing.Interop.Decoding
         /// </value>
         public bool AssumeMSICheckDigit
         {
-            get { return wrappedDecodingOptions.AssumeMsiCheckDigit; }
-            set { wrappedDecodingOptions.AssumeMsiCheckDigit = value; }
-
+            get => wrappedDecodingOptions.AssumeMsiCheckDigit;
+            set => wrappedDecodingOptions.AssumeMsiCheckDigit = value;
         }
 
         /// <summary>
@@ -155,8 +151,8 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public int[] AllowedLengths
         {
-            get { return wrappedDecodingOptions.AllowedLengths; }
-            set { wrappedDecodingOptions.AllowedLengths = value; }
+            get => wrappedDecodingOptions.AllowedLengths;
+            set => wrappedDecodingOptions.AllowedLengths = value;
         }
 
         /// <summary>
@@ -168,8 +164,8 @@ namespace ZXing.Interop.Decoding
         /// </summary>
         public int[] AllowedEANExtensions
         {
-            get { return wrappedDecodingOptions.AllowedEanExtensions; }
-            set { wrappedDecodingOptions.AllowedEanExtensions = value; }
+            get => wrappedDecodingOptions.AllowedEanExtensions;
+            set => wrappedDecodingOptions.AllowedEanExtensions = value;
         }
 
         /// <summary>
