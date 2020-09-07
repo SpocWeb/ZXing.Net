@@ -189,10 +189,10 @@ namespace ZXing.Datamatrix.Internal
                 {
                     switch (oneByte)
                     {
-                        case 230: // Latch to C40 encodation
+                        case 230: // Latch to C40 encoding
                             mode = Mode.C40_ENCODE;
                             return true;
-                        case 231: // Latch to Base 256 encodation
+                        case 231: // Latch to Base 256 encoding
                             mode = Mode.BASE256_ENCODE;
                             return true;
                         case 232: // FNC1
@@ -214,13 +214,13 @@ namespace ZXing.Datamatrix.Internal
                             result.Append("[)>\u001E06\u001D");
                             resultTrailer.Insert(0, "\u001E\u0004");
                             break;
-                        case 238: // Latch to ANSI X12 encodation
+                        case 238: // Latch to ANSI X12 encoding
                             mode = Mode.ANSIX12_ENCODE;
                             return true;
-                        case 239: // Latch to Text encodation
+                        case 239: // Latch to Text encoding
                             mode = Mode.TEXT_ENCODE;
                             return true;
-                        case 240: // Latch to EDIFACT encodation
+                        case 240: // Latch to EDIFACT encoding
                             mode = Mode.EDIFACT_ENCODE;
                             return true;
                         case 241: // ECI Character
@@ -229,7 +229,7 @@ namespace ZXing.Datamatrix.Internal
                             // Ignore this symbol for now
                             break;
                         default:
-                            // Not to be used in ASCII encodation
+                            // Not to be used in ASCII encoding
                             // but work around encoders that end with 254, latch back to ASCII
                             if (oneByte != 254 || bits.Available() != 0)
                             {

@@ -49,7 +49,7 @@ namespace ZXing.Datamatrix
 
             // Try to get force shape & min / max size
             var shape = SymbolShapeHint.FORCE_NONE;
-            var defaultEncodation = EnCoding.ASCII;
+            var defaultEncoding = EnCoding.ASCII;
             Dimension minSize = null;
             Dimension maxSize = null;
             if (hints != null)
@@ -81,17 +81,17 @@ namespace ZXing.Datamatrix
                 }
                 if (hints.ContainsKey(EncodeHintType.DATA_MATRIX_DEFAULT_ENCODATION))
                 {
-                    var requestedDefaultEncodation = hints[EncodeHintType.DATA_MATRIX_DEFAULT_ENCODATION];
-                    if (requestedDefaultEncodation != null)
+                    var requestedDefaultEncoding = hints[EncodeHintType.DATA_MATRIX_DEFAULT_ENCODATION];
+                    if (requestedDefaultEncoding != null)
                     {
-                        defaultEncodation = Convert.ToInt32(requestedDefaultEncodation.ToString());
+                        defaultEncoding = Convert.ToInt32(requestedDefaultEncoding.ToString());
                     }
                 }
             }
 
 
-            //1. step: Data encodation
-            string encoded = HighLevelEncoder.encodeHighLevel(contents, shape, minSize, maxSize, defaultEncodation);
+            //1. step: Data encoding
+            string encoded = HighLevelEncoder.encodeHighLevel(contents, shape, minSize, maxSize, defaultEncoding);
 
             SymbolInfo symbolInfo = SymbolInfo.lookup(encoded.Length, shape, minSize, maxSize, true);
 

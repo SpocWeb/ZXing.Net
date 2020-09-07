@@ -52,7 +52,7 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestAsciiEncodation()
+      public void TestAsciiEncoding()
       {
 
             string visualized = EncodeHighLevel("123456");
@@ -66,16 +66,16 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestC40EncodationBasic1()
+      public void TestC40EncodingBasic1()
       {
 
             string visualized = EncodeHighLevel("AIMAIMAIM");
          Assert.AreEqual("230 91 11 91 11 91 11 254", visualized);
-         //230 shifts to C40 encodation, 254 unlatches, "else" case
+         //230 shifts to C40 encoding, 254 unlatches, "else" case
       }
 
       [Test]
-      public void TestC40EncodationBasic2()
+      public void TestC40EncodingBasic2()
       {
 
             string visualized = EncodeHighLevel("AIMAIAB");
@@ -108,7 +108,7 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestC40EncodationSpecExample()
+      public void TestC40EncodingSpecExample()
       {
             //Example in Figure 1 in the spec
             string visualized = EncodeHighLevel("A1B2C3D4E5F6G7H8I9J0K1L2");
@@ -116,7 +116,7 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestC40EncodationSpecialCases1()
+      public void TestC40EncodingSpecialCases1()
       {
 
          //Special tests avoiding ultra-long test strings because these tests are only used
@@ -146,7 +146,7 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestC40EncodationSpecialCases2()
+      public void TestC40EncodingSpecialCases2()
       {
 
             string visualized = EncodeHighLevel("AIMAIMAIMAIMAIMAIMAI");
@@ -155,12 +155,12 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestTextEncodation()
+      public void TestTextEncoding()
       {
 
             string visualized = EncodeHighLevel("aimaimaim");
          Assert.AreEqual("239 91 11 91 11 91 11 254", visualized);
-         //239 shifts to Text encodation, 254 unlatches
+         //239 shifts to Text encoding, 254 unlatches
 
          visualized = EncodeHighLevel("aimaimaim'");
          Assert.AreEqual("239 91 11 91 11 91 11 254 40 129", visualized);
@@ -178,10 +178,10 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestX12Encodation()
+      public void TestX12Encoding()
       {
 
-            //238 shifts to X12 encodation, 254 unlatches
+            //238 shifts to X12 encoding, 254 unlatches
 
             string visualized = EncodeHighLevel("ABC>ABC123>AB");
          Assert.AreEqual("238 89 233 14 192 100 207 44 31 67", visualized);
@@ -203,10 +203,10 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestEdifactEncodation()
+      public void TestEdifactEncoding()
       {
 
-            //240 shifts to EDIFACT encodation
+            //240 shifts to EDIFACT encoding
 
             string visualized = EncodeHighLevel(".A.C1.3.DATA.123DATA.123DATA");
          Assert.AreEqual("240 184 27 131 198 236 238 16 21 1 187 28 179 16 21 1 187 28 179 16 21 1",
@@ -239,10 +239,10 @@ namespace ZXing.Datamatrix.Test
       }
 
       [Test]
-      public void TestBase256Encodation()
+      public void TestBase256Encoding()
       {
 
-            //231 shifts to Base256 encodation
+            //231 shifts to Base256 encoding
 
             string visualized = EncodeHighLevel("«äöüé»");
          Assert.AreEqual("231 44 108 59 226 126 1 104", visualized);

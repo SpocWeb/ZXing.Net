@@ -80,23 +80,23 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
                 return new AnyAIDecoder(information);
             }
 
-            int fourBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 4);
+            int fourBitEncodingMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 4);
 
-            switch (fourBitEncodationMethod)
+            switch (fourBitEncodingMethod)
             {
                 case 4: return new AI013103decoder(information);
                 case 5: return new AI01320xDecoder(information);
             }
 
-            int fiveBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 5);
-            switch (fiveBitEncodationMethod)
+            int fiveBitEncodingMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 5);
+            switch (fiveBitEncodingMethod)
             {
                 case 12: return new AI01392xDecoder(information);
                 case 13: return new AI01393xDecoder(information);
             }
 
-            int sevenBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 7);
-            switch (sevenBitEncodationMethod)
+            int sevenBitEncodingMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 7);
+            switch (sevenBitEncodingMethod)
             {
                 case 56: return new AI013x0x1xDecoder(information, "310", "11");
                 case 57: return new AI013x0x1xDecoder(information, "320", "11");

@@ -81,14 +81,14 @@ namespace ZXing.Interop.Encoding
         }
 
         /// <summary>
-        /// Specifies the default encodation
-        /// Make sure that the content fits into the encodation value, otherwise there will be an exception thrown.
-        /// standard value: Encodation.ASCII
+        /// Specifies the default encoding
+        /// Make sure that the content fits into the encoding value, otherwise there will be an exception thrown.
+        /// standard value: Encoding.ASCII
         /// </summary>
-        public int DefaultEncodation
+        public int DefaultEncoding
         {
-            get => wrappedDatamatrixEncodingOptions.DefaultEncodation.GetValueOrDefault(Datamatrix.Encoder.EnCoding.ASCII);
-            set => wrappedDatamatrixEncodingOptions.DefaultEncodation = value;
+            get => wrappedDatamatrixEncodingOptions.DefaultEncoding.GetValueOrDefault(Datamatrix.Encoder.EnCoding.ASCII);
+            set => wrappedDatamatrixEncodingOptions.DefaultEncoding = value;
         }
     }
 

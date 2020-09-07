@@ -37,7 +37,7 @@ namespace ZXing.OneD.RSS.Expanded.Decoders
     {
 
         static int HEADER_SIZE = 1 + 1 + 2; //first bit encodes the linkage flag,
-                                                    //the second one is the encodation method, and the other two are for the variable length
+                                                    //the second one is the encoding method, and the other two are for the variable length
 
         internal AI01AndOtherAIs(BitArray information)
            : base(information)

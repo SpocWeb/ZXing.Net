@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ZXing.Datamatrix.Encoder
@@ -30,11 +31,11 @@ namespace ZXing.Datamatrix.Encoder
         /// </summary>
         public const char PAD = (char)129;
         /// <summary>
-        /// mode latch to C40 encodation mode
+        /// mode latch to C40 encoding mode
         /// </summary>
         public const char LATCH_TO_C40 = (char)230;
         /// <summary>
-        /// mode latch to Base 256 encodation mode
+        /// mode latch to Base 256 encoding mode
         /// </summary>
         public const char LATCH_TO_BASE256 = (char)231;
         /// <summary>
@@ -62,15 +63,15 @@ namespace ZXing.Datamatrix.Encoder
         /// </summary>
         public const char MACRO_06 = (char)237;
         /// <summary>
-        /// mode latch to ANSI X.12 encodation mode
+        /// mode latch to ANSI X.12 encoding mode
         /// </summary>
         public const char LATCH_TO_ANSIX12 = (char)238;
         /// <summary>
-        /// mode latch to Text encodation mode
+        /// mode latch to Text encoding mode
         /// </summary>
         public const char LATCH_TO_TEXT = (char)239;
         /// <summary>
-        /// mode latch to EDIFACT encodation mode
+        /// mode latch to EDIFACT encoding mode
         /// </summary>
         public const char LATCH_TO_EDIFACT = (char)240;
         /// <summary>
@@ -79,11 +80,11 @@ namespace ZXing.Datamatrix.Encoder
         public const char ECI = (char)241;
 
         /// <summary>
-        /// Unlatch from C40 encodation
+        /// Unlatch from C40 encoding
         /// </summary>
         public const char C40_UNLATCH = (char)254;
         /// <summary>
-        /// Unlatch from X12 encodation
+        /// Unlatch from X12 encoding
         /// </summary>
         public const char X12_UNLATCH = (char)254;
 
@@ -139,13 +140,13 @@ namespace ZXing.Datamatrix.Encoder
         /// <param name="shape">requested shape. May be {@code SymbolShapeHint.FORCE_NONE},{@code SymbolShapeHint.FORCE_SQUARE} or {@code SymbolShapeHint.FORCE_RECTANGLE}.</param>
         /// <param name="minSize">the minimum symbol size constraint or null for no constraint</param>
         /// <param name="maxSize">the maximum symbol size constraint or null for no constraint</param>
-        /// <param name="defaultEncodation">encoding mode to start with</param>
+        /// <param name="defaultEncoding">encoding mode to start with</param>
         /// <returns>the encoded message (the char values range from 0 to 255)</returns>
         public static string encodeHighLevel(string msg,
                                              SymbolShapeHint shape,
                                              Dimension minSize,
                                              Dimension maxSize,
-                                             int defaultEncodation)
+                                             int defaultEncoding)
         {
             //the codewords 0..255 are encoded as Unicode characters
             Encoder[] encoders =
@@ -171,7 +172,7 @@ namespace ZXing.Datamatrix.Encoder
                 context.Pos += MACRO_06_HEADER.Length;
             }
 
-            int encodingMode = defaultEncodation; //Default mode
+            int encodingMode = defaultEncoding; //Default mode
             switch (encodingMode)
             {
                 case EnCoding.BASE256:
@@ -430,7 +431,7 @@ namespace ZXing.Datamatrix.Encoder
             }
         }
 
-        private static int findMinimums(float[] charCounts, int[] intCharCounts, int min, byte[] mins)
+        private static int findMinimums(IReadOnlyList<float> charCounts, int[] intCharCounts, int min, byte[] mins)
         {
             SupportClass.Fill(mins, (byte)0);
             for (int i = 0; i < 6; i++)
