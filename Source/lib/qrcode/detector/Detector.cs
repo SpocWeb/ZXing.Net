@@ -79,12 +79,12 @@ namespace ZXing.QrCode.Internal
             _ResultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
 
             QrPatternFinder finder = new QrPatternFinder(Image, _ResultPointCallback);
-            QrFinderPatternInfo info = finder.Find(hints);
-            if (info == null) {
+            QrFinderPatternInfo pattern = finder.Find(hints);
+            if (pattern == null) {
                 return null;
             }
 
-            return ProcessFinderPatternInfo(info);
+            return ProcessFinderPatternInfo(pattern);
         }
 
         /// <summary>
