@@ -18,30 +18,26 @@ using System;
 
 namespace ZXing
 {
-    /// <summary>
-    /// The base class for luminance sources which supports 
-    /// cropping and rotating based upon the luminance values.
-    /// </summary>
-    public abstract class BaseLuminanceSource : LuminanceSource
+    /// <summary> base class for luminance sources </summary>
+    /// <remarks>
+    /// supports cropping and rotating based upon the luminance values.
+    /// </remarks>
+    public abstract class ALuminanceSource : LuminanceSource
     {
         // the following channel weights give nearly the same
         // gray scale picture as the java version with BufferedImage.TYPE_BYTE_GRAY
         // they are used in sub classes for luminance / gray scale calculation
-        /// <summary>
-        /// weight of the red channel for calculating a gray scale image
-        /// </summary>
+
+        /// <summary> weight of the red channel for calculating a gray scale image </summary>
         protected const int RChannelWeight = 19562;
-        /// <summary>
-        /// weight of the green channel for calculating a gray scale image
-        /// </summary>
+
+        /// <summary> weight of the green channel for calculating a gray scale image </summary>
         protected const int GChannelWeight = 38550;
-        /// <summary>
-        /// weight of the blue channel for calculating a gray scale image
-        /// </summary>
+
+        /// <summary> weight of the blue channel for calculating a gray scale image </summary>
         protected const int BChannelWeight = 7424;
-        /// <summary>
-        /// numbers of bits which for right shifting
-        /// </summary>
+
+        /// <summary> numbers of bits which for right shifting </summary>
         protected const int ChannelWeight = 16;
 
         /// <summary>
@@ -50,23 +46,23 @@ namespace ZXing
         protected byte[] luminances;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseLuminanceSource"/> class.
+        /// Initializes a new instance of the <see cref="ALuminanceSource"/> class.
         /// </summary>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        protected BaseLuminanceSource(int width, int height)
+        protected ALuminanceSource(int width, int height)
            : base(width, height)
         {
             luminances = new byte[width * height];
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseLuminanceSource"/> class.
+        /// Initializes a new instance of the <see cref="ALuminanceSource"/> class.
         /// </summary>
         /// <param name="luminanceArray">The luminance array.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        protected BaseLuminanceSource(byte[] luminanceArray, int width, int height)
+        protected ALuminanceSource(byte[] luminanceArray, int width, int height)
            : base(width, height)
         {
             luminances = new byte[width * height];

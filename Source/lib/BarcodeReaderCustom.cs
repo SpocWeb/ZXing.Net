@@ -106,7 +106,7 @@ namespace ZXing
             }
 
             if (barcodeBitmap == null) {
-                throw new ArgumentNullException("barcodeBitmap");
+                throw new ArgumentNullException(nameof(barcodeBitmap));
             }
 
             var luminanceSource = CreateLuminanceSource(barcodeBitmap);
@@ -124,12 +124,15 @@ namespace ZXing
             }
 
             if (barcodeBitmap == null) {
-                throw new ArgumentNullException("barcodeBitmap");
+                throw new ArgumentNullException(nameof(barcodeBitmap));
             }
 
             var luminanceSource = CreateLuminanceSource(barcodeBitmap);
-
-            return DecodeMultiple(luminanceSource);
+            try {
+                return DecodeMultiple(luminanceSource);
+            } catch {
+                return Array.Empty<BarCodeText>();
+            }
         }
     }
 }

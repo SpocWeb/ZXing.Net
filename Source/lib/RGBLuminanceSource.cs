@@ -16,70 +16,56 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing.Imaging;
 
 namespace ZXing
 {
-    /// <summary>
-    /// Luminance source class which support different formats of images.
-    /// </summary>
-    public class RgbLuminanceSource : BaseLuminanceSource
+    /// <summary> Luminance source class which support different formats of images. </summary>
+    public class RgbLuminanceSource : ALuminanceSource
     {
-        /// <summary>
-        /// enumeration of supported bitmap format which the RGBLuminanceSource can process
-        /// </summary>
+        /// <summary> Supported bitmap format which the RGBLuminanceSource can process </summary>
+        /// <remarks>Corresponds to the <see cref="PixelFormat"/></remarks>
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum BitmapFormat
         {
-            /// <summary>
-            /// format of the byte[] isn't known. RGBLuminanceSource tries to determine the best possible value
-            /// </summary>
+            /// <summary> format of the byte[] isn't known. RGBLuminanceSource tries to determine the best possible value </summary>
             UNKNOWN,
-            /// <summary>
-            /// grayscale array, the byte array is a luminance array with 1 byte per pixel
-            /// </summary>
+
+            /// <summary> gray-scale array, the byte array is a luminance array with 1 byte per pixel </summary>
             GRAY8,
-            /// <summary>
-            /// grayscale array, the byte array is a luminance array with 2 bytes per pixel
-            /// </summary>
+
+            /// <summary> gray-scale array, the byte array is a luminance array with 2 bytes per pixel </summary>
             GRAY16,
-            /// <summary>
-            /// 3 bytes per pixel with the channels red, green and blue
-            /// </summary>
+
+            /// <summary> <see cref="PixelFormat.Format24bppRgb"/> 3 bytes per pixel with the channels red, green and blue </summary>
             RGB24,
-            /// <summary>
-            /// 4 bytes per pixel with the channels red, green and blue
-            /// </summary>
+
+            /// <summary> <see cref="PixelFormat.Format32bppRgb"/> 4 bytes per pixel with the channels red, green and blue </summary>
             RGB32,
-            /// <summary>
-            /// 4 bytes per pixel with the channels alpha, red, green and blue
-            /// </summary>
+
+            /// <summary> <see cref="PixelFormat.Format32bppRgb"/> 4 bytes per pixel with the channels alpha, red, green and blue </summary>
             ARGB32,
-            /// <summary>
-            /// 3 bytes per pixel with the channels blue, green and red
-            /// </summary>
+
+            /// <summary> 3 bytes per pixel with the channels blue, green and red </summary>
             BGR24,
-            /// <summary>
-            /// 4 bytes per pixel with the channels blue, green and red
-            /// </summary>
+
+            /// <summary> 4 bytes per pixel with the channels blue, green and red </summary>
             BGR32,
-            /// <summary>
-            /// 4 bytes per pixel with the channels blue, green, red and alpha
-            /// </summary>
+
+            /// <summary> 4 bytes per pixel with the channels blue, green, red and alpha </summary>
             BGRA32,
-            /// <summary>
-            /// 2 bytes per pixel, 5 bit red, 6 bits green and 5 bits blue
-            /// </summary>
+
+            /// <summary> <see cref="PixelFormat.Format16bppRgb565"/> 2 bytes per pixel, 5 bit red, 6 bits green and 5 bits blue </summary>
             RGB565,
-            /// <summary>
-            /// 4 bytes per pixel with the channels red, green, blue and alpha
-            /// </summary>
+
+            /// <summary> <see cref="PixelFormat.Format32bppRgb"/> 4 bytes per pixel with the channels red, green, blue and alpha </summary>
             RGBA32,
-            /// <summary>
-            /// 4 bytes for two pixels, UYVY formatted
-            /// </summary>
+
+            /// <summary> 4 bytes for two pixels, UYVY formatted </summary>
             UYVY,
-            /// <summary>
-            /// 4 bytes for two pixels, YUYV formatted
-            /// </summary>
+
+            /// <summary> 4 bytes for two pixels, YUYV formatted </summary>
             YUYV
         }
 

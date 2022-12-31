@@ -22,15 +22,17 @@ using ZXing.Common.Detector;
 namespace ZXing.QrCode.Internal
 {
 
-    public class LuminanceDetector : ADetector { }
+    public static class XQrDetector {
+
+        public static QrDetector AsQrDetector(this IGridSampler sampler) => new QrDetector(sampler);
+        public static QrDetector AsQrDetector(this BitMatrix image) => new QrDetector(image);
+        public static QrDetector AsQrDetector(this BinaryBitmap image) => new QrDetector(image);
+
+    }
 
     /// <summary>Detect a QR Code in an image, even if the QR Code is rotated or skewed, or partially obscured. </summary>
     /// <author>Sean Owen</author>
-    public class ADetector : IDetector { }
-
-    /// <summary>Detect a QR Code in an image, even if the QR Code is rotated or skewed, or partially obscured. </summary>
-    /// <author>Sean Owen</author>
-    public class QrDetector : ADetector
+    public class QrDetector : IDetector
     {
 
         ResultPointCallback _ResultPointCallback;
@@ -54,32 +56,26 @@ namespace ZXing.QrCode.Internal
         /// <summary> This is only a candidate Image </summary>
         protected internal virtual BitMatrix Image => Sampler.GetImage();
 
-        /// <summary>
-        /// Gets the result point callback.
-        /// </summary>
+        /// <summary> Gets the result point callback. </summary>
         protected internal virtual ResultPointCallback ResultPointCallback => _ResultPointCallback;
 
-        /// <summary>
-        ///   <p>Detects a QR Code in an image.</p>
-        /// </summary>
-        /// <returns>
-        ///   <see cref="DetectorResult"/> encapsulating results of detecting a QR Code
-        /// </returns>
-        public virtual DetectorResult Detect() => Detect(null);
-
-        /// <summary>
-        ///   <p>Detects a QR Code in an image.</p>
-        /// </summary>
+        /// <summary> <p>Detects a QR Code in an image.</p> </summary>
         /// <param name="hints">optional hints to detector</param>
-        /// <returns>
-        ///   <see cref="DetectorResult"/> encapsulating results of detecting a QR Code
-        /// </returns>
+        /// <returns> <see cref="DetectorResult"/> encapsulating results of detecting a QR Code </returns>
         public virtual DetectorResult Detect(IDictionary<DecodeHintType, object> hints)
+            => Detect(hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER)
+                , hints != null && hints.TryGetValue(DecodeHintType.NEED_RESULT_POINT_CALLBACK, out var callBack)
+            ? (ResultPointCallback) callBack : null);
+
+        /// <summary> <p>Detects a QR Code in an image.</p> </summary>
+        /// <param name="hints">optional hints to detector</param>
+        /// <returns> <see cref="DetectorResult"/> encapsulating results of detecting a QR Code </returns>
+        public virtual DetectorResult Detect(bool tryHarder, ResultPointCallback callBack = null)
         {
-            _ResultPointCallback = hints == null || !hints.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
+            _ResultPointCallback = callBack;
 
             QrPatternFinder finder = new QrPatternFinder(Image, _ResultPointCallback);
-            QrFinderPatternInfo pattern = finder.Find(hints);
+            QrFinderPatternInfo pattern = finder.Find(tryHarder);
             if (pattern == null) {
                 return null;
             }
@@ -87,9 +83,7 @@ namespace ZXing.QrCode.Internal
             return ProcessFinderPatternInfo(pattern);
         }
 
-        /// <summary>
-        /// Processes the finder pattern info.
-        /// </summary>
+        /// <summary> Processes the finder pattern info. </summary>
         protected internal virtual DetectorResult ProcessFinderPatternInfo(QrFinderPatternInfo info)
         {
             FinderPattern topLeft = info.TopLeft;

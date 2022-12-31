@@ -66,11 +66,11 @@ namespace ZXing
         /// at a time if needed.
         /// </summary>
         /// <param name="y">The row to fetch, which must be in [0, bitmap height)</param>
-        /// <param name="row">An optional preallocated array. If null or too small, it will be ignored.
+        /// <param name="row">An optional pre-allocated array. If null or too small, it will be ignored.
         /// If used, the Binarizer will call BitArray.clear(). Always use the returned object.
         /// </param>
         /// <returns> The array of bits for this row (true means black).</returns>
-        public abstract BitArray getBlackRow(int y, BitArray row);
+        public abstract BitArray getBlackRow(int y, BitArray row = null);
 
         /// <summary> Converts a 2D array of luminance data to 1 bit data. As above, assume this method is expensive
         /// and do not call it repeatedly. This method is intended for decoding 2D barcodes and may or

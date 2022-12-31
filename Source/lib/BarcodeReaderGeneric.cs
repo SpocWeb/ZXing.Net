@@ -277,7 +277,7 @@ namespace ZXing
         public virtual BarCodeText[] DecodeMultiple(LuminanceSource luminanceSource)
         {
             var results = default(BarCodeText[]);
-            Binarizer binarizer = CreateBinarizer(luminanceSource);
+            var binarizer = CreateBinarizer(luminanceSource);
             var binaryBitmap = new BinaryBitmap(binarizer);
             var rotationCount = 0;
             var rotationMaxCount = 1;

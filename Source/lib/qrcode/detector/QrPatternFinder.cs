@@ -60,8 +60,10 @@ namespace ZXing.QrCode.Internal
         protected internal virtual List<FinderPattern> PossibleCenters => _PossibleCenters;
 
         internal virtual QrFinderPatternInfo Find(IDictionary<DecodeHintType, object> hints)
+        => Find(hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER));
+
+        internal virtual QrFinderPatternInfo Find(bool tryHarder)
         {
-            bool tryHarder = hints != null && hints.ContainsKey(DecodeHintType.TRY_HARDER);
             int maxRow = _Image.Height;
             int maxCol = _Image.Width;
             // We are looking for black/white/black/white/black modules in
@@ -186,8 +188,7 @@ namespace ZXing.QrCode.Internal
             return result;
         }
 
-        /// <param name="stateCount">count of black/white/black/white/black pixels just read
-        /// </param>
+        /// <param name="stateCount">count of black/white/black/white/black pixels just read </param>
         /// <returns> true iff the proportions of the counts is close enough to the 1/1/3/1/1 ratios
         /// used by finder patterns to be considered a match
         /// </returns>

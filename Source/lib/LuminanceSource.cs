@@ -21,12 +21,12 @@ using ZXing.Common;
 
 namespace ZXing
 {
-    /// <summary> Abstracts different bitmap implementations across platforms
-    /// into 8-Bit greyscale luminance values. </summary>
+    /// <summary> Abstracts platform-specific bitmaps into 8-Bit greyscale luminance values. </summary>
     /// <remarks>
     /// Provides only immutable methods; crop and rotation create copies.
     /// This is to ensure that one Reader does not modify the original luminance source
     /// and leave it in an unknown state for other Readers in the chain.
+    /// <see cref="ToString"/> is a 2D Representation with 4 Levels of Brightness 
     /// </remarks>
     /// <author>dswitkin@google.com (Daniel Switkin)</author>
     public abstract class LuminanceSource
@@ -91,11 +91,11 @@ namespace ZXing
         /// <returns> Whether this subclass supports counter-clockwise rotation.</returns>
         public virtual bool RotateSupported => false;
 
-        /// <summary>
-        /// Returns a new object with rotated image data by 90 degrees counterclockwise.
-        /// Only callable if <see cref="RotateSupported"/> is true.
-        /// </summary>
+        /// <summary> Returns a new object with rotated image data by 90 degrees counterclockwise. </summary>
         /// <returns>A rotated version of this object.</returns>
+        /// <remarks>
+        /// Only callable if <see cref="RotateSupported"/> is true.
+        /// </remarks>
         public virtual LuminanceSource RotateCounterClockwise()
         {
             throw new NotSupportedException("This luminance source does not support rotation.");
@@ -116,10 +116,7 @@ namespace ZXing
         /// <returns>Whether this subclass supports inversion.</returns>
         public virtual bool InversionSupported => false;
 
-        /// <summary>
-        /// inverts the luminance values, not supported here. has to implemented in sub classes
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> inverts the luminance values, not supported here; to be implemented in sub classes </summary>
         public virtual LuminanceSource Invert()
         {
             throw new NotSupportedException("This luminance source does not support inversion.");

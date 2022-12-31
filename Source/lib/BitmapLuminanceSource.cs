@@ -22,10 +22,14 @@ using System.Runtime.InteropServices;
 
 namespace ZXing
 {
-    /// <summary>
-    /// class which represents the luminance values for a bitmap object
-    /// </summary>
-    public class BitmapLuminanceSource : BaseLuminanceSource
+    public static class XBitmapLuminanceSource {
+
+        public static BitmapLuminanceSource AsLuminanceSource(this Bitmap bitmap) => new BitmapLuminanceSource(bitmap);
+
+    }
+
+    /// <summary>Calculates the luminance values for a bitmap object </summary>
+    public class BitmapLuminanceSource : ALuminanceSource
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BitmapLuminanceSource"/> class.

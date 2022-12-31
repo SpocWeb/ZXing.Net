@@ -114,7 +114,7 @@ namespace ZXing.Multi.QrCode.Internal
             possibleCenters.Sort(new ModuleSizeComparer());
 
             /*
-             * Now lets start: build a list of tuples of three finder locations that
+             * Now lets start: build a list of tuples of three finder locations that...
              *  - feature similar module sizes
              *  - are placed in a distance so the estimated module count is within the QR specification
              *  - have similar distance between upper left/right and left top/bottom finder patterns
@@ -228,23 +228,26 @@ namespace ZXing.Multi.QrCode.Internal
         }
 
         public QrFinderPatternInfo[] FindMulti(IDictionary<DecodeHintType, object> hints)
-        {
-            bool tryHarder = hints?.ContainsKey(DecodeHintType.TRY_HARDER) == true;
-            BitMatrix image = Image;
-            int maxI = image.Height;
-            int maxJ = image.Width;
-            // We are looking for black/white/black/white/black modules in
-            // 1:1:3:1:1 ratio; this tracks the number of such modules seen so far
+            => FindMulti(hints?.ContainsKey(DecodeHintType.TRY_HARDER) == true);
 
+        public QrFinderPatternInfo[] FindMulti(bool tryHarder) {
             // Let's assume that the maximum version QR Code we support takes up 1/4 the height of the
             // image, and then account for the center being 3 modules in size. This gives the smallest
             // number of pixels the center could be, so skip this often. When trying harder, look for all
             // QR versions regardless of how dense they are.
-            int iSkip = 3 * maxI / (4 * MAX_MODULES);
-            if (iSkip < MIN_SKIP || tryHarder)
-            {
+            int iSkip = 3 * Image.Height / (4 * MAX_MODULES);
+            if (iSkip < MIN_SKIP || tryHarder) {
                 iSkip = MIN_SKIP;
             }
+            return FindMulti(iSkip);
+        }
+
+        public QrFinderPatternInfo[] FindMulti(int iSkip)
+        {
+            int maxI = Image.Height;
+            int maxJ = Image.Width;
+            // We are looking for black/white/black/white/black modules in
+            // 1:1:3:1:1 ratio; this tracks the number of such modules seen so far
 
             int[] stateCount = new int[5];
             for (int i = iSkip - 1; i < maxI; i += iSkip)
@@ -254,49 +257,34 @@ namespace ZXing.Multi.QrCode.Internal
                 int currentState = 0;
                 for (int j = 0; j < maxJ; j++)
                 {
-                    if (image[j, i])
-                    {
+                    if (Image[j, i]) {
                         // Black pixel
-                        if ((currentState & 1) == 1)
-                        {
+                        if (0 != (1 & currentState)) {
                             // Counting white pixels
                             currentState++;
                         }
                         stateCount[currentState]++;
-                    }
-                    else
+                        continue;
+                    } //else: White pixel
+                    if (0 != (1 & currentState))
                     {
-                        // White pixel
-                        if ((currentState & 1) == 0)
-                        {
-                            // Counting black pixels
-                            if (currentState == 4)
-                            {
-                                // A winner?
-                                if (FoundPatternCross(stateCount) && IsRealCenter(stateCount, i, j))
-                                {
-                                    // Yes
-                                    // Clear state to start looking again
-                                    currentState = 0;
-                                    DoClearCounts(stateCount);
-                                }
-                                else
-                                {
-                                    // No, shift counts back by two
-                                    DoShiftCounts2(stateCount);
-                                    currentState = 3;
-                                }
-                            }
-                            else
-                            {
-                                stateCount[++currentState]++;
-                            }
-                        }
-                        else
-                        {
-                            // Counting white pixels
-                            stateCount[currentState]++;
-                        }
+                        // Counting white pixels
+                        stateCount[currentState]++;
+                        continue;
+                    }
+                    // Counting black pixels
+                    if (currentState != 4) {
+                        stateCount[++currentState]++;
+                        continue;
+                    } // A winner?
+                    if (FoundPatternCross(stateCount) && IsRealCenter(stateCount, i, j)) {
+                        // Yes
+                        // Clear state to start looking again
+                        currentState = 0;
+                        DoClearCounts(stateCount);
+                    } else { // No, shift counts back by two
+                        DoShiftCounts2(stateCount);
+                        currentState = 3;
                     }
                 } // for j=...
 

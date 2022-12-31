@@ -20,6 +20,15 @@ using ZXing.QrCode.Internal;
 
 namespace ZXing.Multi.QrCode.Internal
 {
+
+    public static class XMultiQrDetector {
+
+        public static MultiQrDetector AsMultiQrDetector(this IGridSampler sampler) => new MultiQrDetector(sampler);
+        public static MultiQrDetector AsMultiQrDetector(this BitMatrix image) => new MultiQrDetector(image);
+        public static MultiQrDetector AsMultiQrDetector(this BinaryBitmap image) => new MultiQrDetector(image);
+
+    }
+
     /// <summary>
     /// <p>Encapsulates logic that can detect one or more QR Codes in an image, even if the QR Code
     /// is rotated or skewed, or partially obscured.</p>
@@ -41,19 +50,34 @@ namespace ZXing.Multi.QrCode.Internal
         public MultiQrDetector(BinaryBitmap image) : base(image) { }
 
         /// <summary> Detects multiple possible Locations. </summary>
-        public QrFinderPatternInfo[] FindMulti(IDictionary<DecodeHintType, object> hints)
+        public QrFinderPatternInfo[] FindMulti(IDictionary<DecodeHintType, object> hints = null)
         {
-            var image = Image;
             var resultPointCallback =
                 hints?.ContainsKey(DecodeHintType.NEED_RESULT_POINT_CALLBACK) != true
                     ? null : (ResultPointCallback)hints[DecodeHintType.NEED_RESULT_POINT_CALLBACK];
-            var finder = new MultiQrPatternFinder(image, resultPointCallback);
-            var infos = finder.FindMulti(hints);
+            return FindMulti(hints?.ContainsKey(DecodeHintType.TRY_HARDER) == true, resultPointCallback);
+        }
+
+        /// <summary> Detects multiple possible Locations. </summary>
+        public QrFinderPatternInfo[] FindMulti(bool tryHarder, ResultPointCallback resultPointCallback = null)
+        {
+            var finder = new MultiQrPatternFinder(Image, resultPointCallback);
+            var infos = finder.FindMulti(tryHarder);
 
             return infos;
         }
 
-        public DetectorResult[] DetectMulti(IDictionary<DecodeHintType, object> hints)
+        /// <summary> Detects multiple possible Locations. </summary>
+        public QrFinderPatternInfo[] FindMulti(int numSkip, ResultPointCallback resultPointCallback = null)
+        {
+            var finder = new MultiQrPatternFinder(Image, resultPointCallback);
+            var infos = finder.FindMulti(numSkip);
+
+            return infos;
+        }
+
+        /// <summary> Detects multiple possible Locations. </summary>
+        public DetectorResult[] DetectMulti(IDictionary<DecodeHintType, object> hints = null)
             => DetectMulti(FindMulti(hints));
 
         public DetectorResult[] DetectMulti(QrFinderPatternInfo[] infos) {

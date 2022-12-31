@@ -26,7 +26,7 @@ namespace ZXing
     /// YCbCr_420_SP and YCbCr_422_SP.
     /// @author dswitkin@google.com (Daniel Switkin)
     /// </summary>
-    public sealed class PlanarYUVLuminanceSource : BaseLuminanceSource
+    public sealed class PlanarYUVLuminanceSource : ALuminanceSource
     {
         private const int THUMBNAIL_SCALE_FACTOR = 2;
 
